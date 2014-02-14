@@ -16,9 +16,9 @@
 package org.kuali.kra.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -44,7 +44,7 @@ public class SponsorHierarchyRule {
         } else {
             Map fieldValues = new HashMap();
             fieldValues.put("hierarchyName", sponsorHierarchyForm.getNewHierarchyName());
-            if (KraServiceLocator.getService(BusinessObjectService.class).countMatching(SponsorHierarchy.class, fieldValues) > 0) {
+            if (KcServiceLocator.getService(BusinessObjectService.class).countMatching(SponsorHierarchy.class, fieldValues) > 0) {
                 errorMap.putError("newHierarchyName", KeyConstants.ERROR_SPONSOR_HIERARCHY_EXISTS, sponsorHierarchyForm.getNewHierarchyName());
                 valid = false;
                 

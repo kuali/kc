@@ -18,13 +18,15 @@ package org.kuali.kra.questionnaire;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 public class QuestionnaireMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private QuestionnaireMaintenanceDocumentRule rule = null;
 
@@ -55,7 +57,7 @@ public class QuestionnaireMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         questionnaire1.setSequenceNumber(1);
         questionnaireMaintenanceDocument = newMaintDoc(questionnaire1);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(questionnaireMaintenanceDocument));
-        KraServiceLocator.getService(BusinessObjectService.class).save(questionnaire1);
+        KcServiceLocator.getService(BusinessObjectService.class).save(questionnaire1);
         questionnaire1.setQuestionnaireRefId(null);
         questionnaire1.setQuestionnaireId(null);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionnaireMaintenanceDocument));

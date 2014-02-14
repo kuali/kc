@@ -17,20 +17,20 @@ package org.kuali.kra.coi.actions;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class AddCoiReviewerRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<AddCoiReviewerEvent>{
+public class AddCoiReviewerRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<AddCoiReviewerEvent> {
     
     private transient KcPersonService kcPersonService;
     
     public AddCoiReviewerRule() {
-        kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        kcPersonService = KcServiceLocator.getService(KcPersonService.class);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class AddCoiReviewerRule extends KcTransactionalDocumentRuleBase implemen
 
     protected KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
-            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return kcPersonService;
     }

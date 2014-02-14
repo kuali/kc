@@ -17,6 +17,7 @@ package org.kuali.kra.common.notification.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.notification.NotificationContext;
@@ -24,7 +25,6 @@ import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.kim.api.role.Role;
@@ -223,7 +223,7 @@ public class NotificationHelper<T extends NotificationContext> implements Serial
 
     public KcNotificationService getNotificationService() {
         if (notificationService == null) {
-            notificationService = KraServiceLocator.getService(KcNotificationService.class);
+            notificationService = KcServiceLocator.getService(KcNotificationService.class);
         }
         
         return notificationService;
@@ -235,7 +235,7 @@ public class NotificationHelper<T extends NotificationContext> implements Serial
     
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
-            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         
         return kcPersonService;
@@ -247,7 +247,7 @@ public class NotificationHelper<T extends NotificationContext> implements Serial
 
     public RolodexService getRolodexService() {
         if (rolodexService == null) {
-            rolodexService = KraServiceLocator.getService(RolodexService.class);
+            rolodexService = KcServiceLocator.getService(RolodexService.class);
         }
         
         return rolodexService;

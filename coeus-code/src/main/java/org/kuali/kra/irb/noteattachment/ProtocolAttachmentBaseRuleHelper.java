@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -27,7 +27,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 class ProtocolAttachmentBaseRuleHelper extends org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBaseRuleHelper {
 
     protected ProtocolAttachmentBaseRuleHelper(String aPropertyPrefix) {
-        super(aPropertyPrefix, KraServiceLocator.getService(ProtocolAttachmentService.class), KNSServiceLocator.getKNSDictionaryValidationService());
+        super(aPropertyPrefix, KcServiceLocator.getService(ProtocolAttachmentService.class), KNSServiceLocator.getKNSDictionaryValidationService());
     }
 
     protected ProtocolAttachmentBaseRuleHelper(final ProtocolAttachmentService attachmentService,

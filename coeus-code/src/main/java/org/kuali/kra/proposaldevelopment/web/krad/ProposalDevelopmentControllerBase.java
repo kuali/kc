@@ -16,14 +16,14 @@
 package org.kuali.kra.proposaldevelopment.web.krad;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.specialreview.rule.event.SaveDocumentSpecialReviewEvent;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.service.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.document.DocumentBase;
@@ -82,7 +82,7 @@ public abstract class ProposalDevelopmentControllerBase {
          
          // Add the users defined in the role templates for the proposal's lead unit
          
-         ProposalRoleTemplateService proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
+         ProposalRoleTemplateService proposalRoleTemplateService = KcServiceLocator.getService(ProposalRoleTemplateService.class);
          proposalRoleTemplateService.addUsers(doc);
      }
      

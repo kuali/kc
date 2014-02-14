@@ -17,8 +17,8 @@ package org.kuali.kra.common.notification.bo;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.service.NotificationRoleSubQualifierFinders;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.util.ArrayList;
@@ -158,7 +158,7 @@ public class NotificationTypeRecipient extends KcPersistableBusinessObjectBase {
     
     public List<KeyValue> getSubQualifierValues() {
         if (StringUtils.isNotBlank(getRoleName())) {
-            return KraServiceLocator.getService(NotificationRoleSubQualifierFinders.class).getKeyValuesForRole(getRoleName());
+            return KcServiceLocator.getService(NotificationRoleSubQualifierFinders.class).getKeyValuesForRole(getRoleName());
         } else {
             return new ArrayList<KeyValue>();
         }

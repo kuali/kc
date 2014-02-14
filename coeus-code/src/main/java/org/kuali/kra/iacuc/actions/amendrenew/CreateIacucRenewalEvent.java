@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.amendrenew;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.protocol.actions.amendrenew.CreateRenewalEventBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 public class CreateIacucRenewalEvent extends CreateRenewalEventBase {
 
@@ -26,7 +26,7 @@ public class CreateIacucRenewalEvent extends CreateRenewalEventBase {
     }
 
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new CreateIacucRenewalRule();
     }
 

@@ -17,11 +17,11 @@
 package org.kuali.kra.irb;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -158,7 +158,7 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
     @Override
     protected List<RolePersons> getAllRolePersons() {
         KcAuthorizationService kraAuthService =
-               (KcAuthorizationService) KraServiceLocator.getService(KcAuthorizationService.class);
+               (KcAuthorizationService) KcServiceLocator.getService(KcAuthorizationService.class);
         //return kraAuthService.getAllRolePersons(getProtocolOnlineReview());
         return new ArrayList<RolePersons>();
     }
@@ -205,11 +205,11 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
     }
     
     private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
     
     private ReviewCommentsService getReviewerCommentsService() {
-        return KraServiceLocator.getService(ReviewCommentsService.class);
+        return KcServiceLocator.getService(ReviewCommentsService.class);
     }
 
     @Override
@@ -270,7 +270,7 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
     }
     
     private DocumentService getDocumentService() {
-        return KraServiceLocator.getService(DocumentService.class);
+        return KcServiceLocator.getService(DocumentService.class);
     }
     
     private String getURLParamValue(String url, String paramName) {

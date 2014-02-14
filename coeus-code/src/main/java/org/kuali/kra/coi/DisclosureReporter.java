@@ -16,8 +16,8 @@
 package org.kuali.kra.coi;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public  abstract class DisclosureReporter extends KcPersistableBusinessObjectBas
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
 
         return this.kcPersonService;

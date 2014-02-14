@@ -19,10 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.kra.rules.OrganizationMaintenanceDocumentRule;
 import org.kuali.kra.service.YnqService;
@@ -33,7 +33,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 public class OrganizationMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private OrganizationMaintenanceDocumentRule rule = null;
 
@@ -56,7 +58,7 @@ public class OrganizationMaintenanceDocumentRuleTest extends MaintenanceRuleTest
         organization.setOrganizationId("00999");
         organization.setOrganizationName("test");
         organization.setContactAddressId(new Integer(1741));
-        organization.setOrganizationYnqs(setupOrganizationYnq(organization, "test",KraServiceLocator.getService(DateTimeService.class).getCurrentSqlDate()));
+        organization.setOrganizationYnqs(setupOrganizationYnq(organization, "test", KcServiceLocator.getService(DateTimeService.class).getCurrentSqlDate()));
         MaintenanceDocument organizationDocument = newMaintDoc(organization);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(organizationDocument));
         assertTrue(rule.processCustomApproveDocumentBusinessRules(organizationDocument));
@@ -84,14 +86,14 @@ public class OrganizationMaintenanceDocumentRuleTest extends MaintenanceRuleTest
         organization.setOrganizationId("00999");
         organization.setOrganizationName("test");
         organization.setContactAddressId(new Integer(1741));
-        organization.setOrganizationYnqs(setupOrganizationYnq(organization, "", KraServiceLocator.getService(DateTimeService.class).getCurrentSqlDate()));
+        organization.setOrganizationYnqs(setupOrganizationYnq(organization, "", KcServiceLocator.getService(DateTimeService.class).getCurrentSqlDate()));
         MaintenanceDocument organizationDocument = newMaintDoc(organization);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(organizationDocument));
         assertFalse(rule.processCustomApproveDocumentBusinessRules(organizationDocument));
     }
 
     private List<OrganizationYnq> setupOrganizationYnq(Organization organization, String explanation, Date reviewDate) {
-        List<Ynq> ynqs = KraServiceLocator.getService(YnqService.class).getYnq("O");
+        List<Ynq> ynqs = KcServiceLocator.getService(YnqService.class).getYnq("O");
         List<OrganizationYnq> organizationYnqs = organization.getOrganizationYnqs();
         for (Ynq ynq : ynqs) {
             OrganizationYnq organizationYnq = new OrganizationYnq();

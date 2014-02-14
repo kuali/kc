@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.bo.AttachmentFile;
@@ -30,7 +31,6 @@ import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
@@ -146,7 +146,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      */
     @Override
     protected KualiRuleService getKualiRuleService() {
-        return KraServiceLocator.getService(KualiRuleService.class);
+        return KcServiceLocator.getService(KualiRuleService.class);
     }
     
     private boolean validateCreateNewProtocolOnlineReview(ProtocolForm protocolForm) {
@@ -452,7 +452,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
                 (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "saveOnlineReview");
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewCommentsBean reviewCommentsBean = (ReviewCommentsBean) protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
@@ -902,11 +902,11 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     }
     
     private ReviewCommentsService getReviewCommentsService() {
-        return KraServiceLocator.getService(ReviewCommentsService.class);
+        return KcServiceLocator.getService(ReviewCommentsService.class);
     }
         
     private KcWorkflowService getKraWorkflowService() {
-        return KraServiceLocator.getService(KcWorkflowService.class);
+        return KcServiceLocator.getService(KcWorkflowService.class);
     }
     
     protected void recordOnlineReviewActionSuccess(String onlineReviewActionName, ProtocolOnlineReviewDocument document) {

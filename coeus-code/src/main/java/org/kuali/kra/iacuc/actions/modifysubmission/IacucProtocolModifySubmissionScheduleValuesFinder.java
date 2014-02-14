@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.actions.modifysubmission;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.KeyValue;
 
@@ -54,7 +54,7 @@ public class IacucProtocolModifySubmissionScheduleValuesFinder extends FormViewA
      * @return the Committee Service
      */
     private CommitteeServiceBase getCommitteeService() {
-        return KraServiceLocator.getService(IacucCommitteeService.class);
+        return KcServiceLocator.getService(IacucCommitteeService.class);
     }
 
     /**

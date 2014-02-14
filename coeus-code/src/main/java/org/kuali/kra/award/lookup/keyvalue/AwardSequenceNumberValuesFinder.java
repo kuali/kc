@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -45,7 +45,7 @@ public class AwardSequenceNumberValuesFinder extends FormViewAwareUifKeyValuesFi
     public List<KeyValue> getKeyValues() {
         AwardDocument doc = (AwardDocument) getDocument();
         String awardNumber = doc.getAward().getAwardNumber();
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Map<String, Object> idMatch = new HashMap<String, Object>();
         idMatch.put("awardNumber", awardNumber);
         Collection<Award> awards = keyValuesService.findMatching(Award.class, idMatch);

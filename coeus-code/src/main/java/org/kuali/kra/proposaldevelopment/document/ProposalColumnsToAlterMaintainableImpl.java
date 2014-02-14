@@ -16,7 +16,7 @@
 package org.kuali.kra.proposaldevelopment.document;
 
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
@@ -43,10 +43,10 @@ public class ProposalColumnsToAlterMaintainableImpl extends KraMaintainableImpl 
         ProposalColumnsToAlter proposalCol = (ProposalColumnsToAlter)businessObject;
         
         KcPersistenceStructureService persistenceStructureService =
-            KraServiceLocator.getService(KcPersistenceStructureService.class);
+            KcServiceLocator.getService(KcPersistenceStructureService.class);
         Map<String, String> columnToAttrMap = persistenceStructureService.getDBColumnToObjectAttributeMap(DevelopmentProposal.class);
         
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
         AttributeDefinition attrDefinition = dataDictionaryService.getDataDictionary().
             getBusinessObjectEntry(DevelopmentProposal.class.getName()).
             getAttributeDefinition(columnToAttrMap.get(proposalCol.getColumnName()));

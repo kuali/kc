@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.notification;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRoleQualifierService;
 
@@ -43,7 +43,7 @@ public class IacucProtocolNotificationContext extends ProtocolNotificationContex
     
     public IacucProtocolNotificationContext(IacucProtocol protocol, String actionTypeCode, String contextName, IacucProtocolNotificationRenderer renderer) {
         super(protocol, actionTypeCode, contextName, renderer);
-        setNotificationRoleQualifierService(KraServiceLocator.getService(IacucProtocolNotificationRoleQualifierService.class));
+        setNotificationRoleQualifierService(KcServiceLocator.getService(IacucProtocolNotificationRoleQualifierService.class));
         ((IacucProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
     }
 

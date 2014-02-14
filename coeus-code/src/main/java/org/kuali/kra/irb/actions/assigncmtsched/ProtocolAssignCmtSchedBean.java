@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.actions.assigncmtsched;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 
@@ -58,7 +58,7 @@ public class ProtocolAssignCmtSchedBean extends ProtocolActionBean implements Se
     }
     
     private ProtocolAssignCmtSchedService getProtocolAssignCmtSchedService() {
-        return KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
+        return KcServiceLocator.getService(ProtocolAssignCmtSchedService.class);
     }
     
     /**

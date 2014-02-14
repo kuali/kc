@@ -17,8 +17,8 @@ package org.kuali.kra.lookup.keyvalue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -52,7 +52,7 @@ public class LookupReturnValuesFinder extends UifKeyValuesFinderBase {
             }
             else {
                 if (lookupClass != null) {
-                    lookupReturnFields = KraServiceLocator.getService(CustomAttributeService.class).getLookupReturns(lookupClass);
+                    lookupReturnFields = KcServiceLocator.getService(CustomAttributeService.class).getLookupReturns(lookupClass);
                     GlobalVariables.getUserSession().addObject(Constants.LOOKUP_RETURN_FIELDS, lookupReturnFields);
                 }
             }
@@ -63,7 +63,7 @@ public class LookupReturnValuesFinder extends UifKeyValuesFinderBase {
         
         if (lookupReturnFields != null) {
             for (Object fieldName : lookupReturnFields) {
-                keyValues.add(new ConcreteKeyValue(fieldName.toString(), (ARGVALUELOOKUPE_CLASS.equals(lookupClass) ? fieldName.toString() : KraServiceLocator.getService(DataDictionaryService.class).getAttributeLabel(lookupClass,fieldName.toString()))));
+                keyValues.add(new ConcreteKeyValue(fieldName.toString(), (ARGVALUELOOKUPE_CLASS.equals(lookupClass) ? fieldName.toString() : KcServiceLocator.getService(DataDictionaryService.class).getAttributeLabel(lookupClass,fieldName.toString()))));
             }
         }
 

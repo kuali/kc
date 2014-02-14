@@ -15,23 +15,23 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**
  * Validates the conditions necessary for looking up a funding source in the system.
  */
-public class LookupProtocolFundingSourceRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<LookupProtocolFundingSourceEventBase> {
+public class LookupProtocolFundingSourceRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<LookupProtocolFundingSourceEventBase> {
 
     private final ErrorReporter errorReporter = new ErrorReporter();
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(LookupProtocolFundingSourceEventBase event) {
         boolean valid = true;

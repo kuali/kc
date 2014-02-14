@@ -18,6 +18,7 @@ package org.kuali.kra.protocol;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.AttachmentFile;
@@ -27,7 +28,6 @@ import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
@@ -662,7 +662,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      * @return ProtocolLocationService
      */
     protected ProtocolLocationService getProtocolLocationService() {
-        ProtocolLocationService protocolLocationService = (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
+        ProtocolLocationService protocolLocationService = (ProtocolLocationService) KcServiceLocator.getService("protocolLocationService");
         return protocolLocationService;
     }
     
@@ -1186,11 +1186,11 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     protected abstract List <AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol);
     
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     @SuppressWarnings("unchecked")
@@ -1266,7 +1266,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
                 attachmentProtocols.add(attachment);
                 attachment.setProtocol(this);
             }
-            if (attachment.isDeleted() && KraServiceLocator.getService(ProtocolAttachmentService.class).isNewAttachmentVersion((ProtocolAttachmentProtocolBase) attachment)) {
+            if (attachment.isDeleted() && KcServiceLocator.getService(ProtocolAttachmentService.class).isNewAttachmentVersion((ProtocolAttachmentProtocolBase) attachment)) {
                 attachmentProtocols.add(attachment);
                 attachment.setProtocol(this);
             }
@@ -1714,14 +1714,14 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
     protected DateTimeService getDateTimeService() {
         if(dateTimeService == null) {
-            dateTimeService = (DateTimeService) KraServiceLocator.getService(DateTimeService.class);
+            dateTimeService = (DateTimeService) KcServiceLocator.getService(DateTimeService.class);
         }
         return dateTimeService;
     }
 
     protected SequenceAccessorService getSequenceAccessorService() {
         if(sequenceAccessorService == null) {
-            sequenceAccessorService = (SequenceAccessorService) KraServiceLocator.getService(SequenceAccessorService.class);
+            sequenceAccessorService = (SequenceAccessorService) KcServiceLocator.getService(SequenceAccessorService.class);
         }
         return sequenceAccessorService;
     }
@@ -1831,7 +1831,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     public abstract void initializeProtocolAttachmentFilter();
     
     public ParameterService getParameterService() {
-        return KraServiceLocator.getService(ParameterService.class);
+        return KcServiceLocator.getService(ParameterService.class);
 
     }
 

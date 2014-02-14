@@ -16,8 +16,8 @@
 package org.kuali.kra.bo;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -25,7 +25,6 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
-import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 
 import java.util.List;
@@ -96,7 +95,7 @@ public class SponsorMaintainableImpl extends KraMaintainableImpl {
 
     protected ParameterService getParameterService() {
         if (parameterService == null) {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
+            parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return parameterService;
     }
@@ -107,7 +106,7 @@ public class SponsorMaintainableImpl extends KraMaintainableImpl {
 
     public DataFieldMaxValueIncrementer getSponsorCodeIncrementer() {
         if (sponsorCodeIncrementer == null) {
-            sponsorCodeIncrementer = KraServiceLocator.getService("sponsorCodeIncrementer");
+            sponsorCodeIncrementer = KcServiceLocator.getService("sponsorCodeIncrementer");
         }
         return sponsorCodeIncrementer;
     }

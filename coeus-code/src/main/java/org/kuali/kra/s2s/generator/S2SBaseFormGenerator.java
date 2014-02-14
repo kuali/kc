@@ -24,7 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xml.security.exceptions.Base64DecodingException;
 import org.apache.xml.security.utils.Base64;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
@@ -355,7 +355,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     }
     
     protected boolean isSponsorNIH(ProposalDevelopmentDocument document) {
-		SponsorService sponsorService = KraServiceLocator
+		SponsorService sponsorService = KcServiceLocator
 				.getService(SponsorService.class);
 		return sponsorService.isSponsorNihMultiplePi(document.getDevelopmentProposal());
 	}
@@ -380,7 +380,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 		narrativeAttachment.setFileName(fileName);
 		narrative.setFileName(fileName);
 		narrative.getNarrativeAttachmentList().add(narrativeAttachment);
-		KraServiceLocator.getService(NarrativeService.class).addNarrative(
+		KcServiceLocator.getService(NarrativeService.class).addNarrative(
 					pdDoc, narrative);
 		return narrative;
 	}
@@ -408,7 +408,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
    
     public List<AnswerHeader> getQuestionnaireAnswers(DevelopmentProposal proposal, boolean finalDoc) {
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(pdDoc.getDevelopmentProposal());
-        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        QuestionnaireAnswerService questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         return questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
     }
     

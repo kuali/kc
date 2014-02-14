@@ -16,11 +16,11 @@
 package org.kuali.kra.coi.disclosure;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -43,7 +43,7 @@ public class CoiDisclosureAdministratorActionRule {
             GlobalVariables.getMessageMap().putError(ADMIN_ERRORS, KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED); 
             isValid = false;
         }
-        CoiDispositionStatus disposition = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(CoiDispositionStatus.class, dispositionStatus);
+        CoiDispositionStatus disposition = KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(CoiDispositionStatus.class, dispositionStatus);
         if (disposition == null) {
             GlobalVariables.getMessageMap().putError(ADMIN_ERRORS, KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED);
             isValid = false;

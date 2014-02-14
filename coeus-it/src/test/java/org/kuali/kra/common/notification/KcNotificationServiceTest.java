@@ -25,13 +25,13 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.impl.KcNotificationServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcEmailService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
@@ -45,7 +45,9 @@ import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 public class KcNotificationServiceTest extends KcIntegrationTestBase {
     
     private static final String MODULE_CODE_FIELD = "moduleCode";
@@ -172,9 +174,9 @@ public class KcNotificationServiceTest extends KcIntegrationTestBase {
         service.setParameterService(getParameterService());
         service.setSendNotificationService(getMockNotificationService());
         service.setKcEmailService(getMockKcEmailService(personEmailAddresses));
-        service.setRoleManagementService(KraServiceLocator.getService(RoleService.class));
-        service.setKcPersonService(KraServiceLocator.getService(KcPersonService.class));
-        service.setIdentityService(KraServiceLocator.getService(IdentityService.class));
+        service.setRoleManagementService(KcServiceLocator.getService(RoleService.class));
+        service.setKcPersonService(KcServiceLocator.getService(KcPersonService.class));
+        service.setIdentityService(KcServiceLocator.getService(IdentityService.class));
         
         NotificationContext notificationContext = getMockNotificationContext();
         
@@ -196,9 +198,9 @@ public class KcNotificationServiceTest extends KcIntegrationTestBase {
         service.setParameterService(getParameterService());
         service.setSendNotificationService(getMockNotificationService());
         service.setKcEmailService(getMockKcEmailService(personEmailAddresses, rolodexEmailAddresses));
-        service.setKcPersonService(KraServiceLocator.getService(KcPersonService.class));
-        service.setRolodexService(KraServiceLocator.getService(RolodexService.class));
-        service.setIdentityService(KraServiceLocator.getService(IdentityService.class));
+        service.setKcPersonService(KcServiceLocator.getService(KcPersonService.class));
+        service.setRolodexService(KcServiceLocator.getService(RolodexService.class));
+        service.setIdentityService(KcServiceLocator.getService(IdentityService.class));
         
         NotificationContext notificationContext = getMockNotificationContext();
         KcNotification notification = new KcNotification();
@@ -228,7 +230,7 @@ public class KcNotificationServiceTest extends KcIntegrationTestBase {
         service.setParameterService(getParameterService());
         service.setSendNotificationService(getMockNotificationService());
         service.setKcEmailService(getMockKcEmailService(personEmailAddresses));
-        service.setIdentityService(KraServiceLocator.getService(IdentityService.class));
+        service.setIdentityService(KcServiceLocator.getService(IdentityService.class));
         
         List<String> principalIds = new ArrayList<String>();
         principalIds.add(PRINCIPAL_NAME_VALUE_JTESTER);
@@ -248,9 +250,9 @@ public class KcNotificationServiceTest extends KcIntegrationTestBase {
         service.setBusinessObjectService(getMockSearchBusinessObjectService(MODULE_CODE_VALUE, ACTION_TYPE_CODE_VALUE_101));
         service.setParameterService(getParameterService());
         service.setKcEmailService(getMockKcEmailService(personEmailAddresses));
-        service.setRoleManagementService(KraServiceLocator.getService(RoleService.class));
-        service.setKcPersonService(KraServiceLocator.getService(KcPersonService.class));
-        service.setIdentityService(KraServiceLocator.getService(IdentityService.class));
+        service.setRoleManagementService(KcServiceLocator.getService(RoleService.class));
+        service.setKcPersonService(KcServiceLocator.getService(KcPersonService.class));
+        service.setIdentityService(KcServiceLocator.getService(IdentityService.class));
         
         NotificationContext notificationContext = getMockNotificationContext();
                 

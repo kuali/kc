@@ -32,9 +32,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -389,7 +389,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	    if (provider == null) {
 	        throw new S2SException("An invalid provider code was provided when attempting to search for opportunities.");
 	    }
-	    S2SConnectorService connectorService = KraServiceLocator.getService(provider.getConnectorServiceName());
+	    S2SConnectorService connectorService = KcServiceLocator.getService(provider.getConnectorServiceName());
 	    if (connectorService == null) {
 	        throw new S2SException("The connector service '" + provider.getConnectorServiceName() + "' required by '" + provider.getDescription() + "' S2S provider is not configured.");
 	    }
@@ -854,7 +854,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	
 	public File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
 	        throws IOException {
-        String loggingDirectory = KraServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
+        String loggingDirectory = KcServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
         String saveXmlFolderName = pdDoc.getSaveXmlFolderName();
         if (StringUtils.isNotBlank(loggingDirectory)) {
             File directory = new File(loggingDirectory);
@@ -1000,7 +1000,7 @@ public class KRAS2SServiceImpl implements S2SService {
     }
 
     protected S2SConnectorService getS2sConnectorService(S2sOpportunity s2sOpportunity) {
-        return KraServiceLocator.getService(s2sOpportunity.getS2sProvider().getConnectorServiceName());
+        return KcServiceLocator.getService(s2sOpportunity.getS2sProvider().getConnectorServiceName());
     }
 
     public ConfigurationService getConfigurationService() {

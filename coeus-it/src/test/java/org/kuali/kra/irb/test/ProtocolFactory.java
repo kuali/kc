@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.test;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -81,7 +81,7 @@ public class ProtocolFactory {
         protocolDocument.getProtocol().setSequenceNumber(sequenceNumber);
         
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        KcAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         if(!kraAuthorizationService.hasRole(principalId, protocolDocument.getProtocol(), RoleConstants.PROTOCOL_AGGREGATOR)) {
             kraAuthorizationService.addRole(principalId, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
         }

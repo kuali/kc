@@ -17,13 +17,13 @@ package org.kuali.kra.negotiations.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.Document;
@@ -81,7 +81,7 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
     }
     
     /**
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
@@ -244,7 +244,7 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
 
     protected NegotiationService getNegotiationService() {
         if (negotiationService == null) {
-            negotiationService = KraServiceLocator.getService(NegotiationService.class);
+            negotiationService = KcServiceLocator.getService(NegotiationService.class);
         }
         return negotiationService;
     }
@@ -255,7 +255,7 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
 
     public DataDictionaryService getDataDictionaryService() {
         if (dataDictionaryService == null) {
-            dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+            dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
         }
         return dataDictionaryService;
     }
@@ -266,7 +266,7 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
 
     public SponsorService getSponsorService() {
         if (sponsorService == null) {
-            sponsorService = KraServiceLocator.getService(SponsorService.class);
+            sponsorService = KcServiceLocator.getService(SponsorService.class);
         }
         return sponsorService;
     }

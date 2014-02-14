@@ -16,13 +16,13 @@
 package org.kuali.kra.rule.event;
 
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.CustomDataRule;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -64,7 +64,7 @@ public class SaveCustomDataEvent extends KcDocumentEventBaseExtension {
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new CustomDataRule();
     }
 

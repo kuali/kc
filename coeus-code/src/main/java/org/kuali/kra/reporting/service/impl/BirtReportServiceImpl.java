@@ -16,7 +16,7 @@
 package org.kuali.kra.reporting.service.impl;
 
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.reporting.BirtHelper;
 import org.kuali.kra.reporting.bo.BirtParameterBean;
@@ -78,7 +78,7 @@ public class BirtReportServiceImpl implements BirtReportService{
 
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String departmentCode = GlobalVariables.getUserSession().getPerson().getPrimaryDepartmentCode();
-        List<CustReportDetails> custReportDetailsList = (List<CustReportDetails>) KraServiceLocator.getService(
+        List<CustReportDetails> custReportDetailsList = (List<CustReportDetails>) KcServiceLocator.getService(
                 BusinessObjectService.class).findAll(CustReportDetails.class);
         List<CustReportDetails> custReportDetails = new ArrayList<CustReportDetails>();
         for (CustReportDetails custReportDetail : custReportDetailsList) {
@@ -104,6 +104,6 @@ public class BirtReportServiceImpl implements BirtReportService{
     }
 
     public UnitAuthorizationService getUnitAuthorizationService() {
-        return KraServiceLocator.getService(UnitAuthorizationService.class);
+        return KcServiceLocator.getService(UnitAuthorizationService.class);
     }
 }

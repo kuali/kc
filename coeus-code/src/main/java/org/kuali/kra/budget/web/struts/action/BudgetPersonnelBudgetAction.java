@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -31,7 +32,6 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -98,7 +98,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         HashMap uniqueBudgetPersonnelCount = new HashMap();
         int qty = 0;
         if(!errorFound){
-            BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
+            BudgetPersonnelBudgetService budgetPersonnelBudgetService = KcServiceLocator.getService(BudgetPersonnelBudgetService.class);
             for (BudgetPersonnelDetails budgetPersonnelDetails : budget.getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex).getBudgetPersonnelDetailsList()) {
                 if(!uniqueBudgetPersonnelCount.containsValue(budgetPersonnelDetails.getPersonId())){
                     uniqueBudgetPersonnelCount.put(qty, budgetPersonnelDetails.getPersonId());
@@ -117,7 +117,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         //setBudgetPersonDefaultPeriodTypeCode(budgetForm);  
         ActionForward actionForward = super.reload(mapping, form, request, response);
-        BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         Map queryMap = new HashMap();
@@ -142,7 +142,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         Budget budget = budgetDocument.getBudget();
         int selectedBudgetPeriodIndex = budgetForm.getViewBudgetPeriod()-1;
         int selectedBudgetLineItemIndex = budgetForm.getSelectedBudgetLineItemIndex();
-        BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
+        BudgetPersonnelBudgetService budgetPersonnelBudgetService = KcServiceLocator.getService(BudgetPersonnelBudgetService.class);
         budgetPersonnelBudgetService.deleteBudgetPersonnelDetails(budget, selectedBudgetPeriodIndex,selectedBudgetLineItemIndex, getLineToDelete(request));
         HashMap uniqueBudgetPersonnelCount = new HashMap();
         int qty = 0;
@@ -272,7 +272,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         }
         errorFound=errorFound || personnelDatesCheck(selectedBudgetLineItem, budgetPersonnelDetails, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, getLineToDelete(request));
         if(!errorFound){
-            BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
+            BudgetPersonnelBudgetService budgetPersonnelBudgetService = KcServiceLocator.getService(BudgetPersonnelBudgetService.class);
             budgetPersonnelBudgetService.calculateBudgetPersonnelBudget(budget,selectedBudgetLineItem,budgetPersonnelDetails, getLineToDelete(request));
         }        
         return mapping.findForward(Constants.MAPPING_BASIC);

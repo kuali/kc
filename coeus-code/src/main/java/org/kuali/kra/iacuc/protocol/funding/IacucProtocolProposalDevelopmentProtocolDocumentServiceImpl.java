@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.protocol.funding;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
@@ -24,7 +25,6 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.protocol.IacucProtocolNumberService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -155,7 +155,7 @@ public class IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl
 
     protected IacucProtocolFundingSourceService getIacucProtocolFundingSourceService() {
         if (iacucProtocolFundingSourceService == null) {
-            iacucProtocolFundingSourceService = KraServiceLocator.getService(IacucProtocolFundingSourceService.class);
+            iacucProtocolFundingSourceService = KcServiceLocator.getService(IacucProtocolFundingSourceService.class);
         }
         return iacucProtocolFundingSourceService;
     }

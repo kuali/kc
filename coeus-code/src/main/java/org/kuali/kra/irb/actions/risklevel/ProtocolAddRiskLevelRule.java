@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.actions.risklevel;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
@@ -26,11 +26,11 @@ import java.util.List;
 /**
  * Validates the rules for a Protocol Risk Level add action.
  */
-public class ProtocolAddRiskLevelRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<ProtocolAddRiskLevelEvent> {
+public class ProtocolAddRiskLevelRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<ProtocolAddRiskLevelEvent> {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(ProtocolAddRiskLevelEvent event) {
         boolean isValid = true;

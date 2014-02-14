@@ -22,14 +22,16 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class QuestionnaireServiceTest  extends KcIntegrationTestBase {
     
@@ -117,7 +119,7 @@ public class QuestionnaireServiceTest  extends KcIntegrationTestBase {
         public void testValidCodes() {
             GlobalVariables.setUserSession(new UserSession("quickstart"));
 
-            List<String> modules = KraServiceLocator.getService(QuestionnaireService.class).getAssociateModules();
+            List<String> modules = KcServiceLocator.getService(QuestionnaireService.class).getAssociateModules();
             assertEquals(modules.size(), expectedModules.size());
             for (String module : modules ) {
                 assertTrue(expectedModules.contains(module));

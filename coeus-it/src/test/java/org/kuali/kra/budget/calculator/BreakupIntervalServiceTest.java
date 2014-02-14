@@ -16,21 +16,21 @@
 package org.kuali.kra.budget.calculator;
 
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.rates.BudgetLaRate;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.RateClass;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 /**
  * This class is to test different scenarios of BreakupInterval calculation
  */
@@ -42,7 +42,7 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
     @Test
     public void testCalculate() {
         BreakUpInterval bi  = createBreakupInterval();
-        KraServiceLocator.getService(BreakupIntervalService.class).calculate(bi);
+        KcServiceLocator.getService(BreakupIntervalService.class).calculate(bi);
         List<RateAndCost> rateAndCosts = bi.getRateAndCosts();
         RateAndCost rateAndCost1 = rateAndCosts.get(0);
         validateResults(rateAndCost1,3375,675,6750,1350);
@@ -70,7 +70,7 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
         RateAndCost rc = bi.getRateAndCosts().get(1);
         rc.setApplyRateFlag(false);
         bi.getRateAndCosts().get(2).setApplyRateFlag(false);
-        KraServiceLocator.getService(BreakupIntervalService.class).calculate(bi);
+        KcServiceLocator.getService(BreakupIntervalService.class).calculate(bi);
         List<RateAndCost> rateAndCosts = bi.getRateAndCosts();
         RateAndCost rateAndCost1 = rateAndCosts.get(0);
         validateResults(rateAndCost1,2500,500,5000,1000);
@@ -92,7 +92,7 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
     public void testCalculateOverrecovery() {
         BreakUpInterval bi1 = createBreakupInterval();
         bi1.setURRatesBean(getBudgetRate("1",40,1L,"2011",40,true,"1","2","O","07/01/2009","000001"));
-        KraServiceLocator.getService(BreakupIntervalService.class).calculate(bi1);
+        KcServiceLocator.getService(BreakupIntervalService.class).calculate(bi1);
         assertEquals(bi1.getUnderRecovery(), new BudgetDecimal(-810.0));
     }
     @Test
@@ -100,7 +100,7 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
         BreakUpInterval bi = createBreakupInterval();
         RateAndCost ohRateItem = bi.getRateAndCosts().get(0);
         ohRateItem.setApplyRateFlag(false);
-        KraServiceLocator.getService(BreakupIntervalService.class).calculate(bi);
+        KcServiceLocator.getService(BreakupIntervalService.class).calculate(bi);
         assertEquals(bi.getUnderRecovery(), new BudgetDecimal(4050.00));
     }
 

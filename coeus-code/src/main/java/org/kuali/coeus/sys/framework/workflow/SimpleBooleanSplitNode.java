@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.sys.framework.workflow;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.RouteHelper;
 import org.kuali.rice.kew.engine.node.SplitNode;
@@ -50,7 +50,7 @@ public class SimpleBooleanSplitNode implements SplitNode {
         if( LOG.isDebugEnabled() )
             LOG.debug(String.format("Entering routeNode:%s for documentId:%s",routeNodeName,documentID ));
         Document document = 
-            KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderIdSessionless(documentID);
+            KcServiceLocator.getService(DocumentService.class).getByDocumentHeaderIdSessionless(documentID);
         
         if( document instanceof SimpleBooleanSplitNodeAware) {
             boolean ret = ((SimpleBooleanSplitNodeAware)document).answerSplitNodeQuestion( routeNodeName );

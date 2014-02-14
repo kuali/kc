@@ -16,15 +16,15 @@
 package org.kuali.kra.common.committee.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleTimeEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.List;
 
-public class CommitteeScheduleTimeRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleTimeEvent> {
+public class CommitteeScheduleTimeRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<CommitteeScheduleTimeEvent> {
 
     public static final String MSG1 = "hh:mm";
 

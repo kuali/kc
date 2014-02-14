@@ -19,10 +19,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -39,7 +39,7 @@ public class VersionHistoryServiceImplTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        versioningHistoryService = KraServiceLocator.getService(VersionHistoryService.class);
+        versioningHistoryService = KcServiceLocator.getService(VersionHistoryService.class);
     }
 
     @After

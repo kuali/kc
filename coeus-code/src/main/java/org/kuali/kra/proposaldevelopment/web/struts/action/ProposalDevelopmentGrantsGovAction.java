@@ -20,9 +20,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -99,7 +99,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         S2sOpportunity s2sOpportunity = proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity();
         try {
             if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
-                s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(s2sOpportunity);
+                s2sOppForms = KcServiceLocator.getService(S2SService.class).parseOpportunityForms(s2sOpportunity);
                 if(s2sOppForms!=null){
                     for(S2sOppForms s2sOppForm:s2sOppForms){
                         if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
@@ -203,7 +203,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         try{
-            if(KraServiceLocator.getService(S2SService.class).refreshGrantsGov(proposalDevelopmentDocument)){
+            if(KcServiceLocator.getService(S2SService.class).refreshGrantsGov(proposalDevelopmentDocument)){
                 proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("s2sAppSubmission");
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }else{

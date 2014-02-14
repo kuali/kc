@@ -17,10 +17,10 @@ package org.kuali.kra.negotiations.bo;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
@@ -379,7 +379,7 @@ public class Negotiation extends KcPersistableBusinessObjectBase implements Perm
     }
 
     private NegotiationService getNegotiationService() {
-        return KraServiceLocator.getService(NegotiationService.class);
+        return KcServiceLocator.getService(NegotiationService.class);
     }
 
     @Override
@@ -473,7 +473,7 @@ public class Negotiation extends KcPersistableBusinessObjectBase implements Perm
 
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

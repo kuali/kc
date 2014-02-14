@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.service.KcPersonService;
@@ -398,7 +398,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
      * @return
      */
     protected BusinessObjectService getBusinessObjectService() {
-        return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
+        return (BusinessObjectService) KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     /**
@@ -407,7 +407,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

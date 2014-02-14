@@ -18,7 +18,7 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.rrsf424SF424BV11.AssuranceType;
 import gov.grants.apply.forms.rrsf424SF424BV11.AssurancesDocument;
 import gov.grants.apply.forms.rrsf424SF424BV11.AuthorizedRepresentativeDocument.AuthorizedRepresentative;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -52,7 +52,7 @@ public class RRSF424BV1_1Generator extends S2SBaseFormGenerator {
         return assurcesDocument;
     }
     private DateTimeService getDateTimeService() {
-        return KraServiceLocator.getService(DateTimeService.class);
+        return KcServiceLocator.getService(DateTimeService.class);
     }
     /**
      * 
@@ -71,7 +71,7 @@ public class RRSF424BV1_1Generator extends S2SBaseFormGenerator {
         return authorizedRepresentative;
     }
     private S2SUtilService getS2sUtilService() {
-        return KraServiceLocator.getService(S2SUtilService.class);
+        return KcServiceLocator.getService(S2SUtilService.class);
     }
 
 }

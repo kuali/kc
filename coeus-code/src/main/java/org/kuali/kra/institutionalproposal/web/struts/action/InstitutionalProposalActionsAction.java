@@ -21,11 +21,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.fundedawards.FundedAwardsBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -114,7 +114,7 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
     public ActionForward printProposalSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
-        InstitutionalProposalPrintingService ipPrintingService = KraServiceLocator.getService(InstitutionalProposalPrintingService.class);
+        InstitutionalProposalPrintingService ipPrintingService = KcServiceLocator.getService(InstitutionalProposalPrintingService.class);
         AttachmentDataSource dataStream = ipPrintingService.printInstitutionalProposalReport(
                 ipForm.getInstitutionalProposalDocument().getInstitutionalProposal(), 
                 InstitutionalProposalPrintType.INSTITUTIONAL_PROPOSAL_REPORT.getInstitutionalProposalPrintType(), 
@@ -167,7 +167,7 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
      */
     public ActionForward printCurrentReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        CurrentAndPendingReportService currentAndPendingReportService = KraServiceLocator
+        CurrentAndPendingReportService currentAndPendingReportService = KcServiceLocator
                 .getService(CurrentAndPendingReportService.class);
         ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         Map<String, Object> reportParameters = new HashMap<String, Object>();
@@ -184,7 +184,7 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
      */
     public ActionForward printPendingReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        CurrentAndPendingReportService currentAndPendingReportService = KraServiceLocator
+        CurrentAndPendingReportService currentAndPendingReportService = KcServiceLocator
                 .getService(CurrentAndPendingReportService.class);
         ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         Map<String, Object> reportParameters = new HashMap<String, Object>();

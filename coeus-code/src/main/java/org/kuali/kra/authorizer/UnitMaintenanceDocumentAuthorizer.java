@@ -16,7 +16,7 @@
 package org.kuali.kra.authorizer;
 
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -121,7 +121,7 @@ public class UnitMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthor
     
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
-            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return kcPersonService;
     }
@@ -132,7 +132,7 @@ public class UnitMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthor
     
     public UnitAuthorizationService getUnitAuthorizationService() {
         if (unitAuthorizationService == null) {
-            unitAuthorizationService = KraServiceLocator.getService(UnitAuthorizationService.class);
+            unitAuthorizationService = KcServiceLocator.getService(UnitAuthorizationService.class);
         }
         return unitAuthorizationService;
     }

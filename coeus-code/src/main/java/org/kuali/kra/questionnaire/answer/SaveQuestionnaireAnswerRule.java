@@ -16,9 +16,9 @@
 package org.kuali.kra.questionnaire.answer;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.UTF8AnyCharacterValidationPattern;
@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
  * 
  * This class is primarily to validate questionnaire answer format.
  */
-public class SaveQuestionnaireAnswerRule implements BusinessRuleInterface<SaveQuestionnaireAnswerEvent> {
+public class SaveQuestionnaireAnswerRule implements KcBusinessRule<SaveQuestionnaireAnswerEvent> {
 
     private static final String QUESTION_TYPE_NUMBER = "3";
     private static final String QUESTION_TYPE_DATE = "4";
@@ -60,7 +60,7 @@ public class SaveQuestionnaireAnswerRule implements BusinessRuleInterface<SaveQu
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(SaveQuestionnaireAnswerEvent event) {
         boolean valid = true;

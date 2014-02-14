@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.rules;
 
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -26,7 +26,7 @@ import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings("unchecked")
-public abstract class TemplateRuleTest<E extends KcDocumentEventBaseExtension, R extends BusinessRuleInterface> {
+public abstract class TemplateRuleTest<E extends KcDocumentEventBaseExtension, R extends KcBusinessRule> {
     
     protected E event;
      

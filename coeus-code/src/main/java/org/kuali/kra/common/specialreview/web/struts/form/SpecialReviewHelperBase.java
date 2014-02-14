@@ -16,12 +16,12 @@
 package org.kuali.kra.common.specialreview.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -229,7 +229,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     
     public ParameterService getParameterService() {
         if (parameterService == null) {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
+            parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return parameterService;
     }
@@ -240,7 +240,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     
     public ProtocolFinderDao getProtocolFinderDao() {
         if (protocolFinderDao == null) {
-            protocolFinderDao = KraServiceLocator.getService(ProtocolFinderDao.class);
+            protocolFinderDao = KcServiceLocator.getService(ProtocolFinderDao.class);
         }
         return protocolFinderDao;
     }
@@ -251,7 +251,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     
     public SpecialReviewService getSpecialReviewService() {
         if (specialReviewService == null) {
-            specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+            specialReviewService = KcServiceLocator.getService(SpecialReviewService.class);
         }
         return specialReviewService;
     }
@@ -262,7 +262,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     
     public ProtocolSpecialReviewService getProtocolSpecialReviewService() {
         if (protocolSpecialReviewService == null) {
-            protocolSpecialReviewService = KraServiceLocator.getService(ProtocolSpecialReviewService.class);
+            protocolSpecialReviewService = KcServiceLocator.getService(ProtocolSpecialReviewService.class);
         }
         return protocolSpecialReviewService;
     }
@@ -273,7 +273,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
 
     public IacucProtocolSpecialReviewService getIacucProtocolSpecialReviewService() {
         if (iacucProtocolSpecialReviewService == null) {
-            iacucProtocolSpecialReviewService = KraServiceLocator.getService(IacucProtocolSpecialReviewService.class);
+            iacucProtocolSpecialReviewService = KcServiceLocator.getService(IacucProtocolSpecialReviewService.class);
         }
         return iacucProtocolSpecialReviewService;
     }

@@ -17,6 +17,7 @@ package org.kuali.kra.medusa.service;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.home.Award;
@@ -31,7 +32,6 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.irb.Protocol;
@@ -598,7 +598,7 @@ public class MedusaServiceImpl implements MedusaService {
         }
         SubAward currentSubAward = (SubAward) getActiveOrCurrentVersion(SubAward.class, subAward.getSubAwardCode());
         if (currentSubAward != null) {
-            KraServiceLocator.getService(SubAwardService.class).getAmountInfo(currentSubAward);
+            KcServiceLocator.getService(SubAwardService.class).getAmountInfo(currentSubAward);
         }
         return currentSubAward == null ? subAward : currentSubAward;
     }

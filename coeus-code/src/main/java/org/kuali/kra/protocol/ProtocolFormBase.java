@@ -19,10 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
@@ -332,7 +332,7 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
     }
 
     public KcAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KcAuthorizationService.class);
+        return KcServiceLocator.getService(KcAuthorizationService.class);
     }
 
     public List<ExtraButton> getExtraActionsButtons() {
@@ -400,7 +400,7 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
 
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

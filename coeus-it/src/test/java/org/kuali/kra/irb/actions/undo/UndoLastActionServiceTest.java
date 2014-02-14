@@ -24,8 +24,8 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -50,6 +50,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.Assert.*;
 // import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 
@@ -86,15 +87,15 @@ public class UndoLastActionServiceTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
 
         service = new UndoLastActionServiceImpl();
-        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setProtocolActionService(KcServiceLocator.getService(ProtocolActionService.class));
         service.setBusinessObjectService(getMockBusinessObjectService());
         service.setDocumentService(getMockDocumentService());
         
-        protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
-        protocolAssignToAgendaService = KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
-        protocolApproveService = KraServiceLocator.getService(ProtocolApproveService.class);
-        protocolRequestService = KraServiceLocator.getService(ProtocolRequestService.class);
-        protocolGenericActionService = KraServiceLocator.getService(ProtocolGenericActionService.class);
+        protocolSubmitActionService = KcServiceLocator.getService(ProtocolSubmitActionService.class);
+        protocolAssignToAgendaService = KcServiceLocator.getService(ProtocolAssignToAgendaService.class);
+        protocolApproveService = KcServiceLocator.getService(ProtocolApproveService.class);
+        protocolRequestService = KcServiceLocator.getService(ProtocolRequestService.class);
+        protocolGenericActionService = KcServiceLocator.getService(ProtocolGenericActionService.class);
     }
 
     @After

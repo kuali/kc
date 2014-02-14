@@ -21,13 +21,13 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonEditableInterface;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.KcPersonService;
@@ -749,7 +749,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }
@@ -2251,7 +2251,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     }
 
     public String getInvestigatorRoleDescription() {
-        return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
+        return KcServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
     }
 
     public ProposalPersonExtendedAttributes getProposalPersonExtendedAttributes() {

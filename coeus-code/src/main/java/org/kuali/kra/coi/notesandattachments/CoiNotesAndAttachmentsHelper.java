@@ -22,6 +22,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.coi.*;
@@ -33,7 +34,6 @@ import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachmentFilter;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -76,10 +76,10 @@ public class CoiNotesAndAttachmentsHelper {
     
     public CoiNotesAndAttachmentsHelper(CoiDisclosureForm coiDisclosureForm) {
         this.coiDisclosureForm = coiDisclosureForm;
-        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        this.parameterService = KraServiceLocator.getService(ParameterService.class);
-        this.dateTimeService = KraServiceLocator.getService(DateTimeService.class);   
-        this.identityService = KraServiceLocator.getService(IdentityService.class);
+        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        this.parameterService = KcServiceLocator.getService(ParameterService.class);
+        this.dateTimeService = KcServiceLocator.getService(DateTimeService.class);
+        this.identityService = KcServiceLocator.getService(IdentityService.class);
         filesToDelete = new ArrayList<AttachmentFile>();
     }
 
@@ -257,7 +257,7 @@ public class CoiNotesAndAttachmentsHelper {
     }
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
 
     public String getUserIdentifier() {
@@ -557,7 +557,7 @@ public class CoiNotesAndAttachmentsHelper {
 
         if (rule.processAddCoiDisclosureNotepadRules(event)) {
             newCoiDisclosureNotepad.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-            newCoiDisclosureNotepad.setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+            newCoiDisclosureNotepad.setCreateTimestamp(((DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
             addNewNotepad(newCoiDisclosureNotepad);
             initCoiDisclosureNotepad();
         }
@@ -647,7 +647,7 @@ public class CoiNotesAndAttachmentsHelper {
     }
     
     public PersonService getPersonService() {
-        return KraServiceLocator.getService(PersonService.class);
+        return KcServiceLocator.getService(PersonService.class);
     }
     
     public List<KeyValue> getProjectSelectListItems() {

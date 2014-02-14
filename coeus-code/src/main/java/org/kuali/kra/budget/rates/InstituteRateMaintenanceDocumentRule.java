@@ -17,11 +17,11 @@ package org.kuali.kra.budget.rates;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -102,7 +102,7 @@ public class InstituteRateMaintenanceDocumentRule extends KcMaintenanceDocumentR
             Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("rateClassCode", newInstituteRate.getRateClassCode());
             pkMap.put("rateTypeCode", newInstituteRate.getRateTypeCode());
-            RateType rateType = (RateType)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(RateType.class, pkMap);
+            RateType rateType = (RateType) KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(RateType.class, pkMap);
             if (rateType == null ) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
                         new String[] {newInstituteRate.getRateClassCode(), newInstituteRate.getRateTypeCode() });

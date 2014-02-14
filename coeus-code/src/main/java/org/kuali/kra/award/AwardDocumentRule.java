@@ -16,7 +16,10 @@
 package org.kuali.kra.award;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.commitments.*;
 import org.kuali.kra.award.contacts.*;
 import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
@@ -59,9 +62,6 @@ import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
@@ -104,7 +104,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
                                                                             AwardCloseoutRule,
                                                                             AwardTemplateSyncRule,
                                                                             AwardCommentsRule,
-                                                                            BusinessRuleInterface,
+        KcBusinessRule,
                                                                             AddAwardAttachmentRule,
                                                                             DocumentAuditRule{
     
@@ -708,7 +708,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
 
 
     /**
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
@@ -750,7 +750,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
 
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }

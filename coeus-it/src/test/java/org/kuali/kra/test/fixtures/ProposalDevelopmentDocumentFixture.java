@@ -24,7 +24,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 /**
  * Fixture class for creating valid <code>{@link ProposalDevelopmentDocument}</code> instances.

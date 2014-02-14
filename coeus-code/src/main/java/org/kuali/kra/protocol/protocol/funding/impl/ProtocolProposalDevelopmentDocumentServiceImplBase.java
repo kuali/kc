@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.protocol.funding.impl;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -60,7 +60,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
         {
             DocumentService docService = KRADServiceLocatorWeb.getDocumentService();       
             proposalDevelopmentDocument = (ProposalDevelopmentDocument) docService.getNewDocument(ProposalDevelopmentDocument.class);
-            ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+            ProposalDevelopmentService proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
             populateDocumentOverview(protocol, proposalDevelopmentDocument);
             populateRequiredFields(protocol, proposalDevelopmentDocument);
             proposalDevelopmentService.initializeUnitOrganizationLocation(proposalDevelopmentDocument);       
@@ -137,7 +137,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
      */
     protected void initializeAuthorization(ProposalDevelopmentDocument document) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
         kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, document);
     }
 
@@ -146,7 +146,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
         ProposalPerson proposalPerson = new ProposalPerson();
 
         proposalPerson.setPersonId(protocol.getPrincipalInvestigatorId());
-        PersonEditableService personEditableService = KraServiceLocator.getService(PersonEditableService.class);
+        PersonEditableService personEditableService = KcServiceLocator.getService(PersonEditableService.class);
         personEditableService.populateContactFieldsFromPersonId(proposalPerson);
 
         proposalPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
@@ -159,7 +159,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
         proposalPerson.setOptInCertificationStatus("Y");
         proposalDocument.getDevelopmentProposal().getProposalPersons().add(proposalPerson);
 
-        KeyPersonnelService keyPersonnelService = (KeyPersonnelServiceImpl) KraServiceLocator.getService(KeyPersonnelService.class);
+        KeyPersonnelService keyPersonnelService = (KeyPersonnelServiceImpl) KcServiceLocator.getService(KeyPersonnelService.class);
         keyPersonnelService.populateProposalPerson(proposalPerson, proposalDocument);
         keyPersonnelService.assignLeadUnit(proposalPerson, proposalDocument.getDevelopmentProposal().getOwnedByUnitNumber());
     

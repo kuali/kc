@@ -16,7 +16,7 @@
 package org.kuali.kra.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
@@ -163,7 +163,7 @@ public class PersonTraining extends KcPersistableBusinessObjectBase implements M
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

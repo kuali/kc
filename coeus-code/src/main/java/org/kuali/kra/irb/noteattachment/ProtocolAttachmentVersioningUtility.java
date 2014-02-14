@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentVersioningUtilityBase;
@@ -45,8 +45,8 @@ public class ProtocolAttachmentVersioningUtility extends ProtocolAttachmentVersi
 
     
     public ProtocolAttachmentVersioningUtility(final ProtocolForm form) {
-        super(form, KraServiceLocator.getService(ProtocolAttachmentService.class), 
-                    KraServiceLocator.getService(VersioningService.class));
+        super(form, KcServiceLocator.getService(ProtocolAttachmentService.class),
+                    KcServiceLocator.getService(VersioningService.class));
     }
 
     @Override

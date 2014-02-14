@@ -21,13 +21,14 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 /**
  * Unit Tests for the Proposal State Service Implementation.
  */
@@ -51,7 +52,7 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
     @Before
     public void initTest() {
         mockery = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
-        service = KraServiceLocator.getService(ProposalStateService.class);
+        service = KcServiceLocator.getService(ProposalStateService.class);
         mock = mockery.mock(WorkflowDocument.class);
     }
 

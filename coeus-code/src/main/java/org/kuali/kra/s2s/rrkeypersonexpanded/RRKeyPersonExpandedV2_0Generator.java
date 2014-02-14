@@ -24,23 +24,14 @@ import gov.grants.apply.forms.rrKeyPersonExpanded20V20.RRKeyPersonExpanded20Docu
 import gov.grants.apply.forms.rrKeyPersonExpanded20V20.RRKeyPersonExpanded20Document.RRKeyPersonExpanded20.BioSketchsAttached;
 import gov.grants.apply.forms.rrKeyPersonExpanded20V20.RRKeyPersonExpanded20Document.RRKeyPersonExpanded20.SupportsAttached;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.impl.RRKeyPersonExpandedBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -48,6 +39,10 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 /**
  * This class generates RRKeyPersonExpanded xml object. It uses xmlbeans for
  * generation of the form. Form is generated based on RRKeyPersonExpanded
@@ -219,7 +214,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 		if (PI.getEraCommonsUserName() != null) {
 			profile.setCredential(PI.getEraCommonsUserName());
 		} else {
-            if (KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
+            if (KcServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
                 getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + PI.getFullName(), 
                         Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));             
             }
@@ -234,7 +229,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	 */
 	private void setDepartmentNameToProfile(Profile profile, ProposalPerson PI) {
 		if(PI.getHomeUnit() != null) {
-            KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
             KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
             String departmentName =  kcPersons.getOrganizationIdentifier();
             profile.setDepartmentName(departmentName);
@@ -269,7 +264,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
              rolodex = null;
         } else if (PI.getRolodexId() != null) {
             pIPersonOrRolodexId = PI.getRolodexId().toString();
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
             rolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class,pIPersonOrRolodexId);
         }
 	}
@@ -412,7 +407,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 		if (keyPerson.getEraCommonsUserName() != null) {
 			profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
 		} else {
-            if (KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
+            if (KcServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
                 if (keyPerson.isMultiplePi()) {
                     getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + keyPerson.getFullName(), 
                             Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));             
@@ -420,7 +415,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
             }
         }
         if (keyPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR)) {
-            if(KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())){
+            if(KcServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())){
                 if (keyPerson.isMultiplePi()) {
                     profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
                 } else {

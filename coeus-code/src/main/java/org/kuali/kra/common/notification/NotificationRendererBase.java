@@ -16,7 +16,7 @@
 package org.kuali.kra.common.notification;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -84,7 +84,7 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
 
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
-            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return kcPersonService;
     }

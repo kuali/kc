@@ -17,10 +17,10 @@ package org.kuali.kra.protocol.onlinereview;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
@@ -304,7 +304,7 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     }
 
     private ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-        return KraServiceLocator.getService(getProtocolOnlineReviewServiceClassHook());
+        return KcServiceLocator.getService(getProtocolOnlineReviewServiceClassHook());
     }
     
     protected abstract Class<? extends ProtocolOnlineReviewService> getProtocolOnlineReviewServiceClassHook();
@@ -434,7 +434,7 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     }
     
     private DocumentHelperService getDocumentHelperService() {
-        return KraServiceLocator.getService(DocumentHelperService.class);
+        return KcServiceLocator.getService(DocumentHelperService.class);
     }
     
     protected Map convertSetToMap(Set s){
@@ -448,7 +448,7 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     }
     
     private PessimisticLockService getPessimisticLockService() {
-        return KraServiceLocator.getService(PessimisticLockService.class);
+        return KcServiceLocator.getService(PessimisticLockService.class);
     }
     
     protected void populateAuthorizationFields(ProtocolOnlineReviewFormBase form, ProtocolOnlineReviewDocumentBase document) {
@@ -510,7 +510,7 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     }
 
     private ReviewCommentsService getReviewerCommentsService() {
-        return KraServiceLocator.getService(getReviewCommentsServiceClassHook());
+        return KcServiceLocator.getService(getReviewCommentsServiceClassHook());
     }
 
     protected abstract Class<? extends ReviewCommentsService> getReviewCommentsServiceClassHook();

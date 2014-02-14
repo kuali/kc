@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -45,8 +45,8 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 	 * Constructs a PHS398ModularBudgetBaseGenerator.java.
 	 */
 	public PHS398ModularBudgetBaseGenerator() {
-		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-		s2sBudgetCalculatorService = KraServiceLocator
+		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+		s2sBudgetCalculatorService = KcServiceLocator
 				.getService(S2SBudgetCalculatorService.class);
 	}
 

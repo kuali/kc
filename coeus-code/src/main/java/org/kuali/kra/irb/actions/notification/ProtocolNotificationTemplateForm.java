@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -45,7 +45,7 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
 
 
     private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     /**

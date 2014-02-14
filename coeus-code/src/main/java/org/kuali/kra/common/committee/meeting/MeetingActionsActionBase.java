@@ -18,6 +18,7 @@ package org.kuali.kra.common.committee.meeting;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
@@ -29,7 +30,6 @@ import org.kuali.kra.common.committee.service.CommonCommitteeNotificationService
 import org.kuali.kra.common.printing.CorrespondencePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.meeting.ScheduleAgenda;
 import org.kuali.kra.printing.Printable;
@@ -172,7 +172,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
 
     private void saveGeneratedDoc (Long scheduleId, GeneratedMeetingDocBase generatedMeetingDoc, byte[] pdfData)  {
         generatedMeetingDoc.setScheduleIdFk(scheduleId);
-        generatedMeetingDoc.setCreateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        generatedMeetingDoc.setCreateTimestamp(((DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         generatedMeetingDoc.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
         generatedMeetingDoc.setPdfStore(pdfData);
         getBusinessObjectService().save(generatedMeetingDoc);
@@ -223,7 +223,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
     private List<ScheduleAgenda> getAgendaDoc(Long scheduleId) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         fieldValues.put("scheduleIdFk", scheduleId);
-        return (List<ScheduleAgenda>)KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(ScheduleAgenda.class, fieldValues, "createTimestamp", true);
+        return (List<ScheduleAgenda>) KcServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(ScheduleAgenda.class, fieldValues, "createTimestamp", true);
         
     }
 
@@ -284,7 +284,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
     private List<CommScheduleMinuteDoc> getMinuteDoc(Long scheduleId) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         fieldValues.put("scheduleIdFk", scheduleId);
-        return (List<CommScheduleMinuteDoc>)KraServiceLocator.getService( BusinessObjectService.class).findMatchingOrderBy(CommScheduleMinuteDoc.class, fieldValues, "createTimestamp", true);
+        return (List<CommScheduleMinuteDoc>) KcServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(CommScheduleMinuteDoc.class, fieldValues, "createTimestamp", true);
         
     }
     
@@ -411,11 +411,11 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
     protected abstract CorrespondencePrintingService getCorrespondencePrintingService();
 
     private CommonCommitteeNotificationService getCommitteeNotificationService() {
-        return KraServiceLocator.getService(CommonCommitteeNotificationService.class);
+        return KcServiceLocator.getService(CommonCommitteeNotificationService.class);
     }
 
     private DocumentService getDocumentService() {
-        return KraServiceLocator.getService(DocumentService.class);
+        return KcServiceLocator.getService(DocumentService.class);
     }
    
     
@@ -454,7 +454,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
         if (saveAction) {
             for (ProtocolCorrespondence correspondence : correspondences) {
                 if (correspondence.getFinalFlag()) {
-                    correspondence.setFinalFlagTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                    correspondence.setFinalFlagTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
 
                 }
             }

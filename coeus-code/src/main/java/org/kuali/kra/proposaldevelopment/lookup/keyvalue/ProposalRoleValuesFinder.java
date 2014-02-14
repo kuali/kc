@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -41,7 +41,7 @@ public class ProposalRoleValuesFinder extends UifKeyValuesFinderBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        ProposalRoleService proposalRoleService = KraServiceLocator.getService(ProposalRoleService.class);
+        ProposalRoleService proposalRoleService = KcServiceLocator.getService(ProposalRoleService.class);
         List<Role> proposalRoles = proposalRoleService.getRolesForDisplay();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 

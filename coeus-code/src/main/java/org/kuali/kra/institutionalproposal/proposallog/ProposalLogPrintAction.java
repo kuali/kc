@@ -18,7 +18,7 @@ package org.kuali.kra.institutionalproposal.proposallog;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.kns.util.WebUtils;
@@ -33,7 +33,7 @@ public class ProposalLogPrintAction extends KualiAction {
 
     public ActionForward printProposalLog(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalLogPrintForm printForm = (ProposalLogPrintForm) form;
-        ProposalLogPrintingService printService = KraServiceLocator.getService(ProposalLogPrintingService.class);
+        ProposalLogPrintingService printService = KcServiceLocator.getService(ProposalLogPrintingService.class);
         AttachmentDataSource dataStream = printService.printProposalLog(printForm.getProposalNumber());
         streamToResponse(dataStream, response);
         return null;

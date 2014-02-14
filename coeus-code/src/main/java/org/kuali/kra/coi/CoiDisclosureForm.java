@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.actions.DisclosureActionHelper;
@@ -30,7 +31,6 @@ import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.coi.questionnaire.ScreeningQuestionnaireHelper;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -156,7 +156,7 @@ public class CoiDisclosureForm extends KcTransactionalDocumentFormBase implement
     }
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
     
     protected String getUserIdentifier() {

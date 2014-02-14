@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.krms;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.krms.service.KcKrmsCacheManager;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
@@ -34,7 +34,7 @@ public abstract class KcRulesEngineExecuter implements RulesEngineExecutor {
 
     @Override
     public EngineResults execute(RouteContext routeContext, Engine engine) {
-        KraServiceLocator.getService(KcKrmsCacheManager.class).clearCache();
+        KcServiceLocator.getService(KcKrmsCacheManager.class).clearCache();
         return performExecute(routeContext, engine);
     }
     protected String getElementValue(String docContent, String xpathExpression) {

@@ -16,6 +16,8 @@
 package org.kuali.kra.award.detailsdates;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardTransferringSponsor;
@@ -24,8 +26,6 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -228,7 +228,7 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
     
     protected AccountCreationClient getAccountCreationClientService() {
         if (accountCreationClient == null) {
-            accountCreationClient = (AccountCreationClient) KraServiceLocator.getService("accountCreationClient");
+            accountCreationClient = (AccountCreationClient) KcServiceLocator.getService("accountCreationClient");
         }
         return accountCreationClient;
     }
@@ -241,7 +241,7 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
     
     protected ParameterService getParameterService() {
         if(parameterService == null) {
-            parameterService = KraServiceLocator.getService("parameterService");
+            parameterService = KcServiceLocator.getService("parameterService");
         }
         return parameterService;
         

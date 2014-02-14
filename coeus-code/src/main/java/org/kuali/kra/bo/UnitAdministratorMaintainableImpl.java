@@ -16,9 +16,9 @@
 package org.kuali.kra.bo;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.maintenance.KraMaintainableImpl;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -105,7 +105,7 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
 
     private boolean isValidPrincipalId(String principalId) {
         boolean valid = true;
-        KcPersonService personService = KraServiceLocator.getService(KcPersonService.class);
+        KcPersonService personService = KcServiceLocator.getService(KcPersonService.class);
         if ( StringUtils.isEmpty(principalId) ) {
             valid = false;
         } else {
@@ -118,7 +118,7 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
 
     
     private boolean isUnitIdValid(String unitNumber) {
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> validUnitParams = new HashMap<String, String>();
         validUnitParams.put("unitNumber", unitNumber);
         Collection<Unit> units = businessObjectService.findMatching(Unit.class, validUnitParams);
@@ -126,7 +126,7 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
     }
 
     private boolean isUnitAdministratorTypeCodeValid(String unitAdministratorTypeCode) {
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> validParams = new HashMap<String, String>();
         validParams.put("unitAdministratorTypeCode", unitAdministratorTypeCode);
         Collection<UnitAdministratorType> units = businessObjectService.findMatching(UnitAdministratorType.class, validParams);

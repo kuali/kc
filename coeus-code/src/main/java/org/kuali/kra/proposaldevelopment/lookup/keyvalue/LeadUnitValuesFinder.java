@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -44,7 +44,7 @@ public class LeadUnitValuesFinder extends UifKeyValuesFinderBase {
         keyValues.add(new ConcreteKeyValue("", "select"));
         
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        ProposalDevelopmentService authService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        ProposalDevelopmentService authService = KcServiceLocator.getService(ProposalDevelopmentService.class);
         List<Unit> userUnits = authService.getUnitsForCreateProposal(userId);
 
         // Sort the list of units by Unit Number.  If there are lots of units,

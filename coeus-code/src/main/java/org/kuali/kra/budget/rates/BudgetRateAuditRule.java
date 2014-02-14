@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.budget.rates;
 
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -33,7 +33,7 @@ public class BudgetRateAuditRule  extends KcTransactionalDocumentRuleBase implem
         BudgetDocument budgetDocument = (BudgetDocument) document;
         boolean retval = true;
         //budgetDocument.getRateClassTypes(); // to load instituterates & institutelarate lists
-        if (KraServiceLocator.getService(BudgetRatesService.class).isOutOfSyncForRateAudit(budgetDocument)) {
+        if (KcServiceLocator.getService(BudgetRatesService.class).isOutOfSyncForRateAudit(budgetDocument)) {
             retval = false;
         }
         

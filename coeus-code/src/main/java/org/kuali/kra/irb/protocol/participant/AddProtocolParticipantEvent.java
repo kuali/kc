@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class AddProtocolParticipantEvent extends KcDocumentEventBaseExtension {
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new AddProtocolParticipantRule();
     }
     

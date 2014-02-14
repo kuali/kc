@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol.specialreview.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
@@ -40,7 +40,7 @@ public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSp
         if (proposalNumber != null) {
             Map<String, String> key = new HashMap<String, String>();
             key.put(PROPOSAL_NUMBER, proposalNumber);
-            dp = KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(DevelopmentProposal.class, key);
+            dp = KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(DevelopmentProposal.class, key);
         }
         return dp;
     }
@@ -98,7 +98,7 @@ public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSp
 
     public ProtocolFinderDao getProtocolFinderDao() {
         if (protocolFinderDao == null) {
-            protocolFinderDao = KraServiceLocator.getService(ProtocolFinderDao.class);
+            protocolFinderDao = KcServiceLocator.getService(ProtocolFinderDao.class);
         }
         return protocolFinderDao;
     }

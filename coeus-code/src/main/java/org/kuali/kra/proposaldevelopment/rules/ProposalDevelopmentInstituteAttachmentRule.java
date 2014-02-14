@@ -16,15 +16,15 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -36,9 +36,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.INSTITUTE_NARRATIVE_TYPE_GROUP;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalDocumentRuleBase implements AddInstituteAttachmentRule {
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
@@ -56,7 +56,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -159,7 +159,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
      */
     protected KcAttachmentService getKcAttachmentService() {
         if(this.kcAttachmentService == null) {
-            this.kcAttachmentService = KraServiceLocator.getService(KcAttachmentService.class);
+            this.kcAttachmentService = KcServiceLocator.getService(KcAttachmentService.class);
         }
         return this.kcAttachmentService;
     }

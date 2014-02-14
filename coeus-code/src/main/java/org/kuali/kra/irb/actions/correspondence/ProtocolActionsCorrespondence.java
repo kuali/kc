@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.actions.correspondence;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.actions.print.CorrespondenceXmlStream;
 import org.kuali.kra.irb.actions.print.ProtocolPrintWatermark;
@@ -44,7 +44,7 @@ public class ProtocolActionsCorrespondence extends ProtocolActionsCorrespondence
 
     @Override
     protected ProtocolActionTypeToCorrespondenceTemplateService getProtocolActionTypeToCorrespondenceTemplateService() {
-        return KraServiceLocator.getService(ProtocolActionTypeToCorrespondenceTemplateService.class);
+        return KcServiceLocator.getService(ProtocolActionTypeToCorrespondenceTemplateService.class);
     }
     
     @Override
@@ -54,7 +54,7 @@ public class ProtocolActionsCorrespondence extends ProtocolActionsCorrespondence
 
     @Override
     public CorrespondenceXmlStreamBase getCorrespondenceXmlStream() {
-        return KraServiceLocator.getService(CorrespondenceXmlStream.class);
+        return KcServiceLocator.getService(CorrespondenceXmlStream.class);
     }
 
     @Override

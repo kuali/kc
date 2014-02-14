@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.questionnaire;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -61,7 +61,7 @@ public class QuestionnaireMaintenanceDocumentAuthorizer extends MaintenanceDocum
     }
 
     private QuestionnaireAuthorizationService getQuestionnaireAuthorizationService() {
-        return KraServiceLocator.getService(QuestionnaireAuthorizationService.class);
+        return KcServiceLocator.getService(QuestionnaireAuthorizationService.class);
     }
     
     private Set<String> getDocumentActionsWithModifyPermission(Document document) {

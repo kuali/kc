@@ -17,11 +17,11 @@ package org.kuali.kra.award.notesandattachments.notes;
 
 //import java.sql.Date;  
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraNotepadInterface;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 
 import java.sql.Timestamp;
@@ -191,7 +191,7 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
 
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

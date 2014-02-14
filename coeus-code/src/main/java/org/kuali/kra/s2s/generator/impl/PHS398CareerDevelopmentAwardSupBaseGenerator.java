@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
@@ -54,6 +54,6 @@ public abstract class PHS398CareerDevelopmentAwardSupBaseGenerator extends S2SBa
 	public static final int NARRATIVE_TYPE_PHS_CAREER_REASEARCH_STRATEGY = 128;
 	
 	public PHS398CareerDevelopmentAwardSupBaseGenerator(){
-		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
 	}
 }

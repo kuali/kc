@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -66,7 +65,7 @@ public class ProposalDevelopmentS2sQuestionnaireHelper extends ProposalDevelopme
      */
     public ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
         if (proposalDevelopmentS2sQuestionnaireService == null) {
-            this.proposalDevelopmentS2sQuestionnaireService = KraServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
+            this.proposalDevelopmentS2sQuestionnaireService = KcServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
         }
         return proposalDevelopmentS2sQuestionnaireService;
     }

@@ -17,6 +17,7 @@ package org.kuali.kra.budget.calculator;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
@@ -34,7 +35,6 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -646,7 +646,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 
                 List<CostElement> objectCodes = budget.getObjectCodeListByBudgetCategoryType().get(budgetCategoryType);
                 for(CostElement objectCode : objectCodes) {
-                    if (!StringUtils.equalsIgnoreCase(objectCode.getCostElement(), KraServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"))) {
+                    if (!StringUtils.equalsIgnoreCase(objectCode.getCostElement(), KcServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"))) {
                         List<BudgetDecimal> objectCodePeriodTotals = budget.getObjectCodeTotals().get(objectCode);
                         for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                             budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).get(budgetPeriod.getBudgetPeriod() - 1))).add(objectCodePeriodTotals.get(budgetPeriod.getBudgetPeriod() - 1)));

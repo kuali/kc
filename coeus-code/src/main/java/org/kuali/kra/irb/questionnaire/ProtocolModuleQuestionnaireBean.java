@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.questionnaire;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
@@ -45,7 +45,7 @@ public class ProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaire
         Integer sequenceNumber = Integer.valueOf(getModuleSubItemKey());
         Map<String, Object> values = new HashMap<String, Object>();
         List<Protocol> protocols = 
-                (List<Protocol>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(Protocol.class, values);
+                (List<Protocol>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(Protocol.class, values);
         if (protocols != null && !protocols.isEmpty()) {
             return protocols.get(0).getKrmsRulesContext();
         } else {

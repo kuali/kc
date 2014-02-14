@@ -18,11 +18,11 @@ package org.kuali.kra.service.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.CustomAttributeDocumentTestUtilities;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.CustomAttributeService;
@@ -37,6 +37,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import static org.junit.Assert.*;
 /**
  * This class tests CustomAttributeServiceImpl.
@@ -57,8 +58,8 @@ public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         testCustomAttributeDocuments = CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments();
         documentService = KRADServiceLocatorWeb.getDocumentService();
-        customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
-        proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        customAttributeService = KcServiceLocator.getService(CustomAttributeService.class);
+        proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
     }
 
     @After

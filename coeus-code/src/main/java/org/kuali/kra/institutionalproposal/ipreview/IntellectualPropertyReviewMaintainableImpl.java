@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.service.VersionException;
@@ -88,7 +88,7 @@ public class IntellectualPropertyReviewMaintainableImpl extends KraMaintainableI
     }
 
     private InstitutionalProposalVersioningService getInstitutionalProposalVersioningService() {
-        return KraServiceLocator.getService(InstitutionalProposalVersioningService.class);
+        return KcServiceLocator.getService(InstitutionalProposalVersioningService.class);
     }
 
 }

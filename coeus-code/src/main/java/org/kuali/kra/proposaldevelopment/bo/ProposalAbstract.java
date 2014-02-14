@@ -21,8 +21,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -203,7 +203,7 @@ public class ProposalAbstract extends KcPersistableBusinessObjectBase {
                 updateUser = updateUser.substring(0, 60);
             }
             setUploadUserDisplay(updateUser);
-            setTimestampDisplay(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+            setTimestampDisplay(((DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         }
     }
 

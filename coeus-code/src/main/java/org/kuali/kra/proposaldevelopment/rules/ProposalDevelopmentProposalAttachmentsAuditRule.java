@@ -18,18 +18,18 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -154,7 +154,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
                 boolean attachmentNotExists = true;            
                 try {
                 String budgetCostElement = getParameterService().getParameterValueAsString("KC-GEN","A","POST_DOCTORAL_COSTELEMENT");                        
-                    BudgetDocument bdDoc = KraServiceLocator.getService(
+                    BudgetDocument bdDoc = KcServiceLocator.getService(
                             S2SBudgetCalculatorService.class).getFinalBudgetVersion(
                             proposalDevelopmentDocument); 
                     if(bdDoc != null && bdDoc.getBudget() != null 
@@ -209,14 +209,14 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
     
     private SponsorService getSponsorService() {
         if(sponsorService == null) {
-            sponsorService = KraServiceLocator.getService(SponsorService.class);
+            sponsorService = KcServiceLocator.getService(SponsorService.class);
         }
         return sponsorService;
     }
 
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }

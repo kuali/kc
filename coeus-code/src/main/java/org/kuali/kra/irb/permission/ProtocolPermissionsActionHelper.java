@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.permissions.bo.PermissionsRoleState;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.event.EditUserPermissionsRolesEvent;
@@ -30,7 +31,6 @@ import org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelpe
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.service.KcAuthorizationService;
@@ -86,7 +86,7 @@ class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
      * @return the Protocol Authorization Service
      */
     private KcAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KcAuthorizationService.class);
+        return KcServiceLocator.getService(KcAuthorizationService.class);
     }
     @Override
     public ActionForward editRoles(ActionMapping mapping, ActionForm form, HttpServletRequest request,

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.species.exception;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -82,6 +82,6 @@ public class IacucProtocolSpeciesValuesFinder extends FormViewAwareUifKeyValuesF
     }
     
     protected KeyValuesService getKeyValuesService() {
-        return (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        return (KeyValuesService) KcServiceLocator.getService("keyValuesService");
     }
 }

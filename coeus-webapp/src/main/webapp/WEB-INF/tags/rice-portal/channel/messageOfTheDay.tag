@@ -1,3 +1,4 @@
+<%@ tag import="org.kuali.coeus.sys.framework.service.KcServiceLocator" %>
 <%--
  Copyright 2005-2013 The Kuali Foundation
  
@@ -15,7 +16,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="motd" value="<%= (org.kuali.kra.infrastructure.KraServiceLocator.getService(org.kuali.kra.service.MessageOfTheDayService.class)).getMessagesOfTheDay() %>" scope="page"/>
+<c:set var="motd" value="<%= (KcServiceLocator.KraServiceLocatorService(org.kuali.kra.service.MessageOfTheDayService.class)).getMessagesOfTheDay() %>" scope="page"/>
 <c:if test="${!empty pageScope.motd}">
 	<channel:portalChannelTop channelTitle="Messages Of The Day" />
 	<c:set var = "printed" value = "false"/>

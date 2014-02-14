@@ -16,9 +16,9 @@
 package org.kuali.kra.coi.disclosure;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDispositionStatus;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -64,7 +64,7 @@ public class CoiDispositionStatusValuesFinder extends FormViewAwareUifKeyValuesF
     
     protected BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }

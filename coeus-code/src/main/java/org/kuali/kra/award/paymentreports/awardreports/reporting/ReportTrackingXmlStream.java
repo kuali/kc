@@ -20,8 +20,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDao;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.schema.AwardReportingRequirementDocument;
 import org.kuali.kra.printing.schema.AwardReportingRequirementDocument.AwardReportingRequirement;
@@ -115,7 +115,7 @@ public class ReportTrackingXmlStream implements XmlStream {
         List<String> detailFields = new ArrayList<String>();
         detailFields.add("awardNumber");
         detailFields.add("leadUnitNumber");
-        List<ReportTracking> detailResults = KraServiceLocator.getService(ReportTrackingDao.class).getDetailResults(searchValues,detailFields);
+        List<ReportTracking> detailResults = KcServiceLocator.getService(ReportTrackingDao.class).getDetailResults(searchValues,detailFields);
         setReportingRequirements(awardReporting, reportTracking,detailResults);
            return awardReporting;
     }

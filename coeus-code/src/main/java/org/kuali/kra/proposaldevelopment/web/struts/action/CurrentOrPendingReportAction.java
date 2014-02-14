@@ -20,10 +20,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.kns.util.WebUtils;
@@ -51,7 +51,7 @@ public class CurrentOrPendingReportAction extends KualiAction{
      */
     public ActionForward printCurrentReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        CurrentAndPendingReportService currentAndPendingReportService = KraServiceLocator
+        CurrentAndPendingReportService currentAndPendingReportService = KcServiceLocator
                 .getService(CurrentAndPendingReportService.class);
         ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         Map<String, Object> reportParameters = new HashMap<String, Object>();
@@ -68,7 +68,7 @@ public class CurrentOrPendingReportAction extends KualiAction{
      */
     public ActionForward printPendingReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        CurrentAndPendingReportService currentAndPendingReportService = KraServiceLocator
+        CurrentAndPendingReportService currentAndPendingReportService = KcServiceLocator
                 .getService(CurrentAndPendingReportService.class);
         ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         Map<String, Object> reportParameters = new HashMap<String, Object>();

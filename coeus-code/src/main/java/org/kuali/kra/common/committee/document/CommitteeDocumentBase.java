@@ -18,11 +18,11 @@ package org.kuali.kra.common.committee.document;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.document.Copyable;
@@ -189,7 +189,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
     protected abstract CommitteeServiceBase<CMT, CS> getCommitteeService();
     
     private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
     
     /**

@@ -17,11 +17,11 @@ package org.kuali.kra.budget.lookup.keyvalue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -36,8 +36,8 @@ import java.util.List;
 public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
     protected Log LOG = LogFactory.getLog(BudgetExpensePeriodValuesFinder.class);
 
-    protected AwardBudgetService awardBudgetService = KraServiceLocator.getService(AwardBudgetService.class);
-    protected DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+    protected AwardBudgetService awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
+    protected DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
     
     /**
      * Constructs the list of Budget Periods.  Each entry

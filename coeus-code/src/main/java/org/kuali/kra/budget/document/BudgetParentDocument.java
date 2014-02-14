@@ -17,12 +17,12 @@ package org.kuali.kra.budget.document;
 
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionCollection;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.datadictionary.KNSDocumentEntry;
@@ -42,7 +42,7 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
      * @return the parameter service. 
      */
     protected ParameterService getParameterService() {
-        return KraServiceLocator.getService(ParameterService.class);
+        return KcServiceLocator.getService(ParameterService.class);
     }
 
     public BudgetDocumentVersion getFinalBudgetVersion() {
@@ -89,7 +89,7 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
     public abstract ExtraButton configureReturnToParentTopButton();
 
     public List<HeaderNavigation> getBudgetHeaderNavigatorList() {
-        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
+        DataDictionaryService dataDictionaryService = (DataDictionaryService) KcServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         KNSDocumentEntry docEntry = (KNSDocumentEntry) dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
         return docEntry.getHeaderNavigationList();
     }

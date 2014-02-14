@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.common.notification.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.service.NotificationRoleSubQualifierFinders;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
@@ -34,7 +34,7 @@ public class NotificationRoleSubQualifierValuesFinder extends UifKeyValuesFinder
 
     protected NotificationRoleSubQualifierFinders getFinders() {
         if (finders == null) {
-            finders = KraServiceLocator.getService(NotificationRoleSubQualifierFinders.class);
+            finders = KcServiceLocator.getService(NotificationRoleSubQualifierFinders.class);
         }
         return finders;
     }

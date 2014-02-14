@@ -16,9 +16,9 @@
 package org.kuali.kra.irb.notification;
 
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationRenderer;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
@@ -51,7 +51,7 @@ public class IRBNotificationContext extends ProtocolNotificationContextBase {
      */
     public IRBNotificationContext(Protocol protocol, String actionTypeCode, String contextName, NotificationRenderer renderer) {
         super(protocol, actionTypeCode, contextName, renderer);
-        setNotificationRoleQualifierService(KraServiceLocator.getService(IRBNotificationRoleQualifierService.class));
+        setNotificationRoleQualifierService(KcServiceLocator.getService(IRBNotificationRoleQualifierService.class));
         ((IRBNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
     }
     

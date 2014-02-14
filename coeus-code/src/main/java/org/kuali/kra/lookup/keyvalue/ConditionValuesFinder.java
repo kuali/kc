@@ -17,7 +17,7 @@ package org.kuali.kra.lookup.keyvalue;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -44,7 +44,7 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
      * Creates value finder setting dependencies to default values.
      */
     public ConditionValuesFinder() {
-        this(KraServiceLocator.getService(KeyValuesService.class));
+        this(KcServiceLocator.getService(KeyValuesService.class));
     }
     
     /**

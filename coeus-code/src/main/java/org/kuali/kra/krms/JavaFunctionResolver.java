@@ -17,7 +17,7 @@ package org.kuali.kra.krms;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krms.api.repository.function.FunctionDefinition;
 import org.kuali.rice.krms.api.repository.function.FunctionParameterDefinition;
 
@@ -82,7 +82,7 @@ public class JavaFunctionResolver extends FunctionTermResolver{
                 }
                 
             }
-            Object javaFucntionService = KraServiceLocator.getService(serviceName);
+            Object javaFucntionService = KcServiceLocator.getService(serviceName);
             Class javaFucntionServiceClass = javaFucntionService.getClass();
             Method method = javaFucntionServiceClass.getMethod(methodName, classtypes);
             return method.invoke(javaFucntionService,functionParamObjects.toArray());

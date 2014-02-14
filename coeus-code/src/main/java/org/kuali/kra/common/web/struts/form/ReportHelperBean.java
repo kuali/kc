@@ -1,9 +1,9 @@
 package org.kuali.kra.common.web.struts.form;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
@@ -98,15 +98,15 @@ public class ReportHelperBean implements Serializable {
     }
 
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     protected KcPersonService getKcPersonService() {
-        return KraServiceLocator.getService(KcPersonService.class);
+        return KcServiceLocator.getService(KcPersonService.class);
     }
 
     protected CurrentAndPendingReportService getCurrentAndPendingReportService() {
-        return KraServiceLocator.getService(CurrentAndPendingReportService.class);
+        return KcServiceLocator.getService(CurrentAndPendingReportService.class);
     }
 
     private String findProposalNumberFromDevelopmentProposal() {

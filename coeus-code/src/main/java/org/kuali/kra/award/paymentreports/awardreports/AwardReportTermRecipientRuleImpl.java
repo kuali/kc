@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -196,7 +196,7 @@ public class AwardReportTermRecipientRuleImpl extends KcTransactionalDocumentRul
      * @return
      */
     protected KeyValuesService getKeyValuesService(){
-        return KraServiceLocator.getService(KeyValuesService.class);
+        return KcServiceLocator.getService(KeyValuesService.class);
     }
     
 }

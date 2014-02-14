@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.krms;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.data.DataType;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.core.api.uif.RemotableTextInput;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsAttributeDefinition;
@@ -169,7 +168,7 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
         }
         
         private boolean isChildUnit(String childNumber, String parentNumber) {
-            UnitService unitService = KraServiceLocator.getService(UnitService.class);
+            UnitService unitService = KcServiceLocator.getService(UnitService.class);
             Unit childUnit = unitService.getUnit(childNumber);
             Unit parentUnit = unitService.getUnit(parentNumber);
             return childUnit == null || parentUnit == null ? false : childUnit.isParentUnit(parentUnit);

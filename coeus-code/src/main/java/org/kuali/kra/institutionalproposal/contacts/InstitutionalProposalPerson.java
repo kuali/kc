@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -323,6 +323,6 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     }
 
     public String getInvestigatorRoleDescription() {
-        return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
+        return KcServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
     }
 }

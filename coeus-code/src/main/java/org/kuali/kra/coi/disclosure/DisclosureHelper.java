@@ -18,6 +18,7 @@ package org.kuali.kra.coi.disclosure;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
@@ -25,7 +26,6 @@ import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
@@ -187,7 +187,7 @@ public class DisclosureHelper implements Serializable {
     }
 
     private TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
 
     public void setForm(CoiDisclosureForm form) {
@@ -236,7 +236,7 @@ public class DisclosureHelper implements Serializable {
     }
 
     private FinancialEntityService getFinancialEntityService() {
-        return KraServiceLocator.getService(FinancialEntityService.class);
+        return KcServiceLocator.getService(FinancialEntityService.class);
     }
 
     public boolean isCanViewDisclosureFeHistory() {
@@ -316,7 +316,7 @@ public class DisclosureHelper implements Serializable {
     }
     
     private ParameterService getParameterService() {
-         return KraServiceLocator.getService(ParameterService.class);
+         return KcServiceLocator.getService(ParameterService.class);
     }
 
     public CoiDisclProject getNewCoiDisclProject() {
@@ -469,7 +469,7 @@ public class DisclosureHelper implements Serializable {
 
     private CoiDisclosureService getDisclosureService() {
         if (disclosureService == null) {
-            disclosureService = KraServiceLocator.getService(CoiDisclosureService.class);
+            disclosureService = KcServiceLocator.getService(CoiDisclosureService.class);
         }
         return disclosureService;
     }

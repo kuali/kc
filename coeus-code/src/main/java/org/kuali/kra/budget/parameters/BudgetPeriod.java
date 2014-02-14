@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.budget.parameters;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetNumberOfMonthsService;
-import org.kuali.coeus.sys.framework.util.DateUtils;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -458,7 +458,7 @@ public class BudgetPeriod extends BudgetAssociate {
     }
     
     protected ProposalBudgetNumberOfMonthsService getProposalBudgetNumberOfMonthsService() {
-        return KraServiceLocator.getService(ProposalBudgetNumberOfMonthsService.class);
+        return KcServiceLocator.getService(ProposalBudgetNumberOfMonthsService.class);
     }
 
     public Integer getNumberOfParticipants() {

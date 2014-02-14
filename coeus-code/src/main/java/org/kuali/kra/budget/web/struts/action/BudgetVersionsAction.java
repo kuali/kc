@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetForm;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
@@ -43,7 +44,6 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.question.CopyPeriodsQuestion;
@@ -58,8 +58,8 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
@@ -132,8 +132,8 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetParent budgetParent = parentDocument.getBudgetParent();
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
         setBudgetStatuses(parentDocument);
-        AwardBudgetService awardBudgetService = KraServiceLocator.getService(AwardBudgetService.class);
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        AwardBudgetService awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
+        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         Collection<BudgetRate> savedBudgetRates = budgetService.getSavedBudgetRates(budget);
         Collection<BudgetRate> allPropRates = budgetService.getSavedBudgetRates(budget);
         if (isAwardBudget(budgetDocument)) {
@@ -192,7 +192,7 @@ public class BudgetVersionsAction extends BudgetAction {
     }
     
     private BudgetService getBudgetService() {
-        return KraServiceLocator.getService(BudgetService.class);
+        return KcServiceLocator.getService(BudgetService.class);
     }
 
     /**
@@ -208,7 +208,7 @@ public class BudgetVersionsAction extends BudgetAction {
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         
         if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
             save(mapping, form, request, response);
@@ -221,7 +221,7 @@ public class BudgetVersionsAction extends BudgetAction {
         
         BudgetDocumentVersion budgetDocumentToOpen = budgetParentDocument.getBudgetDocumentVersion(getSelectedLine(request));
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         Budget budgetOpen = budgetDocument.getBudget();
         String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
@@ -296,7 +296,7 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetParentDocument budgetParentDocument = budgetDoc.getParentDocument();
         BudgetDocumentVersion budgetDocumentToOpen = budgetParentDocument.getBudgetDocumentVersion(getSelectedLine(request));
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         return budgetDocument;
     }
@@ -308,7 +308,7 @@ public class BudgetVersionsAction extends BudgetAction {
         }
 
     private BudgetRatesService getBudgetRateService() {
-        return KraServiceLocator.getService(BudgetRatesService.class);
+        return KcServiceLocator.getService(BudgetRatesService.class);
     }
 
 
@@ -484,7 +484,7 @@ public class BudgetVersionsAction extends BudgetAction {
     }
 
     private AwardBudgetService getAwardBudgetService() {
-        return KraServiceLocator.getService(AwardBudgetService.class);
+        return KcServiceLocator.getService(AwardBudgetService.class);
     }
 
     private BudgetRatesService getBudgetRatesService() {

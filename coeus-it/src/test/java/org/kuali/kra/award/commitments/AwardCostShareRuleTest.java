@@ -19,9 +19,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -98,7 +98,7 @@ public class AwardCostShareRuleTest extends KcIntegrationTestBase {
     @Test
     public final void testValidateCostShareFiscalYearRange() {
         updateParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");        
-        CostShareService costShareService = KraServiceLocator.getService(CostShareService.class);
+        CostShareService costShareService = KcServiceLocator.getService(CostShareService.class);
         costShareService.getCostShareLabel();
         awardCostShareRule.setCostShareService(costShareService);
         

@@ -20,12 +20,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.maintenance.KraMaintenanceDocument;
 import org.kuali.kra.printing.PrintingException;
@@ -485,7 +485,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         try {
             questionnaireDocument = (MaintenanceDocumentBase)documentService.getByDocumentHeaderId(documentNumber);
             if(questionnaireDocument!=null){
-                String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
+                String content = KcServiceLocator.getService(RouteHeaderService.class).getContent(
                 questionnaireDocument.getDocumentHeader().getWorkflowDocument().getDocumentId()).getDocumentContent();
                 questionnaire = (org.kuali.kra.questionnaire.Questionnaire)getBusinessObjectFromXML(content,KualiDocumentXmlMaterializer.class.getName());
            }            

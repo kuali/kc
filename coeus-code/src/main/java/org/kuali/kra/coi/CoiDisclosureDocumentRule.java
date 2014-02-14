@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.coi;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.coi.disclosure.DisclosureFinancialEntityAuditRule;
 import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitEvent;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireAuditRule;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
@@ -29,7 +29,7 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
  * 
  * This class is the rule class for coidisclosuredocument
  */
-public class CoiDisclosureDocumentRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface, DocumentAuditRule {
+public class CoiDisclosureDocumentRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule, DocumentAuditRule {
 
 
     @Override
@@ -60,7 +60,7 @@ public class CoiDisclosureDocumentRule extends KcTransactionalDocumentRuleBase i
 
     /**
      * 
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;

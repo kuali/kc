@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.action;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
@@ -29,7 +30,6 @@ import org.kuali.kra.iacuc.committee.print.service.IacucCommitteeCorrespondenceP
 import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
 import org.kuali.kra.iacuc.committee.rule.event.IacucCommitteeActionGenerateBatchCorrespondenceEvent;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeBatchCorrespondenceService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.rice.krad.document.Document;
 
@@ -51,17 +51,17 @@ public class IacucCommitteeActionsAction extends CommitteeActionsActionBase {
 
     @Override
     protected CommitteeBatchCorrespondenceServiceBase getCommitteeBatchCorrespondenceService() {
-        return KraServiceLocator.getService(IacucCommitteeBatchCorrespondenceService.class);
+        return KcServiceLocator.getService(IacucCommitteeBatchCorrespondenceService.class);
     }
 
     @Override
     protected CommitteePrintingServiceBase getCommitteePrintingService() {
-        return KraServiceLocator.getService(IacucCommitteePrintingService.class);
+        return KcServiceLocator.getService(IacucCommitteePrintingService.class);
     }
 
     @Override
     protected CommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao() {
-        return KraServiceLocator.getService(IacucCommitteeBatchCorrespondenceDao.class);
+        return KcServiceLocator.getService(IacucCommitteeBatchCorrespondenceDao.class);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class IacucCommitteeActionsAction extends CommitteeActionsActionBase {
 
     @Override
     protected CorrespondencePrintingService getCorrespondencePrintingService() {
-        return KraServiceLocator.getService(IacucCommitteeCorrespondencePrint.class); 
+        return KcServiceLocator.getService(IacucCommitteeCorrespondencePrint.class);
     }
 
 }

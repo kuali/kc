@@ -18,7 +18,7 @@ package org.kuali.kra.service.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -26,7 +26,8 @@ import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 
 import java.util.Calendar;
 import java.util.Map;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 /**
  * This test is very fragile.  It depends on test methods running in an exact order.  This has been partially fixed.
  */
@@ -34,7 +35,7 @@ public class FiscalYearMonthServiceImplTest extends KcIntegrationTestBase {
     FiscalYearMonthServiceImpl fiscalYearMonthService;
     @Before
     public void setUp() throws Exception {
-        fiscalYearMonthService = (FiscalYearMonthServiceImpl) KraServiceLocator.getService(FiscalYearMonthService.class);
+        fiscalYearMonthService = (FiscalYearMonthServiceImpl) KcServiceLocator.getService(FiscalYearMonthService.class);
     }
 
     @After

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.ReportTrackingView;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingSearchViews;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 import java.util.ArrayList;
@@ -163,7 +163,7 @@ public class ReportTrackingLookupForm extends LookupForm {
     
     public ReportTrackingSearchViews getReportTrackingViews() {
         if (reportTrackingViews == null) {
-            reportTrackingViews = KraServiceLocator.getService(ReportTrackingSearchViews.class);
+            reportTrackingViews = KcServiceLocator.getService(ReportTrackingSearchViews.class);
         }
         return reportTrackingViews;
     }

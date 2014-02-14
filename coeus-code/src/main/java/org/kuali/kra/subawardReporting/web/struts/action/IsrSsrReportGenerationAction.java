@@ -18,13 +18,13 @@ package org.kuali.kra.subawardReporting.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
 import org.kuali.kra.subawardReporting.printing.service.SubAwardPrintingService;
 import org.kuali.kra.subawardReporting.web.struts.form.IsrSsrReportGenerationForm;
@@ -68,8 +68,8 @@ public class IsrSsrReportGenerationAction extends KualiAction {
         Map<String, Object> reportParameters = new HashMap<String, Object>();          
         IsrSsrReportGenerationForm isrSsrReportGenerationForm = (IsrSsrReportGenerationForm) form;
         if (isrSsrReportGenerationForm.getAwardNo() != null){
-            Award award=KraServiceLocator .getService(AwardService.class).findAwardsForAwardNumber((isrSsrReportGenerationForm.getAwardNo())).get(0);        
-            SubAwardPrintingService subAwardPrintingService = KraServiceLocator.getService(SubAwardPrintingService.class);
+            Award award= KcServiceLocator.getService(AwardService.class).findAwardsForAwardNumber((isrSsrReportGenerationForm.getAwardNo())).get(0);
+            SubAwardPrintingService subAwardPrintingService = KcServiceLocator.getService(SubAwardPrintingService.class);
             AttachmentDataSource dataStream ;
             reportParameters.put("printType",isrSsrReportGenerationForm.getReportName());
             reportParameters.put("reportType",isrSsrReportGenerationForm.getReportType());

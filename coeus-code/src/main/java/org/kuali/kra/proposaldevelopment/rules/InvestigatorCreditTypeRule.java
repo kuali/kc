@@ -24,9 +24,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.Collection;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_CREDIT_TYPE_EXISTS;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Business Rules implementation for modifying <code>{@link InvestigatorCreditType}</code> Business Object instances.

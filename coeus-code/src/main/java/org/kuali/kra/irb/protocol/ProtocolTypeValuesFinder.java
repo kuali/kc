@@ -17,8 +17,8 @@
 package org.kuali.kra.irb.protocol;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -48,7 +48,7 @@ public class ProtocolTypeValuesFinder extends UifKeyValuesFinderBase {
     private static final String PERMISSION_NAME = "View Active Protocol Types";
     @Override
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection protocolTypes = keyValuesService.findAllOrderBy(ProtocolType.class,"description",true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();   
         boolean canViewNonGlobalProtocolTypes = getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE, PERMISSION_NAME);

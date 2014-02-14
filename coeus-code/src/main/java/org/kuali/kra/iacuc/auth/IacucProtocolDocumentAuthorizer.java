@@ -19,13 +19,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
@@ -190,7 +190,7 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
      */
     private boolean canCreateIacucProtocol(Person user) {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_IACUC_PROTOCOL);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
     
@@ -203,7 +203,7 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
      */
     private boolean canExecuteIacucProtocolTask(String userId, IacucProtocolDocument doc, String taskName) {
         IacucProtocolTask task = new IacucProtocolTask(taskName, doc.getIacucProtocol());       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     
@@ -274,6 +274,6 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
     }
     
     protected IacucProtocolOnlineReviewService getIacucProtocolOnlineReviewService() {
-        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+        return KcServiceLocator.getService(IacucProtocolOnlineReviewService.class);
     }
 }

@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -74,7 +74,7 @@ public class ProposalDevelopmentS2sQuestionnaireAuditRule extends KcTransactiona
     
     private synchronized ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
         if (proposalDevelopmentS2sQuestionnaireService == null) {
-            proposalDevelopmentS2sQuestionnaireService = KraServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
+            proposalDevelopmentS2sQuestionnaireService = KcServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
         }
         return proposalDevelopmentS2sQuestionnaireService;
     }

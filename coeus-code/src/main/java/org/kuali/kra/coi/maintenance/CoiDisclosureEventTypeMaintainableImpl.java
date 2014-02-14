@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.maintenance;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.krad.bo.DocumentHeader;
 
@@ -35,7 +35,7 @@ public class CoiDisclosureEventTypeMaintainableImpl extends KraMaintainableImpl 
     
     public CoiDisclosureEventTypeToCoeusSubModuleSynchronizerService getSynchronizerService() {
         if(synchronizerService == null) {
-            setSynchronizerService(KraServiceLocator.getService(CoiDisclosureEventTypeToCoeusSubModuleSynchronizerService.class));
+            setSynchronizerService(KcServiceLocator.getService(CoiDisclosureEventTypeToCoeusSubModuleSynchronizerService.class));
         }
         return synchronizerService;
     }

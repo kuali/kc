@@ -17,6 +17,7 @@ package org.kuali.kra.award.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.customdata.AwardCustomData;
@@ -29,7 +30,6 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;
 import org.kuali.kra.printing.schema.AwardType.*;
@@ -309,7 +309,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
     }
 
     private AwardHierarchyService getAwardHierarchyService() {
-        return KraServiceLocator.getService(AwardHierarchyService.class);
+        return KcServiceLocator.getService(AwardHierarchyService.class);
     }
 
 	/*

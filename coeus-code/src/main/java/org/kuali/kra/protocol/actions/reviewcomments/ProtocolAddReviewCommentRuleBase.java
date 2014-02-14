@@ -15,18 +15,18 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validates the rules for a ProtocolBase Risk Level add action.
  */
-public abstract class ProtocolAddReviewCommentRuleBase<E extends ProtocolAddReviewCommentEventBase> extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<E> {
+public abstract class ProtocolAddReviewCommentRuleBase<E extends ProtocolAddReviewCommentEventBase> extends KcTransactionalDocumentRuleBase implements KcBusinessRule<E> {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(E event) {
         boolean isValid = true;
