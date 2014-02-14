@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.genericactions;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionEventBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Encapsulates the event that the user performs a generic action.

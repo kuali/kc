@@ -19,14 +19,14 @@ import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**
  * 
  * This class contains the document rules of the ViewBatchCorrespondence event.
  */
-public class CommitteeActionViewBatchCorrespondenceRule extends ResearchDocumentRuleBase 
+public class CommitteeActionViewBatchCorrespondenceRule extends KcTransactionalDocumentRuleBase
                                                         implements BusinessRuleInterface<CommitteeActionViewBatchCorrespondenceEvent> {
     
     private static final String BATCH_VIEW_ERROR_FIELD = "committeeHelper.generateBatchCorrespondence";

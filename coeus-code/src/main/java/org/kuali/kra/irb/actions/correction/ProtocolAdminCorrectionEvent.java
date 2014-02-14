@@ -16,14 +16,14 @@
 package org.kuali.kra.irb.actions.correction;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * The event that occurs when the IRB Administrator assigns reviewers to a protocol.
  */
-public class ProtocolAdminCorrectionEvent extends KraDocumentEventBase {
+public class ProtocolAdminCorrectionEvent extends KcDocumentEventBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolAdminCorrectionEvent.class);
     

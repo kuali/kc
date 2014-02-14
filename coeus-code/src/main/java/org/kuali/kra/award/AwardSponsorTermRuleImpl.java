@@ -19,14 +19,14 @@ import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.List;
 
 /**
  * This class applies sponsor term rules.
  */
-public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implements AwardSponsorTermRule {
+public class AwardSponsorTermRuleImpl extends KcTransactionalDocumentRuleBase implements AwardSponsorTermRule {
 
     /**
      * @see org.kuali.kra.award.AwardSponsorTermRule#processSponsorTermBusinessRules

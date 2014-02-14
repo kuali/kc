@@ -18,20 +18,20 @@ package org.kuali.kra.protocol.actions.reviewcomments;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
  * This class is validating the description of review attachments is not empty 
  */
-public class ProtocolManageReviewAttachmentRule<E extends ProtocolManageReviewAttachmentEventBase<?>> extends ResearchDocumentRuleBase implements BusinessRuleInterface<E> {
+public class ProtocolManageReviewAttachmentRule<E extends ProtocolManageReviewAttachmentEventBase<?>> extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<E> {
 
     /**
      * {@inheritDoc}
      * 
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(E event) {
         boolean isValid = true;

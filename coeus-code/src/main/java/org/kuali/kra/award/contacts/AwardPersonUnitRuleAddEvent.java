@@ -17,14 +17,14 @@ package org.kuali.kra.award.contacts;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class is the event passed when a new projectPerson is being added
  */
-public class AwardPersonUnitRuleAddEvent extends KraDocumentEventBase {
+public class AwardPersonUnitRuleAddEvent extends KcDocumentEventBase {
     private static final Log LOG = LogFactory.getLog(AwardPersonUnitRuleAddEvent.class);
     
     private AwardPersonUnit newPersonUnit;

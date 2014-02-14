@@ -17,14 +17,14 @@ package org.kuali.kra.committee.rules;
 
 import org.kuali.kra.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**
  * 
  * This class contains the document rules of the Action Print section.
  */
-public class CommitteeActionPrintCommitteeDocumentRule extends ResearchDocumentRuleBase 
+public class CommitteeActionPrintCommitteeDocumentRule extends KcTransactionalDocumentRuleBase
                                                        implements  BusinessRuleInterface<CommitteeActionPrintCommitteeDocumentEvent> {
     private static final String PRINT_TYPE_FIELD = "committeeHelper.reportType";
     private static final String MEETING_PRINT_TYPE_FIELD = "meetingHelper.reportType";

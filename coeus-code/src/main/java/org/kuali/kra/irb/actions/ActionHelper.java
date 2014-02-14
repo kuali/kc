@@ -83,7 +83,7 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceAuthorization
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;

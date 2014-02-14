@@ -20,7 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.rules.SoftError;
+import org.kuali.coeus.sys.framework.validation.SoftError;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 

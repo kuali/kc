@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.protocol.personnel;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * Represents the event to save a ProtocolPersonnel.
  */
-public abstract class SaveProtocolPersonnelEventBase extends KraDocumentEventBaseExtension {
+public abstract class SaveProtocolPersonnelEventBase extends KcDocumentEventBaseExtension {
 
     /**
      * Constructs an SaveProtocolPersonnelEventBase.

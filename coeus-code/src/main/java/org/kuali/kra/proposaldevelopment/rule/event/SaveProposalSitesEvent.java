@@ -16,12 +16,12 @@
 package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.SaveProposalSitesRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class SaveProposalSitesEvent extends KraDocumentEventBase {
+public class SaveProposalSitesEvent extends KcDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SaveProposalSitesEvent.class);
 
     public SaveProposalSitesEvent(String errorPathPrefix, ProposalDevelopmentDocument document) {

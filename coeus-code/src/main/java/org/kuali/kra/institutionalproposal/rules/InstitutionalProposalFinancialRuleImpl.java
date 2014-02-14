@@ -17,14 +17,14 @@ package org.kuali.kra.institutionalproposal.rules;
 
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.sql.Date;
 
 /**
  * This class...
  */
-public class InstitutionalProposalFinancialRuleImpl extends ResearchDocumentRuleBase implements InstitutionalProposalFinancialRule {
+public class InstitutionalProposalFinancialRuleImpl extends KcTransactionalDocumentRuleBase implements InstitutionalProposalFinancialRule {
 
     private static final String REQUESTED_INITIAL_START_DATE = "Requested Initial Start Date";
     private static final String REQUESTED_INITIAL_END_DATE = "Requested Initial End Date";

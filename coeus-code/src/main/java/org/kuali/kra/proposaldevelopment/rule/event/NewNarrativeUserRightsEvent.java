@@ -16,10 +16,10 @@
 package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -32,7 +32,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class NewNarrativeUserRightsEvent extends KraDocumentEventBase {
+public class NewNarrativeUserRightsEvent extends KcDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NewNarrativeUserRightsEvent.class);
     
     private List<NarrativeUserRights> newNarrativeUserRights;
@@ -66,7 +66,7 @@ public class NewNarrativeUserRightsEvent extends KraDocumentEventBase {
     }
     
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {

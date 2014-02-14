@@ -18,7 +18,7 @@ package org.kuali.kra.award.home.approvedsubawards;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * the AwardApprovedSubawardRuleImpl 
  */
-public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase 
+public class AwardApprovedSubawardRuleImpl extends KcTransactionalDocumentRuleBase
                                             implements AwardApprovedSubawardRule {
     
     private static final String NEW_AWARD_APPROVED_SUBAWARD = "approvedSubawardFormHelper.newAwardApprovedSubaward";

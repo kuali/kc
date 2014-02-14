@@ -21,14 +21,14 @@ import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEventBase;
 import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**
  * 
  * This class is to implement business rule for deleting committee member.
  */
-public abstract class DeleteCommitteeMemberRuleBase extends ResearchDocumentRuleBase implements  BusinessRuleInterface<DeleteCommitteeMemberEventBase> {
+public abstract class DeleteCommitteeMemberRuleBase extends KcTransactionalDocumentRuleBase implements  BusinessRuleInterface<DeleteCommitteeMemberEventBase> {
     
     private static final String ID = "document.committeeList[0].committeeMemberships[";
     private static final String AS_REVIEWER = "as the person is a reviewer of the protocol";
@@ -36,7 +36,7 @@ public abstract class DeleteCommitteeMemberRuleBase extends ResearchDocumentRule
     private CommitteeMembershipServiceBase committeeMembershipService;
     /**
      * If member is assigned as a reviewer or as attendance of a meeting, then member can not be deleted.
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(DeleteCommitteeMemberEventBase event) {
 

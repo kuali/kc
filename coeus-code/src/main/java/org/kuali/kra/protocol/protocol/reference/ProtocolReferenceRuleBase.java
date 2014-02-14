@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.protocol.reference;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.sql.Date;
 import java.text.DateFormat;
@@ -27,7 +27,7 @@ import java.text.ParseException;
  * This class is implementation of <code>AddProtocolReferenceRule</code> interface. Impl makes sure necessary rules are satisfied 
  * before object can be used.
  */
-public abstract class ProtocolReferenceRuleBase extends ResearchDocumentRuleBase implements AddProtocolReferenceRule {
+public abstract class ProtocolReferenceRuleBase extends KcTransactionalDocumentRuleBase implements AddProtocolReferenceRule {
 
     /**
      * @see org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceRule#processAddProtocolReferenceBusinessRules(org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceEventBase)

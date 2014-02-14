@@ -21,7 +21,7 @@ import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -39,7 +39,7 @@ import java.util.Map;
  * 
  * This class represents the AwardFandaRateRule
  */
-public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements AddFandaRateRule {
+public class AwardFandaRateRule  extends KcTransactionalDocumentRuleBase implements AddFandaRateRule {
     private static final int FISCAL_YEAR_LENGTH = 4;
     private static final String FISCAL_YEAR_STRING = ".fiscalYear";
     private static final String NEW_AWARD_FANDA_RATE = "newAwardFandaRate";

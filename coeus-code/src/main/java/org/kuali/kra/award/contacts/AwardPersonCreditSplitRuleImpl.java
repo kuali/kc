@@ -16,7 +16,7 @@
 package org.kuali.kra.award.contacts;
 
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.util.Collection;
@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * This class processes AwardPersonCreditSplitRules
  */
-public class AwardPersonCreditSplitRuleImpl extends ResearchDocumentRuleBase implements AwardPersonCreditSplitRule {
+public class AwardPersonCreditSplitRuleImpl extends KcTransactionalDocumentRuleBase implements AwardPersonCreditSplitRule {
     private static final KualiDecimal MAX_TOTAL_VALUE = new KualiDecimal(100.00);
 
     /**

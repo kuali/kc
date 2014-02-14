@@ -17,13 +17,13 @@ package org.kuali.kra.protocol.actions.correction;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**
  * Validate admin correction.
  */
-public abstract class ProtocolAdminCorrectionRuleBase extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolAdminCorrectionEventBase>  {
+public abstract class ProtocolAdminCorrectionRuleBase extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<ProtocolAdminCorrectionEventBase>  {
    
     public boolean processRules(ProtocolAdminCorrectionEventBase event) {
         boolean valid = true;

@@ -19,12 +19,12 @@ import org.kuali.kra.common.committee.rule.event.CommitteeScheduleStartAndEndDat
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.sql.Date;
 
-public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleStartAndEndDateEvent> {
+public class CommitteeScheduleStartAndEndDateRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleStartAndEndDateEvent> {
     
     private enum Constants {committeeHelper, scheduleData, dailySchedule, weeklySchedule, monthlySchedule, yearlySchedule, scheduleEndDate, scheduleStartDate, Date};
 

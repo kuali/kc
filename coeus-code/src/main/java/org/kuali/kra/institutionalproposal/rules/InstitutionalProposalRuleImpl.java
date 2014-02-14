@@ -20,7 +20,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * This class...
  */
-public class InstitutionalProposalRuleImpl extends ResearchDocumentRuleBase implements InstitutionalProposalRule {
+public class InstitutionalProposalRuleImpl extends KcTransactionalDocumentRuleBase implements InstitutionalProposalRule {
 
     /**
      * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalRule#processInstitutionalProposalRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalRuleEvent)

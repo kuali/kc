@@ -23,6 +23,7 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.coeus.sys.impl.lock.KcPessimisticLockServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -90,7 +91,7 @@ public class KcPessimisticLockServiceImplTest {
          */
         final ParameterService parameterService = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValueAsString(ProposalDevelopmentDocument.class, 
+            one(parameterService).getParameterValueAsString(Constants.MODULE_NAMESPACE_SYSTEM, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                                                         Constants.PESSIMISTIC_LOCKING_EXPIRATION_AGE); 
             will(returnValue("1440"));
         }});

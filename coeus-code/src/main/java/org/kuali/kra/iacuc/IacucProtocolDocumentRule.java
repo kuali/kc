@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRule;
@@ -67,7 +68,6 @@ import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRuleBas
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRuleBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationRuleBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRuleBase;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
 /**
@@ -259,7 +259,7 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRuleBase<IacucCom
     }
 
     @Override
-    protected KraDocumentEventBaseExtension getSaveProtocolPersonnelEventHook(ProtocolDocumentBase document) {
+    protected KcDocumentEventBaseExtension getSaveProtocolPersonnelEventHook(ProtocolDocumentBase document) {
         return new SaveIacucProtocolPersonnelEvent(Constants.EMPTY_STRING, document);
     }
 

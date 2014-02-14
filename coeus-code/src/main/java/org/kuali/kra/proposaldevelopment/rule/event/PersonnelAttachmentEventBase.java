@@ -16,20 +16,20 @@
 package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public abstract class PersonnelAttachmentEventBase extends KraDocumentEventBase implements PersonnelAttachmentEvent {
+public abstract class PersonnelAttachmentEventBase extends KcDocumentEventBase implements PersonnelAttachmentEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(PersonnelAttachmentEventBase.class);
 
     private ProposalPersonBiography proposalPersonBiography;
 
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#KcDocumentEventBase(String, String, Document)
      */
     protected PersonnelAttachmentEventBase(String description, String errorPathPrefix, ProposalDevelopmentDocument document,
             ProposalPersonBiography proposalPersonBiography) {

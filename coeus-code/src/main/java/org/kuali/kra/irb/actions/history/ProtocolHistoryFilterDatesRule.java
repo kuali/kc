@@ -17,19 +17,19 @@ package org.kuali.kra.irb.actions.history;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.Date;
 
-public class ProtocolHistoryFilterDatesRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolHistoryFilterDatesEvent> {
+public class ProtocolHistoryFilterDatesRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<ProtocolHistoryFilterDatesEvent> {
 
     private static final String BEGINNING_ON_DATE = "Beginning On Date";
     private static final String ENDING_ON_DATE = "Ending On Date";
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(ProtocolHistoryFilterDatesEvent event) {
         boolean isValid = true;

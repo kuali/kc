@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.onlinereview.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -30,16 +31,15 @@ import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.rules.RouteProtocolOnlineReviewRule;
 import org.kuali.kra.protocol.onlinereview.rules.SaveProtocolOnlineReviewRule;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
 
-public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase implements AddOnlineReviewCommentRule
+public class ProtocolOnlineReviewDocumentRule extends KcTransactionalDocumentRuleBase implements AddOnlineReviewCommentRule
                                                                                          ,SaveProtocolOnlineReviewRule
                                                                                          ,BusinessRuleInterface 
                                                                                          ,RouteProtocolOnlineReviewRule
@@ -166,7 +166,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         return valid;        
     }
 
-    public boolean processRules(KraDocumentEventBaseExtension event) {
+    public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;

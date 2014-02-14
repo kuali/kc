@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateTerm;
 import org.kuali.kra.bo.SponsorTermType;
@@ -27,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SponsorTemplateTermsExistenceRule extends KraMaintenanceDocumentRuleBase {
+public class SponsorTemplateTermsExistenceRule extends KcMaintenanceDocumentRuleBase {
 
     /**
      * Constructs a SponsorTemplateTermsExistenceRule

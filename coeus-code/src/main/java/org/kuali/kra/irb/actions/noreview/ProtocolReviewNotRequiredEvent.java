@@ -16,14 +16,14 @@
 package org.kuali.kra.irb.actions.noreview;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class...
  */
-public class ProtocolReviewNotRequiredEvent extends KraDocumentEventBase {
+public class ProtocolReviewNotRequiredEvent extends KcDocumentEventBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolReviewNotRequiredEvent.class);
     
@@ -42,7 +42,7 @@ public class ProtocolReviewNotRequiredEvent extends KraDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {

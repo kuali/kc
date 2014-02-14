@@ -22,7 +22,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseQuestionnaireAuditRule<T extends KcTransactionalDocumentBase> extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public abstract class BaseQuestionnaireAuditRule<T extends KcTransactionalDocumentBase> extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
 
     private static final String MANDATORY_QUESTIONNAIRE_AUDIT_ERRORS = "mandatoryQuestionnaireAuditErrors";
     private List<AuditError> auditErrors;

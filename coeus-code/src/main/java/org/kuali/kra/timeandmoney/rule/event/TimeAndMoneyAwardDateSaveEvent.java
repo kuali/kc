@@ -15,21 +15,21 @@
  */
 package org.kuali.kra.timeandmoney.rule.event;
 
-import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class...
  */
-public class TimeAndMoneyAwardDateSaveEvent extends KraDocumentEventBase {
+public class TimeAndMoneyAwardDateSaveEvent extends KcDocumentEventBase {
 
     public TimeAndMoneyAwardDateSaveEvent(String errorPathPrefix, Document document) {
         super("Save Date Rules", errorPathPrefix, document);
     }
 
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {

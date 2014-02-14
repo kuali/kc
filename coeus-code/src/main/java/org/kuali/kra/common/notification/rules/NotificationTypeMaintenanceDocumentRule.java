@@ -17,11 +17,11 @@ package org.kuali.kra.common.notification.rules;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -30,7 +30,7 @@ import java.util.*;
 /**
  * Overrides the custom save and approve methods of the maintenance document processing to check uniqueness constraints.
  */
-public class NotificationTypeMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class NotificationTypeMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
 
     private static final String MODULE_CODE_FIELD_NAME = "moduleCode";
     private static final String ACTION_CODE_FIELD_NAME = "actionCode";

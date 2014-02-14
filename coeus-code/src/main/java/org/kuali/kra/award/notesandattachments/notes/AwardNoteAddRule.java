@@ -16,16 +16,16 @@
 package org.kuali.kra.award.notesandattachments.notes;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 
 /**
  * 
  * This class implements the business rule for adding award note.
  */
-public class AwardNoteAddRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AwardNoteAddEvent> {
+public class AwardNoteAddRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<AwardNoteAddEvent> {
 
     private ErrorReporter errorReporter;
 

@@ -23,7 +23,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
-import org.kuali.kra.rules.SoftError;
+import org.kuali.coeus.sys.framework.validation.SoftError;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;

@@ -19,13 +19,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
 
 /**
  * This class contains rules to validate protocol units for each protocol personnel.
  */
-public abstract class ProtocolUnitRuleBase extends ResearchDocumentRuleBase implements AddProtocolUnitRule {
+public abstract class ProtocolUnitRuleBase extends KcTransactionalDocumentRuleBase implements AddProtocolUnitRule {
 
     private static final String ERROR_PROPERTY_NEW_PERSON_UNIT = "personnelHelper.newProtocolPersonUnits"; 
     private static final String ERROR_PROPERTY_UNIT_NUMBER = ".unitNumber"; 

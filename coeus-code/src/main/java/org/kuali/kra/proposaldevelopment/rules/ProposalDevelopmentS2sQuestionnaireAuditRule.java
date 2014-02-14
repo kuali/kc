@@ -23,7 +23,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -37,7 +37,7 @@ import java.util.List;
 
 import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
 
-public class ProposalDevelopmentS2sQuestionnaireAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public class ProposalDevelopmentS2sQuestionnaireAuditRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
 
     private static final String PROPOSAL_S2S_QUESTIONS_KEY="s2sQuestionnaireHelper.answerHeaders[%s].answers[0].answer";
     private static final String PROPOSAL_S2S_QUESTIONNAIRE_PANEL_KEY="%s%s%s";

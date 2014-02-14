@@ -17,12 +17,12 @@ package org.kuali.kra.coi.notesandattachments;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class AddCoiDisclosureAttachmentEvent extends KraDocumentEventBase{
+public class AddCoiDisclosureAttachmentEvent extends KcDocumentEventBase {
     private static final Log LOG = LogFactory.getLog(AddCoiDisclosureAttachmentEvent.class);
     private final CoiDisclosureAttachment newCoiDisclosureAttachment;
 

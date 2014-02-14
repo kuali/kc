@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.PropertyConstants;
 
@@ -22,7 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PersonCustomDataRuleBase extends ResearchDocumentRuleBase {
+public class PersonCustomDataRuleBase extends KcTransactionalDocumentRuleBase {
     
     protected Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();

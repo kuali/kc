@@ -22,7 +22,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TimeFormatter;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * This class...
  */
-public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocumentRuleBase implements
+public class InstitutionalProposalSponsorAndProgramRuleImpl extends KcTransactionalDocumentRuleBase implements
         InstitutionalProposalSponsorAndProgramRule {
 
 

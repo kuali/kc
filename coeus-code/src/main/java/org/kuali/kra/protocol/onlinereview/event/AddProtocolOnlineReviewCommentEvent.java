@@ -17,13 +17,13 @@ package org.kuali.kra.protocol.onlinereview.event;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.onlinereview.rules.AddOnlineReviewCommentRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class AddProtocolOnlineReviewCommentEvent extends KraDocumentEventBase {
+public class AddProtocolOnlineReviewCommentEvent extends KcDocumentEventBase {
 
     
     

@@ -18,7 +18,7 @@ package org.kuali.kra.subaward.subawardrule;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -35,7 +35,7 @@ import java.util.List;
  * data of the SubAwardDocument.
  */
 public class SubAwardAuditRule extends
-ResearchDocumentRuleBase implements DocumentAuditRule{
+        KcTransactionalDocumentRuleBase implements DocumentAuditRule{
 
     private static final String CONTACTS_AUDIT_ERRORS = "contactsAuditErrors";
     private List<AuditError> auditErrors;

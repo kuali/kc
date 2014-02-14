@@ -17,8 +17,8 @@ package org.kuali.kra.negotiations.rules;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
@@ -26,7 +26,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
  * 
  * Negotiation Activity Add Rule Event - Event to use when validating new activities.
  */
-public class NegotiationActivityAddRuleEvent extends KraDocumentEventBase {
+public class NegotiationActivityAddRuleEvent extends KcDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(NegotiationActivityAddRuleEvent.class);
     

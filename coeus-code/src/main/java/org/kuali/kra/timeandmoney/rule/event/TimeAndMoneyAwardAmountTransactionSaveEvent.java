@@ -17,7 +17,7 @@ package org.kuali.kra.timeandmoney.rule.event;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardAmountTransactionRule;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
@@ -25,7 +25,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 /**
  * This class...
  */
-public class TimeAndMoneyAwardAmountTransactionSaveEvent extends KraDocumentEventBase {
+public class TimeAndMoneyAwardAmountTransactionSaveEvent extends KcDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(TimeAndMoneyAwardAmountTransactionSaveEvent.class);
     private static final String AWARD_AMOUNT_TRANSACTION = "Award Amount Transaction";
@@ -51,7 +51,7 @@ public class TimeAndMoneyAwardAmountTransactionSaveEvent extends KraDocumentEven
     }
     
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {

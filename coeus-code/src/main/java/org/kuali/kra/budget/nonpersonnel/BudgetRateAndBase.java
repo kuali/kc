@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.nonpersonnel;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.infrastructure.DeepCopyIgnore;
+import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 
 public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
 

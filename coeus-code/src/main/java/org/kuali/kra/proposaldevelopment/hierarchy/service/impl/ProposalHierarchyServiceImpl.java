@@ -56,7 +56,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyServ
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
-import org.kuali.kra.service.DeepCopyPostProcessor;
+import org.kuali.kra.budget.deepcopy.DeepCopyPostProcessor;
 import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

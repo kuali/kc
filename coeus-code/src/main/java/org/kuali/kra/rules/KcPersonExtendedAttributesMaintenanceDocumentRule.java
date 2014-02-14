@@ -1,6 +1,7 @@
 package org.kuali.kra.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.bo.KcPersonExtendedAttributesMaintainableImpl;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -15,7 +16,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
     private static final String PRINCIPAL_ID = "principalId";
     private static final String CUSTOM_DATA_ERROR_PREFIX = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "businessObject.personCustomDataList";

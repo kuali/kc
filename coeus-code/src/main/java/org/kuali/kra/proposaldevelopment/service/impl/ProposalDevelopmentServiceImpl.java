@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -79,7 +80,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private BusinessObjectService businessObjectService;
     private DataObjectService dataObjectService;
     private UnitAuthorizationService unitAuthService;
-    private KraPersistenceStructureService kraPersistenceStructureService;
+    private KcPersistenceStructureService kraPersistenceStructureService;
     private BudgetService budgetService;
     private ParameterService parameterService;
     private DocumentService documentService;
@@ -402,11 +403,11 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return ip;
     }
 
-    public KraPersistenceStructureService getKraPersistenceStructureService() {
+    public KcPersistenceStructureService getKraPersistenceStructureService() {
         return kraPersistenceStructureService;
     }
 
-    public void setKraPersistenceStructureService(KraPersistenceStructureService kraPersistenceStructureService) {
+    public void setKraPersistenceStructureService(KcPersistenceStructureService kraPersistenceStructureService) {
         this.kraPersistenceStructureService = kraPersistenceStructureService;
     }
 

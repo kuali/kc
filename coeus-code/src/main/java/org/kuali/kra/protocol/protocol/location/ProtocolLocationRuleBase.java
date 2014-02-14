@@ -20,10 +20,10 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.OrganizationService;
 
-public abstract class ProtocolLocationRuleBase extends ResearchDocumentRuleBase implements AddProtocolLocationRule {
+public abstract class ProtocolLocationRuleBase extends KcTransactionalDocumentRuleBase implements AddProtocolLocationRule {
 
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId"; 
     private static final String ERROR_PROPERTY_ORGANIZATION_TYPE_CODE = "protocolHelper.newProtocolLocation.protocolOrganizationTypeCode"; 

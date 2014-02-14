@@ -18,15 +18,15 @@ package org.kuali.kra.proposaldevelopment.rule.event;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.proposaldevelopment.rule.ResubmissionPromptRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * Defines the event of validating the options for Proposal Development resubmission.
  */
-public class ResubmissionRuleEvent extends KraDocumentEventBase {
+public class ResubmissionRuleEvent extends KcDocumentEventBase {
     
     private static final Log LOG = LogFactory.getLog(ResubmissionRuleEvent.class);
     

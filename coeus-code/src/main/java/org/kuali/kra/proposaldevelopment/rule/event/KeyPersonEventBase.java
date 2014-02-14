@@ -16,9 +16,9 @@
 package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -29,13 +29,13 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.6 $
  */
-public abstract class KeyPersonEventBase extends KraDocumentEventBase implements KeyPersonEvent {
+public abstract class KeyPersonEventBase extends KcDocumentEventBase implements KeyPersonEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonEventBase.class);
     
     private ProposalPerson person;
     
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
+     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#KraDocumentEventBase(String, String, Document)
      */
     protected KeyPersonEventBase(String description, ProposalDevelopmentDocument document, ProposalPerson person) {
         this(description, "", document, person);

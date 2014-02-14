@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.coi.certification;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 // TODO: Note, this is a stub class that must be filled out to allow print.
-public class CertifyDisclosureEvent  extends KraDocumentEventBaseExtension {
+public class CertifyDisclosureEvent  extends KcDocumentEventBaseExtension {
     
     private CoiDisclosure disclosure;
     private String propertyName;

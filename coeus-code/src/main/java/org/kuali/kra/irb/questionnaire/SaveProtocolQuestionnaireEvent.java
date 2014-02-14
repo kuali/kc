@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.irb.questionnaire;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
 
 
-public class SaveProtocolQuestionnaireEvent extends KraDocumentEventBaseExtension {
+public class SaveProtocolQuestionnaireEvent extends KcDocumentEventBaseExtension {
     private List<AnswerHeader> answerHeaders;
 
     public SaveProtocolQuestionnaireEvent(Document document, List<AnswerHeader> answerHeaders) {

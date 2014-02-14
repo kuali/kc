@@ -103,6 +103,7 @@ public interface Constants {
     public static final String PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER = "irb.protocol.development.proposal.linking.enabled";
 
     public static final String PARAMETER_MODULE_IACUC_PROTOCOL_BILLABLE = "iacuc.protocol.billable";
+    public static final String MODULE_NAMESPACE_SYSTEM = "KC-SYS";
     public static final String MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT = "KC-PD";
     public static final String MODULE_NAMESPACE_AWARD = "KC-AWARD"; 
     public static final String MODULE_NAMESPACE_NEGOTIATION = "KC-NEGOTIATION";

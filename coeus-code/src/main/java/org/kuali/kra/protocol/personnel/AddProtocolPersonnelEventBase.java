@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.protocol.personnel;
 
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Represents the event to add a ProtocolPersonnel.
  */
-public abstract class AddProtocolPersonnelEventBase extends KraDocumentEventBaseExtension {
+public abstract class AddProtocolPersonnelEventBase extends KcDocumentEventBaseExtension {
     
     protected ProtocolPersonBase protocolPerson;
     

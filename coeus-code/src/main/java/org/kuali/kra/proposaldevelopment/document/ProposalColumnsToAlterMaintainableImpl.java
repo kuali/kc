@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
+import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
-import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -42,8 +42,8 @@ public class ProposalColumnsToAlterMaintainableImpl extends KraMaintainableImpl 
         super.prepareForSave();
         ProposalColumnsToAlter proposalCol = (ProposalColumnsToAlter)businessObject;
         
-        KraPersistenceStructureService persistenceStructureService = 
-            KraServiceLocator.getService(KraPersistenceStructureService.class);
+        KcPersistenceStructureService persistenceStructureService =
+            KraServiceLocator.getService(KcPersistenceStructureService.class);
         Map<String, String> columnToAttrMap = persistenceStructureService.getDBColumnToObjectAttributeMap(DevelopmentProposal.class);
         
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);

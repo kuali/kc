@@ -17,13 +17,13 @@ package org.kuali.kra.protocol.onlinereview.event;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.onlinereview.rules.DisapproveOnlineReviewCommentRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 import org.kuali.rice.krad.util.KRADConstants;
 
-public class DisapproveProtocolOnlineReviewCommentEvent extends KraDocumentEventBase {
+public class DisapproveProtocolOnlineReviewCommentEvent extends KcDocumentEventBase {
     
     private static final Log LOG = LogFactory.getLog(DisapproveProtocolOnlineReviewCommentEvent.class);
     private String reason = null;

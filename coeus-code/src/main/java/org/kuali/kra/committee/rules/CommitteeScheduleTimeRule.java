@@ -19,12 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.List;
 
-public class CommitteeScheduleTimeRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleTimeEvent> {
+public class CommitteeScheduleTimeRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleTimeEvent> {
 
     public static final String MSG1 = "hh:mm";
 

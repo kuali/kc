@@ -18,7 +18,7 @@ package org.kuali.kra.budget.personnel;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
-import org.kuali.kra.infrastructure.DeepCopyIgnore;
+import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.util.ArrayList;

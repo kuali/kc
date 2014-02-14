@@ -20,7 +20,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * The AwardPaymentScheduleRuleImpl.
  */
-public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase 
+public class AwardReportTermRuleImpl extends KcTransactionalDocumentRuleBase
                                             implements AwardReportTermRule {
     
     private static final String AWARD_REPORT_TERM_REPORT_CODE_PROPERTY = "reportCode";

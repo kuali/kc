@@ -24,10 +24,11 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -39,7 +40,7 @@ import static org.kuali.kra.infrastructure.Constants.INSTITUTE_NARRATIVE_TYPE_GR
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocumentRuleBase implements AddInstituteAttachmentRule { 
+public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalDocumentRuleBase implements AddInstituteAttachmentRule {
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
     private static final String INSTITUTE = "Institute";
     private static final String NEW_INSTITUTE_ATTACHMENT = "newInstituteAttachment";
@@ -47,8 +48,8 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
     private static final String NARRATIVE_FILE = ".narrativeFile";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentInstituteAttachmentRule.class);
     private ParameterService parameterService;
-    private transient KcAttachmentService kcAttachmentService;
-    
+    private KcAttachmentService kcAttachmentService;
+    private DictionaryValidationService dictionaryValidationService;
     /**
      * Looks up and returns the ParameterService.
      * @return the parameter service. 
@@ -161,5 +162,12 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
             this.kcAttachmentService = KraServiceLocator.getService(KcAttachmentService.class);
         }
         return this.kcAttachmentService;
+    }
+
+    protected DictionaryValidationService getKnsDictionaryValidationService() {
+        if (this.dictionaryValidationService == null) {
+            this.dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
+        }
+        return this.dictionaryValidationService;
     }
 }
