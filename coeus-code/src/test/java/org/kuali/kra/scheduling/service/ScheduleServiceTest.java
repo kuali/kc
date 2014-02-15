@@ -17,8 +17,9 @@ package org.kuali.kra.scheduling.service;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kra.scheduling.service.impl.ScheduleServiceImpl;
-import org.kuali.kra.scheduling.util.Time24HrFmt;
+import org.kuali.coeus.sys.framework.scheduling.ScheduleService;
+import org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt;
+import org.kuali.coeus.sys.impl.scheduling.ScheduleServiceImpl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
