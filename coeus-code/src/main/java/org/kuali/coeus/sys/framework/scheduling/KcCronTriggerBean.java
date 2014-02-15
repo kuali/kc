@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.scheduling.quartz;
+package org.kuali.coeus.sys.framework.scheduling;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.scheduling.quartz.CronTriggerBean;
@@ -41,20 +40,12 @@ public class KcCronTriggerBean extends CronTriggerBean {
     private String defaultCronExpression = Constants.DEFAULT_CRON_EXPRESSION;
     private String parameterNamespace;
     private String parameterComponent;
-    private String cronExpressionParameterName = KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION;
+    private String cronExpressionParameterName;
     private String triggerEnabledParameterName;
     private String startTimeParameterName;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
-    
-    /**
-     * Sets the ParameterService.
-     * @param parameterService the parameter service. 
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-    
+
     /**
      * We need to set the Cron Expression based upon the value in the system parameters.
      * 
@@ -156,8 +147,12 @@ public class KcCronTriggerBean extends CronTriggerBean {
         this.triggerEnabledParameterName = triggerEnabledParameterName;
     }
 
-    protected ParameterService getParameterService() {
+    public ParameterService getParameterService() {
         return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public String getStartTimeParameterName() {

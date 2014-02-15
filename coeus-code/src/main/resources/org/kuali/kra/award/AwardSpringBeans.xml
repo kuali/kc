@@ -749,7 +749,7 @@
         <property name="name" value="cfdaBatchJobDetail" />
     </bean>
     
-    <bean id="cfdaTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">
+    <bean id="cfdaTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
         <property name="jobDetail" ref="cfdaBatchJobDetail" />
         <property name="parameterService" ref="parameterService" />    
         <property name="dateTimeService" ref="dateTimeService" />
@@ -1058,7 +1058,7 @@
 		<property name="name" value="reportTrackingNotificationJobDetail" />
 	</bean>
 	
-	<bean id="reportTrackingNotificationTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">
+	<bean id="reportTrackingNotificationTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
 		<property name="parameterNamespace" value="KC-AWARD" />
 		<property name="parameterComponent" value="Document" />
 		<property name="cronExpressionParameterName" value="REPORT_TRACKING_NOTIFICATIONS_BATCH_CRON_TRIGGER" />
