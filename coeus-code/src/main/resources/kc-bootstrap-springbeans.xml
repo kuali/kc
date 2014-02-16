@@ -23,7 +23,15 @@
                     		http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <import resource="classpath:org/kuali/kra/RiceOverridesSpringBeans.xml" />
-    
+
+    <bean id="kcSysConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="moduleName" value="kc.sys"/>
+        <property name="moduleTitle" value="KC System"/>
+        <property name="springBeanFiles"><list>
+            <value>classpath:org/kuali/coeus/sys/impl/BootstrapSpringBeans.xml</value>
+        </list></property>
+    </bean>
+
     <util:list id="filtersToMap">
         <value>BootstrapFilter</value>
     		<value>UserLoginFilter</value>

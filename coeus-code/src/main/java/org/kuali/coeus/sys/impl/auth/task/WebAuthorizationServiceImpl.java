@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.kuali.coeus.sys.framework.auth.task.*;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +35,7 @@ import java.util.Set;
  * Implementation of the Web Authorization Service.
  */
 @Component("webAuthorizationService")
-public class WebAuthorizationServiceImpl implements WebAuthorizationService {
+public class WebAuthorizationServiceImpl implements WebAuthorizationService, InitializingBean {
 
     @Value("#{webAuthorizerNames}")
     private Set<String> webAuthorizerNames = new HashSet<String>();
@@ -125,6 +126,13 @@ public class WebAuthorizationServiceImpl implements WebAuthorizationService {
 
     public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
         this.taskAuthorizationService = taskAuthorizationService;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (webAuthorizerNames == null || webAuthorizerNames.isEmpty()) {
+            throw new IllegalStateException("webAuthorizerNames not set");
+        }
     }
 
 }
