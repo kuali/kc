@@ -32,6 +32,7 @@
           	<%-- Header --%>
           	<tr>
           		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
+                <th>Schedule Details</th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${awardPaymentScheduleAttributes.invoiceNumber}" scope="col" /></div></th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${awardPaymentScheduleAttributes.dueDate}" scope="col" /></div></th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${awardPaymentScheduleAttributes.overdue}" scope="col" /></div></th>
@@ -52,6 +53,8 @@
 				<th class="infoline">
 					<c:out value="Add:" />
 				</th>
+                <th class="infoline">
+                </th> 
 				<td align="left" valign="middle" class="infoline">
                 	<div align="center">
                 	<kul:htmlControlAttribute property="paymentScheduleBean.newAwardPaymentSchedule.invoiceNumber" 
@@ -155,7 +158,10 @@
 	             <tr>
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
-					</th>                  
+					</th>
+					<th class="infoline">
+					   <c:out value="${awardPaymentSchedule.awardReportTermDescription}" /><br>
+					</th>
                   <td align="left" valign="middle">
 					<div align="center">
                 		<kul:htmlControlAttribute property="document.awardList[0].paymentScheduleItems[${status.index}].invoiceNumber" attributeEntry="${awardPaymentScheduleAttributes.invoiceNumber}" />
@@ -240,8 +246,7 @@
 				  <td align="left" valign="middle">
 				  	<div align="center">
 				  		<c:out value="${awardPaymentSchedule.lastUpdateUser }" /> <Br/> 
-				  		<c:out value="${awardPaymentSchedule.lastUpdateTimestamp }" /> 
-				  		  
+				  		<c:out value="${awardPaymentSchedule.lastUpdateTimestamp }" /> 				  		  
 				  	</div>
 				  </td>
 				  <td class="infoline">
@@ -259,7 +264,7 @@
             <%-- Existing data --%>
             
             <tr>
-                <th colspan="8" align="right" scope="row"><div>Total:</div></th>
+                <th colspan="9" align="right" scope="row"><div>Total:</div></th>
                 <th>
                     <div align="right">
                         $<fmt:formatNumber value="${KualiForm.document.awardList[0].totalPaymentScheduleAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
