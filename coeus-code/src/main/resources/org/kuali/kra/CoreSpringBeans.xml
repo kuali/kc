@@ -31,7 +31,7 @@
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <context:annotation-config />
-    <context:component-scan base-package="org.kuali.coeus.sys" />
+    <!--<context:component-scan base-package="org.kuali.coeus.sys" />-->
 
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
@@ -53,7 +53,7 @@
         <!-- Rice hack this isn't really the right namespace but we cannot set 
             it correctly until we address modularity (breaking up our DD files, SpringBeans, 
             namespaces, etc. -->
-        <property name="namespaceCode" value="KC-SYS" />
+        <property name="namespaceCode" value="KC-CORE" />
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kra</value>
@@ -941,8 +941,8 @@
     <import resource="classpath:krad-base-servlet.xml"/>
    
   	<context:annotation-config />
-	<context:component-scan base-package="org.kuali.kra.web.krad"/>    
-    
+	<context:component-scan base-package="org.kuali.kra.web.krad"/>
+
     <bean class="org.kuali.rice.core.framework.util.spring.NamedOrderedListBean">
         <property name="name" value="scriptConfigurationFilePaths" />
         <property name="listItem" value="classpath:org/kuali/kra/dwr-kra.xml" />
@@ -1160,6 +1160,22 @@
         <property name="serviceName" value="enDocumentTypeService" />
     </bean>
 
+    <bean id="uifControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="uifControllerService" />
+    </bean>
+
+    <bean id="transactionalDocumentControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="transactionalDocumentControllerService" />
+    </bean>
+
+    <bean id="unitAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="unitAuthorizationService" />
+    </bean>
+
+    <bean id="systemAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="systemAuthorizationService" />
+    </bean>
+
     <bean id="krmsDistributedCacheManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="krmsCacheAdminService" />
         <property name="serviceNamespace">
@@ -1289,22 +1305,7 @@
         </property>
         <property name="defaultIcon" value="static/images/ebinary_attachment.gif" />
     </bean>
-    
-    <bean id="kcCronTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">
-        <property name="jobDetail" ref="kcLockJobDetail" />
-        <property name="parameterService" ref="parameterService" />
-        <property name="dateTimeService" ref="dateTimeService" />
-        <property name="cronExpressionParameterName" value="pessimisticLocking.cronExpression" />
-        <property name="parameterNamespace" value="KC-PD" />
-        <property name="parameterComponent" value="Document" />
-    </bean>
-    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="triggers">
-            <list>
-                <ref bean="kcCronTrigger" />
-            </list>
-        </property>
-    </bean>
+
     
     <bean id="kraDocumentService" class="org.kuali.kra.service.impl.KraDocumentServiceImpl">
     	<property name="delegateDocumentService" ref="documentService"/>
@@ -1330,12 +1331,6 @@
     <bean id="kcEmailService" class="org.kuali.kra.service.impl.KcEmailServiceImpl" >
     	<property name="mailSender" ref="mailSender" />
     	<property name="parameterService" ref="parameterService" />
-    </bean>
-    
-    <bean id="kcLockJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="kcPessimisticLockService" />
-        <property name="targetMethod" value="clearExpiredLocks" />
-        <property name="concurrent" value="false" />
     </bean>
     
     <bean id="kraLookupDao" class="org.kuali.kra.dao.ojb.KraLookupDaoOjb" parent="platformAwareDao" />
@@ -1777,40 +1772,6 @@
         <property name="roleManagementService" ref="roleService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
     </bean>
-
-    <!-- Task Authorization Service -->
-    <util:set id="taskAuthorizerGroupNames">
-        <value>applicationTaskAuthorizers</value>
-        <value>proposalTaskAuthorizers</value>
-        <value>proposalBudgetTaskAuthorizers</value>
-        <value>narrativeTaskAuthorizers</value>
-        <value>awardTaskAuthorizers</value>
-        <value>awardBudgetTaskAuthorizers</value>
-        <value>subAwardTaskAuthorizers</value>
-        <value>timeAndMoneyTaskAuthorizers</value>
-        <value>negotiationTaskAuthorizers</value>
-        <value>protocolTaskAuthorizers</value>
-        <value>protocolOnlineReviewTaskAuthorizers</value>
-        <value>iacucProtocolTaskAuthorizers</value>
-        <value>iacucProtocolOnlineReviewTaskAuthorizers</value>
-        <value>coiDisclosureTaskAuthorizers</value>
-        <value>committeeTaskAuthorizers</value>
-        <value>iacucCommitteeTaskAuthorizers</value>
-    </util:set>
-
-    <util:set id="webAuthorizerNames">
-        <value>proposalDevelopmentWebAuthorizer</value>
-        <value>proposalGrantsGovWebAuthorizer</value>
-        <value>proposalKeyPersonnelWebAuthorizer</value>
-        <value>proposalAbstractsAttachmentsWebAuthorizer</value>
-        <value>proposalBudgetVersionsWebAuthorizer</value>
-        <value>proposalPermissionsWebAuthorizer</value>
-        <value>proposalActionsWebAuthorizer</value>
-        <value>budgetWebAuthorizer</value>
-        <value>budgetVersionsWebAuthorizer</value>
-        <value>budgetActionsWebAuthorizer</value>
-        <value>awardBudgetsWebAuthorizer</value>
-    </util:set>
     
     <bean id="krmsRulesExecutionService" class="org.kuali.kra.krms.service.impl.KrmsRulesExecutionServiceImpl">
         <property name="kcKrmsCacheManager" ref="kcKrmsCacheManager" /> 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.kuali.coeus.sys" />
+
+    <import resource="classpath:org/kuali/coeus/sys/impl/ConfigRiceImportSpringBeans.xml"/>
+
+    <bean id="sysModule" parent="sysModule-parentBean" />
+    <bean id="sysModule-parentBean" class="org.kuali.rice.krad.service.impl.ModuleServiceBase" abstract="true">
+        <property name="moduleConfiguration" ref="sysModuleConfiguration"/>
+        <property name="kualiModuleService" ref="kualiModuleService"/>
+    </bean>
+
+    <bean id="sysModuleConfiguration" parent="sysModuleConfiguration-parentBean" />
+    <bean id="sysModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="KC-SYS" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.coeus.sys</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

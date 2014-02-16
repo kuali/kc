@@ -39,7 +39,19 @@
     <bean id="awardService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="awardService" />
     </bean>
-    
+
+    <bean id="kcDocumentRejectionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcDocumentRejectionService" />
+    </bean>
+
+    <bean id="kcWorkflowService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcWorkflowService" />
+    </bean>
+
+    <bean id="taskAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="taskAuthorizationService" />
+    </bean>
+
     <bean id="institutionalProposalService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="institutionalProposalService" />
     </bean>

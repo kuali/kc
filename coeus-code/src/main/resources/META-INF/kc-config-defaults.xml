@@ -35,7 +35,8 @@
 	<param name="coreservice.mode">LOCAL</param>
 	<param name="location.mode">LOCAL</param>
 	<param name="dev.mode">true</param>
-	
+
+    <param name="kc.sys.mode">LOCAL</param>
 	<param name="kc.core.mode">LOCAL</param>
 	<param name="kc.pd.mode">LOCAL</param>
 	<param name="kc.ip.mode">LOCAL</param>
