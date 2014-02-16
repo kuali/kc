@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.document;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
@@ -26,7 +27,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -336,7 +337,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getRoleNames()
      */
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
@@ -350,7 +351,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentNumberForPermission()
      */
     public String getDocumentNumberForPermission() {
         return getDevelopmentProposal().getProposalNumber();
@@ -358,10 +359,10 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentKey()
      */
     public String getDocumentKey() {
-        return Permissionable.PROPOSAL_KEY;
+        return PermissionableKeys.PROPOSAL_KEY;
     }
 
     @SuppressWarnings("unchecked")
@@ -446,7 +447,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return new Permissionable() {
 
             public String getDocumentKey() {
-                return Permissionable.PROPOSAL_BUDGET_KEY;
+                return PermissionableKeys.PROPOSAL_BUDGET_KEY;
             }
 
             public String getDocumentNumberForPermission() {

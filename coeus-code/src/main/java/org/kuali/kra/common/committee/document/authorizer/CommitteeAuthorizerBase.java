@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.common.committee.document.authorizer;
 
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
-import org.kuali.kra.service.KcAuthorizationService;
 
 /**
  * A CommitteeBase Authorizer determines if a user can perform

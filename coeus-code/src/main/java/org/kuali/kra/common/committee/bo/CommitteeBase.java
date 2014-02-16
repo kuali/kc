@@ -17,13 +17,14 @@ package org.kuali.kra.common.committee.bo;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.CoiReviewType;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 
@@ -357,23 +358,20 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
         }
     }
 
-    /**
-     * @see org.kuali.kra.SequenceOwner#getName()
-     */
     public String getVersionNameField() {
         return "committeeName";
     }
 
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentKey()
      */
     public String getDocumentKey() {
-        return Permissionable.COMMITTEE_KEY;
+        return PermissionableKeys.COMMITTEE_KEY;
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.Permissionable#populateAdditionalQualifiedRoleAttributes(java.util.Map)
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#populateAdditionalQualifiedRoleAttributes(java.util.Map)
      */
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         qualifiedRoleAttributes.put(KcKimAttributes.COMMITTEE, this.getCommitteeId());
@@ -381,7 +379,7 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
 
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentNumberForPermission()
      */
     public String getDocumentNumberForPermission() {
         return committeeId;
@@ -389,7 +387,7 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
 
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getRoleNames()
      */
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
