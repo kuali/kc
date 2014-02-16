@@ -16,7 +16,7 @@
 package org.kuali.kra.proposaldevelopment.document.authorization;
 
 import org.kuali.coeus.sys.framework.auth.KcWorkflowDocumentAuthorizerBase;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 

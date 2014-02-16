@@ -13,11 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service;
-
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.common.permissions.Permissionable;
+package org.kuali.coeus.sys.framework.auth.perm;
 
 import java.util.List;
 
@@ -38,27 +34,27 @@ public interface KcAuthorizationService {
     public List<String> getUserNames(Permissionable permissionable, String roleName);
     
     /**
-     * Add a user to a role within an Award.  Standard roles for
-     * Award are Aggregator and Viewer.
-     * @param username the user's username
+     * Add a user to a role within an Permissionable.  Standard roles for
+     * Permissionable are Aggregator and Viewer.
+     * @param userId the user's userId
      * @param roleName the name of the Role
-     * @param award the Award
+     * @param permissionable the Permissionable
      */
     public void addRole(String userId, String roleName, Permissionable permissionable);
     
     /**
-     * Remove a user from a role within a Award. Standard roles for
-     * Awards are Aggregator and Viewer.
-     * @param username the user's username
+     * Remove a user from a role within a Permissionable. Standard roles for
+     * Permissionable are Aggregator and Viewer.
+     * @param userId the user's userId
      * @param roleName the name of the Role
-     * @param award the Award
+     * @param permissionable the Permissionable
      */
     public void removeRole(String userId, String roleName, Permissionable permissionable);
     
     /**
-     * Does the user have the given permission for the given Award?
-     * @param username the user's username
-     * @param award the Award
+     * Does the user have the given permission for the given Permissionable?
+     * @param userId the user's userId
+     * @param permissionable the Permissionable
      * @param permissionName the name of the Permission
      * @return true if the user has permission; otherwise false
      */
@@ -66,46 +62,38 @@ public interface KcAuthorizationService {
     
     /**
      * Does the user have the given permission in the given namespace?
-     * @param userId
-     * @param permissionable
-     * @param permissionNamespace
-     * @param permissionName
-     * @return
+     * @param userId the user's userId
+     * @param permissionable the Permissionable
+     * @param permissionNamespace the permission namespace
+     * @param permissionName the name of the Permission
+     * @return true if the user has permission; otherwise false
      */
     boolean hasPermission(String userId, Permissionable permissionable, String permissionNamespace, String permissionName);    
 
     /**
-     * Does the user have the given role for the given Award?
-     * @param username the user's username
-     * @param doc the Award
+     * Does the user have the given role for the given Permissionable?
+     * @param userId the user's userId
+     * @param permissionable the Permissionable
      * @param roleName the name of the Role
      * @return true if the user has the role; otherwise false
      */
     public boolean hasRole(String userId, Permissionable permissionable, String roleName);
     
     /**
-     * Get the roles for this user in the Award.
-     * @param username the user's username
-     * @param award the Award
-     * @return the list of role names this person has in the award
+     * Get the roles for this user in the Permissionable.
+     * @param userId the user's userId
+     * @param permissionable the Permissionable
+     * @return the list of role names this person has in the Permissionable
      */
     public List<String> getRoles(String userId, Permissionable permissionable);
     
     /**
-     * Get the list of persons in a specific role for a given award.
-     * @param award the Award
+     * Get the list of principal ids in a specific role for a given permissionable.
+     * @param permissionable the Permissionable
      * @param roleName the name of the role
-     * @return the list of persons in the role for the award
+     * @return the list of principal ids in the role for the permissionable
      */
-    public List<KcPerson> getPersonsInRole(Permissionable permissionable, String roleName);
-    
-    /**
-     * Get the list of all of the award roles and the persons in those
-     * roles for a given Award.
-     * @param award the Award
-     * @return the list of all roles and the people in those roles
-     */
-    public List<RolePersons> getAllRolePersons(Permissionable permissionable);
+    public List<String> getPrincipalsInRole(Permissionable permissionable, String roleName);
     
     public boolean hasRole(String userId, String namespace, String roleName);
 }

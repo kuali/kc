@@ -16,9 +16,10 @@
 package org.kuali.kra.bo;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 import java.util.ArrayList;
@@ -285,7 +286,7 @@ public class SponsorHierarchy extends KcPersistableBusinessObjectBase implements
 
     @Override
     public String getDocumentKey() {
-        return SPONSOR_HIREARCHY_KEY;
+        return PermissionableKeys.SPONSOR_HIREARCHY_KEY;
     }
 
     @Override

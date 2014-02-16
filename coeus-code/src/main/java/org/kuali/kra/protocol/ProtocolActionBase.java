@@ -21,12 +21,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -40,7 +41,6 @@ import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -326,7 +326,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
       // Add the users defined in the access control list for the protocol's lead unit
       Permissionable permissionable = protocolForm.getProtocolDocument().getProtocol();
       UnitAclLoadService unitAclLoadService = getUnitAclLoadService();
-      unitAclLoadService.loadUnitAcl(permissionable);
+      unitAclLoadService.loadUnitAcl(permissionable, userId);
 
 //moved      sendNotification(protocolForm);
    }

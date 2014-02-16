@@ -18,6 +18,7 @@ package org.kuali.kra.award.document;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -45,7 +46,7 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
@@ -398,7 +399,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     }
 
     public String getDocumentKey() {
-        return Permissionable.AWARD_KEY;
+        return PermissionableKeys.AWARD_KEY;
     }
 
     public String getDocumentNumberForPermission() {
@@ -414,7 +415,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return new Permissionable(){
 
             public String getDocumentKey() {
-                return Permissionable.AWARD_BUDGET_KEY;
+                return PermissionableKeys.AWARD_BUDGET_KEY;
             }
 
             public String getDocumentNumberForPermission() {

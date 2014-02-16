@@ -16,6 +16,7 @@
 package org.kuali.kra.common.committee.meeting;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
@@ -25,7 +26,6 @@ import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
