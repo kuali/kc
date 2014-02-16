@@ -22,13 +22,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionHistory;
@@ -55,7 +55,6 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.service.VersionHistoryService;
@@ -671,9 +670,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             return true;
         }
         KcAuthorizationService proposalAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-        List<KcPerson> persons = proposalAuthService.getPersonsInRole(document, RoleConstants.AGGREGATOR);
-        for (KcPerson person : persons) {
-            if(GlobalVariables.getUserSession().getPrincipalName().equals(person.getUserName())){
+        List<String> users = proposalAuthService.getPrincipalsInRole(document, RoleConstants.AGGREGATOR);
+
+        for (String user : users) {
+            if(GlobalVariables.getUserSession().getPrincipalId().equals(user)){
                 return true;
             }
         }

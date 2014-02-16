@@ -22,7 +22,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -94,8 +93,6 @@ public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDo
      */
     @Override
     protected List<RolePersons> getAllRolePersons() {
-        KcAuthorizationService kraAuthService =
-               (KcAuthorizationService) KcServiceLocator.getService(KcAuthorizationService.class);
         return new ArrayList<RolePersons>();
     }
     

@@ -17,6 +17,7 @@ package org.kuali.kra.award.home;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
@@ -53,7 +54,7 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -2507,7 +2508,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentNumberForPermission()
      */
     public String getDocumentNumberForPermission() {
         return awardId != null ? awardId.toString() : "";
@@ -2515,15 +2516,15 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentKey()
      */
     public String getDocumentKey() {
-        return Permissionable.AWARD_KEY;
+        return PermissionableKeys.AWARD_KEY;
     }
 
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getRoleNames()
      */
     public List<String> getRoleNames() {
         List<String> roles = new ArrayList<String>();

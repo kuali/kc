@@ -16,11 +16,11 @@
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.service.KcAuthorizationService;
 
 /**
  * A Proposal Authorizer determines if a user can perform

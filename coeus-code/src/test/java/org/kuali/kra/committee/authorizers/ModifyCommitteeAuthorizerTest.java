@@ -17,13 +17,13 @@ package org.kuali.kra.committee.authorizers;
 
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.document.authorizer.ModifyCommitteeAuthorizer;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 

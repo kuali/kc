@@ -17,6 +17,7 @@ package org.kuali.kra.protocol.actions.copy;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -33,7 +34,7 @@ import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
-import org.kuali.kra.service.KcAuthorizationService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
@@ -81,7 +82,7 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
     private DocumentService documentService;
     private SystemAuthorizationService systemAuthorizationService;
     private KcAuthorizationService kraAuthorizationService;
-    //private ProtocolNumberService protocolNumberService;
+    private KcPersonService kcPersonService;
     private SequenceAccessorService sequenceAccessorService;
 
     /**
@@ -307,7 +308,17 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
    
         List<Role> roles = systemAuthorizationService.getRoles(getProtocolRoleTypeHook());
         for (Role role : roles) {
-            List<KcPerson> persons = kraAuthorizationService.getPersonsInRole(srcDoc.getProtocol(), role.getName());
+
+            List<String> users = kraAuthorizationService.getPrincipalsInRole(srcDoc.getProtocol(), role.getName());
+
+            final List<KcPerson> persons = new ArrayList<KcPerson>();
+            for(String uid : users) {
+                KcPerson person = kcPersonService.getKcPersonByPersonId(uid);
+                if (person != null && person.getActive()) {
+                    persons.add(person);
+                }
+            }
+
             for (KcPerson person : persons) {
                 if (!StringUtils.equals(person.getPersonId(), userId)) {
                     kraAuthorizationService.addRole(person.getPersonId(), role.getName(), destDoc.getProtocol()); 
@@ -379,4 +390,11 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
     protected abstract String getProtocolApproverHook();
     protected abstract String getProtocolRoleTypeHook();
 
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
 }

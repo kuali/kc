@@ -16,12 +16,13 @@
 package org.kuali.kra.protocol.onlinereview;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -313,7 +314,7 @@ public abstract class ProtocolOnlineReviewBase extends KcPersistableBusinessObje
     }
 
     public String getDocumentKey() {
-        return Permissionable.PROTOCOL_ONLINE_REVIEW_KEY;
+        return PermissionableKeys.PROTOCOL_ONLINE_REVIEW_KEY;
     }
 
     public String getDocumentNumberForPermission() {

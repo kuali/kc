@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.onlinereview.authorization;
 
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
-import org.kuali.kra.service.KcAuthorizationService;
 
 /**
  * A Protocol Authorizer determines if a user can perform

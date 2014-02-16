@@ -1707,12 +1707,8 @@
 
     <!-- Authorization Services -->
 
-    <bean id="kcAuthorizationService" class="org.kuali.kra.service.impl.KcAuthorizationServiceImpl">
-        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="kcPersonService" ref="kcPersonService" />
-        <property name="roleManagementService" ref="roleService" />
-        <property name="identityManagementService" ref="identityService" />
-        <property name="permissionService" ref="permissionService" />
+    <bean id="protocolAuthorizationService" class="org.kuali.kra.protocol.ProtocolAuthorizationServiceImpl">
+        <property name="kcAuthorizationService" ref="kcAuthorizationService" />
     </bean>
 
     <!-- Application Task Authorizers -->

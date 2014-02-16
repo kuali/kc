@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -26,7 +27,6 @@ import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.noteattachment.NotesAttachmentsHelperBase;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;

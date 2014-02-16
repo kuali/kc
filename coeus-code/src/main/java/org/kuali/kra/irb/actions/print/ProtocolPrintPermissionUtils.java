@@ -16,13 +16,15 @@
 package org.kuali.kra.irb.actions.print;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.service.KcAuthorizationService;
+import org.kuali.kra.service.KcPersonService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,7 +59,18 @@ public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
     @Override
     protected List<KcPerson> getPersonsInRole(String roleName) {
         KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
-        return kraAuthorizationService.getPersonsInRole(getProtocol(), roleName);
+        KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
+        List<String> users = kraAuthorizationService.getPrincipalsInRole(getProtocol(), roleName);
+
+        final List<KcPerson> persons = new ArrayList<KcPerson>();
+        for(String userId : users) {
+            KcPerson person = kcPersonService.getKcPersonByPersonId(userId);
+            if (person != null && person.getActive()) {
+                persons.add(person);
+            }
+        }
+
+        return persons;
     }
 
     /**

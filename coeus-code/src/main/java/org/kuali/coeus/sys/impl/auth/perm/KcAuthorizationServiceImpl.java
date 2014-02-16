@@ -13,67 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.sys.impl.auth.perm;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.infrastructure.PermissionAttributes;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.service.KcAuthorizationService;
-import org.kuali.kra.service.KcPersonService;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 /**
- * The Kra Authorization Service Implementation.
+ * The KC Authorization Service Implementation.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@Component("kcAuthorizationService")
 public class KcAuthorizationServiceImpl implements KcAuthorizationService {
-    
-    private UnitAuthorizationService unitAuthorizationService;
-    private KcPersonService kcPersonService;
-    
-    private RoleService roleManagementService;
-    private IdentityService identityManagementService;
-    private PermissionService permissionService;
-    
-    /**
-     * Set the Unit Authorization Service.  Injected by Spring.
-     * @param unitAuthorizationService the Unit Authorization Service
-     */
-    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
-        this.unitAuthorizationService = unitAuthorizationService;
-    }
-    
-    /**
-     * Set the KRA Person Service.  Injected by Spring.
-     * @param personService the KRA Person Service
-     */
-    public void setKcPersonService(KcPersonService personService) {
-        this.kcPersonService = personService;
-    }
-    
-    public void setRoleManagementService(RoleService roleManagementService) {
-        this.roleManagementService = roleManagementService;
-    }
-    
-    public void setIdentityManagementService(IdentityService identityManagementService) {
-        this.identityManagementService = identityManagementService;
-    }
 
-    public void setPermissionService(PermissionService permissionService) {
-        this.permissionService = permissionService;
-    }
+    @Autowired
+    @Qualifier("unitAuthorizationService")
+    private UnitAuthorizationService unitAuthorizationService;
+
+    @Autowired
+    @Qualifier("roleService")
+    private RoleService roleManagementService;
+
+    @Autowired
+    @Qualifier("identityService")
+    private IdentityService identityManagementService;
+
+    @Autowired
+    @Qualifier("permissionService")
+    private PermissionService permissionService;
 
     @Override
     public List<String> getUserNames(Permissionable permissionable, String roleName) {
@@ -115,8 +95,7 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
         permissionable.populateAdditionalQualifiedRoleAttributes(qualifiedRoleAttributes);
-        Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
-        
+
         String unitNumber = permissionable.getLeadUnitNumber();
         
         if(StringUtils.isNotEmpty(permissionable.getDocumentNumberForPermission())) {
@@ -165,47 +144,11 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
     }
 
     @Override
-    public List<KcPerson> getPersonsInRole(Permissionable permissionable, String roleName) {
-        List<KcPerson> persons = new ArrayList<KcPerson>();
-        if(permissionable != null && StringUtils.isNotBlank(roleName)) { 
-            Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
-            qualifiedRoleAttrs.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-            Collection<String> users = roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName,new HashMap<String,String>(qualifiedRoleAttrs));
-            for(String userId : users) {
-                KcPerson person = kcPersonService.getKcPersonByPersonId(userId);
-                if (person != null && person.getActive()) {
-                    persons.add(person);
-                }
-            }
+    public List<String> getPrincipalsInRole(Permissionable permissionable, String roleName) {
+        if(permissionable != null && StringUtils.isNotBlank(roleName)) {
+            return new ArrayList<String>(roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, Collections.singletonMap(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission())));
         } 
-        return persons;
-    }
-
-    @Override
-    public List<RolePersons> getAllRolePersons(Permissionable permissionable) {
-        List<RolePersons> rolePersonsList = new ArrayList<RolePersons>();
-        
-        if(permissionable != null) {
-            List<String> roleNames = permissionable.getRoleNames();
-            
-            for (String roleName : roleNames) {
-                List<String> usernames = getUserNames(permissionable, roleName);
-                RolePersons rolePersons = new RolePersons();
-                rolePersonsList.add(rolePersons);
-     
-                if(roleName.contains(RoleConstants.AGGREGATOR)) {
-                    rolePersons.setAggregator(usernames);
-                } else if(roleName.contains(RoleConstants.VIEWER)) {
-                    rolePersons.setViewer(usernames); 
-                } else if(roleName.contains(RoleConstants.NARRATIVE_WRITER)) {
-                    rolePersons.setNarrativewriter(usernames);
-                } else if(roleName.contains(RoleConstants.BUDGET_CREATOR)) {
-                    rolePersons.setBudgetcreator(usernames);
-                }
-            }
-        }
-        
-        return rolePersonsList;
+        return new ArrayList<String>();
     }
 
     @Override
@@ -215,6 +158,22 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
             return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()), null);
         }
         return false;
+    }
+
+    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
+        this.unitAuthorizationService = unitAuthorizationService;
+    }
+
+    public void setRoleManagementService(RoleService roleManagementService) {
+        this.roleManagementService = roleManagementService;
+    }
+
+    public void setIdentityManagementService(IdentityService identityManagementService) {
+        this.identityManagementService = identityManagementService;
+    }
+
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
     }
 
     public RoleService getRoleService() {
