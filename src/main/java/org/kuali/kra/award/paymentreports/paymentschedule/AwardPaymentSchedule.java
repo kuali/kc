@@ -17,6 +17,7 @@ package org.kuali.kra.award.paymentreports.paymentschedule;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.paymentreports.ReportStatus;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -49,6 +50,8 @@ public class AwardPaymentSchedule extends AwardAssociate {
     private Timestamp lastUpdateTimestamp;
     private String reportStatusCode;
     private String submittedByPersonId;
+    private String awardReportTermDescription;
+
     /**
      * submittedByPerson is not persisted!
      */
@@ -313,4 +316,13 @@ public class AwardPaymentSchedule extends AwardAssociate {
     public void setReportStatus(ReportStatus reportStatus) {
         this.reportStatus = reportStatus;
     }
+
+    public String getAwardReportTermDescription() {
+        return awardReportTermDescription;
+    }
+
+    public void setAwardReportTermDescription(String awardReportTermDescription) {
+        this.awardReportTermDescription = awardReportTermDescription;
+    }
+
 }
