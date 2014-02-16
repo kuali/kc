@@ -34,7 +34,6 @@ import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -165,9 +164,9 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      */
     @Override
     protected List<RolePersons> getAllRolePersons() {
-        KcAuthorizationService kraAuthService =
-               (KcAuthorizationService) KcServiceLocator.getService(KcAuthorizationService.class);
-        return kraAuthService.getAllRolePersons(getProtocol());
+        ProtocolAuthorizationService protocolAuthorizationService =
+               (ProtocolAuthorizationService) KcServiceLocator.getService(ProtocolAuthorizationService.class);
+        return protocolAuthorizationService.getAllRolePersons(getProtocol());
     }
     
     

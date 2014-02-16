@@ -18,11 +18,12 @@ package org.kuali.kra.common.committee.bo;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.drools.core.util.StringUtils;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.common.committee.meeting.*;
 import org.kuali.kra.common.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -582,7 +583,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
 
     //Permissionable interface
     public String getDocumentKey() {
-        return Permissionable.COMMITTEE_SCHEDULE_KEY;
+        return PermissionableKeys.COMMITTEE_SCHEDULE_KEY;
     }
 
     public String getDocumentNumberForPermission() {

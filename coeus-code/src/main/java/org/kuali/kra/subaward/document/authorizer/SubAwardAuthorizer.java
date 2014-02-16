@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.subaward.document.authorizer;
 
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.authorization.SubAwardTask;
 

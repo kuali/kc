@@ -17,14 +17,12 @@ package org.kuali.kra.service.impl;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
@@ -160,54 +158,11 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
         ProposalDevelopmentDocument doc = createProposal("Proposal-7", "000001");
         PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");
         kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.AGGREGATOR, doc);
-        List<KcPerson> persons = kraAuthService.getPersonsInRole(doc, RoleConstants.AGGREGATOR);
+        List<String> persons = kraAuthService.getPrincipalsInRole(doc, RoleConstants.AGGREGATOR);
         assertEquals(2, persons.size());
     }
     
-    /**
-     * Test the getAllRolePersons() service method.
-     */
-    @Test
-    public void testGetAllRolePersons() throws Exception {
-        ProposalDevelopmentDocument doc = createProposal("Proposal-8", "000001");
-       
-        PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");
-        kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.NARRATIVE_WRITER, doc);
-        kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.BUDGET_CREATOR, doc);
 
-        PrincipalContract userMajors = identityManagementService.getPrincipalByPrincipalName("majors");
-        kraAuthService.addRole(userMajors.getPrincipalId(), RoleConstants.VIEWER, doc);
-
-        PrincipalContract userWoods = identityManagementService.getPrincipalByPrincipalName("woods");
-        kraAuthService.addRole(userWoods.getPrincipalId(), RoleConstants.AGGREGATOR, doc);
-        
-        List<RolePersons> rolePersonsList = kraAuthService.getAllRolePersons(doc);
-        assertEquals(5, rolePersonsList.size());
-        for (RolePersons rolePersons : rolePersonsList){
-            if(rolePersons.getAggregator()!= null )
-            {
-                List<String> aggregators= rolePersons.getAggregator();
-                assertEquals(2, aggregators.size());
-                assertTrue(aggregators.contains("woods"));
-                assertTrue(aggregators.contains("quickstart"));
-            } else if(rolePersons.getViewer()!= null){
-                List<String> viewer=rolePersons.getViewer();
-                assertEquals(1, viewer.size());
-                assertTrue(viewer.contains("majors"));
-            } else if(rolePersons.getBudgetcreator()!= null){
-                List<String> budgetCreator = rolePersons.getBudgetcreator();
-                assertEquals(1, budgetCreator.size());
-                assertTrue(budgetCreator.contains("chew"));
-            } else if(rolePersons.getNarrativewriter()!= null){
-                List<String> narrativeWriter = rolePersons.getNarrativewriter();
-                assertEquals(1, narrativeWriter.size());
-                assertTrue(narrativeWriter.contains("chew"));
-            }
-            
-            
-        }
-        
-    }   
                 
     private void initializeProposalUsers(ProposalDevelopmentDocument doc) {
         // Assign the creator of the proposal to the AGGREGATOR role.
@@ -218,8 +173,6 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
     /**
      * Create a proposal development document.  For testing
      * purposes, we only need its proposal number to be set.
-     * @param nbr
-     * @return
      */
     private ProposalDevelopmentDocument createProposal(String documentDescription, String leadUnitNumber) throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument("ProposalDevelopmentDocument");

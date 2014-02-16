@@ -18,7 +18,7 @@ package org.kuali.kra.irb;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -299,15 +299,15 @@ public class Protocol extends ProtocolBase {
     
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentKey()
      */
     public String getDocumentKey() {
-        return Permissionable.PROTOCOL_KEY;
+        return PermissionableKeys.PROTOCOL_KEY;
     }
 
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getRoleNames()
      */
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();

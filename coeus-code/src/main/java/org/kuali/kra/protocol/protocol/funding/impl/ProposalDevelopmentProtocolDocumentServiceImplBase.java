@@ -17,6 +17,7 @@ package org.kuali.kra.protocol.protocol.funding.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.KcPerson;
@@ -33,7 +34,7 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.protocol.protocol.ProtocolNumberServiceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
-import org.kuali.kra.service.KcAuthorizationService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -41,6 +42,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,6 +53,7 @@ import java.util.List;
 public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T extends ProtocolDocumentBase>  {
     private SystemAuthorizationService systemAuthorizationService;
     private KcAuthorizationService kraAuthorizationService;
+    private KcPersonService kcPersonService;
     private SequenceAccessorService sequenceAccessorService;
     private TaskAuthorizationService taskAuthorizationService;
     private DocumentService documentService;
@@ -140,7 +143,15 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
 
         List<Role> roles = systemAuthorizationService.getRoles(getProtocolRoleTypeHook());
         for (Role role : roles) {
-            List<KcPerson> persons = kraAuthorizationService.getPersonsInRole(protocolDocument.getProtocol(), role.getName());
+            List<String> users = kraAuthorizationService.getPrincipalsInRole(protocolDocument.getProtocol(), role.getName());
+            List<KcPerson> persons = new ArrayList<KcPerson>();
+            for(String uid : users) {
+                KcPerson person = kcPersonService.getKcPersonByPersonId(uid);
+                if (person != null && person.getActive()) {
+                    persons.add(person);
+                }
+            }
+
             for (KcPerson person : persons) {
                 if (!StringUtils.equals(person.getPersonId(), userId)) {
                     kraAuthorizationService.addRole(person.getPersonId(), role.getName(), protocolDocument.getProtocol()); 
@@ -231,5 +242,13 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 }
