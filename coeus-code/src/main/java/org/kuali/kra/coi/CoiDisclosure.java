@@ -20,6 +20,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
@@ -32,7 +33,6 @@ import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -160,14 +160,14 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
     
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }
     
     protected BusinessObjectService getBusinessObjectService() {
         if (this.businessObjectService == null) {
-            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return this.businessObjectService;
     }
@@ -355,7 +355,7 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
     }
     
     private CoiDisclosureService getCoiDisclosureService() {
-        return KraServiceLocator.getService(CoiDisclosureService.class);    
+        return KcServiceLocator.getService(CoiDisclosureService.class);
     }
     
     @SuppressWarnings("unchecked")
@@ -398,7 +398,7 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
     public void initCoiDisclosureNumber() {
         // TODO : not sure about disclosurenumber & expirationdate
         if (StringUtils.isBlank(this.getCoiDisclosureNumber())) {
-            Long nextNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COI_DISCL_NUMBER", CoiDisclosure.class);
+            Long nextNumber = KcServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COI_DISCL_NUMBER", CoiDisclosure.class);
             setCoiDisclosureNumber(nextNumber.toString());
         }
         
@@ -414,7 +414,7 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
 
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }

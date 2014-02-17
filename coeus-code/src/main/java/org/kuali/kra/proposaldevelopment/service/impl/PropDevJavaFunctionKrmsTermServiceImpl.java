@@ -15,13 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -29,7 +24,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.*;
@@ -864,7 +858,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      */
     @Override
     public String investigatorKeyPersonCertificationRule(DevelopmentProposal developmentProposal) {
-        QuestionnaireAnswerService questionnaireService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        QuestionnaireAnswerService questionnaireService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         for (ProposalPerson person : developmentProposal.getProposalPersons()) {
             ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean = 
                 new ProposalPersonModuleQuestionnaireBean(developmentProposal, person);

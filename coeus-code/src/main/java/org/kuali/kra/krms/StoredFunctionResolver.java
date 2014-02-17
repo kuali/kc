@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.krms;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.dao.ojb.StoredFunctionDao;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 
 import java.util.List;
 import java.util.Map;
@@ -46,6 +46,6 @@ public class StoredFunctionResolver extends FunctionTermResolver {
         return storedFunctionDao.executeFunction(functionName, orderedParamValues);
     }
     private StoredFunctionDao getStoredFucntionDao() {
-        return KraServiceLocator.getService(StoredFunctionDao.class);
+        return KcServiceLocator.getService(StoredFunctionDao.class);
     }
 }

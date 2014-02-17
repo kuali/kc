@@ -16,9 +16,9 @@ un * Copyright 2005-2013 The Kuali Foundation
 package org.kuali.kra.kim.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.OrganizationCorrespondent;
 import org.kuali.kra.bo.UnitCorrespondent;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -148,14 +148,14 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends DerivedRoleTypeS
     
     private UnitService getUnitService() {
         if (unitService == null) {
-            unitService = (UnitService) KraServiceLocator.getService(UnitService.class);
+            unitService = (UnitService) KcServiceLocator.getService(UnitService.class);
         }
         return unitService;
     }
 
     private OrganizationService getOrganizationService() {
         if (organizationService == null) {
-            organizationService = (OrganizationService) KraServiceLocator.getService(OrganizationService.class);
+            organizationService = (OrganizationService) KcServiceLocator.getService(OrganizationService.class);
         }
         return organizationService;
     }

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
@@ -76,9 +76,9 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 	 * Constructs a PHS398FellowshipSupplementalBaseGenerator.java.
 	 */
 	public PHS398FellowshipSupplementalBaseGenerator() {
-		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-		s2SBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
-		parameterService = KraServiceLocator.getService(ParameterService.class);
+		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+		s2SBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
+		parameterService = KcServiceLocator.getService(ParameterService.class);
 	}
     protected List<String> getCostElementsByParam(String costElementParam) {
         String costElementsParamValue = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, costElementParam);

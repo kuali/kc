@@ -16,11 +16,11 @@
 package org.kuali.kra.protocol.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -185,7 +185,7 @@ public abstract class ProtocolSubmitActionRuleBase extends KcTransactionalDocume
      */
     private boolean existsUnique(Class<? extends BusinessObject> boType, String propertyName, String keyField) {
         if (keyField != null) {
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(propertyName, keyField);
             if (businessObjectService.countMatching(boType, fieldValues) == 1) {
@@ -217,7 +217,7 @@ public abstract class ProtocolSubmitActionRuleBase extends KcTransactionalDocume
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }

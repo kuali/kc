@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.personnel;
 
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -80,7 +80,7 @@ public abstract class PersonnelHelperBase implements Serializable {
     protected abstract void initializeModifyProtocolPermission(ProtocolBase protocol);
     
     protected TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
     
     protected String getUserIdentifier() {
@@ -157,7 +157,7 @@ public abstract class PersonnelHelperBase implements Serializable {
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }

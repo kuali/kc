@@ -16,9 +16,9 @@
 package org.kuali.kra.subaward.bo;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcAttachment;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -348,8 +348,8 @@ public class SubAwardAmountInfo extends
 
     @Override
     public String getIconPath() {
-        return KraServiceLocator.getService(
-        KcAttachmentService.class).getFileTypeIcon(this);
+        return KcServiceLocator.getService(
+                KcAttachmentService.class).getFileTypeIcon(this);
     }
     /**
      * Sets the contentType.

@@ -18,12 +18,12 @@ package org.kuali.kra.award.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureAmountsInDateRangeRule;
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryService;
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpendituresDataGenerationForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
@@ -60,7 +60,7 @@ public class SubcontractingExpendituresDataGenerationAction  extends KualiAction
     }
     
     private SubcontractingExpenditureCategoryService getExpenditureCategoryServiceImpl() {
-        return KraServiceLocator.getService(SubcontractingExpenditureCategoryService.class);
+        return KcServiceLocator.getService(SubcontractingExpenditureCategoryService.class);
     } 
     
 

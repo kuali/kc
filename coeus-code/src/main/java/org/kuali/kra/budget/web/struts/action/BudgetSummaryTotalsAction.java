@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetPeriodExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
@@ -28,7 +29,6 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -76,10 +76,10 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
         return super.save(mapping, form, request, response);
     }
     private AwardBudgetService getAwardBudgetService() {
-        return KraServiceLocator.getService(AwardBudgetService.class);
+        return KcServiceLocator.getService(AwardBudgetService.class);
     }
     private BudgetCalculationService getBudgetCalaculationService() {
-        return KraServiceLocator.getService(BudgetCalculationService.class);
+        return KcServiceLocator.getService(BudgetCalculationService.class);
     }
     public ActionForward previousPeriodSet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if(StringUtils.isNotEmpty(request.getParameter("periodStartIndex")) && 

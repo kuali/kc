@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.budget.core.Budget;
@@ -37,7 +38,6 @@ import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
@@ -117,7 +117,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             //forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             //KRACOEUS-5064
-            PropDevWorkflowService workflowService = KraServiceLocator.getService(PropDevWorkflowService.class);
+            PropDevWorkflowService workflowService = KcServiceLocator.getService(PropDevWorkflowService.class);
             ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
             proposalDevelopmentForm.setApproverViewDO(approverViewDO);           
             forward = mapping.findForward(Constants.MAPPING_PROPOSAL_SUMMARY_PAGE);
@@ -127,12 +127,12 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 proposalDevelopmentForm.setDocTypeName("ProposalDevelopmentDocument");
             }
             boolean rejectedDocument = false;
-            KcDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KcDocumentRejectionService.class);
+            KcDocumentRejectionService documentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
             if(proposalDevelopmentForm.getDocument().getDocumentNumber() != null){
                 rejectedDocument = documentRejectionService.isDocumentOnInitialNode(proposalDevelopmentForm.getDocument().getDocumentNumber());
             }
 
-            PropDevWorkflowService workflowService = KraServiceLocator.getService(PropDevWorkflowService.class);
+            PropDevWorkflowService workflowService = KcServiceLocator.getService(PropDevWorkflowService.class);
             if (workflowService.canPerformWorkflowAction(proposalDevelopmentForm.getProposalDevelopmentDocument()) && !rejectedDocument) {
 
                 ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
@@ -209,7 +209,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     }
     
     protected List<String> getUnitRulesMessages(ProposalDevelopmentDocument pdDoc) {
-        KrmsRulesExecutionService rulesService = KraServiceLocator.getService(KrmsRulesExecutionService.class);
+        KrmsRulesExecutionService rulesService = KcServiceLocator.getService(KrmsRulesExecutionService.class);
         return rulesService.processUnitValidations(pdDoc.getLeadUnitNumber(), pdDoc);
     }
 
@@ -239,7 +239,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     }
     
     protected SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
+        return KcServiceLocator.getService(SponsorService.class);
     }    
 
     @Override
@@ -458,9 +458,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
          */
         List<Narrative> narratives = (List<Narrative>) ObjectUtils.deepCopy((Serializable) doc.getDevelopmentProposal().getNarratives());
         proposalDevelopmentForm.setNarratives(narratives);
-        KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getDevelopmentProposal().getPropPersonBios());
-        KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(doc.getDevelopmentProposal());
-        KraServiceLocator.getService(ProposalAbstractsService.class).loadAbstractsUploadUserFullName(doc.getDevelopmentProposal().getProposalAbstracts());
+        KcServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getDevelopmentProposal().getPropPersonBios());
+        KcServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(doc.getDevelopmentProposal());
+        KcServiceLocator.getService(ProposalAbstractsService.class).loadAbstractsUploadUserFullName(doc.getDevelopmentProposal().getProposalAbstracts());
 
         return mapping.findForward(Constants.ATTACHMENTS_PAGE);
     }
@@ -482,7 +482,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             loadDocumentInForm(request, proposalDevelopmentForm);
         }
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
+        ProposalDevelopmentPrintingService printService = KcServiceLocator.getService(ProposalDevelopmentPrintingService.class);
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
         return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
     }
@@ -528,11 +528,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
      * @return KeyPersonnelService
      */
     protected KeyPersonnelService getKeyPersonnelService() {
-        return KraServiceLocator.getService(KeyPersonnelService.class);
+        return KcServiceLocator.getService(KeyPersonnelService.class);
     }   
     
     protected PersonEditableService getPersonEditableService() {
-        return KraServiceLocator.getService(PersonEditableService.class);
+        return KcServiceLocator.getService(PersonEditableService.class);
     }   
     
     /**
@@ -594,7 +594,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             GlobalVariables.getMessageMap().putError("noKey", ERROR_NO_GRANTS_GOV_FORM_SELECTED);
             return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
         }
-        AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
+        AttachmentDataSource attachmentDataSource = KcServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
         if(attachmentDataSource==null || attachmentDataSource.getContent()==null || attachmentDataSource.getContent().length==0){
             //KRACOEUS-3300 - there should be GrantsGov audit errors in this case, grab them and display them as normal errors on
             //the GrantsGov forms tab so we don't need to turn on auditing
@@ -605,7 +605,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             return mapping.findForward(Constants.GRANTS_GOV_PAGE);
         }
         if (proposalDevelopmentDocument.getDevelopmentProposal().getGrantsGovSelectFlag()) {
-            File grantsGovXmlDirectoryFile = KraServiceLocator.getService(S2SService.class).getGrantsGovSavedFile(proposalDevelopmentDocument);
+            File grantsGovXmlDirectoryFile = KcServiceLocator.getService(S2SService.class).getGrantsGovSavedFile(proposalDevelopmentDocument);
             byte[] bytes = new byte[(int) grantsGovXmlDirectoryFile.length()];
             FileInputStream fileInputStream = new FileInputStream(grantsGovXmlDirectoryFile);
             fileInputStream.read(bytes);
@@ -704,7 +704,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             if(budget.getFinalVersionFlag()){
                 final Map<String, Object> fieldValues = new HashMap<String, Object>();
                 fieldValues.put("budgetId", budget.getBudgetId()); 
-                BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);  
+                BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
                 List<BudgetPeriod> budgetPeriods = (List<BudgetPeriod>) businessObjectService.findMatching(BudgetPeriod.class, fieldValues);
                 budget.setBudgetPeriods(budgetPeriods);
                 Collection<BudgetRate> rates = businessObjectService.findMatching(BudgetRate.class, fieldValues);   
@@ -716,11 +716,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 pdform.setBudgetToSummarize(budget);  
             } 
             if(budget.getBudgetPrintForms().isEmpty()){
-                BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
+                BudgetPrintService budgetPrintService = KcServiceLocator.getService(BudgetPrintService.class);
                 budgetPrintService.populateBudgetPrintForms(budget);
             }
         }
-        ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
+        ProposalDevelopmentPrintingService printService = KcServiceLocator.getService(ProposalDevelopmentPrintingService.class);
         printService.populateSponsorForms(pdform.getSponsorFormTemplates(), document.getDevelopmentProposal().getSponsorCode());
         pdform.getQuestionnaireHelper().prepareView();
         pdform.getS2sQuestionnaireHelper().prepareView();
@@ -962,7 +962,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     
     protected KcNotificationService getNotificationService() {
         if (notificationService == null) {
-            notificationService = KraServiceLocator.getService(KcNotificationService.class);
+            notificationService = KcServiceLocator.getService(KcNotificationService.class);
         }
         return notificationService;
     }
@@ -1033,12 +1033,12 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     * @return
     */
    public S2SBudgetCalculatorService getS2SBudgetCalculatorService() {
-       return KraServiceLocator.getService(S2SBudgetCalculatorService.class);
+       return KcServiceLocator.getService(S2SBudgetCalculatorService.class);
    }
 
     protected ProposalDevelopmentService getProposalDevelopmentService() {
         if (proposalDevelopmentService == null) {
-            proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+            proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
         }
         return proposalDevelopmentService;
     }
@@ -1049,7 +1049,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
     protected ProposalRoleTemplateService getProposalRoleTemplateService() {
         if (proposalRoleTemplateService == null) {
-            proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
+            proposalRoleTemplateService = KcServiceLocator.getService(ProposalRoleTemplateService.class);
         }
         return proposalRoleTemplateService;
     }

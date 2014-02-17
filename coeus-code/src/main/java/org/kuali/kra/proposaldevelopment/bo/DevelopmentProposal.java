@@ -20,6 +20,9 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.config.DescriptorCustomizer;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.CompositeDescriptorCustomizer;
+import org.kuali.coeus.sys.framework.persistence.FilterByMapDescriptorCustomizer;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
@@ -28,9 +31,6 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.persistence.CompositeDescriptorCustomizer;
-import org.kuali.coeus.sys.framework.persistence.FilterByMapDescriptorCustomizer;
 import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
@@ -406,7 +406,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -417,14 +417,14 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      */
     protected ProposalHierarchyService getProposalHierarchyService() {
         if (this.proposalHierarchyService == null) {
-            this.proposalHierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
+            this.proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
         }
         return this.proposalHierarchyService;
     }
 
     protected KeyPersonnelService getKeyPersonnelService() {
         if (keyPersonnelService == null) {
-            keyPersonnelService = KraServiceLocator.getService(KeyPersonnelService.class);
+            keyPersonnelService = KcServiceLocator.getService(KeyPersonnelService.class);
         }
         return keyPersonnelService;
     }
@@ -560,7 +560,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     }
 
     public void initializeOwnedByUnitNumber() {
-        ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        ProposalDevelopmentService proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
         List<Unit> userUnits = proposalDevelopmentService.getDefaultModifyProposalUnitsForUser(GlobalVariables.getUserSession().getPrincipalId());
         if (userUnits.size() == 1) {
             this.setOwnedByUnitNumber(userUnits.get(0).getUnitNumber());
@@ -1288,7 +1288,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * @return
      */
     protected BusinessObjectService getBusinessObjectService() {
-        return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
+        return (BusinessObjectService) KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     @SuppressWarnings("unchecked")
@@ -1600,7 +1600,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      */
     public NarrativeService getNarrativeService() {
         if (narrativeService == null) {
-            narrativeService = KraServiceLocator.getService(NarrativeService.class);
+            narrativeService = KcServiceLocator.getService(NarrativeService.class);
         }
         return narrativeService;
     }
@@ -1616,7 +1616,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     public ProposalPersonBiographyService getProposalPersonBiographyService() {
         if (proposalPersonBiographyService == null) {
-            proposalPersonBiographyService = KraServiceLocator.getService(ProposalPersonBiographyService.class);
+            proposalPersonBiographyService = KcServiceLocator.getService(ProposalPersonBiographyService.class);
         }
         return proposalPersonBiographyService;
     }
@@ -1789,7 +1789,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * @return Returns the ynqService.
      */
     public YnqService getYnqService() {
-        return KraServiceLocator.getService(YnqService.class);
+        return KcServiceLocator.getService(YnqService.class);
     }
 
     public String getBudgetStatus() {
@@ -1836,7 +1836,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      */
     public String getBudgetStatusDescription() {
         if (StringUtils.isEmpty(budgetStatusDescription)) {
-            KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this);
+            KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this);
         }
         return budgetStatusDescription;
     }
@@ -1972,7 +1972,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         if (isChild()) {
             try {
                 DevelopmentProposal parent = getProposalHierarchyService().lookupParent(this);
-                KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(parent);
+                KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(parent);
                 retval = parent.isProposalComplete();
             } catch (ProposalHierarchyException x) {
                 // this should never happen   
@@ -2282,7 +2282,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         Map<String, String> proposalNumberMap = new HashMap<String, String>();
         String proposalNumber = this.getProposalNumber();
         proposalNumberMap.put("proposalNumber", proposalNumber);
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         LookupableDevelopmentProposal lookupDevProposal = (LookupableDevelopmentProposal) businessObjectService.findByPrimaryKey(LookupableDevelopmentProposal.class, proposalNumberMap);
         if (lookupDevProposal != null) {
             return lookupDevProposal.getSponsor().getOwnedByUnit();
@@ -2440,7 +2440,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         }
 
         protected ParameterService getParameterService() {
-            return KraServiceLocator.getService(ParameterService.class);
+            return KcServiceLocator.getService(ParameterService.class);
         }
     }
 

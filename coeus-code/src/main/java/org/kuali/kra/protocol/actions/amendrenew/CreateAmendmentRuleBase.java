@@ -16,16 +16,16 @@
 package org.kuali.kra.protocol.actions.amendrenew;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.kra.infrastructure.KeyConstants;
 
 /**
  * Business rule for creating an amendment.  The user is required to enter a summary
  * and they must select at least one module which will be modified in the amendment.
  */
 @SuppressWarnings("unchecked")
-public abstract class CreateAmendmentRuleBase extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<CreateAmendmentEventBase> {
+public abstract class CreateAmendmentRuleBase extends KcTransactionalDocumentRuleBase implements KcBusinessRule<CreateAmendmentEventBase> {
 
     public boolean processRules(CreateAmendmentEventBase event) {
         

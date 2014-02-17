@@ -16,10 +16,10 @@
 package org.kuali.kra.subaward.document;
 
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -126,7 +126,7 @@ implements  Copyable, SessionDocument {
      * @return
      */
     protected VersionHistoryService getVersionHistoryService() {
-        return KraServiceLocator.getService(VersionHistoryService.class);
+        return KcServiceLocator.getService(VersionHistoryService.class);
     }
     /**
      * This method is to check whether rice
@@ -149,7 +149,7 @@ implements  Copyable, SessionDocument {
              */
             if (getDocumentHeader().getWorkflowDocument().isFinal() 
                     || getDocumentHeader().getWorkflowDocument().isProcessed()
-                    || KraServiceLocator.getService(KcWorkflowService.class).hasPendingApprovalRequests(getDocumentHeader().getWorkflowDocument())) {
+                    || KcServiceLocator.getService(KcWorkflowService.class).hasPendingApprovalRequests(getDocumentHeader().getWorkflowDocument())) {
                 isComplete = true;
             }
         }

@@ -18,14 +18,15 @@ package org.kuali.kra.service.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.Collection;
 import java.util.List;
+
 import static org.junit.Assert.*;
 public class UnitServiceImplTest extends KcIntegrationTestBase {
     
@@ -40,8 +41,8 @@ public class UnitServiceImplTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        unitService = KraServiceLocator.getService(UnitService.class);
-        unitServiceImpl = (UnitServiceImpl) KraServiceLocator.getService(UnitService.class);
+        unitService = KcServiceLocator.getService(UnitService.class);
+        unitServiceImpl = (UnitServiceImpl) KcServiceLocator.getService(UnitService.class);
         
     }
 

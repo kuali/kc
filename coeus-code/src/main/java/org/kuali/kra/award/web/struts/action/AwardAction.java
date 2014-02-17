@@ -27,6 +27,7 @@ import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.*;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -57,7 +58,10 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.*;
+import org.kuali.kra.infrastructure.AwardPermissionConstants;
+import org.kuali.kra.infrastructure.AwardRoleConstants;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.service.*;
 import org.kuali.kra.subaward.service.SubAwardService;
@@ -222,7 +226,7 @@ public class AwardAction extends BudgetParentActionBase {
     }
     
     protected List<String> getUnitRulesMessages(AwardDocument awardDoc) {
-        KrmsRulesExecutionService rulesService = KraServiceLocator.getService(KrmsRulesExecutionService.class);
+        KrmsRulesExecutionService rulesService = KcServiceLocator.getService(KrmsRulesExecutionService.class);
         return rulesService.processUnitValidations(awardDoc.getLeadUnitNumber(), awardDoc);
     }
 
@@ -263,7 +267,7 @@ public class AwardAction extends BudgetParentActionBase {
     
 
     protected TimeAndMoneyExistenceService getTimeAndMoneyExistenceService() {
-        return KraServiceLocator.getService(TimeAndMoneyExistenceService.class);
+        return KcServiceLocator.getService(TimeAndMoneyExistenceService.class);
     }
     
     @Override
@@ -492,7 +496,7 @@ public class AwardAction extends BudgetParentActionBase {
      * @return
      */
     protected AwardNumberService getAwardNumberService() {
-        return KraServiceLocator.getService(AwardNumberService.class);
+        return KcServiceLocator.getService(AwardNumberService.class);
     }
     
     /**
@@ -545,7 +549,7 @@ public class AwardAction extends BudgetParentActionBase {
      */
     protected void createInitialAwardUsers(Award award) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
         if (!kraAuthService.hasRole(userId, KraAuthorizationConstants.KC_AWARD_NAMESPACE, AwardRoleConstants.AWARD_MODIFIER.getAwardRole())) {
             kraAuthService.addRole(userId, AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), award); 
         }
@@ -564,7 +568,7 @@ public class AwardAction extends BudgetParentActionBase {
     }
 
     protected AwardHierarchyService getAwardHierarchyService(){
-        return KraServiceLocator.getService(AwardHierarchyService.class);
+        return KcServiceLocator.getService(AwardHierarchyService.class);
     }
 
     /**
@@ -579,7 +583,7 @@ public class AwardAction extends BudgetParentActionBase {
         String leadUnitNumber = awardDocument.getLeadUnitNumber();
         if (StringUtils.isNotEmpty(leadUnitNumber) && checkNoMoreThanOnePI(awardDocument.getAward())) {
             String userId = GlobalVariables.getUserSession().getPrincipalId();
-            UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);
+            UnitAuthorizationService authService = KcServiceLocator.getService(UnitAuthorizationService.class);
             //List<Unit> userUnits = authService.getUnits(userId, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
             return authService.hasMatchingQualifiedUnits(userId, Constants.MODULE_NAMESPACE_AWARD, 
                     AwardPermissionConstants.MODIFY_AWARD.getAwardPermission(), leadUnitNumber);
@@ -652,7 +656,7 @@ public class AwardAction extends BudgetParentActionBase {
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument.getAward());
         setBooleanAwardHasTandMOrIsVersioned(awardDocument.getAward());
-        AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        AwardAmountInfoService awardAmountInfoService = KcServiceLocator.getService(AwardAmountInfoService.class);
         int index = awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(awardDocument.getAward().getAwardAmountInfos());
         
         return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
@@ -671,7 +675,7 @@ public class AwardAction extends BudgetParentActionBase {
         String awardNumber = award.getAwardNumber();
         fieldValues.put("awardNumber", awardNumber);
         fieldValues.put("active", Boolean.TRUE);
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
         List<AwardHierarchy> awardHierarchies = (List) businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
         if (awardHierarchies.size() == 0) {
             award.setAwardInMultipleNodeHierarchy(false);
@@ -765,7 +769,7 @@ public class AwardAction extends BudgetParentActionBase {
         
         if(GlobalVariables.getMessageMap().hasNoErrors()){
             //AwardForm awardForm = (AwardForm) form;
-            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+            DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
             boolean firstTimeAndMoneyDocCreation = Boolean.TRUE;
             TransactionDetail transactionDetail = null;
     
@@ -776,7 +780,7 @@ public class AwardAction extends BudgetParentActionBase {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             String rootAwardNumber = awardForm.getAwardHierarchyNodes().get(currentAward.getAwardNumber()).getRootAwardNumber();
             fieldValues.put("rootAwardNumber", rootAwardNumber);
-            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
 
             List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
                 (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
@@ -828,7 +832,7 @@ public class AwardAction extends BudgetParentActionBase {
         
     protected TimeAndMoneyDocument getLastFinalTandMDocument(List<TimeAndMoneyDocument> timeAndMoneyDocuments) throws WorkflowException {
         TimeAndMoneyDocument returnVal = null;
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         while(timeAndMoneyDocuments.size() > 0) {
             TimeAndMoneyDocument docWithWorkFlowData = 
                 (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1).getDocumentNumber());
@@ -890,7 +894,7 @@ public class AwardAction extends BudgetParentActionBase {
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -958,7 +962,7 @@ public class AwardAction extends BudgetParentActionBase {
     }
     
     public List<Award> getAwardVersions(String awardNumber) {
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
         List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(awardNumber), "sequenceNumber", true);   
         return awards;
     }
@@ -973,7 +977,7 @@ public class AwardAction extends BudgetParentActionBase {
 //    }
     
     public AwardVersionService getAwardVersionService() {
-        return KraServiceLocator.getService(AwardVersionService.class);
+        return KcServiceLocator.getService(AwardVersionService.class);
     }
     
     /*
@@ -1003,7 +1007,7 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm)form;
         awardForm.setCurrentAwardNumber(awardNumber);
         awardForm.setCurrentSeqNumber(award.getSequenceNumber().toString());
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         AwardDocument awardDocument = (AwardDocument)documentService.getByDocumentHeaderId(documentNumber);
         awardDocument.setAward(award);
         awardForm.setDocument(awardDocument);
@@ -1012,14 +1016,14 @@ public class AwardAction extends BudgetParentActionBase {
     }  
    
     protected Award getActiveAwardVersion(String goToAwardNumber) {
-        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
+        VersionHistoryService vhs = KcServiceLocator.getService(VersionHistoryService.class);
         VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
         Award award = null;
         
         if(vh!=null){
             award = (Award) vh.getSequenceOwner();
         }else{
-            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
             award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber))).get(0);              
         }
         return award;
@@ -1046,7 +1050,7 @@ public class AwardAction extends BudgetParentActionBase {
      * @return
      */
     protected AwardDirectFandADistributionService getAwardDirectFandADistributionService() {
-        return KraServiceLocator.getService(AwardDirectFandADistributionService.class);
+        return KcServiceLocator.getService(AwardDirectFandADistributionService.class);
     }
 
     /**
@@ -1075,7 +1079,7 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.getSponsorTermFormHelper().setSponsorTermTypes(sponsorTermTypes);
         awardForm.getSponsorTermFormHelper().setNewSponsorTerms(awardSponsorTermService.getEmptyNewSponsorTerms(sponsorTermTypes));
 
-        AwardReportsService awardReportsService = KraServiceLocator.getService(AwardReportsService.class);
+        AwardReportsService awardReportsService = KcServiceLocator.getService(AwardReportsService.class);
         Map<String,Object> initializedObjects = awardReportsService.initializeObjectsForReportsAndPayments(
                                                     awardForm.getAwardDocument().getAward());
         awardForm.setReportClasses((List<ConcreteKeyValue>) initializedObjects.get(
@@ -1096,7 +1100,7 @@ public class AwardAction extends BudgetParentActionBase {
      * @return
      */
     protected AwardSponsorTermService getAwardSponsorTermService() {
-        return KraServiceLocator.getService(AwardSponsorTermService.class);
+        return KcServiceLocator.getService(AwardSponsorTermService.class);
     }
 
     /**
@@ -1314,7 +1318,7 @@ public class AwardAction extends BudgetParentActionBase {
      * @return
      */
     protected KualiRuleService getKualiRuleService() {
-        return KraServiceLocator.getService(KualiRuleService.class);
+        return KcServiceLocator.getService(KualiRuleService.class);
     }
     
     
@@ -1344,7 +1348,7 @@ public class AwardAction extends BudgetParentActionBase {
      */
     public ActionForward syncAwardTemplate(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
-        AwardTemplateSyncService awardTemplateSyncService = KraServiceLocator.getService(AwardTemplateSyncService.class);
+        AwardTemplateSyncService awardTemplateSyncService = KcServiceLocator.getService(AwardTemplateSyncService.class);
         AwardForm awardForm = (AwardForm)form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         
@@ -1398,7 +1402,7 @@ public class AwardAction extends BudgetParentActionBase {
     }
 
     private Map<AwardTemplateSyncScope, Boolean> generateScopeRequiresConfirmationMap( AwardTemplateSyncScope[] scopes, AwardDocument awardDocument,boolean skipCheck,boolean defaultValue ) {
-        AwardTemplateSyncService awardTemplateSyncService = KraServiceLocator.getService(AwardTemplateSyncService.class);
+        AwardTemplateSyncService awardTemplateSyncService = KcServiceLocator.getService(AwardTemplateSyncService.class);
         Map< AwardTemplateSyncScope,Boolean> requiresQuestionMap = new HashMap<AwardTemplateSyncScope,Boolean>();
         for( AwardTemplateSyncScope scope: scopes ) {
             if( skipCheck ) {
@@ -1511,7 +1515,7 @@ public class AwardAction extends BudgetParentActionBase {
     public ActionForward processSyncAward(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
         
-        AwardTemplateSyncService awardTemplateSyncService = KraServiceLocator.getService(AwardTemplateSyncService.class);
+        AwardTemplateSyncService awardTemplateSyncService = KcServiceLocator.getService(AwardTemplateSyncService.class);
         AwardForm awardForm = (AwardForm)form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         String question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
@@ -1616,19 +1620,19 @@ public class AwardAction extends BudgetParentActionBase {
     }
 
     protected SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
+        return KcServiceLocator.getService(SponsorService.class);
     }
 
     @Override
     protected PessimisticLockService getPessimisticLockService() {
-        return KraServiceLocator.getService(AwardLockService.class);
+        return KcServiceLocator.getService(AwardLockService.class);
     }
 
     /**
      * @return
      */
     protected VersionHistoryService getVersionHistoryService() {
-        return KraServiceLocator.getService(VersionHistoryService.class);
+        return KcServiceLocator.getService(VersionHistoryService.class);
     }
 
    
@@ -1765,16 +1769,16 @@ public class AwardAction extends BudgetParentActionBase {
     }
     
     protected AwardSyncCreationService getAwardSyncCreationService() {
-        return KraServiceLocator.getService(AwardSyncCreationService.class);
+        return KcServiceLocator.getService(AwardSyncCreationService.class);
     }
     
     protected AwardSyncService getAwardSyncService() {
-        return KraServiceLocator.getService(AwardSyncService.class);
+        return KcServiceLocator.getService(AwardSyncService.class);
     }
 
     protected AwardBudgetService getAwardBudgetService() {
         if (awardBudgetService == null) {
-            awardBudgetService = KraServiceLocator.getService(AwardBudgetService.class);
+            awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
         }
         return awardBudgetService;
     } 
@@ -1803,7 +1807,7 @@ public class AwardAction extends BudgetParentActionBase {
 
     public AwardService getAwardService() {
         if (awardService == null) {
-            awardService = KraServiceLocator.getService(AwardService.class);
+            awardService = KcServiceLocator.getService(AwardService.class);
         }
         return awardService;
     }
@@ -1814,7 +1818,7 @@ public class AwardAction extends BudgetParentActionBase {
     
     public ReportTrackingService getReportTrackingService() {
         if (reportTrackingService == null) {
-            reportTrackingService = KraServiceLocator.getService(ReportTrackingService.class);
+            reportTrackingService = KcServiceLocator.getService(ReportTrackingService.class);
         }
         return reportTrackingService;
     }
@@ -1828,7 +1832,7 @@ public class AwardAction extends BudgetParentActionBase {
 
     protected KcNotificationService getNotificationService() {
         if (notificationService == null) {
-            notificationService = KraServiceLocator.getService(KcNotificationService.class);
+            notificationService = KcServiceLocator.getService(KcNotificationService.class);
         }
         return notificationService;
     }
@@ -1839,7 +1843,7 @@ public class AwardAction extends BudgetParentActionBase {
 
     protected SubAwardService getSubAwardService() {
         if (subAwardService == null) {
-            subAwardService = KraServiceLocator.getService(SubAwardService.class);
+            subAwardService = KcServiceLocator.getService(SubAwardService.class);
         }
         return subAwardService;
     }

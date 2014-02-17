@@ -15,20 +15,20 @@
  */
 package org.kuali.kra.common.committee.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEventBase;
 import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**
  * 
  * This class is to implement business rule for deleting committee member.
  */
-public abstract class DeleteCommitteeMemberRuleBase extends KcTransactionalDocumentRuleBase implements  BusinessRuleInterface<DeleteCommitteeMemberEventBase> {
+public abstract class DeleteCommitteeMemberRuleBase extends KcTransactionalDocumentRuleBase implements KcBusinessRule<DeleteCommitteeMemberEventBase> {
     
     private static final String ID = "document.committeeList[0].committeeMemberships[";
     private static final String AS_REVIEWER = "as the person is a reviewer of the protocol";
@@ -36,7 +36,7 @@ public abstract class DeleteCommitteeMemberRuleBase extends KcTransactionalDocum
     private CommitteeMembershipServiceBase committeeMembershipService;
     /**
      * If member is assigned as a reviewer or as attendance of a meeting, then member can not be deleted.
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(DeleteCommitteeMemberEventBase event) {
 
@@ -60,7 +60,7 @@ public abstract class DeleteCommitteeMemberRuleBase extends KcTransactionalDocum
 
     private CommitteeMembershipServiceBase getCommitteeMembershipService() {
         if (committeeMembershipService == null) {
-            committeeMembershipService = KraServiceLocator.getService(getCommitteeMembershipServiceClassHook());
+            committeeMembershipService = KcServiceLocator.getService(getCommitteeMembershipServiceClassHook());
         }
         return committeeMembershipService;
     }

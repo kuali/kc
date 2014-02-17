@@ -1286,7 +1286,7 @@
         <property name="defaultIcon" value="static/images/ebinary_attachment.gif" />
     </bean>
     
-    <bean id="kcCronTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">
+    <bean id="kcCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
         <property name="jobDetail" ref="kcLockJobDetail" />
         <property name="parameterService" ref="parameterService" />
         <property name="dateTimeService" ref="dateTimeService" />
@@ -1552,7 +1552,7 @@
 	      scope="prototype">
   	</bean>
     
-    <bean id="scheduleService" class="org.kuali.kra.scheduling.service.impl.ScheduleServiceImpl" />
+    <bean id="scheduleService" class="org.kuali.coeus.sys.impl.scheduling.ScheduleServiceImpl" />
     
     <bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />

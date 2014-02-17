@@ -16,7 +16,6 @@
 package org.kuali.coeus.sys.framework.rule;
 
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public abstract class KcDocumentEventBaseExtension extends KcDocumentEventBase {
 
@@ -24,17 +23,17 @@ public abstract class KcDocumentEventBaseExtension extends KcDocumentEventBase {
         super(description, errorPathPrefix, document);
     }
 
-    public abstract BusinessRuleInterface getRule();
+    public abstract KcBusinessRule getRule();
     
 
     @SuppressWarnings("unchecked")
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((BusinessRuleInterface)rule).processRules(this);
+    public boolean invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule rule) {
+        return ((KcBusinessRule)rule).processRules(this);
     }
 
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
-        return BusinessRuleInterface.class;
+        return KcBusinessRule.class;
     }
 
     @Override

@@ -19,11 +19,11 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -195,7 +195,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             }                
         }
         if(proposalPerson.getHomeUnit()!=null){
-            ProposalPersonService proposalPersonService = KraServiceLocator.getService(ProposalPersonService.class);
+            ProposalPersonService proposalPersonService = KcServiceLocator.getService(ProposalPersonService.class);
             String divisionName = proposalPersonService.getProposalPersonDivisionName(proposalPerson);
             proposalPerson.setDivision(divisionName);
         }
@@ -330,7 +330,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      */
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
         Map<String,String> valueMap = new HashMap<String, String>();
-        BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
         valueMap.put("active", "true");
         return bos.findMatching(InvestigatorCreditType.class, valueMap);
     }

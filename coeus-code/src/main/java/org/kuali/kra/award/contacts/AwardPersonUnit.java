@@ -17,13 +17,13 @@ package org.kuali.kra.award.contacts;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;
@@ -301,7 +301,7 @@ public class AwardPersonUnit extends KcPersistableBusinessObjectBase implements 
         this.unitNumber = unitNumber;
         Map<String, String> pk = new HashMap<String, String>();
         pk.put("unitNumber", unitNumber);
-        Unit unit = (Unit) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Unit.class, pk);
+        Unit unit = (Unit) KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Unit.class, pk);
         if (unit != null) {
             this.unit = unit;
         } else {
@@ -314,7 +314,7 @@ public class AwardPersonUnit extends KcPersistableBusinessObjectBase implements 
      * @return
      */
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     private void lazilyLoadUnit() {

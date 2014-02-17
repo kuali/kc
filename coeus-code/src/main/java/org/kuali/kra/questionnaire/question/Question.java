@@ -18,9 +18,9 @@ package org.kuali.kra.questionnaire.question;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -200,7 +200,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
      */
     public String getLookupReturnDescription() {
         if ((this.lookupClass != null) && (this.lookupReturn != null)) {
-            DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+            DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
             return dataDictionaryService.getAttributeLabel(this.lookupClass, this.lookupReturn);
         } else {
             return "";

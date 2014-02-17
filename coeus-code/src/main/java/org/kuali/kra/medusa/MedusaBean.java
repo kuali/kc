@@ -16,7 +16,7 @@
 package org.kuali.kra.medusa;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.medusa.service.MedusaService;
 
 import java.io.Serializable;
@@ -102,7 +102,7 @@ public class MedusaBean implements Serializable{
      * @return
      */
     private MedusaService getMedusaService() {
-        return KraServiceLocator.getService(MedusaService.class);
+        return KcServiceLocator.getService(MedusaService.class);
     }
     
     public void generateParentNodes() {

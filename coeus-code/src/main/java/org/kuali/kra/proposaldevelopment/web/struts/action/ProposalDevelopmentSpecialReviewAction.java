@@ -20,18 +20,13 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
-import org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl;
-import org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentService;
-import org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.protocol.funding.ProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentSpecialReviewService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
@@ -115,7 +110,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         }
         proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
-        KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
+        KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
         if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled ))) {
             specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
             document.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
@@ -254,7 +249,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     
     public SpecialReviewService getSpecialReviewService() {
         if (specialReviewService == null) {
-            specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+            specialReviewService = KcServiceLocator.getService(SpecialReviewService.class);
         }
         return specialReviewService;
     }
@@ -290,7 +285,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
 
     public ProposalDevelopmentSpecialReviewService getProposalDevelopmentSpecialReviewService() {
         if (proposalDevelopmentSpecialReviewService == null) {
-            proposalDevelopmentSpecialReviewService = KraServiceLocator.getService(ProposalDevelopmentSpecialReviewService.class);
+            proposalDevelopmentSpecialReviewService = KcServiceLocator.getService(ProposalDevelopmentSpecialReviewService.class);
         }
         return proposalDevelopmentSpecialReviewService;
     }

@@ -30,7 +30,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.sort;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 /**
  * Lookup acceptable values for <code>{@link PersonEditableField}</code> business object

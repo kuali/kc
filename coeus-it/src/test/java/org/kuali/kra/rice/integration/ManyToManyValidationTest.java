@@ -21,7 +21,7 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
@@ -51,7 +51,7 @@ public class ManyToManyValidationTest extends KcIntegrationTestBase { //KraWebTe
      */
     @Before
     public void setupDocument() throws Exception { 
-        this.doc = (ProtocolDocument) KraServiceLocator.getService(DocumentService.class).getNewDocument(ProtocolDocument.class);
+        this.doc = (ProtocolDocument) KcServiceLocator.getService(DocumentService.class).getNewDocument(ProtocolDocument.class);
         
         final Protocol protocol = ProtocolTestUtil.getProtocol(this.mockery);
         this.doc.setProtocol(protocol);

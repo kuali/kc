@@ -18,11 +18,11 @@ package org.kuali.kra.common.permissions.web.struts.form;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.web.bean.*;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -372,7 +372,7 @@ public abstract class PermissionsHelperBase implements Serializable {
      * @return the list of KIM roles for the document
      */
     protected List<org.kuali.rice.kim.api.role.Role> getKimRoles(String roleType) {
-        SystemAuthorizationService systemAuthorizationService = KraServiceLocator.getService(SystemAuthorizationService.class);
+        SystemAuthorizationService systemAuthorizationService = KcServiceLocator.getService(SystemAuthorizationService.class);
         return systemAuthorizationService.getRoles(roleType);
     }
     
@@ -509,7 +509,7 @@ public abstract class PermissionsHelperBase implements Serializable {
     }
     
     protected TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
     
     /**
@@ -518,14 +518,14 @@ public abstract class PermissionsHelperBase implements Serializable {
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         
         return this.kcPersonService;
     }
     
     protected PermissionService getKimPermissionService() {
-        return KraServiceLocator.getService("kimPermissionService");
+        return KcServiceLocator.getService("kimPermissionService");
     }
 
     /**

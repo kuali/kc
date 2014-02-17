@@ -25,8 +25,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
@@ -47,7 +47,8 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertTrue;
 public class ProtocolRouteTest extends KcIntegrationTestBase {
 
     private static final String SUMMARY = "my test summary";
@@ -65,10 +66,10 @@ public class ProtocolRouteTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
 
-        protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
-        documentService = KraServiceLocator.getService(DocumentService.class);
-        protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);
-        protocolFinder = KraServiceLocator.getService(ProtocolFinderDao.class);
+        protocolSubmitActionService = KcServiceLocator.getService(ProtocolSubmitActionService.class);
+        documentService = KcServiceLocator.getService(DocumentService.class);
+        protocolAmendRenewService = KcServiceLocator.getService(ProtocolAmendRenewService.class);
+        protocolFinder = KcServiceLocator.getService(ProtocolFinderDao.class);
     }
 
     @After

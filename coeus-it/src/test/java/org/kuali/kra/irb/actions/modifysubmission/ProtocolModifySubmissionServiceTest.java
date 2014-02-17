@@ -25,7 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.submit.*;
@@ -51,12 +51,12 @@ public class ProtocolModifySubmissionServiceTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
 
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         
         service = new ProtocolModifySubmissionServiceImpl();
         service.setTaskAuthorizationService(getMockTaskAuthorizationService());
         service.setBusinessObjectService(businessObjectService);
-        service.setDocumentService(KraServiceLocator.getService(DocumentService.class));
+        service.setDocumentService(KcServiceLocator.getService(DocumentService.class));
     }
 
     @After

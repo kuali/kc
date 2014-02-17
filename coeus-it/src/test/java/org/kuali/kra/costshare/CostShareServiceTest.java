@@ -18,13 +18,13 @@ package org.kuali.kra.costshare;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+
 import static org.junit.Assert.*;
 @NAMESPACE(namespace=Constants.KC_GENERIC_PARAMETER_NAMESPACE)
 @COMPONENT(component=Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE)
@@ -35,8 +35,8 @@ public class CostShareServiceTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        costShareService = KraServiceLocator.getService(CostShareService.class);
-        costShareServiceImpl = (CostShareServiceImpl) KraServiceLocator.getService(CostShareService.class);
+        costShareService = KcServiceLocator.getService(CostShareService.class);
+        costShareServiceImpl = (CostShareServiceImpl) KcServiceLocator.getService(CostShareService.class);
     }
 
     @After

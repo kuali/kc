@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.subaward.notification;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.util.EmailAttachment;
 
@@ -55,9 +55,9 @@ public class SubAwardNotificationContext extends NotificationContextBase {
         this.contextName = contextName;
         this.forwardName = forwardName;
         
-        setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
-        setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRoleQualifierService(KraServiceLocator.getService(SubAwardNotificationRoleQualifierService.class));
+        setNotificationService(KcServiceLocator.getService(KcNotificationService.class));
+        setNotificationModuleRoleService(KcServiceLocator.getService(KcNotificationModuleRoleService.class));
+        setNotificationRoleQualifierService(KcServiceLocator.getService(SubAwardNotificationRoleQualifierService.class));
         ((SubAwardNotificationRoleQualifierService)getNotificationRoleQualifierService()).setSubAward(subAward);
     }
     

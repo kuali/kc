@@ -18,6 +18,7 @@ package org.kuali.kra.s2s.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -39,7 +40,6 @@ import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -105,7 +105,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 
    protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -1645,7 +1645,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             keyPerson.setMiddleName(coInvestigator.getMiddleName());
             keyPerson.setNonMITPersonFlag(isPersonNonMITPerson(coInvestigator));
 
-            SponsorService sponsorService = KraServiceLocator.getService(SponsorService.class);
+            SponsorService sponsorService = KcServiceLocator.getService(SponsorService.class);
             if (sponsorService.isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
                 if (coInvestigator.isMultiplePi()){
                     keyPerson.setRole(NID_PD_PI);

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.personnel.SaveProtocolPersonnelEventBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Represents the event to save a ProtocolPersonnel.
@@ -35,7 +35,7 @@ public class SaveIacucProtocolPersonnelEvent extends SaveProtocolPersonnelEventB
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new SaveIacucProtocolPersonnelRule();
     }
     

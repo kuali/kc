@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.personnel;
 
 import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -42,7 +42,7 @@ public class NewProtocolPersonRoleValuesFinder extends UifKeyValuesFinderBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection protocolPersonRoles = keyValuesService.findAllOrderBy(ProtocolPersonRole.class,"description",true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));    

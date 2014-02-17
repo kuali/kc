@@ -16,10 +16,10 @@
 package org.kuali.kra.bo;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.irb.correspondence.CorrespondentType;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -104,7 +104,7 @@ public class IacucUnitCorrespondentMaintainableImpl extends KraMaintainableImpl 
 
     private boolean isValidPrincipalId(String principalId) {
         boolean valid = true;
-        KcPersonService personService = KraServiceLocator.getService(KcPersonService.class);
+        KcPersonService personService = KcServiceLocator.getService(KcPersonService.class);
         if ( StringUtils.isEmpty(principalId) ) {
             valid = false;
         } else {
@@ -117,14 +117,14 @@ public class IacucUnitCorrespondentMaintainableImpl extends KraMaintainableImpl 
 
     
     private boolean isUnitIdValid(String unitNumber) {
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> validParams = new HashMap<String, String>();
         validParams.put("unitNumber", unitNumber);
         return !businessObjectService.findMatching(Unit.class, validParams).isEmpty();
     }
 
     private boolean isCorrespondentTypeCodeValid(Integer correspondentTypeCode) {
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> validParams = new HashMap<String, String>();
         validParams.put("correspondentTypeCode", correspondentTypeCode.toString());
         return !businessObjectService.findMatching(CorrespondentType.class, validParams).isEmpty();

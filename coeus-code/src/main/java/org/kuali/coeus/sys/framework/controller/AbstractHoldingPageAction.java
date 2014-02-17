@@ -19,7 +19,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -101,7 +101,7 @@ public abstract class AbstractHoldingPageAction extends KualiAction {
 
     public DocumentService getDocumentService() {
         if (documentService == null) {
-            documentService = KraServiceLocator.getService(DocumentService.class);
+            documentService = KcServiceLocator.getService(DocumentService.class);
         }
         return documentService;
     }
@@ -112,7 +112,7 @@ public abstract class AbstractHoldingPageAction extends KualiAction {
 
     public PersonService getPersonService() {
         if (personService == null) {
-            personService = KraServiceLocator.getService(PersonService.class);
+            personService = KcServiceLocator.getService(PersonService.class);
         }
         return personService;
     }

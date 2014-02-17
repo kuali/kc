@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.budget.core;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 
 /**
@@ -36,9 +36,9 @@ public final class BudgetCommonServiceFactory {
      */
     public static BudgetCommonService createInstance(BudgetParentDocument parentBudgetDocument) {
         if (parentBudgetDocument.getClass().equals(AwardDocument.class)) {
-            return KraServiceLocator.getService(AwardBudgetService.class);
+            return KcServiceLocator.getService(AwardBudgetService.class);
         } else {
-            return KraServiceLocator.getService(ProposalBudgetService.class);
+            return KcServiceLocator.getService(ProposalBudgetService.class);
         }
     }
 

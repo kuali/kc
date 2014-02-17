@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.meeting;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
@@ -40,7 +40,7 @@ public class CommitteeScheduleMinute extends CommitteeScheduleMinuteBase<Committ
 
     @Override
     protected boolean isAdministrator(String principalId) {
-        RoleService roleService = KraServiceLocator.getService(RoleService.class);
+        RoleService roleService = KcServiceLocator.getService(RoleService.class);
         Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR, null);
         return ids.contains(principalId);
     }

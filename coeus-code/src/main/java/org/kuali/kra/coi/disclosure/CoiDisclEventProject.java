@@ -18,10 +18,10 @@ package org.kuali.kra.coi.disclosure;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclosureEventType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -124,7 +124,7 @@ public class CoiDisclEventProject implements Serializable {
     private boolean isEventExcludFE(String eventTypeCode) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("eventTypeCode", eventTypeCode);
-        CoiDisclosureEventType CoiDisclosureEventType =  KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CoiDisclosureEventType.class, fieldValues);
+        CoiDisclosureEventType CoiDisclosureEventType =  KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CoiDisclosureEventType.class, fieldValues);
         return CoiDisclosureEventType.isExcludeFinancialEntities();
     }
 

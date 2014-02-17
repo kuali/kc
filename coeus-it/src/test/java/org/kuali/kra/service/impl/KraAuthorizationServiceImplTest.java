@@ -17,9 +17,9 @@ package org.kuali.kra.service.impl;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -50,9 +50,9 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
-        proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
-        identityManagementService = KraServiceLocator.getService(IdentityService.class);
+        kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
+        proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+        identityManagementService = KcServiceLocator.getService(IdentityService.class);
     }
     
     /**

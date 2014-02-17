@@ -16,6 +16,7 @@
 package org.kuali.kra.award.budget.document;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
@@ -29,7 +30,6 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -147,7 +147,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     }
 
     private BusinessObjectService getBusinesssObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     public AwardBudgetExt getAwardBudget(){
@@ -196,7 +196,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         
         if( changeStatus ) {
             try {
-                KraServiceLocator.getService(DocumentService.class).saveDocument(this);
+                KcServiceLocator.getService(DocumentService.class).saveDocument(this);
             }
             catch (WorkflowException e) {
                 throw new RuntimeException( "Could not save award document on action  taken.");
@@ -214,7 +214,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     public void doActionTaken(ActionTakenEvent event) {
         super.doActionTaken(event);
         ActionTaken actionTaken = event.getActionTaken();
-        KcDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KcDocumentRejectionService.class);
+        KcDocumentRejectionService documentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
         if( LOG.isDebugEnabled() ) {
             LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken().getCode()) );
         }
@@ -224,7 +224,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
             //set the status back to in progress
             getAwardBudget().setAwardBudgetStatusCode( Constants.BUDGET_STATUS_CODE_IN_PROGRESS);
             try {
-                KraServiceLocator.getService(DocumentService.class).saveDocument(this);
+                KcServiceLocator.getService(DocumentService.class).saveDocument(this);
             }
             catch (WorkflowException e) {
                 throw new RuntimeException( "Could not save award document on action  taken.");
@@ -242,7 +242,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     public void documentHasBeenRejected( String reason ) {
         this.getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_REJECTED);
         try {
-            KraServiceLocator.getService(DocumentService.class).saveDocument(this);
+            KcServiceLocator.getService(DocumentService.class).saveDocument(this);
         }
         catch (WorkflowException e) {
             throw new RuntimeException( "Could not save award document on action  taken.");
@@ -258,14 +258,14 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         //without this it caches the budget as a Budget which causes problems
         //when assuming it must be an awardbudgetext for an awardbudgetdocument
         if (this.getBudget() != null && this.getBudget().getBudgetId() != null) {
-            AwardBudgetExt budget = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(AwardBudgetExt.class, this.getBudget().getBudgetId());
+            AwardBudgetExt budget = KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(AwardBudgetExt.class, this.getBudget().getBudgetId());
         }
         super.prepareForSave();
     }
 
     protected AwardBudgetService getAwardBudgetService() {
         if (awardBudgetService == null) {
-            awardBudgetService = KraServiceLocator.getService(AwardBudgetService.class);
+            awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
         }
         return awardBudgetService;
     }

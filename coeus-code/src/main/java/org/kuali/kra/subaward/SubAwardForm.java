@@ -19,6 +19,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.versioning.VersionHistory;
@@ -26,7 +27,6 @@ import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.service.VersionHistoryService;
@@ -373,7 +373,7 @@ implements PermissionsForm, AuditableForm, CustomDataDocumentForm {
      */
     public int getDefaultFollowUpDayDifference() {
         if (defaultFollowUpDayDifference == 0) {
-            defaultFollowUpDayDifference = KraServiceLocator.
+            defaultFollowUpDayDifference = KcServiceLocator.
             getService(SubAwardService.class).getFollowupDateDefaultLengthInDays();
         }
         return defaultFollowUpDayDifference;
@@ -386,7 +386,7 @@ implements PermissionsForm, AuditableForm, CustomDataDocumentForm {
         SubAwardDocument doc = this.getSubAwardDocument();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
-        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService tas = KcServiceLocator.getService(TaskAuthorizationService.class);
         ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
         SubAwardTask task = new SubAwardTask(TaskName.ADD_INVOICE_SUBAWARD, doc);
         if(tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task)) {       
@@ -411,7 +411,7 @@ implements PermissionsForm, AuditableForm, CustomDataDocumentForm {
     }
     
     protected VersionHistoryService getVersionHistoryService() {
-        return KraServiceLocator.getService(VersionHistoryService.class);
+        return KcServiceLocator.getService(VersionHistoryService.class);
     }
 
 }

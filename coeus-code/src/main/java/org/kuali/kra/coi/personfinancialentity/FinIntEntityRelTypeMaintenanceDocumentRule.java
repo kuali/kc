@@ -17,8 +17,8 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -110,7 +110,7 @@ public class FinIntEntityRelTypeMaintenanceDocumentRule  extends KcMaintenanceDo
 
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }

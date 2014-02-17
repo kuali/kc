@@ -16,7 +16,7 @@
 package org.kuali.kra.subaward.document.authorizer;
 
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -77,12 +77,12 @@ public class SubAwardInvoiceMaintenanceDocumentAuthorizer extends MaintenanceDoc
      * @return
      */
     protected final TaskAuthorizationService getTaskAuthorizationService(){
-        return (TaskAuthorizationService) KraServiceLocator.getService(TaskAuthorizationService.class);        
+        return (TaskAuthorizationService) KcServiceLocator.getService(TaskAuthorizationService.class);
     }    
     protected final BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
     protected final DocumentService getDocumentService() {
-        return KraServiceLocator.getService(DocumentService.class);
+        return KcServiceLocator.getService(DocumentService.class);
     }
 }

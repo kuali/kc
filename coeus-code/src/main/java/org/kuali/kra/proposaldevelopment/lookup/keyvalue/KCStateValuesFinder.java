@@ -17,7 +17,7 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.ProposalCountryService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class KCStateValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
+public class KcStateValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     private String countryCode = "";
 
@@ -84,7 +84,7 @@ public class KCStateValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
             if (countryCodePassedIn.length() == 2) {
                 determinedCountryCode = countryCodePassedIn;
             } else {
-                ProposalCountryService proposalCountryService = KraServiceLocator.getService(ProposalCountryService.class);
+                ProposalCountryService proposalCountryService = KcServiceLocator.getService(ProposalCountryService.class);
                 determinedCountryCode = proposalCountryService.convertAltCountryCodeToRealCountryCode(countryCodePassedIn);
             }
             
@@ -126,7 +126,7 @@ public class KCStateValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
                 if (currentPersonCountryCode.length() == 2) {
                     countryCode = currentPersonCountryCode;
                 } else {
-                    ProposalCountryService proposalCountryService = KraServiceLocator.getService(ProposalCountryService.class);
+                    ProposalCountryService proposalCountryService = KcServiceLocator.getService(ProposalCountryService.class);
                     countryCode = proposalCountryService.convertAltCountryCodeToRealCountryCode(currentPersonCountryCode);
                 }
             } else {

@@ -26,11 +26,11 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
@@ -99,7 +99,7 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(pIChange)) {
             phsChecklist.setIsChangeOfPDPI(YesNoDataType.Y_YES);
             if (pIChangeExplanation != null) {
-                BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+                BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
                 Rolodex rolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class, pIChangeExplanation); 
                 HumanNameDataType formerPDName = globLibV20Generator
                         .getHumanNameDataType(rolodex);

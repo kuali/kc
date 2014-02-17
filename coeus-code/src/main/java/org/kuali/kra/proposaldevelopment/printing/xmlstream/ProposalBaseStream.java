@@ -17,12 +17,12 @@ package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
@@ -58,8 +58,8 @@ public abstract class ProposalBaseStream implements XmlStream {
 			ProposalDevelopmentDocument proposalDevelopmentDocument) {
 		BudgetDocument bdDoc = null;
 		try {
-			bdDoc = KraServiceLocator.getService(
-					S2SBudgetCalculatorService.class).getFinalBudgetVersion(
+			bdDoc = KcServiceLocator.getService(
+                    S2SBudgetCalculatorService.class).getFinalBudgetVersion(
 					proposalDevelopmentDocument);
 		} catch (S2SException e) {
 			LOG.error("Error while fetching final Budget Version", e);

@@ -19,6 +19,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -28,7 +29,6 @@ import org.kuali.kra.budget.rates.RateClassType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -154,7 +154,7 @@ public class BudgetRatesAction extends BudgetAction {
     }
     
     private BudgetRatesService getBudgetRatesService() {
-        return KraServiceLocator.getService(BudgetRatesService.class);
+        return KcServiceLocator.getService(BudgetRatesService.class);
     }
 
     /**

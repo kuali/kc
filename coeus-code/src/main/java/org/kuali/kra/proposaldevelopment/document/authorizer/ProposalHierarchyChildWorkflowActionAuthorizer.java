@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -40,7 +40,7 @@ public class ProposalHierarchyChildWorkflowActionAuthorizer extends ProposalAuth
         
         if( doc.getDevelopmentProposal().isChild() ) {
             try {
-                WorkflowDocument parentWDoc  = KraServiceLocator.getService(ProposalHierarchyService.class).getParentWorkflowDocument(doc);
+                WorkflowDocument parentWDoc  = KcServiceLocator.getService(ProposalHierarchyService.class).getParentWorkflowDocument(doc);
                 if( task.getTaskName().equals(TaskName.PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION)) {
                     if( (!parentWDoc.isAcknowledgeRequested()) || parentWDoc.isInitiated() ) authorized = false; 
                 } else if ( task.getTaskName().equals(TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION) ) {

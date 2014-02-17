@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.sys.framework.service;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
 
 import javax.servlet.ServletContextEvent;
@@ -28,7 +27,7 @@ public class KcServiceLocatorListener extends KualiInitializeListener {
     public void contextInitialized(ServletContextEvent sce) {
         LOG.debug("Starting KraServiceLocatorListener");
         super.contextInitialized(sce);
-        KraServiceLocator.setAppContext(getContext());
+        KcServiceLocator.setAppContext(getContext());
     }
 
 }

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.personnel.AddProtocolPersonnelEventBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Represents the event to add a ProtocolPersonnel.
@@ -37,7 +37,7 @@ public class AddIacucProtocolPersonnelEvent extends AddProtocolPersonnelEventBas
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new AddIacucProtocolPersonnelRule();
     }
 

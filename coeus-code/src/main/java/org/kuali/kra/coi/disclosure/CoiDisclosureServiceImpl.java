@@ -19,6 +19,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.document.AwardDocument;
@@ -39,7 +40,6 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.protocol.IacucProtocolType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.DisclosureEventTypeConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -2029,7 +2029,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     
     public MedusaService getMedusaService() {
         if(ObjectUtils.isNull(medusaService)) {
-            this.medusaService = KraServiceLocator.getService(MedusaService.class);
+            this.medusaService = KcServiceLocator.getService(MedusaService.class);
         }
         return medusaService;
     }

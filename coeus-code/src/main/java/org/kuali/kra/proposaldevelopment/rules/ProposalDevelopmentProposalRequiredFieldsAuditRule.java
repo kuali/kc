@@ -16,9 +16,9 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -100,13 +100,13 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }   
     protected ProposalDevelopmentService getProposalDevelopmentService() {
         if (this.proposalDevelopmentService == null) {
-            this.proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+            this.proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
         }
         return this.proposalDevelopmentService;
     }
@@ -121,7 +121,7 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
 
     protected S2SUtilService getS2sUtilService() {
         if (s2sUtilService == null) {
-            s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+            s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         }
         return s2sUtilService;
     }

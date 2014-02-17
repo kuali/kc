@@ -25,6 +25,7 @@ import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
@@ -65,7 +66,6 @@ import org.kuali.kra.iacuc.questionnaire.print.IacucCorrespondencePrintingServic
 import org.kuali.kra.iacuc.questionnaire.print.IacucQuestionnairePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesEvent;
 import org.kuali.kra.printing.Printable;
@@ -758,11 +758,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
     private IacucCorrespondencePrintingService getIacucCorrespondencePrintingService() {
-        return KraServiceLocator.getService(IacucCorrespondencePrintingService.class);
+        return KcServiceLocator.getService(IacucCorrespondencePrintingService.class);
     }
 
     protected IacucQuestionnairePrintingService getIacucQuestionnairePrintingService() {
-        return KraServiceLocator.getService(IacucQuestionnairePrintingService.class);
+        return KcServiceLocator.getService(IacucQuestionnairePrintingService.class);
     }
     
     /*
@@ -1547,7 +1547,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
     private IacucProtocolPrintingService getProtocolPrintingService() {
-        return KraServiceLocator.getService(IacucProtocolPrintingService.class);
+        return KcServiceLocator.getService(IacucProtocolPrintingService.class);
     }
     
     /**
@@ -1727,27 +1727,27 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
     private IacucProtocolAttachmentService getProtocolAttachmentService() {
-        return KraServiceLocator.getService(IacucProtocolAttachmentService.class);
+        return KcServiceLocator.getService(IacucProtocolAttachmentService.class);
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
     
     public IacucProtocolCopyService getIacucProtocolCopyService() {
-        return KraServiceLocator.getService(IacucProtocolCopyService.class);
+        return KcServiceLocator.getService(IacucProtocolCopyService.class);
     }
     
     private IacucProtocolAmendRenewService getProtocolAmendRenewService() {
-        return KraServiceLocator.getService(IacucProtocolAmendRenewService.class);        
+        return KcServiceLocator.getService(IacucProtocolAmendRenewService.class);
     }
     
     private IacucProtocolDeleteService getProtocolDeleteService() {
-        return KraServiceLocator.getService(IacucProtocolDeleteService.class);
+        return KcServiceLocator.getService(IacucProtocolDeleteService.class);
     }
     
     private IacucReviewCommentsService getReviewCommentsService() {
-        return KraServiceLocator.getService(IacucReviewCommentsService.class);
+        return KcServiceLocator.getService(IacucReviewCommentsService.class);
     }
         
     /**
@@ -2007,14 +2007,14 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
     private IacucFollowupActionService getFollowupActionService() {
-        return KraServiceLocator.getService(IacucFollowupActionService.class);
+        return KcServiceLocator.getService(IacucFollowupActionService.class);
     }
     
     /**
      * This method is to get Watermark Service. 
      */
     private WatermarkService getWatermarkService() {
-        return  KraServiceLocator.getService(WatermarkService.class);  
+        return  KcServiceLocator.getService(WatermarkService.class);
     }
 
     /**
@@ -2221,7 +2221,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     
     protected KcNotificationService getNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
+        return KcServiceLocator.getService(KcNotificationService.class);
     }
          
     public ActionForward viewCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -2258,7 +2258,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         if (saveAction) {
             if (correspondence.getFinalFlag()) {
-                correspondence.setFinalFlagTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                correspondence.setFinalFlagTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
                            
             }
             getBusinessObjectService().save(correspondence);
@@ -2303,7 +2303,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             protocolCorrespondence.setCorrespondence(dataSource.getContent());
             protocolCorrespondence.setFinalFlag(false);
             protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-            protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+            protocolCorrespondence.setCreateTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
             protocolCorrespondence.setForwardName(IacucConstants.PROTOCOL_ACTIONS_TAB);
             protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
             getBusinessObjectService().save(protocolCorrespondence);
@@ -2320,7 +2320,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     } 
 
     private IacucProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
-        return KraServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
+        return KcServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
     }
 
     public ActionForward updateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
@@ -2406,7 +2406,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
     private IacucProtocolPrintingService getIacucProtocolPrintingService() {
-        return KraServiceLocator.getService(IacucProtocolPrintingService.class);
+        return KcServiceLocator.getService(IacucProtocolPrintingService.class);
     }
     
     public ActionForward sendReviewDeterminationNotificationAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -2483,7 +2483,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             UndoLastActionBean undoLastActionBean = protocolForm.getActionHelper().getUndoLastActionBean();
             String lastActionType = undoLastActionBean.getLastAction().getProtocolActionTypeCode();
             
-            IacucProtocolUndoLastActionService undoLastActionService = KraServiceLocator.getService(IacucProtocolUndoLastActionService.class);
+            IacucProtocolUndoLastActionService undoLastActionService = KcServiceLocator.getService(IacucProtocolUndoLastActionService.class);
             ProtocolDocumentBase updatedDocument = undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
                        
     

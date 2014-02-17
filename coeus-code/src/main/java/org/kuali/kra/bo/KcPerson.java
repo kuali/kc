@@ -18,7 +18,7 @@ package org.kuali.kra.bo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.address.EntityAddress;
 import org.kuali.rice.kim.api.identity.address.EntityAddressContract;
@@ -35,7 +35,6 @@ import org.kuali.rice.kim.api.identity.phone.EntityPhoneContract;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfoContract;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.location.api.country.Country;
@@ -887,7 +886,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      */
     BusinessObjectService getBusinessObjectService() {
         if (this.boService == null) {
-            this.boService = KraServiceLocator.getService(BusinessObjectService.class);
+            this.boService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return this.boService;
     }
@@ -898,7 +897,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      */
     IdentityService getIdentityService() {
         if (this.identityService == null) {
-            this.identityService = KraServiceLocator.getService(IdentityService.class);
+            this.identityService = KcServiceLocator.getService(IdentityService.class);
         }
         return this.identityService;
     }
@@ -909,7 +908,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      */
     CountryService getCountryService() {
         if (this.countryService == null) {
-            this.countryService = KraServiceLocator.getService(CountryService.class);
+            this.countryService = KcServiceLocator.getService(CountryService.class);
         }
         return this.countryService;
     }

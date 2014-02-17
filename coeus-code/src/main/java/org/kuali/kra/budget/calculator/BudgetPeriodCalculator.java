@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.calculator;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.*;
 import org.kuali.kra.budget.core.Budget;
@@ -33,7 +34,6 @@ import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 public class BudgetPeriodCalculator {
     private BudgetCalculationService budgetCalculationService;
@@ -84,7 +84,7 @@ public class BudgetPeriodCalculator {
         //put all lineitems in one bucket
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         BudgetLineItem prevBudgetLineItem = currentBudgetLineItem;
-        int periodDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetPeriod.getEndDate(), false);
+        int periodDuration = KcServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetPeriod.getEndDate(), false);
         // calculate for the apply-from item in case there is any change, so it will be updated properly after apply-to
         budgetCalculationService.calculateBudgetLineItem(budget, currentBudgetLineItem);
         
@@ -165,11 +165,11 @@ public class BudgetPeriodCalculator {
                 //budgetLineItem.setStartDate(budgetPeriod.getStartDate());
                 //budgetLineItem.setEndDate(budgetPeriod.getEndDate());
                 
-                boolean isLeapDateInPeriod = KraServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(prevBudgetLineItem.getStartDate(), prevBudgetLineItem.getEndDate()) ;
-                gap=KraServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate(), false);
-                boolean isLeapDayInGap = KraServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate());
-                lineDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
-                currentPeriodDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
+                boolean isLeapDateInPeriod = KcServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(prevBudgetLineItem.getStartDate(), prevBudgetLineItem.getEndDate()) ;
+                gap= KcServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate(), false);
+                boolean isLeapDayInGap = KcServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate());
+                lineDuration= KcServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
+                currentPeriodDuration = KcServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
                 List <java.sql.Date> startEndDates = new ArrayList<java.sql.Date> ();
                 if (periodDuration == lineDuration || lineDuration > currentPeriodDuration) {
                     budgetLineItem.setStartDate(budgetPeriod.getStartDate());
@@ -177,7 +177,7 @@ public class BudgetPeriodCalculator {
                 } else {
                     startEndDates.add(0, budgetPeriod.getStartDate());
                     startEndDates.add(1, budgetPeriod.getEndDate());
-                    List <java.sql.Date> dates = KraServiceLocator.getService(BudgetSummaryService.class).getNewStartEndDates(startEndDates, gap, lineDuration, budgetLineItem.getStartDate(), isLeapDateInPeriod,isLeapDayInGap);
+                    List <java.sql.Date> dates = KcServiceLocator.getService(BudgetSummaryService.class).getNewStartEndDates(startEndDates, gap, lineDuration, budgetLineItem.getStartDate(), isLeapDateInPeriod,isLeapDayInGap);
                     budgetLineItem.setStartDate(dates.get(0));
                     budgetLineItem.setEndDate(dates.get(1));
                 }
@@ -191,29 +191,29 @@ public class BudgetPeriodCalculator {
                     budgetLineItem.setLineItemCost(lineItemCost);
                 }
                 
-                lineDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
+                lineDuration= KcServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
                 int personnelDuration = 0;
 
                 /* add personnel line items */
                 List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
                 for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
-                    isLeapDateInPeriod = KraServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate()) ;
+                    isLeapDateInPeriod = KcServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate()) ;
                     budgetPersonnelDetail.setBudgetPersonnelLineItemId(null);
                     budgetPersonnelDetail.getBudgetCalculatedAmounts().clear();
                     budgetPersonnelDetail.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                     budgetPersonnelDetail.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
                     budgetPersonnelDetail.setLineItemSequence(getBudgetDocument(budget).getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
                     
-                    personnelDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate(), false);
-                    gap=KraServiceLocator.getService(DateTimeService.class).dateDiff(prevBudgetLineItem.getStartDate(), budgetPersonnelDetail.getStartDate(), false);
-                    isLeapDayInGap = KraServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(prevBudgetLineItem.getStartDate(), budgetPersonnelDetail.getStartDate());
+                    personnelDuration= KcServiceLocator.getService(DateTimeService.class).dateDiff(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate(), false);
+                    gap= KcServiceLocator.getService(DateTimeService.class).dateDiff(prevBudgetLineItem.getStartDate(), budgetPersonnelDetail.getStartDate(), false);
+                    isLeapDayInGap = KcServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(prevBudgetLineItem.getStartDate(), budgetPersonnelDetail.getStartDate());
                     if (periodDuration == personnelDuration || personnelDuration >= lineDuration) {
                         budgetPersonnelDetail.setStartDate(budgetLineItem.getStartDate());
                         budgetPersonnelDetail.setEndDate(budgetLineItem.getEndDate());
                     } else {
                         startEndDates.add(0, budgetLineItem.getStartDate());
                         startEndDates.add(1, budgetLineItem.getEndDate());
-                        List <java.sql.Date> dates = KraServiceLocator.getService(BudgetSummaryService.class).getNewStartEndDates(startEndDates, gap, personnelDuration, budgetPersonnelDetail.getStartDate(), isLeapDateInPeriod, isLeapDayInGap);
+                        List <java.sql.Date> dates = KcServiceLocator.getService(BudgetSummaryService.class).getNewStartEndDates(startEndDates, gap, personnelDuration, budgetPersonnelDetail.getStartDate(), isLeapDateInPeriod, isLeapDayInGap);
                         budgetPersonnelDetail.setStartDate(dates.get(0));
                         budgetPersonnelDetail.setEndDate(dates.get(1));
                     }

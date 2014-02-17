@@ -16,7 +16,7 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AbstractType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -58,7 +58,7 @@ public class AbstractTypeValuesFinder extends FormViewAwareUifKeyValuesFinderBas
     @Override
     public List<KeyValue> getKeyValues() {
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument();
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection<AbstractType> abstractTypes = keyValuesService.findAll(AbstractType.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));

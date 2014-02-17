@@ -22,6 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.award.AwardDocumentRule;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
@@ -38,8 +40,6 @@ import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.PersistenceService;
@@ -633,7 +633,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     }
     
     protected AwardCloseoutService getAwardCloseoutService(){
-        return KraServiceLocator.getService(AwardCloseoutService.class);
+        return KcServiceLocator.getService(AwardCloseoutService.class);
     }
     
     /**
@@ -643,7 +643,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @return
      */
     protected PersistenceService getPersistenceService(){
-        return KraServiceLocator.getService(PersistenceService.class);
+        return KcServiceLocator.getService(PersistenceService.class);
     }
     
     /**

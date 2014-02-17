@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
@@ -25,11 +25,11 @@ import org.kuali.kra.service.VersioningService;
 public class IacucProtocolAttachmentVersioningUtility extends ProtocolAttachmentVersioningUtilityBase {
 
     public IacucProtocolAttachmentVersioningUtility(ProtocolFormBase form) {
-        super(form, getProtocolAttachmentService(), KraServiceLocator.getService(VersioningService.class));
+        super(form, getProtocolAttachmentService(), KcServiceLocator.getService(VersioningService.class));
     }
     
     private static ProtocolAttachmentService getProtocolAttachmentService() {
-        return KraServiceLocator.getService("iacucProtocolAttachmentService");
+        return KcServiceLocator.getService("iacucProtocolAttachmentService");
     }
 
     @Override

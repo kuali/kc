@@ -16,12 +16,12 @@
 package org.kuali.kra.iacuc.actions.request;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -30,12 +30,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * set in the system params, the committee must be selected.
  */
 @SuppressWarnings("unchecked")
-public class IacucProtocolRequestRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<IacucProtocolRequestEvent> {
+public class IacucProtocolRequestRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<IacucProtocolRequestEvent> {
     
     private static final String MANDATORY = "M";
     private ParameterService parameterService;
     /**
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(IacucProtocolRequestEvent event) {
         
@@ -73,7 +73,7 @@ public class IacucProtocolRequestRule extends KcTransactionalDocumentRuleBase im
 
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }

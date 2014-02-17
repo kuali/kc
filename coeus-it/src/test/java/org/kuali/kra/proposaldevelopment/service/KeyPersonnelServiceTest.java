@@ -20,8 +20,8 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
@@ -38,8 +38,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Map;
 
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.junit.Assert.*;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 
 /**
  * Class intended to exercise testing of units of functionality within the
@@ -68,7 +68,7 @@ public class KeyPersonnelServiceTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KRADServiceLocatorWeb.getDocumentService();
-        parameterService = KraServiceLocator.getService(ParameterService.class);
+        parameterService = KcServiceLocator.getService(ParameterService.class);
         document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
         blankDocument =(ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
     }
@@ -189,7 +189,7 @@ public class KeyPersonnelServiceTest extends KcIntegrationTestBase {
     
 
     private KeyPersonnelServiceImpl getKeyPersonnelService() {
-        return (KeyPersonnelServiceImpl) KraServiceLocator.getService(KeyPersonnelService.class);
+        return (KeyPersonnelServiceImpl) KcServiceLocator.getService(KeyPersonnelService.class);
     }
 
 }

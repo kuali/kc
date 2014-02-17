@@ -21,13 +21,17 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.CoiReviewStatus;
 import org.kuali.kra.coi.actions.CoiDisclosureActionService;
 import org.kuali.kra.coi.lookup.dao.CoiDisclosureDao;
-import org.kuali.kra.infrastructure.*;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -121,7 +125,7 @@ public class CoiCustomSearchAction extends KualiAction {
 
     protected CoiDisclosureDao getCoiDisclosureDao() {
         if (coiDisclosureDao == null) {
-            coiDisclosureDao = KraServiceLocator.getService(CoiDisclosureDao.class);
+            coiDisclosureDao = KcServiceLocator.getService(CoiDisclosureDao.class);
         }
         return coiDisclosureDao;
     }
@@ -132,7 +136,7 @@ public class CoiCustomSearchAction extends KualiAction {
 
     protected ParameterService getParameterService() {
         if (parameterService == null) {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
+            parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return parameterService;
     }
@@ -143,7 +147,7 @@ public class CoiCustomSearchAction extends KualiAction {
 
     protected CoiDisclosureActionService getCoiDisclosureActionService() {
         if (coiDisclosureActionService == null) {
-            coiDisclosureActionService = KraServiceLocator.getService(CoiDisclosureActionService.class);
+            coiDisclosureActionService = KcServiceLocator.getService(CoiDisclosureActionService.class);
         }
         return coiDisclosureActionService;
     }
@@ -154,7 +158,7 @@ public class CoiCustomSearchAction extends KualiAction {
 
     protected DocumentService getDocumentService() {
         if (documentService == null) {
-            documentService = KraServiceLocator.getService(DocumentService.class);
+            documentService = KcServiceLocator.getService(DocumentService.class);
         }
         return documentService;
     }
@@ -165,7 +169,7 @@ public class CoiCustomSearchAction extends KualiAction {
 
     protected KcAuthorizationService getKraAuthorizationService() {
         if (kraAuthorizationService == null) {
-            kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
+            kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         }
         return kraAuthorizationService;
     }
@@ -176,7 +180,7 @@ public class CoiCustomSearchAction extends KualiAction {
 
     protected PermissionService getPermissionService() {
         if (permissionService == null) {
-            permissionService = KraServiceLocator.getService(PermissionService.class);
+            permissionService = KcServiceLocator.getService(PermissionService.class);
         }
         return permissionService;
     }
@@ -191,7 +195,7 @@ public class CoiCustomSearchAction extends KualiAction {
     }
     
     protected TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
     
     private String getUserIdentifier() {

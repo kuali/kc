@@ -16,7 +16,7 @@
 package org.kuali.kra.coi.lookup.keyvalue;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -59,6 +59,6 @@ public class CoiDisclosureProjectsProjectTypeValuesFinder extends UifKeyValuesFi
      * @return the business object service
      */
     private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }    
 }

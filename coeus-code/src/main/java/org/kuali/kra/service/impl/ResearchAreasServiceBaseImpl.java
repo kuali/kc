@@ -16,13 +16,13 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.dao.ResearchAreaReferencesDao;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
@@ -569,7 +569,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     
     public ResearchAreaReferencesDao getResearchAreaReferencesDao() {
         if(null == this.researchAreaReferencesDao) {
-            this.setResearchAreaReferencesDao(KraServiceLocator.getService(ResearchAreaReferencesDao.class));
+            this.setResearchAreaReferencesDao(KcServiceLocator.getService(ResearchAreaReferencesDao.class));
         }
         return researchAreaReferencesDao;
     }

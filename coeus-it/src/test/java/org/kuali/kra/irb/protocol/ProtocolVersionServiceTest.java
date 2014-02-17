@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
@@ -30,6 +30,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
+
 import static org.junit.Assert.*;
 public class ProtocolVersionServiceTest extends KcIntegrationTestBase {
     
@@ -40,7 +41,7 @@ public class ProtocolVersionServiceTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);
+        protocolVersionService = KcServiceLocator.getService(ProtocolVersionService.class);
     }
 
     @After

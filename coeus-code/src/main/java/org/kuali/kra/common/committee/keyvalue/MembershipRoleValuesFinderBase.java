@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.common.committee.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.MembershipRole;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -54,7 +54,7 @@ public abstract class MembershipRoleValuesFinderBase extends UifKeyValuesFinderB
     protected abstract String getCommitteeTypeCodeHook();
 
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
     
 }

@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol.specialreview;
 
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * Defines the Special Review Helper for ProtocolBase.
@@ -31,7 +31,7 @@ public abstract class ProtocolSpecialReviewHelperBase extends SpecialReviewHelpe
     
     public TaskAuthorizationService getTaskAuthorizationService() {
         if (taskAuthorizationService == null) {
-            taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+            taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         }
         return taskAuthorizationService;
     }

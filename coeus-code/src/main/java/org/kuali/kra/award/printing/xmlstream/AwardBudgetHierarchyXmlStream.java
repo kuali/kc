@@ -17,11 +17,11 @@ package org.kuali.kra.award.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.AwardPrintType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.schema.AmountInfoType;
 import org.kuali.kra.printing.schema.AwardNoticeDocument;
 import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice;
@@ -87,7 +87,7 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 		List<AmountInfoType> amountInfoTypes = new ArrayList<AmountInfoType>();
 		AwardHierarchy branchNode=award.getAwardHierarchyService().loadFullHierarchyFromAnyNode(award.getParentNumber());
         org.kuali.kra.award.home.AwardAmountInfo awardAmount=award.getLastAwardAmountInfo();
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);   
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Collection<Award> awards = businessObjectService.findAll(Award.class);
         Award parentAward = null;
         for(Award awardParent : awards){

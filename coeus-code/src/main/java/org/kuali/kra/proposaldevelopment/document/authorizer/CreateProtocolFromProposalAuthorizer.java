@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.document.authorizer;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -43,7 +43,7 @@ public class CreateProtocolFromProposalAuthorizer extends ProposalAuthorizer {
     private boolean canCreateProtocol()
     {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         boolean canCreateProtocol = taskAuthenticationService.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
         return canCreateProtocol;
     }

@@ -23,9 +23,9 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoNotApplicableDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -55,7 +55,7 @@ public class EDSF424SupplementV1_1Generator extends
 	 * Constructs a EDSF424SupplementV1_1Generator.java.
 	 */
 	public EDSF424SupplementV1_1Generator() {
-		s2sUtilService = KraServiceLocator.
+		s2sUtilService = KcServiceLocator.
 		getService(S2SUtilService.class);
 	}
 
@@ -150,7 +150,7 @@ public class EDSF424SupplementV1_1Generator extends
 						edsf424Supplement.setAssuranceNumber(assuranceNumber);
 					}
 				}
-				Boolean paramValue= KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
+				Boolean paramValue= KcServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
 			    if(paramValue){
 			    	ExemptionsNumber exemptionsNumber = ExemptionsNumber.Factory
 					.newInstance();

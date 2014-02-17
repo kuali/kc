@@ -16,11 +16,11 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -178,7 +178,7 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
     }
 
     public SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
+        return KcServiceLocator.getService(SponsorService.class);
     }
     
 }

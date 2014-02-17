@@ -16,11 +16,11 @@
 package org.kuali.kra.budget.versions;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.BudgetDecimalConverter;
-import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
@@ -334,7 +334,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
     }
 
     protected DocumentHeader getDocHeader() {
-        LegacyDataAdapter boService = KraServiceLocator.getService(LegacyDataAdapter.class);
+        LegacyDataAdapter boService = KcServiceLocator.getService(LegacyDataAdapter.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put("documentNumber", this.documentNumber);
         DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);

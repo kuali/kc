@@ -17,9 +17,9 @@ package org.kuali.kra.coi;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
@@ -131,7 +131,7 @@ public class CoiDisclosureDocument extends KcTransactionalDocumentBase implement
     }
     
     public void addFacts(Facts.Builder factsBuilder) {
-        KcKrmsFactBuilderService fbService = KraServiceLocator.getService("coiDisclosureFactBuilderService");
+        KcKrmsFactBuilderService fbService = KcServiceLocator.getService("coiDisclosureFactBuilderService");
         fbService.addFacts(factsBuilder, this);
     }
     

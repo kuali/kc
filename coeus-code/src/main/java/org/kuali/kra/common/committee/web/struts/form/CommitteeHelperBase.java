@@ -17,13 +17,13 @@ package org.kuali.kra.common.committee.web.struts.form;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.*;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 import org.kuali.rice.kns.util.WebUtils;
@@ -136,7 +136,7 @@ public abstract class CommitteeHelperBase implements Serializable {
      * @return
      */
     private CommitteeScheduleServiceBase getCommitteeScheduleService() {
-        return KraServiceLocator.getService(getCommitteeScheduleServiceClassHook());
+        return KcServiceLocator.getService(getCommitteeScheduleServiceClassHook());
     }
 
     protected abstract Class<? extends CommitteeScheduleServiceBase> getCommitteeScheduleServiceClassHook();
@@ -149,11 +149,11 @@ public abstract class CommitteeHelperBase implements Serializable {
     }
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
     
     private CommitteeServiceBase getCommitteeService() {
-        return KraServiceLocator.getService(getCommitteeServiceClassHook());
+        return KcServiceLocator.getService(getCommitteeServiceClassHook());
     }
 
     protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook();

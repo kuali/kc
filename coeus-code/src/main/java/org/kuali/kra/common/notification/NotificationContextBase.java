@@ -17,6 +17,7 @@ package org.kuali.kra.common.notification;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
@@ -24,7 +25,6 @@ import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 
 import java.io.Serializable;
@@ -105,7 +105,7 @@ public abstract class NotificationContextBase implements NotificationContext, Se
 
     public KcNotificationModuleRoleService getNotificationModuleRoleService() {
         if (notificationModuleRoleService == null) {
-            notificationModuleRoleService = KraServiceLocator.getService(KcNotificationModuleRoleService.class);
+            notificationModuleRoleService = KcServiceLocator.getService(KcNotificationModuleRoleService.class);
         }
         return notificationModuleRoleService;
     }
@@ -116,7 +116,7 @@ public abstract class NotificationContextBase implements NotificationContext, Se
 
     public KcNotificationRoleQualifierService getNotificationRoleQualifierService() {
         if (notificationRoleQualifierService == null) {
-            notificationRoleQualifierService = KraServiceLocator.getService(KcNotificationRoleQualifierService.class);
+            notificationRoleQualifierService = KcServiceLocator.getService(KcNotificationRoleQualifierService.class);
         }
         return notificationRoleQualifierService;
     }

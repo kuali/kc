@@ -18,10 +18,10 @@ package org.kuali.kra.common.notification.lookup.keyvalue;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -71,7 +71,7 @@ public class NotificationTypeRecipientRoleNameValuesFinder extends FormViewAware
     
     public KeyValuesService getKeyValuesService() {
         if (keyValuesService == null) {
-            keyValuesService = (KeyValuesService) KraServiceLocator.getService(KeyValuesService.class);
+            keyValuesService = (KeyValuesService) KcServiceLocator.getService(KeyValuesService.class);
         }
         return keyValuesService;
     }
@@ -81,7 +81,7 @@ public class NotificationTypeRecipientRoleNameValuesFinder extends FormViewAware
     }
 
     public KcNotificationModuleRoleService getKcNotificationModuleRoleService() {
-        return KraServiceLocator.getService(KcNotificationModuleRoleService.class);
+        return KcServiceLocator.getService(KcNotificationModuleRoleService.class);
     }
 
 }

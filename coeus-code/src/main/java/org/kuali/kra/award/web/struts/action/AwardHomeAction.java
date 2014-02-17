@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -33,7 +34,6 @@ import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -287,7 +287,7 @@ public class AwardHomeAction extends AwardAction {
     
     private void persistSpecialReviewProtocolFundingSourceLink(Award award, boolean isAwardProtocolLinkingEnabled) {
         if (isAwardProtocolLinkingEnabled) {
-            SpecialReviewService specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+            SpecialReviewService specialReviewService = KcServiceLocator.getService(SpecialReviewService.class);
             
             for (AwardSpecialReview specialReview : award.getSpecialReviews()) {
                 if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {                
@@ -312,7 +312,7 @@ public class AwardHomeAction extends AwardAction {
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -366,7 +366,7 @@ public class AwardHomeAction extends AwardAction {
      */
     @SuppressWarnings("unchecked")
     protected KeywordsService getKeywordService(){
-        return KraServiceLocator.getService(KeywordsService.class);
+        return KcServiceLocator.getService(KeywordsService.class);
     }
     /**
      * 
@@ -406,7 +406,7 @@ public class AwardHomeAction extends AwardAction {
             HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
-        KeywordsService keywordsService = KraServiceLocator.getService(KeywordsService.class);
+        KeywordsService keywordsService = KcServiceLocator.getService(KeywordsService.class);
         keywordsService.deleteKeyword(awardDocument.getAward()); 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -515,7 +515,7 @@ public class AwardHomeAction extends AwardAction {
     }
     
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
     
     /**

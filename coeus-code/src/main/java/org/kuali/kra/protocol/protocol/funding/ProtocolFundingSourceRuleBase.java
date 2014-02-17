@@ -16,13 +16,13 @@
 package org.kuali.kra.protocol.protocol.funding;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.SponsorService;
 
 import java.util.HashMap;
@@ -34,7 +34,7 @@ import java.util.Map;
  * This class provides business logic for adding a protocol funding source to a protocol. 
  * Also it uses newer paradigm for KC Event/Rule creation for reduced Interface implementation in the ProtocolDocumentRuleBase.
  */
-public abstract class ProtocolFundingSourceRuleBase extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<AddProtocolFundingSourceEventBase>{
+public abstract class ProtocolFundingSourceRuleBase extends KcTransactionalDocumentRuleBase implements KcBusinessRule<AddProtocolFundingSourceEventBase> {
     
     private ProtocolFundingSourceService protocolFundingSourceService;
         
@@ -61,7 +61,7 @@ public abstract class ProtocolFundingSourceRuleBase extends KcTransactionalDocum
     /**
      * This is the standard methodName to process rule from the BusinessRuleInterface.
      * 
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(AddProtocolFundingSourceEventBase addProtocolFundingSourceEvent) {
         return processAddProtocolFundingSourceBusinessRules(addProtocolFundingSourceEvent);
@@ -120,7 +120,7 @@ public abstract class ProtocolFundingSourceRuleBase extends KcTransactionalDocum
 
     private ProtocolFundingSourceService getProtocolFundingSourceService() {
         if (protocolFundingSourceService == null) {
-            protocolFundingSourceService =  KraServiceLocator.getService(getProtocolFundingSourceServiceClassHook());
+            protocolFundingSourceService =  KcServiceLocator.getService(getProtocolFundingSourceServiceClassHook());
         }
         return protocolFundingSourceService;
     }
@@ -136,7 +136,7 @@ public abstract class ProtocolFundingSourceRuleBase extends KcTransactionalDocum
     }
     
     private SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
+        return KcServiceLocator.getService(SponsorService.class);
     }
     
 }

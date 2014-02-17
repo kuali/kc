@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.decision;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
@@ -27,7 +28,6 @@ import org.kuali.kra.iacuc.committee.meeting.IacucProtocolVoteAbstainee;
 import org.kuali.kra.iacuc.committee.meeting.IacucProtocolVoteRecused;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBeanBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
@@ -111,14 +111,14 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
     private List<CommitteeMembershipBase> getCommitteeMemberships() {
         String committeeId = getProtocol().getProtocolSubmission().getCommittee().getCommitteeId();
         String scheduleId = getProtocol().getProtocolSubmission().getScheduleId();
-        List<CommitteeMembershipBase> committeeMemberships = KraServiceLocator.getService(IacucCommitteeService.class).getAvailableMembers(committeeId, scheduleId);
+        List<CommitteeMembershipBase> committeeMemberships = KcServiceLocator.getService(IacucCommitteeService.class).getAvailableMembers(committeeId, scheduleId);
         return committeeMemberships;
     }
     
     private void initializeAbstainees(IacucProtocolSubmission submission) {
         Map<String, Long> absenteeLookFields = getLookUpFields(getProtocol().getProtocolId(), submission.getSubmissionId());
         
-        Collection<IacucProtocolVoteAbstainee> protocolVoteAbstainees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolVoteAbstainee.class, absenteeLookFields);
+        Collection<IacucProtocolVoteAbstainee> protocolVoteAbstainees = KcServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolVoteAbstainee.class, absenteeLookFields);
         
         List<CommitteeMembershipBase> committeeMemberships = getCommitteeMemberships();
         
@@ -138,7 +138,7 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
     private void initializeRecused(IacucProtocolSubmission submission) {
         Map<String, Long> absenteeLookFields = getLookUpFields(getProtocol().getProtocolId(), submission.getSubmissionId());
         
-        Collection<IacucProtocolVoteRecused> protocolVoteRecused = KraServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolVoteRecused.class, absenteeLookFields);
+        Collection<IacucProtocolVoteRecused> protocolVoteRecused = KcServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolVoteRecused.class, absenteeLookFields);
         
         List<CommitteeMembershipBase> committeeMemberships = getCommitteeMemberships();
         

@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.questionnaire;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.coi.CoiDisclProject;
@@ -25,7 +26,6 @@ import org.kuali.kra.coi.disclosure.CoiDisclosureProjectBean;
 import org.kuali.kra.coi.disclosure.MasterDisclosureBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.BaseQuestionnaireAuditRule;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -177,7 +177,7 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
      */
 
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 
     @Override

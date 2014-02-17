@@ -22,27 +22,21 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.bo.SponsorFormTemplate;
-import org.kuali.kra.bo.SponsorFormTemplateList;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
@@ -142,7 +136,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
     public void populateSponsorForms(ActionForm form) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
+        ProposalDevelopmentPrintingService printService = KcServiceLocator.getService(ProposalDevelopmentPrintingService.class);
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
     }
 
@@ -176,7 +170,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
 
     public SpecialReviewService getSpecialReviewService() {
         if (specialReviewService == null) {
-            specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+            specialReviewService = KcServiceLocator.getService(SpecialReviewService.class);
         }
         return specialReviewService;
     }
@@ -188,7 +182,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();       
         BudgetDocument budgetDocument = getS2SBudgetCalculatorService() .getFinalBudgetVersion(document);
-        BudgetPrintService budgetPrintService = KraServiceLocator
+        BudgetPrintService budgetPrintService = KcServiceLocator
         .getService(BudgetPrintService.class);
         Budget budget = budgetDocument.getBudget();
         Integer selectedLine = getSelectedLine(request);

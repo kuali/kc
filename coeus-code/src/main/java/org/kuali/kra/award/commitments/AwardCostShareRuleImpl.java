@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.commitments;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -134,7 +134,7 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
             isValid = false;
             this.reportError(costShareTypeCodeField, KeyConstants.ERROR_COST_SHARE_TYPE_REQUIRED);
         } else {
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
             Map<String,Integer> fieldValues = new HashMap<String,Integer>();
             fieldValues.put("costShareTypeCode", costShareTypeCode);
             if (businessObjectService.countMatching(CostShareType.class, fieldValues) != 1) {

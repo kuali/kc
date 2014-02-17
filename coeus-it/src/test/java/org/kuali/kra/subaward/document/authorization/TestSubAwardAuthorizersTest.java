@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.SubAwardDocument;
@@ -42,11 +42,11 @@ public class TestSubAwardAuthorizersTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        quickstart = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("quickstart");
-        jtester = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("jtester");
-        woods = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("woods");
-        ospAdmin = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("borst");
+        taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        quickstart = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("quickstart");
+        jtester = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("jtester");
+        woods = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("woods");
+        ospAdmin = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName("borst");
     }
 
     @After

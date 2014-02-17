@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
@@ -33,7 +34,6 @@ import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -192,7 +192,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         // versioning questionnaire answer
 //        if (masterCoiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument() == null) {
             try {
-            CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) KraServiceLocator
+            CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) KcServiceLocator
                     .getService(DocumentService.class).getByDocumentHeaderId(masterCoiDisclosure.getCoiDisclosureDocument().getDocumentNumber());
             // Get XML of workflow document
             masterCoiDisclosure.setCoiDisclosureDocument(coiDisclosureDocument);

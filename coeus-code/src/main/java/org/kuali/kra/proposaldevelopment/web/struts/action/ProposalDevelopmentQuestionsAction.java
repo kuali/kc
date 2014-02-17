@@ -19,9 +19,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -118,7 +118,7 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
     }
 
     private QuestionnairePrintingService getQuestionnairePrintingService() {
-        return KraServiceLocator.getService(QuestionnairePrintingService.class);
+        return KcServiceLocator.getService(QuestionnairePrintingService.class);
     }
     
     /*
@@ -135,7 +135,7 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
     }
     
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }
     
     /**

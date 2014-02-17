@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.notification;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationContextBase;
@@ -22,7 +23,6 @@ import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.util.EmailAttachment;
 
 import java.util.List;
@@ -57,19 +57,19 @@ public class AwardNotificationContext extends NotificationContextBase {
         this.contextName = contextName;
         this.forwardName = forwardName;
         
-        setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
-        setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRoleQualifierService(KraServiceLocator.getService(AwardNotificationRoleQualifierService.class));
+        setNotificationService(KcServiceLocator.getService(KcNotificationService.class));
+        setNotificationModuleRoleService(KcServiceLocator.getService(KcNotificationModuleRoleService.class));
+        setNotificationRoleQualifierService(KcServiceLocator.getService(AwardNotificationRoleQualifierService.class));
         ((AwardNotificationRoleQualifierService)getNotificationRoleQualifierService()).setAward(award);
     }
     
     public AwardNotificationContext(Award award, String actionTypeCode, String contextName) {
-        this(award, actionTypeCode, contextName, KraServiceLocator.getService(AwardNotificationRenderer.class), Constants.MAPPING_AWARD_ACTIONS_PAGE);
+        this(award, actionTypeCode, contextName, KcServiceLocator.getService(AwardNotificationRenderer.class), Constants.MAPPING_AWARD_ACTIONS_PAGE);
         ((AwardNotificationRenderer)getRenderer()).setAward(award);
     }
     
     public AwardNotificationContext(Award award, String actionTypeCode, String contextName, String forwardName) {
-        this(award, actionTypeCode, contextName, KraServiceLocator.getService(AwardNotificationRenderer.class), forwardName);
+        this(award, actionTypeCode, contextName, KcServiceLocator.getService(AwardNotificationRenderer.class), forwardName);
         ((AwardNotificationRenderer)getRenderer()).setAward(award);
     }    
     

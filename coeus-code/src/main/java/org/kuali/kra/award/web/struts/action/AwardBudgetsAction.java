@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
@@ -43,7 +44,6 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -165,8 +165,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     @SuppressWarnings(value={"unchecked","rawtypes"})
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
-        AwardBudgetService awardBudgetService = KraServiceLocator.getService(AwardBudgetService.class);
+        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
+        AwardBudgetService awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
         if ("TRUE".equals(awardForm.getEditingMode().get("modifyAwardBudget"))) {
             save(mapping, form, request, response);
         }
@@ -200,7 +200,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         } else {
-            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+            DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
             BudgetDocument<Award> budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
             Budget budget = budgetDocument.getBudget();
@@ -230,7 +230,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDoc = awardForm.getAwardDocument();
         BudgetDocumentVersion budgetDocumentToOpen = awardDoc.getBudgetDocumentVersion(getSelectedLine(request));
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocumentToOpen.getDocumentNumber());
         String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forward = buildForwardUrl(routeHeaderId);
@@ -405,7 +405,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     }    
     
     private BudgetRatesService getBudgetRatesService() {
-        return KraServiceLocator.getService(BudgetRatesService.class);
+        return KcServiceLocator.getService(BudgetRatesService.class);
     }
 
     /**
@@ -413,7 +413,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
      * @return Returns the budgetService.
      */
     public BudgetService getBudgetService() {
-        return KraServiceLocator.getService(BudgetService.class);
+        return KcServiceLocator.getService(BudgetService.class);
     }
 
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)

@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
@@ -33,7 +34,6 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -210,7 +210,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
     }
     public ActionForward openAwardReports(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String awardNumber = getSelectedAwardNumber(request);
-        List<VersionHistory> versions = KraServiceLocator.getService(VersionHistoryService.class).loadVersionHistory(Award.class, awardNumber);
+        List<VersionHistory> versions = KcServiceLocator.getService(VersionHistoryService.class).loadVersionHistory(Award.class, awardNumber);
         Award newest = null;
         for (VersionHistory version : versions) {
             if (newest == null || version.getSequenceOwnerSequenceNumber() > newest.getSequenceNumber() &&
@@ -242,7 +242,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
      * @return String
      */
     protected String buildForwardUrl(String routeHeaderId) {
-        DocHandlerService researchDocumentService = KraServiceLocator.getService(DocHandlerService.class);
+        DocHandlerService researchDocumentService = KcServiceLocator.getService(DocHandlerService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
         //forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {
@@ -300,7 +300,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
     
     protected ReportTrackingDao getReportTrackingDao() {
         if (reportTrackingDao == null) {
-            reportTrackingDao = KraServiceLocator.getService(ReportTrackingDao.class);
+            reportTrackingDao = KcServiceLocator.getService(ReportTrackingDao.class);
         }
         return reportTrackingDao;
     }
@@ -311,7 +311,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
 
     protected DateTimeService getDateTimeService() {
         if (dateTimeService == null) {
-            dateTimeService = KraServiceLocator.getService(DateTimeService.class);
+            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
         }
         return dateTimeService;
     }
@@ -322,20 +322,20 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
 
     public DocumentService getDocumentService() {
         if (documentService == null) {
-            documentService = KraServiceLocator.getService(DocumentService.class);
+            documentService = KcServiceLocator.getService(DocumentService.class);
         }
         return documentService;
     }
 
     public VersionHistoryService getVersionHistoryService() {
         if (versionHistoryService == null) {
-            versionHistoryService = KraServiceLocator.getService(VersionHistoryService.class);
+            versionHistoryService = KcServiceLocator.getService(VersionHistoryService.class);
         }
         return versionHistoryService;
     }
     
     private ReportTrackingPrintingService getReportTrackingPrintingService() {
-        return KraServiceLocator.getService(ReportTrackingPrintingService.class);
+        return KcServiceLocator.getService(ReportTrackingPrintingService.class);
     }
     /**
      * method to stream the byte array to response object
@@ -373,7 +373,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
     }
     public UnitAuthorizationService getUnitAuthorizationService() {
         if (unitAuthorizationService == null) {
-            unitAuthorizationService = KraServiceLocator.getService(UnitAuthorizationService.class);
+            unitAuthorizationService = KcServiceLocator.getService(UnitAuthorizationService.class);
         }
         return unitAuthorizationService;
     }

@@ -16,7 +16,7 @@
 package org.kuali.kra.institutionalproposal.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -68,7 +68,7 @@ public class InstitutionalProposalStatusCodeValuesFinder extends FormViewAwareUi
      * @return
      */
     protected KeyValuesService getKeyValuesService() {
-        return KraServiceLocator.getService(KeyValuesService.class);
+        return KcServiceLocator.getService(KeyValuesService.class);
     }
 
 }

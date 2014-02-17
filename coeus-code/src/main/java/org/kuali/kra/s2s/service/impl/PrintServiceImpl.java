@@ -24,9 +24,9 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
@@ -137,7 +137,7 @@ public class PrintServiceImpl implements PrintService {
 	}
 
 	protected void saveGrantsGovXml(ProposalDevelopmentDocument pdDoc, boolean formEntryFlag,XmlObject formObject,List<AttachmentData> attachmentList,List<S2sAppAttachments> attachmentLists) throws Exception{
-	    String loggingDirectory = KraServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
+	    String loggingDirectory = KcServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
         String opportunityId = pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId();
         String proposalnumber = pdDoc.getDevelopmentProposal().getProposalNumber();
         String exportDate = StringUtils.replaceChars((pdDoc.getDevelopmentProposal().getUpdateTimestamp().toString()), ":", "_");  

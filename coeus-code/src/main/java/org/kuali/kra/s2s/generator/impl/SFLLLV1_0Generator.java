@@ -26,10 +26,10 @@ import gov.grants.apply.forms.sflllV10.ReportEntityDataType;
 import gov.grants.apply.system.globalLibraryV10.HumanNameDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -84,7 +84,7 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
             String primeSponsorCode = pdDoc.getDevelopmentProposal().getPrimeSponsorCode();
 
             if (primeSponsorCode != null) {
-                BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+                BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
                 Map<String, String> sponsorMap = new HashMap<String, String>();
                 sponsorMap.put(KEY_SPONSOR_CODE, primeSponsorCode);
                 Sponsor primeSponsor = (Sponsor) businessObjectService.findByPrimaryKey(Sponsor.class, sponsorMap);

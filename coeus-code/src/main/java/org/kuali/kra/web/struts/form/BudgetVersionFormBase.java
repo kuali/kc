@@ -18,10 +18,10 @@ package org.kuali.kra.web.struts.form;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -208,7 +208,7 @@ public abstract class BudgetVersionFormBase extends KcTransactionalDocumentFormB
      * @see org.kuali.kra.award.budget.AwardBudgetService#getInactiveBudgetStatus()
      */
     public List<String> getAwardBudgetInactiveStatuses() {
-        return KraServiceLocator.getService(AwardBudgetService.class).getInactiveBudgetStatus();
+        return KcServiceLocator.getService(AwardBudgetService.class).getInactiveBudgetStatus();
     }
 
     

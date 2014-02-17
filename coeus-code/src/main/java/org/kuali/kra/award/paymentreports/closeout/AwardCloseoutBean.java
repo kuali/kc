@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.award.paymentreports.closeout;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -170,7 +170,7 @@ public class AwardCloseoutBean implements Serializable {
      */
     public KualiRuleService getRuleService() {
         if(ruleService == null) {
-            ruleService = (KualiRuleService) KraServiceLocator.getService(KualiRuleService.class); 
+            ruleService = (KualiRuleService) KcServiceLocator.getService(KualiRuleService.class);
         }
         return ruleService;
     }
@@ -205,7 +205,7 @@ public class AwardCloseoutBean implements Serializable {
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }

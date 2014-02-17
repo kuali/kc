@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.personmasschange.web.struts.form;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.irb.Protocol;
@@ -193,7 +193,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
     
     public AwardPersonMassChangeService getAwardPersonMassChangeService() {
         if (awardPersonMassChangeService == null) {
-            awardPersonMassChangeService = KraServiceLocator.getService(AwardPersonMassChangeService.class);
+            awardPersonMassChangeService = KcServiceLocator.getService(AwardPersonMassChangeService.class);
         }
         return awardPersonMassChangeService;
     }
@@ -204,7 +204,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
     
     public IacucProtocolPersonMassChangeService getIacucProtocolPersonMassChangeService() {
         if (iacucProtocolPersonMassChangeService == null) {
-            iacucProtocolPersonMassChangeService = KraServiceLocator.getService(IacucProtocolPersonMassChangeService.class);
+            iacucProtocolPersonMassChangeService = KcServiceLocator.getService(IacucProtocolPersonMassChangeService.class);
         }
         return iacucProtocolPersonMassChangeService;
     }
@@ -215,7 +215,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
 
     public InstitutionalProposalPersonMassChangeService getInstitutionalProposalPersonMassChangeService() {
         if (institutionalProposalPersonMassChangeService == null) {
-            institutionalProposalPersonMassChangeService = KraServiceLocator.getService(InstitutionalProposalPersonMassChangeService.class);
+            institutionalProposalPersonMassChangeService = KcServiceLocator.getService(InstitutionalProposalPersonMassChangeService.class);
         }
         return institutionalProposalPersonMassChangeService;
     }
@@ -226,7 +226,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
 
     public ProposalDevelopmentPersonMassChangeService getProposalDevelopmentPersonMassChangeService() {
         if (proposalDevelopmentPersonMassChangeService == null) {
-            proposalDevelopmentPersonMassChangeService = KraServiceLocator.getService(ProposalDevelopmentPersonMassChangeService.class);
+            proposalDevelopmentPersonMassChangeService = KcServiceLocator.getService(ProposalDevelopmentPersonMassChangeService.class);
         }
         return proposalDevelopmentPersonMassChangeService;
     }
@@ -237,7 +237,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
 
     public ProposalLogPersonMassChangeService getProposalLogPersonMassChangeService() {
         if (proposalLogPersonMassChangeService == null) {
-            proposalLogPersonMassChangeService = KraServiceLocator.getService(ProposalLogPersonMassChangeService.class);
+            proposalLogPersonMassChangeService = KcServiceLocator.getService(ProposalLogPersonMassChangeService.class);
         }
         return proposalLogPersonMassChangeService;
     }
@@ -248,7 +248,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
 
     public SubawardPersonMassChangeService getSubawardPersonMassChangeService() {
         if (subawardPersonMassChangeService == null) {
-            subawardPersonMassChangeService = KraServiceLocator.getService(SubawardPersonMassChangeService.class);
+            subawardPersonMassChangeService = KcServiceLocator.getService(SubawardPersonMassChangeService.class);
         }
         return subawardPersonMassChangeService;
     }
@@ -259,7 +259,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
 
     public NegotiationPersonMassChangeService getNegotiationPersonMassChangeService() {
         if (negotiationPersonMassChangeService == null) {
-            negotiationPersonMassChangeService = KraServiceLocator.getService(NegotiationPersonMassChangeService.class);
+            negotiationPersonMassChangeService = KcServiceLocator.getService(NegotiationPersonMassChangeService.class);
         }
         return negotiationPersonMassChangeService;
     }
@@ -270,7 +270,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
 
     public ProtocolPersonMassChangeService getProtocolPersonMassChangeService() {
         if (protocolPersonMassChangeService == null) {
-            protocolPersonMassChangeService = KraServiceLocator.getService(ProtocolPersonMassChangeService.class);
+            protocolPersonMassChangeService = KcServiceLocator.getService(ProtocolPersonMassChangeService.class);
         }
         return protocolPersonMassChangeService;
     }
@@ -281,7 +281,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
 
     public UnitAdministratorPersonMassChangeService getUnitAdministratorPersonMassChangeService() {
         if (unitAdministratorPersonMassChangeService == null) {
-            unitAdministratorPersonMassChangeService = KraServiceLocator.getService(UnitAdministratorPersonMassChangeService.class);
+            unitAdministratorPersonMassChangeService = KcServiceLocator.getService(UnitAdministratorPersonMassChangeService.class);
         }
         return unitAdministratorPersonMassChangeService;
     }

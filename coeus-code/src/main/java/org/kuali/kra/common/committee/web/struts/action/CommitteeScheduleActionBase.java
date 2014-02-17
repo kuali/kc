@@ -19,6 +19,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rule.event.*;
@@ -28,7 +29,6 @@ import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeFormBase;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -216,7 +216,7 @@ public abstract class CommitteeScheduleActionBase extends CommitteeActionBase {
      * @return
      */
     private CommitteeScheduleServiceBase getCommitteeScheduleService(){
-        return KraServiceLocator.getService(getCommitteeScheduleServiceClassHook());
+        return KcServiceLocator.getService(getCommitteeScheduleServiceClassHook());
     }
         
     protected abstract Class<? extends CommitteeScheduleServiceBase> getCommitteeScheduleServiceClassHook();

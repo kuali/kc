@@ -17,11 +17,11 @@ package org.kuali.kra.protocol.actions;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
@@ -479,7 +479,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
     
     public BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
     
     // TODO : this might be a concern if the protocol has lots of correspondence, and we have to verify
@@ -532,7 +532,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     
     public CommitteeServiceBase getCommitteeService() {
         if (committeeService == null) {
-            committeeService = KraServiceLocator.getService(getCommitteeServiceClassHook());
+            committeeService = KcServiceLocator.getService(getCommitteeServiceClassHook());
         }
         return committeeService;
     }

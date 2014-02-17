@@ -16,8 +16,8 @@
 package org.kuali.kra.lookup.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ArgValueLookup;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -34,7 +34,7 @@ public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("argumentName", argName);
-        Collection<ArgValueLookup> argValueLookups = (Collection<ArgValueLookup>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(ArgValueLookup.class, fieldValues);
+        Collection<ArgValueLookup> argValueLookups = (Collection<ArgValueLookup>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(ArgValueLookup.class, fieldValues);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (ArgValueLookup argValueLookup : argValueLookups) {
             keyValues.add(new ConcreteKeyValue(argValueLookup.getValue(), StringUtils.isNotBlank(argValueLookup.getDescription()) ? argValueLookup.getDescription() : argValueLookup.getValue()));

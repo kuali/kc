@@ -16,11 +16,11 @@
 package org.kuali.kra.iacuc.noteattachment;
 
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -41,12 +41,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelperBase {
 
     public IacucNotesAttachmentsHelper(ProtocolFormBase form) {
-        super(form, (ProtocolAttachmentService)KraServiceLocator.getService("iacucProtocolAttachmentService"), 
-                KraServiceLocator.getService(TaskAuthorizationService.class),
-                KraServiceLocator.getService(KcAuthorizationService.class),
-                KraServiceLocator.getService(DateTimeService.class),
-                (ProtocolNotepadService)KraServiceLocator.getService("iacucProtocolNotepadService"),
-                KraServiceLocator.getService(ParameterService.class),
+        super(form, (ProtocolAttachmentService) KcServiceLocator.getService("iacucProtocolAttachmentService"),
+                KcServiceLocator.getService(TaskAuthorizationService.class),
+                KcServiceLocator.getService(KcAuthorizationService.class),
+                KcServiceLocator.getService(DateTimeService.class),
+                (ProtocolNotepadService) KcServiceLocator.getService("iacucProtocolNotepadService"),
+                KcServiceLocator.getService(ParameterService.class),
                 new IacucProtocolAttachmentVersioningUtility(form));
     }
 

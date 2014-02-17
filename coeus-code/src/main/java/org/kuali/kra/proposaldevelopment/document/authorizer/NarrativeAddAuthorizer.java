@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -35,7 +35,7 @@ public class NarrativeAddAuthorizer extends ProposalAuthorizer {
 
     public boolean isAuthorized(String userId, ProposalTask task) {
         
-        KcDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KcDocumentRejectionService.class);
+        KcDocumentRejectionService documentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
         ProposalDevelopmentDocument doc = task.getDocument();
         boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
         boolean hasPermission = false;

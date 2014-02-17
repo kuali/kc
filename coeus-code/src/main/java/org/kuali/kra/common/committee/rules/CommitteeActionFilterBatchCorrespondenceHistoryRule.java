@@ -16,17 +16,17 @@
 package org.kuali.kra.common.committee.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**
  * 
  * This class contains the rules to validate an <code>{@link CommitteeActionFilterBatchCorrespondenceHistoryEvent}</code>.
  */
 public class CommitteeActionFilterBatchCorrespondenceHistoryRule extends KcTransactionalDocumentRuleBase
-                                                                 implements  BusinessRuleInterface<CommitteeActionFilterBatchCorrespondenceHistoryEvent> {
+                                                                 implements KcBusinessRule<CommitteeActionFilterBatchCorrespondenceHistoryEvent> {
 
     private static final String BATCH_CORRESPONDENCE_TYPE_FIELD = "committeeHelper.historyBatchCorrespondenceTypeCode";
     private static final String END_DATE_FIELD = "committeeHelper.historyEndDate";

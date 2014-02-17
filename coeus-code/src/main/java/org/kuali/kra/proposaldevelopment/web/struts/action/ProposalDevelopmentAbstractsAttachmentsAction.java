@@ -22,9 +22,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationContext;
@@ -51,10 +51,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.*;
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_ABSTRACT_CONFIRMATION;
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 /**
@@ -121,9 +121,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         
         ActionForward actionForward = super.execute(mapping, form, request, response); 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)((ProposalDevelopmentForm)form).getDocument();
-        KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getDevelopmentProposal().getPropPersonBios()); 
-        KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(doc.getDevelopmentProposal());
-        KraServiceLocator.getService(ProposalAbstractsService.class).loadAbstractsUploadUserFullName(doc.getDevelopmentProposal().getProposalAbstracts());
+        KcServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getDevelopmentProposal().getPropPersonBios());
+        KcServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(doc.getDevelopmentProposal());
+        KcServiceLocator.getService(ProposalAbstractsService.class).loadAbstractsUploadUserFullName(doc.getDevelopmentProposal().getProposalAbstracts());
         return actionForward;
     }    
 

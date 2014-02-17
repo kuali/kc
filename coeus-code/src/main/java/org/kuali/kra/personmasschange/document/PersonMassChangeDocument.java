@@ -19,9 +19,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.PersonMassChangeService;
@@ -90,12 +90,12 @@ public class PersonMassChangeDocument extends KcTransactionalDocumentBase implem
             // Workaround to not save objects as asynchronous 'kr' user
             try {
                 String routeHeaderId = getDocumentHeader().getWorkflowDocument().getDocumentId();
-                DocumentRouteHeaderValue document = KraServiceLocator.getService(RouteHeaderService.class).getRouteHeader(routeHeaderId);
+                DocumentRouteHeaderValue document = KcServiceLocator.getService(RouteHeaderService.class).getRouteHeader(routeHeaderId);
                 String principalId = document.getActionsTaken().get(document.getActionsTaken().size() - 1).getPrincipalId();
                 String asyncPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
                 String asyncPrincipalName = GlobalVariables.getUserSession().getPrincipalName();
                 if (!principalId.equals(asyncPrincipalId)) {
-                    KcPerson person = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(principalId);
+                    KcPerson person = KcServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(principalId);
                     GlobalVariables.setUserSession(new UserSession(person.getUserName()));
                 
                     getPersonMassChangeService().performPersonMassChange(getPersonMassChange());
@@ -126,7 +126,7 @@ public class PersonMassChangeDocument extends KcTransactionalDocumentBase implem
     
     public PersonMassChangeService getPersonMassChangeService() {
         if (personMassChangeService == null) {
-            personMassChangeService = KraServiceLocator.getService(PersonMassChangeService.class);
+            personMassChangeService = KcServiceLocator.getService(PersonMassChangeService.class);
         }
         return personMassChangeService;
     }

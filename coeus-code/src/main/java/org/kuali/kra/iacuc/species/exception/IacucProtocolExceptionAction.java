@@ -18,13 +18,13 @@ package org.kuali.kra.iacuc.species.exception;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.species.exception.rule.AddProtocolExceptionEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -79,7 +79,7 @@ public class IacucProtocolExceptionAction extends IacucProtocolAction{
     }
 
     protected IacucProtocolExceptionService getIacucProtocolExceptionService() {
-        return (IacucProtocolExceptionService)KraServiceLocator.getService("iacucProtocolExceptionService");
+        return (IacucProtocolExceptionService) KcServiceLocator.getService("iacucProtocolExceptionService");
     }
     
 }

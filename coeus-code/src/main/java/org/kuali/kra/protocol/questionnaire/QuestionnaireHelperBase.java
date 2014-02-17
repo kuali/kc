@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol.questionnaire;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
@@ -182,7 +182,7 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
     }
     
     private ProtocolFinderDao getProtocolFinder() {
-        return KraServiceLocator.getService(getProtocolFinderDaoClassHook());
+        return KcServiceLocator.getService(getProtocolFinderDaoClassHook());
     }
     
     protected abstract Class<? extends ProtocolFinderDao> getProtocolFinderDaoClassHook();

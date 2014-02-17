@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.actions.correspondence.IacucProtocolActionTypeToCorrespondenceTemplateService;
 import org.kuali.kra.iacuc.actions.print.IacucCorrespondenceXmlStream;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintWatermark;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.print.CorrespondenceXmlStreamBase;
@@ -45,7 +45,7 @@ public class IacucProtocolActionsCorrespondence extends ProtocolActionsCorrespon
 
     @Override
     protected IacucProtocolActionTypeToCorrespondenceTemplateService getProtocolActionTypeToCorrespondenceTemplateService() {
-        return KraServiceLocator.getService(IacucProtocolActionTypeToCorrespondenceTemplateService.class);
+        return KcServiceLocator.getService(IacucProtocolActionTypeToCorrespondenceTemplateService.class);
     }
     
     @Override
@@ -55,7 +55,7 @@ public class IacucProtocolActionsCorrespondence extends ProtocolActionsCorrespon
 
     @Override
     public CorrespondenceXmlStreamBase getCorrespondenceXmlStream() {
-        return KraServiceLocator.getService(IacucCorrespondenceXmlStream.class);
+        return KcServiceLocator.getService(IacucCorrespondenceXmlStream.class);
     }
 
     @Override

@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.committee.service.ScheduleCorrespondencePrint;
@@ -28,7 +29,6 @@ import org.kuali.kra.common.committee.meeting.CommonMeetingService;
 import org.kuali.kra.common.committee.meeting.MeetingActionsActionBase;
 import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
 import org.kuali.kra.common.printing.CorrespondencePrintingService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.correspondence.AbstractProtocolActionsCorrespondence;
@@ -88,7 +88,7 @@ public class MeetingActionsAction extends MeetingActionsActionBase {
     }
     
     protected CommitteePrintingService getCommitteePrintingService() {
-        return KraServiceLocator.getService(CommitteePrintingService.class);
+        return KcServiceLocator.getService(CommitteePrintingService.class);
     }
   
     public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -105,7 +105,7 @@ public class MeetingActionsAction extends MeetingActionsActionBase {
                     protocolCorrespondence.setCorrespondence(dataSource.getContent());
                     protocolCorrespondence.setFinalFlag(false);
                     protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-                    protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                    protocolCorrespondence.setCreateTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
                 }
 
                 meetingHelper.getRegeneratedCorrespondences().add(protocolCorrespondence);
@@ -129,7 +129,7 @@ public class MeetingActionsAction extends MeetingActionsActionBase {
     }
 
     protected ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
-        return KraServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
+        return KcServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
     }
 
     @Override
@@ -164,16 +164,16 @@ public class MeetingActionsAction extends MeetingActionsActionBase {
 
     @Override
     protected CommonMeetingService getMeetingService() {
-        return KraServiceLocator.getService(MeetingService.class);
+        return KcServiceLocator.getService(MeetingService.class);
     }
 
     @Override
     protected org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService<?> getReviewerCommentsService() {
-        return KraServiceLocator.getService(ReviewCommentsService.class);
+        return KcServiceLocator.getService(ReviewCommentsService.class);
     }
 
     @Override
     protected CorrespondencePrintingService getCorrespondencePrintingService() {
-        return KraServiceLocator.getService(ScheduleCorrespondencePrint.class);
+        return KcServiceLocator.getService(ScheduleCorrespondencePrint.class);
     }
 }

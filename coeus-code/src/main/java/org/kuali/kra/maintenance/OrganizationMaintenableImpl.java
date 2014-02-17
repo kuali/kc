@@ -16,11 +16,11 @@
 package org.kuali.kra.maintenance;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -107,7 +107,7 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
      * @return
      */
     private List<Ynq> getOrganizationTypeYnqs() {
-        return KraServiceLocator.getService(YnqService.class).getYnq("O");
+        return KcServiceLocator.getService(YnqService.class).getYnq("O");
     }
 
 
@@ -183,7 +183,7 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
 
     protected ParameterService getParameterService() {
         if (parameterService == null) {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
+            parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return parameterService;
     }
@@ -194,7 +194,7 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
 
     protected SequenceAccessorService getSequenceAccessorService() {
         if(sequenceAccessorService == null) {
-            sequenceAccessorService = KraServiceLocator.getService(SequenceAccessorService.class);
+            sequenceAccessorService = KcServiceLocator.getService(SequenceAccessorService.class);
         }
         return sequenceAccessorService;
     }

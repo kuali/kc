@@ -16,9 +16,9 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -137,7 +137,7 @@ public class InstitutionalProposalUnitContactAddRuleImpl {
 
     private String getRoleDescription(InstitutionalProposalUnitContact newUnitContact) {
         String roleDescription = "";
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         UnitAdministratorType aType = boService.findBySinglePrimaryKey(UnitAdministratorType.class, newUnitContact.getUnitAdministratorTypeCode());
         if (aType != null) {
             roleDescription = aType.getDescription();

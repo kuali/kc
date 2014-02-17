@@ -16,9 +16,9 @@
 package org.kuali.kra.award.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.ValidAwardBasisPayment;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardPaymentAndInvoicesService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -36,7 +36,7 @@ public class ValidAwardBasisPaymentValueFinder extends FormViewAwareUifKeyValues
     
     private AwardPaymentAndInvoicesService getAwardPaymentAndInvoicesService() {
         if( awardPaymentInfoService == null ) {
-            awardPaymentInfoService = KraServiceLocator.getService(AwardPaymentAndInvoicesService.class);
+            awardPaymentInfoService = KcServiceLocator.getService(AwardPaymentAndInvoicesService.class);
         }
         return awardPaymentInfoService;
     }

@@ -19,11 +19,11 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.*;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.lang.reflect.Field;
@@ -252,7 +252,7 @@ public enum AwardTemplateSyncScope {
     public String[] getSyncScopeParameters( String syncClass, String syncField ) {
         String[] values = { };
         try {
-                String settingValue = KraServiceLocator
+                String settingValue = KcServiceLocator
                 .getService(ParameterService.class)
                 .getParameterValueAsString(AwardDocument.class,String.format( "scope.sync.%s.%s.%s", this.toString(),syncClass,syncField));
                 values = settingValue == null?new String[] {}: StringUtils.split(settingValue,",");

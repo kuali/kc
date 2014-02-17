@@ -19,8 +19,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeHomeHelper;
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeViewHelper;
@@ -104,7 +104,7 @@ public class PersonMassChangeAction extends KcTransactionalDocumentActionBase {
         
     @Override
     protected KualiRuleService getKualiRuleService() {
-        return KraServiceLocator.getService(KualiRuleService.class);
+        return KcServiceLocator.getService(KualiRuleService.class);
     }
 
 }

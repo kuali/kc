@@ -16,12 +16,12 @@
 package org.kuali.kra.timeandmoney.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
@@ -1124,7 +1124,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
     }
     
     public AwardVersionService getAwardVersionService() {
-        awardVersionService = KraServiceLocator.getService(AwardVersionService.class);
+        awardVersionService = KcServiceLocator.getService(AwardVersionService.class);
         return awardVersionService;
     }
 

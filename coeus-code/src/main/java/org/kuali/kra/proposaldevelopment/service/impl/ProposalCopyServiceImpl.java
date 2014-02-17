@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
@@ -26,7 +27,6 @@ import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
@@ -476,7 +476,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param newLeadUnitNumber the new lead unit number
      */
     protected void setLeadUnit(ProposalDevelopmentDocument doc, String newLeadUnitNumber) {
-        UnitService unitService = KraServiceLocator.getService(UnitService.class);
+        UnitService unitService = KcServiceLocator.getService(UnitService.class);
         Unit newLeadUnit = unitService.getUnit(newLeadUnitNumber);
         doc.getDevelopmentProposal().setOwnedByUnitNumber(newLeadUnitNumber);
         doc.getDevelopmentProposal().setOwnedByUnit(newLeadUnit);
@@ -776,7 +776,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     protected void initializeAuthorization(ProposalDevelopmentDocument doc) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
         kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, doc);
     }
     
@@ -1129,7 +1129,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @return the Kuali Rule Service
      */
     protected KualiRuleService getKualiRuleService() {
-        return KraServiceLocator.getService(KualiRuleService.class);
+        return KcServiceLocator.getService(KualiRuleService.class);
     }
     
 

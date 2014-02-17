@@ -18,9 +18,9 @@ package org.kuali.kra.award;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
@@ -144,6 +144,6 @@ public class AwardInquirable extends KualiInquirableImpl {
     }
 
     private AwardHierarchyUIService getAwardHierarchyUIService() {
-        return KraServiceLocator.getService(AwardHierarchyUIService.class);
+        return KcServiceLocator.getService(AwardHierarchyUIService.class);
     }
 } 

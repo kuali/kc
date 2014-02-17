@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolUnitRuleBase;
 
 /**
@@ -28,7 +28,7 @@ public class ProtocolUnitRule extends ProtocolUnitRuleBase {
      * @return ProtocolPersonnelService
      */
     protected ProtocolPersonnelService getProtocolPersonnelService() {
-        return KraServiceLocator.getService(ProtocolPersonnelService.class);
+        return KcServiceLocator.getService(ProtocolPersonnelService.class);
     }
 
 }

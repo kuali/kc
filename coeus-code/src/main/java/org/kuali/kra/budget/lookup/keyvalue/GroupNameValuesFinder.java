@@ -18,11 +18,11 @@ package org.kuali.kra.budget.lookup.keyvalue;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -41,7 +41,7 @@ public class GroupNameValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         List<KeyValue> keyValues = new ArrayList<KeyValue>();        
         keyValues.add(new ConcreteKeyValue("", "select"));
 
@@ -61,7 +61,7 @@ public class GroupNameValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
         
         fieldValues.put("budgetPeriod", budgetPeriodNumber);
         
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         List<BudgetPeriod> budgetPeriods = (List<BudgetPeriod>) businessObjectService.findMatching(BudgetPeriod.class, fieldValues);
         BudgetPeriod budgetPeriod = null;
         if(CollectionUtils.isNotEmpty(budgetPeriods)) {

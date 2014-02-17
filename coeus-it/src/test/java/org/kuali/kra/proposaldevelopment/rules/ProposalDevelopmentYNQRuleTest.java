@@ -18,15 +18,17 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestBase{
 
     private ProposalDevelopmentDocumentRule rule = null;
@@ -37,7 +39,7 @@ public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestB
     public void setUp() throws Exception {
         super.setUp();
         rule = new ProposalDevelopmentDocumentRule();
-        bos = KraServiceLocator.getService(BusinessObjectService.class);
+        bos = KcServiceLocator.getService(BusinessObjectService.class);
         proposalYnqs = (List)bos.findAll(Ynq.class);
     }
 

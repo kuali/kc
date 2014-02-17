@@ -17,8 +17,8 @@ package org.kuali.kra.common.committee.lookup.keyvalue;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueComparator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -49,7 +49,7 @@ public abstract class CommitteeIdValuesFinderBase extends UifKeyValuesFinderBase
     
     public BusinessObjectService getBusinessObjectService() {
         if(null == this.businessObjectService) {
-            this.setBusinessObjectService(KraServiceLocator.getService(BusinessObjectService.class));
+            this.setBusinessObjectService(KcServiceLocator.getService(BusinessObjectService.class));
         }
         return this.businessObjectService;
     }
@@ -86,7 +86,6 @@ public abstract class CommitteeIdValuesFinderBase extends UifKeyValuesFinderBase
 
     /**
      * @return the list of &lt;key, value&gt; pairs of committees. The first entry is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
     public List<KeyValue> getKeyValues() {

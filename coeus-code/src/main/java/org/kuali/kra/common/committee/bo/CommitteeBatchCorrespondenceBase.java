@@ -16,8 +16,8 @@
 package org.kuali.kra.common.committee.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
@@ -76,7 +76,7 @@ public abstract class CommitteeBatchCorrespondenceBase extends KcPersistableBusi
      */
     public CommitteeBatchCorrespondenceBase(String batchCorrespondenceTypeCode, String committeeId, Date startDate, Date endDate) {
         this();
-        setCommitteeBatchCorrespondenceId(KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID", getClass()).toString());
+        setCommitteeBatchCorrespondenceId(KcServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID", getClass()).toString());
         setCommitteeId(committeeId);
         setBatchCorrespondenceTypeCode(batchCorrespondenceTypeCode);
         setBatchRunDate(getDateTimeService().getCurrentTimestamp());
@@ -199,7 +199,7 @@ public abstract class CommitteeBatchCorrespondenceBase extends KcPersistableBusi
 
     private DateTimeService getDateTimeService() {
         if (this.dateTimeService == null) {
-            dateTimeService = KraServiceLocator.getService(DateTimeService.class);
+            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
         }
         return this.dateTimeService;
     }

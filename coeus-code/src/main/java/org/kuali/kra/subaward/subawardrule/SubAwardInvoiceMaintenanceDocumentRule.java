@@ -16,9 +16,9 @@
 package org.kuali.kra.subaward.subawardrule;
 
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.service.SubAwardService;
@@ -33,9 +33,9 @@ public class SubAwardInvoiceMaintenanceDocumentRule extends KcMaintenanceDocumen
     private SubAwardService subAwardService;
     
     public SubAwardInvoiceMaintenanceDocumentRule() {
-        dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);
+        dictionaryValidationService = KcServiceLocator.getService(DictionaryValidationService.class);
         errorReporter = new ErrorReporter();
-        subAwardService = KraServiceLocator.getService(SubAwardService.class);
+        subAwardService = KcServiceLocator.getService(SubAwardService.class);
     }
     
     @Override

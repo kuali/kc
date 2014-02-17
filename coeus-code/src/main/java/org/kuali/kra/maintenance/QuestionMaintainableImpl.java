@@ -17,8 +17,8 @@ package org.kuali.kra.maintenance;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.questionnaire.question.QuestionService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -63,7 +63,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
        
                 // In order for the questionId to be displayed after a submission of a new question we need to manually create it. 
                 if (question.getQuestionId() == null) {
-                    Long newQuestionId = KraServiceLocator.getService(SequenceAccessorService.class)
+                    Long newQuestionId = KcServiceLocator.getService(SequenceAccessorService.class)
                             .getNextAvailableSequenceNumber("SEQ_QUESTION_ID", question.getClass());
                     question.setQuestionIdFromInteger(newQuestionId.intValue());
                 }
@@ -154,7 +154,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
      */
     public void saveBusinessObject() {
         Question newQuestion = (Question) businessObject;
-        QuestionService questionService = KraServiceLocator.getService(QuestionService.class);
+        QuestionService questionService = KcServiceLocator.getService(QuestionService.class);
         Question oldQuestion = questionService.getQuestionById(newQuestion.getQuestionId());
         if (oldQuestion != null) {
             oldQuestion.setSequenceStatus(SEQUENCE_STATUS_ARCHIVED);

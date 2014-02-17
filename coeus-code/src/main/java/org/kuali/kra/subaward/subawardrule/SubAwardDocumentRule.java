@@ -19,12 +19,12 @@ package org.kuali.kra.subaward.subawardrule;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.subaward.document.SubAwardDocument;
@@ -268,7 +268,7 @@ SubAwardFundingSourceRule,
             for(SubAwardFundingSource fundingSource : subAward.getSubAwardFundingSourceList()){
                 if(fundingSource.getAwardId().equals(subAwardFundingSource.getAwardId())){
                     rulePassed = false;
-                    AwardService awardService = KraServiceLocator.getService(AwardService.class);
+                    AwardService awardService = KcServiceLocator.getService(AwardService.class);
                     Award award = awardService.getAward(fundingSource.getAwardId());
                     
                     reportError(AWARD_NUMBER, KeyConstants.ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE, new String[] {award.getAwardNumber()});
@@ -300,7 +300,7 @@ SubAwardFundingSourceRule,
     }
     
     /**
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;

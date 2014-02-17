@@ -19,11 +19,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -185,7 +185,7 @@ public abstract class MeetingActionBase extends KualiAction {
      */
     protected CommitteeDocumentBase getCommitteeDocument(String documentNumber) {
         try {
-            return (CommitteeDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
+            return (CommitteeDocumentBase) KcServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         }
         catch (Exception e) {
             return null;
@@ -235,7 +235,7 @@ public abstract class MeetingActionBase extends KualiAction {
 
 
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     /**
@@ -364,7 +364,7 @@ public abstract class MeetingActionBase extends KualiAction {
 
 
     protected boolean applyRules(KualiDocumentEvent event) {
-        return KraServiceLocator.getService(KualiRuleService.class).applyRules(event);
+        return KcServiceLocator.getService(KualiRuleService.class).applyRules(event);
     }
     
     protected abstract CommonMeetingService getMeetingService();

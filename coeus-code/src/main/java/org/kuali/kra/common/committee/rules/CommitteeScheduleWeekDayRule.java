@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.common.committee.rules;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleWeekDayEvent;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
-public class CommitteeScheduleWeekDayRule extends KcTransactionalDocumentRuleBase implements  BusinessRuleInterface<CommitteeScheduleWeekDayEvent>{
+public class CommitteeScheduleWeekDayRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<CommitteeScheduleWeekDayEvent> {
     
     public static final String ID = "committeeHelper.scheduleData.weeklySchedule.daysOfWeek";
             

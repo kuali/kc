@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -61,7 +61,7 @@ public abstract class ProtocolValuesFinderBase extends UifKeyValuesFinderBase {
     protected abstract Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook();
 
     protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     public String getScheduleId() {

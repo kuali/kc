@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -46,7 +46,7 @@ public class PrintingHierarchyNameValuesFinder extends UifKeyValuesFinderBase {
 
     public SponsorService getSponsorService() {
         if (sponsorService == null) {
-            sponsorService = KraServiceLocator.getService(SponsorService.class);
+            sponsorService = KcServiceLocator.getService(SponsorService.class);
         }
         return sponsorService;
     }
@@ -57,7 +57,7 @@ public class PrintingHierarchyNameValuesFinder extends UifKeyValuesFinderBase {
 
     public ParameterService getParameterService() {
         if (parameterService == null) {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
+            parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return parameterService;
     }

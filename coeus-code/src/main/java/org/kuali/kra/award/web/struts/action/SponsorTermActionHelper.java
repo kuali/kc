@@ -16,11 +16,11 @@
 package org.kuali.kra.award.web.struts.action;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardSponsorTermRuleEvent;
 import org.kuali.kra.award.AwardSponsorTermRuleImpl;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -207,7 +207,7 @@ public class SponsorTermActionHelper implements Serializable {
      */
     BusinessObjectService getKraBusinessObjectService() {
         if(businessObjectService == null){
-            businessObjectService = (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
+            businessObjectService = (BusinessObjectService) KcServiceLocator.getService("businessObjectService");
         }
         return businessObjectService;
     }

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.reporting.lookup.keyvalue;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.reporting.bo.CustReportDetails;
 import org.kuali.kra.reporting.service.BirtReportService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -33,7 +33,7 @@ public class CustomReportDetailsValueFinder extends UifKeyValuesFinderBase {
     private BirtReportService birtReportService;
     private BirtReportService getBirtReportService() {
         if (birtReportService == null) {
-            birtReportService = KraServiceLocator.getService(BirtReportService.class);
+            birtReportService = KcServiceLocator.getService(BirtReportService.class);
         }
         return birtReportService;
     }

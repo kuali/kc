@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.notification;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.util.EmailAttachment;
 
@@ -57,15 +57,15 @@ public class InstitutionalProposalNotificationContext extends NotificationContex
         this.contextName = contextName;
         this.forwardName = forwardName;
         
-        setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
-        setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        InstitutionalProposalNotificationRoleQualifierService roleQualifier = KraServiceLocator.getService(InstitutionalProposalNotificationRoleQualifierService.class);
+        setNotificationService(KcServiceLocator.getService(KcNotificationService.class));
+        setNotificationModuleRoleService(KcServiceLocator.getService(KcNotificationModuleRoleService.class));
+        InstitutionalProposalNotificationRoleQualifierService roleQualifier = KcServiceLocator.getService(InstitutionalProposalNotificationRoleQualifierService.class);
         roleQualifier.setInstitutionalProposal(institutionalProposal);
         setNotificationRoleQualifierService(roleQualifier);
     }
     
     public InstitutionalProposalNotificationContext(InstitutionalProposal institutionalProposal, String actionTypeCode, String contextName, String forwardName) {
-        this(institutionalProposal, actionTypeCode, contextName, KraServiceLocator.getService(InstitutionalProposalNotificationRenderer.class), forwardName);
+        this(institutionalProposal, actionTypeCode, contextName, KcServiceLocator.getService(InstitutionalProposalNotificationRenderer.class), forwardName);
         ((InstitutionalProposalNotificationRenderer) this.getRenderer()).setInstitutionalProposal(institutionalProposal);
     }
     

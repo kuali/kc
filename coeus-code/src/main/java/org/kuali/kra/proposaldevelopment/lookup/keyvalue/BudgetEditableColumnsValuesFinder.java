@@ -16,7 +16,7 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetColumnsToAlter;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -24,7 +24,7 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import java.util.List;
 
 public class BudgetEditableColumnsValuesFinder extends UifKeyValuesFinderBase {
-    KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+    KeyValueFinderService keyValueFinderService= (KeyValueFinderService) KcServiceLocator.getService("keyValueFinderService");
     @Override
     public List<KeyValue> getKeyValues() {
         return keyValueFinderService.getKeyValues(BudgetColumnsToAlter.class, "columnName", "columnLabel");

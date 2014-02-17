@@ -1,9 +1,9 @@
 package org.kuali.kra.institutionalproposal.home;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
@@ -301,11 +301,11 @@ public class InstitutionalProposalBoLite extends KcPersistableBusinessObjectBase
     }
 	
 	protected BusinessObjectService getBusinessObjectService() {
-        return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
+        return (BusinessObjectService) KcServiceLocator.getService(BusinessObjectService.class);
     }
 	
 	protected InstitutionalProposalService getInstitutionalProposalService() {
-		return (InstitutionalProposalService) KraServiceLocator.getService(InstitutionalProposalService.class);
+		return (InstitutionalProposalService) KcServiceLocator.getService(InstitutionalProposalService.class);
 	}
 	
 	public InstitutionalProposal getInstitutionalProposal() {

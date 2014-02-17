@@ -16,8 +16,8 @@
 package org.kuali.kra.iacuc.species;
 
 import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucPainCategory;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -59,7 +59,7 @@ public class IacucPainCategoryValuesFinder extends UifKeyValuesFinderBase {
     }
     
     protected KeyValuesService getKeyValuesService() {
-        return (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        return (KeyValuesService) KcServiceLocator.getService("keyValuesService");
     }
 
 

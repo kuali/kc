@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.common.committee.web.struts.form.schedule;
 
+import org.kuali.coeus.sys.framework.scheduling.util.CronSpecialChars;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.common.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
-import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 
 import java.io.Serializable;
 import java.sql.Date;

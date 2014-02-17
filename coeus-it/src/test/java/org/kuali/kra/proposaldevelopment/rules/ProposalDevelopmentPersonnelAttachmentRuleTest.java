@@ -18,18 +18,18 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
+
 import static org.junit.Assert.*;
 public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDevelopmentRuleTestBase {    
     private static final String EMPTY_STRING = "";
@@ -48,7 +48,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
     public void setUp() throws Exception {
         super.setUp();
         rule = new ProposalDevelopmentPersonnelAttachmentRule();
-        bos = KraServiceLocator.getService(BusinessObjectService.class);
+        bos = KcServiceLocator.getService(BusinessObjectService.class);
         documentTypes = (List)bos.findAll(PropPerDocType.class);
         document = getNewProposalDevelopmentDocument();
         newProposalPersonBiography = createNewProposalPersonBiography();        

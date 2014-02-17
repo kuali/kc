@@ -10,9 +10,9 @@ import gov.grants.apply.coeus.personProfile.PersonProfileListDocument.PersonProf
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.GenericPrintable;
 import org.kuali.kra.printing.service.PrintingService;
@@ -148,7 +148,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 				throw new PrintingException(e.getMessage(), e);
 			}
 		}
-		DateTimeService dateTimeService = KraServiceLocator
+		DateTimeService dateTimeService = KcServiceLocator
 				.getService(DateTimeService.class);
 		Calendar calendar = dateTimeService.getCurrentCalendar();
 		DateFormat dateFormat = new SimpleDateFormat("M/d/yy h:mm a");
@@ -446,7 +446,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			GenericPrintable printable = new GenericPrintable();
 			printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
 			printable.setStreamMap(streamMap);
-			PrintingService printingService= KraServiceLocator.getService(PrintingService.class);
+			PrintingService printingService= KcServiceLocator.getService(PrintingService.class);
 			try {
 				AttachmentDataSource printData = printingService.print(printable);
 				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber() +"_"+PROFILE_COMMENT+".pdf";

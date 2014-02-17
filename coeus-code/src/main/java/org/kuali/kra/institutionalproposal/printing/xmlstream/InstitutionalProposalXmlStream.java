@@ -17,6 +17,7 @@ package org.kuali.kra.institutionalproposal.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
@@ -24,7 +25,6 @@ import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
@@ -152,7 +152,7 @@ public class InstitutionalProposalXmlStream extends
 	}
 	
 	private String getProjectPeriodFieldDescription() {
-        String retVal =  KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+        String retVal =  KcServiceLocator.getService(CostShareService.class).getCostShareLabel();
         return retVal;
     }
 	
@@ -162,7 +162,7 @@ public class InstitutionalProposalXmlStream extends
 	 */
 	private OtherGroupTypes getCustomData(
 	        InstitutionalProposal institutionalProposal){	    
-	    CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
+	    CustomAttributeService customAttributeService = KcServiceLocator.getService(CustomAttributeService.class);
         Map<String, CustomAttributeDocument> customAttributeDocuments = customAttributeService.getDefaultCustomAttributeDocuments(institutionalProposal.getInstitutionalProposalDocument().getDocumentTypeCode(), institutionalProposal.getInstitutionalProposalCustomDataList());
         OtherGroupTypes otherGroup=OtherGroupTypes.Factory.newInstance();        
         List<OtherGroupDetailsTypes> otherGroupDetailsTypesList = new LinkedList<OtherGroupDetailsTypes>();       
@@ -174,7 +174,7 @@ public class InstitutionalProposalXmlStream extends
                
                 if(custData.getCustomAttributeId() == (long)customAttributeDocumentEntry.getValue().getCustomAttribute().getId()
                         && customAttributeDocuments.get(custData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName()
-                            .equalsIgnoreCase(KraServiceLocator.getService(ParameterService.class).
+                            .equalsIgnoreCase(KcServiceLocator.getService(ParameterService.class).
                                  getParameterValueAsString(InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE,ParameterConstants.DOCUMENT_COMPONENT,Constants.INSTITUTE_PROPOSAL_OTHER_GROUP))){    
                     
                     otherGroup.setGroupName(customAttributeDocuments.get(custData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName());
