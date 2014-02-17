@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.notification;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.util.EmailAttachment;
 
@@ -55,9 +55,9 @@ public class ProposalDevelopmentNotificationContext extends NotificationContextB
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         
-        setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
-        setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        ProposalDevelopmentNotificationRoleQualifierService roleQualifier = KraServiceLocator.getService(ProposalDevelopmentNotificationRoleQualifierService.class);
+        setNotificationService(KcServiceLocator.getService(KcNotificationService.class));
+        setNotificationModuleRoleService(KcServiceLocator.getService(KcNotificationModuleRoleService.class));
+        ProposalDevelopmentNotificationRoleQualifierService roleQualifier = KcServiceLocator.getService(ProposalDevelopmentNotificationRoleQualifierService.class);
         roleQualifier.setDevelopmentProposal(developmentProposal);
         setNotificationRoleQualifierService(roleQualifier);
     }
@@ -71,7 +71,7 @@ public class ProposalDevelopmentNotificationContext extends NotificationContextB
      */
     public ProposalDevelopmentNotificationContext(DevelopmentProposal developmentProposal, String actionTypeCode, String contextName) {
         this(developmentProposal, actionTypeCode, contextName, 
-                KraServiceLocator.getService(ProposalDevelopmentNotificationRenderer.class));
+                KcServiceLocator.getService(ProposalDevelopmentNotificationRenderer.class));
         ((ProposalDevelopmentNotificationRenderer) this.getRenderer()).setDevelopmentProposal(developmentProposal);
     }
     

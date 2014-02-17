@@ -16,12 +16,12 @@
 package org.kuali.kra.irb.actions.request;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -30,12 +30,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * set in the system params, the committee must be selected.
  */
 @SuppressWarnings("unchecked")
-public class ProtocolRequestRule extends KcTransactionalDocumentRuleBase implements BusinessRuleInterface<ProtocolRequestEvent> {
+public class ProtocolRequestRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<ProtocolRequestEvent> {
     
     private static final String MANDATORY = "M";
     private ParameterService parameterService;
     /**
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(ProtocolRequestEvent event) {
         
@@ -72,7 +72,7 @@ public class ProtocolRequestRule extends KcTransactionalDocumentRuleBase impleme
 
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }

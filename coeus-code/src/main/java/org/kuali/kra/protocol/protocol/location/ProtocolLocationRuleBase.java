@@ -16,11 +16,11 @@
 package org.kuali.kra.protocol.protocol.location;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.service.OrganizationService;
 
 public abstract class ProtocolLocationRuleBase extends KcTransactionalDocumentRuleBase implements AddProtocolLocationRule {
@@ -73,7 +73,7 @@ public abstract class ProtocolLocationRuleBase extends KcTransactionalDocumentRu
      */
     private boolean isInvalidOrganizationId(String organizationId) {
         boolean organizationIdInvalid = false;
-        OrganizationService organizationService = KraServiceLocator.getService(OrganizationService.class);
+        OrganizationService organizationService = KcServiceLocator.getService(OrganizationService.class);
         Organization organization = organizationService.getOrganization(organizationId);
         if(organization == null) {
             organizationIdInvalid = true;

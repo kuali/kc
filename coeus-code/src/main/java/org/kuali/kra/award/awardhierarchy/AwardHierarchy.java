@@ -16,10 +16,10 @@
 package org.kuali.kra.award.awardhierarchy;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -377,14 +377,14 @@ public class AwardHierarchy extends KcPersistableBusinessObjectBase implements C
 
     BusinessObjectService getBusinessObjectService() {
         if (boService == null) {
-            boService = KraServiceLocator.getService(BusinessObjectService.class);
+            boService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return boService;
     }
 
     VersionHistoryService getVersionHistoryService() {
         if (versionHistoryService == null) {
-            versionHistoryService = KraServiceLocator.getService(VersionHistoryService.class);
+            versionHistoryService = KcServiceLocator.getService(VersionHistoryService.class);
         }
         return versionHistoryService;
     }

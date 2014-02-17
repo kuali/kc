@@ -16,14 +16,14 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AbstractType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.core.api.criteria.CountFlag;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -79,7 +79,7 @@ public class ProposalDevelopmentAbstractsRule extends KcTransactionalDocumentRul
      */
     private boolean isInvalid(String abstractTypeCode) {
         if (abstractTypeCode != null) {
-            DataObjectService dataObjectService = KraServiceLocator.getService(DataObjectService.class);
+            DataObjectService dataObjectService = KcServiceLocator.getService(DataObjectService.class);
             Map<String,String> fieldValues = new HashMap<String,String>();
             fieldValues.put("abstractTypeCode", abstractTypeCode);
             if (dataObjectService.findMatching(AbstractType.class,

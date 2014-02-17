@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.budget;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -121,7 +121,7 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         return businessObjectService;
     }
 
@@ -138,7 +138,7 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
      * @return Returns the documentService.
      */
     public DocumentService getDocumentService() {
-        documentService = KraServiceLocator.getService(DocumentService.class);
+        documentService = KcServiceLocator.getService(DocumentService.class);
         return documentService;
     }
 
@@ -152,7 +152,7 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
 
     protected ParameterService getParameterService() {
         if (parameterService == null) {
-            parameterService = KraServiceLocator.getService(ParameterService.class);
+            parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return parameterService;
     }

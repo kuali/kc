@@ -22,10 +22,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalLockService;
@@ -143,11 +143,11 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
     }
 
     private UnitAuthorizationService getUnitAuthorizationService() {
-        return KraServiceLocator.getService(UnitAuthorizationService.class);
+        return KcServiceLocator.getService(UnitAuthorizationService.class);
     }
 
     private KcPersonService getKcPersonService() {
-        return KraServiceLocator.getService(KcPersonService.class);
+        return KcServiceLocator.getService(KcPersonService.class);
     }
 
     
@@ -407,16 +407,16 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
     
     @Override
     protected PessimisticLockService getPessimisticLockService() {
-        return KraServiceLocator.getService(InstitutionalProposalLockService.class);
+        return KcServiceLocator.getService(InstitutionalProposalLockService.class);
     }
     
     protected SponsorService getSponsorService() {
-        return KraServiceLocator.getService(SponsorService.class);
+        return KcServiceLocator.getService(SponsorService.class);
     }
     
     protected KcNotificationService getNotificationService() {
         if (notificationService == null) {
-            notificationService = KraServiceLocator.getService(KcNotificationService.class);
+            notificationService = KcServiceLocator.getService(KcNotificationService.class);
         }
         return notificationService;
     }

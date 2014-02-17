@@ -3,9 +3,9 @@ package org.kuali.kra.s2s.lookup;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
@@ -88,7 +88,7 @@ public class S2sOpportunityLookupable extends LookupableImpl {
 
     public S2SService getS2SService() {
         if (s2SService == null) {
-            s2SService = KraServiceLocator.getService(S2SService.class);
+            s2SService = KcServiceLocator.getService(S2SService.class);
         }
 
         return s2SService;
@@ -96,7 +96,7 @@ public class S2sOpportunityLookupable extends LookupableImpl {
 
     public DateTimeService getDateTimeService() {
         if (dateTimeService == null) {
-            dateTimeService = KraServiceLocator.getService(DateTimeService.class);
+            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
         }
 
         return dateTimeService;

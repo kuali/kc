@@ -20,60 +20,29 @@ import gov.grants.apply.forms.phsFellowshipSupplemental20V20.DegreeTypeDataType;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.FieldOfTrainingDataType;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ApplicationType;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Sponsors;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.ActivitiesPlannedUnderThisAward;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.ConcurrentSupportDescription;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.CurrentPriorNRSASupport;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.DissertationAndResearchExperience;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.FellowshipTrainingAndCareerGoals;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.GraduateDegreeSought;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.StemCells;
+import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.*;
+import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.*;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ApplicationType.TypeOfApplication;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.FederalStipendRequested;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.InstitutionalBaseSalary;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.SupplementationFromOtherSources;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.InstitutionalBaseSalary.AcademicPeriod;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.InclusionOfChildren;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.InclusionOfWomenAndMinorities;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.IntroductionToApplication;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.ProgressReportPublicationList;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.ProtectionOfHumanSubjects;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.ResearchStrategy;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.ResourceSharingPlan;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.RespectiveContributions;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.ResponsibleConductOfResearch;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.SelectAgentResearch;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.SelectionOfSponsorAndInstitution;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.SpecificAims;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.VertebrateAnimals;
+import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.SupplementationFromOtherSources;
+import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.*;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Sponsors.SponsorCosponsorInformation;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -89,6 +58,9 @@ import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.impl.PHS398FellowshipSupplementalBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * 
@@ -840,7 +812,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
     }
 
     private ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
-        return KraServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
+        return KcServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
     }
 
     private Answer getAnswer(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {

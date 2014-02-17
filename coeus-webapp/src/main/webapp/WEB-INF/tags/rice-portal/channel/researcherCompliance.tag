@@ -1,3 +1,4 @@
+<%@ tag import="org.kuali.coeus.sys.framework.service.KcServiceLocator" %>
 <%--
  Copyright 2005-2013 The Kuali Foundation
  
@@ -17,7 +18,7 @@
 
 <channel:portalChannelTop channelTitle="Conflict of Interest" />
 <div class="body">
-<c:set var="cmotd" value="<%= (org.kuali.kra.infrastructure.KraServiceLocator.getService(org.kuali.kra.coi.service.CoiMessagesService.class)).getMessages() %>" scope="page"/>
+<c:set var="cmotd" value="<%= (KcServiceLocator.KraServiceLocatorService(org.kuali.kra.coi.service.CoiMessagesService.class)).getMessages() %>" scope="page"/>
 <c:if test="${!empty pageScope.cmotd}">
 	<c:forEach items = "${pageScope.cmotd}" var = "msg">
 		<div class="body" style="text-align:left;color:#FF0000;">			

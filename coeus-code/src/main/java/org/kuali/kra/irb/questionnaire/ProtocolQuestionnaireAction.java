@@ -19,10 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
@@ -244,7 +244,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
     }
 
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-            return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+            return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 
 

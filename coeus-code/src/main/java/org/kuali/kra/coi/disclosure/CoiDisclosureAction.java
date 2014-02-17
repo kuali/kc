@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.actions.CoiDisclosureActionService;
@@ -38,7 +39,6 @@ import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.WatermarkService;
@@ -412,7 +412,7 @@ public class CoiDisclosureAction extends CoiAction {
     }
     
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);    
+        return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }
     
     private void checkToLoadDisclosureDetails(CoiDisclosure coiDisclosure, String methodToCall, String projectId,
@@ -813,15 +813,15 @@ public class CoiDisclosureAction extends CoiAction {
     }
 
     protected CoiPrintingService getCoiPrintingService() {
-        return  KraServiceLocator.getService(CoiPrintingService.class);  
+        return  KcServiceLocator.getService(CoiPrintingService.class);
     }
     
     protected WatermarkService getWatermarkService() {
-        return  KraServiceLocator.getService(WatermarkService.class);  
+        return  KcServiceLocator.getService(WatermarkService.class);
     }
     
     protected CoiDisclosureActionService getDisclosureActionService() {
-        return  KraServiceLocator.getService(CoiDisclosureActionService.class);  
+        return  KcServiceLocator.getService(CoiDisclosureActionService.class);
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -1032,7 +1032,7 @@ public class CoiDisclosureAction extends CoiAction {
     }
     
     protected QuestionnairePrintingService getQuestionnairePrintingService() {
-        return KraServiceLocator.getService(QuestionnairePrintingService.class);
+        return KcServiceLocator.getService(QuestionnairePrintingService.class);
     }
     
     

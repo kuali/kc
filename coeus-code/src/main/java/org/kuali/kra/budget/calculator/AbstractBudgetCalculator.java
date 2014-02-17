@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.calculator;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.commitments.FandaRateType;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.*;
@@ -29,7 +30,6 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.*;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -66,9 +66,9 @@ public abstract class AbstractBudgetCalculator {
     public AbstractBudgetCalculator(Budget budget, BudgetLineItemBase budgetLineItem) {
         this.budget = budget;
         this.budgetLineItem = budgetLineItem;
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         dateTimeService = CoreApiServiceLocator.getDateTimeService();
-        budgetCalcultionService = KraServiceLocator.getService(BudgetCalculationService.class);
+        budgetCalcultionService = KcServiceLocator.getService(BudgetCalculationService.class);
         breakupIntervals = new ArrayList<BreakUpInterval>();
     }
     /**
@@ -631,7 +631,7 @@ public abstract class AbstractBudgetCalculator {
     }
 
     private BreakupIntervalService getBreakupIntervalService() {
-        return KraServiceLocator.getService(BreakupIntervalService.class);
+        return KcServiceLocator.getService(BreakupIntervalService.class);
     }
     protected List<ValidCalcType> getValidCalcTypes() {
         return (List<ValidCalcType>) businessObjectService.findAll(ValidCalcType.class);
@@ -938,7 +938,7 @@ public abstract class AbstractBudgetCalculator {
         return budgetCalcultionService.getBudgetFormFromGlobalVariables();
     }
     protected BudgetRatesService getBudgetRateService() {
-        return KraServiceLocator.getService(BudgetRatesService.class);
+        return KcServiceLocator.getService(BudgetRatesService.class);
     }
 
 

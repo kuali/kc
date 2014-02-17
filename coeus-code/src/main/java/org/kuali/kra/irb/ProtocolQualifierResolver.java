@@ -16,7 +16,7 @@
 package org.kuali.kra.irb;
 
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase.ProtocolWorkflowType;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -36,7 +36,7 @@ public class ProtocolQualifierResolver extends XPathQualifierResolver {
     public List<Map<String,String>> resolve(RouteContext context) {
         List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
         try {
-            ProtocolDocument protocolDocument = (ProtocolDocument) KraServiceLocator.getService(DocumentService.class)
+            ProtocolDocument protocolDocument = (ProtocolDocument) KcServiceLocator.getService(DocumentService.class)
                     .getByDocumentHeaderIdSessionless(context.getDocument().getDocumentId() + "");
             if (ProtocolWorkflowType.NORMAL.getName().equals(protocolDocument.getProtocolWorkflowType())) {
                 attributeSets = super.resolve(context);

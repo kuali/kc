@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.service.impl;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.bo.CommentType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardCommentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +53,7 @@ public class AwardCommentServiceImpl implements AwardCommentService {
      * @return
      */
     public List<String> retrieveCommentHistoryFlags(String awardNumber) {
-        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put("awardNumber", awardNumber);
         List<AwardComment> rawList = (List<AwardComment>) getBusinessObjectService().findMatching(AwardComment.class, queryMap);
@@ -102,7 +102,7 @@ public class AwardCommentServiceImpl implements AwardCommentService {
     
     @SuppressWarnings("unchecked")
     public List<AwardComment> retrieveCommentHistoryByType(String awardCommentTypeCode, String awardId) {
-        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Award award = getAward(awardId);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(AWARD_COMMENT_TYPE_CODE, awardCommentTypeCode);

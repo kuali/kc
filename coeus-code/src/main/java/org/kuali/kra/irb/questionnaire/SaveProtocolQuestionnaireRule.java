@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.questionnaire;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 
-public class SaveProtocolQuestionnaireRule  implements BusinessRuleInterface<SaveProtocolQuestionnaireEvent>  {
+public class SaveProtocolQuestionnaireRule  implements KcBusinessRule<SaveProtocolQuestionnaireEvent> {
     private final ErrorReporter errorReporter = new ErrorReporter();
     
 

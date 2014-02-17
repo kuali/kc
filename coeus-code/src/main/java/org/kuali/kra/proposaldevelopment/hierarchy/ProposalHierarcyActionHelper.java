@@ -18,12 +18,12 @@ package org.kuali.kra.proposaldevelopment.hierarchy;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
@@ -202,14 +202,14 @@ public class ProposalHierarcyActionHelper {
     
     private ProposalHierarchyService getProposalHierarchyService() {
         if (hierarchyService == null) {
-            hierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
+            hierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
         }
         return hierarchyService;
     }
     
     private KcAuthorizationService getAuthoriztionService() {
         if (authorizationService == null) {
-            authorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
+            authorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         }
         return authorizationService;
     }
@@ -298,15 +298,15 @@ public class ProposalHierarcyActionHelper {
     }
 
     private boolean hasCompleteBudget(DevelopmentProposal proposal) {
-        String completeCode = KraServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
+        String completeCode = KcServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
         return StringUtils.equalsIgnoreCase(proposal.getBudgetStatus(), completeCode);
     }
     
     private void doUnexpectedError (ProposalHierarchyException e, String field, boolean rollback) {
         LOG.error(String.format("Unexpected error in Proposal Hierarchy handling: %s", e.toString()), e);
         if (rollback) {
-            PlatformTransactionManager txMgr = KraServiceLocator.getService("transactionManager");
+            PlatformTransactionManager txMgr = KcServiceLocator.getService("transactionManager");
             txMgr.rollback(txMgr.getTransaction(null));
         }
         GlobalVariables.getMessageMap().putError(field, ERROR_UNEXPECTED, e.toString());
@@ -371,7 +371,7 @@ public class ProposalHierarcyActionHelper {
     
     private boolean hasCompleteBudget(ProposalDevelopmentDocument pdDoc) {
         boolean retval = false;
-        String completeCode = KraServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String completeCode = KcServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
         for (BudgetDocumentVersion version : pdDoc.getBudgetDocumentVersions()) {
             if (!(version.getBudgetVersionOverview().getBudgetStatus() == null ) && version.getBudgetVersionOverview().getBudgetStatus().equalsIgnoreCase(completeCode)) {

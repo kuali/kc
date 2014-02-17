@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.onlinereview.authorization;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
@@ -47,7 +47,7 @@ public class ModifyProtocolOnlineReviewAuthorizer extends ProtocolOnlineReviewAu
         ProtocolOnlineReview protocolOnlineReview = task.getProtocolOnlineReview();
         ProtocolOnlineReviewDocument protocolDoc = null;
         try {
-            protocolDoc = (ProtocolOnlineReviewDocument)KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
+            protocolDoc = (ProtocolOnlineReviewDocument) KcServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
         }
         catch (WorkflowException e) {
             LOG.error(String.format("Could not find ProtocolOnlineReview, document number %s",protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber()));

@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
@@ -27,7 +28,6 @@ import org.kuali.kra.common.committee.rules.CommitteeDocumentRuleBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeFormBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -116,7 +116,7 @@ public abstract class CommitteeCommitteeActionBase extends CommitteeActionBase {
     
     
     private CommitteeServiceBase getCommitteeService() {
-        return (CommitteeServiceBase) KraServiceLocator.getService(getCommitteeServiceBOClassHook());
+        return (CommitteeServiceBase) KcServiceLocator.getService(getCommitteeServiceBOClassHook());
     }
 
     protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceBOClassHook();

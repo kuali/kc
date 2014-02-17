@@ -17,8 +17,8 @@ package org.kuali.kra.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.dao.VersionHistoryLookupDao;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -73,7 +73,7 @@ public class VersionHistoryLookupDaoOjb extends LookupDaoOjb  implements Version
     private Criteria getCollectionCriteriaFromMap(PersistableBusinessObject businessObject, Map formProps) {
         Criteria criteria = new Criteria();
         Iterator propsIter = formProps.keySet().iterator();
-        LookupDao lookupDao = KraServiceLocator.getService(LookupDao.class);
+        LookupDao lookupDao = KcServiceLocator.getService(LookupDao.class);
         while (propsIter.hasNext()) {
             String propertyName = (String) propsIter.next();
             if (formProps.get(propertyName) instanceof Collection) {
@@ -114,7 +114,7 @@ public class VersionHistoryLookupDaoOjb extends LookupDaoOjb  implements Version
     private boolean isCaseSensitive(PersistableBusinessObject persistBo, String  propertyName) {
         
         boolean caseInsensitive = false;
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
         if (dataDictionaryService.isAttributeDefined(persistBo.getClass(), propertyName)) {
             caseInsensitive = !dataDictionaryService.getAttributeForceUppercase(persistBo.getClass(), propertyName);
         }

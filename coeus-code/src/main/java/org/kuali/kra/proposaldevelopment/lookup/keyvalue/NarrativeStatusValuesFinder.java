@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -46,7 +46,7 @@ public class NarrativeStatusValuesFinder extends UifKeyValuesFinderBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection<NarrativeStatus> statuses = keyValuesService.findAll(NarrativeStatus.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));

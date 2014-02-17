@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.krms.service.impl;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.krms.FunctionParamComparator;
 import org.kuali.kra.krms.FunctionTermResolver;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -49,7 +49,7 @@ public abstract class FunctionTermResolverTypeServiceBase implements TermResolve
     @Override
     public TermResolver<?> loadTermResolver(TermResolverDefinition termResolverDefinition) {
         String functionId = termResolverDefinition.getOutput().getName();
-        FunctionRepositoryService functionRepositoryService = KraServiceLocator.getService("functionRepositoryService");
+        FunctionRepositoryService functionRepositoryService = KcServiceLocator.getService("functionRepositoryService");
         FunctionDefinition functionTerm = functionRepositoryService.getFunction(functionId);
         if(functionTerm==null){
             throw new RuntimeException("Not able to find Term for function : "+functionId);

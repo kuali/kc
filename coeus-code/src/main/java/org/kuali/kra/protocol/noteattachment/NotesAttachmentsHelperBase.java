@@ -18,10 +18,10 @@ package org.kuali.kra.protocol.noteattachment;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -635,7 +635,7 @@ public abstract class NotesAttachmentsHelperBase {
         }
         ProtocolNotepadBase pn = this.protocolNotepad;
         pn.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-        pn.setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        pn.setCreateTimestamp(((DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         this.addNewNotepad(pn);
         
         this.initProtocolNotepad();

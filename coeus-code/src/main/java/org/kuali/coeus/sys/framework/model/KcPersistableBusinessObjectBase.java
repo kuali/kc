@@ -18,8 +18,8 @@ package org.kuali.coeus.sys.framework.model;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -123,7 +123,7 @@ public abstract class KcPersistableBusinessObjectBase extends PersistableBusines
 
             setUpdateUser(principalName);
         }
-        setUpdateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        setUpdateTimestamp(((DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
     }
 
     public Timestamp getUpdateTimestamp() {
@@ -171,7 +171,7 @@ public abstract class KcPersistableBusinessObjectBase extends PersistableBusines
      */
     private IdentityService getIdentityService() {
         if (this.identityService == null) {
-            this.identityService = KraServiceLocator.getService(IdentityService.class);
+            this.identityService = KcServiceLocator.getService(IdentityService.class);
         }
         return this.identityService;
     }

@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.SpecialReviewType;
@@ -39,7 +40,6 @@ import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer;
@@ -105,7 +105,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 /**
  * Handles all of the actions from the Proposal Development Actions web page.
@@ -343,8 +343,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     public ActionForward addProposalChangedData(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        KcPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KcPersistenceStructureService.class);
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
+        KcPersistenceStructureService kraPersistenceStructureService = KcServiceLocator.getService(KcPersistenceStructureService.class);
 
         ActionForward forward = mapping.findForward("basic");
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
@@ -412,7 +412,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     private ProposalOverview createProposalWrapper(ProposalDevelopmentDocument pdDocument) throws Exception {
         ProposalOverview proposalWrapper = new ProposalOverview();
-        PersistenceStructureService persistentStructureService = KraServiceLocator.getService(PersistenceStructureService.class);
+        PersistenceStructureService persistentStructureService = KcServiceLocator.getService(PersistenceStructureService.class);
         List<String> fieldsToUpdate = (List<String>) persistentStructureService.listFieldNames(ProposalOverview.class);
         for(String field: fieldsToUpdate) {
             boolean noSuchFieldPD = false;
@@ -481,8 +481,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         else {
             // Use the Copy Service to copy the proposal.
             
-            ProposalCopyService proposalCopyService = (ProposalCopyService) KraServiceLocator.getService("proposalCopyService");
-            KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
+            ProposalCopyService proposalCopyService = (ProposalCopyService) KcServiceLocator.getService("proposalCopyService");
+            KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
             
             if (proposalCopyService == null) {
                 
@@ -493,7 +493,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
             else {
                 String newDocId = proposalCopyService.copyProposal(doc, criteria);
-                KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
+                KcServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
                 
                 // Switch over to the new proposal development document and
                 // go to the Proposal web page.
@@ -505,7 +505,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 getProposalRoleTemplateService().initializeProposalUsers(copiedDocument);//add in any default permissions
                 copiedDocument.getDevelopmentProposal().setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
                  
-                DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+                DocumentService docService = KcServiceLocator.getService(DocumentService.class);
                 docService.saveDocument(copiedDocument);
 
                 nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
@@ -556,7 +556,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         if (new ProposalDevelopmentRejectionRule().proccessProposalDevelopmentRejection(bean)){
             // reject the document using the service.
-            ProposalHierarchyService phService = KraServiceLocator.getService(ProposalHierarchyService.class);
+            ProposalHierarchyService phService = KcServiceLocator.getService(ProposalHierarchyService.class);
             phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(), GlobalVariables
                     .getUserSession().getPrincipalId(), bean.getRejectFile());
             ((ProposalDevelopmentForm) form).setShowRejectionConfirmation(false);
@@ -744,7 +744,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         if(proposalDevelopmentDocument.getDevelopmentProposal().getSubmitFlag()!= true){
             forward = submitToSponsor(mapping, form, request, response);
         }        
-        ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        ProposalDevelopmentService proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
         InstitutionalProposal institutionalProposal =  proposalDevelopmentService.getInstitutionalProposal(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());
    
     if(institutionalProposal != null){
@@ -816,7 +816,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
              */
             boolean s2sPassed = true;
             if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
-                S2SService s2sService = (S2SService) KraServiceLocator.getService(S2SService.class);
+                S2SService s2sService = (S2SService) KcServiceLocator.getService(S2SService.class);
 //                s2sPassed = s2sService.validateApplication(proposalDevelopmentDocument.getProposalNumber());
                 try {
                     s2sPassed = s2sService.validateApplication(proposalDevelopmentDocument);
@@ -926,7 +926,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             if (!(autogenerateInstitutionalProposal() && "X".equals(proposalDevelopmentForm.getResubmissionOption()))) {
                 proposalDevelopmentDocument.getDevelopmentProposal().setSubmitFlag(true);
     
-                ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
+                ProposalStateService proposalStateService = KcServiceLocator.getService(ProposalStateService.class);
                 if (ProposalState.APPROVED.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode())) {
                     proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED_AND_SUBMITTED);
                 } else {
@@ -946,7 +946,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             if( !StringUtils.equals(pCode, proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode() )) {
                 proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(pCode);
                 proposalDevelopmentDocument.getDevelopmentProposal().refresh();
-                KraServiceLocator.getService(BusinessObjectService.class).save(proposalDevelopmentDocument.getDevelopmentProposal());
+                KcServiceLocator.getService(BusinessObjectService.class).save(proposalDevelopmentDocument.getDevelopmentProposal());
             }
     
             if (autogenerateInstitutionalProposal()) {
@@ -1002,7 +1002,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
     
     private Long getActiveProposalId(String proposalNumber) {
-        BusinessObjectService service = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService service = KcServiceLocator.getService(BusinessObjectService.class);
         Collection<InstitutionalProposal> ips = service.findMatching(InstitutionalProposal.class, getFieldValues(proposalNumber, "proposalNumber"));
         Long proposalId = ((InstitutionalProposal) ips.toArray()[0]).getProposalId();
         return proposalId;
@@ -1016,7 +1016,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     private Long findInstProposalNumber(String devProposalNumber) {
         Long instProposalId = null;
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues(devProposalNumber, "devProposalNumber"));
         
         for(Iterator iter = proposalAdminDetails.iterator(); iter.hasNext();){
@@ -1045,13 +1045,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         proposalAdminDetails.setInstProposalId(instProposalId);
         String loggedInUser = GlobalVariables.getUserSession().getPrincipalName();        
         proposalAdminDetails.setSignedBy(loggedInUser);
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         businessObjectService.save(proposalAdminDetails);
     }
     
     private void persistSpecialReviewProtocolFundingSourceLink(Long institutionalProposalId, boolean isIPProtocolLinkingEnabled) {
         if (isIPProtocolLinkingEnabled) {
-            SpecialReviewService specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+            SpecialReviewService specialReviewService = KcServiceLocator.getService(SpecialReviewService.class);
             
             InstitutionalProposal institutionalProposal 
                 = getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposal.class, institutionalProposalId);
@@ -1078,7 +1078,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @throws Exception
      */
     private void submitS2sApplication(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception{
-        S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
+        S2SService s2sService = ((S2SService) KcServiceLocator.getService(S2SService.class));
         s2sService.submitApplication(proposalDevelopmentDocument);
     }
     
@@ -1097,13 +1097,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
     
     private String createInstitutionalProposal(DevelopmentProposal developmentProposal, Budget budget) {
-        InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+        InstitutionalProposalService institutionalProposalService = KcServiceLocator.getService(InstitutionalProposalService.class);
         String proposalNumber = institutionalProposalService.createInstitutionalProposal(developmentProposal, budget);
         return proposalNumber;
     }
     
     private String createInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget) {
-        InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+        InstitutionalProposalService institutionalProposalService = KcServiceLocator.getService(InstitutionalProposalService.class);
         String versionNumber = institutionalProposalService.createInstitutionalProposalVersion(proposalNumber, developmentProposal, budget);
         return versionNumber;
     }
@@ -1126,14 +1126,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public void populateSponsorForms(ActionForm form) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
+        ProposalDevelopmentPrintingService printService = KcServiceLocator.getService(ProposalDevelopmentPrintingService.class);
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
     }
     
     public void streamToResponse(List<SponsorFormTemplate> printFormTemplates, String proposalNumber, String contentType, String ReportName, HttpServletResponse response) throws Exception{
         
         
-        byte[] sftByteStream = KraServiceLocator.getService(PrintService.class).printProposalSponsorForms(proposalNumber, printFormTemplates);
+        byte[] sftByteStream = KcServiceLocator.getService(PrintService.class).printProposalSponsorForms(proposalNumber, printFormTemplates);
         
         if(sftByteStream == null) {
             return;
@@ -1320,7 +1320,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             for (BudgetDocumentVersion budgetDocumentVersion: pdDoc.getBudgetDocumentVersions()) {
                 BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
                 if (budgetVersion.isFinalVersionFlag()) {
-                    DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+                    DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
                     budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
                 }
             }
@@ -1443,7 +1443,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
     
     public ParameterService getParameterService() {
-        return KraServiceLocator.getService(ParameterService.class);
+        return KcServiceLocator.getService(ParameterService.class);
     }
    
     
@@ -1528,7 +1528,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     public ActionForward printCurrentReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        CurrentAndPendingReportService currentAndPendingReportService = KraServiceLocator
+        CurrentAndPendingReportService currentAndPendingReportService = KcServiceLocator
                 .getService(CurrentAndPendingReportService.class);
         ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         Map<String, Object> reportParameters = new HashMap<String, Object>();
@@ -1545,7 +1545,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     public ActionForward printPendingReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        CurrentAndPendingReportService currentAndPendingReportService = KraServiceLocator
+        CurrentAndPendingReportService currentAndPendingReportService = KcServiceLocator
                 .getService(CurrentAndPendingReportService.class);
         ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         Map<String, Object> reportParameters = new HashMap<String, Object>();
@@ -1616,7 +1616,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     public ActionForward confirmDeleteProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm propDevForm = (ProposalDevelopmentForm) form;
-        KraServiceLocator.getService(ProposalDevelopmentService.class).deleteProposal(propDevForm.getProposalDevelopmentDocument());
+        KcServiceLocator.getService(ProposalDevelopmentService.class).deleteProposal(propDevForm.getProposalDevelopmentDocument());
         return mapping.findForward("portal");
     }
 
@@ -1635,7 +1635,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
     protected KcWorkflowService getKraWorkflowService() {
         if (kraWorkflowService == null) {
-            kraWorkflowService = KraServiceLocator.getService(KcWorkflowService.class);
+            kraWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
         }
         return kraWorkflowService;
     }
@@ -1659,8 +1659,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             HttpServletResponse response) throws Exception {
 
         BudgetDocument budgetDocument = null;
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        KcPersistenceStructureService kraPersistenceStructureService = KraServiceLocator
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
+        KcPersistenceStructureService kraPersistenceStructureService = KcServiceLocator
                 .getService(KcPersistenceStructureService.class);
 
         ActionForward forward = mapping.findForward("basic");
@@ -1734,7 +1734,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     private BudgetVersionOverview createProposalBudgetWrapper(BudgetDocument budgetDocument) throws Exception {
         BudgetVersionOverview budgetVersionWrapper = new BudgetVersionOverview();
-        PersistenceStructureService persistentStructureService = KraServiceLocator.getService(PersistenceStructureService.class);
+        PersistenceStructureService persistentStructureService = KcServiceLocator.getService(PersistenceStructureService.class);
         List<String> fieldsToUpdate = (List<String>) persistentStructureService.listFieldNames(BudgetVersionOverview.class);
         for (String field : fieldsToUpdate) {
             boolean noSuchFieldPD = false;

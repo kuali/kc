@@ -16,7 +16,7 @@
 package org.kuali.kra.common.notification.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.framework.role.RoleEbo;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -54,7 +54,7 @@ public class NotificationModuleRoleRoleNameValuesFinder extends UifKeyValuesFind
     
     public KeyValuesService getKeyValuesService() {
         if (keyValuesService == null) {
-            keyValuesService = (KeyValuesService) KraServiceLocator.getService(KeyValuesService.class);
+            keyValuesService = (KeyValuesService) KcServiceLocator.getService(KeyValuesService.class);
         }
         return keyValuesService;
     }

@@ -24,13 +24,13 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.test.CommitteeFactory;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -52,6 +52,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static org.junit.Assert.*;
 /**
  * Test the Protocol NotifyIrb Service Implementation.
@@ -73,10 +74,10 @@ public class ProtocolNotifyIrbServiceTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
 
         service = new ProtocolNotifyIrbServiceImpl();
-        service.setProtocolActionService(KraServiceLocator.getService(ProtocolActionService.class));
+        service.setProtocolActionService(KcServiceLocator.getService(ProtocolActionService.class));
         service.setDocumentService(getMockDocumentService());
         
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         service.setBusinessObjectService(businessObjectService);
     }
 

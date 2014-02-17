@@ -17,12 +17,12 @@ package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
@@ -401,7 +401,7 @@ public class ProposalLog extends KcPersistableBusinessObjectBase implements Nego
     
     private void mergeTemporaryLog() {
         if (StringUtils.isNotBlank(getMergedWith()) && StringUtils.equals(getProposalLogTypeCode(), ProposalLogUtils.getProposalLogPermanentTypeCode())) {
-            KraServiceLocator.getService(ProposalLogService.class).mergeProposalLog(this, this.getMergedWith());
+            KcServiceLocator.getService(ProposalLogService.class).mergeProposalLog(this, this.getMergedWith());
         }
     }
     
@@ -413,7 +413,7 @@ public class ProposalLog extends KcPersistableBusinessObjectBase implements Nego
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         
         return this.kcPersonService;

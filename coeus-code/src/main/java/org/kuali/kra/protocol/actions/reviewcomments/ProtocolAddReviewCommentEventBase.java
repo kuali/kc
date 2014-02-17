@@ -16,10 +16,10 @@
 package org.kuali.kra.protocol.actions.reviewcomments;
 
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Encapsulates a validation event for a Reviewer Comment add action.
@@ -56,7 +56,7 @@ public abstract class ProtocolAddReviewCommentEventBase extends KcDocumentEventB
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return getNewProtocolAddReviewCommentRuleInstanceHook();
     }
 

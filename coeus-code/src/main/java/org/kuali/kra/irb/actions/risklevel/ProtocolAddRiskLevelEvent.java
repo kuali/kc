@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.actions.risklevel;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * Encapsulates a validation event for a Protocol Risk Level add action.
@@ -54,7 +54,7 @@ public class ProtocolAddRiskLevelEvent extends KcDocumentEventBaseExtension {
 
     @Override
     @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new ProtocolAddRiskLevelRule();
     }
 

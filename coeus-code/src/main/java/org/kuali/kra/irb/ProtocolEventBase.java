@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb;
 
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
@@ -23,7 +23,7 @@ import org.kuali.rice.krad.document.Document;
  * 
  * This class
  */
-public abstract class ProtocolEventBase<Z extends BusinessRuleInterface> extends KcDocumentEventBaseExtension {
+public abstract class ProtocolEventBase<Z extends KcBusinessRule> extends KcDocumentEventBaseExtension {
 
     /**
      * Enum helps identify type of error to respond.

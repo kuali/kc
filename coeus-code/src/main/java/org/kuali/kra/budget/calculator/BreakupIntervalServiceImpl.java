@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.Operator;
 import org.kuali.kra.budget.rates.*;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
@@ -196,7 +196,7 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
     }
      
     private BusinessObjectService getBusinessObjectFactory() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     /**

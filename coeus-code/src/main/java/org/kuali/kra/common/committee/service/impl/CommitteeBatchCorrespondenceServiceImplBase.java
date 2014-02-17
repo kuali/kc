@@ -18,6 +18,8 @@ package org.kuali.kra.common.committee.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
@@ -25,7 +27,6 @@ import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase
 import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -34,7 +35,6 @@ import org.kuali.kra.protocol.ProtocolDao;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.protocol.correspondence.*;
-import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.util.EmailAttachment;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -212,7 +212,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
         committeeBatchCorrespondenceDetail.setProtocolCorrespondence(createAndSaveProtocolCorrespondence(committeeId,
                 protocol, protocolCorrespondenceType, committeeBatchCorrespondenceDetail.getProtocolAction()));
         committeeBatchCorrespondenceDetail.setProtocolCorrespondenceId(committeeBatchCorrespondenceDetail.getProtocolCorrespondence().getId());
-        committeeBatchCorrespondenceDetail.setCommitteeBatchCorrespondenceDetailId(KraServiceLocator.getService(SequenceAccessorService.class)
+        committeeBatchCorrespondenceDetail.setCommitteeBatchCorrespondenceDetailId(KcServiceLocator.getService(SequenceAccessorService.class)
                 .getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID", committeeBatchCorrespondenceDetail.getClass()));
 
         return committeeBatchCorrespondenceDetail;

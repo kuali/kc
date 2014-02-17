@@ -18,9 +18,9 @@ package org.kuali.kra.coi.lookup;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
@@ -67,7 +67,7 @@ public abstract class CoiDisclosureLookupableHelperBase extends KraLookupableHel
     
     protected TaskAuthorizationService getTaskAuthorizationService() {
         if (taskAuthorizationService == null) {
-            taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+            taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         }
         return taskAuthorizationService;
     }
@@ -115,7 +115,7 @@ public abstract class CoiDisclosureLookupableHelperBase extends KraLookupableHel
     }
     
     public KcPersonService getKcPersonService() {
-        return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
+        return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
     }
     
     /**

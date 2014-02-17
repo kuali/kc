@@ -21,6 +21,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -31,7 +32,6 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -95,7 +95,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
             HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
-        AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        AwardAmountInfoService awardAmountInfoService = KcServiceLocator.getService(AwardAmountInfoService.class);
         List<TransactionDetail> moneyTransactionDetailItems = new ArrayList<TransactionDetail>();
         updateAwardAmountTransactions(timeAndMoneyDocument);
         // Capture amount changes in hierarchy view
@@ -289,9 +289,9 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     private void captureDateChangeTransactions(ActionForm form) throws WorkflowException {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
-        AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        AwardAmountInfoService awardAmountInfoService = KcServiceLocator.getService(AwardAmountInfoService.class);
         List<AwardAmountInfo> awardAmountInfoObjects = new ArrayList<AwardAmountInfo>();
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         //save rules have not been applied yet so there needs to be a null check on transaction type code before testing the value.
         boolean isNoCostExtension;
         if (timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null) {
@@ -782,7 +782,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
      * This method retrieves AwardHierarchyService
      */
     protected AwardHierarchyService getAwardHierarchyService(){        
-        return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
+        return (AwardHierarchyService) KcServiceLocator.getService(AwardHierarchyService.class);
     }
     
     /**
@@ -899,13 +899,13 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
         timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
         timeAndMoneyDocument.setAward(award);
 
-        TimeAndMoneyHistoryService tamhs = KraServiceLocator.getService(TimeAndMoneyHistoryService.class);
+        TimeAndMoneyHistoryService tamhs = KcServiceLocator.getService(TimeAndMoneyHistoryService.class);
         
         tamhs.getTimeAndMoneyHistory(timeAndMoneyDocument.getAwardNumber(), timeAndMoneyDocument.getTimeAndMoneyHistory(), timeAndMoneyForm.getColumnSpan());
         
         timeAndMoneyDocument.getAwardVersionHistoryList().clear();
         tamhs.buildTimeAndMoneyHistoryObjects(award.getAwardNumber(), timeAndMoneyDocument.getAwardVersionHistoryList());
-        TimeAndMoneyActionSummaryService tamass = KraServiceLocator.getService(TimeAndMoneyActionSummaryService.class);
+        TimeAndMoneyActionSummaryService tamass = KcServiceLocator.getService(TimeAndMoneyActionSummaryService.class);
         timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems().clear();
         tamass.populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), goToAwardNumber);
         
@@ -926,7 +926,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
      * @return Returns the businessObjectService.
      */
     public AwardVersionService getAwardVersionService() {
-        awardVersionService = KraServiceLocator.getService(AwardVersionService.class);
+        awardVersionService = KcServiceLocator.getService(AwardVersionService.class);
         return awardVersionService;
     }
 
@@ -935,7 +935,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
      */
     protected ActivePendingTransactionsService getActivePendingTransactionsService(){
         if (activePendingTransactionsService == null) {
-            activePendingTransactionsService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
+            activePendingTransactionsService = KcServiceLocator.getService(ActivePendingTransactionsService.class);
         }
         return activePendingTransactionsService;
     }
@@ -1045,7 +1045,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         return businessObjectService;
     }
     
@@ -1088,7 +1088,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     }
     
     protected KcWorkflowService getKraWorkflowService() {
-        return KraServiceLocator.getService(KcWorkflowService.class);
+        return KcServiceLocator.getService(KcWorkflowService.class);
     }
     
     /**
@@ -1097,7 +1097,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -1199,7 +1199,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
 
     public TimeAndMoneyVersionService getTimeAndMoneyVersionService() {
         if (timeAndMoneyVersionService == null) {
-            timeAndMoneyVersionService = KraServiceLocator.getService(TimeAndMoneyVersionService.class);
+            timeAndMoneyVersionService = KcServiceLocator.getService(TimeAndMoneyVersionService.class);
         }
         return timeAndMoneyVersionService;
     }

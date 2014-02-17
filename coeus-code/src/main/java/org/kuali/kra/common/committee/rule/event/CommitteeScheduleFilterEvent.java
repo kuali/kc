@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.common.committee.rule.event;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rules.CommitteeScheduleFilterDatesRule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class CommitteeScheduleFilterEvent extends CommitteeScheduleEventBase<Com
     
     @SuppressWarnings("unchecked")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new CommitteeScheduleFilterDatesRule();
     }
 }

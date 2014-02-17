@@ -33,6 +33,7 @@ import gov.grants.apply.system.globalLibraryV10.YesNoDataType.Enum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -42,7 +43,6 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -532,7 +532,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 				}
 
 				if(PI.getHomeUnit() != null) {
-		            KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+		            KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
 		            KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
 		            String departmentName =  kcPersons.getOrganizationIdentifier();
 		            PDPI.setDepartmentName(departmentName);

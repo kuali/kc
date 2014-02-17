@@ -17,11 +17,11 @@ package org.kuali.kra.award.notesandattachments.attachments;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.io.Serializable;
@@ -257,6 +257,6 @@ public class AwardAttachmentFormBean implements Serializable{
 
 
     private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
+        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 }

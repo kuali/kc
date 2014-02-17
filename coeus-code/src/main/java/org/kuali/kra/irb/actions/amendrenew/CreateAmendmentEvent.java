@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.actions.amendrenew.CreateAmendmentEventBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 /**
  * When an amendment is created, this event is generated.
@@ -31,7 +31,7 @@ public class CreateAmendmentEvent extends CreateAmendmentEventBase {
     }
 
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new CreateAmendmentRule();
     }
 }

@@ -16,9 +16,9 @@
 package org.kuali.kra.budget.lookup.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.budget.core.CostElement;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -44,7 +44,7 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = KcServiceLocator.getService("keyValuesService");
         List<KeyValue> keyValues = new ArrayList<KeyValue>();        
         Collection<CostElement> costElements= keyValuesService.findAll(CostElement.class);
         Collection<BudgetCategory> budgetCategoryCodes = keyValuesService.findAll(BudgetCategory.class);

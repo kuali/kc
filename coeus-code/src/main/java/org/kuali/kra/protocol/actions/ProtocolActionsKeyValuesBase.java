@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol.actions;
 
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -46,7 +46,7 @@ public abstract class ProtocolActionsKeyValuesBase extends FormViewAwareUifKeyVa
      */
     public BusinessObjectService getBusinessObjectService() {
         if (this.businessObjectService == null) {
-            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return this.businessObjectService;
     }
@@ -58,7 +58,7 @@ public abstract class ProtocolActionsKeyValuesBase extends FormViewAwareUifKeyVa
      */
     public KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }
@@ -70,7 +70,7 @@ public abstract class ProtocolActionsKeyValuesBase extends FormViewAwareUifKeyVa
      */
     public RolodexService getRolodexService() {
         if (this.rolodexService == null) {
-            this.rolodexService = KraServiceLocator.getService(RolodexService.class);
+            this.rolodexService = KcServiceLocator.getService(RolodexService.class);
         }
         return this.rolodexService;
     }
@@ -82,7 +82,7 @@ public abstract class ProtocolActionsKeyValuesBase extends FormViewAwareUifKeyVa
      */
     public CommitteeServiceBase getCommitteeService() {
         if (this.committeeService == null) {
-            this.committeeService = KraServiceLocator.getService(getCommitteeServiceClassHook());
+            this.committeeService = KcServiceLocator.getService(getCommitteeServiceClassHook());
         }
         return this.committeeService;
     }
@@ -97,7 +97,7 @@ public abstract class ProtocolActionsKeyValuesBase extends FormViewAwareUifKeyVa
      */
     public KeyValuesService getKeyValuesService() {
         if (this.keyValuesService == null) {
-            this.keyValuesService = KraServiceLocator.getService(KeyValuesService.class);
+            this.keyValuesService = KcServiceLocator.getService(KeyValuesService.class);
         }
         return this.keyValuesService;
     }

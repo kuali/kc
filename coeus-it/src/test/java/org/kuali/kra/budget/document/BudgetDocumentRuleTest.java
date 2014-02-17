@@ -19,19 +19,20 @@ package org.kuali.kra.budget.document;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.DocumentService;
+
 import static org.junit.Assert.*;
 public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
 
@@ -41,7 +42,7 @@ public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
     
     @Before
     public void setUp() throws Exception {
-        docService = KraServiceLocator.getService(DocumentService.class);
+        docService = KcServiceLocator.getService(DocumentService.class);
         budgetDoc = (BudgetDocument)docService.getNewDocument(BudgetDocument.class);
         budgetDocRule = new BudgetDocumentRule();
     }
@@ -53,7 +54,7 @@ public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
     @Test
     public void testBudgetProjectIncomeBusinessRule() throws Exception {
         
-        ParameterService ps = KraServiceLocator.getService(ParameterService.class);
+        ParameterService ps = KcServiceLocator.getService(ParameterService.class);
         //ps.clearCache();
         //ps.setParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");
         Parameter parameter = ps.getParameter(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel");
@@ -61,7 +62,7 @@ public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
         parameterForUpdate.setValue("Fiscal Year");
         ps.updateParameter(parameterForUpdate.build());
         
-        CostShareService costShareService = KraServiceLocator.getService(CostShareService.class);
+        CostShareService costShareService = KcServiceLocator.getService(CostShareService.class);
         costShareService.getCostShareLabel();
         budgetDocRule.setCostShareService(costShareService);
         

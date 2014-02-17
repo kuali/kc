@@ -26,8 +26,8 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -446,7 +446,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private boolean isRolodexPersonForeign(ProposalPerson proposalPerson) {
         boolean isForeign = false;
         if (proposalPerson.getRolodexId() != null) {
-            Rolodex rolodex = KraServiceLocator
+            Rolodex rolodex = KcServiceLocator
                     .getService(RolodexService.class).getRolodex(
                             proposalPerson.getRolodexId());
             if (rolodex != null) {

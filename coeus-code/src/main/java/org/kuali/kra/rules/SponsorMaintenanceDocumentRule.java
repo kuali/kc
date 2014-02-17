@@ -16,9 +16,9 @@
 package org.kuali.kra.rules;
 
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -72,7 +72,7 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
         boolean valid = true;
         Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
         if (sponsor.getSponsorCode() != null && !Pattern.matches(SPONSOR_CODE_REGEX, sponsor.getSponsorCode())) {
-            String errorLabel = KraServiceLocator.getService(DataDictionaryService.class).getAttributeErrorLabel(Sponsor.class, SPONSOR_CODE_FIELD_NAME);
+            String errorLabel = KcServiceLocator.getService(DataDictionaryService.class).getAttributeErrorLabel(Sponsor.class, SPONSOR_CODE_FIELD_NAME);
             GlobalVariables.getMessageMap().putError(SPONSOR_CODE_ERROR_PROPERTY_NAME, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, errorLabel, 
                     sponsor.getSponsorCode(), SPONSOR_CODE_FORMAT_DESCRIPTION);
             valid = false;

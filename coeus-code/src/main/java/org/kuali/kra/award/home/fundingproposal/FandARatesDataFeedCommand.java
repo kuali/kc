@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.service.FiscalYearMonthService;
@@ -89,7 +89,7 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     
     protected FiscalYearMonthService getFiscalYearMonthService() {
         if (this.fiscalYearMonthService == null) {
-            this.fiscalYearMonthService = KraServiceLocator.getService(FiscalYearMonthService.class);
+            this.fiscalYearMonthService = KcServiceLocator.getService(FiscalYearMonthService.class);
         }
         return this.fiscalYearMonthService;
     }

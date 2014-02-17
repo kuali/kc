@@ -20,12 +20,12 @@ import gov.grants.apply.coeus.additionalEquipment.AdditionalEquipmentListDocumen
 import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument;
 import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList;
 import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons.Compensation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.GenericPrintable;
 import org.kuali.kra.printing.service.PrintingService;
@@ -97,12 +97,12 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 	 * Constructs a RRBudgetBaseGenerator.java.
 	 */
 	public RRBudgetBaseGenerator() {
-		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-		s2sBudgetCalculatorService = KraServiceLocator
+		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+		s2sBudgetCalculatorService = KcServiceLocator
 				.getService(S2SBudgetCalculatorService.class);
-		businessObjectService = KraServiceLocator
+		businessObjectService = KcServiceLocator
 				.getService(BusinessObjectService.class);
-		budgetService = KraServiceLocator.getService(BudgetService.class);
+		budgetService = KcServiceLocator.getService(BudgetService.class);
 	}
 	protected void deleteAutoGenNarratives() {
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
@@ -144,7 +144,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 			GenericPrintable printable = new GenericPrintable();
 			printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
 			printable.setStreamMap(streamMap);
-			PrintingService printingService = KraServiceLocator
+			PrintingService printingService = KcServiceLocator
 					.getService(PrintingService.class);
 			try {
 				AttachmentDataSource printData = printingService
@@ -197,7 +197,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 			GenericPrintable printable = new GenericPrintable();
 			printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
 			printable.setStreamMap(streamMap);
-			PrintingService printingService= KraServiceLocator.getService(PrintingService.class);
+			PrintingService printingService= KcServiceLocator.getService(PrintingService.class);
 			try {
 				AttachmentDataSource printData = printingService.print(printable);
 				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+periodInfo.getBudgetPeriod()+"_"+EXTRA_KEYPERSONS+".pdf";
@@ -328,7 +328,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
     * @return the documentService
     */
    public DocumentService getDocumentService() {
-       return KraServiceLocator.getService(DocumentService.class);
+       return KcServiceLocator.getService(DocumentService.class);
    }
 
     protected BudgetService getBudgetService() {

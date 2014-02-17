@@ -25,6 +25,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetForm;
 import org.kuali.kra.award.budget.AwardBudgetLimit;
 import org.kuali.kra.award.budget.AwardBudgetService;
@@ -44,7 +45,6 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.external.budget.BudgetAdjustmentClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.*;
@@ -332,7 +332,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         success &= rule.processXFDAttachment();
         if (success) {
             if (rule.checkSpecialCharacters(subAward.getSubAwardXmlFileData().toString())) {
-                subAward.getBudgetSubAwardFiles().get(0).setSubAwardXmlFileData(KraServiceLocator.getService(KcAttachmentService.class).
+                subAward.getBudgetSubAwardFiles().get(0).setSubAwardXmlFileData(KcServiceLocator.getService(KcAttachmentService.class).
                         checkAndReplaceSpecialCharacters(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData().toString()));
                 subAward.setSubAwardXmlFileData(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData());
             }
@@ -358,7 +358,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             }
         }
         budgetForm.setSelectedToPrintComment(null);
-        BudgetPrintService budgetPrintService = KraServiceLocator
+        BudgetPrintService budgetPrintService = KcServiceLocator
                 .getService(BudgetPrintService.class);
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
         if (budgetFormToPrint != null) {
@@ -499,7 +499,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     }    
 
     private AwardBudgetService getAwardBudgetService() {
-        return KraServiceLocator.getService(AwardBudgetService.class);
+        return KcServiceLocator.getService(AwardBudgetService.class);
     }
 
     /**
@@ -602,7 +602,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
   
     protected BudgetAdjustmentClient getBudgetAdjustmentClient() {
         if (budgetAdjustmentClient == null) {
-            budgetAdjustmentClient = KraServiceLocator.getService("budgetAdjustmentClient");
+            budgetAdjustmentClient = KcServiceLocator.getService("budgetAdjustmentClient");
         }
         return budgetAdjustmentClient;
     }
@@ -743,7 +743,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
 
     public BudgetSubAwardService getBudgetSubAwardService() {
         if (budgetSubAwardService == null) {
-            budgetSubAwardService = KraServiceLocator.getService(BudgetSubAwardService.class);
+            budgetSubAwardService = KcServiceLocator.getService(BudgetSubAwardService.class);
         }
         return budgetSubAwardService;
     }

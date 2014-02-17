@@ -19,8 +19,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.SponsorService;
 
 public class SponsorDataFeedCommandTest extends BaseDataFeedCommandTest {
@@ -32,7 +32,7 @@ public class SponsorDataFeedCommandTest extends BaseDataFeedCommandTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        sponsorService = KraServiceLocator.getService(SponsorService.class);
+        sponsorService = KcServiceLocator.getService(SponsorService.class);
         sponsor = sponsorService.getSponsor("000107");
         initializeProposal();
     }

@@ -16,8 +16,8 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
@@ -35,7 +35,7 @@ public class BudgetColumnsValuesFinder extends UifKeyValuesFinderBase {
     public List<KeyValue> getKeyValues() {
         BusinessObjectEntry proposalEntry = 
             (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Budget.class.getName());
-        KcPersistenceStructureService persistenceStructureService = KraServiceLocator.getService(KcPersistenceStructureService.class);
+        KcPersistenceStructureService persistenceStructureService = KcServiceLocator.getService(KcPersistenceStructureService.class);
         Map<String, String> attrToColumnMap = persistenceStructureService.getPersistableAttributesColumnMap(Budget.class);        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (AttributeDefinition entry : proposalEntry.getAttributes()) {
@@ -55,7 +55,7 @@ public class BudgetColumnsValuesFinder extends UifKeyValuesFinderBase {
     
     private DataDictionaryService getDataDictionaryService() {
         if (dataDictionaryService == null) {
-            dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+            dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
         }
         return dataDictionaryService;
     }

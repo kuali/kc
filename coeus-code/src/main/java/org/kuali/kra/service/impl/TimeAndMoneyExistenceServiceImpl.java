@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.service.impl;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.TimeAndMoneyExistenceService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -41,7 +41,7 @@ public class TimeAndMoneyExistenceServiceImpl implements TimeAndMoneyExistenceSe
         Boolean timeAndMoneyDocumentDoesNotExist = Boolean.TRUE;
         fieldValues.put("rootAwardNumber", rootAwardNumber);
 
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
 
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
         TimeAndMoneyDocument timeAndMoneyDocument = null;

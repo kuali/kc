@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.service.impl;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.*;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardTemplateReportTermService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -43,7 +43,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
     }
     
     public Collection getReportTypesUsingReportClassCode(String reportClassCode) throws Exception {
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> classReportFreqParams = new HashMap<String, String>();
         classReportFreqParams.put("reportClassCode", reportClassCode);
         Collection<ValidClassReportFrequency> coll = businessObjectService.findMatching(ValidClassReportFrequency.class, classReportFreqParams);
@@ -73,7 +73,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
     }
     
     public Collection getFrequencyUsingReportCodeAndClass(String reportCode, String reportClass) throws Exception {
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> classReportFreqParams = new HashMap<String, String>();
         classReportFreqParams.put("reportCode", reportCode);
         classReportFreqParams.put("reportClassCode", reportClass);
@@ -104,7 +104,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
     }
     
     public Collection getFrequencyBaseUsingFrequencyCode(String frequencyCode) throws Exception {
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> params = new HashMap<String, String>();
         params.put("frequencyCode", frequencyCode);
         Collection<ValidFrequencyBase> coll = businessObjectService.findMatching(ValidFrequencyBase.class, params);

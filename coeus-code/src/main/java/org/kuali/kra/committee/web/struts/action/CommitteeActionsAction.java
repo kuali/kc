@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.dao.CommitteeBatchCorrespondenceDao;
 import org.kuali.kra.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
@@ -28,7 +29,6 @@ import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCor
 import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.kra.common.committee.web.struts.action.CommitteeActionsActionBase;
 import org.kuali.kra.common.printing.CorrespondencePrintingService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
 import java.sql.Date;
@@ -56,17 +56,17 @@ public class CommitteeActionsAction extends CommitteeActionsActionBase {
 
     @Override
     protected CommitteeBatchCorrespondenceServiceBase getCommitteeBatchCorrespondenceService() {
-        return KraServiceLocator.getService(CommitteeBatchCorrespondenceService.class);
+        return KcServiceLocator.getService(CommitteeBatchCorrespondenceService.class);
     }
 
     @Override
     protected CommitteePrintingServiceBase getCommitteePrintingService() {
-        return KraServiceLocator.getService(CommitteePrintingService.class);
+        return KcServiceLocator.getService(CommitteePrintingService.class);
     }
 
     @Override
     protected org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao() {
-        return KraServiceLocator.getService(CommitteeBatchCorrespondenceDao.class);
+        return KcServiceLocator.getService(CommitteeBatchCorrespondenceDao.class);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class CommitteeActionsAction extends CommitteeActionsActionBase {
 
     @Override
     protected CorrespondencePrintingService getCorrespondencePrintingService() {
-        return KraServiceLocator.getService(CommitteeCorrespondencePrint.class);
+        return KcServiceLocator.getService(CommitteeCorrespondencePrint.class);
 
     }
 }

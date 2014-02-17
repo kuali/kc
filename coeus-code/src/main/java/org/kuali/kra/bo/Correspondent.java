@@ -16,7 +16,7 @@
 package org.kuali.kra.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.correspondence.CorrespondentType;
 import org.kuali.kra.service.KcPersonService;
 
@@ -96,7 +96,7 @@ public abstract class Correspondent extends KcPersistableBusinessObjectBase {
 
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -133,7 +133,7 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
     }
 
     protected IacucProtocolDao getIacucProtocolDao() {
-        return KraServiceLocator.getService(IacucProtocolDao.class);
+        return KcServiceLocator.getService(IacucProtocolDao.class);
     }
 
 

@@ -16,13 +16,13 @@
 package org.kuali.kra.irb;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -150,7 +150,7 @@ public class ProtocolForm extends ProtocolFormBase {
      * @return
      */
     protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-        return KraServiceLocator.getService(ProtocolOnlineReviewService.class);
+        return KcServiceLocator.getService(ProtocolOnlineReviewService.class);
     }
 
     
@@ -183,7 +183,7 @@ public class ProtocolForm extends ProtocolFormBase {
     }
 
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 
     @SuppressWarnings("deprecation")

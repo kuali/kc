@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -38,7 +38,7 @@ public class AttachmentsTypeValuesFinder extends UifKeyValuesFinderBase {
     }
     
     private List<AttachmentsEntryType> getAttachmentsEntryTypes(){
-        List<AttachmentsEntryType> entryTypes = (List<AttachmentsEntryType>) KraServiceLocator.getService(BusinessObjectService.class)
+        List<AttachmentsEntryType> entryTypes = (List<AttachmentsEntryType>) KcServiceLocator.getService(BusinessObjectService.class)
                 .findAll(AttachmentsEntryType.class);
        Collections.sort(entryTypes);
        return entryTypes;

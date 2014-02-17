@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -475,13 +475,13 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
     protected void prePersist() {
         super.prePersist();
         if (getCreateTimestamp() == null) {
-            setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+            setCreateTimestamp(((DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         }
     }
 
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }

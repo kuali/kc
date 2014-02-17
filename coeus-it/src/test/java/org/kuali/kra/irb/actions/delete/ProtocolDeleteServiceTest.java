@@ -23,7 +23,7 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
@@ -34,7 +34,9 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 /**
  * Test the ProtocolDeleteService implementation.
  */
@@ -54,8 +56,8 @@ public class ProtocolDeleteServiceTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
 
-        service = KraServiceLocator.getService(ProtocolDeleteService.class);
-        protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);
+        service = KcServiceLocator.getService(ProtocolDeleteService.class);
+        protocolAmendRenewService = KcServiceLocator.getService(ProtocolAmendRenewService.class);
     }
 
     @After

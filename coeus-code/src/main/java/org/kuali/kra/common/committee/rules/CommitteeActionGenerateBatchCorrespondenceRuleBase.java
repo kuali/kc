@@ -16,15 +16,15 @@
 package org.kuali.kra.common.committee.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +36,7 @@ import java.util.Map;
  * This class implements the business rules for submitting a generate batch correspondence request.
  */
 public abstract class CommitteeActionGenerateBatchCorrespondenceRuleBase extends KcTransactionalDocumentRuleBase
-                                                            implements  BusinessRuleInterface<CommitteeActionGenerateBatchCorrespondenceEventBase> {
+                                                            implements KcBusinessRule<CommitteeActionGenerateBatchCorrespondenceEventBase> {
 
     private static final String BATCH_CORRESPONDENCE_TYPE_FIELD = "committeeHelper.generateBatchCorrespondenceTypeCode";
     private static final String START_DATE_FIELD = "committeeHelper.generateStartDate";
@@ -49,7 +49,7 @@ public abstract class CommitteeActionGenerateBatchCorrespondenceRuleBase extends
     /**
      * Verify input data and display warning messages if templates are missing.
      * 
-     * @see org.kuali.coeus.sys.framework.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
+     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
     public boolean processRules(CommitteeActionGenerateBatchCorrespondenceEventBase event) {
         boolean rulePassed = true;
@@ -135,7 +135,7 @@ public abstract class CommitteeActionGenerateBatchCorrespondenceRuleBase extends
     private ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService() {
         if (protocolCorrespondenceTemplateService == null) {
             
-            protocolCorrespondenceTemplateService = KraServiceLocator.getService(getProtocolCorrespondenceTemplateServiceClassHook());
+            protocolCorrespondenceTemplateService = KcServiceLocator.getService(getProtocolCorrespondenceTemplateServiceClassHook());
         }
         return protocolCorrespondenceTemplateService;
     }

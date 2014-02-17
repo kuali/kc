@@ -25,8 +25,8 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
@@ -65,7 +65,7 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 	 * Constructs a NasaPIandAORSupplementalDataSheetV1_0Generator.java.
 	 */
 	public NasaPIandAORSupplementalDataSheetV1_0Generator() {
-		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
 	}
 
 	/**

@@ -18,8 +18,8 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 /**
  * Handles all of the actions from the Proposal Development Actions web page.
@@ -52,7 +52,7 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             HttpServletResponse response) throws Exception {
 
         ActionForward nextWebPage = null;
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         int i=0;
@@ -68,7 +68,7 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
         else {
         // Use the Copy Service to copy the proposal.
 
-        ProposalCopyService proposalCopyService = (ProposalCopyService) KraServiceLocator.getService("proposalCopyService");
+        ProposalCopyService proposalCopyService = (ProposalCopyService) KcServiceLocator.getService("proposalCopyService");
         if (proposalCopyService == null) {
 
             // Something bad happened. The errors are in the Global Error Map
@@ -80,7 +80,7 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             String originalProposalId = doc.getDevelopmentProposal().getProposalNumber();
             String newDocId = proposalCopyService.copyProposal(doc, criteria);
             WorkflowDocument originalWFDoc= doc.getDocumentHeader().getWorkflowDocument();
-            KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
+            KcServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
             DocumentService docService = KRADServiceLocatorWeb.getDocumentService();
             // Switch over to the new proposal development document and
             // go to the Proposal web page.

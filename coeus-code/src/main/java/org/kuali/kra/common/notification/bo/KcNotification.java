@@ -16,7 +16,7 @@
 package org.kuali.kra.common.notification.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.text.SimpleDateFormat;
@@ -128,7 +128,7 @@ public class KcNotification extends KcPersistableBusinessObjectBase {
     }
 
     public void persistOwningObject(KcPersistableBusinessObjectBase object) {
-        KraServiceLocator.getService(BusinessObjectService.class).save(object);
+        KcServiceLocator.getService(BusinessObjectService.class).save(object);
     }
 
     public void resetPersistenceState() {

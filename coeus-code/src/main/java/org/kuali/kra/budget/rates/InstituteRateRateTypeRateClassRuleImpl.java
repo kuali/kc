@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.budget.rates;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -50,10 +50,10 @@ public final class InstituteRateRateTypeRateClassRuleImpl implements InstituteRa
     
     /**
      * Constructs an InstituteRateRateTypeRateClassRule setting the used services using the
-     * {@link KraServiceLocator KraServiceLocator}.
+     * {@link org.kuali.coeus.sys.framework.service.KcServiceLocator KraServiceLocator}.
      */
     public InstituteRateRateTypeRateClassRuleImpl() {
-        this(KraServiceLocator.getService(BusinessObjectService.class), KraServiceLocator.getService(ParameterService.class));
+        this(KcServiceLocator.getService(BusinessObjectService.class), KcServiceLocator.getService(ParameterService.class));
     }
     
     /**

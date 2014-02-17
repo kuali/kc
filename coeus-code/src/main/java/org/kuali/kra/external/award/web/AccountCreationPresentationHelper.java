@@ -16,10 +16,10 @@
 package org.kuali.kra.external.award.web;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.AwardFandaRateService;
 import org.kuali.kra.award.home.ValidRates;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class AccountCreationPresentationHelper implements Serializable {
      * @return
      */
     public List<ValidRates> getMatchingValidRates(AwardFandaRate rate) {
-        AwardFandaRateService fandaRateService = KraServiceLocator.getService(AwardFandaRateService.class);
+        AwardFandaRateService fandaRateService = KcServiceLocator.getService(AwardFandaRateService.class);
         List<ValidRates> validRates = fandaRateService.getValidRates(rate);
         for (Iterator<ValidRates> iter = validRates.iterator(); iter.hasNext();) {
             if (StringUtils.isBlank(iter.next().getIcrRateCode())) {

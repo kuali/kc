@@ -17,6 +17,7 @@ package org.kuali.kra.timeandmoney.document;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
@@ -24,7 +25,6 @@ import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
@@ -134,7 +134,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
      * This method retrieves AwardHierarchyService
      */
     protected AwardHierarchyService getAwardHierarchyService(){        
-        return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
+        return (AwardHierarchyService) KcServiceLocator.getService(AwardHierarchyService.class);
     }
     
     private Award getCurrentAward(TimeAndMoneyDocument timeAndMoneyDocument) {
@@ -147,11 +147,11 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
     }
     
     public AwardVersionService getAwardVersionService() {
-        return KraServiceLocator.getService(AwardVersionService.class);
+        return KcServiceLocator.getService(AwardVersionService.class);
     }
     
     protected ActivePendingTransactionsService getActivePendingTransactionsService(){
-        return (ActivePendingTransactionsService) KraServiceLocator.getService(ActivePendingTransactionsService.class);
+        return (ActivePendingTransactionsService) KcServiceLocator.getService(ActivePendingTransactionsService.class);
     }
 
     public String getDocumentKey() {

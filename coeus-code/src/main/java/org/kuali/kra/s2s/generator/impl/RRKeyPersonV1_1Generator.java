@@ -26,10 +26,10 @@ import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson.Bio
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson.SupportsAttached;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -172,7 +172,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
             }
             else if (PI.getRolodexId() != null) {
                 pIPersonOrRolodexId = PI.getRolodexId().toString();
-                BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+                BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
                 rolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class,pIPersonOrRolodexId);
             }
             profile.setName(globLibV20Generator.getHumanNameDataType(PI));
@@ -197,7 +197,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                     profile.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
             }
             if(PI.getHomeUnit() != null) {
-                KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+                KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
                 KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
                 String departmentName =  kcPersons.getOrganizationIdentifier();
                 profile.setDepartmentName(departmentName);
@@ -214,7 +214,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
             if (PI.getEraCommonsUserName() != null) {
                 profile.setCredential(PI.getEraCommonsUserName());
             } else {
-                if (KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
+                if (KcServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
                 	getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + PI.getFullName(), Constants.GRANTS_GOV_PAGE + "."
                             + Constants.GRANTS_GOV_PANEL_ANCHOR));  
                 }
@@ -274,7 +274,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                 }
                 else if (keyPerson.getRolodexId() != null) {
                     pIPersonOrRolodexId = keyPerson.getRolodexId().toString();
-                    BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+                    BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
                     rolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class,pIPersonOrRolodexId);
                 }
                 Profile profileKeyPerson = Profile.Factory.newInstance();
@@ -295,7 +295,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                         profileKeyPerson.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
                 }
                 if(keyPerson.getHomeUnit() != null) {
-                    KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+                    KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
                     KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(keyPerson.getPersonId());
                     String departmentName =  kcPersons.getOrganizationIdentifier();
                     profileKeyPerson.setDepartmentName(departmentName);
@@ -312,7 +312,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                 if (keyPerson.getEraCommonsUserName() != null) {
                     profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
                 } else {
-                    if (KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
+                    if (KcServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
                         if (keyPerson.isMultiplePi()) {
                             getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + keyPerson.getFullName(), 
                                     Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));             
@@ -320,7 +320,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                     }
                 }
                 if (keyPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR)) {
-                	if(KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())){
+                	if(KcServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())){
                 	    if (keyPerson.isMultiplePi()) {
                 	        profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
                 	    } else {

@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.infrastructure;
+package org.kuali.coeus.sys.framework.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 
 /**
  * Service locator used for research administration.
  */
-public final class KraServiceLocator {
+public final class KcServiceLocator {
     
     private static ApplicationContext appContext;
 
@@ -31,7 +30,7 @@ public final class KraServiceLocator {
      * private utility class ctor.
      * @throws UnsupportedOperationException if called
      */
-    private KraServiceLocator() {
+    private KcServiceLocator() {
         throw new UnsupportedOperationException("do not call");
     }
     
@@ -41,7 +40,7 @@ public final class KraServiceLocator {
      * @param appContext The appContext to set.
      */
     public static void setAppContext(ApplicationContext appContext) {
-        KraServiceLocator.appContext = appContext;
+        KcServiceLocator.appContext = appContext;
     }
 
 
@@ -103,7 +102,7 @@ public final class KraServiceLocator {
         final String name = serviceClass.getSimpleName().substring(0, 1).toLowerCase()
             + serviceClass.getSimpleName().substring(1);
 
-        return KraServiceLocator.<T>getService(name);
+        return KcServiceLocator.<T>getService(name);
     }
 
 }

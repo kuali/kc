@@ -16,6 +16,8 @@
 package org.kuali.kra.iacuc.actions.modifysubmission;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType;
@@ -24,11 +26,9 @@ import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -157,7 +157,7 @@ public class IacucProtocolModifySubmissionRuleImpl extends KcTransactionalDocume
     
     private boolean existsUnique(Class<? extends BusinessObject> boType, String propertyName, String keyField) {
         if (keyField != null) {
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
             Map<String,String> fieldValues = new HashMap<String,String>();
             fieldValues.put(propertyName, keyField);
             if (businessObjectService.countMatching(boType, fieldValues) == 1) {
@@ -242,7 +242,7 @@ public class IacucProtocolModifySubmissionRuleImpl extends KcTransactionalDocume
     
     private IacucProtocolOnlineReviewService getProtocolOnlineReviewService() {
         if (protocolOnlineReviewService == null) {
-            protocolOnlineReviewService = KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+            protocolOnlineReviewService = KcServiceLocator.getService(IacucProtocolOnlineReviewService.class);
         }
         return protocolOnlineReviewService;
     }

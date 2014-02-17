@@ -21,11 +21,11 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.IrbProtocolActionRequestService;
@@ -172,7 +172,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
      * @return ProtocolPersonTrainingService
      */
     protected ProtocolPersonTrainingService getProtocolPersonTrainingService() {
-        return (ProtocolPersonTrainingService)KraServiceLocator.getService("protocolPersonTrainingService");
+        return (ProtocolPersonTrainingService) KcServiceLocator.getService("protocolPersonTrainingService");
     }
     
     /**
@@ -180,7 +180,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
      * @return ProtocolPersonnelService
      */
     protected ProtocolPersonnelService getProtocolPersonnelService() {
-        return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
+        return (ProtocolPersonnelService) KcServiceLocator.getService("protocolPersonnelService");
     }
     
     /*
@@ -189,7 +189,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
      */
     
     protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-        return KraServiceLocator.getService(ProtocolOnlineReviewService.class);
+        return KcServiceLocator.getService(ProtocolOnlineReviewService.class);
     }
         
     /**
@@ -242,7 +242,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     }
 
     protected QuestionnairePrintingService getQuestionnairePrintingService() {
-        return KraServiceLocator.getService(QuestionnairePrintingService.class);
+        return KcServiceLocator.getService(QuestionnairePrintingService.class);
     }
 
     /*
@@ -258,7 +258,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     }
     
     private ProtocolFinderDao getProtocolFinder() {
-        return KraServiceLocator.getService(ProtocolFinderDao.class);
+        return KcServiceLocator.getService(ProtocolFinderDao.class);
     }
 
     private void viewBatchCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -290,7 +290,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         Protocol protocol = (Protocol) protocolForm.getProtocolDocument().getProtocol();
         IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
         IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.PROTOCOL_CREATED_NOTIFICATION, "Created", renderer);
-        KcNotificationService notificationService = KraServiceLocator.getService(KcNotificationService.class);
+        KcNotificationService notificationService = KcServiceLocator.getService(KcNotificationService.class);
         notificationService.sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
     }
 
@@ -376,7 +376,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     }
 
     protected IrbProtocolActionRequestService getProtocolActionRequestService() {
-        return KraServiceLocator.getService(IrbProtocolActionRequestService.class);
+        return KcServiceLocator.getService(IrbProtocolActionRequestService.class);
     }
     
     protected ProtocolCorrespondence getProtocolCorrespondence (ProtocolForm protocolForm, String forwardName, ProtocolNotificationRequestBean notificationRequestBean, boolean holdingPage) {

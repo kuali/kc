@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.threers;
 
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class AddAlternateSearchEvent extends KcDocumentEventBaseExtension {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public BusinessRuleInterface getRule() {
+    public KcBusinessRule getRule() {
         return new AddAlternateSearchRule();
     }
 

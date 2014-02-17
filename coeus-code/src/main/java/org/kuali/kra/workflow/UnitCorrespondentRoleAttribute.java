@@ -16,8 +16,8 @@
 package org.kuali.kra.workflow;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.UnitCorrespondent;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
@@ -59,7 +59,7 @@ public class UnitCorrespondentRoleAttribute extends GenericRoleAttribute {
     }
 
     private UnitService getUnitService() {
-        return KraServiceLocator.getService(UnitService.class);
+        return KcServiceLocator.getService(UnitService.class);
     }
     
     @Override

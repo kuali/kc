@@ -19,12 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.model.MultiLookupForm;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCentralAdminContactsBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalProjectPersonnelBean;
@@ -448,7 +448,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     }
 
     protected ParameterService getParameterService() {
-        return KraServiceLocator.getService(ParameterService.class);   
+        return KcServiceLocator.getService(ParameterService.class);
     }
     
     public boolean getViewFundingSource() {

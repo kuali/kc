@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.protocol.questionnaire;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.questionnaire.BaseQuestionnaireAuditRule;
@@ -171,7 +171,7 @@ public abstract class ProtocolQuestionnaireAuditRuleBase extends BaseQuestionnai
      */
 
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }
     
     @Override

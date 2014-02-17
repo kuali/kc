@@ -17,11 +17,11 @@ package org.kuali.kra.award.paymentreports.awardreports.reporting;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.Distribution;
 import org.kuali.kra.award.paymentreports.*;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -343,7 +343,7 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
 
     protected KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
-            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+            kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return kcPersonService;
     }
@@ -413,7 +413,7 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
 
     protected BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }

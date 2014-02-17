@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.protocol.personnel.ProtocolAttachmentPersonnelRuleBase;
 
@@ -27,6 +27,6 @@ public class ProtocolAttachmentPersonnelRule extends ProtocolAttachmentPersonnel
      * @return ProtocolAttachmentService
      */
     protected ProtocolAttachmentService getProtocolAttachmentService() {
-        return KraServiceLocator.getService(ProtocolAttachmentService.class);
+        return KcServiceLocator.getService(ProtocolAttachmentService.class);
     }
 }

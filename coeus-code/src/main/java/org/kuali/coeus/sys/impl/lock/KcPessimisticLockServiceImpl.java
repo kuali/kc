@@ -131,7 +131,8 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      * @return the Lock Expiration Age value in minutes
      */
     protected int getLockExpirationAge() {
-        String timeoutStr = getParameterValue(Constants.PESSIMISTIC_LOCKING_EXPIRATION_AGE);
+        final String timeoutStr =
+                this.parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SYSTEM, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PESSIMISTIC_LOCKING_EXPIRATION_AGE);
 
         if (timeoutStr != null) {
             return Integer.parseInt(timeoutStr);
@@ -139,14 +140,5 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
 
         LOG.warn("Parameter: " + Constants.PESSIMISTIC_LOCKING_EXPIRATION_AGE + " not found. Using Default value: " + DEFAULT_EXPIRATION_AGE);
         return DEFAULT_EXPIRATION_AGE;
-    }
-
-    /**
-     * Get a system parameter value.
-     * @param key the key (name) of the parameter
-     * @return the parameter's value
-     */
-    protected String getParameterValue(String key) {
-        return this.parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SYSTEM, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, key);
     }
 }

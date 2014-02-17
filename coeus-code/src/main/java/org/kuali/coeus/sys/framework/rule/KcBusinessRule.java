@@ -17,7 +17,7 @@ package org.kuali.coeus.sys.framework.rule;
 
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface BusinessRuleInterface<T extends KcDocumentEventBaseExtension> extends BusinessRule {
+public interface KcBusinessRule<T extends KcDocumentEventBaseExtension> extends BusinessRule {
     
     /**
      * This method implementer must process rule for the event passed.

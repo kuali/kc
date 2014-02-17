@@ -18,11 +18,11 @@ package org.kuali.kra.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.CustomAttributeDocumentTestUtilities;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
@@ -112,17 +112,17 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         document.addPessimisticLock(lock);
         
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KcAuthorizationService kraAuthService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
 
         try {
-            KraServiceLocator.getService(DocumentService.class).saveDocument(document);
+            KcServiceLocator.getService(DocumentService.class).saveDocument(document);
             if(!kraAuthService.hasRole(userId, document, RoleConstants.AGGREGATOR)) {
                 kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, document);
             }
-            ProposalRoleTemplateService proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
+            ProposalRoleTemplateService proposalRoleTemplateService = KcServiceLocator.getService(ProposalRoleTemplateService.class);
             proposalRoleTemplateService.addUsers(document);
 
-            KraServiceLocator.getService(DocumentService.class).routeDocument(document, "just testing", null);
+            KcServiceLocator.getService(DocumentService.class).routeDocument(document, "just testing", null);
         }
         catch (org.kuali.rice.krad.exception.ValidationException ex) {
             assertEquals(ex.getMessage(), "business rule evaluation failed");

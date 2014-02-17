@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -42,10 +42,10 @@ public class S2SPollingTaskTest extends KcIntegrationTestBase {
 
 	@Before
 	public void setUp() throws Exception {
-		businessObjectService = KraServiceLocator
+		businessObjectService = KcServiceLocator
 				.getService(BusinessObjectService.class);
-		dateTimeService = KraServiceLocator.getService(DateTimeService.class);
-		s2sService = KraServiceLocator.getService(S2SService.class);
+		dateTimeService = KcServiceLocator.getService(DateTimeService.class);
+		s2sService = KcServiceLocator.getService(S2SService.class);
 	}
 
 	@After

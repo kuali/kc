@@ -17,7 +17,7 @@ package org.kuali.coeus.sys.framework.keyvalue;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -38,7 +38,7 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
     private Class<T> clazz;
     private Map<String, Object> conditions;
     private String key;
-    private String value;
+    private String value; 
 
     @Override
     public List<KeyValue> getKeyValues() {
@@ -184,7 +184,7 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
 
     public KeyValuesService getKeyValuesService() {
         if (service == null) {
-            service = KraServiceLocator.getService(KeyValuesService.class);
+            service = KcServiceLocator.getService(KeyValuesService.class);
         }
 
         return service;

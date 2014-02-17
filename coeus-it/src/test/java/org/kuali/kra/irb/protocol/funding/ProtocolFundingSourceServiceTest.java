@@ -24,12 +24,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.matchers.JUnitMatchers;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -44,6 +44,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.Collections;
 import java.util.Map.Entry;
+
 import static org.junit.Assert.*;
 /**
 * The JUnit test class for <code>{@link ProtocolFundingSourceServiceImpl}</code>
@@ -141,7 +142,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
         //sponsorGood = new Sponsor();
         //sponsorGood.setSponsorName(sponsorNameAirForce);
         //sponsorGood.setSponsorCode(sponsorNumberAirForce);
-        sponsorGood = KraServiceLocator.getService(SponsorService.class).getSponsor(sponsorNumberAirForce);
+        sponsorGood = KcServiceLocator.getService(SponsorService.class).getSponsor(sponsorNumberAirForce);
         sponsorNameAirForce = sponsorGood.getSponsorName();
         
         devProposalGood = new DevelopmentProposal();

@@ -16,8 +16,8 @@
 package org.kuali.kra.timeandmoney.transactions;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -133,7 +133,7 @@ public class TransactionBean implements Serializable {
      */
     protected KualiRuleService getRuleService() {
         if(ruleService == null) {
-            ruleService = (KualiRuleService) KraServiceLocator.getService(KualiRuleService.class); 
+            ruleService = (KualiRuleService) KcServiceLocator.getService(KualiRuleService.class);
         }
         return ruleService;
     }

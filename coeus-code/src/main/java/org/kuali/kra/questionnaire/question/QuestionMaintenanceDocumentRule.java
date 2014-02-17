@@ -19,9 +19,9 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -407,11 +407,11 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     }
     
     private CustomAttributeService getCustomAttributeService() {
-        return KraServiceLocator.getService(CustomAttributeService.class);
+        return KcServiceLocator.getService(CustomAttributeService.class);
     }
     
     private QuestionService getQuestionService() {
-        return KraServiceLocator.getService(QuestionService.class);
+        return KcServiceLocator.getService(QuestionService.class);
     }
 
 }

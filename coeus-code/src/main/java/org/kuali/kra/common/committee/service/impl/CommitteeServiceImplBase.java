@@ -17,11 +17,11 @@ package org.kuali.kra.common.committee.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.*;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -59,7 +59,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     
     public BusinessObjectService getBusinessObjectService() {
         if(this.businessObjectService == null) {
-            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return this.businessObjectService;
     }
@@ -76,7 +76,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     
     public VersioningService getVersioningService() {
         if(this.versioningService == null) {
-            this.versioningService = KraServiceLocator.getService(VersioningService.class);
+            this.versioningService = KcServiceLocator.getService(VersioningService.class);
         }
         return versioningService;
     }

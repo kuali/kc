@@ -22,8 +22,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcAttachment;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
@@ -316,7 +316,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
-        TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DOWNLOAD_NARRATIVE, getDocument(), this));
     }
 
@@ -328,7 +328,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
-        TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.REPLACE_NARRATIVE, getDocument(), this));
     }
 
@@ -340,7 +340,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
-        TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DELETE_NARRATIVE, getDocument(), this));
     }
 
@@ -352,7 +352,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
-        TaskAuthorizationService taskAuthorizatioNService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthorizatioNService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthorizatioNService.isAuthorized(userId, new NarrativeTask(TaskName.MODIFY_NARRATIVE_STATUS, getDocument(), this));
     }
 
@@ -364,7 +364,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
-        TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.MODIFY_NARRATIVE_RIGHTS, getDocument(), this));
     }
 
@@ -642,7 +642,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     }
 
     public String getIconPath() {
-        return KraServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
+        return KcServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
     }
 
     public String getName() {

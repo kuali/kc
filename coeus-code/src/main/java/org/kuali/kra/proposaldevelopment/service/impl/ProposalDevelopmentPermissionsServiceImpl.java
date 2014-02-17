@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentPermissionsService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
@@ -48,7 +48,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     }
     
     public void deleteProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {
-        KcAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         List<String> roleNames = proposalUser.getRoleNames();
         for (String roleName :roleNames) {
             kraAuthorizationService.removeRole(getPersonId(proposalUser.getUsername()), roleName, doc); 
@@ -56,13 +56,13 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     }
     
     protected String getPersonId(String username) {
-        PersonService personService = KraServiceLocator.getService(PersonService.class);
+        PersonService personService = KcServiceLocator.getService(PersonService.class);
         Person person = personService.getPersonByPrincipalName(username);
         return person.getPrincipalId();
     }
     
     public void saveProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {
-        KcAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         // Assign the user to the new roles for the proposal.
         
         List<String> roleNames = proposalUser.getRoleNames();

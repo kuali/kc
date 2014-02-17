@@ -16,9 +16,9 @@
 package org.kuali.coeus.sys.framework.rule;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.sys.framework.validation.SoftError;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.rules.DocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -146,7 +146,7 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
      */
     protected final BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         }
         return businessObjectService;
     }

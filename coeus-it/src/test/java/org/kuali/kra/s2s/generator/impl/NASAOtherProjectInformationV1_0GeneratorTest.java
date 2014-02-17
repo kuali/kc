@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
@@ -34,12 +34,11 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
 import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 /**
  * 
  * This class is used to test NasaOtherProjectInformationV1_0 form
@@ -114,7 +113,7 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         
         List<AnswerHeader> answerHeaders;
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(document.getDevelopmentProposal());
-        answerHeaders =KraServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(moduleQuestionnaireBean);
+        answerHeaders = KcServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(moduleQuestionnaireBean);
        
         for(AnswerHeader answerHeader:answerHeaders){
             if(answerHeader!=null){

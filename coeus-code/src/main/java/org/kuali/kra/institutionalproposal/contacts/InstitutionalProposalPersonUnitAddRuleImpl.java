@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -57,7 +57,7 @@ public class InstitutionalProposalPersonUnitAddRuleImpl implements Institutional
     
     protected boolean checkForValidUnit(InstitutionalProposalPersonUnit newInstitutionalProposalPersonUnit){
         String newUnitNumber = newInstitutionalProposalPersonUnit.getUnitNumber();
-        boolean valid =  KraServiceLocator.getService(UnitService.class).getUnit(newUnitNumber) != null;
+        boolean valid =  KcServiceLocator.getService(UnitService.class).getUnit(newUnitNumber) != null;
         if (!valid) {
             GlobalVariables.getMessageMap().putError(NEW_UNIT_NUMBER_FIELD, 
                     KeyConstants.ERROR_INVALID_UNIT, newUnitNumber);

@@ -55,7 +55,7 @@ public class ErrorReporter {
     
     /**
      * Adds an audit error to the
-     * {@link KNSGlobalVariables.getAuditErrorMap() KNSGlobalVariables.getAuditErrorMap()}.
+     * {@link KNSGlobalVariables#getAuditErrorMap() KNSGlobalVariables.getAuditErrorMap()}.
      * 
      * @param error the error to add.
      * @param errorKey the error map key

@@ -25,6 +25,7 @@ import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -35,7 +36,6 @@ import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
@@ -767,7 +767,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     private IrbCorrespondencePrintingService getIrbCorrespondencePrintingService() {
-        return KraServiceLocator.getService(IrbCorrespondencePrintingService.class);
+        return KcServiceLocator.getService(IrbCorrespondencePrintingService.class);
     }
 
     /*
@@ -1747,7 +1747,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             UndoLastActionBean undoLastActionBean = protocolForm.getActionHelper().getUndoLastActionBean();
             String lastActionType = undoLastActionBean.getLastPerformedAction().getProtocolActionTypeCode();
             
-            UndoLastActionService undoLastActionService = KraServiceLocator.getService(UndoLastActionService.class);
+            UndoLastActionService undoLastActionService = KcServiceLocator.getService(UndoLastActionService.class);
             ProtocolDocument updatedDocument = (ProtocolDocument) undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
                        
     
@@ -1834,7 +1834,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (!hasDocumentStateChanged(protocolForm)) {
             ProtocolModifySubmissionBean bean = protocolForm.getActionHelper().getProtocolModifySubmissionBean();
             if (applyRules(new ProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), bean))) {
-                KraServiceLocator.getService(ProtocolModifySubmissionService.class).modifySubmisison(protocolForm.getProtocolDocument(), bean);
+                KcServiceLocator.getService(ProtocolModifySubmissionService.class).modifySubmisison(protocolForm.getProtocolDocument(), bean);
             
                 recordProtocolActionSuccess("Modify Submission Request");
             }
@@ -1871,7 +1871,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     private ProtocolPrintingService getProtocolPrintingService() {
-        return KraServiceLocator.getService(ProtocolPrintingService.class);
+        return KcServiceLocator.getService(ProtocolPrintingService.class);
     }
 
     /**
@@ -2129,43 +2129,43 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     private ProtocolAttachmentService getProtocolAttachmentService() {
-        return KraServiceLocator.getService(ProtocolAttachmentService.class);
+        return KcServiceLocator.getService(ProtocolAttachmentService.class);
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
     
     public ProtocolCopyService getProtocolCopyService() {
-        return KraServiceLocator.getService(ProtocolCopyService.class);
+        return KcServiceLocator.getService(ProtocolCopyService.class);
     }
     
     private ProtocolAmendRenewService getProtocolAmendRenewService() {
-        return KraServiceLocator.getService(ProtocolAmendRenewService.class);
+        return KcServiceLocator.getService(ProtocolAmendRenewService.class);
     }
     
     private ProtocolDeleteService getProtocolDeleteService() {
-        return KraServiceLocator.getService(ProtocolDeleteService.class);
+        return KcServiceLocator.getService(ProtocolDeleteService.class);
     }
     
     private ProtocolAssignCmtSchedService getProtocolAssignCmtSchedService() {
-        return KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
+        return KcServiceLocator.getService(ProtocolAssignCmtSchedService.class);
     }
     
     private ProtocolAssignToAgendaService getProtocolAssignToAgendaService() {
-        return KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
+        return KcServiceLocator.getService(ProtocolAssignToAgendaService.class);
     }
     
     private CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
+        return KcServiceLocator.getService(CommitteeService.class);
     }
     
     private ProtocolRiskLevelService getProtocolRiskLevelService() {
-        return KraServiceLocator.getService(ProtocolRiskLevelService.class);
+        return KcServiceLocator.getService(ProtocolRiskLevelService.class);
     }
     
     private ReviewCommentsService getReviewCommentsService() {
-        return KraServiceLocator.getService(ReviewCommentsService.class);
+        return KcServiceLocator.getService(ReviewCommentsService.class);
     }
     
     /**
@@ -2550,7 +2550,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     for (ProtocolNotepadBase note : protocol.getNotepads()) {
                         if (StringUtils.isBlank(note.getUpdateUserFullName())) {
                             note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
-                            note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                            note.setUpdateTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
                         }
                         
                         if (StringUtils.isNotBlank(note.getCreateUser())) {
@@ -2622,13 +2622,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     private FollowupActionService getFollowupActionService() {
-        return KraServiceLocator.getService(FollowupActionService.class);
+        return KcServiceLocator.getService(FollowupActionService.class);
     }
     /**
      * This method is to get Watermark Service. 
      */
     private WatermarkService getWatermarkService() {
-        return  KraServiceLocator.getService(WatermarkService.class);  
+        return  KcServiceLocator.getService(WatermarkService.class);
     }
 
     /**
@@ -2825,11 +2825,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     protected PersonService getPersonService() {
-        return KraServiceLocator.getService(PersonService.class);
+        return KcServiceLocator.getService(PersonService.class);
     }
     
     protected KcNotificationService getNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
+        return KcServiceLocator.getService(KcNotificationService.class);
     }
     
     public ActionForward viewCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -2863,7 +2863,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolCorrespondence correspondence = (ProtocolCorrespondence) actionHelper.getProtocolCorrespondence();
         if (saveAction) {
             if (correspondence.getFinalFlag()) {
-                correspondence.setFinalFlagTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                correspondence.setFinalFlagTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
                            
             }
             getBusinessObjectService().save(correspondence);
@@ -2909,7 +2909,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             protocolCorrespondence.setCorrespondence(dataSource.getContent());
             protocolCorrespondence.setFinalFlag(false);
             protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-            protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+            protocolCorrespondence.setCreateTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
             protocolCorrespondence.setForwardName(IrbConstants.PROTOCOL_ACTIONS_TAB);
             protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
             getBusinessObjectService().save(protocolCorrespondence);
@@ -2926,7 +2926,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     } 
 
     private ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
-        return KraServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
+        return KcServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
     }
 
     public ActionForward updateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 

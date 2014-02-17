@@ -17,19 +17,19 @@ package org.kuali.kra.service.impl;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 public class KcPersonServiceImplTest extends KcIntegrationTestBase {
     
     private KcPersonService service;
 
     @Before
     public void getServices() throws Exception {
-        service = KraServiceLocator.getService(KcPersonService.class);
+        service = KcServiceLocator.getService(KcPersonService.class);
     }
     
     @Test

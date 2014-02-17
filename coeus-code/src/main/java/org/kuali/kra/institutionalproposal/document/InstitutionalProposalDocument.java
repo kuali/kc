@@ -18,9 +18,9 @@ package org.kuali.kra.institutionalproposal.document;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
@@ -184,7 +184,7 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase {
     }
     
     private InstitutionalProposalVersioningService getInstitutionalProposalVersioningService() {
-        return KraServiceLocator.getService(InstitutionalProposalVersioningService.class);
+        return KcServiceLocator.getService(InstitutionalProposalVersioningService.class);
     }
     
     @Override

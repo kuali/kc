@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.calculator;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.*;
 import org.kuali.kra.budget.core.Budget;
@@ -27,12 +28,10 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.text.ParseException;
@@ -68,7 +67,7 @@ public class SalaryCalculator {
         this.endDate = personnelLineItem.getEndDate();
         errorList = new ArrayList<String>();
         warningList = new ArrayList<String>();
-        this.dateTimeService = KraServiceLocator.getService(DateTimeService.class);
+        this.dateTimeService = KcServiceLocator.getService(DateTimeService.class);
     }
 
     /**
@@ -80,7 +79,7 @@ public class SalaryCalculator {
     private QueryList<BudgetRate> filterInflationRates() {
         CostElement costElement = personnelLineItem.getCostElementBO();
         if (costElement == null) {
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
             Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("costElement", personnelLineItem.getCostElement());
             costElement = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, pkMap);
@@ -495,13 +494,13 @@ public class SalaryCalculator {
     }
 
     private ParameterService getParameterService() {
-        return KraServiceLocator.getService(ParameterService.class);
+        return KcServiceLocator.getService(ParameterService.class);
     }
 
     private void populateAppointmentType(BudgetPerson budgetPerson) {
         Map<String, String> qPersonMap = new HashMap<String, String>();
         qPersonMap.put("appointmentTypeCode", budgetPerson.getAppointmentTypeCode());
-        AppointmentType appointmentType = (AppointmentType) KraServiceLocator.getService(BusinessObjectService.class)
+        AppointmentType appointmentType = (AppointmentType) KcServiceLocator.getService(BusinessObjectService.class)
                 .findByPrimaryKey(AppointmentType.class, qPersonMap);
         budgetPerson.setAppointmentType(appointmentType);
     }
@@ -751,7 +750,7 @@ public class SalaryCalculator {
     private QueryList<BudgetRate> filterInflationRates(Date sDate, Date eDate) {
         CostElement costElement = personnelLineItem.getCostElementBO();
         if (costElement == null) {
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
             Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("costElement", personnelLineItem.getCostElement());
             costElement = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, pkMap);

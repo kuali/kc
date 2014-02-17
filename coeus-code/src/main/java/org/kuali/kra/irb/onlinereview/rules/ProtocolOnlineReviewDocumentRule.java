@@ -16,10 +16,13 @@
 package org.kuali.kra.irb.onlinereview.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.DeleteProtocolOnlineReviewEvent;
@@ -31,9 +34,6 @@ import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.rules.RouteProtocolOnlineReviewRule;
 import org.kuali.kra.protocol.onlinereview.rules.SaveProtocolOnlineReviewRule;
-import org.kuali.coeus.sys.framework.rule.BusinessRuleInterface;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
-import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -41,7 +41,7 @@ import java.util.List;
 
 public class ProtocolOnlineReviewDocumentRule extends KcTransactionalDocumentRuleBase implements AddOnlineReviewCommentRule
                                                                                          ,SaveProtocolOnlineReviewRule
-                                                                                         ,BusinessRuleInterface 
+                                                                                         ,KcBusinessRule
                                                                                          ,RouteProtocolOnlineReviewRule
                                                                                          ,DisapproveOnlineReviewCommentRule
                                                                                          ,RejectOnlineReviewCommentRule
@@ -131,7 +131,7 @@ public class ProtocolOnlineReviewDocumentRule extends KcTransactionalDocumentRul
     public boolean processRouteProtocolOnlineReview(RouteProtocolOnlineReviewEvent event) {
         
         boolean valid = true;
-        KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
+        KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
         valid &= ruleService.applyRules(new SaveProtocolOnlineReviewEvent(event.getProtocolOnlineReviewDocument(), (List)event.getMinutes(), event.getOnlineReviewIndex()));
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().addToErrorPath(String.format(ONLINE_REVIEW_COMMENTS_ERROR_PATH, event.getOnlineReviewIndex()));

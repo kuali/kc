@@ -16,10 +16,10 @@
 package org.kuali.kra.irb.actions.assignreviewers;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
@@ -87,7 +87,7 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements o
     }
     
     private CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
+        return KcServiceLocator.getService(CommitteeService.class);
     }
     
     public List<ProtocolReviewerBeanBase> getReviewers() {

@@ -17,9 +17,9 @@ package org.kuali.kra.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
@@ -107,7 +107,7 @@ public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDo
     
     private boolean verifyProposaEditableColumnsDataType(MaintenanceDocument maintenanceDocument) {
         ProposalColumnsToAlter newEditableProposalField = (ProposalColumnsToAlter) maintenanceDocument.getNewMaintainableObject().getDataObject();
-        KcPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KcPersistenceStructureService.class);
+        KcPersistenceStructureService kraPersistenceStructureService = KcServiceLocator.getService(KcPersistenceStructureService.class);
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KNSServiceLocator.getDataDictionaryService();
         Map<String, String> fieldMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
         DataDictionaryEntry entry = dataDictionaryService.getDataDictionary().getDictionaryObjectEntry(ProposalDevelopmentDocument.class.getName());

@@ -20,8 +20,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.KcAuthorizationService;
@@ -86,11 +86,11 @@ public abstract class ProtocolOnlineReviewRedirectActionBase extends KcTransacti
         return "IRB Administrator";
     }
     private KcAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KcAuthorizationService.class);
+        return KcServiceLocator.getService(KcAuthorizationService.class);
     }
 
     private ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-        return KraServiceLocator.getService(getProtocolOnlineReviewServiceClassHook());
+        return KcServiceLocator.getService(getProtocolOnlineReviewServiceClassHook());
     }
     
     protected abstract Class<? extends ProtocolOnlineReviewService> getProtocolOnlineReviewServiceClassHook();
