@@ -318,8 +318,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(PROPOSAL_NARRATIVE_TYPE_GROUP, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_NARRATIVE_TYPE_GROUP));
             
             if(document.getDevelopmentProposal().getS2sOpportunity()!=null && document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms()!=null){
-                Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator3());
                 Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator1());
+                Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator3());
             }
          return actionForward;
     }
@@ -1463,6 +1463,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
 class S2sOppFormsComparator1 implements Comparator<S2sOppForms> {
     public int compare(S2sOppForms s2sOppForms1, S2sOppForms s2sOppForms2) {
+        if (s2sOppForms2.getAvailable() && s2sOppForms1.getAvailable()) {
+            return 1;
+        }
         return  s2sOppForms2.getAvailable().compareTo(s2sOppForms1.getAvailable());
     }
   }
