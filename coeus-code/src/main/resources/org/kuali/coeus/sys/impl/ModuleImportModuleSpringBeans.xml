@@ -7,6 +7,6 @@
 
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
 
-    <bean id="kualiModuleService" parent="grlImporter" p:serviceName="kualiModuleService" />
+    <!-- THE SYS MODULE SHOULD NOT IMPORT BEANS FROM OTHER MODULES! -->
 
 </beans>

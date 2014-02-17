@@ -8,9 +8,15 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:annotation-config />
-    <context:component-scan base-package="org.kuali.coeus.sys" />
 
-    <import resource="classpath:org/kuali/coeus/sys/impl/ConfigSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/coeus/sys/impl/ComponentSpringBeans.xml"/>
+    <bean id="kcSysConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="moduleName" value="kc.sys"/>
+        <property name="moduleTitle" value="KC System"/>
+        <property name="springBeanFiles">
+            <list>
+                <value>classpath:org/kuali/coeus/sys/impl/ModuleSpringBeans.xml</value>
+            </list>
+        </property>
+    </bean>
 
 </beans>
