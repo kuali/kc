@@ -478,7 +478,7 @@
   <bean id="ProposalPerson-state-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
   	<property name="control">
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.KcStateValuesFinder"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.KcStateValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
