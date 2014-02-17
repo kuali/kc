@@ -52,26 +52,58 @@
     	</list></property>
     </bean>
     
-<bean id="kcProposalDevelopmentConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
-	<property name="moduleName" value="kc.pd"/>
-	<property name="moduleTitle" value="KC Proposal Development"/>
-	<property name="dispatchServletName" value="kc-pd-krad"/>
-	<property name="filtersToMap"><ref bean="filtersToMap"/></property>
-	<property name="springBeanFiles"><list>
-		<value>classpath:org/kuali/kra/proposaldevelopment/ProposalDevelopmentSpringBeans.xml</value>
-		<value>classpath:org/kuali/kra/budget/ProposalDevelopmentBudgetSpringBeans.xml</value>
-		<value>classpath:org/kuali/kra/s2s/S2SSpringBeans.xml</value>
-	</list></property>
-</bean>
-    
-    <bean id="kcInstitutionalProposalConfigurer" class="org.kuali.kra.institutionalproposal.config.InstitutionalProposalConfigurer" />
-    
-    <bean id="kcAwardConfigurer" class="org.kuali.kra.award.config.AwardConfigurer" />
-    
-    <bean id="kcSubAwardConfigurer" class="org.kuali.kra.subaward.config.SubAwardConfigurer" />
-    
-    <bean id="kcNegotiationConfigurer" class="org.kuali.kra.negotiations.config.NegotiationConfigurer" />
-    
-    <bean id="kcCoiConfigurer" class="org.kuali.kra.coi.config.CoiConfigurer" />
+    <bean id="kcProposalDevelopmentConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="moduleName" value="kc.pd"/>
+        <property name="moduleTitle" value="KC Proposal Development"/>
+        <property name="dispatchServletName" value="kc-pd-krad"/>
+        <property name="filtersToMap"><ref bean="filtersToMap"/></property>
+        <property name="springBeanFiles"><list>
+            <value>classpath:org/kuali/kra/proposaldevelopment/ProposalDevelopmentSpringBeans.xml</value>
+            <value>classpath:org/kuali/kra/budget/ProposalDevelopmentBudgetSpringBeans.xml</value>
+            <value>classpath:org/kuali/kra/s2s/S2SSpringBeans.xml</value>
+        </list></property>
+    </bean>
+
+    <bean id="kcInstitutionalProposalConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="moduleName" value="kc.ip"/>
+        <property name="moduleTitle" value="KC Institutional Proposal"/>
+        <property name="springBeanFiles"><list>
+            <value>classpath:org/kuali/kra/institutionalproposal/InstitutionalProposalSpringBeans.xml</value>
+        </list></property>
+    </bean>
+
+    <bean id="kcAwardConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="moduleName" value="kc.award"/>
+        <property name="moduleTitle" value="KC Award"/>
+        <property name="springBeanFiles"><list>
+            <value>classpath:org/kuali/kra/award/AwardSpringBeans.xml</value>
+            <value>classpath:org/kuali/kra/budget/AwardBudgetSpringBeans.xml</value>
+            <value>classpath:org/kuali/kra/timeandmoney/TimeAndMoneySpringBeans.xml</value>
+        </list></property>
+    </bean>
+
+    <bean id="kcSubAwardConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="moduleName" value="kc.subaward"/>
+        <property name="moduleTitle" value="KC SubAward"/>
+        <property name="springBeanFiles"><list>
+            <value>classpath:org/kuali/kra/subaward/SubAwardSpringBeans.xml</value>
+        </list></property>
+    </bean>
+
+    <bean id="kcNegotiationConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="moduleName" value="kc.negotiation"/>
+        <property name="moduleTitle" value="KC Negotiation"/>
+        <property name="springBeanFiles"><list>
+            <value>classpath:/org/kuali/kra/negotiation/NegotiationSpringBeans.xml</value>
+        </list></property>
+    </bean>
+
+    <bean id="kcCoiConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="moduleName" value="kc.coi"/>
+        <property name="moduleTitle" value="KC Conflict of Interest"/>
+        <property name="springBeanFiles"><list>
+            <value>classpath:org/kuali/kra/coi/CoiSpringBeans.xml</value>
+        </list></property>
+    </bean>
 
 </beans>
