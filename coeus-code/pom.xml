@@ -43,6 +43,20 @@
             <resource>
                 <directory>src/main/resources</directory>
             </resource>
+            <resource>
+            	<targetPath>${project.build.directory}/target/classes</targetPath>
+            	<directory>${xmlbeans.gen.src.base}-gg</directory>
+            	<includes>
+            		<include>*/**.java</include>
+            	</includes>
+            </resource>
+            <resource>
+            	<targetPath>${project.build.directory}/target/classes</targetPath>
+            	<directory>${xmlbeans.gen.src.base}-printing</directory>
+            	<includes>
+            		<include>*/**.java</include>
+            	</includes>
+            </resource>
         </resources>
 
         <plugins>
