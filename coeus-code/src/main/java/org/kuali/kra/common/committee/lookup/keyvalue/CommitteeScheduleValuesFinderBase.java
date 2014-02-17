@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.common.committee.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.rice.core.api.util.KeyValue;
 

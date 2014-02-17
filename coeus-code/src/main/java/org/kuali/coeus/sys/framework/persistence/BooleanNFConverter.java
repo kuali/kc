@@ -1,4 +1,4 @@
-package org.kuali.kra.infrastructure;
+package org.kuali.coeus.sys.framework.persistence;
 
 
 import javax.persistence.AttributeConverter;

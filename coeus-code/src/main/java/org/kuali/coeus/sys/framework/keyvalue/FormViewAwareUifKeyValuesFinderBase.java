@@ -1,4 +1,4 @@
-package org.kuali.kra.krad.migration;
+package org.kuali.coeus.sys.framework.keyvalue;
 
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;

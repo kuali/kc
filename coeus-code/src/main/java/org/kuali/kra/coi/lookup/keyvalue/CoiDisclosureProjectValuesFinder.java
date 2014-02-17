@@ -16,10 +16,10 @@
 package org.kuali.kra.coi.lookup.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.disclosure.CoiDisclosureProjectBean;
 import org.kuali.kra.coi.disclosure.MasterDisclosureBean;
-import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 

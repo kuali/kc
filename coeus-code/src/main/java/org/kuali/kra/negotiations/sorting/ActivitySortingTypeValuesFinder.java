@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.sorting;
 
-import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
+import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;

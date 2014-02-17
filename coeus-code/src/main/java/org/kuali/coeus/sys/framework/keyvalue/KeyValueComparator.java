@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup.keyvalue;
+package org.kuali.coeus.sys.framework.keyvalue;
 
 import org.kuali.rice.core.api.util.KeyValue;
 
@@ -45,7 +45,7 @@ public final class KeyValueComparator implements Comparator<KeyValue>, Serializa
      * Gets an instance of a {@link KeyValueComparator KeyValueComparator}.
      * @return an instance
      */
-    public static final Comparator<KeyValue> getInstance() {
+    public static Comparator<KeyValue> getInstance() {
         return INSTANCE;
     }
 }

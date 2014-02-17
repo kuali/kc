@@ -13,29 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup.keyvalue;
+package org.kuali.coeus.sys.impl.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
-/**
- * This class...
- */
+@Component("keyValueFinderService")
 public class KeyValueFinderServiceImpl implements KeyValueFinderService {
-    private BusinessObjectService businessObjectService;
+
     private static final Log LOG = LogFactory.getLog(KeyValueFinderServiceImpl.class);
-    /**
-     * @see org.kuali.kra.lookup.keyvalue.KeyValueFinderService#getKeyValuesFor(java.lang.Class)
-     */
-    public List<KeyValue> getKeyValues(Class keyValClass,String codePropName,String valPropName) {
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
+
+    @Override
+    public List<KeyValue> getKeyValues(Class<? extends BusinessObject> keyValClass,String codePropName,String valPropName) {
         Collection keyVals = businessObjectService.findAll(keyValClass);
         List<KeyValue> keyValueList = new ArrayList<KeyValue>(keyVals.size());
         keyValueList.add(new ConcreteKeyValue("", "select"));
@@ -51,25 +57,8 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
                     keyValueList.add(new ConcreteKeyValue(code.toString(), value.toString()));
                 }
             }
-            catch (SecurityException e) {
-                LOG.debug(e.getMessage(), e);
-                LOG.error(e.getMessage());
-            }
-            catch (NoSuchMethodException e) {
-                LOG.debug(e.getMessage(), e);
-                LOG.error(e.getMessage());
-            }
-            catch (IllegalArgumentException e) {
-                LOG.debug(e.getMessage(), e);
-                LOG.error(e.getMessage());
-            }
-            catch (IllegalAccessException e) {
-                LOG.debug(e.getMessage(), e);
-                LOG.error(e.getMessage());
-            }
-            catch (InvocationTargetException e) {
-                LOG.debug(e.getMessage(), e);
-                LOG.error(e.getMessage());
+            catch (SecurityException|NoSuchMethodException|IllegalArgumentException|IllegalAccessException|InvocationTargetException e) {
+                LOG.error(e.getMessage(), e);
             }
         }
         return keyValueList;
@@ -77,9 +66,9 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
 
     /**
      * 
-     * @see org.kuali.kra.lookup.keyvalue.KeyValueFinderService#getKeyValues(java.lang.Class, java.lang.String, java.lang.String, java.util.Map)
+     * @see org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService#getKeyValues(java.lang.Class, java.lang.String, java.lang.String, java.util.Map)
      */
-    public List<KeyValue> getKeyValues(Class keyValClass, String codePropName, String valPropName, Map queryMap) {
+    public List<KeyValue> getKeyValues(Class<? extends BusinessObject> keyValClass, String codePropName, String valPropName, Map<String, ?> queryMap) {
         
         Collection keyVals = businessObjectService.findMatching(keyValClass,queryMap);
         List<KeyValue> keyValueList = new ArrayList<KeyValue>(keyVals.size());
@@ -93,21 +82,8 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
                 String code = (String)getCodeMeth.invoke(keyValObj, null);
                 String value = (String)getValMeth.invoke(keyValObj, null);
                 keyValueList.add(new ConcreteKeyValue(code, value));
-            }catch (SecurityException e) {
-                LOG.debug(e.getMessage(), e);
-                LOG.error(e.getMessage());
-            }catch (NoSuchMethodException e) {
-                LOG.debug(e.getMessage(), e);
-                LOG.error(e.getMessage());
-            }catch (IllegalArgumentException e) {
-                LOG.debug(e.getMessage(), e);
-                LOG.error(e.getMessage());
-            }catch (IllegalAccessException e) {
-                LOG.debug(e.getMessage(), e);
-                LOG.error(e.getMessage());
-            }catch (InvocationTargetException e) {
-                LOG.debug(e.getMessage(), e);
-                LOG.error(e.getMessage());
+            } catch (SecurityException|NoSuchMethodException|IllegalArgumentException|IllegalAccessException|InvocationTargetException e) {
+                    LOG.error(e.getMessage(), e);
             }
         }
         return keyValueList;

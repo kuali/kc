@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;

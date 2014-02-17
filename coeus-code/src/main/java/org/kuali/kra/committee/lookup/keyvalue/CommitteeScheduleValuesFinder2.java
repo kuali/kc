@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.util.List;

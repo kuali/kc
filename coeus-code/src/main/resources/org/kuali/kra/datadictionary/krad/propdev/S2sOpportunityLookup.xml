@@ -27,7 +27,7 @@
 					</property>
 					<property name="optionsFinder">
 						<bean
-							class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+							class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 							p:businessObjectClass="org.kuali.kra.s2s.bo.S2sProvider"
 							p:includeKeyInDescription="false" p:includeBlankRow="false"
 							p:keyAttributeName="code" p:labelAttributeName="description" />

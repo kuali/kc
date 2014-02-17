@@ -15,7 +15,9 @@
  */
 package org.kuali.coeus.sys.framework.util;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Yet another collection utility.  Contains methods that are not found in the apache util classes or the
@@ -52,5 +54,36 @@ public final class CollectionUtils {
         }
         
         return fromList.get(index);   
+    }
+
+    /**
+     * Takes an array of keys and an array of values and constructs a map.  Both key and value
+     * arrays must be the same length and non-null.
+     *
+     * @param keys the keys.  Cannot be null
+     * @param values the values.  Cannot be null
+     * @param <T> the key type
+     * @param <U> the value type
+     * @return a map.  cannot return null
+     * @throws IllegalArgumentException if either argument is null or the arrays aren't the same length
+     */
+    public static <T, U> Map<T, U> zipMap(T[] keys, U[] values) {
+        if (keys == null) {
+            throw new IllegalArgumentException("keys is null");
+        }
+
+        if (values == null) {
+            throw new IllegalArgumentException("values is null");
+        }
+
+        if(keys.length != values.length) {
+            throw new IllegalArgumentException("Number of keys doesn't match number of values");
+        }
+
+        final Map<T, U> map = new HashMap<T, U>();
+        for(int i = 0; i < keys.length; i++) {
+            map.put(keys[i], values[i]);
+        }
+        return map;
     }
 }

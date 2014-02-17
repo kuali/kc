@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.protocol;
 
+import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceType;
-import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.protocol.protocol.ProtocolReferenceTypeValuesFinderBase;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceTypeBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;

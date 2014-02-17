@@ -4,7 +4,6 @@ import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.dao.PendingReportDao;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.*;
@@ -42,7 +41,6 @@ public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingRepo
 
     private void lazyLoadProposal(InstitutionalProposalPerson ipPerson) {
         if(ipPerson.getInstitutionalProposal() == null) {
-            ServiceHelper svcHelper = ServiceHelper.getInstance();
             Map<String, Object> searchParams = new HashMap<String, Object>();
             searchParams.put("proposalNumber", ipPerson.getProposalNumber());
             searchParams.put("sequenceNumber", ipPerson.getSequenceNumber());

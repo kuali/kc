@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
@@ -89,7 +88,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
     }
    /**.
     * This method is for getOpenLink
-     * @param subaward
+     * @param subAward
      * @param viewOnly
      * @return htmlData
      */
@@ -115,7 +114,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
     }
     /**.
      * This Method is for getMedusaLink
-     * @param subaward
+     * @param subAward
      * @param readOnly
      * @return htmlData
      */
@@ -140,10 +139,6 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         return htmlData;
     }
 
-      /**.
-       * This override is reset field definitions
-       * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getRows()
-       */
       @Override
     public List<Row> getRows() {
         List<Row> rows = super.getRows();
@@ -214,9 +209,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
           if (awardNumber != null && !awardNumber.equals("")) {
               Collection <Award>awards =
                   getBusinessObjectService().findMatching(
-                          Award.class, ServiceHelper.getInstance().
-                          buildCriteriaMap(new String[] {
-                                  AWARD_NUMBER}, new Object[] {awardNumber }));
+                          Award.class, Collections.singletonMap(AWARD_NUMBER,awardNumber));
               List<Award> linkedAwards = new ArrayList<Award>();
                   for (Award award : awards) {
                       linkedAwards.add(award);
@@ -226,9 +219,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
               for (Award linkedAward : linkedAwards) {
                   Collection <SubAwardFundingSource> subAwardFundingSource =
                       getBusinessObjectService().findMatching(
-                              SubAwardFundingSource.class, ServiceHelper.getInstance().
-                              buildCriteriaMap(new String[] {"awardId"}, new Object[]
-                                                                                    {linkedAward.getAwardId() }));
+                              SubAwardFundingSource.class, Collections.singletonMap("awardId",linkedAward.getAwardId()));
                       for (SubAwardFundingSource subAwardFunding
                               : subAwardFundingSource) {
                           fundingSourceList.add(subAwardFunding);

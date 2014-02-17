@@ -1237,7 +1237,7 @@
         <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
-        <field-descriptor name="correspondenceTemplate" column="CORRESPONDENCE_TEMPLATE" jdbc-type="CLOB" conversion="org.kuali.kra.infrastructure.OjbBlobClobFieldConersion"/>
+        <field-descriptor name="correspondenceTemplate" column="CORRESPONDENCE_TEMPLATE" jdbc-type="CLOB" conversion="org.kuali.coeus.sys.framework.persistence.OjbBlobClobFieldConersion"/>
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
