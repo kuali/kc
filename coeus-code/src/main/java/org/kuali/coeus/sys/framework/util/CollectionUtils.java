@@ -80,10 +80,10 @@ public final class CollectionUtils {
             throw new IllegalArgumentException("Number of keys doesn't match number of values");
         }
 
-        final Map<T, U> fieldsToMatch = new HashMap<T, U>();
+        final Map<T, U> map = new HashMap<T, U>();
         for(int i = 0; i < keys.length; i++) {
-            fieldsToMatch.put(keys[i], values[i]);
+            map.put(keys[i], values[i]);
         }
-        return fieldsToMatch;
+        return map;
     }
 }
