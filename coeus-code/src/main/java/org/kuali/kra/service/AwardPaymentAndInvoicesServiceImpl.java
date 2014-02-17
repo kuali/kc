@@ -23,6 +23,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -69,7 +70,7 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
     @Override
     public List<ValidAwardBasisPayment> getValidAwardBasisPaymentsByAwardTypeCode(Integer awardTypeCode) {
         List<ValidAwardBasisPayment> results = new ArrayList<ValidAwardBasisPayment>( businessObjectService.findMatchingOrderBy(ValidAwardBasisPayment.class,
-                ServiceHelper.getInstance().buildCriteriaMap(AWARDTYPECODE, awardTypeCode),
+                Collections.singletonMap(AWARDTYPECODE, awardTypeCode),
                 VALIDAWARDBASISPAYMENT_ID, 
                 true ));
         return results;
@@ -79,7 +80,7 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
     public List<ValidBasisMethodPayment> getValidBasisMethodPaymentByBasisCode(String basisOfPaymentCode) {
         
         List<ValidBasisMethodPayment> results = new ArrayList<ValidBasisMethodPayment>( businessObjectService.findMatchingOrderBy(ValidBasisMethodPayment.class,
-                ServiceHelper.getInstance().buildCriteriaMap( new String[] {BASISOFPAYMENTCODE},  new String[]{basisOfPaymentCode} ),
+                Collections.singletonMap(BASISOFPAYMENTCODE,  basisOfPaymentCode ),
                 METHODOFPAYMENTCODE, 
                 true ));
         return results;
@@ -87,7 +88,7 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
 
     @Override
     public ValidAwardBasisPayment getValidAwardBasisPayment( Integer validAwardBasisPaymentId ) {
-        ValidAwardBasisPayment vBasisPayment = (ValidAwardBasisPayment)businessObjectService.findByPrimaryKey(ValidAwardBasisPayment.class, ServiceHelper.getInstance().buildCriteriaMap(VALIDAWARDBASISPAYMENT_ID, validAwardBasisPaymentId));
+        ValidAwardBasisPayment vBasisPayment = (ValidAwardBasisPayment)businessObjectService.findByPrimaryKey(ValidAwardBasisPayment.class, Collections.singletonMap(VALIDAWARDBASISPAYMENT_ID, validAwardBasisPaymentId));
         return vBasisPayment;
     }
     

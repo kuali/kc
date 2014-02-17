@@ -18,7 +18,7 @@ package org.kuali.kra.s2s.generator;
 /**
  * This class is an exception class and is thrown whenever a generator for a namespoace is not available for form generation
  */
-public class S2SGeneratorNotFoundException extends Exception{
+public class S2SGeneratorNotFoundException extends RuntimeException{
 
     private static final long serialVersionUID = 477143438237989597L;
 

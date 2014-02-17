@@ -18,10 +18,10 @@ package org.kuali.kra.institutionalproposal.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.TimeFormatter;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -39,9 +39,6 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends KcTransactio
         InstitutionalProposalSponsorAndProgramRule {
 
 
-    /**
-     * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalSponsorAndProgramRule#processInstitutionalProposalSponsorAndProgramRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddUnrecoveredFandARuleEvent)
-     */
     public boolean processInstitutionalProposalSponsorAndProgramRules(
             InstitutionalProposalSponsorAndProgramRuleEvent institutionalProposalSponsorAndProgramRuleEvent) {
         return processCommonValidations(institutionalProposalSponsorAndProgramRuleEvent.getInstitutionalProposalForValidation());
@@ -50,7 +47,6 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends KcTransactio
     
     /**
      * This method processes common validations for business rules
-     * @param event
      * @return
      */
     public boolean processCommonValidations(InstitutionalProposal institutionalProposal) {
@@ -68,9 +64,8 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends KcTransactio
     private boolean validateSponsorDeadlineTime(InstitutionalProposal institutionalProposal) {
         boolean valid = true;
         if(!(institutionalProposal.getDeadlineTime() == null)) {
-            TimeFormatter formatter = new TimeFormatter();
-            
-            String formatTime = (String) formatter.convertToObject(institutionalProposal.getDeadlineTime());
+
+            String formatTime = DateUtils.formatFrom12Or24Str(institutionalProposal.getDeadlineTime());
             if (!formatTime.equalsIgnoreCase(Constants.INVALID_TIME)) {
                 institutionalProposal.setDeadlineTime(formatTime);
             } else {

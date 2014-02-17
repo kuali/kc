@@ -227,7 +227,7 @@
         </property>
         <property name="control">
              <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
                 p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType"
                 p:includeKeyInLabel="false" p:keyAttribute="reviewTypeCode"
                 p:labelAttribute="description" />
@@ -322,7 +322,7 @@
         </property>
         <property name="control">
              <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
                 p:businessObjectClass="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus"
                 p:includeKeyInLabel="false" p:keyAttribute="statusCode"
                 p:labelAttribute="description" />
@@ -548,7 +548,7 @@
          <property name="control" >
           <bean parent="SelectControlDefinition"
                 p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType"
-                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
                 p:includeKeyInLabel="false"
                 p:includeBlankRow="false"
                 p:keyAttribute="reviewerTypeCode"
