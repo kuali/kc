@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.module.RunMode;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
-import org.kuali.rice.core.framework.resourceloader.BaseResourceLoader;
 import org.kuali.rice.core.framework.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.springframework.web.context.WebApplicationContext;
@@ -29,7 +28,6 @@ import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,21 +35,20 @@ public class KcConfigurer extends ModuleConfigurer {
     
     private List<String> springBeanFiles = new ArrayList<String>();
     private String dispatchServletName;
-    private List<String> filtersToMap = Arrays.asList(new String[]{"BootstrapFilter", "UserLoginFilter", "UserPreferencesFilter"});
+    private List<String> filtersToMap;
     private String moduleTitle;
     
     private ResourceLoader rootResourceLoader;
 
     public KcConfigurer() {
-        super();
         setValidRunModes(Collections.singletonList(RunMode.LOCAL));
     }
 
     public KcConfigurer(String moduleName, String moduleTitle) {
         super(moduleName);
         this.moduleTitle = moduleTitle;
-    } 
-    
+    }
+
     @Override
     public List<String> getPrimarySpringFiles() {
         return springBeanFiles;
@@ -59,9 +56,8 @@ public class KcConfigurer extends ModuleConfigurer {
     
     @Override
     protected ResourceLoader createResourceLoader(ServletContext servletContext, List<String> files, String moduleName) {
-        BaseResourceLoader rl = (BaseResourceLoader) RiceResourceLoaderFactory.createRootRiceResourceLoader(servletContext, files, getModuleName());
-        rootResourceLoader = rl;
-        return rl;
+        rootResourceLoader = RiceResourceLoaderFactory.createRootRiceResourceLoader(servletContext, files, getModuleName());
+        return rootResourceLoader;
     }
     
     @Override
@@ -76,7 +72,8 @@ public class KcConfigurer extends ModuleConfigurer {
 	        }
     	}
     }
-    
+
+    @Override
     public void setModuleName(String moduleName) {
         super.setModuleName(moduleName);
     }
