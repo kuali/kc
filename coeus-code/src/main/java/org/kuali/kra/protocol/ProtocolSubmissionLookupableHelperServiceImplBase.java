@@ -16,11 +16,11 @@
 package org.kuali.kra.protocol;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;

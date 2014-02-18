@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.auth;
 
 import org.kuali.coeus.sys.framework.auth.KcWorkflowDocumentAuthorizerBase;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.kra.irb.Protocol;
 
 import java.util.Collection;

@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.service.impl.mocks;
 
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.service.KcAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 
 import java.util.List;
 
@@ -34,11 +32,7 @@ public class KraAuthorizationServiceMock implements KcAuthorizationService {
      
     }
     @Override
-    public List<RolePersons> getAllRolePersons(Permissionable permissionable) {
-        return null;
-    }
-    @Override
-    public List<KcPerson> getPersonsInRole(Permissionable permissionable, String roleName) {
+    public List<String> getPrincipalsInRole(Permissionable permissionable, String roleName) {
         return null;
     }
     @Override

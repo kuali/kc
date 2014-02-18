@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
@@ -955,7 +956,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     @Override
     public String getDocumentKey() {
-        return Permissionable.SUBAWARD_KEY;
+        return PermissionableKeys.SUBAWARD_KEY;
     }
 
     @Override

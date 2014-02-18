@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -55,7 +56,6 @@ import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
@@ -949,7 +949,15 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         KcAuthorizationService proposalAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
         ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
         
-        List<KcPerson> persons = proposalAuthService.getPersonsInRole(doc, roleName);
+        List<String> users = proposalAuthService.getPrincipalsInRole(doc, roleName);
+        List<KcPerson> persons = new ArrayList<>();
+        for(String userId : users) {
+            KcPerson person = kcPersonService.getKcPersonByPersonId(userId);
+            if (person != null && person.getActive()) {
+                persons.add(person);
+            }
+        }
+
         for (KcPerson person : persons) {
             ProposalUserRoles proposalUserRoles = findProposalUserRoles(propUserRolesList, person.getUserName());
             if (proposalUserRoles != null) {

@@ -19,6 +19,7 @@ package org.kuali.kra.coi;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
@@ -31,7 +32,7 @@ import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachmentFilter;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.notification.CoiNotification;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.KcPersonService;
@@ -737,7 +738,7 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
 
     @Override
     public String getDocumentKey() {
-        return Permissionable.COI_DISCLOSURE_KEY;
+        return PermissionableKeys.COI_DISCLOSURE_KEY;
     }
 
     // permissionable related override
@@ -757,10 +758,7 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
         return Constants.MODULE_NAMESPACE_COIDISCLOSURE;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.UnitAclLoadable#getUnitNumberOfDocument()
-     */
+
     public String getDocumentUnitNumber() {
         return getLeadUnitNumber();
     }

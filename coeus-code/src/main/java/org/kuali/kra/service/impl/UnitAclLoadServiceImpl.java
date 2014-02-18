@@ -17,19 +17,15 @@ package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
-import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.service.KcAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
 
-/**
- * @see org.kuali.kra.service.UnitAclLoadService
- */
 public class UnitAclLoadServiceImpl implements UnitAclLoadService {
 
     private KcAuthorizationService kraAuthorizationService;
@@ -52,36 +48,21 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
         this.systemAuthorizationService = systemAuthorizationService;
     }
 
-    /**
-     * @see org.kuali.kra.service.UnitAclLoadService#loadUnitAcl(org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase)
-     */
-    public void loadUnitAcl(Permissionable permissionable) {
-        String creatorUserId = getCreator();
+    public void loadUnitAcl(Permissionable permissionable, String creatorPrincipalId) {
         Map<String, String> roleIdMap = new HashMap<String, String>();
-        Role role = null;
         
         Collection<RoleMembership> kraRoleTemplates = getDocumentDefaultAcl(permissionable.getLeadUnitNumber(), permissionable.getDocumentRoleTypeCode());
         for (RoleMembership kraRoleTemplate : kraRoleTemplates) {
             String personId = kraRoleTemplate.getMemberId();
-            if (personId != null && !StringUtils.equals(personId, creatorUserId)) {
+            if (personId != null && !StringUtils.equals(personId, creatorPrincipalId)) {
                 String key = kraRoleTemplate.getRoleId() + "|" + personId;
                 if (StringUtils.isEmpty(roleIdMap.get(key))) {
-                    role = roleManagementService.getRole(kraRoleTemplate.getRoleId());
+                    Role role = roleManagementService.getRole(kraRoleTemplate.getRoleId());
                     roleIdMap.put(key, role.getName());
                     kraAuthorizationService.addRole(personId, role.getName(), permissionable); 
                 }
             }
         }
-    }
-    
-    /**
-     * Gets the creator of the document.  Actually, I'm being sneaky.  The addUsers method is only
-     * used when the document is being created.  Therefore, the current user corresponds to the
-     * creator of the document.
-     * @return the creator's username
-     */
-    public String getCreator() {
-        return GlobalVariables.getUserSession().getPrincipalId();
     }
 
     /**
