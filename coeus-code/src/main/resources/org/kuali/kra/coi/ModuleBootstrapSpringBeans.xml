@@ -9,14 +9,10 @@
 
     <context:annotation-config />
 
-    <bean id="kcSysConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
-        <property name="moduleName" value="kc.sys"/>
-        <property name="moduleTitle" value="KC System"/>
-        <property name="springBeanFiles">
-            <list>
-                <value>classpath:org/kuali/coeus/sys/impl/ModuleSpringBeans.xml</value>
-            </list>
-        </property>
+    <bean id="kcCoiConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="moduleName" value="kc.coi"/>
+        <property name="moduleTitle" value="KC Conflict of Interest"/>
+        <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/coi/ModuleComponentSpringBeans.xml"/>
     </bean>
 
 </beans>

@@ -27,13 +27,12 @@ import org.springframework.web.servlet.DispatcherServlet;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class KcConfigurer extends ModuleConfigurer {
     
-    private List<String> springBeanFiles = new ArrayList<String>();
+    private String bootstrapSpringFile;
     private String dispatchServletName;
     private List<String> filtersToMap;
     private String moduleTitle;
@@ -51,7 +50,7 @@ public class KcConfigurer extends ModuleConfigurer {
 
     @Override
     public List<String> getPrimarySpringFiles() {
-        return springBeanFiles;
+        return Collections.singletonList(bootstrapSpringFile);
     }   
     
     @Override
@@ -78,12 +77,12 @@ public class KcConfigurer extends ModuleConfigurer {
         super.setModuleName(moduleName);
     }
 
-    public List<String> getSpringBeanFiles() {
-        return springBeanFiles;
+    public String getBootstrapSpringFile() {
+        return bootstrapSpringFile;
     }
 
-    public void setSpringBeanFiles(List<String> springBeanFiles) {
-        this.springBeanFiles = springBeanFiles;
+    public void setBootstrapSpringFile(String bootstrapSpringFile) {
+        this.bootstrapSpringFile = bootstrapSpringFile;
     }
 
     public String getDispatchServletName() {
