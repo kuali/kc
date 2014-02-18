@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.coi.notification;
 
+import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 // class used to satisfy java bean convention

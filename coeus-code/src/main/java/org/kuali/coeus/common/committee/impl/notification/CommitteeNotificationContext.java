@@ -18,14 +18,14 @@ package org.kuali.coeus.common.committee.impl.notification;
 
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.notification.impl.NotificationContextBase;
+import org.kuali.coeus.common.notification.impl.NotificationRenderer;
+import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
+import org.kuali.coeus.common.notification.impl.exception.UnknownRoleException;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationModuleRoleService;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.common.notification.NotificationContextBase;
-import org.kuali.kra.common.notification.NotificationRenderer;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.common.notification.exception.UnknownRoleException;
-import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.util.EmailAttachment;
 import org.springframework.util.CollectionUtils;
 
@@ -68,7 +68,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getModuleCode()
      */
     public String getModuleCode() {
         return CoeusModule.COMMITTEE_MODULE_CODE;
@@ -76,7 +76,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getDocumentNumber()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getDocumentNumber()
      */
     public String getDocumentNumber() {
         return committee.getCommitteeDocument().getDocumentNumber();
@@ -84,7 +84,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getActionTypeCode()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getActionTypeCode()
      */
     public String getActionTypeCode() {
         return actionTypeCode;
@@ -92,7 +92,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getContextName()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getContextName()
      */
     public String getContextName() {
         return contextName;
@@ -108,7 +108,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
      * the context are the same at the point of 'send'.
      * Unless, there is better approach, we'll stick with this hack for now.
      * isPopulateRole is only 'true' for this case, so the other cases will stay the same as before this change.
-     * @see org.kuali.kra.common.notification.NotificationContextBase#populateRoleQualifiers(org.kuali.kra.common.notification.bo.NotificationTypeRecipient)
+     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#populateRoleQualifiers(org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient)
      */
     @Override
     public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {

@@ -16,9 +16,9 @@
 package org.kuali.kra.coi.notification;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -45,7 +45,7 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
+     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
         String[] replacementParameters = CoiReplacementParameters.REPLACEMENT_PARAMETERS;

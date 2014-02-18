@@ -23,9 +23,9 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceDeta
 import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
 import org.kuali.coeus.common.committee.impl.print.service.CommitteePrintingServiceBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeBatchCorrespondenceServiceBase;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;

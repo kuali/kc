@@ -23,7 +23,7 @@ import org.kuali.coeus.common.committee.impl.notification.AgendaCreatedNotificat
 import org.kuali.coeus.common.committee.impl.notification.CommitteeNotificationContext;
 import org.kuali.coeus.common.committee.impl.notification.MinutesCreatedNotificationRenderer;
 import org.kuali.coeus.common.committee.impl.service.CommonCommitteeNotificationService;
-import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 
 /**

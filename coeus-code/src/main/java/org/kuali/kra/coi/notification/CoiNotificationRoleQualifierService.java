@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.coi.notification;
 
+import org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 
 public interface CoiNotificationRoleQualifierService extends KcNotificationRoleQualifierService {
 

@@ -16,12 +16,12 @@
 package org.kuali.kra.protocol.notification;
 
 
+import org.kuali.coeus.common.notification.impl.NotificationContextBase;
+import org.kuali.coeus.common.notification.impl.NotificationRenderer;
+import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
+import org.kuali.coeus.common.notification.impl.exception.UnknownRoleException;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationModuleRoleService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.common.notification.NotificationContextBase;
-import org.kuali.kra.common.notification.NotificationRenderer;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.common.notification.exception.UnknownRoleException;
-import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.util.EmailAttachment;
@@ -75,7 +75,7 @@ public abstract class ProtocolNotificationContextBase extends NotificationContex
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getDocumentNumber()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getDocumentNumber()
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -83,7 +83,7 @@ public abstract class ProtocolNotificationContextBase extends NotificationContex
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getActionTypeCode()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getActionTypeCode()
      */
     public String getActionTypeCode() {
         return actionTypeCode;
@@ -91,7 +91,7 @@ public abstract class ProtocolNotificationContextBase extends NotificationContex
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getContextName()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getContextName()
      */
     public String getContextName() {
         return contextName;
@@ -99,7 +99,7 @@ public abstract class ProtocolNotificationContextBase extends NotificationContex
 
     /**
      * 
-     * @see org.kuali.kra.common.notification.NotificationContext#getEmailAttachments()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getEmailAttachments()
      */
     public List<EmailAttachment> getEmailAttachments() {
         return emailAttachments;
@@ -140,7 +140,7 @@ public abstract class ProtocolNotificationContextBase extends NotificationContex
      * the context are the same at the point of 'send'.
      * Unless, there is better approach, we'll stick with this hack for now.
      * isPopulateRole is only 'true' for this case, so the other cases will stay the same as before this change.
-     * @see org.kuali.kra.common.notification.NotificationContextBase#populateRoleQualifiers(org.kuali.kra.common.notification.bo.NotificationTypeRecipient)
+     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#populateRoleQualifiers(org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient)
      */
     @Override
     public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {

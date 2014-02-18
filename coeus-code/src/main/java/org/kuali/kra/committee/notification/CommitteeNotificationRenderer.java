@@ -16,9 +16,9 @@
 package org.kuali.kra.committee.notification;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.irb.notification.IRBReplacementParameters;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -48,7 +48,7 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
+     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
         String[] replacementParameters = CommitteeReplacementParameters.REPLACEMENT_PARAMETERS;
