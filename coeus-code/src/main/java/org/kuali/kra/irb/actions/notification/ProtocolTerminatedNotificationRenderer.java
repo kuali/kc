@@ -52,7 +52,7 @@ public class ProtocolTerminatedNotificationRenderer extends IRBNotificationRende
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
+     * @see org.kuali.coeus.common.notification.impl.NotificationContext#replaceContextVariables(java.lang.String)
      */
     @Override
     public Map<String, String> getDefaultReplacementParameters() {

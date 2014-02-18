@@ -16,13 +16,13 @@
 package org.kuali.kra.coi.notification;
 
 
+import org.kuali.coeus.common.notification.impl.NotificationContextBase;
+import org.kuali.coeus.common.notification.impl.NotificationRenderer;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
-import org.kuali.kra.common.notification.NotificationContextBase;
-import org.kuali.kra.common.notification.NotificationRenderer;
-import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.util.EmailAttachment;
 
 import java.util.List;
@@ -54,7 +54,7 @@ public class FinancialEntityNotificationContext extends NotificationContextBase 
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getModuleCode()
      */
     public String getModuleCode() {
         return CoeusModule.COI_DISCLOSURE_MODULE_CODE;
@@ -62,7 +62,7 @@ public class FinancialEntityNotificationContext extends NotificationContextBase 
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getDocumentNumber()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getDocumentNumber()
      */
     public String getEntityNumber() {
         return entityNumber;
@@ -70,7 +70,7 @@ public class FinancialEntityNotificationContext extends NotificationContextBase 
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getActionTypeCode()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getActionTypeCode()
      */
     public String getActionTypeCode() {
         return actionTypeCode;
@@ -78,7 +78,7 @@ public class FinancialEntityNotificationContext extends NotificationContextBase 
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getContextName()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getContextName()
      */
     public String getContextName() {
         return contextName;

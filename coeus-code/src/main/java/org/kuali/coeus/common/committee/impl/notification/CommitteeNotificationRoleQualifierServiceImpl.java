@@ -18,7 +18,7 @@ package org.kuali.coeus.common.committee.impl.notification;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
-import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
+import org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 
 
@@ -29,7 +29,7 @@ public class CommitteeNotificationRoleQualifierServiceImpl implements CommonComm
     
     /**
      * 
-     * @see org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService#getRoleQualifierValue(org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier)
+     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService#getRoleQualifierValue(org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier)
      */
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {

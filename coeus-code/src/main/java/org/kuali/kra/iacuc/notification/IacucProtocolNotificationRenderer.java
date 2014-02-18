@@ -49,7 +49,7 @@ public class IacucProtocolNotificationRenderer extends ProtocolNotificationRende
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
+     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();

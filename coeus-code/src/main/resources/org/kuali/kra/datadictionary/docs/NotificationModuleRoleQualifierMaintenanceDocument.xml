@@ -3,7 +3,7 @@
   <bean id="NotificationModuleRoleQualifierMaintenanceDocument" parent="NotificationModuleRoleQualifierMaintenanceDocument-parentBean"/>
 
   <bean id="NotificationModuleRoleQualifierMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
     <property name="maintainableSections">
       <list>
@@ -45,9 +45,9 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier"/>
+          <property name="businessObjectClass" value="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier"/>
           <property name="name" value="roleQualifiers"/>
-          <property name="sourceClassName" value="org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier"/>
+          <property name="sourceClassName" value="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier"/>
           <property name="alwaysAllowCollectionDeletion" value="true"/>
           <property name="includeAddLine" value="true"/>
           <property name="includeMultipleLookupLine" value="false"/>

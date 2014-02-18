@@ -58,7 +58,7 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
+     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
         String[] replacementParameters = IRBReplacementParameters.REPLACEMENT_PARAMETERS;

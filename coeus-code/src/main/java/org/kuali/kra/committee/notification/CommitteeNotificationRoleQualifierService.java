@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.committee.notification;
 
+import org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 
 public interface CommitteeNotificationRoleQualifierService extends KcNotificationRoleQualifierService {
 

@@ -16,6 +16,7 @@
 package org.kuali.kra.coi;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
@@ -29,7 +30,6 @@ import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.coi.questionnaire.ScreeningQuestionnaireHelper;
-import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
