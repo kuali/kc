@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.notification;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.coeus.common.committee.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;

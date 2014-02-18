@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.onlinereview;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.UnitAclLoadable;

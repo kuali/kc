@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.print;
 
-import org.kuali.coeus.common.committee.print.TemplatePrintBase;
+import org.kuali.coeus.common.committee.impl.print.TemplatePrintBase;
 
 /**
  * This class provides the implementation for printing Committee Roster.

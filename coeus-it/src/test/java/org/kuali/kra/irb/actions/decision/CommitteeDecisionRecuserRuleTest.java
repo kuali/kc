@@ -19,7 +19,7 @@ package org.kuali.kra.irb.actions.decision;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType;
 
 import static org.junit.Assert.*;
 public class CommitteeDecisionRecuserRuleTest extends CommitteeDecisionRuleBase {

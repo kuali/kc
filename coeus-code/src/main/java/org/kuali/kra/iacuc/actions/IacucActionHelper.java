@@ -17,10 +17,10 @@ package org.kuali.kra.iacuc.actions;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.coeus.common.committee.bo.CommitteeBase;
-import org.kuali.coeus.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.coeus.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
-import org.kuali.coeus.common.committee.service.CommitteeScheduleServiceBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
+import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;

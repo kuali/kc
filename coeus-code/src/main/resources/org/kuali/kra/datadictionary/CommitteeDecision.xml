@@ -48,7 +48,7 @@
         <property name="required" value="true" />
         <property name="control" >
             <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.coeus.common.committee.lookup.keyvalue.CommitteeDecisionMotionValuesFinder"
+                  p:valuesFinderClass="org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeDecisionMotionValuesFinder"
                   p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Motion Type" />

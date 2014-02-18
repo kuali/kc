@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.service.impl;
 
-import org.kuali.coeus.common.committee.service.impl.CommitteeScheduleAttendanceServiceImplBase;
+import org.kuali.coeus.common.committee.impl.service.impl.CommitteeScheduleAttendanceServiceImplBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;

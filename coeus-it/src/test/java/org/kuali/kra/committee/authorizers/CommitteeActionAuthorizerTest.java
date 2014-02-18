@@ -23,7 +23,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.coeus.common.committee.document.authorization.CommitteeTaskBase;
+import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.document.authorizer.CommitteeActionAuthorizer;

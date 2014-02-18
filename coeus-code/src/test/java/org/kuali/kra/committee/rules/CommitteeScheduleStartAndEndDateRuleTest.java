@@ -18,7 +18,7 @@ package org.kuali.kra.committee.rules;
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.committee.web.struts.form.schedule.*;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.*;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;

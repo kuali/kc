@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.meeting;
 
-import org.kuali.coeus.common.committee.meeting.MeetingAddMinuteEventBase;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingAddMinuteEventBase;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.rice.krad.document.Document;
 

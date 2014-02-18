@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.actions.print;
 import edu.mit.coeus.xml.iacuc.*;
 import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;

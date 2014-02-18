@@ -16,7 +16,7 @@
 
 	<bean id="ScheduleStatus" parent="ScheduleStatus-parentBean"/>
 	<bean abstract="true" id="ScheduleStatus-parentBean" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.coeus.common.committee.bo.ScheduleStatus"/>
+		<property name="businessObjectClass" value="org.kuali.coeus.common.committee.impl.bo.ScheduleStatus"/>
 		<property name="objectLabel" value="Schedule Status"/>
 		<property name="inquiryDefinition">
 			<ref bean="ScheduleStatus-inquiryDefinition"/>

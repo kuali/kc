@@ -23,7 +23,7 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;

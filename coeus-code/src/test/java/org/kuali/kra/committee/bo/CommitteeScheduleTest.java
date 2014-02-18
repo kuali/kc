@@ -17,8 +17,8 @@ package org.kuali.kra.committee.bo;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
-import org.kuali.coeus.common.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.coeus.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;

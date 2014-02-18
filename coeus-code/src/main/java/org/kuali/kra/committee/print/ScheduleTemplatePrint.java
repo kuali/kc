@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.print;
 
-import org.kuali.coeus.common.committee.print.ScheduleTemplatePrintBase;
+import org.kuali.coeus.common.committee.impl.print.ScheduleTemplatePrintBase;
 
 /**
  * 

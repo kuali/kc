@@ -17,8 +17,8 @@ package org.kuali.kra.protocol.actions;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.common.notification.bo.KcNotification;

@@ -17,7 +17,7 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

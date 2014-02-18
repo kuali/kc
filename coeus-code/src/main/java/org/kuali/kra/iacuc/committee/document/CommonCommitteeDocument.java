@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.document;
 
-import org.kuali.coeus.common.committee.document.CommitteeDocumentBase;
+import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;

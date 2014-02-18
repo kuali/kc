@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
-import org.kuali.coeus.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
+import org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.committee.bo.Committee;
 
 public interface IrbCommitteeIdByUnitValuesFinderService extends CommitteeIdByUnitValuesFinderService<Committee> {

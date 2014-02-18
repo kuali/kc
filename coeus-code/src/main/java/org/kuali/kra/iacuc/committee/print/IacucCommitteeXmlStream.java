@@ -27,12 +27,12 @@ import edu.mit.coeus.xml.iacuc.ScheduleSummaryType;
 import edu.mit.coeus.xml.iacuc.ScheduleType;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.committee.bo.CommitteeBase;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipExpertiseBase;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.coeus.common.committee.bo.CommitteeResearchAreaBase;
-import org.kuali.coeus.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipExpertiseBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeResearchAreaBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
@@ -78,7 +78,7 @@ public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
         setCommitteeResearchArea(committee,committeeType);
         return committeeType ;
     }
-    private void setCommitteeResearchArea(org.kuali.coeus.common.committee.bo.CommitteeBase committee, CommitteeType committeeType) {
+    private void setCommitteeResearchArea(org.kuali.coeus.common.committee.impl.bo.CommitteeBase committee, CommitteeType committeeType) {
         List<CommitteeResearchAreaBase> committeeResearchAreas = committee.getCommitteeResearchAreas();
         if(committeeResearchAreas.isEmpty()) return;
         for (CommitteeResearchAreaBase committeeResearchArea : committeeResearchAreas) {
@@ -88,7 +88,7 @@ public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
         }
     }
 
-    private void setScheduleForcommittee(org.kuali.coeus.common.committee.bo.CommitteeBase committee, CommitteeType committeeType) {
+    private void setScheduleForcommittee(org.kuali.coeus.common.committee.impl.bo.CommitteeBase committee, CommitteeType committeeType) {
         Date currentDate = new Date();
         Boolean isRooster=committee.getPrintRooster();
         List<CommitteeScheduleBase> vecSchedule = committee.getCommitteeSchedules();
@@ -111,7 +111,7 @@ public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
            }}}
     }
 
-    public void setCommitteeMembers(org.kuali.coeus.common.committee.bo.CommitteeBase committee, CommitteeType committeeType) {
+    public void setCommitteeMembers(org.kuali.coeus.common.committee.impl.bo.CommitteeBase committee, CommitteeType committeeType) {
         List<CommitteeMembershipBase> committeeMemberships = committee.getCommitteeMemberships();
         if(committeeMemberships.isEmpty()) return;
         for (CommitteeMembershipBase membershipBean : committeeMemberships) {
@@ -120,7 +120,7 @@ public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
         }
         
     }
-    public void setCommitteeMembers(org.kuali.coeus.common.committee.bo.CommitteeBase committee, Submissions committeeType) {
+    public void setCommitteeMembers(org.kuali.coeus.common.committee.impl.bo.CommitteeBase committee, Submissions committeeType) {
         List<CommitteeMembershipBase> committeeMemberships = committee.getCommitteeMemberships();
         if(committeeMemberships.isEmpty()) return;
         for (CommitteeMembershipBase membershipBean : committeeMemberships) {

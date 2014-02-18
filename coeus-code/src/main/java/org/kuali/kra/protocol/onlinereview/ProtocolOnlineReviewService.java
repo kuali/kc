@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.onlinereview;
 
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;

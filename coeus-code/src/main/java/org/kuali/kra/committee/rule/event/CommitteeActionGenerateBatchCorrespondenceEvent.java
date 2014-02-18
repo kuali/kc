@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.committee.rule.event;
 
-import org.kuali.coeus.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
-import org.kuali.coeus.common.committee.rules.CommitteeActionGenerateBatchCorrespondenceRuleBase;
+import org.kuali.coeus.common.committee.impl.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
+import org.kuali.coeus.common.committee.impl.rules.CommitteeActionGenerateBatchCorrespondenceRuleBase;
 import org.kuali.kra.committee.rules.CommitteeActionGenerateBatchCorrespondenceRule;
 import org.kuali.rice.krad.document.Document;
 

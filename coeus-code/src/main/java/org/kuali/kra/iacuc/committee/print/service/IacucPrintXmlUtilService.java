@@ -21,7 +21,7 @@ import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 import edu.mit.coeus.xml.iacuc.ScheduleType;
 import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
 
-import org.kuali.coeus.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;

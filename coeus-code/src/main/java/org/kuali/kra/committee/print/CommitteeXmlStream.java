@@ -25,8 +25,8 @@ import edu.mit.irb.irbnamespace.ResearchAreaDocument.ResearchArea;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.NextSchedule;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipExpertiseBase;
-import org.kuali.coeus.common.committee.bo.CommitteeResearchAreaBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipExpertiseBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeResearchAreaBase;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -155,9 +155,9 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
                 }
             }    
         }
-        List<org.kuali.coeus.common.committee.bo.CommitteeMembershipRole> vecMemRoles = membershipBean.getMembershipRoles();
+        List<org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole> vecMemRoles = membershipBean.getMembershipRoles();
         if ( vecMemRoles != null){
-            for (org.kuali.coeus.common.committee.bo.CommitteeMembershipRole committeeMembershipRole : vecMemRoles) {
+            for (org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole committeeMembershipRole : vecMemRoles) {
                 CommitteeMemberRole committeeMemRole = committeeMember.addNewCommitteeMemberRole();
                 committeeMemRole.setMemberRoleCode(new BigInteger(String.valueOf(committeeMembershipRole.getMembershipRoleCode()))) ;
                 if (committeeMembershipRole.getMembershipRole()!= null){

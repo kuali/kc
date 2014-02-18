@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.committee.print.service.impl;
 
-import org.kuali.coeus.common.committee.print.CommitteeReportType;
-import org.kuali.coeus.common.committee.print.ScheduleTemplatePrintBase;
+import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
+import org.kuali.coeus.common.committee.impl.print.ScheduleTemplatePrintBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.committee.print.*;
 import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;

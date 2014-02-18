@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.onlinereview;
 
-import org.kuali.coeus.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;

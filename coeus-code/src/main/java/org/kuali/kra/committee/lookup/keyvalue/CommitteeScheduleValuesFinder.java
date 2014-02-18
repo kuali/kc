@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
-import org.kuali.coeus.common.committee.lookup.keyvalue.CommitteeScheduleValuesFinderBase;
-import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
+import org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeScheduleValuesFinderBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.kra.committee.service.CommitteeService;
 
 /**

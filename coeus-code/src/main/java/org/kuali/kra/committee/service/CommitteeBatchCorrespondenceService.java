@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.service;
 
-import org.kuali.coeus.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeBatchCorrespondenceServiceBase;
 
 /**
  * 

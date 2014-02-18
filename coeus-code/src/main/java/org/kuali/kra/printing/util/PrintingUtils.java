@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.printing.util;
 
-import org.kuali.coeus.common.committee.print.CommitteeReportType;
+import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.award.printing.AwardPrintType;

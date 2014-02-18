@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.actions.reviewcomments;
 
 
-import org.kuali.coeus.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.protocol.ProtocolDocumentBase;

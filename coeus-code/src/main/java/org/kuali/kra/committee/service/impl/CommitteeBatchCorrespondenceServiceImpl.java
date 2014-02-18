@@ -16,9 +16,9 @@
 package org.kuali.kra.committee.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.common.committee.bo.CommitteeBatchCorrespondenceBase;
-import org.kuali.coeus.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
-import org.kuali.coeus.common.committee.service.impl.CommitteeBatchCorrespondenceServiceImplBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceDetailBase;
+import org.kuali.coeus.common.committee.impl.service.impl.CommitteeBatchCorrespondenceServiceImplBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;

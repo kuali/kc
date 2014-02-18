@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions;
 
-import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerType;
 import org.kuali.rice.krad.service.BusinessObjectService;

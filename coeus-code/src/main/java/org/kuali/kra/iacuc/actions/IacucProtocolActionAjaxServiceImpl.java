@@ -17,7 +17,7 @@ package org.kuali.kra.iacuc.actions;
 
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.protocol.ProtocolBase;

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.service.impl;
 
-import org.kuali.coeus.common.committee.bo.CommitteeBase;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipExpertiseBase;
-import org.kuali.coeus.common.committee.bo.CommitteeResearchAreaBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipExpertiseBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;

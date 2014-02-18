@@ -21,14 +21,14 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.coeus.common.committee.bo.MembershipRole;
-import org.kuali.coeus.common.committee.meeting.CommScheduleActItemBase;
-import org.kuali.coeus.common.committee.meeting.MemberAbsentBean;
-import org.kuali.coeus.common.committee.meeting.MemberPresentBean;
-import org.kuali.coeus.common.committee.meeting.MinuteEntryType;
-import org.kuali.coeus.common.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.coeus.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole;
+import org.kuali.coeus.common.committee.impl.bo.MembershipRole;
+import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
+import org.kuali.coeus.common.committee.impl.meeting.MemberAbsentBean;
+import org.kuali.coeus.common.committee.impl.meeting.MemberPresentBean;
+import org.kuali.coeus.common.committee.impl.meeting.MinuteEntryType;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -238,7 +238,7 @@ public class MeetingServiceTest extends KcIntegrationTestBase {
             @Override
             public void refreshReferenceObject(String referenceObjectName) {
                 if (referenceObjectName.equals("scheduleActItemType")) {
-                    org.kuali.coeus.common.committee.meeting.ScheduleActItemType scheduleActItemType = new org.kuali.coeus.common.committee.meeting.ScheduleActItemType();
+                    org.kuali.coeus.common.committee.impl.meeting.ScheduleActItemType scheduleActItemType = new org.kuali.coeus.common.committee.impl.meeting.ScheduleActItemType();
                     scheduleActItemType.setScheduleActItemTypeCode(this.getScheduleActItemTypeCode());
                 }
 

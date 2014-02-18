@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.print;
 import edu.mit.irb.irbnamespace.CorrespondenceDocument;
 import edu.mit.irb.irbnamespace.CorrespondenceDocument.Correspondence;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;

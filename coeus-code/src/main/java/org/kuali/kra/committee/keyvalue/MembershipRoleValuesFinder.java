@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.committee.keyvalue;
 
-import org.kuali.coeus.common.committee.bo.CommitteeType;
-import org.kuali.coeus.common.committee.keyvalue.MembershipRoleValuesFinderBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeType;
+import org.kuali.coeus.common.committee.impl.keyvalue.MembershipRoleValuesFinderBase;
 
 public class MembershipRoleValuesFinder extends MembershipRoleValuesFinderBase {
 

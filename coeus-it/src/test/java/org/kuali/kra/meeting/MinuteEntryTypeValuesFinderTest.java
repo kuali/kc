@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.meeting;
 
-import org.kuali.coeus.common.committee.meeting.MinuteEntryTypeValuesFinder;
+import org.kuali.coeus.common.committee.impl.meeting.MinuteEntryTypeValuesFinder;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;

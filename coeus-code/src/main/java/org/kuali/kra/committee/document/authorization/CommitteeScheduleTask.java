@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.document.authorization;
 
-import org.kuali.coeus.common.committee.document.authorization.CommitteeScheduleTaskBase;
+import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeScheduleTaskBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.TaskGroupName;

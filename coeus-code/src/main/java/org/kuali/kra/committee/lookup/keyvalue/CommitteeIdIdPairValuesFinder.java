@@ -16,7 +16,7 @@
 package org.kuali.kra.committee.lookup.keyvalue;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.coeus.common.committee.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 

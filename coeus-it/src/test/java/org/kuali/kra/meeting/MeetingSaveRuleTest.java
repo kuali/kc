@@ -17,12 +17,12 @@ package org.kuali.kra.meeting;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.committee.meeting.MeetingSaveEvent;
-import org.kuali.coeus.common.committee.meeting.MeetingSaveRule;
-import org.kuali.coeus.common.committee.meeting.MemberPresentBean;
-import org.kuali.coeus.common.committee.meeting.MeetingEventBase.ErrorType;
-import org.kuali.coeus.common.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.coeus.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingSaveEvent;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingSaveRule;
+import org.kuali.coeus.common.committee.impl.meeting.MemberPresentBean;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingEventBase.ErrorType;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;

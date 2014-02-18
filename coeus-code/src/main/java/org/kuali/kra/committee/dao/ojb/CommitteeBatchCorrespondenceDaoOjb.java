@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.dao.ojb;
 
-import org.kuali.coeus.common.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjbBase;
+import org.kuali.coeus.common.committee.impl.dao.ojb.CommitteeBatchCorrespondenceDaoOjbBase;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.dao.CommitteeBatchCorrespondenceDao;
 

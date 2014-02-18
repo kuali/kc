@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
-import org.kuali.coeus.common.committee.service.CommitteeScheduleAttendanceServiceBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleAttendanceServiceBase;
 import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRuleBase;
 

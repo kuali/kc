@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.coeus.common.committee.meeting.ModifyScheduleAuthorizerBase;
+import org.kuali.coeus.common.committee.impl.meeting.ModifyScheduleAuthorizerBase;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class IacucModifyScheduleAuthorizer extends ModifyScheduleAuthorizerBase {
