@@ -110,7 +110,7 @@
 					 	</c:if>
 					 
 						 <html:select property="document.developmentProposalList[0].s2sOpportunity.revisionCode" tabindex="0" style="${textStyle}" styleId="document.developmentProposalList[0].s2sOpportunity.revisionCode" >                                                   
-                         <c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder', revisionTypeParamMap)}" var="option">
+                         <c:forEach items="${krafn:getOptionList('org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder', revisionTypeParamMap)}" var="option">
 		        		 	 <c:choose>                    	
 	        					<c:when test="${KualiForm.document.developmentProposalList[0].s2sOpportunity.revisionCode == option.key}">
 		            				<option value="${option.key}" selected>${option.value}</option>

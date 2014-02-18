@@ -16,10 +16,8 @@
 package org.kuali.kra.scheduling.util;
 
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt;
 
-import java.text.ParseException;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -27,65 +25,28 @@ public class Time24HrFmtTest {
     
     @Test
     public void testParseTime() throws Exception {
-        
-        try {
-            new Time24HrFmt("10:30");
-        }
-        catch (ParseException e) {
-            assertTrue(false);
-        }
+
+        new Time24HrFmt("10:30");
         assertTrue(true);
     }
     
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testParseTimeWithIncorrectMinutes() throws Exception {
-        try {
             new Time24HrFmt("10:79");
-        }
-        catch (ParseException e) {
-            assertEquals("Time format exception, expects mm as 0-59", e.getMessage());
-            assertTrue(true);
-            return;
-        }
-        assertTrue(false);
     }
-    
-    @Test
+
+    @Test(expected = IllegalArgumentException.class)
     public void testParseTimeWithIncorrectHour() throws Exception {
-        try {
-            new Time24HrFmt("24:0");   
-        }
-        catch (ParseException e) {
-            assertEquals("Time format exception, expects hh as 0-23", e.getMessage());
-            assertTrue(true);
-            return;
-        }
-        assertTrue(false);
+            new Time24HrFmt("24:0");
     }
-    
-    @Test
+
+    @Test(expected = IllegalArgumentException.class)
     public void testParseTimeWithNoMinutes() throws Exception {
-        try {
             new Time24HrFmt("0");
-        }
-        catch (ParseException e) {
-            assertEquals("Time format exception, expects hh:mm", e.getMessage());
-            assertTrue(true);
-            return;
-        }
-        assertTrue(false);
     }
-    
-    @Test
+
+    @Test(expected = IllegalArgumentException.class)
     public void testParseTimeWithNonInteger() throws Exception {
-        try {
             new Time24HrFmt("10:1d");
-        }
-        catch (ParseException e) {
-            assertEquals("Time format exception, expects hh as 0-23 & mm as 0-59", e.getMessage());
-            assertTrue(true);
-            return;
-        }
-        assertTrue(false);
     }
 }

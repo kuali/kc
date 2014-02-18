@@ -38,7 +38,7 @@
         <property name="concurrent" value="false" />
     </bean>
 
-    <bean id="kcPessimisticLockingCronTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">
+    <bean id="kcPessimisticLockingCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
         <property name="jobDetail" ref="kcPessimisticLockingJobDetail" />
         <property name="parameterService" ref="parameterService" />
         <property name="dateTimeService" ref="dateTimeService" />

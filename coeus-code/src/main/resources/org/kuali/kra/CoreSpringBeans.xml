@@ -1004,10 +1004,6 @@
         <property name="serviceName" value="rice.kew.workflowDocumentService" />
     </bean>
     
-    <bean id="keyValueFinderService" class="org.kuali.kra.lookup.keyvalue.KeyValueFinderServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
     <bean id="kimRoleDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kimRoleDao" />
     </bean>
@@ -1174,6 +1170,10 @@
 
     <bean id="systemAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="systemAuthorizationService" />
+    </bean>
+
+    <bean id="kcAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcAuthorizationService" />
     </bean>
 
     <bean id="krmsDistributedCacheManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -1369,49 +1369,49 @@
     	<property name="finders">
     		<map>
     			<entry key="KC-PD:Investigators">
-    				<bean class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+    				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
     					<property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" />
     					<property name="keyAttributeName" value="proposalPersonRoleId"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>
     			</entry>
     			<entry key="KC-WKFLW:Unit Administrator">
-    				<bean class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+    				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
     					<property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType" />
     					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>
     			</entry>  
     			<entry key="KC-PD:All Unit Administrators">
-    				<bean class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+    				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
     					<property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType" />
     					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>
     			</entry>
     			<entry key="KC-IP:Investigators">
-					<bean class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+					<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
     					<property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" />
     					<property name="keyAttributeName" value="proposalPersonRoleId"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>    			
     			</entry>
     			<entry key="KC-IP:All Unit Administrators">
-    				<bean class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+    				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
     					<property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType" />
     					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>    				
     			</entry>
     			<entry key="KC-AWARD:Investigators">
-					<bean class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+					<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
     					<property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" />
     					<property name="keyAttributeName" value="proposalPersonRoleId"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>    			
     			</entry>
     			<entry key="KC-AWARD:All Unit Administrators">
-    				<bean class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+    				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
     					<property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType" />
     					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
     					<property name="labelAttributeName" value="description"/>
@@ -1550,8 +1550,6 @@
 	<bean id="rolodexLookupableHelperService" class="org.kuali.kra.lookup.RolodexLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
 	      scope="prototype">
   	</bean>
-    
-    <bean id="scheduleService" class="org.kuali.kra.scheduling.service.impl.ScheduleServiceImpl" />
     
     <bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -1702,12 +1700,8 @@
 
     <!-- Authorization Services -->
 
-    <bean id="kcAuthorizationService" class="org.kuali.kra.service.impl.KcAuthorizationServiceImpl">
-        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="kcPersonService" ref="kcPersonService" />
-        <property name="roleManagementService" ref="roleService" />
-        <property name="identityManagementService" ref="identityService" />
-        <property name="permissionService" ref="permissionService" />
+    <bean id="protocolAuthorizationService" class="org.kuali.kra.protocol.ProtocolAuthorizationServiceImpl">
+        <property name="kcAuthorizationService" ref="kcAuthorizationService" />
     </bean>
 
     <!-- Application Task Authorizers -->

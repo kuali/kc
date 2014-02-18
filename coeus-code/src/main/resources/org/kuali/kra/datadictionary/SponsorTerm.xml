@@ -83,7 +83,7 @@
 			<bean parent="AlphaNumericValidationPattern"/>
 		</property>
 	    <property name="control">
-	      <bean p:businessObjectClass="org.kuali.kra.bo.SponsorTermType" p:includeBlankRow="false" p:includeKeyInLabel="false" p:keyAttribute="sponsorTermTypeCode" p:labelAttribute="description" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" parent="SelectControlDefinition"/>
+	      <bean p:businessObjectClass="org.kuali.kra.bo.SponsorTermType" p:includeBlankRow="false" p:includeKeyInLabel="false" p:keyAttribute="sponsorTermTypeCode" p:labelAttribute="description" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" parent="SelectControlDefinition"/>
 	    </property>
 		<property name="summary" value="Sponsor Term Type Code"/>
 		<property name="description" value="Sponsor Term Type Code"/>

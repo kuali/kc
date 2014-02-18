@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy;
 
-public class ProposalHierarchyException extends Exception {
+public class ProposalHierarchyException extends RuntimeException {
 
     private static final long serialVersionUID = -8511067467413187019L;
 

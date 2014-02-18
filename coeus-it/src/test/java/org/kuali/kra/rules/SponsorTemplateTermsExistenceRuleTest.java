@@ -23,7 +23,6 @@ import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateTerm;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.bo.SponsorTermType;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -32,6 +31,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
@@ -73,13 +73,13 @@ public class SponsorTemplateTermsExistenceRuleTest extends KcIntegrationTestBase
         String aCode;
         for(SponsorTermType aType : types) {
             aCode = aType.getSponsorTermTypeCode();
-            map = ServiceHelper.getInstance().buildCriteriaMap("sponsorTermTypeCode", aCode);
+            map = Collections.singletonMap("sponsorTermTypeCode", aCode);
             terms = businessObjectService.findMatching(SponsorTerm.class, map);
             
             if(!terms.isEmpty()) {
                 SponsorTerm aSponsorTerm = terms.iterator().next();
                 Long aSponsorTermId = aSponsorTerm.getSponsorTermId();
-                map = ServiceHelper.getInstance().buildCriteriaMap("sponsorTermId", aSponsorTermId.toString());
+                map = Collections.singletonMap("sponsorTermId", aSponsorTermId.toString());
                 Collection<AwardTemplateTerm> templateTerms = (Collection<AwardTemplateTerm>)businessObjectService.findMatching(AwardTemplateTerm.class, map);
                 if(!templateTerms.isEmpty()) {
                     awardTemplate.getTemplateTerms().add(templateTerms.iterator().next());

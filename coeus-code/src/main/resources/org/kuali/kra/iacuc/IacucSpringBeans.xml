@@ -503,8 +503,12 @@
     <bean id="iacucProtocolCorrespondenceAuthorizationService" class="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceAuthorizationServiceImpl">
     	<property name="taskAuthorizationService" ref="taskAuthorizationService" />
     </bean>
-    
-    
+
+    <bean id="scheduleService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="scheduleService" />
+    </bean>
+
+
     <bean id="iacucProtocolAssignCmtService" class="org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtServiceImpl">
     	<property name="businessObjectService">
             <ref bean="businessObjectService" />
@@ -798,6 +802,7 @@
 
 
     <bean id="iacucProtocolCopyService" class="org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyServiceImpl">
+        <property name="kcPersonService" ref="kcPersonService" />
         <property name="documentService" ref="documentService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
@@ -1114,6 +1119,7 @@
 
     <bean id="iacucProtocolProposalDevelopmentProtocolDocumentService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl">
         <property name="documentService" ref="documentService" />
+        <property name="kcPersonService" ref="kcPersonService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="iacucProtocolNumberService" ref="iacucProtocolNumberService" />

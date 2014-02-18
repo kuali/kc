@@ -19,11 +19,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetParentDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.TimeFormatter;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
@@ -340,9 +340,9 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
              }
          }
          if (proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineTime() != null) {
-             TimeFormatter formatter = new TimeFormatter();
+
             
-             String deadLineTime = (String) formatter.convertToObject(proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineTime());
+             String deadLineTime = DateUtils.formatFrom12Or24Str(proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineTime());
              if (!deadLineTime.equalsIgnoreCase(Constants.INVALID_TIME)) {
                  proposalDevelopmentDocument.getDevelopmentProposal().setDeadlineTime(deadLineTime);
              } else {

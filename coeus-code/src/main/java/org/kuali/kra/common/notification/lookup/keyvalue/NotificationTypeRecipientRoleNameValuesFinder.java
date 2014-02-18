@@ -16,12 +16,12 @@
 package org.kuali.kra.common.notification.lookup.keyvalue;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
+import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
-import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KeyValuesService;

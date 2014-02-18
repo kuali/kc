@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.species.exception;
 
+import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
+import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
-import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
-import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;

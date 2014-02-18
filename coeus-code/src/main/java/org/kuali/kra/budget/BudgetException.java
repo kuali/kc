@@ -18,6 +18,6 @@ package org.kuali.kra.budget;
 /**
  * This class...
  */
-public class BudgetException extends Exception {
+public class BudgetException extends RuntimeException {
 
 }

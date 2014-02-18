@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.common.specialreview.lookup.keyvalue;
 
+import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
+import org.kuali.coeus.sys.framework.keyvalue.SortedValuesFinder;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
-import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
-import org.kuali.kra.lookup.keyvalue.SortedValuesFinder;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
