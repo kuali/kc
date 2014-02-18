@@ -16,8 +16,8 @@
 package org.kuali.kra.institutionalproposal.specialreview;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.kuali.coeus.common.specialreview.impl.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.kra.bo.FundingSourceType;
-import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;

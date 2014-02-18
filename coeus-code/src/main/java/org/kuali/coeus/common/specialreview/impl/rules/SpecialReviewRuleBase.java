@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.specialreview.rules;
+package org.kuali.coeus.common.specialreview.impl.rules;
 
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.coeus.common.specialreview.impl.rule.event.AddSpecialReviewEvent;
+import org.kuali.coeus.common.specialreview.impl.rule.event.SaveSpecialReviewEvent;
+import org.kuali.coeus.common.specialreview.impl.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
-import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
-import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
-import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
-import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.infrastructure.Constants;

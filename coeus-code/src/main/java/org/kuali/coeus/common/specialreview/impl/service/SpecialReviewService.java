@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.specialreview.service;
+package org.kuali.coeus.common.specialreview.impl.service;
 
 import org.kuali.rice.kew.api.exception.WorkflowException;
 

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.specialreview.rule.event;
+package org.kuali.coeus.common.specialreview.impl.rule.event;
 
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.coeus.common.specialreview.impl.rule.AddSpecialReviewRule;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
-import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
-import org.kuali.kra.common.specialreview.rule.AddSpecialReviewRule;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;

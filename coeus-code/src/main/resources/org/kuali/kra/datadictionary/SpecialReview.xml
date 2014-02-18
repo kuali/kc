@@ -23,7 +23,7 @@
 
     <bean id="SpecialReview" parent="SpecialReview-parentBean" />
 	<bean id="SpecialReview-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.common.specialreview.bo.SpecialReview" />
+		<property name="businessObjectClass" value="org.kuali.coeus.common.specialreview.impl.bo.SpecialReview" />
 		<property name="objectLabel" value="Special Review" />
 		<property name="inquiryDefinition" >
 			<ref bean="SpecialReview-inquiryDefinition" />
@@ -103,7 +103,7 @@
 	    <property name="required" value="true" />
 	    <property name="control" >
             <bean parent="SelectControlDefinition"
-	              p:valuesFinderClass="org.kuali.kra.common.specialreview.lookup.keyvalue.SpecialReviewApprovalTypeValuesFinder"
+	              p:valuesFinderClass="org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewApprovalTypeValuesFinder"
 	              p:includeKeyInLabel="false" />
 	    </property>
 	    <property name="summary" value="Approval Status Type Code" />

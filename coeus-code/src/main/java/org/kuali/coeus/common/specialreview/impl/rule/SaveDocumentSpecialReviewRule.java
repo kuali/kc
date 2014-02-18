@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.specialreview.rule;
+package org.kuali.coeus.common.specialreview.impl.rule;
 
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
-import org.kuali.kra.common.specialreview.rule.event.SaveDocumentSpecialReviewEvent;
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
+import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface SaveDocumentSpecialReviewRule<T extends SpecialReview> extends BusinessRule {
