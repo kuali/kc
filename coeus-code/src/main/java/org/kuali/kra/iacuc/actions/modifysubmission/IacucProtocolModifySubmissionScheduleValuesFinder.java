@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.modifysubmission;
 
+import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;

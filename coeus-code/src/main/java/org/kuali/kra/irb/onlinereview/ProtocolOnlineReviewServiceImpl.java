@@ -18,7 +18,7 @@ package org.kuali.kra.irb.onlinereview;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.coeus.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;

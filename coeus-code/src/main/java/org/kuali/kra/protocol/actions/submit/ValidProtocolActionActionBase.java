@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
+import org.kuali.coeus.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 
 /**

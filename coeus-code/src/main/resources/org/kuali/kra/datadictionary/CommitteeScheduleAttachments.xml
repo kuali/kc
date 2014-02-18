@@ -57,7 +57,7 @@
 			</property>
         	<property name="control" >
         		  <bean parent="SelectControlDefinition"
-            		p:valuesFinderClass="org.kuali.kra.common.committee.meeting.AttachmentsTypeValuesFinder"
+            		p:valuesFinderClass="org.kuali.coeus.common.committee.meeting.AttachmentsTypeValuesFinder"
             		p:includeKeyInLabel="false" 
             		p:script="updateProtocolContingencyDiv(this)"/>
     		</property>

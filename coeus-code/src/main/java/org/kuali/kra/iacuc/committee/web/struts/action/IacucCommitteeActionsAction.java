@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.action;
 
+import org.kuali.coeus.common.committee.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.dao.CommitteeBatchCorrespondenceDao;
+import org.kuali.coeus.common.committee.document.authorization.CommitteeTaskBase;
+import org.kuali.coeus.common.committee.print.service.CommitteePrintingServiceBase;
+import org.kuali.coeus.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
+import org.kuali.coeus.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
+import org.kuali.coeus.common.committee.web.struts.action.CommitteeActionsActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
-import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
-import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
-import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
-import org.kuali.kra.common.committee.web.struts.action.CommitteeActionsActionBase;
 import org.kuali.kra.common.printing.CorrespondencePrintingService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.dao.IacucCommitteeBatchCorrespondenceDao;

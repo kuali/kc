@@ -16,8 +16,8 @@
 package org.kuali.kra.committee.web.struts.form;
 
 
-import org.kuali.kra.common.committee.web.struts.form.CommitteeFormBase;
-import org.kuali.kra.common.committee.web.struts.form.CommitteeHelperBase;
+import org.kuali.coeus.common.committee.web.struts.form.CommitteeFormBase;
+import org.kuali.coeus.common.committee.web.struts.form.CommitteeHelperBase;
 
 /**
  * The Committee Form contains the fields necessary for all POST

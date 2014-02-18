@@ -16,9 +16,9 @@
 package org.kuali.kra.meeting;
 
 import org.junit.Test;
+import org.kuali.coeus.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;

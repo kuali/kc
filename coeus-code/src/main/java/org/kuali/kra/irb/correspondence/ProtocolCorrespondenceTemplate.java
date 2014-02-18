@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 
 public class ProtocolCorrespondenceTemplate extends ProtocolCorrespondenceTemplateBase {

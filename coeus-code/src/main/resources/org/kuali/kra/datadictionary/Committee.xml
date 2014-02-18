@@ -340,7 +340,7 @@
 	    <property name="shortLabel" value="Role Description" />
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.common.committee.bo.MembershipRole"
+	            p:businessObjectClass="org.kuali.coeus.common.committee.bo.MembershipRole"
 	            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
             	p:includeBlankRow="false"

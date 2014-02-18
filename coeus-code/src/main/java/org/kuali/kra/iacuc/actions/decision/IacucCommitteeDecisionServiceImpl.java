@@ -16,8 +16,8 @@
 package org.kuali.kra.iacuc.actions.decision;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
+import org.kuali.coeus.common.committee.meeting.ProtocolVoteAbstaineeBase;
+import org.kuali.coeus.common.committee.meeting.ProtocolVoteRecusedBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;

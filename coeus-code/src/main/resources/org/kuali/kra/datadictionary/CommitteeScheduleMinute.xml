@@ -127,7 +127,7 @@
 		</property>
     	<property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.common.committee.meeting.MinuteEntryTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.common.committee.meeting.MinuteEntryTypeValuesFinder"
             p:includeKeyInLabel="false" 
             p:script="updateProtocolContingencyDiv(this)" />
     	</property>

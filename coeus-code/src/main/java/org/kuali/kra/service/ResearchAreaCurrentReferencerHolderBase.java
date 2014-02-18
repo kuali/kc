@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.protocol.ProtocolBase;
 
 /**

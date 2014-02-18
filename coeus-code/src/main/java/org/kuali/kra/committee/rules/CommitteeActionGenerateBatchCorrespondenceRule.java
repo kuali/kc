@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.rules;
 
-import org.kuali.kra.common.committee.rules.CommitteeActionGenerateBatchCorrespondenceRuleBase;
+import org.kuali.coeus.common.committee.rules.CommitteeActionGenerateBatchCorrespondenceRuleBase;
 import org.kuali.kra.irb.correspondence.BatchCorrespondence;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;

@@ -16,12 +16,12 @@
 package org.kuali.kra.committee.rules;
 
 import org.junit.Test;
+import org.kuali.coeus.common.committee.web.struts.form.schedule.MonthlyScheduleDetails;
+import org.kuali.coeus.common.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.coeus.common.committee.web.struts.form.schedule.StyleKey;
+import org.kuali.coeus.common.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDayEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
-import org.kuali.kra.common.committee.web.struts.form.schedule.MonthlyScheduleDetails;
-import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
-import org.kuali.kra.common.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 

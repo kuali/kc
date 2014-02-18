@@ -198,7 +198,7 @@
 		<property name="required" value="true" />
 		<property name="control" >
             <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.common.committee.bo.CommitteeMembershipType"
+                p:businessObjectClass="org.kuali.coeus.common.committee.bo.CommitteeMembershipType"
                 p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
                 p:includeKeyInLabel="false"
             	p:includeBlankRow="false"

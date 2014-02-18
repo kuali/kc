@@ -7,7 +7,7 @@
   <bean id="CommitteeScheduleAttributeReferenceDummy" parent="CommitteeScheduleAttributeReferenceDummy-parentBean" />
 
   <bean id="CommitteeScheduleAttributeReferenceDummy-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.common.committee.bo.CommitteeScheduleAttributeReferenceDummy" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.committee.bo.CommitteeScheduleAttributeReferenceDummy" />
 		<property name="objectLabel" value="Committee Schedule Attribute Reference Dummy" />
     <property name="attributes" >
       <list>
@@ -91,7 +91,7 @@
   </bean>
 	
 	<!-- Validation Pattern -->
-	<bean id="Postive2DigitFieldLevelValidationPattern" class="org.kuali.kra.common.committee.core.datadictionary.validation.Postive2DigitFieldLevelValidationPattern"/>
+	<bean id="Postive2DigitFieldLevelValidationPattern" class="org.kuali.coeus.common.committee.core.datadictionary.validation.Postive2DigitFieldLevelValidationPattern"/>
 	
 	<bean id="CommitteeScheduleAttributeReferenceDummy-monthsWeek" parent="CommitteeScheduleAttributeReferenceDummy-monthsWeek-parentBean" />
 	<bean id="CommitteeScheduleAttributeReferenceDummy-monthsWeek-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -105,7 +105,7 @@
 		</property>
 		<property name="control" >
             <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.common.committee.keyvalue.MonthsWeek" 
+                p:valuesFinderClass="org.kuali.coeus.common.committee.keyvalue.MonthsWeek" 
                 p:includeKeyInLabel="false" />
         </property>		
 		<property name="summary" value="Month's Week" />
@@ -124,7 +124,7 @@
 		</property>
 		<property name="control" >
             <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.common.committee.keyvalue.WeekDay" 
+                p:valuesFinderClass="org.kuali.coeus.common.committee.keyvalue.WeekDay" 
                 p:includeKeyInLabel="false" />
         </property>		
 		<property name="summary" value="Week Day" />
@@ -143,7 +143,7 @@
 		</property>
 		<property name="control" >
             <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.common.committee.keyvalue.Month" 
+                p:valuesFinderClass="org.kuali.coeus.common.committee.keyvalue.Month" 
                 p:includeKeyInLabel="false" />
         </property>		
 		<property name="summary" value="Month" />

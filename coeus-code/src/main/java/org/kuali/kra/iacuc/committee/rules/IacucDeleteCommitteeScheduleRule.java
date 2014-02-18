@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.committee.rules;
 
-import org.kuali.kra.common.committee.rules.DeleteCommitteeScheduleRuleBase;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.coeus.common.committee.rules.DeleteCommitteeScheduleRuleBase;
+import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 
 public class IacucDeleteCommitteeScheduleRule extends DeleteCommitteeScheduleRuleBase {

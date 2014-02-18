@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.meeting;
 
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
-import org.kuali.kra.common.committee.meeting.OtherPresentBeanBase;
+import org.kuali.coeus.common.committee.meeting.CommitteeScheduleAttendanceBase;
+import org.kuali.coeus.common.committee.meeting.OtherPresentBeanBase;
 
 /**
  * 

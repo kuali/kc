@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
+import org.kuali.coeus.common.committee.meeting.ProtocolVoteAbstaineeBase;
 
 public class IacucProtocolVoteAbstainee extends ProtocolVoteAbstaineeBase {
 

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.committee.service;
 
+import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 
 /**
  * The Committee Service provides a set of methods for

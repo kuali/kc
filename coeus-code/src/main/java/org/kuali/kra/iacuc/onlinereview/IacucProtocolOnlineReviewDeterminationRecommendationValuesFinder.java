@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.onlinereview;
 
 import org.drools.core.util.StringUtils;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;

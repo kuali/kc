@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.ProtocolContingencyBase;
+import org.kuali.coeus.common.committee.meeting.ProtocolContingencyBase;
 
 public class IacucProtocolContingency extends ProtocolContingencyBase {
     private static final long serialVersionUID = 9043529163603762324L;

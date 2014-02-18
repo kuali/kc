@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.committee.rules;
 
+import org.kuali.coeus.common.committee.rules.DeleteCommitteeScheduleRuleBase;
+import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.common.committee.rules.DeleteCommitteeScheduleRuleBase;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 
 /**
  * 

@@ -17,7 +17,7 @@ package org.kuali.kra.committee.keyvalue;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kra.common.committee.keyvalue.MonthsWeek;
+import org.kuali.coeus.common.committee.keyvalue.MonthsWeek;
 
 import java.util.Map;
 
