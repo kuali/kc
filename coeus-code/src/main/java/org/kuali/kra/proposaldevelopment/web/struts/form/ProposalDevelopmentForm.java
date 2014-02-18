@@ -829,11 +829,11 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     /**
      * Get the list of all of the Proposal roles (filter out unassigned).
-     * @return the list of proposal roles of type org.kuali.kra.common.permissions.web.bean.Role
+     * @return the list of proposal roles of type org.kuali.coeus.common.permissions.impl.web.bean.Role
      */
-    public List<org.kuali.kra.common.permissions.web.bean.Role> getProposalRoles() {
-        List<org.kuali.kra.common.permissions.web.bean.Role> returnRoleBeans = 
-            new ArrayList<org.kuali.kra.common.permissions.web.bean.Role>();
+    public List<org.kuali.coeus.common.permissions.impl.web.bean.Role> getProposalRoles() {
+        List<org.kuali.coeus.common.permissions.impl.web.bean.Role> returnRoleBeans = 
+            new ArrayList<org.kuali.coeus.common.permissions.impl.web.bean.Role>();
         
         Collection<Role> roles = getKimProposalRoles();
         
@@ -848,7 +848,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                 queryBuilder.setPredicates(PredicateFactory.and(predicates.toArray(new Predicate[] {})));
                 permissionResults = getKimPermissionService().findPermissions(queryBuilder.build());
                 if (permissionResults != null && permissionResults.getResults().size() > 0) {
-                    returnRoleBeans.add(new org.kuali.kra.common.permissions.web.bean.Role(
+                    returnRoleBeans.add(new org.kuali.coeus.common.permissions.impl.web.bean.Role(
                     		role.getName(), role.getDescription(),permissionResults.getResults()));
                 }
                 predicates.clear();

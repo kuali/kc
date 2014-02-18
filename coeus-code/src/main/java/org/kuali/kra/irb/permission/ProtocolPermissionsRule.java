@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.permission;
 
-import org.kuali.kra.common.permissions.rules.PermissionsRuleBase;
+import org.kuali.coeus.common.permissions.impl.rules.PermissionsRuleBase;
 import org.kuali.kra.infrastructure.RoleConstants;
 
 /**
@@ -27,7 +27,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 public class ProtocolPermissionsRule extends PermissionsRuleBase {
     
     /**
-     * @see org.kuali.kra.common.permissions.rules.PermissionsRuleBase#getAdministratorRoleName()
+     * @see org.kuali.coeus.common.permissions.impl.rules.PermissionsRuleBase#getAdministratorRoleName()
      */
     @Override
     protected String getAdministratorRoleName() {

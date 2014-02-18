@@ -17,13 +17,13 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
+import org.kuali.coeus.common.permissions.impl.web.bean.User;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.common.permissions.bo.PermissionsUser;
-import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.actions.decision.*;
 import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
