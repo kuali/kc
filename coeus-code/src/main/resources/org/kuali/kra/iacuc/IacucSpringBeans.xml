@@ -798,6 +798,7 @@
 
 
     <bean id="iacucProtocolCopyService" class="org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyServiceImpl">
+        <property name="kcPersonService" ref="kcPersonService" />
         <property name="documentService" ref="documentService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
@@ -1114,6 +1115,7 @@
 
     <bean id="iacucProtocolProposalDevelopmentProtocolDocumentService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl">
         <property name="documentService" ref="documentService" />
+        <property name="kcPersonService" ref="kcPersonService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="iacucProtocolNumberService" ref="iacucProtocolNumberService" />

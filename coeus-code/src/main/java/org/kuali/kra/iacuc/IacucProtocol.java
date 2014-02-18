@@ -19,7 +19,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
 import org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService;
@@ -438,7 +438,7 @@ public class IacucProtocol extends ProtocolBase {
     
     public String getDocumentKey() {
         // TODO need to change this to IACUC PROTOCOL KEY!!!!
-        return Permissionable.PROTOCOL_KEY;
+        return PermissionableKeys.PROTOCOL_KEY;
     }
 
     public ProtocolSummary getProtocolSummary() {

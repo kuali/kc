@@ -16,10 +16,11 @@
 package org.kuali.kra.negotiations.bo;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
@@ -343,7 +344,7 @@ public class Negotiation extends KcPersistableBusinessObjectBase implements Perm
 
     @Override
     public String getDocumentKey() {
-        return Permissionable.NEGOTIATION_KEY;
+        return PermissionableKeys.NEGOTIATION_KEY;
     }
 
     @Override

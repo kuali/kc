@@ -17,6 +17,7 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
@@ -26,7 +27,6 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -1537,13 +1537,13 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentKey()
      */
     public abstract String getDocumentKey();
 
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentNumberForPermission()
      */
     public String getDocumentNumberForPermission() {
         return protocolNumber;
@@ -1551,7 +1551,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
 
     /**
      * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
+     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getRoleNames()
      */
     public abstract List<String> getRoleNames();
     
