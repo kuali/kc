@@ -108,7 +108,7 @@
                 <html:select property="batchCorrespondence.finalActionTypeCode">
                     <c:forEach items="${krafn:getOptionList('org.kuali.kra.irb.actions.ProtocolFinalActionTypeValuesFinder', paramMap)}" var="option">   
 	                    <c:choose>                      
-	                        <c:when test="${option.key eq 'no action'}">
+	                        <c:when test="${KualiForm.batchCorrespondence.finalActionTypeCode eq option.key}">
 	                            <option value="${option.key}" selected="selected">${option.value}</option>
 	                        </c:when>
 	                        <c:otherwise>                               
