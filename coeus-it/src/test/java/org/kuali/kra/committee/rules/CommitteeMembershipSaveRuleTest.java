@@ -18,7 +18,7 @@ package org.kuali.kra.committee.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipRole;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.document.CommitteeDocument;

@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.actions;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.service.CommitteeService;

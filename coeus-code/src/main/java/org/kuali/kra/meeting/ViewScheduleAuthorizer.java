@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.meeting;
 
-import org.kuali.coeus.common.committee.meeting.ViewScheduleAuthorizerBase;
+import org.kuali.coeus.common.committee.impl.meeting.ViewScheduleAuthorizerBase;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class ViewScheduleAuthorizer extends ViewScheduleAuthorizerBase {

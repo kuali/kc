@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.print;
 
-import org.kuali.coeus.common.committee.print.ScheduleTemplatePrintBase;
+import org.kuali.coeus.common.committee.impl.print.ScheduleTemplatePrintBase;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateService;
 
 public class IacucScheduleTemplatePrint extends ScheduleTemplatePrintBase {

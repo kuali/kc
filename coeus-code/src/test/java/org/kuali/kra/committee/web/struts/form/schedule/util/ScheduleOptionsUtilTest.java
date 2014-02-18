@@ -16,7 +16,7 @@
 package org.kuali.kra.committee.web.struts.form.schedule.util;
 
 import org.junit.Test;
-import org.kuali.coeus.common.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.util.ScheduleOptionsUtil;
 import org.kuali.coeus.sys.framework.scheduling.util.CronSpecialChars;
 
 import static org.junit.Assert.assertEquals;

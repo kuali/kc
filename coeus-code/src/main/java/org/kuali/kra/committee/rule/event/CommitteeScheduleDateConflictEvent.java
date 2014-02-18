@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.rule.event;
 
-import org.kuali.coeus.common.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.ScheduleData;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;

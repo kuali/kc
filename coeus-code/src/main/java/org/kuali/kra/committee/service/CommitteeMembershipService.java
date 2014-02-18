@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.service;
 
-import org.kuali.coeus.common.committee.service.CommitteeMembershipServiceBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase;
 import org.kuali.kra.committee.bo.Committee;
 
 public interface CommitteeMembershipService extends CommitteeMembershipServiceBase<Committee> {

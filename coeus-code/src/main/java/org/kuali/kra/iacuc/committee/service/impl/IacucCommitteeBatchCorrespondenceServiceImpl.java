@@ -16,10 +16,10 @@
 package org.kuali.kra.iacuc.committee.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.common.committee.bo.CommitteeBatchCorrespondenceBase;
-import org.kuali.coeus.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
-import org.kuali.coeus.common.committee.print.service.CommitteePrintingServiceBase;
-import org.kuali.coeus.common.committee.service.impl.CommitteeBatchCorrespondenceServiceImplBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceDetailBase;
+import org.kuali.coeus.common.committee.impl.print.service.CommitteePrintingServiceBase;
+import org.kuali.coeus.common.committee.impl.service.impl.CommitteeBatchCorrespondenceServiceImplBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;

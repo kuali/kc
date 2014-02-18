@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
-import org.kuali.coeus.common.committee.bo.CommitteeBase;
-import org.kuali.coeus.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.coeus.common.committee.document.authorization.CommitteeTaskBase;
-import org.kuali.coeus.common.committee.rule.event.DeleteCommitteeScheduleEventBase;
-import org.kuali.coeus.common.committee.service.CommitteeScheduleServiceBase;
-import org.kuali.coeus.common.committee.web.struts.action.CommitteeScheduleActionBase;
-import org.kuali.coeus.common.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;
+import org.kuali.coeus.common.committee.impl.rule.event.DeleteCommitteeScheduleEventBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
+import org.kuali.coeus.common.committee.impl.web.struts.action.CommitteeScheduleActionBase;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.rule.event.DeleteCommitteeScheduleEvent;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
@@ -45,7 +45,7 @@ public class CommitteeScheduleAction extends CommitteeScheduleActionBase {
 
     @Override
     protected DeleteCommitteeScheduleEventBase getNewDeleteCommitteeScheduleEventInstanceHook(String errorPathPrefix,
-            Document document, ScheduleData scheduleData, List<CommitteeScheduleBase> committeeSchedules, org.kuali.coeus.common.committee.rule.event.CommitteeScheduleEventBase.ErrorType type) {
+            Document document, ScheduleData scheduleData, List<CommitteeScheduleBase> committeeSchedules, org.kuali.coeus.common.committee.impl.rule.event.CommitteeScheduleEventBase.ErrorType type) {
         
         return new DeleteCommitteeScheduleEvent(errorPathPrefix, document, scheduleData, committeeSchedules, type);
     }

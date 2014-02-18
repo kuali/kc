@@ -680,7 +680,7 @@
         <reference-descriptor name="submissionStatus" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="submissionStatusCode"/>
         </reference-descriptor>
-        <reference-descriptor name="committeeDecisionMotionType" class-ref="org.kuali.coeus.common.committee.bo.CommitteeDecisionMotionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="committeeDecisionMotionType" class-ref="org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="committeeDecisionMotionTypeCode" />
         </reference-descriptor>
     	<collection-descriptor name="protocolOnlineReviews" element-class-ref="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1624,7 +1624,7 @@
         <reference-descriptor name="followupProtocolActionType" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolActionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="followupActionCode"/>
         </reference-descriptor>
-        <reference-descriptor name="committeeDecisionMotionType" class-ref="org.kuali.coeus.common.committee.bo.CommitteeDecisionMotionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="committeeDecisionMotionType" class-ref="org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="motionTypeCode"/>
         </reference-descriptor>
     </class-descriptor> 

@@ -17,7 +17,7 @@ package org.kuali.kra.meeting;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.coeus.common.committee.meeting.AlternateForValuesFinder;
+import org.kuali.coeus.common.committee.impl.meeting.AlternateForValuesFinder;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.util.List;

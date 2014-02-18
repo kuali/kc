@@ -21,7 +21,7 @@
 
     <bean id="CommitteeMembershipRole" parent="CommitteeMembershipRole-parentBean" />
     <bean id="CommitteeMembershipRole-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.bo.CommitteeMembershipRole" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole" />
 		<property name="objectLabel" value="Committee Membership Role" />
         <property name="inquiryDefinition" >
             <ref bean="CommitteeMembershipRole-inquiryDefinition" />
@@ -88,7 +88,7 @@
         <property name="required" value="true" />
         <property name="control" >
             <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.coeus.common.committee.bo.MembershipRole"
+                p:businessObjectClass="org.kuali.coeus.common.committee.impl.bo.MembershipRole"
                 p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
                 p:includeKeyInLabel="false"
             	p:includeBlankRow="false"

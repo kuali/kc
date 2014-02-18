@@ -17,7 +17,7 @@ package org.kuali.kra.committee.keyvalue;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.coeus.common.committee.keyvalue.WeekDay;
+import org.kuali.coeus.common.committee.impl.keyvalue.WeekDay;
 
 import java.util.Map;
 

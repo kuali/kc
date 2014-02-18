@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.coeus.common.committee.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 
@@ -33,7 +33,7 @@ public class IacucCommitteeIdIdPairValuesFinder extends IacucCommitteeIdValuesFi
     /**
      * This override will return the active committee <id, id> pairs list as key-labels. 
      * 
-     * @see org.kuali.coeus.common.committee.lookup.keyvalue.CommitteeIdValuesFinderBase#getKeyValues()
+     * @see org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeIdValuesFinderBase#getKeyValues()
      */
     @Override
     public List<KeyValue> getKeyValues() {        

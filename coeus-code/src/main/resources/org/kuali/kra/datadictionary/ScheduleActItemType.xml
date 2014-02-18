@@ -21,7 +21,7 @@
 
     <bean id="ScheduleActItemType" parent="ScheduleActItemType-parentBean" />
     <bean id="ScheduleActItemType-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.meeting.ScheduleActItemType" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.impl.meeting.ScheduleActItemType" />
 		<property name="objectLabel" value="Schedule Act Item Type" />
         <property name="inquiryDefinition" >
             <ref bean="ScheduleActItemType-inquiryDefinition" />

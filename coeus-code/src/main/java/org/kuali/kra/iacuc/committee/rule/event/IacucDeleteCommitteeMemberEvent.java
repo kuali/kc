@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.committee.rule.event;
 
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.coeus.common.committee.document.CommitteeDocumentBase;
-import org.kuali.coeus.common.committee.rule.event.DeleteCommitteeMemberEventBase;
-import org.kuali.coeus.common.committee.rules.DeleteCommitteeMemberRuleBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
+import org.kuali.coeus.common.committee.impl.rule.event.DeleteCommitteeMemberEventBase;
+import org.kuali.coeus.common.committee.impl.rules.DeleteCommitteeMemberRuleBase;
 import org.kuali.kra.iacuc.committee.rules.IacucDeleteCommitteeMemberRule;
 import org.kuali.rice.krad.document.Document;
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.meeting;
 
-import org.kuali.coeus.common.committee.meeting.CommonMeetingService;
+import org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 
 /**

@@ -16,15 +16,15 @@
 package org.kuali.kra.committee.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.common.committee.bo.CommitteeBase;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipExpertiseBase;
-import org.kuali.coeus.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.coeus.common.committee.document.authorization.CommitteeScheduleTaskBase;
-import org.kuali.coeus.common.committee.document.authorization.CommitteeTaskBase;
-import org.kuali.coeus.common.committee.service.CommitteeScheduleServiceBase;
-import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
-import org.kuali.coeus.common.committee.web.struts.form.CommitteeHelperBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipExpertiseBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeScheduleTaskBase;
+import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
+import org.kuali.coeus.common.committee.impl.web.struts.form.CommitteeHelperBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;

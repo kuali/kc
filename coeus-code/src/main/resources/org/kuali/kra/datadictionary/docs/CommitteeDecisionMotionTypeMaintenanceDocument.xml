@@ -16,7 +16,7 @@
 
     <bean id="CommitteeDecisionMotionTypeMaintenanceDocument" parent="CommitteeDecisionMotionTypeMaintenanceDocument-parentBean"/>
     <bean id="CommitteeDecisionMotionTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.bo.CommitteeDecisionMotionType"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType"/>
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
         <property name="maintainableSections">
             <list>

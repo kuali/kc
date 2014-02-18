@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.dao.ojb;
 
-import org.kuali.coeus.common.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjbBase;
+import org.kuali.coeus.common.committee.impl.dao.ojb.CommitteeBatchCorrespondenceDaoOjbBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeBatchCorrespondence;
 import org.kuali.kra.iacuc.committee.dao.IacucCommitteeBatchCorrespondenceDao;
 

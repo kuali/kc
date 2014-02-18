@@ -17,9 +17,9 @@ package org.kuali.kra.protocol.actions.decision;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.common.committee.bo.CommitteeDecisionMotionType;
-import org.kuali.coeus.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.coeus.common.committee.service.CommitteeScheduleAttendanceServiceBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType;
+import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleAttendanceServiceBase;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;

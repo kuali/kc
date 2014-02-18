@@ -16,12 +16,12 @@
 package org.kuali.kra.protocol.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.common.committee.bo.CommitteeBase;
-import org.kuali.coeus.common.committee.bo.CommitteeDecisionMotionType;
-import org.kuali.coeus.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.coeus.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.coeus.common.committee.meeting.ProtocolVoteAbstaineeBase;
-import org.kuali.coeus.common.committee.meeting.ProtocolVoteRecusedBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteAbstaineeBase;
+import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteRecusedBase;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;

@@ -16,11 +16,11 @@
 package org.kuali.kra.meeting;
 
 import org.junit.Test;
-import org.kuali.coeus.common.committee.meeting.MeetingPresentOtherOrVotingEvent;
-import org.kuali.coeus.common.committee.meeting.MeetingPresentOtherOrVotingRule;
-import org.kuali.coeus.common.committee.meeting.MemberAbsentBean;
-import org.kuali.coeus.common.committee.meeting.MemberPresentBean;
-import org.kuali.coeus.common.committee.meeting.MeetingEventBase.ErrorType;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingPresentOtherOrVotingEvent;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingPresentOtherOrVotingRule;
+import org.kuali.coeus.common.committee.impl.meeting.MemberAbsentBean;
+import org.kuali.coeus.common.committee.impl.meeting.MemberPresentBean;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.actions.reviewcomments;
 
-import org.kuali.coeus.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.coeus.common.committee.meeting.MinuteEntryType;
+import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.coeus.common.committee.impl.meeting.MinuteEntryType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.ProtocolDocument;

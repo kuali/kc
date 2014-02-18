@@ -32,9 +32,9 @@ import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.Acti
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo;
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo.Checklists;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.coeus.common.committee.meeting.CommScheduleActItemBase;
-import org.kuali.coeus.common.committee.meeting.CommitteeScheduleAttendanceBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
+import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;

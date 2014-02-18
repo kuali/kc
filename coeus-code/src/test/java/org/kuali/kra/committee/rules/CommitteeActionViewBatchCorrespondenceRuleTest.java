@@ -16,9 +16,9 @@
 package org.kuali.kra.committee.rules;
 
 import org.junit.Test;
-import org.kuali.coeus.common.committee.bo.CommitteeBatchCorrespondenceBase;
-import org.kuali.coeus.common.committee.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
-import org.kuali.coeus.common.committee.rules.CommitteeActionViewBatchCorrespondenceRule;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceBase;
+import org.kuali.coeus.common.committee.impl.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
+import org.kuali.coeus.common.committee.impl.rules.CommitteeActionViewBatchCorrespondenceRule;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.infrastructure.Constants;

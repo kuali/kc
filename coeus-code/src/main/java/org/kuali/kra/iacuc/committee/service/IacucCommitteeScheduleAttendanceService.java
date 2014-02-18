@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.service;
 
-import org.kuali.coeus.common.committee.service.CommitteeScheduleAttendanceServiceBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleAttendanceServiceBase;
 
 public interface IacucCommitteeScheduleAttendanceService extends CommitteeScheduleAttendanceServiceBase {
 

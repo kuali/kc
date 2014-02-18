@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.decision;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import static org.junit.Assert.*;
