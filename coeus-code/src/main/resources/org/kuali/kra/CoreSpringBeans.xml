@@ -1692,7 +1692,7 @@
         <property name="parameterService" ref="parameterService"/>
     </bean>
     
-    <bean id ="specialReviewService" class ="org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl" lazy-init="true">
+    <bean id ="specialReviewService" class ="org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl" lazy-init="true">
         <property name="awardService" ref="awardService" />
         <property name="institutionalProposalService" ref="institutionalProposalService" />
         <property name="protocolFinderDao" ref="protocolFinderDao" />

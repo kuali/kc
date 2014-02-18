@@ -51,7 +51,7 @@
         <value>org.kuali.kra.budget.rates</value>
         <value>org.kuali.kra.document</value>
         <value>org.kuali.kra.s2s.bo</value>
-        <value>org.kuali.kra.common.specialreview.bo</value>
+        <value>org.kuali.coeus.common.specialreview.impl.bo</value>
 
         <!--converters -->
         <value>org.kuali.kra.budget</value>

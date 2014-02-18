@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.specialreview.service.impl;
+package org.kuali.coeus.common.specialreview.impl.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
+import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
@@ -24,8 +26,6 @@ import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
-import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -61,7 +61,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getProtocolSaveLocationPrefix(java.util.Map)
+     * @see org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService#getProtocolSaveLocationPrefix(java.util.Map)
      */
     public String getProtocolSaveLocationPrefix(Map<String, String[]> parameters) {
         String prefix = null;
@@ -78,7 +78,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getProtocolIndex(java.lang.String)
+     * @see org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService#getProtocolIndex(java.lang.String)
      */
     public int getProtocolIndex(String prefix) {
         int index = -1;
@@ -97,7 +97,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getViewSpecialReviewProtocolRouteHeaderId(java.lang.String)
+     * @see org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService#getViewSpecialReviewProtocolRouteHeaderId(java.lang.String)
      */
     public String getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber) throws Exception {
         String routeHeaderId = null;
@@ -115,7 +115,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getViewSpecialReviewProtocolRouteHeaderId(java.lang.String, java.lang.String)
+     * @see org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService#getViewSpecialReviewProtocolRouteHeaderId(java.lang.String, java.lang.String)
      */
     public String getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber, String specialReviewTypeCode) throws Exception {
         String routeHeaderId = null;
@@ -146,7 +146,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#isLinkedToProtocolFundingSource(java.lang.String, java.lang.String, 
+     * @see org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService#isLinkedToProtocolFundingSource(java.lang.String, java.lang.String, 
      *      java.lang.String)
      */
     @SuppressWarnings("unchecked")
@@ -172,7 +172,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#isLinkedToSpecialReview(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService#isLinkedToSpecialReview(java.lang.String, java.lang.String, java.lang.String)
      */
     public boolean isLinkedToSpecialReview(String fundingSourceNumber, String fundingSourceTypeCode, String protocolNumber) {
         boolean isLinkedToSpecialReview = false;
@@ -208,7 +208,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#addProtocolFundingSourceForSpecialReview(java.lang.String, java.lang.String, 
+     * @see org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService#addProtocolFundingSourceForSpecialReview(java.lang.String, java.lang.String, 
      *      java.lang.String, java.lang.String, java.lang.String)
      */
     public void addProtocolFundingSourceForSpecialReview(String protocolNumber, String fundingSourceNumber, String fundingSourceTypeCode, 
@@ -230,7 +230,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#deleteProtocolFundingSourceForSpecialReview(java.lang.String, java.lang.String, 
+     * @see org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService#deleteProtocolFundingSourceForSpecialReview(java.lang.String, java.lang.String, 
      *      java.lang.String)
      */
     @SuppressWarnings("unchecked")
@@ -253,7 +253,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#addSpecialReviewForProtocolFundingSource(java.lang.String, java.lang.String, 
+     * @see org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService#addSpecialReviewForProtocolFundingSource(java.lang.String, java.lang.String, 
      *      java.lang.String, java.sql.Date, java.sql.Date, java.sql.Date, java.util.List)
      */
     public void addSpecialReviewForProtocolFundingSource(String fundingSourceNumber, String fundingSourceTypeCode, String protocolNumber, Date applicationDate, 
@@ -324,7 +324,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#deleteSpecialReviewForProtocolFundingSource(java.lang.String, java.lang.String, 
+     * @see org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService#deleteSpecialReviewForProtocolFundingSource(java.lang.String, java.lang.String, 
      *      java.lang.String)
      */
     public void deleteSpecialReviewForProtocolFundingSource(String fundingSourceNumber, String fundingSourceTypeCode, String protocolNumber) {

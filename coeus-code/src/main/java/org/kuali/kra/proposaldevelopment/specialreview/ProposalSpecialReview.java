@@ -21,7 +21,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
+
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;

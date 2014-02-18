@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.specialreview.lookup.keyvalue;
+package org.kuali.coeus.common.specialreview.impl.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.keyvalue.SortedValuesFinder;
 import org.kuali.kra.bo.ExemptionType;

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.specialreview;
 
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 /**
@@ -74,7 +74,7 @@ public class InstitutionalProposalSpecialReview extends SpecialReview<Institutio
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.bo.SpecialReview#createSpecialReviewExemption(java.lang.String)
+     * @see org.kuali.coeus.common.specialreview.impl.bo.SpecialReview#createSpecialReviewExemption(java.lang.String)
      */
     @Override
     public InstitutionalProposalSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {

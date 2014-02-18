@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.specialreview.web.struts.form;
+package org.kuali.coeus.common.specialreview.impl.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewType;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
-import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
-import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewService;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewService;
