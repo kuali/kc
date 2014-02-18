@@ -15,10 +15,24 @@
  */
 package org.kuali.kra.iacuc.committee.print;
 
-import edu.mit.coeus.xml.iacuc.*;
+import edu.mit.coeus.xml.iacuc.CommitteeDocument;
+import edu.mit.coeus.xml.iacuc.CommitteeMasterDataType;
+import edu.mit.coeus.xml.iacuc.CommitteeMemberRoleType;
+import edu.mit.coeus.xml.iacuc.CommitteeMemberType;
+import edu.mit.coeus.xml.iacuc.CommitteeType;
+import edu.mit.coeus.xml.iacuc.PersonType;
 import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
+import edu.mit.coeus.xml.iacuc.ResearchAreaType;
+import edu.mit.coeus.xml.iacuc.ScheduleSummaryType;
+import edu.mit.coeus.xml.iacuc.ScheduleType;
+
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.committee.bo.*;
+import org.kuali.coeus.common.committee.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.bo.CommitteeMembershipExpertiseBase;
+import org.kuali.coeus.common.committee.bo.CommitteeMembershipRole;
+import org.kuali.coeus.common.committee.bo.CommitteeResearchAreaBase;
+import org.kuali.coeus.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
@@ -60,8 +74,8 @@ public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
         CommitteeType committeeType = CommitteeType.Factory.newInstance();
         setCommitteeMasterData(committee,committeeType.addNewCommitteeMasterData()) ;
         setCommitteeMembers(committee,committeeType);
-        setScheduleForcommittee(committee,committeeType) ;
-        setCommitteeResearchArea(committee,committeeType) ;
+        setScheduleForcommittee(committee,committeeType);
+        setCommitteeResearchArea(committee,committeeType);
         return committeeType ;
     }
     private void setCommitteeResearchArea(org.kuali.coeus.common.committee.bo.CommitteeBase committee, CommitteeType committeeType) {
