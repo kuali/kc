@@ -16,6 +16,10 @@
 package org.kuali.kra.award;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
+import org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles;
+import org.kuali.coeus.common.permissions.impl.rule.PermissionsRule;
+import org.kuali.coeus.common.permissions.impl.web.bean.User;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -56,10 +60,6 @@ import org.kuali.kra.award.rule.AwardCommentsRule;
 import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
 import org.kuali.kra.award.rule.event.AddAwardAttachmentEvent;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
-import org.kuali.kra.common.permissions.bo.PermissionsUser;
-import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
-import org.kuali.kra.common.permissions.rule.PermissionsRule;
-import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
@@ -213,8 +213,8 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     
     /**
      * 
-     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processAddPermissionsUserBusinessRules(
-     * org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUser)
+     * @see org.kuali.coeus.common.permissions.impl.rule.PermissionsRule#processAddPermissionsUserBusinessRules(
+     * org.kuali.core.document.Document, java.util.List, org.kuali.coeus.common.permissions.impl.bo.PermissionsUser)
      */
     public boolean processAddPermissionsUserBusinessRules(Document document, List<User> users, PermissionsUser newUser) {
         return new AwardPermissionsRule().processAddPermissionsUserBusinessRules(document, users, newUser);
@@ -222,7 +222,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     
     /**
      * 
-     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processDeletePermissionsUserBusinessRules(
+     * @see org.kuali.coeus.common.permissions.impl.rule.PermissionsRule#processDeletePermissionsUserBusinessRules(
      * org.kuali.core.document.Document, java.util.List, int)
      */
     public boolean processDeletePermissionsUserBusinessRules(Document document, List<User> users, int index) {
@@ -231,8 +231,8 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     
     /**
      * 
-     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processEditPermissionsUserRolesBusinessRules(
-     * org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles)
+     * @see org.kuali.coeus.common.permissions.impl.rule.PermissionsRule#processEditPermissionsUserRolesBusinessRules(
+     * org.kuali.core.document.Document, java.util.List, org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles)
      */
     public boolean processEditPermissionsUserRolesBusinessRules(Document document, List<User> users,
             PermissionsUserEditRoles editRoles) {

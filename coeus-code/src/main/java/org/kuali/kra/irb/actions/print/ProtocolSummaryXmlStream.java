@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.print;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.permissions.impl.web.bean.AssignedRole;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
@@ -24,7 +25,6 @@ import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.common.permissions.web.bean.AssignedRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;

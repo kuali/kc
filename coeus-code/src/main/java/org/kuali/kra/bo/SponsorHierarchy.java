@@ -16,10 +16,10 @@
 package org.kuali.kra.bo;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 import java.util.ArrayList;

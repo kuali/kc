@@ -18,9 +18,9 @@ package org.kuali.kra.iacuc.permission;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.common.permissions.bo.PermissionsUser;
-import org.kuali.kra.common.permissions.web.struts.action.PermissionsAction;
-import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
+import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
+import org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction;
+import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
@@ -72,7 +72,7 @@ public class IacucProtocolPermissionsAction extends IacucProtocolAction implemen
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsAction#getPermissionsRoleRights(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction#getPermissionsRoleRights(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward getPermissionsRoleRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -80,7 +80,7 @@ public class IacucProtocolPermissionsAction extends IacucProtocolAction implemen
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsAction#addUser(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction#addUser(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward addUser(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -97,7 +97,7 @@ public class IacucProtocolPermissionsAction extends IacucProtocolAction implemen
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsAction#deleteUser(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction#deleteUser(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward deleteUser(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -106,14 +106,14 @@ public class IacucProtocolPermissionsAction extends IacucProtocolAction implemen
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsAction#confirmDeletePermissionsUser(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction#confirmDeletePermissionsUser(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward confirmDeletePermissionsUser(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return permissionsActionHelper.confirmDeletePermissionsUser(mapping, form, request, response);
     }      
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsAction#editRoles(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction#editRoles(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward editRoles(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                 HttpServletResponse response) throws Exception {
@@ -121,7 +121,7 @@ public class IacucProtocolPermissionsAction extends IacucProtocolAction implemen
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsAction#setEditRoles(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction#setEditRoles(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward setEditRoles(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                 HttpServletResponse response) throws Exception {
