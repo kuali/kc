@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.coeus.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;

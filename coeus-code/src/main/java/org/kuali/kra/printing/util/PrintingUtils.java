@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.printing.util;
 
+import org.kuali.coeus.common.committee.print.CommitteeReportType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.coi.print.CoiDisclosureType;
-import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 import org.kuali.kra.irb.actions.print.ProtocolPrintType;

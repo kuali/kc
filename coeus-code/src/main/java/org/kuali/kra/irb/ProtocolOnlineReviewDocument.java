@@ -17,11 +17,11 @@
 package org.kuali.kra.irb;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;

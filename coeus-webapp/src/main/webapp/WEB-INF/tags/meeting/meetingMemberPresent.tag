@@ -44,7 +44,7 @@
                         <c:if test="${!readOnly}">
 	                        <html:select property="meetingHelper.memberPresentBeans[${status.index}].attendance.alternateFor" tabindex="0"  >
                                 <c:set var="alternatePerson" value="" />
-		                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.common.committee.meeting.AlternateForValuesFinder', paramMap)}" var="option">
+		                        <c:forEach items="${krafn:getOptionList('org.kuali.coeus.common.committee.meeting.AlternateForValuesFinder', paramMap)}" var="option">
 		                            <c:choose>                    	
 		                    	        <c:when test="${KualiForm.meetingHelper.memberPresentBeans[status.index].attendance.alternateFor == option.key}">
 		                                    <option value="${option.key}" selected>${option.value}</option>
@@ -59,7 +59,7 @@
 		                    </html:select>
 		                </c:if>
 		                <c:if test="${readOnly and !empty KualiForm.meetingHelper.memberPresentBeans[status.index].attendance.alternateFor}">
-		                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.common.committee.meeting.AlternateForValuesFinder', paramMap)}" var="option">
+		                    <c:forEach items="${krafn:getOptionList('org.kuali.coeus.common.committee.meeting.AlternateForValuesFinder', paramMap)}" var="option">
 		                        <c:if test="${KualiForm.meetingHelper.memberPresentBeans[status.index].attendance.alternateFor == option.key}">
 		                             ${option.value} 
 		                        </c:if>

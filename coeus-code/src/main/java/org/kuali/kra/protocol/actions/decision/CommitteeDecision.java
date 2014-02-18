@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.decision;
 
-import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.coeus.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;

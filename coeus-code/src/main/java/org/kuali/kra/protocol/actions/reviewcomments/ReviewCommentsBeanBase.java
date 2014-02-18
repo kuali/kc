@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
+import org.kuali.coeus.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.coeus.common.committee.meeting.MinuteEntryType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 
 import java.io.Serializable;
 import java.util.ArrayList;

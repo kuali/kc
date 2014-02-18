@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.committee.rule.event;
 
+import org.kuali.coeus.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
+import org.kuali.coeus.common.committee.rules.CommitteeActionGenerateBatchCorrespondenceRuleBase;
 import org.kuali.kra.committee.rules.CommitteeActionGenerateBatchCorrespondenceRule;
-import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
-import org.kuali.kra.common.committee.rules.CommitteeActionGenerateBatchCorrespondenceRuleBase;
 import org.kuali.rice.krad.document.Document;
 
 import java.sql.Date;

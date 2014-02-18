@@ -47,7 +47,7 @@
 		<reference-descriptor name="committee" class-ref="org.kuali.kra.committee.bo.Committee" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="committeeIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="scheduleStatus" class-ref="org.kuali.kra.common.committee.bo.ScheduleStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="scheduleStatus" class-ref="org.kuali.coeus.common.committee.bo.ScheduleStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleStatusCode"/>
 		</reference-descriptor>		
 		
@@ -149,7 +149,7 @@
             <foreignkey field-ref="homeUnitNumber" />
          </reference-descriptor>
          
-         <reference-descriptor name="committeeType" class-ref="org.kuali.kra.common.committee.bo.CommitteeType" auto-retrieve="true" auto-update="none" auto-delete="none">
+         <reference-descriptor name="committeeType" class-ref="org.kuali.coeus.common.committee.bo.CommitteeType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="committeeTypeCode" />
          </reference-descriptor>
          
@@ -193,7 +193,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 
-        <reference-descriptor name="membershipType" class-ref="org.kuali.kra.common.committee.bo.CommitteeMembershipType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="membershipType" class-ref="org.kuali.coeus.common.committee.bo.CommitteeMembershipType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="membershipTypeCode"/>
         </reference-descriptor>
         
@@ -201,7 +201,7 @@
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
 
-        <collection-descriptor name="membershipRoles" element-class-ref="org.kuali.kra.common.committee.bo.CommitteeMembershipRole" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+        <collection-descriptor name="membershipRoles" element-class-ref="org.kuali.coeus.common.committee.bo.CommitteeMembershipRole" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="committeeMembershipIdFk" />
         </collection-descriptor>
         
@@ -264,7 +264,7 @@
 		<reference-descriptor name="protocolContingency" class-ref="org.kuali.kra.meeting.ProtocolContingency" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolContingencyCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="minuteEntryType" class-ref="org.kuali.kra.common.committee.meeting.MinuteEntryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="minuteEntryType" class-ref="org.kuali.coeus.common.committee.meeting.MinuteEntryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="minuteEntryTypeCode"/>
 		</reference-descriptor>
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -322,7 +322,7 @@
 		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="scheduleActItemType" class-ref="org.kuali.kra.common.committee.meeting.ScheduleActItemType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="scheduleActItemType" class-ref="org.kuali.coeus.common.committee.meeting.ScheduleActItemType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleActItemTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -503,7 +503,7 @@
 		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="attachmentsEntryType" class-ref="org.kuali.kra.common.committee.meeting.AttachmentsEntryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="attachmentsEntryType" class-ref="org.kuali.coeus.common.committee.meeting.AttachmentsEntryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="attachmentsTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>

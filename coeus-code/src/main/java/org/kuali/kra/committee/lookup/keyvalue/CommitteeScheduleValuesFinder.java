@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
+import org.kuali.coeus.common.committee.lookup.keyvalue.CommitteeScheduleValuesFinderBase;
+import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeScheduleValuesFinderBase;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 
 /**
  * Finds the available set of dates where a protocol can be scheduled

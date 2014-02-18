@@ -16,12 +16,12 @@
 package org.kuali.kra.iacuc.committee.meeting;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.committee.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.document.authorization.CommitteeScheduleTaskBase;
+import org.kuali.coeus.common.committee.document.authorization.CommitteeTaskBase;
+import org.kuali.coeus.common.committee.meeting.*;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
-import org.kuali.kra.common.committee.meeting.*;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.document.authorization.IacucCommitteeScheduleTask;

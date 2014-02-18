@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
+import org.kuali.coeus.common.committee.meeting.ProtocolVoteRecusedBase;
 
 public class IacucProtocolVoteRecused extends ProtocolVoteRecusedBase {
 

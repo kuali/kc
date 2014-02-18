@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.committee.rule.event;
 
+import org.kuali.coeus.common.committee.rule.event.DeleteCommitteeMemberEventBase;
+import org.kuali.coeus.common.committee.rules.DeleteCommitteeMemberRuleBase;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rules.DeleteCommitteeMemberRule;
-import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEventBase;
-import org.kuali.kra.common.committee.rules.DeleteCommitteeMemberRuleBase;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;

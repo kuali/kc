@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.coeus.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 
 import java.io.Serializable;

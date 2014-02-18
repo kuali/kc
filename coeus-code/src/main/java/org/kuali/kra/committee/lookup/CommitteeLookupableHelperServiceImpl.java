@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.committee.lookup;
 
+import org.kuali.coeus.common.committee.bo.CommitteeType;
+import org.kuali.coeus.common.committee.lookup.CommitteeLookupableHelperServiceImplBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.common.committee.bo.CommitteeType;
-import org.kuali.kra.common.committee.lookup.CommitteeLookupableHelperServiceImplBase;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**

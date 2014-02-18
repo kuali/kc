@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.committee.rules;
 
+import org.kuali.coeus.common.committee.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.document.CommitteeDocumentBase;
+import org.kuali.coeus.common.committee.lookup.keyvalue.CommitteeIdValuesFinderBase;
+import org.kuali.coeus.common.committee.rules.CommitteeDocumentRuleBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinderBase;
-import org.kuali.kra.common.committee.rules.CommitteeDocumentRuleBase;
 
 /**
  * This is the main business rule class for the Committee Document.  It

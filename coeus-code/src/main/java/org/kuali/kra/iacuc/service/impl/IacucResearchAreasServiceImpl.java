@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.service.impl;
 
+import org.kuali.coeus.common.committee.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.bo.CommitteeMembershipExpertiseBase;
+import org.kuali.coeus.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.bo.ResearchAreaBase;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
-import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.iacuc.IacucResearchArea;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;

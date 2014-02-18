@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
+import org.kuali.coeus.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.RoleConstants;

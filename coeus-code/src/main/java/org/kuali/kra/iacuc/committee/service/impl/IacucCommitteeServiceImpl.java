@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.committee.service.impl;
 
-import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
-import org.kuali.kra.common.committee.service.impl.CommitteeServiceImplBase;
+import org.kuali.coeus.common.committee.bo.CommitteeResearchAreaBase;
+import org.kuali.coeus.common.committee.service.impl.CommitteeServiceImplBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeResearchArea;

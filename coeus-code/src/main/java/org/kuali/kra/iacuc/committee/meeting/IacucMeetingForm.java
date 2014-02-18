@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.MeetingFormBase;
-import org.kuali.kra.common.committee.meeting.MeetingHelperBase;
+import org.kuali.coeus.common.committee.meeting.MeetingFormBase;
+import org.kuali.coeus.common.committee.meeting.MeetingHelperBase;
 
 public class IacucMeetingForm extends MeetingFormBase {
 

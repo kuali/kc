@@ -21,7 +21,7 @@
 
     <bean id="CommitteeDecisionMotionType" parent="CommitteeDecisionMotionType-parentBean" />
     <bean id="CommitteeDecisionMotionType-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.bo.CommitteeDecisionMotionType" />
         <property name="objectLabel" value="Committee Decision Motion Type" />
         <property name="inquiryDefinition" >
             <ref bean="CommitteeDecisionMotionType-inquiryDefinition" />

@@ -21,7 +21,7 @@
 
  	<bean id="AttachmentsEntryType" parent="AttachmentsEntryType-parentBean" />
     <bean id="AttachmentsEntryType-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.common.committee.meeting.AttachmentsEntryType" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.meeting.AttachmentsEntryType" />
 		<property name="objectLabel" value="Attachments Entry Type" />
         <property name="inquiryDefinition" >
             <ref bean="AttachmentsEntryType-inquiryDefinition" />

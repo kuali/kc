@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.meeting;
 
-import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
+import org.kuali.coeus.common.committee.meeting.CommScheduleActItemBase;
 
 /**
  * 

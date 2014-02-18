@@ -17,8 +17,8 @@ package org.kuali.kra.committee.lookup.keyvalue;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.coeus.common.committee.bo.CommitteeBase;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 

@@ -16,8 +16,8 @@
 package org.kuali.kra.committee.rules;
 
 import org.junit.Test;
-import org.kuali.kra.common.committee.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
-import org.kuali.kra.common.committee.rules.CommitteeActionFilterBatchCorrespondenceHistoryRule;
+import org.kuali.coeus.common.committee.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
+import org.kuali.coeus.common.committee.rules.CommitteeActionFilterBatchCorrespondenceHistoryRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 

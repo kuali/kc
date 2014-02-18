@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.meeting;
 
-import org.kuali.kra.common.committee.meeting.ProtocolValuesFinderBase;
+import org.kuali.coeus.common.committee.meeting.ProtocolValuesFinderBase;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 

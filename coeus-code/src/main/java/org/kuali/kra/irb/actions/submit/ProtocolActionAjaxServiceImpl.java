@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionAjaxServiceImplBase;

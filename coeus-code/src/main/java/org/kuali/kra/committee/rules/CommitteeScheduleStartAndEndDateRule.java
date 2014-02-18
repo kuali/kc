@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.committee.rules;
 
+import org.kuali.coeus.common.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.coeus.common.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
-import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.infrastructure.KeyConstants;
 
 import java.sql.Date;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.document.authorizer;
 
-import org.kuali.kra.common.committee.document.authorizer.ViewCommitteeAuthorizerBase;
+import org.kuali.coeus.common.committee.document.authorizer.ViewCommitteeAuthorizerBase;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**

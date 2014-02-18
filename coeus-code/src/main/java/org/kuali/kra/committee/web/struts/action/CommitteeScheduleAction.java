@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
+import org.kuali.coeus.common.committee.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.document.authorization.CommitteeTaskBase;
+import org.kuali.coeus.common.committee.rule.event.DeleteCommitteeScheduleEventBase;
+import org.kuali.coeus.common.committee.service.CommitteeScheduleServiceBase;
+import org.kuali.coeus.common.committee.web.struts.action.CommitteeScheduleActionBase;
+import org.kuali.coeus.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.rule.event.DeleteCommitteeScheduleEvent;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
-import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEventBase;
-import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
-import org.kuali.kra.common.committee.web.struts.action.CommitteeScheduleActionBase;
-import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.rice.krad.document.Document;
 
@@ -45,7 +45,7 @@ public class CommitteeScheduleAction extends CommitteeScheduleActionBase {
 
     @Override
     protected DeleteCommitteeScheduleEventBase getNewDeleteCommitteeScheduleEventInstanceHook(String errorPathPrefix,
-            Document document, ScheduleData scheduleData, List<CommitteeScheduleBase> committeeSchedules, org.kuali.kra.common.committee.rule.event.CommitteeScheduleEventBase.ErrorType type) {
+            Document document, ScheduleData scheduleData, List<CommitteeScheduleBase> committeeSchedules, org.kuali.coeus.common.committee.rule.event.CommitteeScheduleEventBase.ErrorType type) {
         
         return new DeleteCommitteeScheduleEvent(errorPathPrefix, document, scheduleData, committeeSchedules, type);
     }

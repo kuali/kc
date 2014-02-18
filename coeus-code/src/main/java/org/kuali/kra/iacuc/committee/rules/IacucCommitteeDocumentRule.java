@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.committee.rules;
 
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinderBase;
-import org.kuali.kra.common.committee.rules.CommitteeDocumentRuleBase;
+import org.kuali.coeus.common.committee.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.document.CommitteeDocumentBase;
+import org.kuali.coeus.common.committee.lookup.keyvalue.CommitteeIdValuesFinderBase;
+import org.kuali.coeus.common.committee.rules.CommitteeDocumentRuleBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdValuesFinder;
