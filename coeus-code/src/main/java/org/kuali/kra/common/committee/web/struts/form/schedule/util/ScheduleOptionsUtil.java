@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.common.committee.web.struts.form.schedule.util;
 
+import org.kuali.coeus.sys.framework.scheduling.util.CronSpecialChars;
 import org.kuali.kra.common.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Months;
 import org.kuali.kra.common.committee.web.struts.form.schedule.WeekOfMonth;
-import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 
 public class ScheduleOptionsUtil {
 

@@ -22,7 +22,7 @@ package org.kuali.kra.printing;
  * @author
  * 
  */
-public class PrintingException extends Exception {
+public class PrintingException extends RuntimeException {
 
 	/**
 	 * Default constructor

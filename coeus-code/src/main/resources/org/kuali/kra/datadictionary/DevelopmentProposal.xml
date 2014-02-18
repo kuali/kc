@@ -250,7 +250,7 @@
 		<property name="required" value="true" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ActivityType"
-				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 				p:includeKeyInLabel="false" p:keyAttribute="activityTypeCode"
 				p:labelAttribute="description" />
 		</property>
@@ -320,7 +320,7 @@
 		<property name="required" value="true" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalType"
-				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 				p:includeKeyInLabel="false" p:keyAttribute="proposalTypeCode"
 				p:labelAttribute="description" />
 		</property>
@@ -418,7 +418,7 @@
 		<property name="required" value="false" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.DeadlineType"
-				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 				p:includeKeyInLabel="false" p:keyAttribute="deadlineTypeCode"
 				p:labelAttribute="description" />
 		</property>
@@ -440,7 +440,7 @@
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.AwardType" 
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
             p:keyAttribute="awardTypeCode"   
@@ -484,7 +484,7 @@
 		<property name="required" value="false" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.NsfCode"
-				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 				p:includeKeyInLabel="false" p:keyAttribute="nsfCode"
 				p:labelAttribute="description" />
 		</property>
@@ -650,7 +650,7 @@
 		<property name="name" value="mailBy" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailBy"
-				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 				p:includeKeyInLabel="false" p:keyAttribute="mailByCode"
 				p:labelAttribute="description" />
 		</property>
@@ -672,7 +672,7 @@
 		<property name="required" value="false" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailType"
-				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 				p:includeKeyInLabel="false" p:keyAttribute="mailType"
 				p:labelAttribute="description" />
 		</property>
@@ -774,7 +774,7 @@
 		<property name="control">
 			<bean parent="SelectControlDefinition"
 				p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalState"
-				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 				p:includeKeyInLabel="false" p:keyAttribute="stateTypeCode"
 				p:labelAttribute="description" />
 		</property>
@@ -918,7 +918,7 @@
 		</property>
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.BudgetStatus"
-				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 				p:includeKeyInLabel="false" p:keyAttribute="budgetStatusCode"
 				p:labelAttribute="description" />
 		</property>

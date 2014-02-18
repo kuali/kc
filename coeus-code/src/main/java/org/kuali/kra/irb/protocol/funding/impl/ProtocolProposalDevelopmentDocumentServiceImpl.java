@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.protocol.funding.impl;
 
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
@@ -36,7 +37,6 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.DocumentHeader;

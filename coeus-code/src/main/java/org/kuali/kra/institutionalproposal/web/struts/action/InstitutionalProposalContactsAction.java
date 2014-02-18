@@ -28,10 +28,10 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalProject
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContactsBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
-import org.kuali.kra.service.ServiceHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.List;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
@@ -88,14 +88,13 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
     
     /**
      * This method is called to reset the Lead Unit on the award if the lead unit is changed on the PI.
-     * @param award
      */
     @SuppressWarnings("unchecked")
     private void setLeadUnitOnInstitutionalProposalFromPILeadUnit(InstitutionalProposal institutionalProposal, InstitutionalProposalForm institutionalProposalForm) {
         for (InstitutionalProposalPerson person : institutionalProposal.getProjectPersons()) {
             if(person.isPrincipalInvestigator()) {
-                List<Unit> units= (List<Unit>) getBusinessObjectService().findMatching(Unit.class, 
-                        ServiceHelper.getInstance().buildCriteriaMap("unitName", institutionalProposalForm.getProjectPersonnelBean().getSelectedLeadUnit()));
+                List<Unit> units= (List<Unit>) getBusinessObjectService().findMatching(Unit.class,
+                        Collections.singletonMap("unitName", institutionalProposalForm.getProjectPersonnelBean().getSelectedLeadUnit()));
                 if (units.size() > 0) {
                 Unit leadUnit = units.get(0);
                 institutionalProposal.setUnitNumber(leadUnit.getUnitNumber());
@@ -245,7 +244,6 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
      * @param form
      * @param request
      * @param response
-     * @param deletePeriod
      * @return
      * @throws Exception
      */

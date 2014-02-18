@@ -22,7 +22,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.lookup.keyvalue.KCStateValuesFinder;
+import org.kuali.kra.proposaldevelopment.lookup.keyvalue.KcStateValuesFinder;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitService;
@@ -104,7 +104,7 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
 
     @Override
     public String getNewStateList(String countryCode) {
-        List<KeyValue> values = KCStateValuesFinder.getKeyValues(countryCode.trim());
+        List<KeyValue> values = KcStateValuesFinder.getKeyValues(countryCode.trim());
         return ValuesFinderUtils.processKeyValueList(values);
     }
 

@@ -18,7 +18,7 @@ package org.kuali.kra.award.awardhierarchy.sync;
 /**
  * Exception helpers throw to indicate a warning or exception. Warnings should be reported, but ignored otherwise.
  */
-public class AwardSyncException extends Exception {
+public class AwardSyncException extends RuntimeException {
     private static final long serialVersionUID = -5525034768210252309L;
 
     private final boolean success;

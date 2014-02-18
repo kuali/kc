@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.personnel;
 
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.personnel.*;
-import org.kuali.kra.service.KcAuthorizationService;
 
 
 public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBase implements ProtocolPersonnelService {

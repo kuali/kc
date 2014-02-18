@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
@@ -32,7 +33,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -169,7 +169,16 @@ public class NarrativeServiceImpl implements NarrativeService {
         List<KcPerson> allPersons = new ArrayList<KcPerson>();
 
         for (Role proposalRole : proposalRoles) {
-            List<KcPerson> persons = kraAuthorizationService.getPersonsInRole(proposalDevelopmentDocument, proposalRole.getName());
+            List<String> users = kraAuthorizationService.getPrincipalsInRole(proposalDevelopmentDocument, proposalRole.getName());
+
+            List<KcPerson> persons = new ArrayList<KcPerson>();
+            for(String userId : users) {
+                KcPerson person = kcPersonService.getKcPersonByPersonId(userId);
+                if (person != null && person.getActive()) {
+                    persons.add(person);
+                }
+            }
+
             for (KcPerson person : persons) {
                 if (!isPersonInList(person, allPersons)) {
                     allPersons.add(person);

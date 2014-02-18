@@ -18,7 +18,10 @@ package org.kuali.kra.protocol.actions;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.keyvalue.KeyValueComparator;
+import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
@@ -30,8 +33,6 @@ import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
-import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -73,7 +74,6 @@ import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -695,7 +695,7 @@ public abstract class ActionHelperBase implements Serializable {
             retVal.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
         }
         Collections.sort(retVal, new KeyValueComparator());
-        retVal.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));                
+        retVal.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         return retVal;
     }
 

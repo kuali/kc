@@ -24,7 +24,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorHierarchy;
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.rules.SponsorHierarchyRule;
@@ -72,7 +72,7 @@ public class SponsorHierarchyAction extends KualiAction {
             sponsorHierarchyForm.setHierarchyNameList(KcServiceLocator.getService(SponsorService.class).getTopSponsorHierarchyList());
             return forward;
         } else {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Open Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Open Sponsor Hierarchy", PermissionableKeys.SPONSOR_HIREARCHY_KEY);
         }
 
     }
@@ -84,7 +84,7 @@ public class SponsorHierarchyAction extends KualiAction {
             sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getSelectedSponsorHierarchy());
             return mapping.findForward("copy");
         } else {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Copy Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Copy Sponsor Hierarchy", PermissionableKeys.SPONSOR_HIREARCHY_KEY);
         }
     }
     
@@ -97,7 +97,7 @@ public class SponsorHierarchyAction extends KualiAction {
             ((SponsorHierarchyForm)form).setMessage("Sponsor Hierarchy was deleted successfully");
             return mapping.findForward(Constants.MAPPING_BASIC);
         } else {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Delete Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Delete Sponsor Hierarchy", PermissionableKeys.SPONSOR_HIREARCHY_KEY);
         }
     }
     
@@ -112,7 +112,7 @@ public class SponsorHierarchyAction extends KualiAction {
             }
             return mapping.findForward(Constants.MAPPING_BASIC); 
         } else {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Copy Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Copy Sponsor Hierarchy", PermissionableKeys.SPONSOR_HIREARCHY_KEY);
         }
     }
     
@@ -150,7 +150,7 @@ public class SponsorHierarchyAction extends KualiAction {
             sponsorHierarchyForm.setTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
             return mapping.findForward(MAINT);  
         } else {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Save Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Save Sponsor Hierarchy", PermissionableKeys.SPONSOR_HIREARCHY_KEY);
         }
     }
 
@@ -173,7 +173,7 @@ public class SponsorHierarchyAction extends KualiAction {
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
         } else {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Add Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Add Sponsor Hierarchy", PermissionableKeys.SPONSOR_HIREARCHY_KEY);
         }
     }
     
@@ -191,7 +191,7 @@ public class SponsorHierarchyAction extends KualiAction {
             sponsorHierarchyForm.setTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
             return mapping.findForward(MAINT);
         } else {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Modify Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Modify Sponsor Hierarchy", PermissionableKeys.SPONSOR_HIREARCHY_KEY);
         }
     }
 
@@ -205,8 +205,8 @@ public class SponsorHierarchyAction extends KualiAction {
             sponsorHierarchyForm.getNewSponsors().remove(getLineToDelete(request));
             return mapping.findForward(NEW);
         } else {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Delete Sponsor Hierarchy", 
-                    Permissionable.SPONSOR_HIREARCHY_KEY);
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Delete Sponsor Hierarchy",
+                    PermissionableKeys.SPONSOR_HIREARCHY_KEY);
         }
        
     }

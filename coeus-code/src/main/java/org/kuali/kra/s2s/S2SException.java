@@ -22,7 +22,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class S2SException extends java.lang.Exception {
+public class S2SException extends RuntimeException {
 
     private String errorMessage;
     private String errorKey = KeyConstants.ERROR_S2S_UNKNOWN;

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
-import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.permission.PermissionService;

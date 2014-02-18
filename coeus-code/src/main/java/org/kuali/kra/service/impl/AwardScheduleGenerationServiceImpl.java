@@ -16,6 +16,12 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.scheduling.ScheduleService;
+import org.kuali.coeus.sys.framework.scheduling.seq.DefaultScheduleSequence;
+import org.kuali.coeus.sys.framework.scheduling.seq.ScheduleSequence;
+import org.kuali.coeus.sys.framework.scheduling.seq.TrimDatesScheduleSequenceDecorator;
+import org.kuali.coeus.sys.framework.scheduling.seq.XMonthlyScheduleSequenceDecorator;
+import org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -24,12 +30,6 @@ import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.FrequencyBaseConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
-import org.kuali.kra.scheduling.sequence.ScheduleSequence;
-import org.kuali.kra.scheduling.sequence.TrimDatesScheduleSequenceDecorator;
-import org.kuali.kra.scheduling.sequence.XMonthlyScheduleSequenceDecorator;
-import org.kuali.kra.scheduling.service.ScheduleService;
-import org.kuali.kra.scheduling.util.Time24HrFmt;
 import org.kuali.kra.service.AwardScheduleGenerationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.PersistenceService;

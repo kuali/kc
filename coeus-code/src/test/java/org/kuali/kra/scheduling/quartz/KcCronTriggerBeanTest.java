@@ -22,6 +22,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.impl.datetime.DateTimeServiceImpl;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

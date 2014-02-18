@@ -153,7 +153,7 @@
 		<property name="required" value="true" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalType"
-				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 				p:includeKeyInLabel="false" p:keyAttribute="proposalTypeCode"
 				p:labelAttribute="description" />
 		</property>

@@ -91,7 +91,7 @@
   </bean>
 	
 	<!-- Validation Pattern -->
-	<bean id="Postive2DigitFieldLevelValidationPattern" class="org.kuali.kra.core.datadictionary.validation.Postive2DigitFieldLevelValidationPattern"/>
+	<bean id="Postive2DigitFieldLevelValidationPattern" class="org.kuali.kra.common.committee.core.datadictionary.validation.Postive2DigitFieldLevelValidationPattern"/>
 	
 	<bean id="CommitteeScheduleAttributeReferenceDummy-monthsWeek" parent="CommitteeScheduleAttributeReferenceDummy-monthsWeek-parentBean" />
 	<bean id="CommitteeScheduleAttributeReferenceDummy-monthsWeek-parentBean" abstract="true" parent="AttributeDefinition" >

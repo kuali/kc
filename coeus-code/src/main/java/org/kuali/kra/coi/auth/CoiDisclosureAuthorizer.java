@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.coi.auth;
 
+import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
-import org.kuali.kra.service.KcAuthorizationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;

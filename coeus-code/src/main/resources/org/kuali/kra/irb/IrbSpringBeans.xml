@@ -619,6 +619,7 @@
 
     
     <bean id="protocolCopyService" class="org.kuali.kra.irb.actions.copy.ProtocolCopyServiceImpl">
+        <property name="kcPersonService" ref="kcPersonService" />
         <property name="documentService" ref="documentService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
@@ -1088,6 +1089,7 @@
 
     <bean id="proposalDevelopmentProtocolDocumentService" class="org.kuali.kra.irb.protocol.funding.impl.ProposalDevelopmentProtocolDocumentServiceImpl">
         <property name="documentService" ref="documentService" />
+        <property name="kcPersonService" ref="kcPersonService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="protocolNumberService" ref="protocolNumberService" />

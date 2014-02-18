@@ -17,9 +17,9 @@ package org.kuali.kra.award.awardhierarchy;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -409,7 +409,7 @@ public class AwardHierarchy extends KcPersistableBusinessObjectBase implements C
     }
 
     private AwardHierarchy findAwardHierarchyMatchingAwardNumber(String searchAwardNumber) {
-        Map map = ServiceHelper.getInstance().buildCriteriaMap(new String[] { "awardNumber", "active" }, new Object[] { searchAwardNumber, Boolean.TRUE });
+        Map map = CollectionUtils.zipMap(new String[]{"awardNumber", "active"}, new Object[]{searchAwardNumber, Boolean.TRUE});
         Collection c = getBusinessObjectService().findMatching(AwardHierarchy.class, map);
         return c.size() == 1 ? (AwardHierarchy) c.iterator().next() : null;
     }
