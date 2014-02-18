@@ -51,6 +51,9 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
         boolean documentNotRouted = false;
         documentNotRouted = documentNotRouted();
         
+        /*
+         * Going through all customDataDocs and adding the custom ones already in the document
+         */
         List<T> customDataInDocument = getCustomDataList();
         Set<Entry<String, CustomAttributeDocument>> allCustomAttributeDocuments = getCustomAttributeDocuments().entrySet();
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:allCustomAttributeDocuments) {
@@ -59,21 +62,32 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
                     String groupName = getCustomAttributeDocuments().get(documentCustomData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName();
                     addToGroup(groupName, customAttributeGroups, customAttributeDocumentEntry);
                     break;
-                } 
+                }
             }
         }
+        
         /*
-         * Go through all the custom data documents and if there are new custom data documents available, 
+         * Go through all the custom data documents and if the document HAS NOT ROUTED and there are new custom data documents available, 
          * add those to the document as well.
          */
         if (documentNotRouted) {
             for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:allCustomAttributeDocuments) {
-                if (!customAttributeGroups.containsKey(customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName())) {
+                List<CustomAttributeDocument> entriesInCurrentGroup = customAttributeGroups.get(customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName());
+                if (entriesInCurrentGroup == null || !alreadyExists(entriesInCurrentGroup, customAttributeDocumentEntry)) {
                     String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
                     addToGroup(groupName, customAttributeGroups, customAttributeDocumentEntry);
                 }
             }
         }
+    }
+
+    protected boolean alreadyExists(List<CustomAttributeDocument> entriesInCurrentGroup, Entry<String, CustomAttributeDocument> customAttributeDocumentEntry) {
+        for ( CustomAttributeDocument entry : entriesInCurrentGroup) {
+            if (entry.getCustomAttributeId() == Integer.parseInt(customAttributeDocumentEntry.getKey())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected void addToGroup(String groupName, SortedMap<String, List> customAttributeGroups, Entry<String, CustomAttributeDocument> customAttributeDocument) {
