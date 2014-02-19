@@ -7,7 +7,7 @@
   <bean id="PermissionsUser" parent="PermissionsUser-parentBean" />
 
   <bean id="PermissionsUser-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.common.permissions.bo.PermissionsUser" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.permissions.impl.bo.PermissionsUser" />
 		<property name="objectLabel" value="Permissions User" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
@@ -56,7 +56,7 @@
     <property name="maxLength" value="5" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.common.permissions.lookup.keyvalue.RolesValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.common.permissions.impl.lookup.keyvalue.RolesValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Role Name" />

@@ -16,11 +16,11 @@
 package org.kuali.kra.protocol.permission;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.permissions.impl.web.bean.Role;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.permissions.web.bean.Role;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -43,7 +43,7 @@ import java.util.Map;
  * The PermissionsHelperBase is used to manage the Permissions tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
-public abstract class PermissionsHelperBase extends org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase {
+public abstract class PermissionsHelperBase extends org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -144,7 +144,7 @@ public abstract class PermissionsHelperBase extends org.kuali.kra.common.permiss
 
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getUnassignedRoleName()
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getUnassignedRoleName()
      */
     @Override
     public String getUnassignedRoleName() {
@@ -152,7 +152,7 @@ public abstract class PermissionsHelperBase extends org.kuali.kra.common.permiss
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getRoleDisplayName(java.lang.String)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getRoleDisplayName(java.lang.String)
      */
     @Override
     protected String getRoleDisplayName(String roleName) {
@@ -193,7 +193,7 @@ public abstract class PermissionsHelperBase extends org.kuali.kra.common.permiss
 
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getPersonsInRole(java.lang.String)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getPersonsInRole(java.lang.String)
      */
     @Override
     protected List<KcPerson> getPersonsInRole(String roleName) {

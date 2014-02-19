@@ -15,20 +15,20 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.MeetingAddMinuteEventBase;
-import org.kuali.kra.common.committee.meeting.MeetingAddMinuteRuleBase;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingAddMinuteEventBase;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingAddMinuteRuleBase;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.rice.krad.document.Document;
 
 public class IacucMeetingAddMinuteEvent extends MeetingAddMinuteEventBase {
 
     public IacucMeetingAddMinuteEvent(String errorPathPrefix, CommonCommitteeDocument document, IacucMeetingHelper meetingHelper,
-            org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType type) {
+            org.kuali.coeus.common.committee.impl.meeting.MeetingEventBase.ErrorType type) {
         super(errorPathPrefix, document, meetingHelper, type);
     }
     
     public IacucMeetingAddMinuteEvent(String errorPathPrefix, Document document, IacucMeetingHelper meetingHelper,
-            org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType type) {
+            org.kuali.coeus.common.committee.impl.meeting.MeetingEventBase.ErrorType type) {
         this(errorPathPrefix, (CommonCommitteeDocument) document, meetingHelper, type);
     }
 

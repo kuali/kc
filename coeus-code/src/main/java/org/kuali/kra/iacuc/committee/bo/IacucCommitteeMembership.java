@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.bo;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 
 public class IacucCommitteeMembership extends CommitteeMembershipBase {
 

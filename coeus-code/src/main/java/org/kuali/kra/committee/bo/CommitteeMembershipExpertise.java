@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.bo;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.kra.irb.ResearchArea;
 
 /**

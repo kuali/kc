@@ -26,7 +26,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Users</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.common.permissions.bo.PermissionsUser" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.common.permissions.impl.bo.PermissionsUser" altText="help"/></span>
         </h3>
         
         <table id="user-roles" cellpadding="0" cellspacing="0" summary="">

@@ -23,7 +23,7 @@
 
     <bean id="KcNotification" parent="KcNotification-parentBean" />
     <bean id="KcNotification-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.KcNotification" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.notification.impl.bo.KcNotification" />
         <property name="boNotesEnabled" value="true"/>
         <property name="objectLabel" value="Notification" />
         <property name="inquiryDefinition" >

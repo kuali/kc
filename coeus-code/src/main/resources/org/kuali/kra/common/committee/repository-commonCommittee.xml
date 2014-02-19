@@ -15,7 +15,7 @@
 -->
 <descriptor-repository version="1.0">
 
-	<class-descriptor class="org.kuali.kra.common.committee.bo.ScheduleStatus" table="SCHEDULE_STATUS">
+	<class-descriptor class="org.kuali.coeus.common.committee.impl.bo.ScheduleStatus" table="SCHEDULE_STATUS">
 		<field-descriptor name="scheduleStatusCode" column="SCHEDULE_STATUS_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -25,7 +25,7 @@
 	</class-descriptor>
 
 	
-	<class-descriptor class="org.kuali.kra.common.committee.bo.CommitteeType" table="COMMITTEE_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.committee.impl.bo.CommitteeType" table="COMMITTEE_TYPE">
 		<field-descriptor name="committeeTypeCode" column="COMMITTEE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -35,7 +35,7 @@
 	</class-descriptor>
 	
 	
-	<class-descriptor class="org.kuali.kra.common.committee.bo.CommitteeMembershipType" table="COMM_MEMBERSHIP_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipType" table="COMM_MEMBERSHIP_TYPE">
         <field-descriptor name="membershipTypeCode" column="MEMBERSHIP_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -44,7 +44,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.common.committee.bo.MembershipRole" table="MEMBERSHIP_ROLE">
+    <class-descriptor class="org.kuali.coeus.common.committee.impl.bo.MembershipRole" table="MEMBERSHIP_ROLE">
         <field-descriptor name="membershipRoleCode" column="MEMBERSHIP_ROLE_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -52,13 +52,13 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="committeeTypeCode" column="COMMITTEE_TYPE_CODE" jdbc-type="VARCHAR" />
-       <reference-descriptor name="committeeType" class-ref="org.kuali.kra.common.committee.bo.CommitteeType" auto-retrieve="true" auto-update="none" auto-delete="none">
+       <reference-descriptor name="committeeType" class-ref="org.kuali.coeus.common.committee.impl.bo.CommitteeType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="committeeTypeCode" />
          </reference-descriptor>
     </class-descriptor>	
    
     
-    <class-descriptor class="org.kuali.kra.common.committee.bo.CommitteeMembershipRole" table="COMM_MEMBER_ROLES">
+    <class-descriptor class="org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole" table="COMM_MEMBER_ROLES">
         <field-descriptor name="committeeMembershipRoleId" column="COMM_MEMBER_ROLES_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
         <field-descriptor name="committeeMembershipIdFk" column="COMM_MEMBERSHIP_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="membershipRoleCode" column="MEMBERSHIP_ROLE_CODE" jdbc-type="VARCHAR" />
@@ -69,13 +69,13 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 
-        <reference-descriptor name="membershipRole" class-ref="org.kuali.kra.common.committee.bo.MembershipRole" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="membershipRole" class-ref="org.kuali.coeus.common.committee.impl.bo.MembershipRole" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="membershipRoleCode"/>
         </reference-descriptor>
     </class-descriptor>
     
     <!--  
-    <class-descriptor class="org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase" table="COMM_MEMBER_EXPERTISE">
+    <class-descriptor class="org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipExpertiseBase" table="COMM_MEMBER_EXPERTISE">
         <field-descriptor name="committeeMembershipExpertiseId" column="COMM_MEMBER_EXPERTISE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
         <field-descriptor name="committeeMembershipIdFk" column="COMM_MEMBERSHIP_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR" />
@@ -95,7 +95,7 @@
 <!--  shared meeting classes -->
 	
 		
-<!-- 	<class-descriptor class="org.kuali.kra.common.committee.meeting.ProtocolContingency" table="PROTOCOL_CONTINGENCY"> -->
+<!-- 	<class-descriptor class="org.kuali.coeus.common.committee.impl.meeting.ProtocolContingency" table="PROTOCOL_CONTINGENCY"> -->
 <!-- 		<field-descriptor name="protocolContingencyCode" column="PROTOCOL_CONTINGENCY_CODE" jdbc-type="VARCHAR" primarykey="true" /> -->
 <!-- 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" /> -->
 <!-- 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" /> -->
@@ -105,7 +105,7 @@
 <!-- 	</class-descriptor>	 -->
 
 	
-	<class-descriptor class="org.kuali.kra.common.committee.meeting.MinuteEntryType" table="MINUTE_ENTRY_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.committee.impl.meeting.MinuteEntryType" table="MINUTE_ENTRY_TYPE">
 		<field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -115,7 +115,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>		
 	
-	<class-descriptor class="org.kuali.kra.common.committee.meeting.ScheduleActItemType" table="SCHEDULE_ACT_ITEM_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.committee.impl.meeting.ScheduleActItemType" table="SCHEDULE_ACT_ITEM_TYPE">
 		<field-descriptor name="scheduleActItemTypeCode" column="SCHEDULE_ACT_ITEM_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -127,7 +127,7 @@
 	
 <!--  end meeting -->
 
-    <class-descriptor class="org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType" table="COMM_DECISION_MOTION_TYPE">
+    <class-descriptor class="org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType" table="COMM_DECISION_MOTION_TYPE">
         <field-descriptor name="motionTypeCode" column="COMM_DECISION_MOTION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -138,7 +138,7 @@
 
 
 	
-	<class-descriptor class="org.kuali.kra.common.committee.meeting.AttachmentsEntryType" table="ATTACHMENTS_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.committee.impl.meeting.AttachmentsEntryType" table="ATTACHMENTS_TYPE">
 		<field-descriptor name="attachmentsTypeCode" column="ATTACHMENTS_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.bo;
 
-import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceDetailBase;
 
 /**
  * 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.print;
 
-import org.kuali.kra.common.committee.print.CommitteeReportType;
+import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 

@@ -19,18 +19,18 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.permissions.impl.bo.PermissionsRoleState;
+import org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles;
+import org.kuali.coeus.common.permissions.impl.rule.event.EditUserPermissionsRolesEvent;
+import org.kuali.coeus.common.permissions.impl.web.bean.Role;
+import org.kuali.coeus.common.permissions.impl.web.bean.RoleState;
+import org.kuali.coeus.common.permissions.impl.web.bean.User;
+import org.kuali.coeus.common.permissions.impl.web.bean.UserState;
+import org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsActionHelperBase;
+import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
+import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.common.permissions.bo.PermissionsRoleState;
-import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
-import org.kuali.kra.common.permissions.rule.event.EditUserPermissionsRolesEvent;
-import org.kuali.kra.common.permissions.web.bean.Role;
-import org.kuali.kra.common.permissions.web.bean.RoleState;
-import org.kuali.kra.common.permissions.web.bean.User;
-import org.kuali.kra.common.permissions.web.bean.UserState;
-import org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase;
-import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
-import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -64,7 +64,7 @@ class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase#addUserToRoleInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsActionHelperBase#addUserToRoleInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
      */
     @Override
     protected void addUserToRoleInDatabase(Document document, String userId, String roleName) {
@@ -73,7 +73,7 @@ class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase#removeRoleFromUserInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsActionHelperBase#removeRoleFromUserInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
      */
     @Override
     protected void removeUserFromRoleInDatabase(Document document, String userId, String roleName) {

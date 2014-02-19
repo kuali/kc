@@ -16,6 +16,7 @@
 package org.kuali.kra.common.notification;
 
 import org.junit.Test;
+import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.HashMap;

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.notification;
 
+import org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 
 /**
  * Defines the service to fill in module role qualifier information for Award.

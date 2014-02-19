@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
+import org.kuali.coeus.common.committee.impl.meeting.*;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingEventBase.ErrorType;
+import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.common.committee.meeting.*;
-import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
-import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;

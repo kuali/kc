@@ -3,8 +3,8 @@
   <bean id="NotificationModuleRoleMaintenanceDocument" parent="NotificationModuleRoleMaintenanceDocument-parentBean"/>
 
   <bean id="NotificationModuleRoleMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationModuleRole"/>
-    <property name="maintainableClass" value="org.kuali.kra.common.notification.bo.NotificationModuleRoleMaintainableImpl"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRole"/>
+    <property name="maintainableClass" value="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="NotificationModuleRoleMaintenanceDocument-EditNotificationModuleRole"/>

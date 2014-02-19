@@ -50,7 +50,7 @@ public class IacucProtocolAssignReviewerNotificationRenderer extends IacucProtoc
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
+     * @see org.kuali.coeus.common.notification.impl.NotificationContext#replaceContextVariables(java.lang.String)
      */
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();

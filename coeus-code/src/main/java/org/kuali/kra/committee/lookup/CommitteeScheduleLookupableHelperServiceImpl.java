@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.committee.lookup;
 
+import org.kuali.coeus.common.committee.impl.bo.CommitteeType;
+import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;
+import org.kuali.coeus.common.committee.impl.lookup.CommitteeScheduleLookupableHelperServiceImplBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
-import org.kuali.kra.common.committee.bo.CommitteeType;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
-import org.kuali.kra.common.committee.lookup.CommitteeScheduleLookupableHelperServiceImplBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
 /**

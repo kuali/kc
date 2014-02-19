@@ -1336,7 +1336,7 @@
     
     <bean id="kraLookupDao" class="org.kuali.kra.dao.ojb.KraLookupDaoOjb" parent="platformAwareDao" />
     
-    <bean id="kcNotificationService" class="org.kuali.kra.common.notification.service.impl.KcNotificationServiceImpl">
+    <bean id="kcNotificationService" class="org.kuali.coeus.common.notification.impl.service.impl.KcNotificationServiceImpl">
         <property name="sendNotificationService" ref="sendNotificationService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="roleManagementService" ref="roleService" />
@@ -1347,26 +1347,26 @@
         <property name="kcEmailService" ref="kcEmailService" />  
     </bean>
     
-    <bean id="kcNotificationAuthorizationService" class="org.kuali.kra.common.notification.KcNotificationAuthorizationServiceImpl">
+    <bean id="kcNotificationAuthorizationService" class="org.kuali.coeus.common.notification.impl.KcNotificationAuthorizationServiceImpl">
        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
        <property name="kcPersonService" ref="kcPersonService" />
     </bean>
 
-    <bean id="notificationLookupable" class="org.kuali.kra.common.notification.NotificationLookupableImpl" scope="prototype">
+    <bean id="notificationLookupable" class="org.kuali.coeus.common.notification.impl.NotificationLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="notificationLookupableHelperService" />
         <property name="kcNotificationAuthorizationService" ref="kcNotificationAuthorizationService" />
     </bean>
     
-    <bean id="notificationLookupableHelperService" class="org.kuali.kra.common.notification.NotificationLookupableHelperServiceImpl" 
+    <bean id="notificationLookupableHelperService" class="org.kuali.coeus.common.notification.impl.NotificationLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype">
         <property name="kcNotificationAuthorizationService" ref="kcNotificationAuthorizationService" />
     </bean>
     
-    <bean id="kcNotificationModuleRoleService" class="org.kuali.kra.common.notification.service.impl.KcNotificationModuleRoleServiceImpl">
+    <bean id="kcNotificationModuleRoleService" class="org.kuali.coeus.common.notification.impl.service.impl.KcNotificationModuleRoleServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean> 
     
-    <bean id="notificationRoleSubQualifierFinders" class="org.kuali.kra.common.notification.service.impl.NotificationRoleSubQualifierFindersImpl">
+    <bean id="notificationRoleSubQualifierFinders" class="org.kuali.coeus.common.notification.impl.service.impl.NotificationRoleSubQualifierFindersImpl">
     	<property name="finders">
     		<map>
     			<entry key="KC-PD:Investigators">
@@ -1692,7 +1692,7 @@
         <property name="parameterService" ref="parameterService"/>
     </bean>
     
-    <bean id ="specialReviewService" class ="org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl" lazy-init="true">
+    <bean id ="specialReviewService" class ="org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl" lazy-init="true">
         <property name="awardService" ref="awardService" />
         <property name="institutionalProposalService" ref="institutionalProposalService" />
         <property name="protocolFinderDao" ref="protocolFinderDao" />

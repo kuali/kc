@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.reviewcomments;
 
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;

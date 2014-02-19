@@ -22,6 +22,7 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewTypeValuesFinder;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.SpecialReviewUsage;

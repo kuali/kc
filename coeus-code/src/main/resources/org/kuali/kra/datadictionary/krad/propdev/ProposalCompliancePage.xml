@@ -129,7 +129,7 @@
 		</property>
 		<property name="optionsFinder">
 			<bean
-				class="org.kuali.kra.common.specialreview.lookup.keyvalue.SpecialReviewExemptionValuesFinder" />
+				class="org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewExemptionValuesFinder" />
 		</property>
 		<property name="propertyReplacers">
 			<ref bean="PropDev-CompliancePage-HiddenFieldPropertyReplacers" />

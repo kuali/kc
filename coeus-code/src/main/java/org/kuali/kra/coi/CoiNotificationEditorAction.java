@@ -19,13 +19,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.notification.impl.bo.KcNotification;
+import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
+import org.kuali.coeus.common.notification.impl.rule.event.AddNotificationRecipientEvent;
+import org.kuali.coeus.common.notification.impl.rule.event.SendNotificationEvent;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.notification.CoiNotification;
-import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEvent;
-import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 
 import javax.servlet.http.HttpServletRequest;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.notification;
 
-import org.kuali.kra.common.notification.NotificationRendererBase;
+import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 import java.io.Serializable;
@@ -45,7 +45,7 @@ public class InstitutionalProposalNotificationRenderer extends NotificationRende
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
+     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");

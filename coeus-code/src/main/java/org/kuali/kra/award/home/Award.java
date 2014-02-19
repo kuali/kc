@@ -16,6 +16,7 @@
 package org.kuali.kra.award.home;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -54,7 +55,6 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
-import org.kuali.kra.common.permissions.PermissionableKeys;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;

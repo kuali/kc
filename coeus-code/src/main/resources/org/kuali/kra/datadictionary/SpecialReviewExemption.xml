@@ -23,7 +23,7 @@
 
 	<bean id="SpecialReviewExemption" parent="SpecialReviewExemption-parentBean" />
 	<bean id="SpecialReviewExemption-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.common.specialreview.bo.SpecialReviewExemption" />
+		<property name="businessObjectClass" value="org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption" />
 		<property name="objectLabel" value="Special Review Exemption" />
 		<property name="inquiryDefinition" >
 			<ref bean="SpecialReviewExemption-inquiryDefinition" />
@@ -54,7 +54,7 @@
 		</property>
         <property name="control" >
             <bean parent="MultiselectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kra.common.specialreview.lookup.keyvalue.SpecialReviewExemptionValuesFinder"
+                  p:valuesFinderClass="org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewExemptionValuesFinder"
                   p:includeKeyInLabel="false" 
                   p:size="4"/>
         </property>

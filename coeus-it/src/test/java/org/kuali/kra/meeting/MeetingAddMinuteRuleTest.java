@@ -22,7 +22,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;

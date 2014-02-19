@@ -16,7 +16,7 @@
 package org.kuali.kra.negotiations.notifications;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
+import org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.negotiations.bo.Negotiation;
 
