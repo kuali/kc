@@ -75,12 +75,22 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
                 List<CustomAttributeDocument> entriesInCurrentGroup = customAttributeGroups.get(customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName());
                 if (entriesInCurrentGroup == null || !alreadyExists(entriesInCurrentGroup, customAttributeDocumentEntry)) {
                     String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
+                    // create customAttributeDocValues for the new custom data fields.
+                    addToCustomDataList(customAttributeDocumentEntry);
                     addToGroup(groupName, customAttributeGroups, customAttributeDocumentEntry);
                 }
             }
         }
     }
 
+    protected void addToCustomDataList(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry) {
+        T newCustomData = getNewCustomData();
+        newCustomData.setCustomAttribute(customAttributeDocumentEntry.getValue().getCustomAttribute());
+        newCustomData.setCustomAttributeId(customAttributeDocumentEntry.getValue().getCustomAttributeId().longValue());
+        newCustomData.setValue(customAttributeDocumentEntry.getValue().getCustomAttribute().getDefaultValue());
+        getCustomDataList().add(newCustomData);    
+    }
+    
     protected boolean alreadyExists(List<CustomAttributeDocument> entriesInCurrentGroup, Entry<String, CustomAttributeDocument> customAttributeDocumentEntry) {
         for ( CustomAttributeDocument entry : entriesInCurrentGroup) {
             if (entry.getCustomAttributeId() == Integer.parseInt(customAttributeDocumentEntry.getKey())) {
@@ -110,14 +120,9 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     @SuppressWarnings("unchecked")
     public void buildCustomDataCollectionsOnNewDocument(SortedMap<String, List> customAttributeGroups) {
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:getCustomAttributeDocuments().entrySet()) {
-            String temp = customAttributeDocumentEntry.getValue().getCustomAttribute().getValue();       
             String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
             
-            T newCustomData = getNewCustomData();
-            newCustomData.setCustomAttribute(customAttributeDocumentEntry.getValue().getCustomAttribute());
-            newCustomData.setCustomAttributeId(customAttributeDocumentEntry.getValue().getCustomAttributeId().longValue());
-            newCustomData.setValue(customAttributeDocumentEntry.getValue().getCustomAttribute().getDefaultValue());
-            getCustomDataList().add(newCustomData);
+            addToCustomDataList(customAttributeDocumentEntry);
             
             if (StringUtils.isEmpty(groupName)) {
                 groupName = "No Group";
