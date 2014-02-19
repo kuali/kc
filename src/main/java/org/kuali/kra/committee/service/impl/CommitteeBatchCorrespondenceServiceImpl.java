@@ -29,6 +29,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.abandon.ProtocolAbandonService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.actions.notification.BatchCorrespondenceNotificationRenderer;
@@ -51,6 +52,8 @@ import java.util.Map;
  * This class generates the batch correspondence of committees.
  */
 public class CommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorrespondenceServiceImplBase implements CommitteeBatchCorrespondenceService {
+    
+    protected ProtocolAbandonService protocolAbandonService;
 
     @Override
     /**
@@ -171,10 +174,44 @@ public class CommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorre
             ((ProtocolGenericActionService) protocolGenericActionService).close((Protocol) protocol, actionBean);
             finalActionCounter++;
         }
+        
+        if (StringUtils.equals(ProtocolActionType.EXPIRED, batchCorrespondence.getFinalActionTypeCode())) {
+            try {
+                protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
+            }
+            catch (RuntimeException ex) {
+                protocol.setProtocolDocument((ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
+            }
+            protocolGenericActionService.expire((Protocol) protocol, actionBean);
+            finalActionCounter++;
+        }
+        
+        if (StringUtils.equals(ProtocolActionType.ABANDON_PROTOCOL, batchCorrespondence.getFinalActionTypeCode())) {
+            try {
+                protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
+            }
+            catch (RuntimeException ex) {
+                protocol.setProtocolDocument((ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
+            }
+            getProtocolAbandonService().abandonProtocol(protocol, actionBean);
+            finalActionCounter++;
+        }
     }
     
     protected CommitteePrintingService getCommitteePrintingService() {
         return KraServiceLocator.getService(CommitteePrintingService.class);
+    }
+    
+    /**
+     * Populated by Spring Beans.
+     * @param protocoAbandonService
+     */
+    public void setProtocolAbandonService(ProtocolAbandonService protocolAbandonService) {
+        this.protocolAbandonService = protocolAbandonService;
+    }
+ 
+    private ProtocolAbandonService getProtocolAbandonService() {
+        return this.protocolAbandonService;
     }
     
     /**

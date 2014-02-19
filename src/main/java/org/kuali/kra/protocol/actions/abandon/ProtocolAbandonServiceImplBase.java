@@ -62,9 +62,17 @@ public abstract class ProtocolAbandonServiceImplBase implements ProtocolAbandonS
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
+    
+    protected DocumentService getDocumentService() {
+        return this.documentService;
+    }
 
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
+    }
+    
+    protected ProtocolActionService getProtocolActionService() {
+        return this.protocolActionService;
     }
 
     public void setProtocolActionCorrespondenceGenerationService(
