@@ -21,5 +21,5 @@ import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
  * 
  * This class provides enhanced database access functionality.
  */
-public interface CommitteeBatchCorrespondenceDao extends org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao<CommitteeBatchCorrespondence> {
+public interface CommitteeBatchCorrespondenceDao extends org.kuali.coeus.common.committee.impl.dao.CommitteeBatchCorrespondenceDao<CommitteeBatchCorrespondence> {
 }

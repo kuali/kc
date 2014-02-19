@@ -16,9 +16,9 @@
 package org.kuali.kra.iacuc.actions.modifysubmission;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;

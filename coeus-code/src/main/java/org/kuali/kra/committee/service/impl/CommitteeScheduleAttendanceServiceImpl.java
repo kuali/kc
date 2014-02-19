@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.committee.service.impl;
 
+import org.kuali.coeus.common.committee.impl.service.impl.CommitteeScheduleAttendanceServiceImplBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.common.committee.service.impl.CommitteeScheduleAttendanceServiceImplBase;
 
 
 public class CommitteeScheduleAttendanceServiceImpl  extends CommitteeScheduleAttendanceServiceImplBase<CommitteeService, Committee, CommitteeDocument, CommitteeSchedule> 

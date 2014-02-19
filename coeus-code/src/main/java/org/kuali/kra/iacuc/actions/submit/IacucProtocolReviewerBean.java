@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 
 public class IacucProtocolReviewerBean extends ProtocolReviewerBeanBase {

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.specialreview;
 
-import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 
 /**
  * Defines the Special Review Exemption for an Award.

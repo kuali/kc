@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.committee.lookup;
 
-import org.kuali.kra.common.committee.bo.CommitteeType;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
-import org.kuali.kra.common.committee.lookup.CommitteeScheduleLookupableHelperServiceImplBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeType;
+import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;
+import org.kuali.coeus.common.committee.impl.lookup.CommitteeScheduleLookupableHelperServiceImplBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.document.authorization.IacucCommitteeScheduleTask;

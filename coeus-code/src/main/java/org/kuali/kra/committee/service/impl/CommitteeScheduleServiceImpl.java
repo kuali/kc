@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.committee.service.impl;
 
+import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleAttachmentsBase;
+import org.kuali.coeus.common.committee.impl.service.impl.CommitteeScheduleServiceImplBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachmentsBase;
-import org.kuali.kra.common.committee.service.impl.CommitteeScheduleServiceImplBase;
 import org.kuali.kra.meeting.CommitteeScheduleAttachments;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.springframework.transaction.annotation.Transactional;

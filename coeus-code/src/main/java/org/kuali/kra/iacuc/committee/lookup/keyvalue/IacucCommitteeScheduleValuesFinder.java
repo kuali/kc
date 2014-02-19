@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeScheduleValuesFinderBase;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeScheduleValuesFinderBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 
 public class IacucCommitteeScheduleValuesFinder extends CommitteeScheduleValuesFinderBase {

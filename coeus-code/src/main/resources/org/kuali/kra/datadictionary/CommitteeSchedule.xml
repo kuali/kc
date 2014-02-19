@@ -200,7 +200,7 @@
 		</property>
 		<property name="control" >
             <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.common.committee.bo.ScheduleStatus"
+                p:businessObjectClass="org.kuali.coeus.common.committee.impl.bo.ScheduleStatus"
                 p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" 
                 p:includeKeyInLabel="false"
             	p:includeBlankRow="false"

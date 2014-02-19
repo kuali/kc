@@ -23,7 +23,7 @@
 
     <bean id="NotificationModuleRole" parent="NotificationModuleRole-parentBean" />
     <bean id="NotificationModuleRole-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationModuleRole" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRole" />
         <property name="objectLabel" value="Notification Module Role" />
         <property name="inquiryDefinition" >
             <ref bean="NotificationModuleRole-inquiryDefinition" />
@@ -99,7 +99,7 @@
         </property>
         <property name="control" >
             <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kra.common.notification.lookup.keyvalue.NotificationModuleRoleRoleNameValuesFinder"
+                  p:valuesFinderClass="org.kuali.coeus.common.notification.impl.lookup.keyvalue.NotificationModuleRoleRoleNameValuesFinder"
                   p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Role Name" />

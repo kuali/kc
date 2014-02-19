@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.decision;
 
-import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeDecisionMotionValuesFinder;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType;
+import org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeDecisionMotionValuesFinder;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;

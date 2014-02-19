@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.meeting;
 
-import org.kuali.kra.common.committee.meeting.MeetingFormBase;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingFormBase;
 
 /**
  * 

@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
@@ -29,7 +30,6 @@ import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
@@ -829,11 +829,11 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     /**
      * Get the list of all of the Proposal roles (filter out unassigned).
-     * @return the list of proposal roles of type org.kuali.kra.common.permissions.web.bean.Role
+     * @return the list of proposal roles of type org.kuali.coeus.common.permissions.impl.web.bean.Role
      */
-    public List<org.kuali.kra.common.permissions.web.bean.Role> getProposalRoles() {
-        List<org.kuali.kra.common.permissions.web.bean.Role> returnRoleBeans = 
-            new ArrayList<org.kuali.kra.common.permissions.web.bean.Role>();
+    public List<org.kuali.coeus.common.permissions.impl.web.bean.Role> getProposalRoles() {
+        List<org.kuali.coeus.common.permissions.impl.web.bean.Role> returnRoleBeans = 
+            new ArrayList<org.kuali.coeus.common.permissions.impl.web.bean.Role>();
         
         Collection<Role> roles = getKimProposalRoles();
         
@@ -848,7 +848,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                 queryBuilder.setPredicates(PredicateFactory.and(predicates.toArray(new Predicate[] {})));
                 permissionResults = getKimPermissionService().findPermissions(queryBuilder.build());
                 if (permissionResults != null && permissionResults.getResults().size() > 0) {
-                    returnRoleBeans.add(new org.kuali.kra.common.permissions.web.bean.Role(
+                    returnRoleBeans.add(new org.kuali.coeus.common.permissions.impl.web.bean.Role(
                     		role.getName(), role.getDescription(),permissionResults.getResults()));
                 }
                 predicates.clear();

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;

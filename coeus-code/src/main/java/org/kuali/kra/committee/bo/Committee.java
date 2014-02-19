@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.committee.bo;
 
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeType;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 

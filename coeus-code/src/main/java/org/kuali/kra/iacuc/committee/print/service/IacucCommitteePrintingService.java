@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.print.service;
 
-import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
+import org.kuali.coeus.common.committee.impl.print.service.CommitteePrintingServiceBase;
 
 public interface IacucCommitteePrintingService extends CommitteePrintingServiceBase {
 

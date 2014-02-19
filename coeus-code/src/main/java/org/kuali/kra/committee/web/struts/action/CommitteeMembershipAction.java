@@ -15,19 +15,19 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;
+import org.kuali.coeus.common.committee.impl.rule.event.DeleteCommitteeMemberEventBase;
+import org.kuali.coeus.common.committee.impl.rules.CommitteeDocumentRuleBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase;
+import org.kuali.coeus.common.committee.impl.web.struts.action.CommitteeMembershipActionBase;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.rule.event.DeleteCommitteeMemberEvent;
 import org.kuali.kra.committee.rules.CommitteeDocumentRule;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
-import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEventBase;
-import org.kuali.kra.common.committee.rules.CommitteeDocumentRuleBase;
-import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
-import org.kuali.kra.common.committee.web.struts.action.CommitteeMembershipActionBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.irb.ResearchArea;
 import org.kuali.rice.krad.document.Document;
@@ -47,7 +47,7 @@ public class CommitteeMembershipAction extends CommitteeMembershipActionBase {
 
     @Override
     protected DeleteCommitteeMemberEventBase getNewDeleteCommitteeMemberEventInstanceHook(String errorPathPrefix,
-            Document document, List<CommitteeMembershipBase> committeeMemberships, org.kuali.kra.common.committee.rule.event.CommitteeMemberEventBase.ErrorType type) {
+            Document document, List<CommitteeMembershipBase> committeeMemberships, org.kuali.coeus.common.committee.impl.rule.event.CommitteeMemberEventBase.ErrorType type) {
         
         return new DeleteCommitteeMemberEvent(errorPathPrefix, document, (List)committeeMemberships, type);
     }

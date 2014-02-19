@@ -21,7 +21,7 @@
 
     <bean id="MinuteEntryType" parent="MinuteEntryType-parentBean" />
     <bean id="MinuteEntryType-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.common.committee.meeting.MinuteEntryType" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.impl.meeting.MinuteEntryType" />
 		<property name="objectLabel" value="Minute Entry Type" />
         <property name="inquiryDefinition" >
             <ref bean="MinuteEntryType-inquiryDefinition" />

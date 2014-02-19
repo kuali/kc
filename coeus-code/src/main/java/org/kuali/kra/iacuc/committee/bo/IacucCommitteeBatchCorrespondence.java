@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.bo;
 
-import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceBase;
 
 import java.sql.Date;
 

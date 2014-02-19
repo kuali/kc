@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.CommonMeetingService;
+import org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 
 public interface IacucMeetingService extends CommonMeetingService<IacucCommitteeSchedule, IacucCommitteeScheduleMinute> {

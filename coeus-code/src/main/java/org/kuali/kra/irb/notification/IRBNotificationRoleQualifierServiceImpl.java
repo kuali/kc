@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.notification;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
+import org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -31,8 +31,8 @@ public class IRBNotificationRoleQualifierServiceImpl implements IRBNotificationR
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService#getRoleQualifierValue(
-     *      org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier)
+     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService#getRoleQualifierValue(
+     *      org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier)
      */
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {

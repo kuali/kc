@@ -16,9 +16,9 @@
 package org.kuali.kra.irb.notification;
 
 
+import org.kuali.coeus.common.notification.impl.NotificationRenderer;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
@@ -62,7 +62,7 @@ public class IRBNotificationContext extends ProtocolNotificationContextBase {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getModuleCode()
      */
     public String getModuleCode() {
         return CoeusModule.IRB_MODULE_CODE;

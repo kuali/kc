@@ -16,7 +16,7 @@
 
 	<bean id="ScheduleStatusMaintenanceDocument" parent="ScheduleStatusMaintenanceDocument-parentBean"/>
 	<bean id="ScheduleStatusMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.common.committee.bo.ScheduleStatus"/>
+		<property name="businessObjectClass" value="org.kuali.coeus.common.committee.impl.bo.ScheduleStatus"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>

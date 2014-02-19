@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import org.kuali.coeus.common.specialreview.impl.rule.event.AddSpecialReviewEvent;
+import org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
-import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
-import org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewService;

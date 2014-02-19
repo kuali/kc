@@ -16,8 +16,8 @@
 package org.kuali.kra.irb.actions.decision;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
+import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteAbstaineeBase;
+import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteRecusedBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;

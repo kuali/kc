@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.specialreview;
 
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
 
 /**
  * Defines the Award Special Review.
@@ -74,7 +74,7 @@ public class AwardSpecialReview extends SpecialReview<AwardSpecialReviewExemptio
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.specialreview.bo.SpecialReview#createSpecialReviewExemption(java.lang.String)
+     * @see org.kuali.coeus.common.specialreview.impl.bo.SpecialReview#createSpecialReviewExemption(java.lang.String)
      */
     @Override
     public AwardSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {

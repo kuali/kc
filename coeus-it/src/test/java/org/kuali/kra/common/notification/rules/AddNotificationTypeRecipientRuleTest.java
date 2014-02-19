@@ -17,9 +17,9 @@ package org.kuali.kra.common.notification.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.common.notification.rule.AddNotificationRecipientRule;
-import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEvent;
+import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
+import org.kuali.coeus.common.notification.impl.rule.AddNotificationRecipientRule;
+import org.kuali.coeus.common.notification.impl.rule.event.AddNotificationRecipientEvent;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
