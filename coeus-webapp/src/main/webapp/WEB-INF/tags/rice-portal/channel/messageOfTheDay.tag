@@ -16,7 +16,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="motd" value="<%= (KcServiceLocator.KraServiceLocatorService(org.kuali.kra.service.MessageOfTheDayService.class)).getMessagesOfTheDay() %>" scope="page"/>
+<c:set var="motd" value="<%= (KcServiceLocator.getService(org.kuali.kra.service.MessageOfTheDayService.class)).getMessagesOfTheDay() %>" scope="page"/>
 <c:if test="${!empty pageScope.motd}">
 	<channel:portalChannelTop channelTitle="Messages Of The Day" />
 	<c:set var = "printed" value = "false"/>
