@@ -1,8 +1,7 @@
 /**
  * Coeus common notification impl base package
- */
-/**
- * @author dgodfrey
+ *
+ * @author Kuali Coeus Development Team
  *
  */
 package org.kuali.coeus.common.notification.impl;

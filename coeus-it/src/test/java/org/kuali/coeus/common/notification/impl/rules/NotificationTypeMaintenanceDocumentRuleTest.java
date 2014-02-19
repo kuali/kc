@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.notification.rules;
+package org.kuali.coeus.common.notification.impl.rules;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
