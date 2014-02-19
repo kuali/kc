@@ -1,8 +1,7 @@
 /**
  * Coeus common special review base package
- */
-/**
- * @author dgodfrey
+ *
+ * @author Kuali Coeus Development Team
  *
  */
 package org.kuali.coeus.common.specialreview.impl;

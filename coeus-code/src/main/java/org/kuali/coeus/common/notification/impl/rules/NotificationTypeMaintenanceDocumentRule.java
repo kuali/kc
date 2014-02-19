@@ -39,22 +39,22 @@ public class NotificationTypeMaintenanceDocumentRule extends KcMaintenanceDocume
     private transient BusinessObjectService businessObjectService;
 
     @Override
-    public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return checkUniqueness(document);
     }
 
     @Override
-    public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
+    protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return checkUniqueness(document);
     }
     
     @Override
-    public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         return checkUniqueness(document);
     }
 
     @Override 
-    public boolean isDocumentValidForSave(MaintenanceDocument document) {
+    protected boolean isDocumentValidForSave(MaintenanceDocument document) {
         return checkUniqueness(document);
     }
 
