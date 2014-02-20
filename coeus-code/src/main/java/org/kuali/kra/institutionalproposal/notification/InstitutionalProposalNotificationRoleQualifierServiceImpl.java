@@ -16,7 +16,7 @@
 package org.kuali.kra.institutionalproposal.notification;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
+import org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
@@ -30,8 +30,8 @@ public class InstitutionalProposalNotificationRoleQualifierServiceImpl implement
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService#getRoleQualifierValue(
-     *      org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier)
+     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService#getRoleQualifierValue(
+     *      org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier)
      */
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {

@@ -21,7 +21,7 @@
 
 	<bean id="MembershipRole" parent="MembershipRole-parentBean" />
 	<bean id="MembershipRole-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.common.committee.bo.MembershipRole" />
+		<property name="businessObjectClass" value="org.kuali.coeus.common.committee.impl.bo.MembershipRole" />
 		<property name="objectLabel" value="Membership Role" />
 		<property name="inquiryDefinition" >
 			<ref bean="MembershipRole-inquiryDefinition" />

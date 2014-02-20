@@ -17,9 +17,9 @@ package org.kuali.kra.protocol.notification;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -53,7 +53,7 @@ public abstract class ProtocolNotificationRendererBase extends NotificationRende
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
+     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
         String[] replacementParameters = ProtocolReplacementParameters.REPLACEMENT_PARAMETERS;

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.meeting;
 
+import org.kuali.coeus.common.committee.impl.meeting.*;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.meeting.*;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.springframework.transaction.annotation.Transactional;
 

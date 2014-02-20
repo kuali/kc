@@ -16,7 +16,7 @@
 package org.kuali.kra.committee.web.struts.form.schedule;
 
 import org.junit.Test;
-import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.ScheduleData;
 
 import java.util.Map;
 

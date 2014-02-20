@@ -11,7 +11,7 @@
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left"> Meeting Details </span>
-            <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.common.committee.bo.ScheduleStatus" altText="help"/> </span>
+            <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.coeus.common.committee.impl.bo.ScheduleStatus" altText="help"/> </span>
         </h3>
                     
         <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">

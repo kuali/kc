@@ -17,6 +17,8 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -25,8 +27,6 @@ import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.coi.Disclosurable;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;

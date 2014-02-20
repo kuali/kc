@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.specialreview;
 
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 

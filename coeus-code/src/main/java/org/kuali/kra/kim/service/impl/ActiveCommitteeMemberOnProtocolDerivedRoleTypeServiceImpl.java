@@ -16,8 +16,8 @@
 package org.kuali.kra.kim.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.membership.MemberType;

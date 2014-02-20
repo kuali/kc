@@ -65,7 +65,7 @@ public class IacucPermissionsHelper extends PermissionsHelperBase {
     
 
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#isStandardRoleName(java.lang.String)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#isStandardRoleName(java.lang.String)
      */
     @Override
     protected boolean isStandardRoleName(String roleName) {
@@ -76,7 +76,7 @@ public class IacucPermissionsHelper extends PermissionsHelperBase {
     
 
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#canModifyPermissions()
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#canModifyPermissions()
      */
     @Override
     public boolean canModifyPermissions() {              

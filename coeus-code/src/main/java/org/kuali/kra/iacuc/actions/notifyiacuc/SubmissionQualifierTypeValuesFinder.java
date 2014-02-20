@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.actions.notifyiacuc;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;

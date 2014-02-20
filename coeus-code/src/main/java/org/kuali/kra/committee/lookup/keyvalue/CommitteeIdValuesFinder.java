@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeIdValuesFinderBase;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinderBase;
 
 /**
  * 

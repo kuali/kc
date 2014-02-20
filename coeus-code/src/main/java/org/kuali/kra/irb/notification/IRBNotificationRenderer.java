@@ -17,9 +17,9 @@ package org.kuali.kra.irb.notification;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
@@ -58,7 +58,7 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
+     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
         String[] replacementParameters = IRBReplacementParameters.REPLACEMENT_PARAMETERS;

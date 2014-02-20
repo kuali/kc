@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.notifications;
 
-import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.negotiations.bo.Negotiation;
 
 public interface NegotiationNotificationRoleQualifierService extends KcNotificationRoleQualifierService {

@@ -17,10 +17,10 @@ package org.kuali.kra.common.notification.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
-import org.kuali.kra.common.notification.bo.KcNotification;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.common.notification.rule.SendNotificationRule;
-import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
+import org.kuali.coeus.common.notification.impl.bo.KcNotification;
+import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
+import org.kuali.coeus.common.notification.impl.rule.SendNotificationRule;
+import org.kuali.coeus.common.notification.impl.rule.event.SendNotificationEvent;
 import org.kuali.kra.rules.TemplateRuleTest;
 
 import java.util.ArrayList;

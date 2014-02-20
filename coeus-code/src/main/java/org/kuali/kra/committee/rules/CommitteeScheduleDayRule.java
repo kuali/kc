@@ -16,13 +16,13 @@
 package org.kuali.kra.committee.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.MonthlyScheduleDetails;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.ScheduleData;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.StyleKey;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDayEvent;
-import org.kuali.kra.common.committee.web.struts.form.schedule.MonthlyScheduleDetails;
-import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
-import org.kuali.kra.common.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.infrastructure.KeyConstants;
 
 public class CommitteeScheduleDayRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<CommitteeScheduleDayEvent> {

@@ -29,11 +29,11 @@
 	</bean>		
 		
 	
-	<bean id="commonCommitteeNotificationService" class="org.kuali.kra.common.committee.service.impl.CommitteeNotificationServiceImpl">
+	<bean id="commonCommitteeNotificationService" class="org.kuali.coeus.common.committee.impl.service.impl.CommitteeNotificationServiceImpl">
 		<property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
     
-    <bean id="commonCommitteeNotificationRoleQualifierService" class="org.kuali.kra.common.committee.notification.CommitteeNotificationRoleQualifierServiceImpl"
+    <bean id="commonCommitteeNotificationRoleQualifierService" class="org.kuali.coeus.common.committee.impl.notification.CommitteeNotificationRoleQualifierServiceImpl"
           scope="prototype">
     </bean>
     

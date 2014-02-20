@@ -818,7 +818,7 @@
         <reference-descriptor name="submissionStatus" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="submissionStatusCode"/>
         </reference-descriptor>
-        <reference-descriptor name="committeeDecisionMotionType" class-ref="org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="committeeDecisionMotionType" class-ref="org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="committeeDecisionMotionTypeCode" />
         </reference-descriptor>
         <collection-descriptor name="exemptStudiesCheckList" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1227,7 +1227,7 @@
         <reference-descriptor name="followupProtocolActionType" class-ref="org.kuali.kra.irb.actions.ProtocolActionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="followupActionCode"/>
         </reference-descriptor>
-        <reference-descriptor name="committeeDecisionMotionType" class-ref="org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="committeeDecisionMotionType" class-ref="org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="motionTypeCode"/>
         </reference-descriptor>
     </class-descriptor>
@@ -1383,7 +1383,7 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <reference-descriptor name="notificationType" class-ref="org.kuali.kra.common.notification.bo.NotificationType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="notificationType" class-ref="org.kuali.coeus.common.notification.impl.bo.NotificationType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="notificationTypeId"/>
         </reference-descriptor>
     </class-descriptor>

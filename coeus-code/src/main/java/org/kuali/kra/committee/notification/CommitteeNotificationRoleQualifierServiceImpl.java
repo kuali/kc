@@ -16,9 +16,9 @@
 package org.kuali.kra.committee.notification;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 
 
@@ -29,7 +29,7 @@ public class CommitteeNotificationRoleQualifierServiceImpl implements CommitteeN
     
     /**
      * 
-     * @see org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService#getRoleQualifierValue(org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier)
+     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService#getRoleQualifierValue(org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier)
      */
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {

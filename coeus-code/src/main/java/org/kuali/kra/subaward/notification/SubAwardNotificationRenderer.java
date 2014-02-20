@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.subaward.notification;
 
-import org.kuali.kra.common.notification.NotificationRendererBase;
+import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -42,7 +42,7 @@ public class SubAwardNotificationRenderer extends NotificationRendererBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
+     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
         return getSubAwardReplacementParameters(subAward);

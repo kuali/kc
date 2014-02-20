@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.committee.lookup;
 
-import org.kuali.kra.common.committee.bo.CommitteeType;
-import org.kuali.kra.common.committee.lookup.CommitteeLookupableHelperServiceImplBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeType;
+import org.kuali.coeus.common.committee.impl.lookup.CommitteeLookupableHelperServiceImplBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.infrastructure.PermissionConstants;

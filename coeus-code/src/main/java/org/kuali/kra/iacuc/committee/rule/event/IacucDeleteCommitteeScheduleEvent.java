@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.committee.rule.event;
 
-import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEventBase;
-import org.kuali.kra.common.committee.rules.DeleteCommitteeScheduleRuleBase;
-import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
+import org.kuali.coeus.common.committee.impl.rule.event.DeleteCommitteeScheduleEventBase;
+import org.kuali.coeus.common.committee.impl.rules.DeleteCommitteeScheduleRuleBase;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.iacuc.committee.rules.IacucDeleteCommitteeScheduleRule;
 import org.kuali.rice.krad.document.Document;
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 

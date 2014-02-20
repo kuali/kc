@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.bo;
 
-import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 

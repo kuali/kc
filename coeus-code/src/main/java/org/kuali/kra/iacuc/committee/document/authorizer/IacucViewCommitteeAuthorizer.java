@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.document.authorizer;
 
-import org.kuali.kra.common.committee.document.authorizer.ViewCommitteeAuthorizerBase;
+import org.kuali.coeus.common.committee.impl.document.authorizer.ViewCommitteeAuthorizerBase;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class IacucViewCommitteeAuthorizer extends ViewCommitteeAuthorizerBase {

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.action;
 
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
-import org.kuali.kra.common.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
-import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEventBase;
-import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
-import org.kuali.kra.common.committee.web.struts.action.CommitteeScheduleActionBase;
-import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;
+import org.kuali.coeus.common.committee.impl.rule.event.DeleteCommitteeScheduleEventBase;
+import org.kuali.coeus.common.committee.impl.rule.event.CommitteeScheduleEventBase.ErrorType;
+import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
+import org.kuali.coeus.common.committee.impl.web.struts.action.CommitteeScheduleActionBase;
+import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.rule.event.IacucDeleteCommitteeScheduleEvent;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
