@@ -2481,6 +2481,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
          IacucProtocolForm protocolForm = (IacucProtocolForm) form;
          if(getProtocolActionRequestService().isTableProtocolAuthorized(protocolForm)) {
              String forwardTo = getProtocolActionRequestService().tableProtocol(protocolForm);
+             loadDocument(protocolForm);
+             protocolForm.getProtocolHelper().prepareView();
              forward = mapping.findForward(forwardTo);
          }
          return forward;

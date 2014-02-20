@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.actions.table;
 
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 
 /**
  * This class is the service API for the protocol "table" action
@@ -39,6 +40,6 @@ public interface IacucProtocolTableService {
      * @param actionBean
      * @throws Exception 
      */
-    public void tableProtocol(IacucProtocol protocol, IacucProtocolTableBean actionBean) throws Exception;
+    public IacucProtocolDocument tableProtocol(IacucProtocol protocol, IacucProtocolTableBean actionBean) throws Exception;
 
 }
