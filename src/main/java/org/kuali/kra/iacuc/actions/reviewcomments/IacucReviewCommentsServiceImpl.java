@@ -41,6 +41,7 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImplBas
                                                                           IacucProtocolSubmissionStatus.MINOR_REVISIONS_REQUIRED,
                                                                           IacucProtocolSubmissionStatus.MAJOR_REVISIONS_REQUIRED,
                                                                           IacucProtocolSubmissionStatus.DISAPPROVED,
+                                                                          IacucProtocolSubmissionStatus.TABLED,
                                                                           IacucProtocolSubmissionStatus.RETURNED_TO_PI};
 
     public void saveReviewAttachments(List<IacucProtocolReviewAttachment> reviewAttachments, List<IacucProtocolReviewAttachment> deletedReviewAttachments) {

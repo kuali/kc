@@ -1047,6 +1047,7 @@
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="iacucProtocolActionService" />
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolVersionService" ref="iacucProtocolVersionService" />
     </bean>
 
     <bean id="iacucProtocolAmendRenewService" class="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewServiceImpl">

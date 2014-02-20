@@ -15,29 +15,32 @@
  */
 package org.kuali.kra.iacuc.actions.table;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.actions.IacucProtocolAction;
-import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
-import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
-
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.actions.IacucProtocolAction;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
+import org.kuali.kra.protocol.ProtocolVersionService;
+import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+
 public class IacucProtocolTableServiceImpl implements IacucProtocolTableService {
     
     private ProtocolActionService protocolActionService;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
+    protected ProtocolVersionService protocolVersionService;
 
     
     public DocumentService getDocumentService() {
@@ -124,7 +127,7 @@ public class IacucProtocolTableServiceImpl implements IacucProtocolTableService 
     
 
     @Override
-    public void tableProtocol(IacucProtocol protocol, IacucProtocolTableBean actionBean) throws Exception {
+    public IacucProtocolDocument tableProtocol(IacucProtocol protocol, IacucProtocolTableBean actionBean) throws Exception {
         IacucProtocolSubmission submission = (IacucProtocolSubmission) protocol.getProtocolSubmission();
         // bump to next schedule
         bumpSubmissionToNextSchedule(submission);
@@ -135,8 +138,32 @@ public class IacucProtocolTableServiceImpl implements IacucProtocolTableService 
         protocol.getProtocolActions().add(protocolAction);
         getProtocolActionService().updateProtocolStatus(protocolAction, protocol);
         getDocumentService().saveDocument(protocol.getProtocolDocument());    
-        
+        return getNewProtocolDocument(protocol);
     }
     
+    /**
+     * This method is to create a new protocol document for the user to edit so they 
+     * can re-submit at a later time.
+     */
+    private IacucProtocolDocument getNewProtocolDocument(IacucProtocol protocol) throws Exception {
+        documentService.cancelDocument(protocol.getProtocolDocument(), "Protocol document cancelled - protocol has been returned for revisions.");        
+        IacucProtocolDocument newProtocolDocument = (IacucProtocolDocument) getProtocolVersionService().versionProtocolDocument(protocol.getProtocolDocument());
+        newProtocolDocument.getProtocol().setProtocolSubmission(null);
+        newProtocolDocument.getProtocol().setApprovalDate(null);
+        newProtocolDocument.getProtocol().setLastApprovalDate(null);
+        newProtocolDocument.getProtocol().setExpirationDate(null);
+        newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
+        newProtocolDocument.getProtocol().refreshReferenceObject("protocolSubmission");
+        documentService.saveDocument(newProtocolDocument);             
+        return newProtocolDocument;
+    }
+
+    public ProtocolVersionService getProtocolVersionService() {
+        return protocolVersionService;
+    }
+
+    public void setProtocolVersionService(ProtocolVersionService protocolVersionService) {
+        this.protocolVersionService = protocolVersionService;
+    }
 
 }
