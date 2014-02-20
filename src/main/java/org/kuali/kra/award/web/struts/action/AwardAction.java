@@ -519,17 +519,6 @@ public class AwardAction extends BudgetParentActionBase {
         getAwardService().updateAwardSequenceStatus(award, VersionStatus.PENDING);
         getVersionHistoryService().updateVersionHistory(award, VersionStatus.PENDING, userId);
         
-        // set awardDirectFandADistributions on award
-        if(isNewAward(awardForm) && !(award.getAwardEffectiveDate() == null)){
-            String autoGenerate = getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS); 
-            if (!StringUtils.equalsIgnoreCase(autoGenerate, "N")) {
-                AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
-                awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
-                                    (awardDirectFandADistributionService.
-                                            generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
-            }
-        }
-        
         if(!awardForm.getAwardDocument().isDocumentSaveAfterVersioning()) {
             awardForm.getAwardHierarchyBean().createDefaultAwardHierarchy();
             awardForm.getAwardHierarchyBean().saveHierarchyChanges();            
@@ -746,6 +735,21 @@ public class AwardAction extends BudgetParentActionBase {
     }
 
 
+    protected void generateDirectFandADistribution(AwardForm awardForm) {
+        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
+        Award award = awardDocument.getAward();
+        // set awardDirectFandADistributions on award
+        if(isNewAward(awardForm) && !(award.getAwardEffectiveDate() == null)){
+            Boolean autoGenerate = getParameterService().getParameterValueAsBoolean(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, 
+                                                                                    KeyConstants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS); 
+            if (autoGenerate) {
+                AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
+                award.setAwardDirectFandADistributions
+                                    (awardDirectFandADistributionService.
+                                            generateDefaultAwardDirectFandADistributionPeriods(award));
+            }
+        }
+    }
     
     @SuppressWarnings({ "deprecation", "unchecked" })
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -789,6 +793,9 @@ public class AwardAction extends BudgetParentActionBase {
             }
     
             if(firstTimeAndMoneyDocCreation){
+                
+                generateDirectFandADistribution(awardForm);
+                
                 timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
                 timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
                 timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);
