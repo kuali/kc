@@ -94,6 +94,9 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
             Pattern pattern = Pattern.compile(REGEX_TITLE_FILENAME_PATTERN);
             Matcher matcher = pattern.matcher(text);
             cleanText = matcher.replaceAll(REPLACEMENT_CHARACTER);
+            if(cleanText.length() > 50){
+               cleanText = cleanText.substring(0, 50);
+            }
         }
         return cleanText;
     }
