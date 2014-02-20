@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config />
+
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
+
+    <bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
+        <property name="dataSource" ref="dataSource${connection.pool.impl}" />
+        <property name="serverDataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
+        <property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
+        <property name="userTransaction" ref="jtaUserTransaction" />
+    </bean>
+
+    <bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
+        <property name="registryDataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="messageDataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource" />
+        <property name="bamDataSource" ref="riceDataSource${connection.pool.impl}" />
+    </bean>
+
+    <bean id="kradConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer">
+        <property name="includeKnsSpringBeans" value="true" />
+        <property name="applicationDataSource" ref="dataSource${connection.pool.impl}" />
+    </bean>
+
+    <bean id="coreServiceConfigurer" class="org.kuali.rice.coreservice.impl.config.CoreServiceConfigurer" />
+
+    <bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer" />
+
+    <bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer">
+        <property name="dataSource" ref="riceDataSource${connection.pool.impl}" />
+    </bean>
+
+    <bean id="kenConfigurer" class="org.kuali.rice.ken.impl.config.KENConfigurer" />
+
+    <bean id="krmsConfigurer" class="org.kuali.rice.krms.config.KRMSConfigurer"/>
+
+    <bean id="locationConfigurer" class="org.kuali.rice.location.impl.config.LocationConfigurer" />
+
+</beans>

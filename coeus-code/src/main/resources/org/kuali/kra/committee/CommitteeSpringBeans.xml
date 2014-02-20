@@ -11,10 +11,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <context:annotation-config />
 
@@ -182,8 +185,19 @@
 			</set>	
 		</property>
 	</bean>
-	
-    <bean id="activeCommitteeMemberDerivedRoleTypeServiceCallback" parent="kcCallbackService"
+
+    <bean id="kc.import.serviceBus" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="rice.ksb.serviceBus" />
+    </bean>
+
+    <bean id="kcCoreCallbackService" abstract="true" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+          p:serviceBus-ref="kc.import.serviceBus">
+        <property name="serviceNameSpaceURI">
+            <util:constant static-field="org.kuali.kra.infrastructure.Constants.KC_CORE_SERVICE_NAMESPACE"/>
+        </property>
+    </bean>
+
+    <bean id="activeCommitteeMemberDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="activeCommitteeMemberDerivedRoleTypeService" 
 		p:localServiceName="activeCommitteeMemberDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
@@ -201,7 +215,7 @@
 		</property>
 	</bean>
 	
-    <bean id="activeCommitteeMemberOnScheduledDateDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+    <bean id="activeCommitteeMemberOnScheduledDateDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService" 
 		p:localServiceName="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
@@ -248,6 +262,15 @@
 		scope="prototype" parent="parentLookupableHelperService">
 		<property name="taskAuthorizationService" ref="taskAuthorizationService" />
 	</bean>
+
+    <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dbPlatform" />
+    </bean>
+
+    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
+        <property name="jcdAlias" value="kradApplicationDataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
 
 	<bean id="committeeBatchCorrespondenceDao" parent="platformAwareDao"
 		class="org.kuali.kra.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjb" />

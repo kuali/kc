@@ -52,7 +52,16 @@
 		<property name="awardVersionService" ref="awardVersionService" />
 		<property name="personService" ref="personService" />        
     </bean>
-    
+
+    <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dbPlatform" />
+    </bean>
+
+    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
+        <property name="jcdAlias" value="kradApplicationDataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
+
     <bean id="timeAndMoneyDao" parent="platformAwareDao" class="org.kuali.kra.timeandmoney.dao.impl.TimeAndMoneyDaoOjb" />
     
     <bean id="timeAndMoneyExistenceService" class="org.kuali.kra.service.impl.TimeAndMoneyExistenceServiceImpl">
