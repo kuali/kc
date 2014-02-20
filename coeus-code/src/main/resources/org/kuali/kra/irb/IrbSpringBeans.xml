@@ -18,10 +18,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <context:annotation-config />
 
@@ -683,6 +686,15 @@
         </property>
     </bean>
 
+    <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dbPlatform" />
+    </bean>
+
+    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
+        <property name="jcdAlias" value="kradApplicationDataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
+
     <bean id="protocolDao" parent="platformAwareDao" class="org.kuali.kra.irb.ProtocolDaoOjb">
         <property name="lookupDao">
             <ref bean="lookupDao" />
@@ -921,8 +933,19 @@
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="roleManagementService" ref="roleService" />
 	</bean>
-    
-    <bean id="protocolOnlineReviewRoleTypeServiceCallback" parent="kcCallbackService"
+
+    <bean id="kc.import.serviceBus" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="rice.ksb.serviceBus" />
+    </bean>
+
+    <bean id="kcCoreCallbackService" abstract="true" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+          p:serviceBus-ref="kc.import.serviceBus">
+        <property name="serviceNameSpaceURI">
+            <util:constant static-field="org.kuali.kra.infrastructure.Constants.KC_CORE_SERVICE_NAMESPACE"/>
+        </property>
+    </bean>
+
+    <bean id="protocolOnlineReviewRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="protocolOnlineReviewRoleTypeService" 
 		p:localServiceName="protocolOnlineReviewRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
@@ -1004,7 +1027,7 @@
 			  class="org.kuali.kra.kim.service.impl.IRBApproverRoleTypeServiceImpl">
 	</bean>
 
-	<bean id="protocolApproverRoleTypeServiceCallback" parent="kcCallbackService" 
+	<bean id="protocolApproverRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="protocolApproverRoleTypeService"
 		p:localServiceName="protocolApproverRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
@@ -1025,7 +1048,7 @@
           class="org.kuali.kra.kim.service.impl.ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl">
     </bean>
    
-    <bean id="activeCommitteeMemberOnProtocolDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+    <bean id="activeCommitteeMemberOnProtocolDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="activeCommitteeMemberOnProtocolDerivedRoleTypeService" 
 		p:localServiceName="activeCommitteeMemberOnProtocolDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
@@ -1038,7 +1061,7 @@
           class="org.kuali.kra.kim.service.impl.ProtocolPersonnelDerivedRoleTypeServiceImpl">
     </bean>
    
-   <bean id="protocolPersonnelDerivedRoleTypeServiceCallback" parent="kcCallbackService"
+   <bean id="protocolPersonnelDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="protocolPersonnelDerivedRoleTypeService" 
 		p:localServiceName="protocolPersonnelDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
@@ -1047,7 +1070,7 @@
           class="org.kuali.kra.kim.service.impl.ProtocolAffiliateTypeDerivedRoleTypeServiceImpl">
     </bean>
   
-	<bean id="protocolAffiliateTypeDerivedRoleTypeServiceCallback" parent="kcCallbackService"
+	<bean id="protocolAffiliateTypeDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="protocolAffiliateTypeDerivedRoleTypeService" 
 		p:localServiceName="protocolAffiliateTypeDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
@@ -1056,7 +1079,7 @@
           class="org.kuali.kra.kim.service.impl.IacucCorrespondentDerivedRoleTypeServiceImpl">
     </bean>
 	
-	<bean id="iacucCorrespondentDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+	<bean id="iacucCorrespondentDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="iacucCorrespondentDerivedRoleTypeService" 
 		p:localServiceName="iacucCorrespondentDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
@@ -1065,7 +1088,7 @@
           class="org.kuali.kra.kim.service.impl.IrbCorrespondentDerivedRoleTypeServiceImpl">
     </bean>
 	
-	<bean id="irbCorrespondentDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+	<bean id="irbCorrespondentDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="irbCorrespondentDerivedRoleTypeService" 
 		p:localServiceName="irbCorrespondentDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>

@@ -17,6 +17,7 @@ package org.kuali.coeus.sys.framework.config;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.module.RunMode;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 import org.kuali.rice.core.framework.resourceloader.RiceResourceLoaderFactory;
@@ -51,7 +52,13 @@ public class KcConfigurer extends ModuleConfigurer {
     @Override
     public List<String> getPrimarySpringFiles() {
         return Collections.singletonList(bootstrapSpringFile);
-    }   
+    }
+
+    @Override
+    public List<String> getAdditionalSpringFiles() {
+        final String files = ConfigContext.getCurrentContextConfig().getProperty("kc." + getModuleName() + ".additionalSpringFiles");
+        return files == null ? Collections.<String>emptyList() : parseFileList(files);
+    }
     
     @Override
     protected ResourceLoader createResourceLoader(ServletContext servletContext, List<String> files, String moduleName) {
