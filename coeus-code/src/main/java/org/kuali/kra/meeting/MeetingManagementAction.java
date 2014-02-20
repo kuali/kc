@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.meeting;
 
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
+import org.kuali.coeus.common.committee.impl.meeting.*;
+import org.kuali.coeus.common.committee.impl.meeting.MeetingEventBase.ErrorType;
+import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
-import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.common.committee.meeting.*;
-import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
-import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 
 public class MeetingManagementAction extends MeetingManagementActionBase {

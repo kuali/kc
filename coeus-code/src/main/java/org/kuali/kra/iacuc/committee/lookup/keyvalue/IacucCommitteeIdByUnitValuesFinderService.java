@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
+import org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 
 public interface IacucCommitteeIdByUnitValuesFinderService extends CommitteeIdByUnitValuesFinderService<IacucCommittee> {

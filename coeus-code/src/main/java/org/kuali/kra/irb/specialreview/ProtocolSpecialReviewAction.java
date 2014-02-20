@@ -18,7 +18,7 @@ package org.kuali.kra.irb.specialreview;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
+import org.kuali.coeus.common.specialreview.impl.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolAction;

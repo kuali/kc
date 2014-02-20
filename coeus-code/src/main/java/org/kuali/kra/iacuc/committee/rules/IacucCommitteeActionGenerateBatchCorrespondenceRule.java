@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.rules;
 
-import org.kuali.kra.common.committee.rules.CommitteeActionGenerateBatchCorrespondenceRuleBase;
+import org.kuali.coeus.common.committee.impl.rules.CommitteeActionGenerateBatchCorrespondenceRuleBase;
 import org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;

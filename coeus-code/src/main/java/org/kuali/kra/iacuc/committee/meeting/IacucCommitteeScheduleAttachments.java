@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachmentsBase;
+import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleAttachmentsBase;
 
 public class IacucCommitteeScheduleAttachments extends CommitteeScheduleAttachmentsBase {
 

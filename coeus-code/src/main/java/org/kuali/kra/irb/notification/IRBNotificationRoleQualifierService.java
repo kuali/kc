@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.notification;
 
-import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 

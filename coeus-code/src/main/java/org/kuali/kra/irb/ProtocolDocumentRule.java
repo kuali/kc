@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb;
 
-import org.kuali.kra.common.permissions.bo.PermissionsUser;
-import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
-import org.kuali.kra.common.permissions.rule.PermissionsRule;
-import org.kuali.kra.common.permissions.web.bean.User;
-import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
+import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
+import org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles;
+import org.kuali.coeus.common.permissions.impl.rule.PermissionsRule;
+import org.kuali.coeus.common.permissions.impl.web.bean.User;
+import org.kuali.coeus.common.specialreview.impl.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule;
@@ -106,21 +106,21 @@ public class ProtocolDocumentRule extends ProtocolDocumentRuleBase<CommitteeDeci
     }
 
     /**
-     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processAddPermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUser)
+     * @see org.kuali.coeus.common.permissions.impl.rule.PermissionsRule#processAddPermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.coeus.common.permissions.impl.bo.PermissionsUser)
      */
     public boolean processAddPermissionsUserBusinessRules(Document document, List<User> users, PermissionsUser newUser) {
         return new ProtocolPermissionsRule().processAddPermissionsUserBusinessRules(document, users, newUser);
     }
 
     /**
-     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processDeletePermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, int)
+     * @see org.kuali.coeus.common.permissions.impl.rule.PermissionsRule#processDeletePermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, int)
      */
     public boolean processDeletePermissionsUserBusinessRules(Document document, List<User> users, int index) {
         return new ProtocolPermissionsRule().processDeletePermissionsUserBusinessRules(document, users, index);     
     }
 
     /**
-     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processEditPermissionsUserRolesBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles)
+     * @see org.kuali.coeus.common.permissions.impl.rule.PermissionsRule#processEditPermissionsUserRolesBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles)
      */
     public boolean processEditPermissionsUserRolesBusinessRules(Document document, List<User> users,
             PermissionsUserEditRoles editRoles) {

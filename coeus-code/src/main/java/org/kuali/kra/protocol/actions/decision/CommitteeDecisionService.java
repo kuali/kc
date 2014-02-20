@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol.actions.decision;
 
-import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
+import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteAbstaineeBase;
+import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteRecusedBase;
 import org.kuali.kra.protocol.ProtocolBase;
 
 import java.util.List;

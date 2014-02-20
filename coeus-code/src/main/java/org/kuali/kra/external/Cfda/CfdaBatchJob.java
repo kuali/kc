@@ -18,7 +18,7 @@ package org.kuali.kra.external.Cfda;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.UserSession;

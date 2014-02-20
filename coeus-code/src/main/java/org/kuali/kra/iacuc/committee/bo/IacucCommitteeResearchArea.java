@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.bo;
 
-import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeResearchAreaBase;
 
 public class IacucCommitteeResearchArea extends CommitteeResearchAreaBase {
 

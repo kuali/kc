@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.bo;
 
-import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceDetailBase;
 
 public class IacucCommitteeBatchCorrespondenceDetail extends CommitteeBatchCorrespondenceDetailBase {
 

@@ -2,7 +2,7 @@
 
     <bean id="MinuteEntryTypeMaintenanceDocument" parent="MinuteEntryTypeMaintenanceDocument-parentBean" />
     <bean id="MinuteEntryTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.common.committee.meeting.MinuteEntryType" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.impl.meeting.MinuteEntryType" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>

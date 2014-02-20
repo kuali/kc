@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.service;
 
-import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
+import org.kuali.coeus.common.committee.impl.print.service.CommitteePrintingServiceBase;
 
 /**
  * This class provides the means for printing reports related to Committee. It has the

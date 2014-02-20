@@ -3,8 +3,8 @@
   <bean id="NotificationTypeMaintenanceDocument" parent="NotificationTypeMaintenanceDocument-parentBean"/>
 
   <bean id="NotificationTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationType"/>
-    <property name="maintainableClass" value="org.kuali.kra.common.notification.bo.NotificationTypeMaintainableImpl"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.notification.impl.bo.NotificationType"/>
+    <property name="maintainableClass" value="org.kuali.coeus.common.notification.impl.bo.NotificationTypeMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="NotificationTypeMaintenanceDocument-EditNotificationType"/>
@@ -17,8 +17,8 @@
       </list>
     </property>	<property name="allowsRecordDeletion" value="true" />    <property name="allowsNewOrCopy" value="false"/>
     <property name="documentTypeName" value="NotificationTypeMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.common.notification.rules.NotificationTypeMaintenanceDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.common.notification.NotificationMaintenanceDocumentAuthorizer"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.notification.impl.rules.NotificationTypeMaintenanceDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.coeus.common.notification.impl.NotificationMaintenanceDocumentAuthorizer"/>
 
     <property name="webScriptFiles">
       <list>

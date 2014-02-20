@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol.specialreview;
 
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.protocol.ProtocolBase;
 
 /**

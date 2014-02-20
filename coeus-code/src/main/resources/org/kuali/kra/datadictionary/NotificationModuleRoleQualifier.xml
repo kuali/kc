@@ -23,7 +23,7 @@
 
     <bean id="NotificationModuleRoleQualifier" parent="NotificationModuleRoleQualifier-parentBean" />
     <bean id="NotificationModuleRoleQualifier-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier" />
         <property name="objectLabel" value="Notification Module Role Qualifier" />
         <property name="inquiryDefinition" >
             <ref bean="NotificationModuleRoleQualifier-inquiryDefinition" />
@@ -89,7 +89,7 @@
         <property name="maxLength" value="200" />
         <property name="control" >
             <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kra.common.notification.lookup.keyvalue.NotificationModuleRoleQualifierValuesFinder"
+                  p:valuesFinderClass="org.kuali.coeus.common.notification.impl.lookup.keyvalue.NotificationModuleRoleQualifierValuesFinder"
                   p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Role Qualifier" />

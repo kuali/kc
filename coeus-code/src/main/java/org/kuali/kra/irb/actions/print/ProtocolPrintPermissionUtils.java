@@ -16,10 +16,10 @@
 package org.kuali.kra.irb.actions.print;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.service.KcPersonService;
@@ -46,7 +46,7 @@ public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
      }    
 
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#canModifyPermissions()
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#canModifyPermissions()
      */
     @Override
     public boolean canModifyPermissions() {
@@ -54,7 +54,7 @@ public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
     }
 
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getPersonsInRole(java.lang.String)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getPersonsInRole(java.lang.String)
      */
     @Override
     protected List<KcPerson> getPersonsInRole(String roleName) {
@@ -74,7 +74,7 @@ public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
     }
 
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#isStandardRoleName(java.lang.String)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#isStandardRoleName(java.lang.String)
      */
     @Override
     protected boolean isStandardRoleName(String roleName) {

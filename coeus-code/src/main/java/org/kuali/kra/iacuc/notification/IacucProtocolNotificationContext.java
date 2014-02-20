@@ -49,7 +49,7 @@ public class IacucProtocolNotificationContext extends ProtocolNotificationContex
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getModuleCode()
      */
     public String getModuleCode() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;

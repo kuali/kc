@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.protocol.specialreview;
 
+import org.kuali.coeus.common.specialreview.impl.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
 
 /**
  * Defines the Special Review Helper for ProtocolBase.

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.table;
 
-import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 
 /**

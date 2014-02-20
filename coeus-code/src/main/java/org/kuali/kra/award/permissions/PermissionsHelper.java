@@ -16,6 +16,7 @@
 package org.kuali.kra.award.permissions;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
@@ -23,7 +24,6 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -88,7 +88,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getUnassignedRoleName()
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getUnassignedRoleName()
      */
     @Override
     public String getUnassignedRoleName() {
@@ -96,7 +96,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
     }
 
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#isStandardRoleName(java.lang.String)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#isStandardRoleName(java.lang.String)
      */
     @Override
     protected boolean isStandardRoleName(String roleName) {
@@ -105,7 +105,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getRoleDisplayName(java.lang.String)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getRoleDisplayName(java.lang.String)
      */
     @Override
     protected String getRoleDisplayName(String roleName) {
@@ -118,7 +118,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getPersonsInRole(java.lang.String)
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getPersonsInRole(java.lang.String)
      */
     @Override
     protected List<KcPerson> getPersonsInRole(String roleName) {
@@ -138,7 +138,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
     }
 
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#canModifyPermissions()
+     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#canModifyPermissions()
      */
     @Override 
     public boolean canModifyPermissions() {

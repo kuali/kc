@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.decision;
 
-import org.kuali.kra.common.committee.service.CommitteeScheduleAttendanceServiceBase;
+import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleAttendanceServiceBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleAttendanceService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRuleBase;

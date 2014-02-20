@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.negotiations.notifications;
 
+import org.kuali.coeus.common.notification.impl.NotificationContextBase;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationModuleRoleService;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.common.notification.NotificationContextBase;
-import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.util.EmailAttachment;
 

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.notification;
 
+import org.kuali.coeus.common.notification.impl.NotificationContextBase;
+import org.kuali.coeus.common.notification.impl.NotificationRenderer;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationModuleRoleService;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.common.notification.NotificationContextBase;
-import org.kuali.kra.common.notification.NotificationRenderer;
-import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.util.EmailAttachment;
 
@@ -71,7 +71,7 @@ public class InstitutionalProposalNotificationContext extends NotificationContex
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getModuleCode()
      */
     public String getModuleCode() {
         return CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE;
@@ -79,7 +79,7 @@ public class InstitutionalProposalNotificationContext extends NotificationContex
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getDocumentNumber()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getDocumentNumber()
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -87,7 +87,7 @@ public class InstitutionalProposalNotificationContext extends NotificationContex
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getActionTypeCode()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getActionTypeCode()
      */
     public String getActionTypeCode() {
         return actionTypeCode;
@@ -95,7 +95,7 @@ public class InstitutionalProposalNotificationContext extends NotificationContex
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getContextName()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getContextName()
      */
     public String getContextName() {
         return contextName;
@@ -103,7 +103,7 @@ public class InstitutionalProposalNotificationContext extends NotificationContex
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getEmailAttachments()
+     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getEmailAttachments()
      */
     public List<EmailAttachment> getEmailAttachments() {
         return emailAttachments;

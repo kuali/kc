@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.notification;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -49,7 +49,7 @@ public class IacucProtocolNotificationRenderer extends ProtocolNotificationRende
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
+     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();

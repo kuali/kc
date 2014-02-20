@@ -17,13 +17,13 @@ package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.notification.impl.bo.NotificationType;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.notification.AwardNotificationContext;
 import org.kuali.kra.award.notification.AwardReportTrackingNotificationRenderer;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
-import org.kuali.kra.common.notification.bo.NotificationType;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.rice.ken.api.notification.NotificationRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

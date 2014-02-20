@@ -16,7 +16,7 @@
 
     <bean id="CommitteeMembershipTypeMaintenanceDocument" parent="CommitteeMembershipTypeMaintenanceDocument-parentBean"/>
     <bean id="CommitteeMembershipTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.common.committee.bo.CommitteeMembershipType"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipType"/>
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
         <property name="maintainableSections">
             <list>

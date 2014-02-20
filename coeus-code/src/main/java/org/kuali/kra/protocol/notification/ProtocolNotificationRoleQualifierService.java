@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.notification;
 
-import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 

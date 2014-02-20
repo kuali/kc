@@ -24,9 +24,10 @@ import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.ActionType;
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo;
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo.Checklists;
+
+import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
