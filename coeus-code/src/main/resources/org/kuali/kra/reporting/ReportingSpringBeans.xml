@@ -8,10 +8,12 @@
 
     <context:annotation-config />
 
-    <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
-    <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
-    <import resource="classpath:org/kuali/kra/core/CommonSpringBeans.xml" />
-    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
+    </bean>
+
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
+
     <bean id="birtReportService" class="org.kuali.kra.reporting.service.impl.BirtReportServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>

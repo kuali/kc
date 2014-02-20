@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.kuali.coeus.sys" />
+
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/sys/impl/ModuleImportRiceSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/sys/impl/ModuleImportModuleSpringBeans.xml"/>
+
+    <bean id="sysModule" parent="sysModule-parentBean" />
+    <bean id="sysModule-parentBean" class="org.kuali.rice.krad.service.impl.ModuleServiceBase" abstract="true">
+        <property name="moduleConfiguration" ref="sysModuleConfiguration"/>
+        <property name="kualiModuleService" ref="kualiModuleService"/>
+    </bean>
+
+    <bean id="sysModuleConfiguration" parent="sysModuleConfiguration-parentBean" />
+    <bean id="sysModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="KC-SYS" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.coeus.sys</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="kcPessimisticLockingJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="kcPessimisticLockService" />
+        <property name="targetMethod" value="clearExpiredLocks" />
+        <property name="concurrent" value="false" />
+    </bean>
+
+    <bean id="kcPessimisticLockingCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="kcPessimisticLockingJobDetail" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="cronExpressionParameterName" value="pessimisticLocking.cronExpression" />
+        <property name="parameterNamespace" value="KC-SYS" />
+        <property name="parameterComponent" value="All" />
+    </bean>
+
+    <bean id="kcQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list merge="true">
+                <ref bean="kcPessimisticLockingCronTrigger" />
+            </list>
+        </property>
+    </bean>
+
+    <util:set id="taskAuthorizerGroupNames">
+        <value>applicationTaskAuthorizers</value>
+        <value>proposalTaskAuthorizers</value>
+        <value>proposalBudgetTaskAuthorizers</value>
+        <value>narrativeTaskAuthorizers</value>
+        <value>awardTaskAuthorizers</value>
+        <value>awardBudgetTaskAuthorizers</value>
+        <value>subAwardTaskAuthorizers</value>
+        <value>timeAndMoneyTaskAuthorizers</value>
+        <value>negotiationTaskAuthorizers</value>
+        <value>protocolTaskAuthorizers</value>
+        <value>protocolOnlineReviewTaskAuthorizers</value>
+        <value>iacucProtocolTaskAuthorizers</value>
+        <value>iacucProtocolOnlineReviewTaskAuthorizers</value>
+        <value>coiDisclosureTaskAuthorizers</value>
+        <value>committeeTaskAuthorizers</value>
+        <value>iacucCommitteeTaskAuthorizers</value>
+    </util:set>
+
+    <util:set id="webAuthorizerNames">
+        <value>proposalDevelopmentWebAuthorizer</value>
+        <value>proposalGrantsGovWebAuthorizer</value>
+        <value>proposalKeyPersonnelWebAuthorizer</value>
+        <value>proposalAbstractsAttachmentsWebAuthorizer</value>
+        <value>proposalBudgetVersionsWebAuthorizer</value>
+        <value>proposalPermissionsWebAuthorizer</value>
+        <value>proposalActionsWebAuthorizer</value>
+        <value>budgetWebAuthorizer</value>
+        <value>budgetVersionsWebAuthorizer</value>
+        <value>budgetActionsWebAuthorizer</value>
+        <value>awardBudgetsWebAuthorizer</value>
+    </util:set>
+
+</beans>

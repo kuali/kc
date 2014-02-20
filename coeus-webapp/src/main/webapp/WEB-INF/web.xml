@@ -15,7 +15,7 @@
     <!-- Change this if you want to use a different Spring file -->
     <context-param>
         <param-name>web.bootstrap.spring.file</param-name>
-        <param-value>classpath:kc-bootstrap-springbeans.xml</param-value>
+        <param-value>classpath:KcBootstrapSpringBeans.xml</param-value>
     </context-param>
 
     <filter>

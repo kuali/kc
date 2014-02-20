@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.auth.task.*;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ import java.util.*;
  * The Task Authorization Service Implementation.
  */
 @Component("taskAuthorizationService")
-public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
+public class TaskAuthorizationServiceImpl implements TaskAuthorizationService, InitializingBean {
 
     private static final Log LOG = LogFactory.getLog(TaskAuthorizationServiceImpl.class);
 
@@ -111,5 +112,12 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
     
     public void setTaskAuthorizerGroupNames(Set<String> taskAuthorizerGroupNames) {
         this.taskAuthorizerGroupNames = taskAuthorizerGroupNames;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (taskAuthorizerGroupNames == null || taskAuthorizerGroupNames.isEmpty()) {
+            throw new IllegalStateException("taskAuthorizerGroupNames not set");
+        }
     }
 }
