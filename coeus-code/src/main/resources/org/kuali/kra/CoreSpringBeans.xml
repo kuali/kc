@@ -23,19 +23,18 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context-3.0.xsd
-
-
-
-
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <context:annotation-config />
-    <context:component-scan base-package="org.kuali.coeus.sys" />
+    <!--<context:component-scan base-package="org.kuali.coeus.sys" />-->
 
-    <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
-    <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
-    <import resource="classpath:org/kuali/kra/core/CommonSpringBeans.xml" />
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
+    </bean>
+
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportRiceKradSpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/krad/config/KRADDependentModuleCommonImports.xml" />
     <import resource="CoreJpaSpringBeans.xml"/>
     <util:constant id="krms.serviceNamespace" static-field="org.kuali.rice.krms.api.KrmsConstants$Namespaces.KRMS_NAMESPACE_2_0"/>
@@ -53,7 +52,7 @@
         <!-- Rice hack this isn't really the right namespace but we cannot set 
             it correctly until we address modularity (breaking up our DD files, SpringBeans, 
             namespaces, etc. -->
-        <property name="namespaceCode" value="KC-SYS" />
+        <property name="namespaceCode" value="KC-CORE" />
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kra</value>
@@ -937,12 +936,11 @@
             </list>
         </property>
     </bean>
-    
-    <import resource="classpath:krad-base-servlet.xml"/>
+
    
   	<context:annotation-config />
-	<context:component-scan base-package="org.kuali.kra.web.krad"/>    
-    
+	<context:component-scan base-package="org.kuali.kra.web.krad"/>
+
     <bean class="org.kuali.rice.core.framework.util.spring.NamedOrderedListBean">
         <property name="name" value="scriptConfigurationFilePaths" />
         <property name="listItem" value="classpath:org/kuali/kra/dwr-kra.xml" />
@@ -1135,9 +1133,10 @@
     <bean id="xmlObjectSerializerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="xmlObjectSerializerService" />
     </bean>
-    
-    <bean id="multiCampusIdentityService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="multiCampusIdentityService" />
+
+    <bean id="multiCampusIdentityService" class="org.kuali.kra.service.impl.MultiCampusIdentityServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="identityService" ref="identityService" />
     </bean>
     
     <bean id="functionRepositoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -1154,6 +1153,26 @@
 
     <bean id="enDocumentTypeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="enDocumentTypeService" />
+    </bean>
+
+    <bean id="uifControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="uifControllerService" />
+    </bean>
+
+    <bean id="transactionalDocumentControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="transactionalDocumentControllerService" />
+    </bean>
+
+    <bean id="unitAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="unitAuthorizationService" />
+    </bean>
+
+    <bean id="systemAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="systemAuthorizationService" />
+    </bean>
+
+    <bean id="kcAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcAuthorizationService" />
     </bean>
 
     <bean id="krmsDistributedCacheManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -1285,22 +1304,7 @@
         </property>
         <property name="defaultIcon" value="static/images/ebinary_attachment.gif" />
     </bean>
-    
-    <bean id="kcCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
-        <property name="jobDetail" ref="kcLockJobDetail" />
-        <property name="parameterService" ref="parameterService" />
-        <property name="dateTimeService" ref="dateTimeService" />
-        <property name="cronExpressionParameterName" value="pessimisticLocking.cronExpression" />
-        <property name="parameterNamespace" value="KC-PD" />
-        <property name="parameterComponent" value="Document" />
-    </bean>
-    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="triggers">
-            <list>
-                <ref bean="kcCronTrigger" />
-            </list>
-        </property>
-    </bean>
+
     
     <bean id="kraDocumentService" class="org.kuali.kra.service.impl.KraDocumentServiceImpl">
     	<property name="delegateDocumentService" ref="documentService"/>
@@ -1327,13 +1331,16 @@
     	<property name="mailSender" ref="mailSender" />
     	<property name="parameterService" ref="parameterService" />
     </bean>
-    
-    <bean id="kcLockJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="kcPessimisticLockService" />
-        <property name="targetMethod" value="clearExpiredLocks" />
-        <property name="concurrent" value="false" />
+
+    <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dbPlatform" />
     </bean>
-    
+
+    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
+        <property name="jcdAlias" value="kradApplicationDataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
+
     <bean id="kraLookupDao" class="org.kuali.kra.dao.ojb.KraLookupDaoOjb" parent="platformAwareDao" />
     
     <bean id="kcNotificationService" class="org.kuali.coeus.common.notification.impl.service.impl.KcNotificationServiceImpl">
@@ -1496,8 +1503,19 @@
     <bean id="pastApproversDerivedRoleTypeService" class="org.kuali.kra.workflow.PastApproversDerivedRoleTypeServiceImpl">
         <property name="workflowDocumentService" ref="kewWorkflowDocumentService" />
     </bean>
-    
-	<bean id="pastApproversDerivedRoleTypeServiceCallback" parent="kcCallbackService"
+
+    <bean id="kc.import.serviceBus" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="rice.ksb.serviceBus" />
+    </bean>
+
+    <bean id="kcCoreCallbackService" abstract="true" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+          p:serviceBus-ref="kc.import.serviceBus">
+        <property name="serviceNameSpaceURI">
+            <util:constant static-field="org.kuali.kra.infrastructure.Constants.KC_CORE_SERVICE_NAMESPACE"/>
+        </property>
+    </bean>
+
+	<bean id="pastApproversDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="pastApproversDerivedRoleTypeService" 
 		p:localServiceName="pastApproversDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
@@ -1552,8 +1570,6 @@
 	      scope="prototype">
   	</bean>
     
-    <bean id="scheduleService" class="org.kuali.coeus.sys.impl.scheduling.ScheduleServiceImpl" />
-    
     <bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService" />
@@ -1598,7 +1614,7 @@
         <property name="unitService" ref="unitService" />
     </bean>
    
-    <bean id="unitAdministratorDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+    <bean id="unitAdministratorDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="unitAdministratorDerivedRoleTypeService" p:localServiceName="unitAdministratorDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     
@@ -1628,14 +1644,14 @@
         <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
     </bean>
    
-    <bean id="unitHierarchyRoleTypeServiceCallback" parent="kcCallbackService"
+    <bean id="unitHierarchyRoleTypeServiceCallback" parent="kcCoreCallbackService"
           p:callbackService-ref="unitHierarchyRoleTypeService"
           p:localServiceName="unitHierarchyRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
     
     <bean id="unitRoleTypeService" class="org.kuali.kra.kim.service.impl.UnitRoleTypeServiceImpl" />
   
-    <bean id="unitRoleTypeServiceCallback" parent="kcCallbackService"
+    <bean id="unitRoleTypeServiceCallback" parent="kcCoreCallbackService"
           p:callbackService-ref="unitRoleTypeService"
           p:localServiceName="unitRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />  
@@ -1769,40 +1785,6 @@
         <property name="roleManagementService" ref="roleService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
     </bean>
-
-    <!-- Task Authorization Service -->
-    <util:set id="taskAuthorizerGroupNames">
-        <value>applicationTaskAuthorizers</value>
-        <value>proposalTaskAuthorizers</value>
-        <value>proposalBudgetTaskAuthorizers</value>
-        <value>narrativeTaskAuthorizers</value>
-        <value>awardTaskAuthorizers</value>
-        <value>awardBudgetTaskAuthorizers</value>
-        <value>subAwardTaskAuthorizers</value>
-        <value>timeAndMoneyTaskAuthorizers</value>
-        <value>negotiationTaskAuthorizers</value>
-        <value>protocolTaskAuthorizers</value>
-        <value>protocolOnlineReviewTaskAuthorizers</value>
-        <value>iacucProtocolTaskAuthorizers</value>
-        <value>iacucProtocolOnlineReviewTaskAuthorizers</value>
-        <value>coiDisclosureTaskAuthorizers</value>
-        <value>committeeTaskAuthorizers</value>
-        <value>iacucCommitteeTaskAuthorizers</value>
-    </util:set>
-
-    <util:set id="webAuthorizerNames">
-        <value>proposalDevelopmentWebAuthorizer</value>
-        <value>proposalGrantsGovWebAuthorizer</value>
-        <value>proposalKeyPersonnelWebAuthorizer</value>
-        <value>proposalAbstractsAttachmentsWebAuthorizer</value>
-        <value>proposalBudgetVersionsWebAuthorizer</value>
-        <value>proposalPermissionsWebAuthorizer</value>
-        <value>proposalActionsWebAuthorizer</value>
-        <value>budgetWebAuthorizer</value>
-        <value>budgetVersionsWebAuthorizer</value>
-        <value>budgetActionsWebAuthorizer</value>
-        <value>awardBudgetsWebAuthorizer</value>
-    </util:set>
     
     <bean id="krmsRulesExecutionService" class="org.kuali.kra.krms.service.impl.KrmsRulesExecutionServiceImpl">
         <property name="kcKrmsCacheManager" ref="kcKrmsCacheManager" /> 
@@ -1812,7 +1794,7 @@
     
     <bean id="unitAgendaTypeService" class="org.kuali.kra.krms.UnitAgendaTypeService">
     </bean>
-    <bean id="unitAgendaTypeServiceCallback" parent="kcCallbackService"
+    <bean id="unitAgendaTypeServiceCallback" parent="kcCoreCallbackService"
       p:callbackService-ref="unitAgendaTypeService"
       p:localServiceName="unitAgendaTypeService"
       p:serviceInterface="org.kuali.rice.krms.framework.type.AgendaTypeService"/>
@@ -1826,12 +1808,12 @@
     <bean id="javaFunctionTermResolverTypeService" class="org.kuali.kra.krms.service.impl.JavaFunctionTermResolverTypeServiceImpl" 
     		parent="functionTermResolverTypeService"/>
     
-    <bean id="storedFunctionTermResolverTypeServiceCallback" parent="kcCallbackService"
+    <bean id="storedFunctionTermResolverTypeServiceCallback" parent="kcCoreCallbackService"
       p:callbackService-ref="storedFunctionTermResolverTypeService"
       p:localServiceName="storedFunctionTermResolverTypeService"
       p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
     
-    <bean id="javaFunctionTermResolverTypeServiceCallback" parent="kcCallbackService"
+    <bean id="javaFunctionTermResolverTypeServiceCallback" parent="kcCoreCallbackService"
       p:callbackService-ref="javaFunctionTermResolverTypeService"
       p:localServiceName="javaFunctionTermResolverTypeService"
       p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
@@ -1843,7 +1825,7 @@
     <bean id="kcPeopleFlowTypeService" class="org.kuali.kra.krms.service.KcPeopleFlowTypeService">
     </bean>
     
-    <bean id= "kcPeopleFlowTypeServiceCallback" parent="kcCallbackService"
+    <bean id= "kcPeopleFlowTypeServiceCallback" parent="kcCoreCallbackService"
       p:callbackService-ref="kcPeopleFlowTypeService"
       p:localServiceName="kcPeopleFlowTypeService"
       p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService"/>
@@ -1851,7 +1833,7 @@
     <bean id="questionResolverTypeService" class="org.kuali.kra.krms.service.impl.QuestionResolverTypeServiceImpl">
     </bean>
     
-    <bean id="questionResolverTypeServiceCallback" parent="kcCallbackService"
+    <bean id="questionResolverTypeServiceCallback" parent="kcCoreCallbackService"
       p:callbackService-ref="questionResolverTypeService"
       p:localServiceName="questionResolverTypeService"
       p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
@@ -1877,7 +1859,7 @@
     	<property name="actionListService" ref="actionListService" />
     </bean> 
           
-    <bean id="kcNotificationDocumentSecurityTypeServiceCallback" parent="kcCallbackService"
+    <bean id="kcNotificationDocumentSecurityTypeServiceCallback" parent="kcCoreCallbackService"
       p:callbackService-ref="kcNotificationDocumentSecurityTypeService"
       p:localServiceName="kcNotificationDocumentSecurityTypeService"
       p:serviceInterface="org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute"/>
@@ -1886,5 +1868,4 @@
         <property name="dataSource" ref="dataSource" />
         <property name="incrementerName" value="SEQ_SPONSOR_CODE" />
     </bean>
-
 </beans>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+
+    <bean id="kualiModuleService" parent="grlImporter" p:serviceName="kualiModuleService" />
+    <bean id="parameterService" parent="grlImporter" p:serviceName="parameterService" />
+    <bean id="dateTimeService" parent="grlImporter" p:serviceName="dateTimeService" />
+    <bean id="permissionService" parent="grlImporter" p:serviceName="kimPermissionService" />
+    <bean id="roleService" parent="grlImporter" p:serviceName="kimRoleService" />
+    <bean id="kimTypeInfoService" parent="grlImporter" p:serviceName="kimTypeInfoService" />
+    <bean id="routeHeaderService" parent="grlImporter" p:serviceName="enDocumentRouteHeaderService" />
+    <bean id="businessObjectService" parent="grlImporter" p:serviceName="businessObjectService" />
+    <bean id="persistenceStructureServiceOjb" parent="grlImporter" p:serviceName="persistenceStructureServiceOjb" />
+    <bean id="documentService" parent="grlImporter" p:serviceName="documentService" />
+    <bean id="kradWorkflowDocumentService" parent="grlImporter" p:serviceName="workflowDocumentService" />
+    <bean id="enDocumentTypeService" parent="grlImporter" p:serviceName="enDocumentTypeService" />
+    <bean id="kewWorkflowDocumentService" parent="grlImporter" p:serviceName="rice.kew.workflowDocumentService" />
+    <bean id="postProcessorService" parent="grlImporter" p:serviceName="postProcessorService" />
+    <bean id="workflowDocumentActionsService" parent="grlImporter" p:serviceName="rice.kew.workflowDocumentActionsService" />
+    <bean id="actionListService" parent="grlImporter" p:serviceName="rice.kew.actionListService" />
+    <bean id="identityService" parent="grlImporter" p:serviceName="kimIdentityService" />
+
+</beans>

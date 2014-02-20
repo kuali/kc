@@ -25,6 +25,7 @@ import org.kuali.coeus.sys.framework.scheduling.util.CronSpecialChars;
 import org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt;
 import org.quartz.SimpleTrigger;
 import org.quartz.TriggerUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
@@ -34,12 +35,9 @@ import java.util.*;
  * This class is thread safe implementation of ScheduleService interface. Primary function of this service implementation is to
  * return generated schedule dates using parameters passed.
  */
+@Component("scheduleService")
 @Transactional
 public class ScheduleServiceImpl implements ScheduleService {
-
-    @SuppressWarnings("unused")
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-            .getLog(ScheduleServiceImpl.class);
 
     /**
      * This overloaded implementation uses NeverCronExpression, which generates schedule for specific DAY only.
@@ -59,8 +57,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     /**
      * This overloaded implementation uses DayCronExpression targeting daily types of schedule generation.
      * 
-     * @see org.kuali.kra.scheduling.service.impl.ScheduleService#getScheduledDates(java.util.Date, java.util.Date,
-     *      org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt, java.lang.Integer, org.kuali.coeus.sys.framework.scheduling.seq.ScheduleSequence)
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer frequencyInDay,
             ScheduleSequence scheduleSequence) throws ParseException {
@@ -72,9 +68,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     /**
      * This overloaded implementation uses WeekCronExpression targeting weekly types of schedule generation.
      * 
-     * @see org.kuali.kra.scheduling.service.impl.ScheduleService#getScheduledDates(java.util.Date, java.util.Date,
-     *      org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt, org.kuali.coeus.sys.framework.scheduling.util.CronSpecialChars[],
-     *      org.kuali.coeus.sys.framework.scheduling.seq.ScheduleSequence)
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars[] weekdays,
             ScheduleSequence scheduleSequence) throws ParseException {
@@ -86,9 +79,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     /**
      * This overloaded implementation uses MonthDayCronExpression targeting monthly types of schedule generation.
      * 
-     * @see org.kuali.kra.scheduling.service.impl.ScheduleService#getScheduledDates(java.util.Date, java.util.Date,
-     *      org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt, java.lang.Integer, java.lang.Integer,
-     *      org.kuali.coeus.sys.framework.scheduling.seq.ScheduleSequence)
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer day, Integer frequencyInMonth,
             ScheduleSequence scheduleSequence) throws ParseException {
@@ -100,8 +90,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     /**
      * This overloaded implementation uses MonthDayMultipleYearsCronExpression targeting monthly types of schedule generation.
      * 
-     * @see ScheduleService#getScheduledDates(java.util.Date, java.util.Date,
-     *      org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt, org.kuali.coeus.sys.framework.scheduling.seq.ScheduleSequence, java.lang.Integer)
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, ScheduleSequence scheduleSequence,
             Integer dayOfMonth) throws ParseException {
@@ -112,10 +100,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     /**
      * This overloaded implementation uses MonthDayCronExpression targeting monthly types of schedule generation.
      * 
-     * @see org.kuali.kra.scheduling.service.impl.ScheduleService#getScheduledDates(java.util.Date, java.util.Date,
-     *      org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt, org.kuali.coeus.sys.framework.scheduling.util.CronSpecialChars,
-     *      org.kuali.coeus.sys.framework.scheduling.util.CronSpecialChars, java.lang.Integer,
-     *      org.kuali.coeus.sys.framework.scheduling.seq.ScheduleSequence)
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars dayOfWeek,
             CronSpecialChars weekOfMonth, Integer frequencyInMonth, ScheduleSequence scheduleSequence) throws ParseException {
@@ -127,9 +111,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     /**
      * This overloaded implementation uses YearMonthDayCronExpression targeting yearly types of schedule generation.
      * 
-     * @see org.kuali.kra.scheduling.service.impl.ScheduleService#getScheduledDates(java.util.Date, java.util.Date,
-     *      org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt, org.kuali.coeus.sys.framework.scheduling.util.CronSpecialChars, java.lang.Integer,
-     *      java.lang.Integer, org.kuali.coeus.sys.framework.scheduling.seq.ScheduleSequence)
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars month, Integer day,
             Integer frequencyInYear, ScheduleSequence scheduleSequence) throws ParseException {
@@ -141,10 +122,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     /**
      * This overloaded implementation uses YearMonthDayCronExpression targeting yearly types of schedule generation.
      * 
-     * @see org.kuali.kra.scheduling.service.impl.ScheduleService#getScheduledDates(java.util.Date, java.util.Date,
-     *      org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt, org.kuali.coeus.sys.framework.scheduling.util.CronSpecialChars,
-     *      org.kuali.coeus.sys.framework.scheduling.util.CronSpecialChars, org.kuali.coeus.sys.framework.scheduling.util.CronSpecialChars,
-     *      java.lang.Integer, org.kuali.coeus.sys.framework.scheduling.seq.ScheduleSequence)
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars weekOfMonth,
             CronSpecialChars dayOfWeek, CronSpecialChars month, Integer frequencyInYear, ScheduleSequence scheduleSequence)

@@ -18,17 +18,22 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <context:annotation-config />
 
-    <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
-    <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
-    <import resource="classpath:org/kuali/kra/core/CommonSpringBeans.xml" />
-    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
+    </bean>
+
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
+
     <bean id="negotiationModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
         <property name="moduleConfiguration" ref="negotiationModuleConfiguration"/>
         <property name="kualiModuleService" ref="kualiModuleService"/>
@@ -177,7 +182,16 @@
           parent="parentLookupableHelperService" scope="prototype">
         <property name="negotiationDao" ref="negotiationDao" />
     </bean>
-        
+
+    <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dbPlatform" />
+    </bean>
+
+    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
+        <property name="jcdAlias" value="kradApplicationDataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
+
     <bean id="negotiationDao" class="org.kuali.kra.negotiations.lookup.NegotiationDaoOjb" parent="platformAwareDao">
         <property name="negotiationService" ref="negotiationService" />
         <property name="persistenceStructureService" ref="persistenceStructureService" />
@@ -189,9 +203,20 @@
     <bean id="negotiationNotificationRoleQualifierService" class="org.kuali.kra.negotiations.notifications.NegotiationNotificationRoleQualifierServiceImpl"
           scope="prototype" />
     
-    <bean id="negotiationNegotiatorDerivedRoleType" class="org.kuali.kra.negotiations.service.NegotiationNegotiatorDerivedRoleTypeServiceImpl"/>    
-    
-    <bean id="negotiationNegotiatorDerivedRoleTypeCallback" parent="kcCallbackService"
+    <bean id="negotiationNegotiatorDerivedRoleType" class="org.kuali.kra.negotiations.service.NegotiationNegotiatorDerivedRoleTypeServiceImpl"/>
+
+    <bean id="kc.import.serviceBus" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="rice.ksb.serviceBus" />
+    </bean>
+
+    <bean id="kcCoreCallbackService" abstract="true" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+          p:serviceBus-ref="kc.import.serviceBus">
+        <property name="serviceNameSpaceURI">
+            <util:constant static-field="org.kuali.kra.infrastructure.Constants.KC_CORE_SERVICE_NAMESPACE"/>
+        </property>
+    </bean>
+
+    <bean id="negotiationNegotiatorDerivedRoleTypeCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="negotiationNegotiatorDerivedRoleType" 
 		p:localServiceName="negotiationNegotiatorDerivedRoleType" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
@@ -200,7 +225,7 @@
         <property name="negotiationService" ref="negotiationService" />
     </bean>
    
-    <bean id="negotiationPersonDerivedRoleTypeCallback" parent="kcCallbackService"
+    <bean id="negotiationPersonDerivedRoleTypeCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="negotiationPersonDerivedRoleType" 
 		p:localServiceName="negotiationPersonDerivedRoleType" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
