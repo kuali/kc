@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 import org.kuali.kra.bo.CoeusModule;
@@ -37,7 +33,6 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -92,7 +87,6 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
      * 
      * @see org.kuali.kra.questionnaire.QuestionnaireHelperBase#getModuleQnBean()
      */
-    
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
         ProposalDevelopmentDocument propDevDoc = getProposalDevelopmentDocument(); 
@@ -114,42 +108,21 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
      */
     private void initializePermissions(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         ProposalTask task = new ProposalTask(TaskName.CERTIFY, proposalDevelopmentDocument);
-        ProposalTask modifyPersonCert = new ProposalTask(TaskName.MODIFY_PROPOSAL_PERSON_CERTIFICATION, proposalDevelopmentDocument);
-       
-        boolean canCertify = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), modifyPersonCert)
-                                   || getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        boolean canCertify = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        setAnswerQuestionnaire(canCertify);
 
         String keyPersonCertDeferral = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, "KEY_PERSON_CERTIFICATION_DEFERRAL");
-        
-        Set<String> routeNodeNames = new HashSet<String>();
-        routeNodeNames.add("Initiated");
-        //There's probably a way to do this via workflow document definition...
-        if(keyPersonCertDeferral.equals("BS") || ObjectUtils.isNull(getProposalDevelopmentDocument())) {
-            //only certifiable on the initiated node.
-        } else if(keyPersonCertDeferral.equals("BA")) {
-            routeNodeNames.add("OSPInitial");
-            routeNodeNames.add("ProposalPersons");
-            routeNodeNames.add("PeopleFlows");
-        } else {
-            //KEY_PERSON_CERTIFICATION_DEFERRAL is set to an improper value.
-            LOG.error("System Parameter 'KEY_PERSON_CERTIFICATION_DEFERRAL' is not properly set. Must be one of 'BA' or 'BS'");
-        }
 
-        if(ObjectUtils.isNotNull(getProposalDevelopmentDocument())) {
-            Set<String> currentNodeNames = getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
-            boolean contains = false;
-            if(!currentNodeNames.isEmpty()) {
-                for(String nodeName : currentNodeNames) {
-                    if(routeNodeNames.contains(nodeName)) {
-                        contains = true;
-                        break;
-                    }
-                }
-            }
-            if(!contains) {
+        if(keyPersonCertDeferral.equals("BS") || ObjectUtils.isNull(getProposalDevelopmentDocument())) {
+            setCanAnswerAfterRouting(false);
+        } else if(keyPersonCertDeferral.equals("BA")) {
+            
+            boolean isEnroute = getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute();
+            
+            if(!isEnroute && !canCertify) {
                 setCanAnswerAfterRouting(false);
             } else {
-                //proposal person should be allowed to answer their own questionnaire.
+                //questionnaires should continue to be answerable only to the following approvers.
                 ProposalPersonRole personRole = proposalPerson.getRole();
                 if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
                         || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
@@ -160,9 +133,11 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
                     }
                 }
             }
+        } else {
+            //KEY_PERSON_CERTIFICATION_DEFERRAL is set to an improper value.
+            LOG.warn("System Parameter 'KEY_PERSON_CERTIFICATION_DEFERRAL' is not properly set. Must be one of 'BA' or 'BS'");
+            setCanAnswerAfterRouting(false);
         }
-
-        setAnswerQuestionnaire(canCertify);
     }
 
     @Override

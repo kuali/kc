@@ -85,8 +85,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ActionForward retval = super.execute(mapping, form, request, response);
         prepare(form, request);
 
-        ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons();
-        //setAnswerHeaders(keyPersonnel);
         return retval;
     }
     
@@ -126,7 +124,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         boolean rulePassed = true;
-        pdform.getProposalDevelopmentDocument();
         rulePassed &= getKualiRuleService().applyRules(new SaveKeyPersonEvent(EMPTY_STRING, pdform.getProposalDevelopmentDocument()));
         if(rulePassed) {
             List<AnswerHeader> answerHeadersToSave = new ArrayList<AnswerHeader>();
@@ -184,7 +181,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             warn(e.getMessage());
         }     
         
-        ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons();
     }
 
     
@@ -868,7 +864,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         if (StringUtils.contains(formProperty, ".proposalPersonQuestionnaireHelpers[")) {
             int selectedPersonIndex = Integer.parseInt(formProperty.substring(36, formProperty.length()-1));
             
-            document.getDevelopmentProposal().getProposalPerson(selectedPersonIndex);
+            ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(selectedPersonIndex);
             ProposalPersonQuestionnaireHelper helper = pdform.getProposalPersonQuestionnaireHelpers().get(selectedPersonIndex);
             
             helper.updateQuestionnaireAnswer(getLineToDelete(request));
