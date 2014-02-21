@@ -39,7 +39,6 @@
 	
 		<c:if test="${KualiForm.document.protocol.active and showActions}">
             <kra-iacuc-action:submitAction />
-            <kra-iacuc-action:assignCmtAction />  
             <kra-iacuc-action:withdrawAction />
             <kra-iacuc-action:modifySubmissionAction />            
 			<kra-iacuc-action:adminActions />
@@ -245,11 +244,6 @@
         	                                                 reason="Protocol status must be Submitted To IACUC.
 																	 <p>
                                             	                     Protocol submission status must be Pending or Submitted To Committee." />
-	        	    <kra-iacuc-action:genericUnavailableAction tabTitle="Assign to Committee"
-                	                                         canPerformAction="${KualiForm.actionHelper.canAssignCmtUnavailable}" 
-                    	                                     reason="Protocol submission status must be Pending or Submitted To Committee.
-                        	                                         <p>
-                            	                                     Protocol must be enroute in workflow." />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Assign Reviewers"
     	                                                     canPerformAction="${KualiForm.actionHelper.canAssignReviewersUnavailable}" 
         	                                                 reason="Protocol must be assigned to a committee.
