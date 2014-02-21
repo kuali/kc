@@ -696,9 +696,8 @@
 </c:otherwise>
 </c:choose>
 
-<kra:section permission="viewCertifications">
 <bean:define id="certificationRequired" name="KualiForm" property="${proposalPerson}.role.certificationRequired" /> 
-<c:set var="showCompleteButton" value="${!bean.answerQuestionnare and readOnly }"/>
+
 <c:choose>
  <c:when test="${certificationRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
  	<c:choose>
@@ -804,7 +803,6 @@
 </c:otherwise>
 
 </c:choose>
-</kra:section>
 
 </table>
   </div>
