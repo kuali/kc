@@ -24,6 +24,7 @@ import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
@@ -41,7 +42,13 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
 
     private static final long serialVersionUID = -2148599171919464303L;
 
-    private static final String NEXT_ACTION_ID_KEY = "actionId";
+    protected static final String PROTOCOL_ACTION_ID_FIELD_KEY = "protocolActionId";
+    protected static final String PROTOCOL_ACTION_TYPE_CODE_FIELD_KEY = "protocolActionTypeCode";
+    protected static final String SUBMISSION_NUMBER_FIELD_KEY = "submissionNumber";
+    protected static final String ACTION_ID_FIELD_KEY = "actionId";
+    protected static final String PROTOCOL_NUMBER_FIELD_KEY = "protocolNumber";
+    protected static final String COMMENT_PREFIX_RENEWAL = "Renewal-";
+    protected static final String COMMENT_PREFIX_AMMENDMENT = "Amendment-";
 
     //not thread safe cannot be static  
     private transient SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -93,6 +100,8 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
 
     private transient CommitteeServiceBase committeeService;
 
+    private transient QuestionnairePrintOption questionnairePrintOption;
+
     public ProtocolActionBase() {
     }
 
@@ -112,7 +121,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         setProtocolId(protocol.getProtocolId());
         setProtocolNumber(protocol.getProtocolNumber());
         setSequenceNumber(0);
-        setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
+        setActionId(protocol.getNextValue(ACTION_ID_FIELD_KEY));
         setActualActionDate(new Timestamp(System.currentTimeMillis()));
         setActionDate(new Timestamp(System.currentTimeMillis()));
         setProtocolActionTypeCode(protocolActionTypeCode);
@@ -559,6 +568,27 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
 
     public void setQuestionnaireHelper(ProtocolSubmissionQuestionnaireHelper questionnaireHelper) {
         this.questionnaireHelper = questionnaireHelper;
+    }
+
+    public QuestionnairePrintOption getQuestionnairePrintOption() {
+        return questionnairePrintOption;
+    }
+
+    public void setQuestionnairePrintOption(QuestionnairePrintOption questionnairePrintOption) {
+        this.questionnairePrintOption = questionnairePrintOption;
+    }
+
+    protected QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode) {
+    
+        if (!getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
+            QuestionnairePrintOption qnPrintOption = new QuestionnairePrintOption();
+            qnPrintOption.setItemKey(itemKey);
+            qnPrintOption.setSubItemCode(subItemCode);
+            qnPrintOption.setSubItemKey(subItemKey);
+            return qnPrintOption;
+        } else {
+            return null;
+        }
     }
     
 }

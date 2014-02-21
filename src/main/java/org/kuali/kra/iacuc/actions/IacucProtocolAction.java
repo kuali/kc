@@ -29,7 +29,6 @@ import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.iacuc.questionnaire.IacucSubmissionQuestionnaireHelper;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
-import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -40,18 +39,11 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
  */
 public class IacucProtocolAction extends ProtocolActionBase {
     
-    private static final String COMMENT_PREFIX_RENEWAL = "Renewal-";
-
-    private static final String COMMENT_PREFIX_AMMENDMENT = "Amendment-";
-
-    private static final String SUBMITTED_TO_IACUC_COMMENT = "SubmittedToIACUC";
+    private static final String COMMENT_SUBMITTED_TO_IACUC = "SubmittedToIACUC";
 
     private static final long serialVersionUID = -4895673225969021493L;
 
     private boolean createdSubmission;
-    
-    private transient QuestionnairePrintOption questionnairePrintOption;
-
     
     public IacucProtocolAction() {
     }
@@ -63,15 +55,6 @@ public class IacucProtocolAction extends ProtocolActionBase {
     public IacucProtocolAction(IacucProtocol protocol, String protocolActionTypeCode) {
         super(protocol, protocolActionTypeCode);
     }
-    
-
-    public QuestionnairePrintOption getQuestionnairePrintOption() {
-        return questionnairePrintOption;
-    }
-
-    public void setQuestionnairePrintOption(QuestionnairePrintOption questionnairePrintOption) {
-        this.questionnairePrintOption = questionnairePrintOption;
-    }
 
     public void setQuestionnairePrintOptionFromHelper(IacucActionHelper actionHelper) {
         if (getSubmissionNumber() != null
@@ -81,7 +64,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
                                 getSubmissionNumber().toString(), CoeusSubModule.PROTOCOL_SUBMISSION));
             }
         } else if (IacucProtocolActionType.SUBMITTED_TO_IACUC.equals(getProtocolActionTypeCode())
-                && SUBMITTED_TO_IACUC_COMMENT.equals(getComments())) {
+                && COMMENT_SUBMITTED_TO_IACUC.equals(getComments())) {
             if (getProtocol().isAmendment() || getProtocol().isRenewal()) {
                 setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber(),
                                 getSequenceNumber().toString(), CoeusSubModule.AMENDMENT_RENEWAL));
@@ -98,34 +81,21 @@ public class IacucProtocolAction extends ProtocolActionBase {
         }
     }
     
-    private QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode) {
-
-        if (!getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
-            QuestionnairePrintOption qnPrintOption = new QuestionnairePrintOption();
-            qnPrintOption.setItemKey(itemKey);
-            qnPrintOption.setSubItemCode(subItemCode);
-            qnPrintOption.setSubItemKey(subItemKey);
-            return qnPrintOption;
-        } else {
-            return null;
-        }
-    }
-
     /*
      * get the sequence number of the protocol that the action initially created
      */
     private String getInitialSequence(IacucProtocolAction protocolAction, String amendmentRenewalNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("protocolNumber", protocolAction.getProtocolNumber() + amendmentRenewalNumber);
+        fieldValues.put(PROTOCOL_NUMBER_FIELD_KEY, protocolAction.getProtocolNumber() + amendmentRenewalNumber);
         if (StringUtils.isBlank(amendmentRenewalNumber)) {
-            fieldValues.put("actionId", protocolAction.getActionId().toString());
+            fieldValues.put(ACTION_ID_FIELD_KEY, protocolAction.getActionId().toString());
         }
         else {
-            fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber().toString());
+            fieldValues.put(SUBMISSION_NUMBER_FIELD_KEY, protocolAction.getSubmissionNumber().toString());
         }
-        fieldValues.put("protocolActionTypeCode", IacucProtocolActionType.SUBMITTED_TO_IACUC);
+        fieldValues.put(PROTOCOL_ACTION_TYPE_CODE_FIELD_KEY, IacucProtocolActionType.SUBMITTED_TO_IACUC);
         return ((List<IacucProtocolAction>) getBusinessObjectService().findMatchingOrderBy(IacucProtocolAction.class, fieldValues,
-                "protocolActionId", true)).get(0).getProtocol().getSequenceNumber().toString();
+                PROTOCOL_ACTION_ID_FIELD_KEY, true)).get(0).getProtocol().getSequenceNumber().toString();
     }
 
     protected String getCoeusModule() {
@@ -156,7 +126,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
         IacucSubmissionQuestionnaireHelper questionnaireHelper = (IacucSubmissionQuestionnaireHelper) super.getQuestionnaireHelper();
         
         if(StringUtils.equals(getProtocolActionTypeCode(),IacucProtocolActionType.SUBMITTED_TO_IACUC)) {
-            //add ZERO_SUBMODULE answer headers. These headers do not get picked up by populateAnswers() above.
+            //add ZERO_SUBMODULE answer headers. These headers are not readily available from super
             ProtocolModuleQuestionnaireBeanBase protocolBaseQnBean = questionnaireHelper.getBaseProtocolModuleQuestionnaireBean(getSequenceNumber() == null ? null : getSequenceNumber().toString());
             List<AnswerHeader> protocolAnswerHeaders = questionnaireHelper.getQuestionnaireAnswerService().getQuestionnaireAnswer(protocolBaseQnBean);
             List<AnswerHeader> submissionAnswerHeaders = questionnaireHelper.getAnswerHeaders();
