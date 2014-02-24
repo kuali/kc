@@ -1,7 +1,7 @@
 package org.kuali.kra.common.web.struts.form;
 
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;

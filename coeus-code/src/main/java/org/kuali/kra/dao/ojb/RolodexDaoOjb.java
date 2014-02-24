@@ -17,7 +17,7 @@ package org.kuali.kra.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kra.bo.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.dao.RolodexDao;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.bo.BusinessObject;

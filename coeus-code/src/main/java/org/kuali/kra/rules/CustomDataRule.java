@@ -16,6 +16,7 @@
 package org.kuali.kra.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

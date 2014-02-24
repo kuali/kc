@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.questionnaire;
 
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
 import org.kuali.kra.protocol.ProtocolBase;

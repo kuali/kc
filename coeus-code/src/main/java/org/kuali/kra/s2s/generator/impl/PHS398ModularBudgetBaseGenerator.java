@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;

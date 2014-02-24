@@ -17,6 +17,7 @@
 package org.kuali.kra.award.maintenance;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.award.home.AwardTemplate;
@@ -24,7 +25,6 @@ import org.kuali.kra.award.home.AwardTemplateReportTerm;
 import org.kuali.kra.award.home.AwardTemplateReportTermRecipient;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleImpl;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;

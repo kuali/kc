@@ -20,8 +20,8 @@ import gov.grants.apply.forms.rrPerformanceSiteV11.RRPerformanceSiteDocument.RRP
 import gov.grants.apply.forms.rrPerformanceSiteV11.SiteLocationDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;

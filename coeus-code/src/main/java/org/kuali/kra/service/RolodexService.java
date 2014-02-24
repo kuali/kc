@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.bo.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 
 /**
  * The RolodexService provides methods for obtaining Rolodex business objects.
