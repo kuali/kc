@@ -41,7 +41,10 @@ public abstract class ProtocolFundingSourceAuditRuleBase extends ResearchDocumen
         boolean isValid = true;
         ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) document;
         
-        isValid = processRequiredProtocolFundingSources(protocolDocument.getProtocol());
+        // disable for now.  Flag in maintenance object is supposed to control whether funding source type is 
+        // available to user, not whether it is required. So I'll leave the code in and disable it. In the future,
+        // if the need arises for a "required" flag, the code is here and would just need to be tweaked.
+//        isValid = processRequiredProtocolFundingSources(protocolDocument.getProtocol());
         
         return isValid;
     }
