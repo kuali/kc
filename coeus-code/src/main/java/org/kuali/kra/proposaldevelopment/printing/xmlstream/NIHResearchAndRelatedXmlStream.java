@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlToken;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

@@ -16,13 +16,13 @@
 package org.kuali.kra.award.lookup;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.dao.AwardLookupDao;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;

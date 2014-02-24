@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.contacts;
 
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.bo.KcPerson;
 
 /**
  * This class models the SponsorContact

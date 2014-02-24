@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;

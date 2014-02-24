@@ -3,7 +3,7 @@
   <bean id="KcPerson" parent="KcPerson-parentBean" />
 
   <bean id="KcPerson-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.KcPerson" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.KcPerson" />
     <property name="objectLabel" value="KC Person" />
     <property name="inquiryDefinition" >
       <ref bean="KcPerson-inquiryDefinition" />

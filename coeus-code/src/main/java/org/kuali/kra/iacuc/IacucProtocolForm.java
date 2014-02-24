@@ -16,11 +16,11 @@
 package org.kuali.kra.iacuc;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataHelper;
 import org.kuali.kra.iacuc.noteattachment.IacucNotesAttachmentsHelper;

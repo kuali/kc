@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;

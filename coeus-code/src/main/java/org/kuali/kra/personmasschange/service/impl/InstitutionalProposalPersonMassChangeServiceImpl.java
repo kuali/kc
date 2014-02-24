@@ -16,9 +16,9 @@
 package org.kuali.kra.personmasschange.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact;
