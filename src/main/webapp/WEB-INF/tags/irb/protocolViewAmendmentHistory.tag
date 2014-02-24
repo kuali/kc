@@ -1,5 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:if test="${fn:length(KualiForm.actionHelper.amendmentSummaries) > 0}">
+
 <kul:innerTab tabTitle="Amendment/Renewal History" parentTab="" defaultOpen="false" tabErrorKey="">
 
     <div class="innerTab-container" align="left">
@@ -18,19 +20,19 @@
                 <c:forEach items="${KualiForm.actionHelper.amendmentSummaries}" var="protocolSummary" varStatus="status">
             		<tr>
             		    <td class="infoline">
-            		        <nobr><b>${protocolSummary.amendmentType}</b></nobr>
+            		        <nobr>${protocolSummary.amendmentType}</nobr>
+            		    </th>
+            		    <td class="infoline">
+            		        <nobr><u><a href="${protocolSummary.versionNumberUrl}" target="_blank" alt="Open this version in a separate tab">${protocolSummary.versionNumber}</a></u></nobr>
             		    </td>
             		    <td class="infoline">
-            		        <nobr><b><a href="${protocolSummary.versionNumberUrl}" target="_blank">${protocolSummary.versionNumber}</a></b></nobr>
+            		        <nobr>${protocolSummary.description}</nobr>
             		    </td>
             		    <td class="infoline">
-            		        <nobr><b>${protocolSummary.description}</b></nobr>
+            		        <nobr>${protocolSummary.status}</nobr>
             		    </td>
             		    <td class="infoline">
-            		        <nobr><b>${protocolSummary.status}</b></nobr>
-            		    </td>
-            		    <td class="infoline">
-            		        <nobr><b>${protocolSummary.createDate}</b></nobr>
+            		        <nobr>${protocolSummary.createDate}</nobr>
             		    </td>
             		</tr>
             	</c:forEach>
@@ -39,3 +41,4 @@
     </div>
     			
 </kul:innerTab>
+</c:if>
