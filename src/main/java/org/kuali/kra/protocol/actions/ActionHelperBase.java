@@ -2732,7 +2732,7 @@ public abstract class ActionHelperBase implements Serializable {
                 ProtocolAmendRenewalBase correctAmendment = protocol.getProtocolAmendRenewal();
                 if (correctAmendment != null) {
                     description = correctAmendment.getSummary();
-                    versionNumber = protocol.getProtocolNumber().substring(protocol.getProtocolNumber().length() - 3);
+                    versionNumber = String.valueOf(protocol.getSequenceNumber());
                     versionNumberUrl = buildForwardUrl(protocol.getProtocolDocument().getDocumentNumber());
                 } else {
                     description = "";
@@ -2753,23 +2753,19 @@ public abstract class ActionHelperBase implements Serializable {
     
     public List<AmendmentSummary> getAmendmentSummaries() throws Exception {
         List<AmendmentSummary> results = new ArrayList<AmendmentSummary>();
-        String originalProtocolNumber;
-        // Use the submission number to get the correct amendment details
-        if (getProtocol().isAmendment() || getProtocol().isRenewal()) {
-            originalProtocolNumber = getProtocol().getProtocolAmendRenewal().getProtocolNumber();           
-        } else {
-            // We want to display amendment details even if the document is not an amendment.
+        // only list amendments if this protocol is not one
+        if (getProtocol().isNew()) {
             // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
-            originalProtocolNumber = getProtocol().getProtocolNumber();
-        }
-        List<ProtocolBase> protocols = getProtocolAmendRenewServiceHook().getAmendmentAndRenewals(originalProtocolNumber);
-        Collections.sort(protocols, new Comparator<ProtocolBase>(){
-            public int compare(ProtocolBase p1, ProtocolBase p2) {
-                return p1.getDocumentNumberForPermission().compareTo(p2.getDocumentNumberForPermission());
-            }
+            String originalProtocolNumber = getProtocol().getProtocolNumber();
+            List<ProtocolBase> protocols = getProtocolAmendRenewServiceHook().getAmendmentAndRenewals(originalProtocolNumber);
+            Collections.sort(protocols, new Comparator<ProtocolBase>(){
+                public int compare(ProtocolBase p1, ProtocolBase p2) {
+                    return p1.getProtocolDocument().getDocumentNumber().compareTo(p2.getProtocolDocument().getDocumentNumber());
+                }
             });
-        for (ProtocolBase protocol: protocols) {
-            results.add(new AmendmentSummary(protocol));
+            for (ProtocolBase protocol: protocols) {
+                results.add(new AmendmentSummary(protocol));
+            }
         }
         return results;
     }
