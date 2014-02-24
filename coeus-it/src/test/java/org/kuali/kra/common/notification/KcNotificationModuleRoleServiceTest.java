@@ -18,10 +18,10 @@ package org.kuali.kra.common.notification;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.notification.impl.bo.NotificationModuleRole;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationModuleRoleService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.List;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.questionnaire;
 
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
