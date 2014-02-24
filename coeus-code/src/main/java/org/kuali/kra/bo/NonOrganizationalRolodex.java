@@ -17,6 +17,8 @@ package org.kuali.kra.bo;
 
 import java.io.Serializable;
 
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
+
 /**
  * Special Business Object for NonOrganizational types of <code>{@link Rolodex}</code> instances.
  * 

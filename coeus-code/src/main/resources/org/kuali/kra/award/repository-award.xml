@@ -610,7 +610,7 @@
 		<reference-descriptor name="contactType" class-ref="org.kuali.kra.award.home.ContactType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="contactTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor>
 		<reference-descriptor name="awardReportTerm" class-ref="org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -905,7 +905,7 @@
 		<reference-descriptor name="contactType" class-ref="org.kuali.kra.award.home.ContactType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="roleCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor>
 		<reference-descriptor name="awardTemplate" class-ref="org.kuali.kra.award.home.AwardTemplate" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -1067,7 +1067,7 @@
 		<field-descriptor name="numberOfCopies" column="NUMBER_OF_COPIES" jdbc-type="INTEGER" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor>
 		<reference-descriptor name="contactType" class-ref="org.kuali.kra.award.home.ContactType" auto-retrieve="false" auto-update="none" auto-delete="none"> 

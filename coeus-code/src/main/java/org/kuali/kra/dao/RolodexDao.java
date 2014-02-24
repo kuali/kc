@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.dao;
 
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Data Access Object for special needs of <code>{@link Rolodex}</code> like the <code>{@link NonOrganizationalRolodex}</code>
  * 
- * @see org.kuali.kra.bo.Rolodex
+ * @see org.kuali.coeus.common.framework.rolodex.Rolodex
  * @see org.kuali.kra.bo.NonOrganizationalRolodex
  */
 public interface RolodexDao {
