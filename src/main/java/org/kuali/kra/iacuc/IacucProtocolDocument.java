@@ -384,7 +384,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         }
         IacucProtocolAction newDocPaToUse = null;
         for (ProtocolActionBase pa2 : newProtocolDocument.getProtocol().getProtocolActions()) {
-            if (StringUtils.equals(IacucProtocolActionType.IACUC_APPROVED, pa2.getProtocolActionTypeCode())) {
+            if (isProtocolApproved(pa2.getProtocolActionTypeCode())) {
                 if (newDocPaToUse == null || newDocPaToUse.getUpdateTimestamp().before(pa2.getUpdateTimestamp())) {
                     newDocPaToUse = (IacucProtocolAction) pa2;
                 }
@@ -400,6 +400,15 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         }   
     }    
     
+    private boolean isProtocolApproved(String protocolActionTypeCode) {
+        if (StringUtils.equals(IacucProtocolActionType.IACUC_APPROVED, protocolActionTypeCode) || 
+                StringUtils.equals(IacucProtocolActionType.DESIGNATED_REVIEW_APPROVAL, protocolActionTypeCode) ||
+                StringUtils.equals(IacucProtocolActionType.RESPONSE_APPROVAL, protocolActionTypeCode) ||
+                StringUtils.equals(IacucProtocolActionType.ADMINISTRATIVE_APPROVAL, protocolActionTypeCode)){
+            return true;
+        }
+        return false;
+    }
     
     protected boolean isEligibleForMerging(String status, ProtocolBase otherProtocol) {
         return getListOfStatusEligibleForMergingHook().contains(status) && !StringUtils.equals(this.getProtocol().getProtocolNumber(), otherProtocol.getProtocolNumber());
