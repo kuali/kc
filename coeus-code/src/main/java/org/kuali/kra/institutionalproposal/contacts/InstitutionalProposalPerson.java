@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;

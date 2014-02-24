@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
+import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
