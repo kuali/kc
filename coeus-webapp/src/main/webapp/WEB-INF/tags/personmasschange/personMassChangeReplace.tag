@@ -27,7 +27,7 @@
                                     Non-Employee Search
                                 </td>
                                 <td style="border: medium none;">
-                                    <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+                                    <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" 
                                                 fieldConversions="rolodexId:personMassChangeHomeHelper.replaceeRolodexId" />
                                 </td>
                             </tr>
@@ -67,7 +67,7 @@
                                     Non-Employee Search
                                 </td>
                                 <td style="border: medium none;">
-                                    <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+                                    <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" 
                                                 fieldConversions="rolodexId:personMassChangeHomeHelper.replacerRolodexId" />
                                 </td>
                             </tr>

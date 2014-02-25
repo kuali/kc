@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.lookup;
 
-import org.kuali.kra.bo.NonOrganizationalRolodex;
+import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.dao.RolodexDao;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
