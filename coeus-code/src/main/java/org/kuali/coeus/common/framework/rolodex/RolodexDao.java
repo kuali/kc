@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.dao;
+package org.kuali.coeus.common.framework.rolodex;
 
-import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.Map;
  * Data Access Object for special needs of <code>{@link Rolodex}</code> like the <code>{@link NonOrganizationalRolodex}</code>
  * 
  * @see org.kuali.coeus.common.framework.rolodex.Rolodex
- * @see org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex
+ * @see org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex
  */
 public interface RolodexDao {
 
