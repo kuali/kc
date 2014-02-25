@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.questionnaire;
 
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.protocol.ProtocolBase;
