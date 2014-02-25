@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.actions.submit;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ValidProtoSubTypeQual extends KraPersistableBusinessObjectBase {
+public abstract class ValidProtoSubTypeQual extends KraPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
