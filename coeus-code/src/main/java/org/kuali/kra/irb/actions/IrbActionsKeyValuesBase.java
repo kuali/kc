@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.actions;
 
+import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KeyValuesService;
 
