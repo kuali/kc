@@ -40,15 +40,6 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
  */
 public class PersonEditableFieldValuesFinder extends UifKeyValuesFinderBase {
     List<AttributeDefinition> attributes; 
-    
-    /**
-     * Constructs a PersonEditableFieldValueFinder
-     */
-    @SuppressWarnings("unchecked")
-    public PersonEditableFieldValuesFinder() {
-        super();
-        attributes = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ProposalPerson.class.getName()).getAttributes();
-    }
 
     @Override
     public List<KeyValue> getKeyValues() {
@@ -81,6 +72,9 @@ public class PersonEditableFieldValuesFinder extends UifKeyValuesFinderBase {
      * @return Map<String, AttributeDefinition>
      */
     private List<AttributeDefinition> getAttributes() {
+    	if (attributes == null) {
+    		attributes = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ProposalPerson.class.getName()).getAttributes();
+    	}
         return attributes;
     }
     
