@@ -15,68 +15,26 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierTypeBase;
 
-public class IacucValidProtoSubTypeQual  extends KraPersistableBusinessObjectBase {
+
+public class IacucValidProtoSubTypeQual  extends org.kuali.kra.protocol.actions.submit.ValidProtoSubTypeQual {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 6546751709369749190L;
 
-    private Long validProtoSubTypeQualId;
-
-    private String submissionTypeCode;
-
-    private String iacucSubmissionTypeQualCode;
-
-    private IacucProtocolSubmissionType iacucProtocolSubmissionType;
-
-    private IacucProtocolSubmissionQualifierType iacucSubmissionTypeQualifier;
 
     public IacucValidProtoSubTypeQual() {
     }
-
-    public Long getValidProtoSubTypeQualId() {
-        return validProtoSubTypeQualId;
-    }
-
-    public void setValidProtoSubTypeQualId(Long validProtoSubTypeQualId) {
-        this.validProtoSubTypeQualId = validProtoSubTypeQualId;
-    }
-
-    public String getSubmissionTypeCode() {
-        return submissionTypeCode;
-    }
-
-    public void setSubmissionTypeCode(String submissionTypeCode) {
-        this.submissionTypeCode = submissionTypeCode;
-    }
-
-
-    public void setIacucProtocolSubmissionType(IacucProtocolSubmissionType iacucProtocolSubmissionType) {
-        this.iacucProtocolSubmissionType = iacucProtocolSubmissionType;
-    }
-
-    public IacucProtocolSubmissionType getIacucProtocolSubmissionType() {
-        return iacucProtocolSubmissionType;
-    }
-
-    public IacucProtocolSubmissionQualifierType getIacucSubmissionTypeQualifier() {
-        return iacucSubmissionTypeQualifier;
-    }
-
-    public void setIacucSubmissionTypeQualifier(IacucProtocolSubmissionQualifierType iacucSubmissionTypeQualifier) {
-        this.iacucSubmissionTypeQualifier = iacucSubmissionTypeQualifier;
-    }
-
+    
     public String getIacucSubmissionTypeQualCode() {
-        return iacucSubmissionTypeQualCode;
+        return super.getSubmissionTypeQualCode();
+    } 
+    
+    public ProtocolSubmissionQualifierTypeBase getIacucSubmissionTypeQualifier() {
+        return super.getSubmissionTypeQualifier();
     }
-
-    public void setIacucSubmissionTypeQualCode(String iacucSubmissionTypeQualCode) {
-        this.iacucSubmissionTypeQualCode = iacucSubmissionTypeQualCode;
-    }
-
 
 }

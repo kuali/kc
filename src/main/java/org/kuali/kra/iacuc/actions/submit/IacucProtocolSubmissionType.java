@@ -54,5 +54,9 @@ public class IacucProtocolSubmissionType extends ProtocolSubmissionTypeBase {
     public boolean isContinuation() {
         return CONTINUATION.equals(getSubmissionTypeCode()) || CONTINUATION_WITH_AMENDMENT.equals(getSubmissionTypeCode());
     }
+    
+    public String getSubmissionTypeCode() {
+        return super.getSubmissionTypeCode();
+    }
 
 }

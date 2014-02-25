@@ -36,6 +36,7 @@
         </property>
         <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="IacucValidProtoSubTypeQualMaintenanceDocument"/>
+        <property name="businessRulesClass" value="org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubTypeQualMaintenanceDocumentRule"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
 	</bean>
 	
@@ -48,7 +49,7 @@
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="submissionTypeCode" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="iacucSubmissionTypeQualCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="submissionTypeQualCode" p:required="true"/>
 				
 			</list>
 		</property>
