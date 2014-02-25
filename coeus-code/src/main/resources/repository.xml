@@ -444,7 +444,7 @@
     	</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" table="ROLODEX">
+	<class-descriptor class="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" table="ROLODEX">
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="addressLine1" column="ADDRESS_LINE_1" jdbc-type="VARCHAR"/>
 		<field-descriptor name="addressLine2" column="ADDRESS_LINE_2" jdbc-type="VARCHAR"/>

@@ -20,7 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
+import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.kra.award.contacts.ContactRoleFixtureFactory;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;

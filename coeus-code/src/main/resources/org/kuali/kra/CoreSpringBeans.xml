@@ -1550,13 +1550,13 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-    <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.RolodexDaoOjb" />
+    <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.coeus.common.impl.rolodex.RolodexDaoOjb" />
     
     <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="nonOrganizationalRolodexHelperService" />
     </bean>
 
-    <bean id="nonOrganizationalRolodexHelperService" class="org.kuali.kra.lookup.NonOrganizationalRolodexLookupableHelperServiceImpl" 
+    <bean id="nonOrganizationalRolodexHelperService" class="org.kuali.coeus.common.impl.rolodex.nonorg.NonOrganizationalRolodexLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" >
         <property name="rolodexDao" ref="rolodexDao" />
         <property name="lookupService" ref="lookupService" />
@@ -1566,7 +1566,7 @@
   		<property name="lookupableHelperService" ref="rolodexLookupableHelperService" />  
 	</bean>
 	
-	<bean id="rolodexLookupableHelperService" class="org.kuali.kra.lookup.RolodexLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
+	<bean id="rolodexLookupableHelperService" class="org.kuali.coeus.common.impl.rolodex.RolodexLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
 	      scope="prototype">
   	</bean>
     

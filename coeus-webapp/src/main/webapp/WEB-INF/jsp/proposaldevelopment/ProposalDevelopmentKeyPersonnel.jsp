@@ -76,7 +76,7 @@
                   <label><kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
                                 fieldConversions="personId:newPersonId" /></label><br>
                   <label>Non-employee Search</label> 
-                  <label><kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" 
+                  <label><kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" 
                                 fieldConversions="rolodexId:newRolodexId" /></label></td>
   </c:when>
   <c:otherwise>

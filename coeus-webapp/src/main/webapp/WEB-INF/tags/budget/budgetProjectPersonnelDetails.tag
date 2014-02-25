@@ -49,7 +49,7 @@
 			    <label><kul:multipleValueLookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 				                                lookedUpCollectionName="newBudgetPersons" /></label><br>
 				<label>Non-employee Search</label>
-				<label><kul:multipleValueLookup boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" 
+				<label><kul:multipleValueLookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" 
 				                                lookedUpCollectionName="newBudgetRolodexes" /></label><br>
 				<label>To be named</label>
 				<label><kul:multipleValueLookup boClassName="org.kuali.kra.budget.personnel.TbnPerson" 
