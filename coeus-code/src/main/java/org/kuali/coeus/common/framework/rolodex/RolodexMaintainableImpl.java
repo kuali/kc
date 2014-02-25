@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.rolodex;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
