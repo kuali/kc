@@ -144,9 +144,9 @@
 					<c:if test="${readOnly}">${KualiForm.document.subAwardList[0].requisitionerUserName}</c:if>
 				  
 				  <c:if test="${!readOnly}">
-                  	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:document.subAwardList[0].requisitionerId,fullName:document.subAwardList[0].requisitionerName,unit.unitNumber:document.subAwardList[0].requisitionerUnit,unit.unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
+                  	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" fieldConversions="personId:document.subAwardList[0].requisitionerId,fullName:document.subAwardList[0].requisitionerName,unit.unitNumber:document.subAwardList[0].requisitionerUnit,unit.unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
             	  </c:if> 	 
-            	  	  <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="document.subAwardList[0].requisitionerId:personId" anchor="${tabKey}" /> 
+            	  	  <kul:directInquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" inquiryParameters="document.subAwardList[0].requisitionerId:personId" anchor="${tabKey}" /> 
                      
                       <br/><span id="requistioner.fullName"><c:out value="${KualiForm.document.subAwardList[0].requisitionerName}"/>&nbsp;</span>                
                 	  <html:hidden styleId ="sub.requisitionerId.div" property="document.subAwardList[0].requisitionerId" />

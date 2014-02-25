@@ -50,7 +50,7 @@
             <div class="tab-container" align="center" id="G100">
               <h3>
                   <span class="subhead-left"><bean:write name="KualiForm" property="${proposalPerson}.fullName"/></span>
-                  <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.KcPerson" altText="help"/></span>
+                  <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.common.framework.person.KcPerson" altText="help"/></span>
               </h3>
 	<table cellpadding=0 cellspacing=0 summary="">
           	<tr>
@@ -77,7 +77,7 @@
                       <c:choose>
                         <c:when test="${!empty KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].personId}">
                             <input type="hidden" name="${proposalPerson}.personId" value="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].personId}"/>
-                            <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="${proposalPerson}.personId:personId" anchor="${tabKey}" />
+                            <kul:directInquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" inquiryParameters="${proposalPerson}.personId:personId" anchor="${tabKey}" />
                         </c:when>
                         <c:otherwise>
                             <input type="hidden" name="${proposalPerson}.rolodexId" value="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].rolodexId}"/>

@@ -61,7 +61,7 @@
 						</td>
 						<td width="40" valign="middle" style="border: medium none ;">
 							<label>
-							<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+							<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 	                         fieldConversions="personId:protocolHelper.personId,fullName:protocolHelper.principalInvestigatorName,unit.unitNumber:protocolHelper.lookupUnitNumber,unit.unitName:protocolHelper.lookupUnitName" 
 	                         /></label>
                          </td>

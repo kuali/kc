@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.contacts;
 
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 
 /**

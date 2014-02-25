@@ -86,7 +86,7 @@
 									readOnly="${readOnly}" /> 
 									
 								<c:if test="${!readOnly}">
-									<kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
+									<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson"
 										fieldConversions="personId:paymentScheduleBean.newAwardPaymentSchedule.submittedByPersonId,fullName:submitterFullNameNEW" />
 								</c:if>	
 								
@@ -189,7 +189,7 @@
 									readOnly="${readOnly}" /> 
 								
 								<c:if test="${!readOnly}">
-									<kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
+									<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson"
 										fieldConversions="personId:document.awardList[0].paymentScheduleItems[${status.index}].submittedByPersonId" />
 								</c:if>	
 								

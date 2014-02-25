@@ -52,7 +52,7 @@
                     </div>
                     <div>
                         <div align="left">
-                            <kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
+                            <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson"
                                 fieldConversions="personId:approvedForeignTravelBean.newApprovedForeignTravel.personId,fullName:approvedForeignTravelBean.newApprovedForeignTravel.travelerName"
                                 lookupParameters="approvedForeignTravelBean.newApprovedForeignTravel.personId:contactIdId"
                                 anchor="${tabKey}" /> Employee Lookup
@@ -108,7 +108,7 @@
                 		<kul:htmlControlAttribute property="${docAward}.approvedForeignTravelTrips[${status.index}].travelerName" 
                 								attributeEntry="${approvedForeignTravelAttributes.travelerName}" readOnly="true"/>
                         <c:if test="${formAward.approvedForeignTravelTrips[status.index].employee}">
-                		    <kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
+                		    <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson"
                 			    	fieldConversions="personId:${docAward}.approvedForeignTravelTrips[${status.index}].travelerId" anchor="${tabKey}"
         	  	 				    lookupParameters="${docAward}.approvedForeignTravelTrips[${status.index}].travelerId:personId" />
                         </c:if>

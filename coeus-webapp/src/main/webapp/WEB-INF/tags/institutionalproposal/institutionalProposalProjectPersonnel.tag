@@ -58,7 +58,7 @@
     					<kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.person.fullName" 
           							attributeEntry="${institutionalProposalPersonAttributes.fullName}" readOnly="true"/>
           				<label>
-          					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
+          					<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson"
                                         fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}"
   	 									lookupParameters="projectPersonnelBean.personId:personId"/>
   	 					</label>
@@ -149,7 +149,7 @@
 	                		${institutionalProposalContact.fullName}&nbsp;
 	                		<c:choose>
 		                		<c:when test="${institutionalProposalContact.employee}">
-		                			<kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="institutionalproposal_person.identifier_${institutionalProposalContactRowStatus.index}:personId" anchor="${tabKey}" />
+		                			<kul:directInquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" inquiryParameters="institutionalproposal_person.identifier_${institutionalProposalContactRowStatus.index}:personId" anchor="${tabKey}" />
 		                		</c:when>
 		                		<c:otherwise>
 		                			<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="institutionalproposal_person.identifier_${institutionalProposalContactRowStatus.index}:rolodexId" anchor="${tabKey}" />

@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.permissions.impl.web.bean;
 
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPerson;
 
 import java.util.ArrayList;
 import java.util.List;

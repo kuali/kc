@@ -19,7 +19,7 @@
                                     attributeEntry="${personAttributes.personId}" readOnly="true"/>
                 </c:if>
                 <label>
-                    <kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
+                    <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson"
                                 fieldConversions="personId:reportHelperBean.personId" anchor="${tabKey}"
                                 lookupParameters="reportHelperBean.personId:personId"/>
                 </label>

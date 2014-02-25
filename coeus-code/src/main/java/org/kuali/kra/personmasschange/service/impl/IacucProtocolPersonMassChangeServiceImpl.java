@@ -16,7 +16,7 @@
 package org.kuali.kra.personmasschange.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRole;

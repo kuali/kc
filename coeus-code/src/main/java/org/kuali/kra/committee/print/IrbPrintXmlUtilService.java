@@ -20,7 +20,8 @@ import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions;
 import edu.mit.irb.irbnamespace.ProtocolSubmissionDocument.ProtocolSubmission;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
-import org.kuali.kra.bo.KcPerson;
+
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;

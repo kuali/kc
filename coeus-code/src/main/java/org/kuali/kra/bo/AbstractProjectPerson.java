@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public interface AbstractProjectPerson {
