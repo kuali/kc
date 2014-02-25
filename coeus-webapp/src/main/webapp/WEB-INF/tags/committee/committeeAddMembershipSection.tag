@@ -25,7 +25,7 @@
                             <br>
                             <label>Non-employee Search</label> 
                             <label>
-                                <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+                                <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" 
                                     fieldConversions="rolodexId:committeeHelper.newCommitteeMembership.rolodexId,fullName:committeeHelper.newCommitteeMembership.personName" />
                             </label>
                         </c:when>

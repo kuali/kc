@@ -17,7 +17,7 @@ package org.kuali.kra.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.junit.Test;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
+import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.dao.RolodexDao;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;

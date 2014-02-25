@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.rolodex;
 
 import java.io.Serializable;
+
+import org.kuali.kra.bo.Contactable;
+import org.kuali.kra.bo.Rolodex;
 
 /**
  * Special Business Object for NonOrganizational types of <code>{@link Rolodex}</code> instances.

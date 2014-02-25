@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.ContactRoleFixtureFactory;
@@ -27,7 +28,6 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 

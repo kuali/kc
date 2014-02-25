@@ -48,7 +48,7 @@
 								fieldConversions="rolodexId:document.subAwardList[0].siteInvestigator" 			
           						anchor="${tabKey}"/> 
           			  </c:if>			
-          			  	<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="document.subAwardList[0].siteInvestigator:rolodexId" anchor="${tabKey}" />
+          			  	<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" inquiryParameters="document.subAwardList[0].siteInvestigator:rolodexId" anchor="${tabKey}" />
           			  
           			  <div id="sub.fullName.div">
           			      &nbsp; 
