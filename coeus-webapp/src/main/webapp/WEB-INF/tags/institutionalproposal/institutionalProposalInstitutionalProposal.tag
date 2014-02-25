@@ -106,7 +106,7 @@
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.initialContractAdmin}" /></div>
     	</th>
     	<td>
-    	    <kul:inquiry boClassName="org.kuali.kra.bo.KcPerson" keyValues="personId=${KualiForm.institutionalProposalDocument.institutionalProposal.initialContractAdmin}" render="true">
+    	    <kul:inquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" keyValues="personId=${KualiForm.institutionalProposalDocument.institutionalProposal.initialContractAdmin}" render="true">
     	       <c:out value="${KualiForm.institutionalProposalDocument.institutionalProposal.initialContractAdminUser.userName}" />
     	   </kul:inquiry>&nbsp;
 		</td>

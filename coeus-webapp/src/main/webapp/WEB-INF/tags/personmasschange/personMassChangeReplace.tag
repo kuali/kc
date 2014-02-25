@@ -18,7 +18,7 @@
                                     Employee Search
                                 </td>
                                 <td style="border: medium none;">
-                                    <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+                                    <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
                                                 fieldConversions="personId:personMassChangeHomeHelper.replaceePersonId" />
                                 </td>
                             </tr>
@@ -58,7 +58,7 @@
                                     Employee Search
                                 </td>
                                 <td style="border: medium none;">
-                                    <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+                                    <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
                                                 fieldConversions="personId:personMassChangeHomeHelper.replacerPersonId" />
                                 </td>
                             </tr>

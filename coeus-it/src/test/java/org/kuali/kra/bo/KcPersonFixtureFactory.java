@@ -1,5 +1,6 @@
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.service.impl.adapters.IdentityServiceAdapter;
 import org.kuali.rice.kim.api.identity.IdentityService;

@@ -15,7 +15,7 @@
                                 <td style="border:none; background:none; text-align:center;">
                                     <label>Employee Search</label>
                                     <label>
-                                        <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+                                        <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
                                             fieldConversions="personId:meetingHelper.newOtherPresentBean.attendance.personId,fullName:meetingHelper.newOtherPresentBean.attendance.personName" />
                                     </label>
                                     <label>Non-employee Search</label> 

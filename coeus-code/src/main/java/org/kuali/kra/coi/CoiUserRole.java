@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.coi;
 
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.KcPerson;
 
 import java.sql.Date;
 import java.sql.Timestamp;

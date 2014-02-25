@@ -51,7 +51,7 @@
                                     Employee Search
                                 </td>
                                 <td style="border: medium none;">
-				                    <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+				                    <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 				                                fieldConversions="personId:notificationHelper.newPersonId" />
 				                </td>
                             </tr>

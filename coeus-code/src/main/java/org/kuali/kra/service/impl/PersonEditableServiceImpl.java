@@ -16,7 +16,7 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.bo.PersonEditableInterface;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;

@@ -56,7 +56,7 @@
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="permissionsHelper.newUser.userName" 
 	                	                          attributeEntry="${permissionsUserAttributes.userName}" />
-	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+	                	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 	                	            fieldConversions="personId:permissionsHelper.newUser.userId,userName:permissionsHelper.newUser.userName,fullName:permissionsHelper.newUser.fullName,unit.unitNumber:permissionsHelper.newUser.unitNumber,unit.unitName:permissionsHelper.newUser.unitName" 
 	                	            lookupParameters="lookup.leadUnit:organizationIdentifier"
 	                	            anchor="${tabKey}" />                        

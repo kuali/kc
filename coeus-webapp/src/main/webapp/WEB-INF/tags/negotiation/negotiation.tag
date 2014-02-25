@@ -63,7 +63,7 @@
   					</c:if>                    	
                     <c:if test="${!readOnly}">
                         ${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].negotiatorPersonId")}
-	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+	                	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 	                                fieldConversions="userName:document.negotiationList[0].negotiatorUserName" />
                     </c:if>
                     <br/><span id="negotiator.fullName"><c:out value="${KualiForm.document.negotiationList[0].negotiator.fullName}"/>&nbsp;</span>
@@ -211,7 +211,7 @@
 	                        <c:if test="${hasErrors}">
 	 							<kul:fieldShowErrorIcon />
   							</c:if>  
-		                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+		                	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 		                                fieldConversions="personId:document.negotiationList[0].unAssociatedDetail.piPersonId" />
 	                    </c:if>
 	                    <br/><span id="PIEmployee.fullName"><c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.PIEmployee.fullName}"/></span>
@@ -258,7 +258,7 @@
   	                        <c:if test="${hasErrors}">
 	 							<kul:fieldShowErrorIcon />
   							</c:if>  
-		                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+		                	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 		                                fieldConversions="personId:document.negotiationList[0].unAssociatedDetail.contactAdminPersonId" />
 	                    </c:if>
 	                    <br/><span id="contactAdmin.fullName"><c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.contactAdmin.fullName}"/></span>

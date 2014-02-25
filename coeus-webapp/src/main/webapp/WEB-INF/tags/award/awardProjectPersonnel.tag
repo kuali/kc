@@ -71,7 +71,7 @@
            	        							  			'key.emailAddress',
            	        							  			'key.personId');"
 											readOnly="${readOnly}" /> <c:if test="${!readOnly}">
-              					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
+              					<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson"
                                             fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}"
       	 									lookupParameters="projectPersonnelBean.newProjectPerson.person.fullName:lastName"/>				
 
@@ -223,7 +223,7 @@
     	                		${awardContact.fullName}&nbsp;
     	                		<c:choose>
     		                		<c:when test="${awardContact.employee}">
-    		                			<kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:personId" anchor="${tabKey}" />
+    		                			<kul:directInquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:personId" anchor="${tabKey}" />
     		                		</c:when>
     		                		<c:otherwise>
     		                			<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />

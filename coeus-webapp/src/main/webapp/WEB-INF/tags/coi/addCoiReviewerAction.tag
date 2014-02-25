@@ -50,7 +50,7 @@
                     <td align="left" valign="middle">
                         <kul:htmlControlAttribute property="disclosureActionHelper.newCoiUserRole.userId" 
                                                   attributeEntry="${permissionsUserAttributes.userName}" />
-                        <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+                        <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
                                     fieldConversions="userName:disclosureActionHelper.newCoiUserRole.userId" 
                                     anchor="${tabKey}" />                        
                     </td>
