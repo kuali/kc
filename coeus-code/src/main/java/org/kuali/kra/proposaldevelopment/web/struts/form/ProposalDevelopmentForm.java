@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;

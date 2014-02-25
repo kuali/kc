@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.KNSServiceLocator;

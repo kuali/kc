@@ -24,7 +24,7 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;

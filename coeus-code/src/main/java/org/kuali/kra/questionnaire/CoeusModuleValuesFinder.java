@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.questionnaire;
 
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.KNSServiceLocator;

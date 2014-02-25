@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.service.impl.PersonSignatureServiceImpl;
 

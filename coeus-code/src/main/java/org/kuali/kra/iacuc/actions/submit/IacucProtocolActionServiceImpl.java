@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.actions.submit;
 
 import org.apache.commons.logging.Log;
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;

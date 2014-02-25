@@ -77,7 +77,7 @@
 		<property name="required" value="false" />
 		<property name="control">
             <bean parent="SelectControlDefinition"
-                  p:businessObjectClass="org.kuali.kra.bo.CoeusModule"
+                  p:businessObjectClass="org.kuali.coeus.common.framework.module.CoeusModule"
                   p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
                   p:includeKeyInLabel="false"
                   p:includeBlankRow="false"

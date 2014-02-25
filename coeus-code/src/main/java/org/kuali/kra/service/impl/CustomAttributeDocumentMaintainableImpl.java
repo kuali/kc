@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.service.impl;
 
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
