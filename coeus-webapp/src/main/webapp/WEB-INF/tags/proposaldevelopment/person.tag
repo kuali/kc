@@ -81,7 +81,7 @@
                         </c:when>
                         <c:otherwise>
                             <input type="hidden" name="${proposalPerson}.rolodexId" value="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].rolodexId}"/>
-                            <kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="${proposalPerson}.rolodexId:rolodexId" anchor="${tabKey}" />
+                            <kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" inquiryParameters="${proposalPerson}.rolodexId:rolodexId" anchor="${tabKey}" />
                         </c:otherwise>
                       </c:choose>
                     </td>

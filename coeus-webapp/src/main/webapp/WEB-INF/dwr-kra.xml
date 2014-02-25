@@ -36,7 +36,7 @@
 		<convert converter="bean" match="org.kuali.kra.bo.Unit">
 			<param name="include" value="unitNumber,unitName" />			
 		</convert>	
-		<convert converter="bean" match="org.kuali.kra.bo.Rolodex">
+		<convert converter="bean" match="org.kuali.coeus.common.framework.rolodex.Rolodex">
 			<param name="include" value="fullName,rolodexId,unit,emailAddress,phoneNumber,organization,addressLine1,addressLine2,addressLine3,city,state,countryCode,postalCode" />
 		</convert>
         <convert converter="bean" match="org.kuali.kra.bo.Organization">

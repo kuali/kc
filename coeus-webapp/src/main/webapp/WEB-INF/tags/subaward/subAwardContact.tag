@@ -56,7 +56,7 @@
            	        							  			readOnly="${readOnly}"/>  
            	        							  			
   					<c:if test="${!readOnly}">					
-  						<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:newSubAwardContact.rolodexId" 
+  						<kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" fieldConversions="rolodexId:newSubAwardContact.rolodexId" 
   									anchor="${tabKey}" lookupParameters="newSubAwardContact.rolodexId:rolodexId"/>
   					</c:if>
   					

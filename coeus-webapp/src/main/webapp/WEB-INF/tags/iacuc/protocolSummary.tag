@@ -258,7 +258,7 @@
                     ${organization.contact}
                     <input type="hidden" name="${prefix}.organizations[${status.index}].contactId"
                            value="${organization.contactId}" />
-                    <kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex"
+                    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
                                        inquiryParameters="${prefix}.organizations[${status.index}].contactId:rolodexId" 
                                        anchor="${currentTabIndex}" />
                 </td>

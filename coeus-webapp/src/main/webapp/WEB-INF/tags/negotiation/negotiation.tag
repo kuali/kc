@@ -228,10 +228,10 @@
                 		
                 		<c:if test="${!readOnly}">
 	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.piRolodexId")}
-	                		<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
+	                		<kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" 
 						        		fieldConversions="rolodexId:document.negotiationList[0].unAssociatedDetail.piRolodexId" />
 					    </c:if> 
-					    <kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="document.negotiationList[0].unAssociatedDetail.piRolodexId:rolodexId" anchor="${tabKey}" />
+					    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" inquiryParameters="document.negotiationList[0].unAssociatedDetail.piRolodexId:rolodexId" anchor="${tabKey}" />
 					    <Br/>
 					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.PINonEmployee.fullName}"/>
 	                </td>

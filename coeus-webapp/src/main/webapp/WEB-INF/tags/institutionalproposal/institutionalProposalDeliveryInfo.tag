@@ -94,7 +94,7 @@
                         </c:if>
 	                    <div align="right" style="float: right;"> 
 	                       <c:if test="${!readOnly}" >
-	                          <kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:document.institutionalProposal.rolodexId" anchor="${currentTabIndex}"/>
+	                          <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" fieldConversions="rolodexId:document.institutionalProposal.rolodexId" anchor="${currentTabIndex}"/>
 	                          <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.organization}" >
 	                             <html:image property="methodToCall.clearMailingNameAddress" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
 	                          </c:if>
