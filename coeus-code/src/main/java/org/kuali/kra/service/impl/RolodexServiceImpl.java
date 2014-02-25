@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl;
 
-import org.kuali.kra.bo.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

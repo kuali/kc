@@ -3,7 +3,7 @@
   <bean id="RolodexMaintenanceDocument" parent="RolodexMaintenanceDocument-parentBean"/>
 
   <bean id="RolodexMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.Rolodex"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.rolodex.Rolodex"/>
     <property name="maintainableClass" value="org.kuali.coeus.common.framework.rolodex.RolodexMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

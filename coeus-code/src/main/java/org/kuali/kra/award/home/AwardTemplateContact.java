@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Rolodex;
 
 public class AwardTemplateContact extends KcPersistableBusinessObjectBase {
 

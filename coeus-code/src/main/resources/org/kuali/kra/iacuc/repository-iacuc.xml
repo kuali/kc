@@ -1067,7 +1067,7 @@
             <foreignkey field-ref="protocolOrganizationTypeCode"/>
         </reference-descriptor>
         
-        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
         
@@ -1306,7 +1306,7 @@
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolIdFk"/>
         </reference-descriptor>
-        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
         <reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission" auto-retrieve="true" auto-update="none" auto-delete="none"> 
