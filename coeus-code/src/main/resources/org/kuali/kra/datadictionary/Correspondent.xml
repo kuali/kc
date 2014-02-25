@@ -95,7 +95,7 @@
     
     <!-- This bean is used as a base for Unit, Organization correspondent lookups and their extensions; i.e. Iacuc/Irb -->
     
-    <bean id="Correspondent-lookupDefinition" parent="Correspondent-lookupDefinition-parentBean" />
+    <bean id="Correspondent-lookupDefinition" abstract="true" parent="Correspondent-lookupDefinition-parentBean" />
     <bean id="Correspondent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Correspondent Lookup" />
 	    <property name="lookupableID" value="correspondentLookupable" />
