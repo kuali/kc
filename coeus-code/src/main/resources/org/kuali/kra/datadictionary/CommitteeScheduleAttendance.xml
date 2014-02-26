@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="CommitteeScheduleAttendance" parent="CommitteeScheduleAttendance-parentBean" />
     <bean id="CommitteeScheduleAttendance-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.meeting.CommitteeScheduleAttendance" />
@@ -49,8 +30,6 @@
         </property>
     </bean>
 
-    <!-- Attribute Definitions -->
-    
     <bean id="CommitteeScheduleAttendance-commScheduleAttendanceId" parent="CommitteeScheduleAttendance-commScheduleAttendanceId-parentBean" />
     <bean id="CommitteeScheduleAttendance-commScheduleAttendanceId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="commScheduleAttendanceId" />
@@ -61,9 +40,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Comm Schedule Attendance Id" />
         <property name="description" value="Comm Schedule Attendance Id" />
@@ -79,9 +63,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Schedule Id" />
         <property name="description" value="Schedule Id" />
@@ -97,9 +86,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Person Id" />
         <property name="description" value="Person Id" />
@@ -113,12 +107,18 @@
         <property name="shortLabel" value="Name" />
         <property name="maxLength" value="90" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" 
-                  p:allowWhitespace="true"/>
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="30" />
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Person Name" />
         <property name="description" value="Person Name" />
@@ -152,9 +152,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Alternate For" />
         <property name="description" value="Alternate For" />
@@ -179,21 +184,25 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-           <bean parent="TextareaControlDefinition"
-              p:rows="3"
-              p:cols="40" />
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="40" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
     </bean>
 
     <bean id="CommitteeScheduleAttendance-versionNumber" parent="CommitteeScheduleAttendance-versionNumber-parentBean" />
-    <bean id="CommitteeScheduleAttendance-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
+  <bean id="CommitteeScheduleAttendance-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
-    <!-- Business Object Inquiry Definition -->
     <bean id="CommitteeScheduleAttendance-inquiryDefinition" parent="CommitteeScheduleAttendance-inquiryDefinition-parentBean" />
+  <bean id="CommitteeScheduleAttendance-InquiryView" parent="CommitteeScheduleAttendance-InquiryView-parentBean"/>
     <bean id="CommitteeScheduleAttendance-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Comm Schedule Attendance Id" />
         <property name="inquirySections" >
@@ -203,23 +212,14 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="commScheduleAttendanceId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="scheduleIdFk" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="personId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="guestFlag" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="alternateFlag" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="alternateFor" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="nonEmployeeFlag" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="comments" />
+              <bean parent="FieldDefinition" p:attributeName="commScheduleAttendanceId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="scheduleIdFk"/>
+              <bean parent="FieldDefinition" p:attributeName="personId"/>
+              <bean parent="FieldDefinition" p:attributeName="guestFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="alternateFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="alternateFor"/>
+              <bean parent="FieldDefinition" p:attributeName="nonEmployeeFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="comments"/>
                         </list>
                     </property>
                 </bean>
@@ -227,56 +227,105 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <bean id="CommitteeScheduleAttendance-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Comm Schedule Attendance Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.meeting.CommitteeScheduleAttendance"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Comm Schedule Attendance Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="commScheduleAttendanceId" parent="Uif-DataField"/>
+              <bean p:propertyName="scheduleIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="personId" parent="Uif-DataField"/>
+              <bean p:propertyName="guestFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="alternateFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="alternateFor" parent="Uif-DataField"/>
+              <bean p:propertyName="nonEmployeeFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Lookup View -->
+
     <bean id="CommitteeScheduleAttendance-lookupDefinition" parent="CommitteeScheduleAttendance-lookupDefinition-parentBean" />
+  <bean id="CommitteeScheduleAttendance-LookupView" parent="CommitteeScheduleAttendance-LookupView-parentBean"/>
     <bean id="CommitteeScheduleAttendance-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Comm Schedule Attendance Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="commScheduleAttendanceId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="scheduleIdFk" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="personId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="guestFlag" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="alternateFlag" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="alternateFor" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="nonEmployeeFlag" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
+        <bean parent="FieldDefinition" p:attributeName="commScheduleAttendanceId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="scheduleIdFk"/>
+        <bean parent="FieldDefinition" p:attributeName="personId"/>
+        <bean parent="FieldDefinition" p:attributeName="guestFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="alternateFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="alternateFor"/>
+        <bean parent="FieldDefinition" p:attributeName="nonEmployeeFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="commScheduleAttendanceId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="scheduleIdFk" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="personId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="guestFlag" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="alternateFlag" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="alternateFor" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="nonEmployeeFlag" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
+        <bean parent="FieldDefinition" p:attributeName="commScheduleAttendanceId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="scheduleIdFk"/>
+        <bean parent="FieldDefinition" p:attributeName="personId"/>
+        <bean parent="FieldDefinition" p:attributeName="guestFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="alternateFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="alternateFor"/>
+        <bean parent="FieldDefinition" p:attributeName="nonEmployeeFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CommitteeScheduleAttendance-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.meeting.CommitteeScheduleAttendance"/>
+    <property name="headerText" value="Comm Schedule Attendance Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
             </list>
         </property>
     </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="commScheduleAttendanceId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="scheduleIdFk" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="personId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="guestFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="alternateFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="alternateFor" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="nonEmployeeFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="commScheduleAttendanceId" parent="Uif-DataField"/>
+        <bean p:propertyName="scheduleIdFk" parent="Uif-DataField"/>
+        <bean p:propertyName="personId" parent="Uif-DataField"/>
+        <bean p:propertyName="guestFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="alternateFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="alternateFor" parent="Uif-DataField"/>
+        <bean p:propertyName="nonEmployeeFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="comments" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

@@ -1,7 +1,5 @@
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
-    <!-- Shared Correspondent Attribute Definitions -->
-    
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="Correspondent-personId" parent="Correspondent-personId-parentBean" />
     <bean id="Correspondent-personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId" >
         <property name="name" value="personId" />
@@ -11,6 +9,9 @@
         <property name="control">
             <bean parent="HiddenControlDefinition" />
         </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
+    </property>
     </bean>
 
 	<bean id="Correspondent-person.fullName" parent="Correspondent-person.fullName-parentBean" />
@@ -30,10 +31,7 @@
             <bean parent="AnyCharacterValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="KualiUserControlDefinition"
-                p:personNameAttributeName="person.fullName"
-                p:universalIdAttributeName="personId"
-                p:userIdAttributeName="person.userName" />
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="person.fullName" p:universalIdAttributeName="personId" p:userIdAttributeName="person.userName"/>
         </property>
     </bean>
 
@@ -47,9 +45,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Correspondent Type Code" />
         <property name="description" value="Correspondent Type Code" />
@@ -77,41 +80,63 @@
         <property name="shortLabel" value="Description" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="2"
-                p:cols="120" />
+      <bean parent="TextareaControlDefinition" p:rows="2" p:cols="120"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="2" p:cols="120" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Description" />
         <property name="description" value="Description" />
     </bean>
 
     <bean id="Correspondent-versionNumber" parent="Correspondent-versionNumber-parentBean" />
-    <bean id="Correspondent-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
+  <bean id="Correspondent-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Lookup View -->
     
-    <!-- This bean is used as a base for Unit, Organization correspondent lookups and their extensions; i.e. Iacuc/Irb -->
-    
-    <bean id="Correspondent-lookupDefinition" parent="Correspondent-lookupDefinition-parentBean" />
+    <bean id="Correspondent-lookupDefinition" abstract="true" parent="Correspondent-lookupDefinition-parentBean" />
+  <bean id="Correspondent-LookupView" abstract="true" parent="Correspondent-LookupView-parentBean"/>
     <bean id="Correspondent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Correspondent Lookup" />
 	    <property name="lookupableID" value="correspondentLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-            </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
-            <list>
-            </list>
+      <list/>
         </property>
         <property name="resultFields" >
-            <list>
+      <list/>
+    </property>
+  </bean>
+
+  <bean id="Correspondent-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="headerText" value="Correspondent Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
             </list>
         </property>
     </bean>
+    </property>
+    <property name="criteriaFields">
+      <list/>
+    </property>
+    <property name="resultFields">
+      <list/>
+    </property>
+  </bean>
 
 </beans>

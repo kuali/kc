@@ -1,26 +1,8 @@
-
-	<!--
-		Copyright 2005-2013 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0
-
-		Unless required by applicable law or agreed to in writing, software
-		distributed under the License is distributed on an "AS IS" BASIS,
-		WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-		implied. See the License for the specific language governing
-		permissions and limitations under the License.
-	-->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<bean id="CommitteeScheduleMinute" parent="CommitteeScheduleMinute-parentBean" />
-	<bean id="CommitteeScheduleMinute-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kra.meeting.CommitteeScheduleMinute" />
+  <bean id="CommitteeScheduleMinute-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.meeting.CommitteeScheduleMinute"/>
 		<property name="objectLabel" value="Committee Schedule Minute" />
 		<property name="inquiryDefinition">
 			<ref bean="CommitteeScheduleMinute-inquiryDefinition" />
@@ -56,12 +38,8 @@
 		</property>
 	</bean>
 
-	<!-- Attribute Definitions -->
-
-	<bean id="CommitteeScheduleMinute-commScheduleMinutesId"
-		parent="CommitteeScheduleMinute-commScheduleMinutesId-parentBean" />
-	<bean id="CommitteeScheduleMinute-commScheduleMinutesId-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="CommitteeScheduleMinute-commScheduleMinutesId" parent="CommitteeScheduleMinute-commScheduleMinutesId-parentBean"/>
+  <bean id="CommitteeScheduleMinute-commScheduleMinutesId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="commScheduleMinutesId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Id" />
@@ -70,16 +48,21 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Id" />
 		<property name="description" value="Id" />
 	</bean>
 
 	<bean id="CommitteeScheduleMinute-scheduleIdFk" parent="CommitteeScheduleMinute-scheduleIdFk-parentBean" />
-	<bean id="CommitteeScheduleMinute-scheduleIdFk-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="CommitteeScheduleMinute-scheduleIdFk-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="scheduleIdFk" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Schedule Id Fk" />
@@ -88,16 +71,21 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Schedule Id Fk" />
 		<property name="description" value="Schedule Id Fk" />
 	</bean>
 
 	<bean id="CommitteeScheduleMinute-entryNumber" parent="CommitteeScheduleMinute-entryNumber-parentBean" />
-	<bean id="CommitteeScheduleMinute-entryNumber-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="CommitteeScheduleMinute-entryNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="entryNumber" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Entry Number" />
@@ -106,16 +94,21 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Entry Number" />
 		<property name="description" value="Entry Number" />
 	</bean>
 
 	<bean id="CommitteeScheduleMinute-minuteEntryTypeCode" parent="CommitteeScheduleMinute-minuteEntryTypeCode-parentBean" />
-	<bean id="CommitteeScheduleMinute-minuteEntryTypeCode-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="CommitteeScheduleMinute-minuteEntryTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="minuteEntryTypeCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="required" value="true" />
@@ -125,19 +118,24 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     	<property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.coeus.common.committee.impl.meeting.MinuteEntryTypeValuesFinder"
-            p:includeKeyInLabel="false" 
-            p:script="updateProtocolContingencyDiv(this)" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.committee.impl.meeting.MinuteEntryTypeValuesFinder" p:includeKeyInLabel="false" p:script="updateProtocolContingencyDiv(this)"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.common.committee.impl.meeting.MinuteEntryTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
 		<property name="summary" value="Minute Entry Type Code" />
 		<property name="description" value="Minute Entry Type Code" />
 	</bean>
 
 	<bean id="CommitteeScheduleMinute-protocolIdFk" parent="CommitteeScheduleMinute-protocolIdFk-parentBean" />
-	<bean id="CommitteeScheduleMinute-protocolIdFk-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="CommitteeScheduleMinute-protocolIdFk-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="protocolIdFk" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol" />
@@ -146,16 +144,21 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Protocol Id Fk" />
 		<property name="description" value="Protocol Id Fk" />
 	</bean>
 	
     <bean id="CommitteeScheduleMinute-commScheduleActItemsIdFk" parent="CommitteeScheduleMinute-commScheduleActItemsIdFk-parentBean" />
-    <bean id="CommitteeScheduleMinute-commScheduleActItemsIdFk-parentBean"
-        abstract="true" parent="AttributeDefinition">
+  <bean id="CommitteeScheduleMinute-commScheduleActItemsIdFk-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="commScheduleActItemsIdFk" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Action Item" />
@@ -164,16 +167,21 @@
         <property name="validationPattern">
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="10" />
         </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
         <property name="summary" value="CommScheduleActItems Id Fk" />
         <property name="description" value="CommScheduleActItems Id Fk" />
     </bean>
 
 	<bean id="CommitteeScheduleMinute-submissionIdFk" parent="CommitteeScheduleMinute-submissionIdFk-parentBean" />
-	<bean id="CommitteeScheduleMinute-submissionIdFk-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="CommitteeScheduleMinute-submissionIdFk-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="submissionIdFk" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Submission Id Fk" />
@@ -182,16 +190,21 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Submission Id Fk" />
 		<property name="description" value="Submission Id Fk" />
 	</bean>
 
 	<bean id="CommitteeScheduleMinute-privateCommentFlag" parent="CommitteeScheduleMinute-privateCommentFlag-parentBean" />
-	<bean id="CommitteeScheduleMinute-privateCommentFlag-parentBean"
-		abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="CommitteeScheduleMinute-privateCommentFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 		<property name="name" value="privateCommentFlag" />
 		<property name="label" value="Private" />
 		<property name="shortLabel" value="Private" />
@@ -200,8 +213,7 @@
 	</bean>
 
 	<bean id="CommitteeScheduleMinute-finalFlag" parent="CommitteeScheduleMinute-finalFlag-parentBean" />
-	<bean id="CommitteeScheduleMinute-finalFlag-parentBean"
-		abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="CommitteeScheduleMinute-finalFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 		<property name="name" value="finalFlag" />
 		<property name="label" value="Final" />
 		<property name="shortLabel" value="Final" />
@@ -209,10 +221,8 @@
 		<property name="description" value="Final Flag" />
 	</bean>
 
-	<bean id="CommitteeScheduleMinute-protocolContingencyCode"
-		parent="CommitteeScheduleMinute-protocolContingencyCode-parentBean" />
-	<bean id="CommitteeScheduleMinute-protocolContingencyCode-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="CommitteeScheduleMinute-protocolContingencyCode" parent="CommitteeScheduleMinute-protocolContingencyCode-parentBean"/>
+  <bean id="CommitteeScheduleMinute-protocolContingencyCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="protocolContingencyCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Standard Review Comment" />
@@ -221,16 +231,21 @@
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="4" />
 		</property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Protocol Contingency Code" />
 		<property name="description" value="Protocol Contingency Code" />
 	</bean>
 
 	<bean id="CommitteeScheduleMinute-minuteEntry" parent="CommitteeScheduleMinute-minuteEntry-parentBean" />
-	<bean id="CommitteeScheduleMinute-minuteEntry-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="CommitteeScheduleMinute-minuteEntry-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="minuteEntry" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Description" />
@@ -238,12 +253,19 @@
 		<property name="maxLength" value="4000" />
 		<property name="required" value="true" />
 		<property name="validationPattern">
-			<bean parent="UTF8AnyCharacterValidationPattern" 
-			      p:allowWhitespace="true" />
+      <bean parent="UTF8AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="UTF8AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
 		<property name="control">
 			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
 		</property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="80" parent="Uif-TextAreaControl"/>
+    </property>
 		<property name="summary" value="Minute Entry" />
 		<property name="description" value="Minute Entry" />
 	</bean>
@@ -258,11 +280,18 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="required" value="false" />
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kra.irb.actions.ProtocolReviewerValuesFinder"
-                  p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.irb.actions.ProtocolReviewerValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.irb.actions.ProtocolReviewerValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Reviewers" />
         <property name="description" value="Reviewers" />
@@ -278,19 +307,22 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="required" value="false" />
         <property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
         <property name="summary" value="Protocol Online Review" />
         <property name="description" value="Protocol Online Review" />
      </bean>
 
 	<bean id="CommitteeScheduleMinute-versionNumber" parent="CommitteeScheduleMinute-versionNumber-parentBean" />
-	<bean id="CommitteeScheduleMinute-versionNumber-parentBean"
-		abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+  <bean id="CommitteeScheduleMinute-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 	<bean id="CommitteeScheduleMinute-updateUser" parent="CommitteeScheduleMinute-updateUser-parentBean" />
 	<bean id="CommitteeScheduleMinute-updateUser-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="updateUser" />
@@ -302,6 +334,9 @@
         <property name="control">
 			<bean parent="TextControlDefinition" p:size="40" />
 		</property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
+    </property>
         <property name="summary" value="Update User" />
         <property name="description" value="Update User" />
 	</bean>
@@ -327,9 +362,11 @@
         <property name="control">
 			<bean parent="TextControlDefinition" p:size="40" />
 		</property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
+    </property>
         <property name="summary" value="Create User" />
         <property name="description" value="Create User" />
-	
 	</bean>
 
 	<bean id="CommitteeScheduleMinute-createTimestamp" parent="CommitteeScheduleMinute-createTimestamp-parentBean" />
@@ -342,10 +379,11 @@
 	    <property name="description" value="Created Time" />
   	</bean>
   	
-	<!-- Business Object Inquiry Definition -->
+  <!-- Inquiry View -->
+
 	<bean id="CommitteeScheduleMinute-inquiryDefinition" parent="CommitteeScheduleMinute-inquiryDefinition-parentBean" />
-	<bean id="CommitteeScheduleMinute-inquiryDefinition-parentBean"
-		abstract="true" parent="InquiryDefinition">
+  <bean id="CommitteeScheduleMinute-InquiryView" parent="CommitteeScheduleMinute-InquiryView-parentBean"/>
+  <bean id="CommitteeScheduleMinute-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="commScheduleMinutesId" />
 		<property name="inquirySections">
 			<list>
@@ -354,8 +392,7 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="commScheduleMinutesId"
-								p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="commScheduleMinutesId" p:forceInquiry="true"/>
 							<bean parent="FieldDefinition" p:attributeName="scheduleIdFk" />
 							<bean parent="FieldDefinition" p:attributeName="entryNumber" />
 							<bean parent="FieldDefinition" p:attributeName="minuteEntryTypeCode" />
@@ -372,21 +409,46 @@
 		</property>
 	</bean>
 
-	<!-- Business Object Lookup Definition -->
+  <bean id="CommitteeScheduleMinute-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="commScheduleMinutesId"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.meeting.CommitteeScheduleMinute"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="commScheduleMinutesId"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="commScheduleMinutesId" parent="Uif-DataField"/>
+              <bean p:propertyName="scheduleIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="entryNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="minuteEntryTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="submissionIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="privateCommentFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="finalFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolContingencyCode" parent="Uif-DataField"/>
+              <bean p:propertyName="minuteEntry" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Lookup View -->
+
 	<bean id="CommitteeScheduleMinute-lookupDefinition" parent="CommitteeScheduleMinute-lookupDefinition-parentBean" />
-	<bean id="CommitteeScheduleMinute-lookupDefinition-parentBean"
-		abstract="true" parent="LookupDefinition">
+  <bean id="CommitteeScheduleMinute-LookupView" parent="CommitteeScheduleMinute-LookupView-parentBean"/>
+  <bean id="CommitteeScheduleMinute-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Comm Schedule Minutes Lookup" />
-		<property name="menubar"
-			value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 		<property name="defaultSort">
-			<bean parent="SortDefinition">
-			</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="commScheduleMinutesId"
-					p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="commScheduleMinutesId" p:forceInquiry="true"/>
 				<bean parent="FieldDefinition" p:attributeName="scheduleIdFk" />
 				<bean parent="FieldDefinition" p:attributeName="entryNumber" />
 				<bean parent="FieldDefinition" p:attributeName="minuteEntryTypeCode" />
@@ -400,8 +462,7 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="commScheduleMinutesId"
-					p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="commScheduleMinutesId" p:forceInquiry="true"/>
 				<bean parent="FieldDefinition" p:attributeName="scheduleIdFk" />
 				<bean parent="FieldDefinition" p:attributeName="entryNumber" />
 				<bean parent="FieldDefinition" p:attributeName="minuteEntryTypeCode" />
@@ -414,4 +475,49 @@
 			</list>
 		</property>
 	</bean>
+
+  <bean id="CommitteeScheduleMinute-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.meeting.CommitteeScheduleMinute"/>
+    <property name="headerText" value="Comm Schedule Minutes Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="commScheduleMinutesId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="scheduleIdFk" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="entryNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="minuteEntryTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolIdFk" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="submissionIdFk" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="privateCommentFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="finalFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolContingencyCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="minuteEntry" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="commScheduleMinutesId" parent="Uif-DataField"/>
+        <bean p:propertyName="scheduleIdFk" parent="Uif-DataField"/>
+        <bean p:propertyName="entryNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="minuteEntryTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolIdFk" parent="Uif-DataField"/>
+        <bean p:propertyName="submissionIdFk" parent="Uif-DataField"/>
+        <bean p:propertyName="privateCommentFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="finalFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolContingencyCode" parent="Uif-DataField"/>
+        <bean p:propertyName="minuteEntry" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

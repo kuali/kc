@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="Organization" parent="Organization-parentBean"/>
-
   <bean abstract="true" id="Organization-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.Organization"/>
 		<property name="objectLabel" value="Organization"/>
@@ -104,11 +103,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="Organization-organizationId" parent="Organization-organizationId-parentBean"/>
-
   <bean abstract="true" id="Organization-organizationId-parentBean" parent="AttributeDefinition">
     <property name="name" value="organizationId"/>
     <property name="forceUppercase" value="false"/>
@@ -118,14 +113,20 @@
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="8" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Organization Id"/>
     <property name="description" value="Organization Id"/>
   </bean>
-  <bean id="Organization-address" parent="Organization-address-parentBean"/>
 
+  <bean id="Organization-address" parent="Organization-address-parentBean"/>
   <bean abstract="true" id="Organization-address-parentBean" parent="AttributeDefinition">
     <property name="name" value="address"/>
     <property name="forceUppercase" value="false"/>
@@ -135,14 +136,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="60" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="60" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Address"/>
     <property name="description" value="Address"/>
   </bean>
-  <bean id="Organization-agencySymbol" parent="Organization-agencySymbol-parentBean"/>
 
+  <bean id="Organization-agencySymbol" parent="Organization-agencySymbol-parentBean"/>
   <bean abstract="true" id="Organization-agencySymbol-parentBean" parent="AttributeDefinition">
     <property name="name" value="agencySymbol"/>
     <property name="forceUppercase" value="false"/>
@@ -152,14 +161,20 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Agency Symbol"/>
     <property name="description" value="Agency Symbol"/>
   </bean>
-  <bean id="Organization-animalWelfareAssurance" parent="Organization-animalWelfareAssurance-parentBean"/>
 
+  <bean id="Organization-animalWelfareAssurance" parent="Organization-animalWelfareAssurance-parentBean"/>
   <bean abstract="true" id="Organization-animalWelfareAssurance-parentBean" parent="AttributeDefinition">
     <property name="name" value="animalWelfareAssurance"/>
     <property name="forceUppercase" value="false"/>
@@ -169,44 +184,70 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Animal Welfare Assurance"/>
     <property name="description" value="Animal Welfare Assurance"/>
   </bean>
-  <bean id="Organization-cableAddress" parent="Organization-cableAddress-parentBean"/>
 
+  <bean id="Organization-cableAddress" parent="Organization-cableAddress-parentBean"/>
   <bean abstract="true" id="Organization-cableAddress-parentBean" parent="AttributeDefinition">
     <property name="name" value="cableAddress"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Cable Address"/>
     <property name="shortLabel" value="Cable Address"/>
     <property name="maxLength" value="20"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Cable Address"/>
     <property name="description" value="Cable Address"/>
   </bean>
-  <bean id="Organization-cageNumber" parent="Organization-cageNumber-parentBean"/>
 
+  <bean id="Organization-cageNumber" parent="Organization-cageNumber-parentBean"/>
   <bean abstract="true" id="Organization-cageNumber-parentBean" parent="AttributeDefinition">
     <property name="name" value="cageNumber"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="CAGE Number"/>
     <property name="shortLabel" value="CAGE Number"/>
     <property name="maxLength" value="20"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="CAGE Number"/>
     <property name="description" value="CAGE Number"/>
   </bean>
-  <bean id="Organization-cognizantAuditor" parent="Organization-cognizantAuditor-parentBean"/>
 
+  <bean id="Organization-cognizantAuditor" parent="Organization-cognizantAuditor-parentBean"/>
   <bean abstract="true" id="Organization-cognizantAuditor-parentBean" parent="AttributeDefinition">
     <property name="name" value="cognizantAuditor"/>
     <property name="forceUppercase" value="false"/>
@@ -216,14 +257,20 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Cognizant Auditor"/>
     <property name="description" value="Cognizant Auditor"/>
   </bean>
-  <bean id="Organization-cognizantAuditorRolodex.fullName" parent="Organization-cognizantAuditorRolodex.fullName-parentBean"/>
 
+  <bean id="Organization-cognizantAuditorRolodex.fullName" parent="Organization-cognizantAuditorRolodex.fullName-parentBean"/>
   <bean abstract="true" id="Organization-cognizantAuditorRolodex.fullName-parentBean" parent="Rolodex-fullName">
     <property name="name" value="cognizantAuditorRolodex.fullName"/>
     <property name="label" value="Cognizant Auditor Full Name"/>
@@ -238,15 +285,25 @@
     <property name="label" value="Com Gov Entity Code"/>
     <property name="shortLabel" value="Com Gov Entity Code"/>
     <property name="maxLength" value="30"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Com Gov Entity Code"/>
     <property name="description" value="Com Gov Entity Code"/>
   </bean>
-  <bean id="Organization-congressionalDistrict" parent="Organization-congressionalDistrict-parentBean"/>
 
+  <bean id="Organization-congressionalDistrict" parent="Organization-congressionalDistrict-parentBean"/>
   <bean abstract="true" id="Organization-congressionalDistrict-parentBean" parent="AttributeDefinition">
     <property name="name" value="congressionalDistrict"/>
     <property name="forceUppercase" value="false"/>
@@ -256,14 +313,23 @@
     <property name="validationPattern">
       <bean p:pattern="^[a-zA-Z][a-zA-Z]-[0-9]{1,3}|[a-zA-Z][a-zA-Z]-all|00-000|US-all$" p:validationErrorMessageKey="error.congressionalDistrict.format" parent="RegexValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="JavaClassPatternConstraint">
+        <property name="value" value="^[a-zA-Z][a-zA-Z]-[0-9]{1,3}|[a-zA-Z][a-zA-Z]-all|00-000|US-all$"/>
+        <property name="messageKey" value="error.congressionalDistrict.format"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Congressional District"/>
     <property name="description" value="This field represents the &quot;applicant&quot; congressional district"/>
   </bean>
-  <bean id="Organization-contactAddressId" parent="Organization-contactAddressId-parentBean"/>
 
+  <bean id="Organization-contactAddressId" parent="Organization-contactAddressId-parentBean"/>
   <bean abstract="true" id="Organization-contactAddressId-parentBean" parent="AttributeDefinition">
     <property name="name" value="contactAddressId"/>
     <property name="forceUppercase" value="false"/>
@@ -273,28 +339,34 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Contact Address Id"/>
     <property name="description" value="Contact Address Id"/>
   </bean>
-  <bean id="Organization-rolodex.fullName" parent="Organization-rolodex.fullName-parentBean"/>
 
+  <bean id="Organization-rolodex.fullName" parent="Organization-rolodex.fullName-parentBean"/>
   <bean abstract="true" id="Organization-rolodex.fullName-parentBean" parent="Rolodex-fullName">
     <property name="name" value="rolodex.fullName"/>
     <property name="label" value="Contact Name"/>
     <property name="shortLabel" value="Contact Name"/>
   </bean>
-  <bean id="Organization-rolodex.addressLine1" parent="Organization-rolodex.addressLine1-parentBean"/>
 
+  <bean id="Organization-rolodex.addressLine1" parent="Organization-rolodex.addressLine1-parentBean"/>
   <bean abstract="true" id="Organization-rolodex.addressLine1-parentBean" parent="Rolodex-addressLine1">
     <property name="name" value="rolodex.addressLine1"/>
     <property name="label" value="Contact Address Id"/>
     <property name="shortLabel" value="Contact Address Id"/>
   </bean>
-  <bean id="Organization-county" parent="Organization-county-parentBean"/>
 
+  <bean id="Organization-county" parent="Organization-county-parentBean"/>
   <bean abstract="true" id="Organization-county-parentBean" parent="AttributeDefinition">
     <property name="name" value="county"/>
     <property name="forceUppercase" value="false"/>
@@ -304,89 +376,147 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="County"/>
     <property name="description" value="County"/>
   </bean>
-  <bean id="Organization-dodacNumber" parent="Organization-dodacNumber-parentBean"/>
 
+  <bean id="Organization-dodacNumber" parent="Organization-dodacNumber-parentBean"/>
   <bean abstract="true" id="Organization-dodacNumber-parentBean" parent="AttributeDefinition">
     <property name="name" value="dodacNumber"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="DODAC Number"/>
     <property name="shortLabel" value="DODAC Number"/>
     <property name="maxLength" value="20"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="DODAC Number"/>
     <property name="description" value="DODAC Number"/>
   </bean>
-  <bean id="Organization-dunsNumber" parent="Organization-dunsNumber-parentBean"/>
 
+  <bean id="Organization-dunsNumber" parent="Organization-dunsNumber-parentBean"/>
   <bean abstract="true" id="Organization-dunsNumber-parentBean" parent="AttributeDefinition">
     <property name="name" value="dunsNumber"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="DUNS Number"/>
     <property name="shortLabel" value="DUNS Number"/>
     <property name="maxLength" value="20"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="DUNS Number"/>
     <property name="description" value="DUNS Number"/>
   </bean>
-  <bean id="Organization-dunsPlusFourNumber" parent="Organization-dunsPlusFourNumber-parentBean"/>
 
+  <bean id="Organization-dunsPlusFourNumber" parent="Organization-dunsPlusFourNumber-parentBean"/>
   <bean abstract="true" id="Organization-dunsPlusFourNumber-parentBean" parent="AttributeDefinition">
     <property name="name" value="dunsPlusFourNumber"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="DUNS Plus Four Number"/>
     <property name="shortLabel" value="DUNS Plus Four Number"/>
     <property name="maxLength" value="20"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="DUNS Plus Four Number"/>
     <property name="description" value="DUNS Plus Four Number"/>
   </bean>
-  <bean id="Organization-federalEmployerId" parent="Organization-federalEmployerId-parentBean"/>
 
+  <bean id="Organization-federalEmployerId" parent="Organization-federalEmployerId-parentBean"/>
   <bean abstract="true" id="Organization-federalEmployerId-parentBean" parent="AttributeDefinition">
     <property name="name" value="federalEmployerId"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Federal Employer Id"/>
     <property name="shortLabel" value="Federal Employer Id"/>
     <property name="maxLength" value="15"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="15" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Federal Employer Id"/>
     <property name="description" value="Federal Employer Id"/>
   </bean>
-  <bean id="Organization-humanSubAssurance" parent="Organization-humanSubAssurance-parentBean"/>
 
+  <bean id="Organization-humanSubAssurance" parent="Organization-humanSubAssurance-parentBean"/>
   <bean abstract="true" id="Organization-humanSubAssurance-parentBean" parent="AttributeDefinition">
     <property name="name" value="humanSubAssurance"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Human Sub Assurance"/>
     <property name="shortLabel" value="Human Sub Assurance"/>
     <property name="maxLength" value="30"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Human Sub Assurance"/>
     <property name="description" value="Human Sub Assurance"/>
   </bean>
-  <bean id="Organization-incorporatedDate" parent="Organization-incorporatedDate-parentBean"/>
 
+  <bean id="Organization-incorporatedDate" parent="Organization-incorporatedDate-parentBean"/>
   <bean abstract="true" id="Organization-incorporatedDate-parentBean" parent="AttributeDefinition">
     <property name="name" value="incorporatedDate"/>
     <property name="forceUppercase" value="false"/>
@@ -396,14 +526,20 @@
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Incorporated Date"/>
     <property name="description" value="Incorporated Date"/>
   </bean>
-  <bean id="Organization-incorporatedIn" parent="Organization-incorporatedIn-parentBean"/>
 
+  <bean id="Organization-incorporatedIn" parent="Organization-incorporatedIn-parentBean"/>
   <bean abstract="true" id="Organization-incorporatedIn-parentBean" parent="AttributeDefinition">
     <property name="name" value="incorporatedIn"/>
     <property name="forceUppercase" value="false"/>
@@ -413,14 +549,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="50" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="50" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Incorporated In"/>
     <property name="description" value="Incorporated In"/>
   </bean>
-  <bean id="Organization-indirectCostRateAgreement" parent="Organization-indirectCostRateAgreement-parentBean"/>
 
+  <bean id="Organization-indirectCostRateAgreement" parent="Organization-indirectCostRateAgreement-parentBean"/>
   <bean abstract="true" id="Organization-indirectCostRateAgreement-parentBean" parent="AttributeDefinition">
     <property name="name" value="indirectCostRateAgreement"/>
     <property name="forceUppercase" value="false"/>
@@ -430,29 +574,45 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="50" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="50" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Indirect Cost Rate Agreement"/>
     <property name="description" value="Indirect Cost Rate Agreement"/>
   </bean>
-  <bean id="Organization-irsTaxExemption" parent="Organization-irsTaxExemption-parentBean"/>
 
+  <bean id="Organization-irsTaxExemption" parent="Organization-irsTaxExemption-parentBean"/>
   <bean abstract="true" id="Organization-irsTaxExemption-parentBean" parent="AttributeDefinition">
     <property name="name" value="irsTaxExemption"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="IRS Tax Exemption"/>
     <property name="shortLabel" value="IRS Tax Exemption"/>
     <property name="maxLength" value="30"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="IRS Tax Exemption"/>
     <property name="description" value="IRS Tax Exemption"/>
   </bean>
-  <bean id="Organization-stateEmployeeClaim" parent="Organization-stateEmployeeClaim-parentBean"/>
 
+  <bean id="Organization-stateEmployeeClaim" parent="Organization-stateEmployeeClaim-parentBean"/>
   <bean abstract="true" id="Organization-stateEmployeeClaim-parentBean" parent="AttributeDefinition">
     <property name="name" value="stateEmployeeClaim"/>
     <property name="forceUppercase" value="false"/>
@@ -462,14 +622,20 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="State Employee Claim"/>
     <property name="description" value="State Employee Claim"/>
   </bean>
-  <bean id="Organization-stateTaxExemptNum" parent="Organization-stateTaxExemptNum-parentBean"/>
 
+  <bean id="Organization-stateTaxExemptNum" parent="Organization-stateTaxExemptNum-parentBean"/>
   <bean abstract="true" id="Organization-stateTaxExemptNum-parentBean" parent="AttributeDefinition">
     <property name="name" value="stateTaxExemptNum"/>
     <property name="forceUppercase" value="false"/>
@@ -479,29 +645,45 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="State Tax Exempt Num"/>
     <property name="description" value="State Tax Exempt Num"/>
   </bean>
-  <bean id="Organization-nsfInstitutionalCode" parent="Organization-nsfInstitutionalCode-parentBean"/>
 
+  <bean id="Organization-nsfInstitutionalCode" parent="Organization-nsfInstitutionalCode-parentBean"/>
   <bean abstract="true" id="Organization-nsfInstitutionalCode-parentBean" parent="AttributeDefinition">
     <property name="name" value="nsfInstitutionalCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="NSF Institutional Code"/>
     <property name="shortLabel" value="NSF Institutional Code"/>
     <property name="maxLength" value="30"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="NSF Institutional Code"/>
     <property name="description" value="NSF Institutional Code"/>
   </bean>
-  <bean id="Organization-numberOfEmployees" parent="Organization-numberOfEmployees-parentBean"/>
 
+  <bean id="Organization-numberOfEmployees" parent="Organization-numberOfEmployees-parentBean"/>
   <bean abstract="true" id="Organization-numberOfEmployees-parentBean" parent="AttributeDefinition">
     <property name="name" value="numberOfEmployees"/>
     <property name="forceUppercase" value="false"/>
@@ -511,14 +693,20 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Number Of Employees"/>
     <property name="description" value="Number Of Employees"/>
   </bean>
-  <bean id="Organization-onrResidentRep" parent="Organization-onrResidentRep-parentBean"/>
 
+  <bean id="Organization-onrResidentRep" parent="Organization-onrResidentRep-parentBean"/>
   <bean abstract="true" id="Organization-onrResidentRep-parentBean" parent="AttributeDefinition">
     <property name="name" value="onrResidentRep"/>
     <property name="forceUppercase" value="false"/>
@@ -528,14 +716,20 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="ONR Resident Rep"/>
     <property name="description" value="ONR Resident Rep"/>
   </bean>
-  <bean id="Organization-onrResidentRepRolodex.fullName" parent="Organization-onrResidentRepRolodex.fullName-parentBean"/>
 
+  <bean id="Organization-onrResidentRepRolodex.fullName" parent="Organization-onrResidentRepRolodex.fullName-parentBean"/>
   <bean abstract="true" id="Organization-onrResidentRepRolodex.fullName-parentBean" parent="Rolodex-fullName">
     <property name="name" value="onrResidentRepRolodex.fullName"/>
     <property name="label" value="ONR Resident Rep Full Name"/>
@@ -553,29 +747,47 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="60" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="60" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Organization Name"/>
     <property name="description" value="Organization Name"/>
   </bean>
-  <bean id="Organization-phsAccount" parent="Organization-phsAccount-parentBean"/>
 
+  <bean id="Organization-phsAccount" parent="Organization-phsAccount-parentBean"/>
   <bean abstract="true" id="Organization-phsAccount-parentBean" parent="AttributeDefinition">
     <property name="name" value="phsAccount"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="PHS Account"/>
     <property name="shortLabel" value="PHS Account"/>
     <property name="maxLength" value="30"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="PHS Account"/>
     <property name="description" value="PHS Account"/>
   </bean>
-  <bean id="Organization-scienceMisconductComplDate" parent="Organization-scienceMisconductComplDate-parentBean"/>
 
+  <bean id="Organization-scienceMisconductComplDate" parent="Organization-scienceMisconductComplDate-parentBean"/>
   <bean abstract="true" id="Organization-scienceMisconductComplDate-parentBean" parent="AttributeDefinition">
     <property name="name" value="scienceMisconductComplDate"/>
     <property name="forceUppercase" value="false"/>
@@ -585,29 +797,45 @@
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Science Misconduct Compl Date"/>
     <property name="description" value="Science Misconduct Compl Date"/>
   </bean>
-  <bean id="Organization-telexNumber" parent="Organization-telexNumber-parentBean"/>
 
+  <bean id="Organization-telexNumber" parent="Organization-telexNumber-parentBean"/>
   <bean abstract="true" id="Organization-telexNumber-parentBean" parent="AttributeDefinition">
     <property name="name" value="telexNumber"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Telex Number"/>
     <property name="shortLabel" value="Telex Number"/>
     <property name="maxLength" value="20"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Telex Number"/>
     <property name="description" value="Telex Number"/>
   </bean>
-  <bean id="Organization-vendorCode" parent="Organization-vendorCode-parentBean"/>
 
+  <bean id="Organization-vendorCode" parent="Organization-vendorCode-parentBean"/>
   <bean abstract="true" id="Organization-vendorCode-parentBean" parent="AttributeDefinition">
     <property name="name" value="vendorCode"/>
     <property name="forceUppercase" value="false"/>
@@ -617,18 +845,23 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Vendor Code"/>
     <property name="description" value="Vendor Code"/>
   </bean>
 
-<!-- Business Object Inquiry Definition -->
-
+  <!-- Inquiry View -->
 
   <bean id="Organization-inquiryDefinition" parent="Organization-inquiryDefinition-parentBean"/>
-
+  <bean id="Organization-InquiryView" parent="Organization-InquiryView-parentBean"/>
   <bean abstract="true" id="Organization-inquiryDefinition-parentBean" parent="InquiryDefinition">
     <property name="title" value="Organization"/>
     <property name="inquirySections">
@@ -759,18 +992,118 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="Organization-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Organization"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.Organization"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Organization"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="organizationId" parent="Uif-DataField"/>
+              <bean p:propertyName="address" parent="Uif-DataField"/>
+              <bean p:propertyName="agencySymbol" parent="Uif-DataField"/>
+              <bean p:propertyName="animalWelfareAssurance" parent="Uif-DataField"/>
+              <bean p:propertyName="cableAddress" parent="Uif-DataField"/>
+              <bean p:propertyName="cageNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="cognizantAuditor" parent="Uif-DataField"/>
+              <bean p:propertyName="comGovEntityCode" parent="Uif-DataField"/>
+              <bean p:propertyName="congressionalDistrict" parent="Uif-DataField"/>
+              <bean p:propertyName="contactAddressId" parent="Uif-DataField"/>
+              <bean p:propertyName="rolodex.fullName" parent="Uif-DataField"/>
+              <bean p:propertyName="county" parent="Uif-DataField"/>
+              <bean p:propertyName="dodacNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="dunsNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="dunsPlusFourNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="federalEmployerId" parent="Uif-DataField"/>
+              <bean p:propertyName="humanSubAssurance" parent="Uif-DataField"/>
+              <bean p:propertyName="incorporatedDate" parent="Uif-DataField"/>
+              <bean p:propertyName="incorporatedIn" parent="Uif-DataField"/>
+              <bean p:propertyName="indirectCostRateAgreement" parent="Uif-DataField"/>
+              <bean p:propertyName="irsTaxExemption" parent="Uif-DataField"/>
+              <bean p:propertyName="stateEmployeeClaim" parent="Uif-DataField"/>
+              <bean p:propertyName="stateTaxExemptNum" parent="Uif-DataField"/>
+              <bean p:propertyName="nsfInstitutionalCode" parent="Uif-DataField"/>
+              <bean p:propertyName="numberOfEmployees" parent="Uif-DataField"/>
+              <bean p:propertyName="onrResidentRep" parent="Uif-DataField"/>
+              <bean p:propertyName="organizationName" parent="Uif-DataField"/>
+              <bean p:propertyName="phsAccount" parent="Uif-DataField"/>
+              <bean p:propertyName="scienceMisconductComplDate" parent="Uif-DataField"/>
+              <bean p:propertyName="telexNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="vendorCode" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-StackedCollectionSection">
+          <property name="headerText" value="Organization Types"/>
+          <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="2"/>
+          <property name="propertyName" value="organizationTypes"/>
+          <property name="collectionObjectClass" value="org.kuali.kra.bo.OrganizationType"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="organizationTypeList.description" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-StackedCollectionSection">
+          <property name="headerText" value="Organization Audits"/>
+          <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="2"/>
+          <property name="propertyName" value="organizationAudits"/>
+          <property name="collectionObjectClass" value="org.kuali.kra.bo.OrganizationAudit"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="fiscalYear" parent="Uif-DataField"/>
+              <bean p:propertyName="auditAccepted" parent="Uif-DataField"/>
+              <bean p:propertyName="auditComment" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-StackedCollectionSection">
+          <property name="headerText" value="Organization Indirectcosts"/>
+          <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="2"/>
+          <property name="propertyName" value="organizationIdcs"/>
+          <property name="collectionObjectClass" value="org.kuali.kra.bo.OrganizationIndirectcost"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="idcNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="applicableIndirectcostRate" parent="Uif-DataField"/>
+              <bean p:propertyName="endDate" parent="Uif-DataField"/>
+              <bean p:propertyName="idcComment" parent="Uif-DataField"/>
+              <bean p:propertyName="idcRateTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="requestedDate" parent="Uif-DataField"/>
+              <bean p:propertyName="startDate" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-StackedCollectionSection">
+          <property name="headerText" value="Organization Ynqs"/>
+          <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="2"/>
+          <property name="propertyName" value="organizationYnqs"/>
+          <property name="collectionObjectClass" value="org.kuali.kra.bo.OrganizationYnq"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="questionId" parent="Uif-DataField"/>
+              <bean p:propertyName="answer" parent="Uif-DataField"/>
+              <bean p:propertyName="explanation" parent="Uif-DataField"/>
+              <bean p:propertyName="reviewDate" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="Organization-lookupDefinition" parent="Organization-lookupDefinition-parentBean"/>
-
+  <bean id="Organization-LookupView" parent="Organization-LookupView-parentBean"/>
   <bean abstract="true" id="Organization-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Organization Lookup"/>
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
     <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields">
       <list>
@@ -801,4 +1134,49 @@
       </list>
     </property>
   </bean>
+
+  <bean id="Organization-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.Organization"/>
+    <property name="headerText" value="Organization Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="organizationId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="organizationName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="address" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="federalEmployerId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="congressionalDistrict" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dunsNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dunsPlusFourNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="humanSubAssurance" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="cageNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dodacNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="numberOfEmployees" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="organizationId" parent="Uif-DataField"/>
+        <bean p:propertyName="organizationName" parent="Uif-DataField"/>
+        <bean p:propertyName="address" parent="Uif-DataField"/>
+        <bean p:propertyName="federalEmployerId" parent="Uif-DataField"/>
+        <bean p:propertyName="congressionalDistrict" parent="Uif-DataField"/>
+        <bean p:propertyName="contactAddressId" parent="Uif-DataField"/>
+        <bean p:propertyName="dunsNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="dunsPlusFourNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="humanSubAssurance" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

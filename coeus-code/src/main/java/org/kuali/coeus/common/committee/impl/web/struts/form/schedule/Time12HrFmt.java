@@ -117,4 +117,9 @@ public class Time12HrFmt implements Serializable {
 
         return mins;
     }
+    
+    @Override
+    public String toString() {
+    	return time;
+    }
 }

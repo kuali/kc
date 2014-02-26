@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:p="http://www.springframework.org/schema/p" 
-	xsi:schemaLocation="http://www.springframework.org/schema/beans     
-	    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="Budget" parent="Budget-parentBean"/>
-
   <bean id="Budget-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.core.Budget" />
 		<property name="objectLabel" value="Budget" />
     <property name="lookupDefinition" >
       <ref bean="Budget-lookupDefinition" />
     </property>
-    
     <property name="titleAttribute" value="comments" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetSummaryHelp" p:parameterDetailType="Document"/>
     </property>
-    
     <property name="attributes">
       <list>
         <ref bean="Budget-costSharingAmount"/>
@@ -46,9 +38,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
   <bean id="Budget-costSharingAmount" parent="Budget-costSharingAmount-parentBean"/>
-
   <bean id="Budget-costSharingAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="costSharingAmount"/>
     <property name="label" value="Cost Sharing Amount"/>
@@ -56,8 +46,8 @@
     <property name="summary" value="Cost Sharing Amount"/>
     <property name="description" value="Cost Sharing Amount"/>
   </bean>
-  <bean id="Budget-endDate" parent="Budget-endDate-parentBean"/>
 
+  <bean id="Budget-endDate" parent="Budget-endDate-parentBean"/>
   <bean id="Budget-endDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="endDate"/>
     <property name="label" value="Project End Date"/>
@@ -65,8 +55,8 @@
     <property name="summary" value="Project End Date"/>
     <property name="description" value="Project End Date"/>
   </bean>
-  <bean id="Budget-finalVersionFlag" parent="Budget-finalVersionFlag-parentBean"/>
 
+  <bean id="Budget-finalVersionFlag" parent="Budget-finalVersionFlag-parentBean"/>
   <bean id="Budget-finalVersionFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="finalVersionFlag"/>
     <property name="label" value="Final?"/>
@@ -74,8 +64,8 @@
     <property name="summary" value="Final Version Flag"/>
     <property name="description" value="Final Version Flag"/>
   </bean>
-  <bean id="Budget-modularBudgetFlag" parent="Budget-modularBudgetFlag-parentBean"/>
 
+  <bean id="Budget-modularBudgetFlag" parent="Budget-modularBudgetFlag-parentBean"/>
   <bean id="Budget-modularBudgetFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="modularBudgetFlag"/>
     <property name="label" value="Modular Budget?"/>
@@ -93,8 +83,8 @@
     <property name="summary" value="Submit Cost Sharing"/>
     <property name="description" value="Submit Cost Sharing Flag"/>
   </bean>
-  <bean id="Budget-ohRateClassCode" parent="Budget-ohRateClassCode-parentBean"/>
 
+  <bean id="Budget-ohRateClassCode" parent="Budget-ohRateClassCode-parentBean"/>
   <bean id="Budget-ohRateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="ohRateClassCode"/>
     <property name="forceUppercase" value="false"/>
@@ -104,14 +94,23 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRateTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.budget.lookup.keyvalue.BudgetRateTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="F&amp;A Rate Type"/>
     <property name="description" value="F&amp;A Rate Type"/>
   </bean>
-  <bean id="Budget-ohRateTypeCode" parent="Budget-ohRateTypeCode-parentBean"/>
 
+  <bean id="Budget-ohRateTypeCode" parent="Budget-ohRateTypeCode-parentBean"/>
   <bean id="Budget-ohRateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="ohRateTypeCode"/>
     <property name="forceUppercase" value="false"/>
@@ -121,14 +120,20 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="F&amp;A Rate Type"/>
     <property name="description" value="F&amp;A Rate Type"/>
   </bean>
-  <bean id="Budget-residualFunds" parent="Budget-residualFunds-parentBean"/>
 
+  <bean id="Budget-residualFunds" parent="Budget-residualFunds-parentBean"/>
   <bean id="Budget-residualFunds-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="residualFunds"/>
     <property name="label" value="Residual Funds"/>
@@ -136,8 +141,8 @@
     <property name="summary" value="Residual Funds"/>
     <property name="description" value="Residual Funds"/>
   </bean>
-  <bean id="Budget-startDate" parent="Budget-startDate-parentBean"/>
 
+  <bean id="Budget-startDate" parent="Budget-startDate-parentBean"/>
   <bean id="Budget-startDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="startDate"/>
     <property name="label" value="Project Start Date"/>
@@ -145,8 +150,8 @@
     <property name="summary" value="Project Start Date"/>
     <property name="description" value="Project Start Date"/>
   </bean>
-  <bean id="Budget-totalCost" parent="Budget-totalCost-parentBean"/>
 
+  <bean id="Budget-totalCost" parent="Budget-totalCost-parentBean"/>
   <bean id="Budget-totalCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="totalCost"/>
     <property name="label" value="Total Cost"/>
@@ -154,8 +159,8 @@
     <property name="summary" value="Total Cost"/>
     <property name="description" value="Total Cost"/>
   </bean>
-  <bean id="Budget-totalCostLimit" parent="Budget-totalCostLimit-parentBean"/>
 
+  <bean id="Budget-totalCostLimit" parent="Budget-totalCostLimit-parentBean"/>
   <bean id="Budget-totalCostLimit-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="totalCostLimit"/>
     <property name="label" value="Total Cost Limit"/>
@@ -163,8 +168,8 @@
     <property name="summary" value="Total Cost Limit"/>
     <property name="description" value="Total Cost Limit"/>
   </bean>
-  <bean id="Budget-totalDirectCostLimit" parent="Budget-totalDirectCostLimit-parentBean"/>
 
+  <bean id="Budget-totalDirectCostLimit" parent="Budget-totalDirectCostLimit-parentBean"/>
   <bean id="Budget-totalDirectCostLimit-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="totalDirectCostLimit"/>
     <property name="label" value="Total Direct Cost Limit"/>
@@ -182,8 +187,8 @@
     <property name="summary" value="Total Direct Cost"/>
     <property name="description" value="Total Direct Cost"/>
   </bean>
-  <bean id="Budget-totalIndirectCost" parent="Budget-totalIndirectCost-parentBean"/>
 
+  <bean id="Budget-totalIndirectCost" parent="Budget-totalIndirectCost-parentBean"/>
   <bean id="Budget-totalIndirectCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="totalIndirectCost"/>
     <property name="label" value="Total Indirect Cost"/>
@@ -191,8 +196,8 @@
     <property name="summary" value="Total Indirect Cost"/>
     <property name="description" value="Total Indirect Cost"/>
   </bean>
-  <bean id="Budget-underrecoveryAmount" parent="Budget-underrecoveryAmount-parentBean"/>
 
+  <bean id="Budget-underrecoveryAmount" parent="Budget-underrecoveryAmount-parentBean"/>
   <bean id="Budget-underrecoveryAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="underrecoveryAmount"/>
     <property name="label" value="Underrecovery Amount"/>
@@ -200,8 +205,8 @@
     <property name="summary" value="Underrecovery Amount"/>
     <property name="description" value="Underrecovery Amount"/>
   </bean>
-  <bean id="Budget-urRateClassCode" parent="Budget-urRateClassCode-parentBean"/>
 
+  <bean id="Budget-urRateClassCode" parent="Budget-urRateClassCode-parentBean"/>
   <bean id="Budget-urRateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="urRateClassCode"/>
     <property name="forceUppercase" value="false"/>
@@ -211,14 +216,23 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRateTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.budget.lookup.keyvalue.BudgetRateTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Ur Rate Class Code"/>
     <property name="description" value="Ur Rate Class Code"/>
   </bean>
-  <bean id="Budget-comments" parent="Budget-comments-parentBean"/>
 
+  <bean id="Budget-comments" parent="Budget-comments-parentBean"/>
   <bean id="Budget-comments-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="comments"/>
     <property name="forceUppercase" value="false"/>
@@ -228,15 +242,23 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="required" value="false"/>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="3" p:cols="30"/>
     </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="30" parent="Uif-TextAreaControl"/>
+    </property>
     <property name="summary" value="The Comments for this budget."/>
     <property name="description" value="The Comments for this budget."/>
   </bean>
-  <bean id="Budget-budgetJustification" parent="Budget-budgetJustification-parentBean"/>
 
+  <bean id="Budget-budgetJustification" parent="Budget-budgetJustification-parentBean"/>
   <bean id="Budget-budgetJustification-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetJustification"/>
     <property name="forceUppercase" value="false"/>
@@ -246,15 +268,23 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="required" value="false"/>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="8" p:cols="60"/>
     </property>
+    <property name="controlField">
+      <bean p:rows="8" p:cols="60" parent="Uif-TextAreaControl"/>
+    </property>
     <property name="summary" value="Budget Justification"/>
     <property name="description" value="Budget Justification"/>
   </bean>
-  <bean id="Budget-budgetVersionNumber" parent="Budget-budgetVersionNumber-parentBean"/>
 
+  <bean id="Budget-budgetVersionNumber" parent="Budget-budgetVersionNumber-parentBean"/>
   <bean id="Budget-budgetVersionNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetVersionNumber"/>
     <property name="forceUppercase" value="false"/>
@@ -264,14 +294,20 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Budget Version Number"/>
     <property name="description" value="Budget Version Number for header display"/>
   </bean>
-  <bean id="Budget-onOffCampusFlag" parent="Budget-onOffCampusFlag-parentBean"/>
 
+  <bean id="Budget-onOffCampusFlag" parent="Budget-onOffCampusFlag-parentBean"/>
   <bean id="Budget-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="onOffCampusFlag"/>
     <property name="forceUppercase" value="false"/>
@@ -281,36 +317,39 @@
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetOnOffCampusValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.budget.lookup.keyvalue.BudgetOnOffCampusValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="On Off CampusContractContract flag"/>
     <property name="description" value="On Off CampusContractContract flag allowing the user to set all expense line items to be either 'all on' or 'all off-campus'; overriding the object code level defaults."/>
   </bean>
+  
   <bean id="Budget-versionNumber" parent="Budget-versionNumber-parentBean"/>
-
-  <bean id="Budget-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  
-  </bean>
-  
+  <bean id="Budget-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
   <bean id="Budget-workflowAttributes" parent="Budget-workflowAttributes-parentBean"/>
+  <bean id="Budget-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes"/>
+  <!-- Lookup View -->
 
-  <bean id="Budget-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-  </bean>
 	<bean id="Budget-lookupDefinition" parent="Budget-lookupDefinition-parentBean" />
+  <bean id="Budget-LookupView" parent="Budget-LookupView-parentBean"/>
   	<bean id="Budget-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Budget Lookup" />
 		<property name="lookupableID" value="budgetLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-		  <bean parent="SortDefinition">
-		  </bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 		  <list>
-<!--	        <bean p:attributeName="proposalNumber" p:forceInquiry="true" parent="FieldDefinition" />-->
-<!--	        <bean p:attributeName="documentNumber" parent="FieldDefinition" />-->
 	        <bean p:attributeName="costSharingAmount" parent="FieldDefinition" />
 	        <bean p:attributeName="endDate" parent="FieldDefinition" />
 	        <bean p:attributeName="finalVersionFlag" parent="FieldDefinition" />
@@ -335,8 +374,6 @@
 		</property>
 		<property name="resultFields" >
 		  <list>
-<!--	        <bean p:attributeName="proposalNumber" p:forceInquiry="true" parent="FieldDefinition" />-->
-<!--	        <bean p:attributeName="documentNumber" parent="FieldDefinition" />-->
 	        <bean p:attributeName="costSharingAmount" parent="FieldDefinition" />
 	        <bean p:attributeName="endDate" parent="FieldDefinition" />
 	        <bean p:attributeName="finalVersionFlag" parent="FieldDefinition" />
@@ -361,4 +398,69 @@
 		</property>
 		<property name="resultSetLimit" value="50" />
 	</bean>
+
+  <bean id="Budget-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.core.Budget"/>
+    <property name="headerText" value="Budget Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="costSharingAmount" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="endDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="finalVersionFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="modularBudgetFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="ohRateClassCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="ohRateTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="residualFunds" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="startDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="totalCost" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="totalCostLimit" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="totalDirectCostLimit" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="totalDirectCost" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="totalIndirectCost" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="underrecoveryAmount" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="urRateClassCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="budgetJustification" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="budgetVersionNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="onOffCampusFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="versionNumber" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="costSharingAmount" parent="Uif-DataField"/>
+        <bean p:propertyName="endDate" parent="Uif-DataField"/>
+        <bean p:propertyName="finalVersionFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="modularBudgetFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="ohRateClassCode" parent="Uif-DataField"/>
+        <bean p:propertyName="ohRateTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="residualFunds" parent="Uif-DataField"/>
+        <bean p:propertyName="startDate" parent="Uif-DataField"/>
+        <bean p:propertyName="totalCost" parent="Uif-DataField"/>
+        <bean p:propertyName="totalCostLimit" parent="Uif-DataField"/>
+        <bean p:propertyName="totalDirectCostLimit" parent="Uif-DataField"/>
+        <bean p:propertyName="totalDirectCost" parent="Uif-DataField"/>
+        <bean p:propertyName="totalIndirectCost" parent="Uif-DataField"/>
+        <bean p:propertyName="underrecoveryAmount" parent="Uif-DataField"/>
+        <bean p:propertyName="urRateClassCode" parent="Uif-DataField"/>
+        <bean p:propertyName="comments" parent="Uif-DataField"/>
+        <bean p:propertyName="budgetJustification" parent="Uif-DataField"/>
+        <bean p:propertyName="budgetVersionNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="onOffCampusFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

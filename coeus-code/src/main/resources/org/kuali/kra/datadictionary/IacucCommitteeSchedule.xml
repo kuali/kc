@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<bean id="IacucCommSchedule" parent="IacucCommSchedule-parentBean" />
 	<bean id="IacucCommSchedule-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule" />
@@ -65,8 +46,6 @@
 		</property>
 	</bean>
 
-	<!-- Attribute Definitions -->
-	
 	<bean id="IacucCommSchedule-id" parent="IacucCommSchedule-id-parentBean" />
 	<bean id="IacucCommSchedule-id-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="id" />
@@ -77,9 +56,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Id" />
 		<property name="description" value="Id" />
@@ -95,9 +79,14 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Schedule Id" />
 		<property name="description" value="Schedule Id" />
@@ -113,9 +102,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Committee Id" />
 		<property name="description" value="Committee Id" />
@@ -141,9 +135,14 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Day Of Week" />
 		<property name="description" value="Day Of Week" />
@@ -161,9 +160,16 @@
 				<property name="allowWhitespace" value="true" />
 			</bean>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="50" />
+      <bean parent="TextControlDefinition" p:size="50"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="50" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Place" />
 		<property name="description" value="Place" />
@@ -198,14 +204,23 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-            <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.coeus.common.committee.impl.bo.ScheduleStatus"
-                p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" 
-                p:includeKeyInLabel="false"
-            	p:includeBlankRow="false"
-                p:keyAttribute="scheduleStatusCode"
-                p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.committee.impl.bo.ScheduleStatus" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="scheduleStatusCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.impl.bo.ScheduleStatus"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="scheduleStatusCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>		
 		<property name="summary" value="Schedule Status Code" />
 		<property name="description" value="Schedule Status Code" />
@@ -266,9 +281,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Max Protocols" />
 		<property name="description" value="Max Protocols" />
@@ -282,22 +302,25 @@
 		<property name="shortLabel" value="Comments" />
 		<property name="maxLength" value="2000" />
 		<property name="validationPattern" >
-			<bean parent="AnyCharacterValidationPattern" 
-			            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
         <property name="control" >
-           <bean parent="TextareaControlDefinition"
-              p:rows="5"
-              p:cols="60" />
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="60"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="5" p:cols="60" parent="Uif-TextAreaControl"/>
         </property>
 		<property name="summary" value="Comments" />
 		<property name="description" value="Comments" />
 	</bean>
 
 	<bean id="IacucCommSchedule-versionNumber" parent="IacucCommSchedule-versionNumber-parentBean" />
-	<bean id="IacucCommSchedule-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-	
+  <bean id="IacucCommSchedule-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 	<bean id="IacucCommSchedule-protocolSubmissions.protocolNumber" parent="IacucCommSchedule-protocolSubmissions.protocolNumber-parentBean" />
 	<bean id="IacucCommSchedule-protocolSubmissions.protocolNumber-parentBean" abstract="true" parent="Protocol-protocolNumber">
 		<property name="name" value="protocolSubmissions.protocolNumber" />
@@ -311,9 +334,13 @@
 		<property name="shortLabel" value="Committee Id" />
 		<property name="required" value="false" />
 		<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdIdPairValuesFinder"
-                p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdIdPairValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdIdPairValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
 	</bean>
 
@@ -352,9 +379,15 @@
 	    <property name="validationPattern" >
 	      <bean parent="AnyCharacterValidationPattern" />
 	    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
 	    <property name="control" >
 	      <bean parent="CheckboxControlDefinition" />
 	    </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
 	    <property name="summary" value="Select" />
 	    <property name="description" value="Select" />
 	  </bean>
@@ -384,9 +417,10 @@
         <property name="description" value="Available to reviewers" />
     </bean>
 
+  <!-- Inquiry View -->
 
-	<!-- Business Object Inquiry Definition -->
 	<bean id="IacucCommSchedule-inquiryDefinition" parent="IacucCommSchedule-inquiryDefinition-parentBean" />
+  <bean id="IacucCommSchedule-InquiryView" parent="IacucCommSchedule-InquiryView-parentBean"/>
 	<bean id="IacucCommSchedule-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Id" />
 		<property name="inquirySections" >
@@ -396,37 +430,53 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="id" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="scheduleId" />
-							<bean parent="FieldDefinition"
-								p:attributeName="committeeIdFk" />
-							<bean parent="FieldDefinition"
-								p:attributeName="scheduledDate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="place" />
-							<bean parent="FieldDefinition"
-								p:attributeName="time" />
-							<bean parent="FieldDefinition"
-								p:attributeName="protocolSubDeadline" />
-							<bean parent="FieldDefinition"
-								p:attributeName="scheduleStatus.description" />
-							<bean parent="FieldDefinition"
-								p:attributeName="meetingDate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="startTime" />
-							<bean parent="FieldDefinition"
-								p:attributeName="endTime" />
-							<bean parent="FieldDefinition"
-								p:attributeName="agendaProdRevDate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="maxProtocols" />
-							<bean parent="FieldDefinition"
-								p:attributeName="availableToReviewers" />
-							<bean parent="FieldDefinition"
-								p:attributeName="comments" />
+              <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="scheduleId"/>
+              <bean parent="FieldDefinition" p:attributeName="committeeIdFk"/>
+              <bean parent="FieldDefinition" p:attributeName="scheduledDate"/>
+              <bean parent="FieldDefinition" p:attributeName="place"/>
+              <bean parent="FieldDefinition" p:attributeName="time"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolSubDeadline"/>
+              <bean parent="FieldDefinition" p:attributeName="scheduleStatus.description"/>
+              <bean parent="FieldDefinition" p:attributeName="meetingDate"/>
+              <bean parent="FieldDefinition" p:attributeName="startTime"/>
+              <bean parent="FieldDefinition" p:attributeName="endTime"/>
+              <bean parent="FieldDefinition" p:attributeName="agendaProdRevDate"/>
+              <bean parent="FieldDefinition" p:attributeName="maxProtocols"/>
+              <bean parent="FieldDefinition" p:attributeName="availableToReviewers"/>
+              <bean parent="FieldDefinition" p:attributeName="comments"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IacucCommSchedule-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
+              <bean p:propertyName="scheduleId" parent="Uif-DataField"/>
+              <bean p:propertyName="committeeIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="scheduledDate" parent="Uif-DataField"/>
+              <bean p:propertyName="place" parent="Uif-DataField"/>
+              <bean p:propertyName="time" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolSubDeadline" parent="Uif-DataField"/>
+              <bean p:propertyName="scheduleStatus.description" parent="Uif-DataField"/>
+              <bean p:propertyName="meetingDate" parent="Uif-DataField"/>
+              <bean p:propertyName="startTime" parent="Uif-DataField"/>
+              <bean p:propertyName="endTime" parent="Uif-DataField"/>
+              <bean p:propertyName="agendaProdRevDate" parent="Uif-DataField"/>
+              <bean p:propertyName="maxProtocols" parent="Uif-DataField"/>
+              <bean p:propertyName="availableToReviewers" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -434,57 +484,79 @@
 		</property>
 	</bean>
 
-	<!-- Business Object Lookup Definition -->
+  <!-- Lookup View -->
+
 	<bean id="IacucCommSchedule-lookupDefinition" parent="IacucCommSchedule-lookupDefinition-parentBean" />
+  <bean id="IacucCommSchedule-LookupView" parent="IacucCommSchedule-LookupView-parentBean"/>
 	<bean id="IacucCommSchedule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Committee Schedule Lookup" />
         <property name="lookupableID" value="iacucCommitteeScheduleLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="scheduleId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="scheduledDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="place" />
-				<bean parent="FieldDefinition"
-					p:attributeName="scheduleStatusCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolSubmissions.protocolNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolSubDeadline" />
-				<bean parent="FieldDefinition"
-					p:attributeName="committee.committeeId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="committee.committeeName" />
-<!-- 				<bean parent="FieldDefinition" -->
-<!-- 					p:attributeName="committee.committeeTypeCode" /> -->
-				<bean parent="FieldDefinition"
-                    p:attributeName="committee.committeeMemberships.personId" p:hidden="true" />
+        <bean parent="FieldDefinition" p:attributeName="scheduleId"/>
+        <bean parent="FieldDefinition" p:attributeName="scheduledDate"/>
+        <bean parent="FieldDefinition" p:attributeName="place"/>
+        <bean parent="FieldDefinition" p:attributeName="scheduleStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolSubmissions.protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolSubDeadline"/>
+        <bean parent="FieldDefinition" p:attributeName="committee.committeeId"/>
+        <bean parent="FieldDefinition" p:attributeName="committee.committeeName"/>
+        <bean parent="FieldDefinition" p:attributeName="committee.committeeMemberships.personId" p:hidden="true"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="scheduleId"/>
+        <bean parent="FieldDefinition" p:attributeName="scheduledDate"/>
+        <bean parent="FieldDefinition" p:attributeName="place"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolSubDeadline"/>
+        <bean parent="FieldDefinition" p:attributeName="scheduleStatus.description"/>
+        <bean parent="FieldDefinition" p:attributeName="committee.committeeId"/>
+        <bean parent="FieldDefinition" p:attributeName="committee.committeeName"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IacucCommSchedule-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule"/>
+    <property name="headerText" value="Committee Schedule Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="scheduleId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="scheduledDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="place" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="scheduleStatusCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolSubmissions.protocolNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolSubDeadline" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="committee.committeeId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="committee.committeeName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="committee.committeeMemberships.personId" parent="Uif-LookupCriteriaInputField"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="scheduleId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="scheduledDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="place" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolSubDeadline" />
-				<bean parent="FieldDefinition"
-					p:attributeName="scheduleStatus.description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="committee.committeeId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="committee.committeeName" />
+        <bean p:propertyName="scheduleId" parent="Uif-DataField"/>
+        <bean p:propertyName="scheduledDate" parent="Uif-DataField"/>
+        <bean p:propertyName="place" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolSubDeadline" parent="Uif-DataField"/>
+        <bean p:propertyName="scheduleStatus.description" parent="Uif-DataField"/>
+        <bean p:propertyName="committee.committeeId" parent="Uif-DataField"/>
+        <bean p:propertyName="committee.committeeName" parent="Uif-DataField"/>
 			</list>
 		</property>
 	</bean>

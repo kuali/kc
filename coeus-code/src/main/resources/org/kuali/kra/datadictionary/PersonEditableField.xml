@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="PersonEditableField" parent="PersonEditableField-parentBean"/>
-
   <bean abstract="true" id="PersonEditableField-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.PersonEditableField"/>
 		<property name="objectLabel" value="Person Editable Field"/>
@@ -24,12 +23,6 @@
     </property>
   </bean>
 
-
-
-<!-- Attribute Definitions -->
-
-
-
 	<bean id="PersonEditableField-personEditableFieldId" parent="PersonEditableField-personEditableFieldId-parentBean" />
 	<bean id="PersonEditableField-personEditableFieldId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="personEditableFieldId" />
@@ -40,9 +33,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Person Editable Field Id" />
 		<property name="description" value="Person Editable Field Id" />
@@ -58,9 +56,18 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control">
           <bean p:includeBlankRow="false" p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.PersonEditableFieldModuleValuesFinder" parent="SelectControlDefinition"/>
         </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.PersonEditableFieldModuleValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
         <property name="summary" value="Module Code" />
         <property name="description" value="Module Code" />
     </bean>
@@ -78,14 +85,23 @@
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.PersonEditableFieldValuesFinder" parent="SelectControlDefinition"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.PersonEditableFieldValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Field Name"/>
     <property name="description" value="Field Name"/>
   </bean>
-  <bean id="PersonEditableField-active" parent="PersonEditableField-active-parentBean"/>
 
+  <bean id="PersonEditableField-active" parent="PersonEditableField-active-parentBean"/>
   <bean abstract="true" id="PersonEditableField-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="active"/>
     <property name="label" value="Active"/>
@@ -103,15 +119,11 @@
   </bean>
   
   <bean id="PersonEditableField-versionNumber" parent="PersonEditableField-versionNumber-parentBean"/>
-
-  <bean abstract="true" id="PersonEditableField-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
-
+  <bean abstract="true" id="PersonEditableField-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
   <bean id="PersonEditableField-inquiryDefinition" parent="PersonEditableField-inquiryDefinition-parentBean"/>
-
+  <bean id="PersonEditableField-InquiryView" parent="PersonEditableField-InquiryView-parentBean"/>
   <bean abstract="true" id="PersonEditableField-inquiryDefinition-parentBean" parent="InquiryDefinition">
     <property name="title" value="Person Editable Fields"/>
     <property name="inquirySections">
@@ -132,24 +144,39 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="PersonEditableField-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Person Editable Fields"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.PersonEditableField"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Person Editable Field"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="personEditableFieldId" parent="Uif-DataField"/>
+              <bean p:propertyName="moduleCode" parent="Uif-DataField"/>
+              <bean p:propertyName="fieldName" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="PersonEditableField-lookupDefinition" parent="PersonEditableField-lookupDefinition-parentBean"/>
-
+  <bean id="PersonEditableField-LookupView" parent="PersonEditableField-LookupView-parentBean"/>
   <bean abstract="true" id="PersonEditableField-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Person Editable Field Lookup"/>
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
     <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
 	<property name="helpDefinition" >
-        <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-M"
-            p:parameterName="personEditableFieldMaintenanceHelp"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="personEditableFieldMaintenanceHelp" p:parameterDetailType="Document"/>
     </property>      
     <property name="lookupFields">
       <list>
@@ -167,4 +194,36 @@
       </list>
     </property>
   </bean>
+
+  <bean id="PersonEditableField-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.PersonEditableField"/>
+    <property name="headerText" value="Person Editable Field Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="moduleCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="fieldName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="personEditableFieldId" parent="Uif-DataField"/>
+        <bean p:propertyName="coeusModule.description" parent="Uif-DataField"/>
+        <bean p:propertyName="fieldName" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

@@ -1,18 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
   <bean id="CoiDisclosureUndisclosedEvents" parent="CoiDisclosureUndisclosedEvents-parentBean" />
-
   <bean id="CoiDisclosureUndisclosedEvents-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.coi.CoiDisclosureUndisclosedEvents" />
     <property name="objectLabel" value="Undisclosed Events" />
-    <!--<property name="inquiryDefinition" >
-      <ref bean="CoiDisclosureUndisclosedEvents-inquiryDefinition" />
-    </property>-->
     <property name="lookupDefinition" >
       <ref bean="CoiDisclosureUndisclosedEvents-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="projectId" />
-    
     <property name="attributes" >
       <list>
         <ref bean="CoiDisclosureUndisclosedEvents-personId" />
@@ -28,24 +23,19 @@
 		<ref bean="CoiDisclosureUndisclosedEvents-projectStatus" />
 	 </list>
 	</property>
-   
     <property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">
           <property name="objectAttributeName" value="sponsor" />
           <property name="primitiveAttributes" >
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="sponsorCode"
-                    p:targetName="sponsorCode" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="sponsorCode" p:targetName="sponsorCode"/>
             </list>
           </property>
         </bean>
       </list>
     </property>
-   
    </bean>
-   
    
    <bean id="CoiDisclosureUndisclosedEvents-personId" parent="CoiDisclosureUndisclosedEvents-personId-parentBean" />
 	<bean id="CoiDisclosureUndisclosedEvents-personId-parentBean" abstract="true" parent="PersonImpl-principalId" >
@@ -58,10 +48,7 @@
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
         <property name="control" >
-            <bean parent="KualiUserControlDefinition"
-                p:personNameAttributeName="person.fullName"
-                p:universalIdAttributeName="personId"
-                p:userIdAttributeName="person.userName" />
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="person.fullName" p:universalIdAttributeName="personId" p:userIdAttributeName="person.userName"/>
         </property>
 		<property name="summary" value="COI Disclosure Reporter" />
 		<property name="description" value="COI Disclosure Reporter" />
@@ -77,10 +64,17 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kra.coi.disclosure.CoiUndisclosedEventTypeValuesFinder"
-				p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.coi.disclosure.CoiUndisclosedEventTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.coi.disclosure.CoiUndisclosedEventTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
 		<property name="summary" value="COI Disclosure Event Type" />
 		<property name="description" value="COI Disclosure Event Type" />
@@ -105,9 +99,14 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="COI Disclosure Project Id" />
 		<property name="description" value="COI Disclosure Project Id" />
@@ -123,9 +122,14 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="COI Disclosure Project Title" />
 		<property name="description" value="COI Disclosure Project Title" />
@@ -141,10 +145,7 @@
             <bean parent="AnyCharacterValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="KualiUserControlDefinition"
-                p:personNameAttributeName="person.fullName"
-                p:universalIdAttributeName="personId"
-                p:userIdAttributeName="person.userName" />
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="person.fullName" p:universalIdAttributeName="personId" p:userIdAttributeName="person.userName"/>
         </property>
     </bean>
 
@@ -170,9 +171,14 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Project reporter" />
 		<property name="description" value="Project reporter" />
@@ -188,9 +194,14 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Project formatted create date" />
 		<property name="description" value="Project formatted create date" />
@@ -206,25 +217,29 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Project Status" />
 		<property name="description" value="Project Status" />
 	</bean>
 
-	<!-- Business Object Inquiry Definition -->
+  <!-- Lookup View -->
     
-    <!-- Business Object Lookup Definition -->
     <bean id="CoiDisclosureUndisclosedEvents-lookupDefinition" parent="CoiDisclosureUndisclosedEvents-lookupDefinition-parentBean" />
+  <bean id="CoiDisclosureUndisclosedEvents-LookupView" parent="CoiDisclosureUndisclosedEvents-LookupView-parentBean"/>
     <bean id="CoiDisclosureUndisclosedEvents-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Coi Undisclosed Events Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 		<property name="lookupableID" value="coiDisclosureUndisclosedEventsLookupable" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
@@ -236,8 +251,7 @@
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition" p:attributeName="projectId" 
-					p:forceLookup="true" />
+        <bean parent="FieldDefinition" p:attributeName="projectId" p:forceLookup="true"/>
                 <bean parent="FieldDefinition" p:attributeName="projectTitle" />
                 <bean parent="FieldDefinition" p:attributeName="disclosureEventType" />
                 <bean parent="FieldDefinition" p:attributeName="personId" />
@@ -247,4 +261,40 @@
             </list>
         </property>
     </bean>
+
+  <bean id="CoiDisclosureUndisclosedEvents-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.CoiDisclosureUndisclosedEvents"/>
+    <property name="headerText" value="Coi Undisclosed Events Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="person.userName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="disclosureEventType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="createDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="projectId" parent="Uif-DataField"/>
+        <bean p:propertyName="projectTitle" parent="Uif-DataField"/>
+        <bean p:propertyName="disclosureEventType" parent="Uif-DataField"/>
+        <bean p:propertyName="personId" parent="Uif-DataField"/>
+        <bean p:propertyName="personName" parent="Uif-DataField"/>
+        <bean p:propertyName="formattedCreateDate" parent="Uif-DataField"/>
+        <bean p:propertyName="projectStatus" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 	</beans>

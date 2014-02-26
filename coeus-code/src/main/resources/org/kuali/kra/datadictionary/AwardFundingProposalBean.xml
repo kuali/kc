@@ -1,14 +1,9 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="AwardFundingProposalBean" parent="AwardFundingProposalBean-parentBean" />
   <bean id="AwardFundingProposalBean-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.home.fundingproposal.AwardFundingProposalBean" />
 	<property name="objectLabel" value="AwardFundingProposalBean" />
-    
     <property name="titleAttribute" value="mergeTypeCode" />
     <property name="attributes" >
       <list>
@@ -26,14 +21,14 @@
     <property name="maxLength" value="2" />
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.FundingProposalMergeTypeValuesFinder"
-            p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NarrativeType"
-            p:includeKeyInLabel="false"
-            p:keyAttribute="narrativeTypeCode"
-            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.FundingProposalMergeTypeValuesFinder" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NarrativeType" p:includeKeyInLabel="false" p:keyAttribute="narrativeTypeCode" p:labelAttribute="description"/>
     </property>
-
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.award.lookup.keyvalue.FundingProposalMergeTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
     <property name="summary" value="Merge Type" />
     <property name="description" value="Merge Type" />
   </bean> 

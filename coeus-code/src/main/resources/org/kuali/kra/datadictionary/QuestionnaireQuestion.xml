@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="QuestionnaireQuestion" parent="QuestionnaireQuestion-parentBean" />
     <bean id="QuestionnaireQuestion-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.questionnaire.QuestionnaireQuestion" />
@@ -47,8 +28,6 @@
         </property>
     </bean>
 
-    <!-- Attribute Definitions -->
-    
     <bean id="QuestionnaireQuestion-questionnaireQuestionsId" parent="QuestionnaireQuestion-questionnaireQuestionsId-parentBean" />
     <bean id="QuestionnaireQuestion-questionnaireQuestionsId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="questionnaireQuestionsId" />
@@ -59,9 +38,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Questionnaire Questions Id" />
         <property name="description" value="Questionnaire Questions Id" />
@@ -77,9 +61,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Questionnaire Id" />
         <property name="description" value="Questionnaire Id" />
@@ -95,9 +84,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Question Ref Id" />
         <property name="description" value="Question Ref Id" />
@@ -113,9 +107,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="6" />
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Question Number" />
         <property name="description" value="Question Number" />
@@ -131,9 +130,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="6" />
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Parent Question Number" />
         <property name="description" value="Parent Question Number" />
@@ -158,9 +162,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Condition" />
         <property name="description" value="Condition" />
@@ -176,9 +185,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Condition Value" />
         <property name="description" value="Condition Value" />
@@ -194,9 +208,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Question Seq Number" />
         <property name="description" value="Question Seq Number" />
@@ -211,20 +230,25 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Question Seq Number" />
         <property name="description" value="Question Seq Number" />
     </bean>
 
     <bean id="QuestionnaireQuestion-versionNumber" parent="QuestionnaireQuestion-versionNumber-parentBean" />
-    <bean id="QuestionnaireQuestion-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
+  <bean id="QuestionnaireQuestion-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
-    <!-- Business Object Inquiry Definition -->
     <bean id="QuestionnaireQuestion-inquiryDefinition" parent="QuestionnaireQuestion-inquiryDefinition-parentBean" />
+  <bean id="QuestionnaireQuestion-InquiryView" parent="QuestionnaireQuestion-InquiryView-parentBean"/>
     <bean id="QuestionnaireQuestion-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Questionnaire Questions Id" />
         <property name="inquirySections" >
@@ -234,25 +258,41 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="questionnaireQuestionsId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="questionRefIdFk" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="questionNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="parentQuestionNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="conditionFlag" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="condition" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="conditionValue" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="questionSeqNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="ruleId" />
+              <bean parent="FieldDefinition" p:attributeName="questionnaireQuestionsId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="questionRefIdFk"/>
+              <bean parent="FieldDefinition" p:attributeName="questionNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="parentQuestionNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="conditionFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="condition"/>
+              <bean parent="FieldDefinition" p:attributeName="conditionValue"/>
+              <bean parent="FieldDefinition" p:attributeName="questionSeqNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="ruleId"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="QuestionnaireQuestion-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Questionnaire Questions Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.questionnaire.QuestionnaireQuestion"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Questionnaire Questions Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="questionnaireQuestionsId" parent="Uif-DataField"/>
+              <bean p:propertyName="questionRefIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="questionNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="parentQuestionNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="conditionFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="condition" parent="Uif-DataField"/>
+              <bean p:propertyName="conditionValue" parent="Uif-DataField"/>
+              <bean p:propertyName="questionSeqNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="ruleId" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -260,61 +300,84 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <!-- Lookup View -->
+
     <bean id="QuestionnaireQuestion-lookupDefinition" parent="QuestionnaireQuestion-lookupDefinition-parentBean" />
+  <bean id="QuestionnaireQuestion-LookupView" parent="QuestionnaireQuestion-LookupView-parentBean"/>
     <bean id="QuestionnaireQuestion-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Questionnaire Questions Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionnaireQuestionsId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionRefIdFk" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="parentQuestionNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="conditionFlag" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="condition" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="conditionValue" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionSeqNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="ruleId" />
+        <bean parent="FieldDefinition" p:attributeName="questionnaireQuestionsId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="questionRefIdFk"/>
+        <bean parent="FieldDefinition" p:attributeName="questionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="parentQuestionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="conditionFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="condition"/>
+        <bean parent="FieldDefinition" p:attributeName="conditionValue"/>
+        <bean parent="FieldDefinition" p:attributeName="questionSeqNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="ruleId"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionnaireQuestionsId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionRefIdFk" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="parentQuestionNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="conditionFlag" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="condition" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="conditionValue" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionSeqNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="ruleId" />
+        <bean parent="FieldDefinition" p:attributeName="questionnaireQuestionsId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="questionRefIdFk"/>
+        <bean parent="FieldDefinition" p:attributeName="questionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="parentQuestionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="conditionFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="condition"/>
+        <bean parent="FieldDefinition" p:attributeName="conditionValue"/>
+        <bean parent="FieldDefinition" p:attributeName="questionSeqNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="ruleId"/>
             </list>
         </property>
     </bean>
+
+  <bean id="QuestionnaireQuestion-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.questionnaire.QuestionnaireQuestion"/>
+    <property name="headerText" value="Questionnaire Questions Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="questionnaireQuestionsId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="questionRefIdFk" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="questionNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="parentQuestionNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="conditionFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="condition" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="conditionValue" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="questionSeqNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="ruleId" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="questionnaireQuestionsId" parent="Uif-DataField"/>
+        <bean p:propertyName="questionRefIdFk" parent="Uif-DataField"/>
+        <bean p:propertyName="questionNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="parentQuestionNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="conditionFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="condition" parent="Uif-DataField"/>
+        <bean p:propertyName="conditionValue" parent="Uif-DataField"/>
+        <bean p:propertyName="questionSeqNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="ruleId" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

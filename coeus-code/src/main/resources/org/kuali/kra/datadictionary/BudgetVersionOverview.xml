@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="BudgetVersionOverview" parent="BudgetVersionOverview-parentBean" />
-
   <bean id="BudgetVersionOverview-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.versions.BudgetVersionOverview" />
 		<property name="objectLabel" value="Budget Version Overview" />
@@ -20,11 +15,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="BudgetVersionOverview-documentDescription" parent="BudgetVersionOverview-documentDescription-parentBean" />
-
   <bean id="BudgetVersionOverview-documentDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentDescription" />
     <property name="forceUppercase" value="false" />
@@ -33,11 +24,13 @@
     <property name="maxLength" value="40" />
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+      <bean parent="TextControlDefinition" p:size="16"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="16" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="A free-form text field that describes the purpose or
-					function of the document." />
+    <property name="description" value="A free-form text field that describes the purpose or      function of the document."/>
   </bean>
+
 </beans>

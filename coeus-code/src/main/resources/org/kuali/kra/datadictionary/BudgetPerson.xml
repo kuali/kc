@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="BudgetPerson" parent="BudgetPerson-parentBean" />
-
   <bean id="BudgetPerson-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.personnel.BudgetPerson" />
 		<property name="objectLabel" value="Budget Person" />
@@ -17,10 +12,7 @@
     </property>
     <property name="titleAttribute" value="personId" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-B"
-            p:parameterName="budgetPersonHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetPersonHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -38,11 +30,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="BudgetPerson-effectiveDate" parent="BudgetPerson-effectiveDate-parentBean" />
-
   <bean id="BudgetPerson-effectiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="effectiveDate" />
     <property name="label" value="Salary Effective Date" />
@@ -51,8 +39,8 @@
     <property name="summary" value="Salary Effective Date" />
     <property name="description" value="Salary Effective Date." />
   </bean>
-  <bean id="BudgetPerson-jobCode" parent="BudgetPerson-jobCode-parentBean" />
 
+  <bean id="BudgetPerson-jobCode" parent="BudgetPerson-jobCode-parentBean"/>
   <bean id="BudgetPerson-jobCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="jobCode" />
     <property name="forceUppercase" value="false" />
@@ -62,15 +50,20 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Job Code" />
     <property name="description" value="Job Code" />
   </bean>
-  <bean id="BudgetPerson-nonEmployeeFlag" parent="BudgetPerson-nonEmployeeFlag-parentBean" />
 
+  <bean id="BudgetPerson-nonEmployeeFlag" parent="BudgetPerson-nonEmployeeFlag-parentBean"/>
   <bean id="BudgetPerson-nonEmployeeFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nonEmployeeFlag" />
     <property name="forceUppercase" value="false" />
@@ -80,19 +73,22 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+      <bean parent="TextControlDefinition" p:size="1"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="1" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Non Employee Flag" />
     <property name="description" value="Non Employee Flag" />
   </bean>
-  <bean id="BudgetPerson-personId" parent="BudgetPerson-personId-parentBean" />
 
-  <bean id="BudgetPerson-personId-parentBean" abstract="true" parent="KcPerson-personId">
-  </bean>
+  <bean id="BudgetPerson-personId" parent="BudgetPerson-personId-parentBean"/>
+  <bean id="BudgetPerson-personId-parentBean" abstract="true" parent="KcPerson-personId"/>
   <bean id="BudgetPerson-versionNumber" parent="BudgetPerson-versionNumber-parentBean" />
-
   <bean id="BudgetPerson-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="versionNumber" />
     <property name="forceUppercase" value="false" />
@@ -102,15 +98,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Version Number" />
     <property name="description" value="Version Number" />
   </bean>
-  <bean id="BudgetPerson-appointmentType" parent="BudgetPerson-appointmentType-parentBean" />
 
+  <bean id="BudgetPerson-appointmentType" parent="BudgetPerson-appointmentType-parentBean"/>
   <bean id="BudgetPerson-appointmentType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentType" />
     <property name="forceUppercase" value="false" />
@@ -120,21 +121,30 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.budget.personnel.AppointmentType"
-            p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="appointmentTypeCode"
-            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.budget.personnel.AppointmentType" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="appointmentTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.budget.personnel.AppointmentType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="appointmentTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Appointment Type" />
     <property name="description" value="Appointment Type" />
   </bean>
-  <bean id="BudgetPerson-calculationBase" parent="BudgetPerson-calculationBase-parentBean" />
 
+  <bean id="BudgetPerson-calculationBase" parent="BudgetPerson-calculationBase-parentBean"/>
   <bean id="BudgetPerson-calculationBase-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="calculationBase" />
     <property name="label" value="Base Salary" />
@@ -143,8 +153,8 @@
     <property name="summary" value="Base Salary" />
     <property name="description" value="Calculation Base" />
   </bean>
-  <bean id="BudgetPerson-personName" parent="BudgetPerson-personName-parentBean" />
 
+  <bean id="BudgetPerson-personName" parent="BudgetPerson-personName-parentBean"/>
   <bean id="BudgetPerson-personName-parentBean" abstract="true" parent="KcPerson-fullName">
     <property name="name" value="personName" />
     <property name="label" value="Personnel" />
@@ -152,13 +162,10 @@
     <property name="summary" value="Personnel" />
     <property name="description" value="Personnel" />
   </bean>
-  <bean id="BudgetPerson-jobTitle" parent="BudgetPerson-jobTitle-parentBean" />
 
-  <bean id="BudgetPerson-jobTitle-parentBean" abstract="true" parent="JobCode-jobTitle">
-  </bean>
-
+  <bean id="BudgetPerson-jobTitle" parent="BudgetPerson-jobTitle-parentBean"/>
+  <bean id="BudgetPerson-jobTitle-parentBean" abstract="true" parent="JobCode-jobTitle"/>
   <bean id="BudgetPerson-salaryAnniversaryDate" parent="BudgetPerson-salaryAnniversaryDate-parentBean" />
-
   <bean id="BudgetPerson-salaryAnniversaryDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="salaryAnniversaryDate" />
     <property name="label" value="Salary Anniversary Date" />
@@ -167,11 +174,10 @@
     <property name="description" value="Salary Anniversary Date." />
   </bean>
 
-<!-- Business Object Inquiry Definition -->
-
+  <!-- Inquiry View -->
 
   <bean id="BudgetPerson-inquiryDefinition" parent="BudgetPerson-inquiryDefinition-parentBean" />
-
+  <bean id="BudgetPerson-InquiryView" parent="BudgetPerson-InquiryView-parentBean"/>
   <bean id="BudgetPerson-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Budget Persons" />
     <property name="inquirySections" >
@@ -181,30 +187,15 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="effectiveDate"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="jobCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="nonEmployeeFlag"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="personId"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="versionNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="appointmentType" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="calculationBase" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="personName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="salaryAnniversaryDate"
-                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="jobCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="nonEmployeeFlag" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="personId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="versionNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="appointmentType"/>
+              <bean parent="FieldDefinition" p:attributeName="calculationBase"/>
+              <bean parent="FieldDefinition" p:attributeName="personName"/>
+              <bean parent="FieldDefinition" p:attributeName="salaryAnniversaryDate" p:forceInquiry="true"/>
             </list>
           </property>
         </bean>
@@ -212,67 +203,110 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="BudgetPerson-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Budget Persons"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.personnel.BudgetPerson"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Budget Persons"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="effectiveDate" parent="Uif-DataField"/>
+              <bean p:propertyName="jobCode" parent="Uif-DataField"/>
+              <bean p:propertyName="nonEmployeeFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="personId" parent="Uif-DataField"/>
+              <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="appointmentType" parent="Uif-DataField"/>
+              <bean p:propertyName="calculationBase" parent="Uif-DataField"/>
+              <bean p:propertyName="personName" parent="Uif-DataField"/>
+              <bean p:propertyName="salaryAnniversaryDate" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="BudgetPerson-lookupDefinition" parent="BudgetPerson-lookupDefinition-parentBean" />
-
+  <bean id="BudgetPerson-LookupView" parent="BudgetPerson-LookupView-parentBean"/>
   <bean id="BudgetPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Persons Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="effectiveDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="jobCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nonEmployeeFlag" />
-        <bean parent="FieldDefinition"
-              p:attributeName="personId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="versionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="appointmentType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="calculationBase" />
-        <bean parent="FieldDefinition"
-              p:attributeName="personName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="salaryAnniversaryDate" />
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+        <bean parent="FieldDefinition" p:attributeName="jobCode"/>
+        <bean parent="FieldDefinition" p:attributeName="nonEmployeeFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="personId"/>
+        <bean parent="FieldDefinition" p:attributeName="versionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="appointmentType"/>
+        <bean parent="FieldDefinition" p:attributeName="calculationBase"/>
+        <bean parent="FieldDefinition" p:attributeName="personName"/>
+        <bean parent="FieldDefinition" p:attributeName="salaryAnniversaryDate"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="effectiveDate"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="jobCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nonEmployeeFlag"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="personId"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="versionNumber"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="appointmentType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="calculationBase" />
-        <bean parent="FieldDefinition"
-              p:attributeName="personName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="salaryAnniversaryDate" />
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="jobCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="nonEmployeeFlag" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="personId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="versionNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="appointmentType"/>
+        <bean parent="FieldDefinition" p:attributeName="calculationBase"/>
+        <bean parent="FieldDefinition" p:attributeName="personName"/>
+        <bean parent="FieldDefinition" p:attributeName="salaryAnniversaryDate"/>
       </list>
     </property>
   </bean>
+
+  <bean id="BudgetPerson-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.personnel.BudgetPerson"/>
+    <property name="headerText" value="Budget Persons Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="effectiveDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="jobCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="nonEmployeeFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="personId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="versionNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="appointmentType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="calculationBase" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="personName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="salaryAnniversaryDate" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="effectiveDate" parent="Uif-DataField"/>
+        <bean p:propertyName="jobCode" parent="Uif-DataField"/>
+        <bean p:propertyName="nonEmployeeFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="personId" parent="Uif-DataField"/>
+        <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="appointmentType" parent="Uif-DataField"/>
+        <bean p:propertyName="calculationBase" parent="Uif-DataField"/>
+        <bean p:propertyName="personName" parent="Uif-DataField"/>
+        <bean p:propertyName="salaryAnniversaryDate" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

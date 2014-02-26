@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="DegreeType" parent="DegreeType-parentBean"/>
-
   <bean abstract="true" id="DegreeType-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.DegreeType"/>
 		<property name="objectLabel" value="Degree Type"/>
@@ -22,11 +21,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="DegreeType-degreeCode" parent="DegreeType-degreeCode-parentBean"/>
-
   <bean abstract="true" id="DegreeType-degreeCode-parentBean" parent="AttributeDefinition">
     <property name="name" value="degreeCode"/>
     <property name="forceUppercase" value="false"/>
@@ -36,14 +31,20 @@
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Degree Code"/>
     <property name="description" value="Degree Code"/>
   </bean>
-  <bean id="DegreeType-degreeLevel" parent="DegreeType-degreeLevel-parentBean"/>
 
+  <bean id="DegreeType-degreeLevel" parent="DegreeType-degreeLevel-parentBean"/>
   <bean abstract="true" id="DegreeType-degreeLevel-parentBean" parent="AttributeDefinition">
     <property name="name" value="degreeLevel"/>
     <property name="forceUppercase" value="true"/>
@@ -53,26 +54,27 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="4" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Degree Level"/>
     <property name="description" value="Degree Level description..."/>
   </bean>
+
   <bean id="DegreeType-description" parent="DegreeType-description-parentBean"/>
-
-  <bean abstract="true" id="DegreeType-description-parentBean" parent="KraAttributeReferenceDummy-description">
-  </bean>
+  <bean abstract="true" id="DegreeType-description-parentBean" parent="KraAttributeReferenceDummy-description"/>
   <bean id="DegreeType-versionNumber" parent="DegreeType-versionNumber-parentBean"/>
-
-  <bean abstract="true" id="DegreeType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
-
+  <bean abstract="true" id="DegreeType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
   <bean id="DegreeType-inquiryDefinition" parent="DegreeType-inquiryDefinition-parentBean"/>
-
+  <bean id="DegreeType-InquiryView" parent="DegreeType-InquiryView-parentBean"/>
   <bean abstract="true" id="DegreeType-inquiryDefinition-parentBean" parent="InquiryDefinition">
     <property name="title" value="Degree Type"/>
     <property name="inquirySections">
@@ -92,24 +94,38 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="DegreeType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Degree Type"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.DegreeType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Degree Type"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="degreeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="degreeLevel" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="DegreeType-lookupDefinition" parent="DegreeType-lookupDefinition-parentBean"/>
-
+  <bean id="DegreeType-LookupView" parent="DegreeType-LookupView-parentBean"/>
   <bean abstract="true" id="DegreeType-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Degree Type Lookup"/>
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
     <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="helpDefinition" >
-        <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-M"
-            p:parameterName="degreeTypeMaintenanceHelp"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="degreeTypeMaintenanceHelp" p:parameterDetailType="Document"/>
     </property>    
     <property name="lookupFields">
       <list>
@@ -126,4 +142,35 @@
       </list>
     </property>
   </bean>
+
+  <bean id="DegreeType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.DegreeType"/>
+    <property name="headerText" value="Degree Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="degreeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="degreeLevel" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="degreeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="degreeLevel" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

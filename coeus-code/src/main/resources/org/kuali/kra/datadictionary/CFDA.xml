@@ -1,9 +1,5 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="CFDA" parent="CFDA-parentBean" />
   <bean id="CFDA-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.home.CFDA" />
@@ -25,9 +21,6 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="CFDA-cfdaNumber" parent="CFDA-cfdaNumber-parentBean" />
   <bean id="CFDA-cfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cfdaNumber" />
@@ -36,14 +29,20 @@
     <property name="shortLabel" value="CFDA Number" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
-      <bean parent="RegexValidationPattern"
-      		p:pattern="[0-9]{2}.[0-9]{3}[A-Za-z]"
-      		p:validationErrorMessageKey="error.s2sopportunity.cfdaNumberInvalid"/>
+      <bean parent="RegexValidationPattern" p:pattern="[0-9]{2}.[0-9]{3}[A-Za-z]" p:validationErrorMessageKey="error.s2sopportunity.cfdaNumberInvalid"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="JavaClassPatternConstraint">
+        <property name="value" value="[0-9]{2}.[0-9]{3}[A-Za-z]"/>
+        <property name="messageKey" value="error.s2sopportunity.cfdaNumberInvalid"/>
+      </bean>
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="The CFDA Number for this Award." />
     <property name="description" value="A unique identifier for the sponsor and the funding opportunity announcement.  AKA &quot;Catalogue of Federal Domestic Assistance Number.&quot; The format for this CFDA Number is XX.XXX" />
@@ -59,8 +58,16 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="15" />
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="CFDA Program Title Name" />
     <property name="description" value="CFDA Program Title Name" />
@@ -76,9 +83,18 @@
     	<property name="validationPattern" >
       	<bean parent="AnyCharacterValidationPattern" />
     	</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
 		<property name="control">
       		<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.CfdaMaintenanceTypeValuesFinder" p:includeKeyInLabel="false"/>
     	</property> 
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.award.lookup.keyvalue.CfdaMaintenanceTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
   	</bean>
   
   <bean id="CFDA-active" parent="CFDA-active-parentBean" />
@@ -91,20 +107,25 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
     </property>
     <property name="summary" value="Active" />
     <property name="description" value="Active" />
   </bean>
   
   <bean id="CFDA-versionNumber" parent="CFDA-versionNumber-parentBean" />
-  <bean id="CFDA-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-  
-<!-- Business Object Inquiry Definition -->
+  <bean id="CFDA-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
   <bean id="CFDA-inquiryDefinition" parent="CFDA-inquiryDefinition-parentBean" />
+  <bean id="CFDA-InquiryView" parent="CFDA-InquiryView-parentBean"/>
   <bean id="CFDA-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="CFDA" />
     <property name="inquirySections" >
@@ -114,15 +135,10 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="cfdaNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cfdaProgramTitleName" />
-              <bean parent="FieldDefinition"
-              		p:attributeName="cfdaMaintenanceTypeId" />
-              <bean parent="FieldDefinition"
-              		p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="cfdaNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="cfdaProgramTitleName"/>
+              <bean parent="FieldDefinition" p:attributeName="cfdaMaintenanceTypeId"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -130,43 +146,85 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="CFDA-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="CFDA"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.award.home.CFDA"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="CFDA"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="cfdaNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="cfdaProgramTitleName" parent="Uif-DataField"/>
+              <bean p:propertyName="cfdaMaintenanceTypeId" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Lookup View -->
 
   <bean id="CFDA-lookupDefinition" parent="CFDA-lookupDefinition-parentBean" />
+  <bean id="CFDA-LookupView" parent="CFDA-LookupView-parentBean"/>
   <bean id="CFDA-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="CFDA Lookup" />
-    <!--<property name="lookupableID" value="cfdaNumber" />-->
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="cfdaNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="cfdaProgramTitleName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="cfdaMaintenanceTypeId" />
-        <bean parent="FieldDefinition"
-        	  p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="cfdaProgramTitleName"/>
+        <bean parent="FieldDefinition" p:attributeName="cfdaMaintenanceTypeId"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="cfdaNumber"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="cfdaProgramTitleName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="cfdaMaintenanceTypeId" />
-        <bean parent="FieldDefinition"
-        	  p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="cfdaNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="cfdaProgramTitleName"/>
+        <bean parent="FieldDefinition" p:attributeName="cfdaMaintenanceTypeId"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>
-</beans>
 
+  <bean id="CFDA-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.award.home.CFDA"/>
+    <property name="headerText" value="CFDA Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="cfdaNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="cfdaProgramTitleName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="cfdaMaintenanceTypeId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="cfdaNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="cfdaProgramTitleName" parent="Uif-DataField"/>
+        <bean p:propertyName="cfdaMaintenanceTypeId" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

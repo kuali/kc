@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<bean id="ProtocolAttachmentBase" abstract="true" parent="ProtocolAttachmentBase-parentBean" />
 	<bean id="ProtocolAttachmentBase-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase" />
@@ -53,9 +34,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Attachment Id" />
 		<property name="description" value="Attachment Id" />
@@ -63,7 +49,6 @@
 	
 	<bean id="ProtocolAttachmentBase-sequenceNumber" parent="ProtocolAttachmentBase-sequenceNumber-parentBean" />
 	<bean id="ProtocolAttachmentBase-sequenceNumber-parentBean" abstract="true" parent="ProtocolAssociate-sequenceNumber"/>
-	
 	<bean id="ProtocolAttachmentBase-documentId" parent="ProtocolAttachmentBase-documentId-parentBean" />
 	<bean id="ProtocolAttachmentBase-documentId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="documentId" />
@@ -74,9 +59,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="5" />
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="5" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Document Id" />
 		<property name="description" value="Document Id" />
@@ -89,14 +79,10 @@
 		<property name="shortLabel" value="File Name" />
 		<property name="summary" value="File Name" />
 		<property name="description" value="File Name" />
-		<!-- <property name="required" value="true" />-->
 	</bean>
-	
-
 	
 	<bean id="ProtocolAttachmentBase-versionNumber" parent="ProtocolAttachmentBase-versionNumber-parentBean" />
 	<bean id="ProtocolAttachmentBase-versionNumber-parentBean" abstract="true" parent="ProtocolAssociate-versionNumber" />
-	
 	<bean id="ProtocolAttachmentBase-updateUser" parent="ProtocolAttachmentBase-updateUser-parentBean" />
 	<bean id="ProtocolAttachmentBase-updateUser-parentBean" abstract="true" parent="ProtocolAssociate-updateUser">
 	  <property name="label" value="Uploaded By" />
@@ -113,8 +99,10 @@
 	  <property name="description" value="Posted Timestamp" />
 	</bean>
   
-	<!-- Business Object Inquiry Definition -->
+  <!-- Inquiry View -->
+
 	<bean id="ProtocolAttachmentBase-inquiryDefinition" parent="ProtocolAttachmentBase-inquiryDefinition-parentBean" />
+  <bean id="ProtocolAttachmentBase-InquiryView" parent="ProtocolAttachmentBase-InquiryView-parentBean"/>
 	<bean id="ProtocolAttachmentBase-inquiryDefinition-parentBean" abstract="true" parent="ProtocolAssociate-inquiryDefinition">
 		<property name="title" value="Id" />
 		<property name="inquirySections" >
@@ -124,13 +112,29 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list merge="true">
-							<bean parent="FieldDefinition"
-								p:attributeName="id" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="documentId" />
-							<bean parent="FieldDefinition"
-								p:attributeName="fileId" />
+              <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="documentId"/>
+              <bean parent="FieldDefinition" p:attributeName="fileId"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolAttachmentBase-InquiryView-parentBean" abstract="true" parent="ProtocolAssociate-InquiryView">
+    <property name="headerText" value="Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
+              <bean p:propertyName="documentId" parent="Uif-DataField"/>
+              <bean p:propertyName="fileId" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -138,38 +142,61 @@
 		</property>
 	</bean>
 	
-		<!-- Business Object Lookup Definition -->
+  <!-- Lookup View -->
+
 	<bean id="ProtocolAttachmentBase-lookupDefinition" parent="ProtocolAttachmentBase-lookupDefinition-parentBean" />
+  <bean id="ProtocolAttachmentBase-LookupView" parent="ProtocolAttachmentBase-LookupView-parentBean"/>
 	<bean id="ProtocolAttachmentBase-lookupDefinition-parentBean" abstract="true" parent="ProtocolAssociate-lookupDefinition">
 		<property name="title" value="Protocol AttachmentLookup" />
         <property name="lookupableID" value="ProtocolAttachmentBaseLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 			<list merge="true">
-				<bean parent="FieldDefinition"
-					p:attributeName="id" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="documentId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="fileId" />
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="documentId"/>
+        <bean parent="FieldDefinition" p:attributeName="fileId"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list merge="true">
-				<bean parent="FieldDefinition"
-					p:attributeName="id" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="documentId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="fileId" />
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="documentId"/>
+        <bean parent="FieldDefinition" p:attributeName="fileId"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolAttachmentBase-LookupView-parentBean" abstract="true" parent="ProtocolAssociate-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase"/>
+    <property name="headerText" value="Protocol AttachmentLookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
 			</list>
 		</property>
 	</bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="documentId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="fileId" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="id" parent="Uif-DataField"/>
+        <bean p:propertyName="documentId" parent="Uif-DataField"/>
+        <bean p:propertyName="fileId" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="CommitteeResearchArea" parent="CommitteeResearchArea-parentBean" />
     <bean id="CommitteeResearchArea-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommitteeResearchArea" />
@@ -43,8 +24,6 @@
         </property>
     </bean>
 
-    <!-- Attribute Definitions -->
-    
     <bean id="CommitteeResearchArea-id" parent="CommitteeResearchArea-id-parentBean" />
     <bean id="CommitteeResearchArea-id-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="id" />
@@ -52,8 +31,10 @@
         <property name="label" value="Committee Research Area Id" />
         <property name="shortLabel" value="Committee Research Area Id" />
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Committee Research Area Id" />
         <property name="description" value="Committee Research Area Id" />
@@ -66,8 +47,10 @@
         <property name="label" value="Committee Id Fk" />
         <property name="shortLabel" value="Committee Id Fk" />
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Committee Id Fk" />
         <property name="description" value="Committee Id Fk" />
@@ -80,19 +63,21 @@
         <property name="label" value="Research Area Code" />
         <property name="shortLabel" value="Research Area Code" />
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Research Area Code" />
         <property name="description" value="Research Area Code" />
     </bean>
 
     <bean id="CommitteeResearchArea-versionNumber" parent="CommitteeResearchArea-versionNumber-parentBean" />
-    <bean id="CommitteeResearchArea-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
+  <bean id="CommitteeResearchArea-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
-    <!-- Business Object Inquiry Definition -->
     <bean id="CommitteeResearchArea-inquiryDefinition" parent="CommitteeResearchArea-inquiryDefinition-parentBean" />
+  <bean id="CommitteeResearchArea-InquiryView" parent="CommitteeResearchArea-InquiryView-parentBean"/>
     <bean id="CommitteeResearchArea-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Protocol Research Areas Id" />
         <property name="inquirySections" >
@@ -102,12 +87,9 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="id" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="committeeIdFk" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="researchAreaCode" />
+              <bean parent="FieldDefinition" p:attributeName="id"/>
+              <bean parent="FieldDefinition" p:attributeName="committeeIdFk"/>
+              <bean parent="FieldDefinition" p:attributeName="researchAreaCode"/>
                         </list>
                     </property>
                 </bean>
@@ -115,35 +97,80 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <bean id="CommitteeResearchArea-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Protocol Research Areas Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.committee.bo.CommitteeResearchArea"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Protocol Research Areas Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
+              <bean p:propertyName="committeeIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="researchAreaCode" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Lookup View -->
+
     <bean id="CommitteeResearchArea-lookupDefinition" parent="CommitteeResearchArea-lookupDefinition-parentBean" />
+  <bean id="CommitteeResearchArea-LookupView" parent="CommitteeResearchArea-LookupView-parentBean"/>
     <bean id="CommitteeResearchArea-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Protocol Research Areas Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-	            <bean parent="FieldDefinition"
-	                p:attributeName="id" />
-	            <bean parent="FieldDefinition"
-	                p:attributeName="committeeIdFk" />
-	            <bean parent="FieldDefinition"
-	                p:attributeName="researchAreaCode" />
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeIdFk"/>
+        <bean parent="FieldDefinition" p:attributeName="researchAreaCode"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="id" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeIdFk" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="researchAreaCode" />
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeIdFk"/>
+        <bean parent="FieldDefinition" p:attributeName="researchAreaCode"/>
             </list>
         </property>
     </bean>
+
+  <bean id="CommitteeResearchArea-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.committee.bo.CommitteeResearchArea"/>
+    <property name="headerText" value="Protocol Research Areas Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="committeeIdFk" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="researchAreaCode" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="id" parent="Uif-DataField"/>
+        <bean p:propertyName="committeeIdFk" parent="Uif-DataField"/>
+        <bean p:propertyName="researchAreaCode" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

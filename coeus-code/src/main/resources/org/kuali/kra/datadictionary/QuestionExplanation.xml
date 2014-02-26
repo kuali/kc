@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="QuestionExplanation" parent="QuestionExplanation-parentBean" />
     <bean id="QuestionExplanation-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.QuestionExplanation" />
@@ -41,8 +22,6 @@
         </property>
     </bean>
 
-    <!-- Attribute Definitions -->
-    
     <bean id="QuestionExplanation-questionExplanationId" parent="QuestionExplanation-questionExplanationId-parentBean" />
     <bean id="QuestionExplanation-questionExplanationId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="questionExplanationId" />
@@ -53,9 +32,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Question Explanation Id" />
         <property name="description" value="Question Explanation Id" />
@@ -71,9 +55,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Question Ref Id" />
         <property name="description" value="Question Ref Id" />
@@ -98,21 +87,25 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="3"
-                p:cols="20" />
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="20" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Explanation" />
         <property name="description" value="Explanation" />
     </bean>
 
     <bean id="QuestionExplanation-versionNumber" parent="QuestionExplanation-versionNumber-parentBean" />
-    <bean id="QuestionExplanation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
+  <bean id="QuestionExplanation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
-    <!-- Business Object Inquiry Definition -->
     <bean id="QuestionExplanation-inquiryDefinition" parent="QuestionExplanation-inquiryDefinition-parentBean" />
+  <bean id="QuestionExplanation-InquiryView" parent="QuestionExplanation-InquiryView-parentBean"/>
     <bean id="QuestionExplanation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Question Explanation Id" />
         <property name="inquirySections" >
@@ -122,15 +115,31 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="questionExplanationId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="questionRefIdFk" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="explanationType" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="explanation" />
+              <bean parent="FieldDefinition" p:attributeName="questionExplanationId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="questionRefIdFk"/>
+              <bean parent="FieldDefinition" p:attributeName="explanationType"/>
+              <bean parent="FieldDefinition" p:attributeName="explanation"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="QuestionExplanation-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Question Explanation Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.questionnaire.question.QuestionExplanation"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Question Explanation Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="questionExplanationId" parent="Uif-DataField"/>
+              <bean p:propertyName="questionRefIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="explanationType" parent="Uif-DataField"/>
+              <bean p:propertyName="explanation" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -138,40 +147,62 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <!-- Lookup View -->
+
     <bean id="QuestionExplanation-lookupDefinition" parent="QuestionExplanation-lookupDefinition-parentBean" />
+  <bean id="QuestionExplanation-LookupView" parent="QuestionExplanation-LookupView-parentBean"/>
     <bean id="QuestionExplanation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Question Explanation Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionExplanationId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionRefIdFk" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="explanationType" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="explanation" />
+        <bean parent="FieldDefinition" p:attributeName="questionExplanationId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="questionRefIdFk"/>
+        <bean parent="FieldDefinition" p:attributeName="explanationType"/>
+        <bean parent="FieldDefinition" p:attributeName="explanation"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="questionExplanationId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="questionRefIdFk"/>
+        <bean parent="FieldDefinition" p:attributeName="explanationType"/>
+        <bean parent="FieldDefinition" p:attributeName="explanation"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="QuestionExplanation-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.questionnaire.question.QuestionExplanation"/>
+    <property name="headerText" value="Question Explanation Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="questionExplanationId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="questionRefIdFk" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="explanationType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="explanation" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionExplanationId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionRefIdFk" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="explanationType" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="explanation" />
+        <bean p:propertyName="questionExplanationId" parent="Uif-DataField"/>
+        <bean p:propertyName="questionRefIdFk" parent="Uif-DataField"/>
+        <bean p:propertyName="explanationType" parent="Uif-DataField"/>
+        <bean p:propertyName="explanation" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

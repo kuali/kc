@@ -402,7 +402,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/KcPerson.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/KcPersonExtendedAttributes.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/KraAttributeReferenceDummy.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/KraDataDictionaryBaseTypes.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/LookupableDevelopmentProposal.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/MailBy.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/MailType.xml</value>

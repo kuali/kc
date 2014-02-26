@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="ReportTracking" parent="ReportTracking-parentBean" />
     <bean id="ReportTracking-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking" />
@@ -65,21 +46,16 @@
         </property>
     </bean>
 
-    <!-- Attribute Definitions -->
-        
     <bean id="ReportTracking-awardReportTermId" parent="ReportTracking-awardReportTermId-parentBean" />
 	<bean id="ReportTracking-awardReportTermId-parentBean" abstract="true" parent="AwardReportTerm-awardReportTermId" />
-
     <bean id="ReportTracking-awardNumber" parent="ReportTracking-awardNumber-parentBean" />
     <bean id="ReportTracking-awardNumber-parentBean" abstract="true" parent="Award-awardNumber"/>
-    
     <bean id="ReportTracking-piName" parent="ReportTracking-piName-parentBean" />
     <bean id="ReportTracking-piName-parentBean" abstract="true" parent="AwardContact-fullName">
     	<property name="name" value="piName" />
         <property name="label" value="Principal Investigator" />
         <property name="shortLabel" value="Principal Investigator" />
         <property name="required" value="false" />    
-    	
     </bean>    
     
     <bean id="ReportTracking-leadUnitNumber" parent="ReportTracking-leadUnitNumber-parentBean" />
@@ -89,7 +65,6 @@
     
     <bean id="ReportTracking-leadUnit.unitName" parent="ReportTracking-leadUnit.unitName-parentBean" />
     <bean id="ReportTracking-leadUnit.unitName-parentBean" abstract="true" parent="Award-leadUnit.unitName" />
-    
     <bean id="ReportTracking-reportClassCode" parent="ReportTracking-reportClassCode-parentBean" />
     <bean id="ReportTracking-reportClassCode-parentBean" abstract="true" parent="AwardReportTerm-reportClassCode">
     	<property name="label" value="Report Class" />
@@ -97,13 +72,19 @@
 		<property name="summary" value="Report Class" />
 		<property name="description" value="Report Class" />		    
 		<property name="control" >
-			<bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.paymentreports.ReportClass"
-	            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:includeBlankRow="false"
-	            p:keyAttribute="reportClassCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.paymentreports.ReportClass" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="reportClassCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ReportClass"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="reportClassCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>    		
     </bean>
     
@@ -144,7 +125,6 @@
 
     <bean id="ReportTracking-frequencyCode" parent="ReportTracking-frequencyCode-parentBean" />
     <bean id="ReportTracking-frequencyCode-parentBean" abstract="true" parent="AwardReportTerm-frequencyCode" />
-    
     <bean id="ReportTracking-frequency.description" parent="ReportTracking-frequency.description-parentBean" />
     <bean id="ReportTracking-frequency.description-parentBean" abstract="true" parent="Frequency-description">
     	<property name="name" value="frequency.description"/>
@@ -156,7 +136,6 @@
 
     <bean id="ReportTracking-frequencyBaseCode" parent="ReportTracking-frequencyBaseCode-parentBean" />
     <bean id="ReportTracking-frequencyBaseCode-parentBean" abstract="true" parent="AwardReportTerm-frequencyBaseCode" />
-    
     <bean id="ReportTracking-frequencyBase.description" parent="ReportTracking-frequencyBase.description-parentBean" />
     <bean id="ReportTracking-frequencyBase.description-parentBean" abstract="true" parent="FrequencyBase-description">
     	<property name="name" value="frequencyBase.description"/>
@@ -168,7 +147,6 @@
 
     <bean id="ReportTracking-ospDistributionCode" parent="ReportTracking-ospDistributionCode-parentBean" />
     <bean id="ReportTracking-ospDistributionCode-parentBean" abstract="true" parent="AwardReportTerm-ospDistributionCode" />
-    
     <bean id="ReportTracking-distribution.description" parent="ReportTracking-distribution.description-parentBean" />
     <bean id="ReportTracking-distribution.description-parentBean" abstract="true" parent="Distribution-description">
     	<property name="name" value="distribution.description"/>
@@ -189,14 +167,23 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.paymentreports.ReportStatus"
-	            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:includeBlankRow="false"
-	            p:keyAttribute="reportStatusCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.paymentreports.ReportStatus" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="reportStatusCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ReportStatus"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="reportStatusCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
 		<property name="summary" value="Status" />
 		<property name="description" value="Status" />
@@ -239,9 +226,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Overdue" />
         <property name="description" value="Overdue" />
@@ -266,9 +258,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
@@ -293,9 +290,15 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
             <bean parent="HiddenControlDefinition" p:size="10" />
         </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
+    </property>
         <property name="summary" value="Preparer" />
         <property name="description" value="Preparer" />
     </bean>
@@ -311,7 +314,6 @@
     
     <bean id="ReportTracking-sponsorCode" parent="ReportTracking-sponsorCode-parentBean" />
     <bean id="ReportTracking-sponsorCode-parentBean" abstract="true" parent="Award-sponsorCode" />
-    
     <bean id="ReportTracking-sponsor.sponsorName" parent="ReportTracking-sponsor.sponsorName-parentBean" />
     <bean id="ReportTracking-sponsor.sponsorName-parentBean" abstract="true" parent="Sponsor-sponsorName">
 		<property name="name" value="sponsor.sponsorName" />
@@ -320,9 +322,17 @@
 		<property name="validationPattern">
 			<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
 		<property name="control">
 			<bean p:size="60" parent="TextControlDefinition" />
 		</property>
+    <property name="controlField">
+      <bean p:size="60" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Sponsor Name" />
 		<property name="description" value="Sponsor Name" />    
     </bean>
@@ -337,23 +347,25 @@
 	    <property name="validationPattern" >
 	      <bean parent="AlphaNumericValidationPattern" />
 	    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 	    <property name="control" >
 	      <bean parent="CheckboxControlDefinition" />
 	    </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
         <property name="summary" value="Select" />
         <property name="description" value="Select" />
     </bean>
 
     <bean id="ReportTracking-sponsorAwardNumber" parent="ReportTracking-sponsorAwardNumber-parentBean" />
     <bean id="ReportTracking-sponsorAwardNumber-parentBean" abstract="true" parent="Award-sponsorAwardNumber" />  
-    
     <bean id="ReportTracking-title" parent="ReportTracking-title-parentBean" />
     <bean id="ReportTracking-title-parentBean" abstract="true" parent="Award-title" />
-
     <bean id="ReportTracking-versionNumber" parent="ReportTracking-versionNumber-parentBean" />
-    <bean id="ReportTracking-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="ReportTracking-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 	<bean id="ReportTracking-lastUpdateUser" parent="ReportTracking-lastUpdateUser-parentBean"/>
 	<bean id="ReportTracking-lastUpdateUser-parentBean" abstract="true" parent="AwardContact-fullName">
     	<property name="name" value="lastUpdateUser"/>
@@ -372,98 +384,121 @@
         <property name="description" value="Last Updated Date" />
     </bean>    
     
+  <!-- Lookup View -->
 
-    <!-- Business Object Lookup Definition -->
     <bean id="ReportTracking-lookupDefinition" parent="ReportTracking-lookupDefinition-parentBean" />
+  <bean id="ReportTracking-LookupView" parent="ReportTracking-LookupView-parentBean"/>
     <bean id="ReportTracking-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Award Reporting Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 		<property name="lookupableID" value="reportTrackingLookupable" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="awardNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="piName" />    
-                <bean parent="FieldDefinition"
-                    p:attributeName="dueDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="reportClassCode" />                    
-                <bean parent="FieldDefinition"
-                    p:attributeName="reportCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="statusCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="leadUnitNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="leadUnit.unitName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="overdue" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="frequencyCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="frequencyBaseCode" />                
-                <bean parent="FieldDefinition"
-                    p:attributeName="activityDate" />                
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />                
-                <bean parent="FieldDefinition"
-                    p:attributeName="preparerName" />                
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsorCode" />                
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsor.sponsorName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsorAwardNumber" />    
+        <bean parent="FieldDefinition" p:attributeName="awardNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="piName"/>
+        <bean parent="FieldDefinition" p:attributeName="dueDate"/>
+        <bean parent="FieldDefinition" p:attributeName="reportClassCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportCode"/>
+        <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="leadUnitNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="leadUnit.unitName"/>
+        <bean parent="FieldDefinition" p:attributeName="overdue"/>
+        <bean parent="FieldDefinition" p:attributeName="frequencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="frequencyBaseCode"/>
+        <bean parent="FieldDefinition" p:attributeName="activityDate"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+        <bean parent="FieldDefinition" p:attributeName="preparerName"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsor.sponsorName"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorAwardNumber"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="awardNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="piName" />    
-                <bean parent="FieldDefinition"
-                    p:attributeName="dueDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="reportClass.description" />                    
-                <bean parent="FieldDefinition"
-                    p:attributeName="report.description" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="reportStatus.description" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="leadUnitNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="leadUnit.unitName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="overdue" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="frequency.description" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="frequencyBase.description" />                
-                <bean parent="FieldDefinition"
-                    p:attributeName="activityDate" />                
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />                
-                <bean parent="FieldDefinition"
-                    p:attributeName="preparerName" />                
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsorCode" />                
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsor.sponsorName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsorAwardNumber" />      
-                <bean parent="FieldDefinition"
-                    p:attributeName="baseDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="distribution.description" />    
-                <bean parent="FieldDefinition"
-                    p:attributeName="title" />    
+        <bean parent="FieldDefinition" p:attributeName="awardNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="piName"/>
+        <bean parent="FieldDefinition" p:attributeName="dueDate"/>
+        <bean parent="FieldDefinition" p:attributeName="reportClass.description"/>
+        <bean parent="FieldDefinition" p:attributeName="report.description"/>
+        <bean parent="FieldDefinition" p:attributeName="reportStatus.description"/>
+        <bean parent="FieldDefinition" p:attributeName="leadUnitNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="leadUnit.unitName"/>
+        <bean parent="FieldDefinition" p:attributeName="overdue"/>
+        <bean parent="FieldDefinition" p:attributeName="frequency.description"/>
+        <bean parent="FieldDefinition" p:attributeName="frequencyBase.description"/>
+        <bean parent="FieldDefinition" p:attributeName="activityDate"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+        <bean parent="FieldDefinition" p:attributeName="preparerName"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsor.sponsorName"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorAwardNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="baseDate"/>
+        <bean parent="FieldDefinition" p:attributeName="distribution.description"/>
+        <bean parent="FieldDefinition" p:attributeName="title"/>
+      </list>
+    </property>
+  </bean>
                         
+  <bean id="ReportTracking-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking"/>
+    <property name="headerText" value="Award Reporting Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="awardNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="piName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dueDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="reportClassCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="reportCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="statusCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="leadUnitNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="leadUnit.unitName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="overdue" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="frequencyCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="frequencyBaseCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="activityDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="preparerName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsor.sponsorName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorAwardNumber" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="awardNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="piName" parent="Uif-DataField"/>
+        <bean p:propertyName="dueDate" parent="Uif-DataField"/>
+        <bean p:propertyName="reportClass.description" parent="Uif-DataField"/>
+        <bean p:propertyName="report.description" parent="Uif-DataField"/>
+        <bean p:propertyName="reportStatus.description" parent="Uif-DataField"/>
+        <bean p:propertyName="leadUnitNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="leadUnit.unitName" parent="Uif-DataField"/>
+        <bean p:propertyName="overdue" parent="Uif-DataField"/>
+        <bean p:propertyName="frequency.description" parent="Uif-DataField"/>
+        <bean p:propertyName="frequencyBase.description" parent="Uif-DataField"/>
+        <bean p:propertyName="activityDate" parent="Uif-DataField"/>
+        <bean p:propertyName="comments" parent="Uif-DataField"/>
+        <bean p:propertyName="preparerName" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsor.sponsorName" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorAwardNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="baseDate" parent="Uif-DataField"/>
+        <bean p:propertyName="distribution.description" parent="Uif-DataField"/>
+        <bean p:propertyName="title" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

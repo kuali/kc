@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="Watermark" parent="Watermark-parentBean" />
-
   <bean id="Watermark-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.Watermark" />
 		<property name="objectLabel" value="Watermark" />
@@ -35,11 +30,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="Watermark-watermarkId" parent="Watermark-watermarkId-parentBean" />
-
   <bean id="Watermark-watermarkId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="watermarkId" />
     <property name="forceUppercase" value="false" />
@@ -49,22 +40,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Watermark Code" />
     <property name="description" value="Watermark Code" />
   </bean>
   
- 
-  <!-- This FileControlDefinition should be removed once a bug in Rice is fixed.
-        In other words, the Rice Team forgot to add the FileControlDefinition to
-        their XML configuration. -->
-   <bean id="FileControlDefinition"
-        class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition"
-        abstract="true"
-    />
+  <bean id="FileControlDefinition" class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition" abstract="true"/>
   <bean id="Watermark-templateFile" parent="Watermark-templateFile-parentBean" />
   <bean id="Watermark-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="templateFile" />
@@ -74,13 +63,14 @@
     <property name="maxLength" value="150" />
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="FileControlDefinition"
-            p:size="100" />
+      <bean parent="FileControlDefinition" p:size="100"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="100" parent="Uif-FileControl"/>
     </property>
     <property name="summary" value="Attachment" />
     <property name="description" value="Watermark Image File" />
   </bean>
-  
   
   <bean id="Watermark-statusCode" parent="Watermark-statusCode-parentBean" />
   <bean id="Watermark-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -92,9 +82,14 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Status Code" />
     <property name="description" value="Status Code" />
@@ -110,10 +105,17 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkFontValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkFontValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkFontValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Font Size" />
      <property name="description" value="Font Size" />
@@ -129,11 +131,17 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
-  
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
      <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkPositionFontValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkPositionFontValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkPositionFontValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Font Size" />
     <property name="description" value="Font Size" />
@@ -147,13 +155,21 @@
     <property name="shortLabel" value="Watermark Font Color" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkColorValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkColorValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkColorValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Font Color" />
     <property name="description" value="Font Color" />
@@ -167,13 +183,21 @@
     <property name="shortLabel" value="Watermark Position" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkPositionValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkPositionValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkPositionValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Position" />
     <property name="description" value="Position" />
@@ -187,13 +211,21 @@
     <property name="shortLabel" value="Watermark Alignment" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkAlignmentValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkAlignmentValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkAlignmentValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Alignment" />
     <property name="description" value="Alignment" />
@@ -207,17 +239,22 @@
     <property name="shortLabel" value="watermark Text" />
     <property name="maxLength" value="100" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="60" />
+      <bean parent="TextControlDefinition" p:size="60"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="60" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Watermark Name" />
     <property name="description" value="Watermark Name" />
   </bean>
-  
   
   <bean id="Watermark-watermarkType" parent="Watermark-watermarkType-parentBean" />
   <bean id="Watermark-watermarkType-parentBean" abstract="true" parent="AttributeDefinition">
@@ -227,9 +264,13 @@
     <property name="shortLabel" value="Watermark Type" />
     <property name="maxLength" value="20" />    
    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Watermark Type" />
     <property name="description" value="Watermark Type" />
@@ -254,22 +295,28 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkGroupnameValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkGroupnameValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkGroupnameValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Group Name" />
     <property name="description" value="Group Name" />
   </bean>
   
   <bean id="Watermark-versionNumber" parent="Watermark-versionNumber-parentBean" />
-  <bean id="Watermark-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
+  <bean id="Watermark-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
   <bean id="Watermark-inquiryDefinition" parent="Watermark-inquiryDefinition-parentBean" />
+  <bean id="Watermark-InquiryView" parent="Watermark-InquiryView-parentBean"/>
   <bean id="Watermark-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Watermark" />
     <property name="inquirySections" >
@@ -279,27 +326,16 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="watermarkId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="statusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="watermarkText" />      
-              <bean parent="FieldDefinition"
-                    p:attributeName="watermarkStatus" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="watermarkType" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="watermarkPosition" />
-               <bean parent="FieldDefinition"
-                    p:attributeName="watermarkAlignment" />      
-              <bean parent="FieldDefinition"
-                    p:attributeName="fontSize" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionFontSize" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="fontColor" /> 
-              
+              <bean parent="FieldDefinition" p:attributeName="watermarkId"/>
+              <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="watermarkText"/>
+              <bean parent="FieldDefinition" p:attributeName="watermarkStatus"/>
+              <bean parent="FieldDefinition" p:attributeName="watermarkType"/>
+              <bean parent="FieldDefinition" p:attributeName="watermarkPosition"/>
+              <bean parent="FieldDefinition" p:attributeName="watermarkAlignment"/>
+              <bean parent="FieldDefinition" p:attributeName="fontSize"/>
+              <bean parent="FieldDefinition" p:attributeName="positionFontSize"/>
+              <bean parent="FieldDefinition" p:attributeName="fontColor"/>
             </list>
           </property>
         </bean>
@@ -307,58 +343,105 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="Watermark-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Watermark"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.Watermark"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Watermark"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="watermarkId" parent="Uif-DataField"/>
+              <bean p:propertyName="statusCode" parent="Uif-DataField"/>
+              <bean p:propertyName="watermarkText" parent="Uif-DataField"/>
+              <bean p:propertyName="watermarkStatus" parent="Uif-DataField"/>
+              <bean p:propertyName="watermarkType" parent="Uif-DataField"/>
+              <bean p:propertyName="watermarkPosition" parent="Uif-DataField"/>
+              <bean p:propertyName="watermarkAlignment" parent="Uif-DataField"/>
+              <bean p:propertyName="fontSize" parent="Uif-DataField"/>
+              <bean p:propertyName="positionFontSize" parent="Uif-DataField"/>
+              <bean p:propertyName="fontColor" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
        	
+  <!-- Lookup View -->
         	
   <bean id="Watermark-lookupDefinition" parent="Watermark-lookupDefinition-parentBean" />
-
+  <bean id="Watermark-LookupView" parent="Watermark-LookupView-parentBean"/>
   <bean id="Watermark-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Watermark Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-									
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="watermarkId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="statusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="watermarkText" />
-        <bean parent="FieldDefinition"
-              p:attributeName="groupName" />
+        <bean parent="FieldDefinition" p:attributeName="watermarkId"/>
+        <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="watermarkText"/>
+        <bean parent="FieldDefinition" p:attributeName="groupName"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="watermarkId"/>
+        <bean parent="FieldDefinition" p:attributeName="groupName"/>
+        <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="watermarkText"/>
+        <bean parent="FieldDefinition" p:attributeName="watermarkStatus"/>
+        <bean parent="FieldDefinition" p:attributeName="watermarkType"/>
+        <bean parent="FieldDefinition" p:attributeName="watermarkPosition"/>
+        <bean parent="FieldDefinition" p:attributeName="watermarkAlignment"/>
+        <bean parent="FieldDefinition" p:attributeName="fontSize"/>
+        <bean parent="FieldDefinition" p:attributeName="positionFontSize"/>
+        <bean parent="FieldDefinition" p:attributeName="fontColor"/>
+        <bean parent="FieldDefinition" p:attributeName="templateFile"/>
+      </list>
+    </property>
+  </bean>
 
+  <bean id="Watermark-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.Watermark"/>
+    <property name="headerText" value="Watermark Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="watermarkId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="statusCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="watermarkText" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="groupName" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="watermarkId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="groupName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="statusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="watermarkText" />
-        <bean parent="FieldDefinition"
-              p:attributeName="watermarkStatus" />
-         <bean parent="FieldDefinition"
-              p:attributeName="watermarkType" />
-         <bean parent="FieldDefinition"
-              p:attributeName="watermarkPosition" />  
-         <bean parent="FieldDefinition"
-              p:attributeName="watermarkAlignment" />        
-         <bean parent="FieldDefinition"
-              p:attributeName="fontSize" />
-         <bean parent="FieldDefinition"
-              p:attributeName="positionFontSize" />     
-         <bean parent="FieldDefinition"
-              p:attributeName="fontColor" />
-         <bean parent="FieldDefinition"
-              p:attributeName="templateFile" />
+        <bean p:propertyName="watermarkId" parent="Uif-DataField"/>
+        <bean p:propertyName="groupName" parent="Uif-DataField"/>
+        <bean p:propertyName="statusCode" parent="Uif-DataField"/>
+        <bean p:propertyName="watermarkText" parent="Uif-DataField"/>
+        <bean p:propertyName="watermarkStatus" parent="Uif-DataField"/>
+        <bean p:propertyName="watermarkType" parent="Uif-DataField"/>
+        <bean p:propertyName="watermarkPosition" parent="Uif-DataField"/>
+        <bean p:propertyName="watermarkAlignment" parent="Uif-DataField"/>
+        <bean p:propertyName="fontSize" parent="Uif-DataField"/>
+        <bean p:propertyName="positionFontSize" parent="Uif-DataField"/>
+        <bean p:propertyName="fontColor" parent="Uif-DataField"/>
+        <bean p:propertyName="templateFile" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>
