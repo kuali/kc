@@ -29,6 +29,11 @@
     <context:annotation-config />
     <!--<context:component-scan base-package="org.kuali.coeus.sys" />-->
 
+	<context:component-scan base-package="org.kuali.coeus.common.impl.rolodex"/>
+	<context:component-scan base-package="org.kuali.kra.service.impl"/>
+	
+	<context:component-scan base-package="org.kuali.coeus.common.notification.impl.service.impl"/>
+	
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
     </bean>
@@ -1347,8 +1352,6 @@
         <property name="sendNotificationService" ref="sendNotificationService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="roleManagementService" ref="roleService" />
-        <property name="kcPersonService" ref="kcPersonService" />
-        <property name="rolodexService" ref="rolodexService" />
         <property name="parameterService" ref="parameterService" />
         <property name="identityService" ref="identityService" />   
         <property name="kcEmailService" ref="kcEmailService" />  
@@ -1433,11 +1436,13 @@
         <property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
     </bean>
     
-    <bean id="kcPersonService" class="org.kuali.kra.service.impl.KcPersonServiceImpl">
+    <!-- Autowired -->
+    <!--
+     <bean id="kcPersonService" class="org.kuali.kra.service.impl.KcPersonServiceImpl">
        <property name="identityService" ref="identityService" />
        <property name="parameterService" ref="parameterService" />
        <property name="multiCampusIdentityService" ref="multiCampusIdentityService" /> 
-    </bean>
+    </bean> -->
     
     <bean id="kcPersonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="kcPersonLookupableHelperService" />      
@@ -1546,9 +1551,11 @@
         <property name="routeHeaderService" ref="routeHeaderService" />
     </bean>
     
-    <bean id="rolodexService" class="org.kuali.coeus.common.impl.rolodex.RolodexServiceImpl">
+    <!-- Autowired -->
+    <!--
+     <bean id="rolodexService" class="org.kuali.coeus.common.impl.rolodex.RolodexServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
+    </bean> -->
     
     <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.coeus.common.impl.rolodex.RolodexDaoOjb" />
     
