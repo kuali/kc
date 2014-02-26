@@ -20,14 +20,18 @@ import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component("rolodexService")
 public class RolodexServiceImpl implements RolodexService {
 
+	@Autowired
+	@Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
 
     /**
