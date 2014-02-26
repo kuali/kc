@@ -23,6 +23,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.protocol.ProtocolLookupHelperServiceTestBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
@@ -41,31 +42,25 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-public class IacucProtocolSubmissionLookupHelperServiceTest extends KcIntegrationTestBase {
+public class IacucProtocolSubmissionLookupHelperServiceTest extends ProtocolLookupHelperServiceTestBase {
     
     private static final String EDIT_URL ="../iacucProtocolProtocol.do?viewDocument=false&docId=101&submissionId=102&docTypeName=IacucProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String VIEW_URL ="../iacucProtocolProtocol.do?viewDocument=true&docId=101&submissionId=102&docTypeName=IacucProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String PROTOCOL_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.iacuc.IacucProtocol&methodToCall=start&protocolId=104";
-    private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.KcPerson&personId=10000000001&methodToCall=start";
-    private static final String ROLODEX_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Rolodex&rolodexId=1727&methodToCall=start";
-    
+
     private IacucProtocolSubmissionLookupableHelperServiceImpl protocolSubmissionLookupableHelperServiceImpl;
-    
-    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
 
     @Before
     public void setUp() throws Exception {
-
         protocolSubmissionLookupableHelperServiceImpl = new IacucProtocolSubmissionLookupableHelperServiceImpl();
         protocolSubmissionLookupableHelperServiceImpl.setBusinessObjectClass(IacucProtocolSubmission.class);
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        super.setUp();
    }
 
     @After
     public void tearDown() throws Exception {
-
         protocolSubmissionLookupableHelperServiceImpl = null;
-        GlobalVariables.setUserSession(null);
+        super.tearDown();
     }
 
     

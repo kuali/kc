@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.dao.ojb;
+package org.kuali.coeus.common.impl.rolodex;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.junit.Test;

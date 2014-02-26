@@ -1546,7 +1546,7 @@
         <property name="routeHeaderService" ref="routeHeaderService" />
     </bean>
     
-    <bean id="rolodexService" class="org.kuali.coeus.common.impl.RolodexServiceImpl">
+    <bean id="rolodexService" class="org.kuali.coeus.common.impl.rolodex.RolodexServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     

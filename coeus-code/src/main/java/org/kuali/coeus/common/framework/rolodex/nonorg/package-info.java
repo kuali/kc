@@ -2,7 +2,7 @@
  * 
  * Non-Organizational Rolodex
  * 
- * A Wrapper for [Organizational] Rolodex.
+ * Package containing Non-Organizational wrapper of Rolodex.
  * 
  * @author Kuali Coeus Development Team
  *
