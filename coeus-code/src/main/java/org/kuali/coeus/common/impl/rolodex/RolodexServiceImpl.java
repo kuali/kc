@@ -26,11 +26,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service("rolodexService")
 public class RolodexServiceImpl implements RolodexService {
 
-	@Autowired
-	@Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
 
     /**

@@ -16,24 +16,20 @@
 package org.kuali.kra.irb;
 
 import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.protocol.ProtocolLookupHelperServiceTestBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -44,37 +40,34 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-public class ProtocolLookupHelperServiceTest extends KcIntegrationTestBase {
-    
-    private static final String EDIT_URL ="../protocolProtocol.do?viewDocument=false&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
+public class ProtocolLookupHelperServiceTest extends ProtocolLookupHelperServiceTestBase {
+
+	private static final String EDIT_URL ="../protocolProtocol.do?viewDocument=false&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String VIEW_URL ="../protocolProtocol.do?viewDocument=true&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String COPY_URL = "../DocCopyHandler.do?docId=101&command=displayDocSearchView&documentTypeName=ProtocolDocument";
     private static final String UNIT_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber=000001&methodToCall=start";
-    private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.KcPerson&personId=10000000001&methodToCall=start";
-    private static final String ROLODEX_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Rolodex&rolodexId=1727&methodToCall=start";
-    
     /**
      * Count of all lookup rows, including one row for all hidden non-lookup fields
      */
     private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 23;
 
-    private ProtocolLookupableHelperServiceImpl protocolLookupableHelperServiceImpl;
+    ProtocolLookupableHelperServiceImpl protocolLookupableHelperServiceImpl;
     
-    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
-    
-    @Before
-    public void setUp() throws Exception {
+    @Override
+	@Before
+	public void setUp() throws Exception {
         protocolLookupableHelperServiceImpl = new ProtocolLookupableHelperServiceImpl();
         protocolLookupableHelperServiceImpl.setBusinessObjectClass(Protocol.class);
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-   }
+        super.setUp();
+	}
 
-    @After
-    public void tearDown() throws Exception {
-        protocolLookupableHelperServiceImpl = null;
-        GlobalVariables.setUserSession(null);
-    }
-
+	@Override
+	@After
+	public void tearDown() throws Exception {
+	    protocolLookupableHelperServiceImpl = null;
+		super.tearDown();
+	}
+    
     /**
      * 
      * This method is to test getrows.  The lookup fields will be updated and make sure 
