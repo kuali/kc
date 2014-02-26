@@ -25,6 +25,8 @@ import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -34,8 +36,16 @@ public abstract class MassPersonChangeServiceBase {
 
     protected final ErrorReporter errorReporter = new ErrorReporter();
     
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
+    
+    @Autowired
+    @Qualifier("rolodexService")
     private RolodexService rolodexService;
 
     protected boolean isReplacerValidPersonChangeCandidate(PersonMassChange personMassChange, List<? extends AbstractProjectPerson> persons) {

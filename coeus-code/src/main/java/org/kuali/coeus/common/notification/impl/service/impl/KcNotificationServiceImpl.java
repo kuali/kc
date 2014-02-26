@@ -44,6 +44,8 @@ import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.*;
 
@@ -66,7 +68,11 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private BusinessObjectService businessObjectService;
     private SendNotificationService sendNotificationService;
     private RoleService roleManagementService;
+    @Autowired
+    @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
+    @Autowired
+    @Qualifier("rolodexService")
     private RolodexService rolodexService;
     private ParameterService parameterService;
     private IdentityService identityService;

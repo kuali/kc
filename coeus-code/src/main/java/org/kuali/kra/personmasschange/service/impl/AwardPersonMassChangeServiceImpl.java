@@ -28,6 +28,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.AwardPersonMassChangeService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -36,6 +37,7 @@ import java.util.*;
  * 
  * Person roles that might be replaced are: Investigator, Unit Contact, Sponsor Contact, Approved Foreign Travel.
  */
+@Component("awardPersonMassChangeService")
 public class AwardPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements AwardPersonMassChangeService {
     
     public static final String AWARD_WARNINGS = "awardWarnings";
