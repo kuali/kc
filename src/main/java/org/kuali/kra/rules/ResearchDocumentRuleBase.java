@@ -30,12 +30,10 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.TransactionalDocument;
 import org.kuali.rice.krad.rules.DocumentRuleBase;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -272,33 +270,6 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     public ErrorReporter getErrorReporter() {
         return this.errorReporter;
     }
-    
-    /*
-     * Overriding the rice method since we need to use the knsDD validation service since we 
-     * use KNS DD components like validation patterns that the Krad validator does not even check
-     * because KRAD only checks for constraints and all validation patterns are constraints in KRAD.
-     */
-    @Override
-    public boolean processSaveDocument(Document document) {
-        boolean isValid = true;
-
-        isValid = isDocumentOverviewValid(document);
-
-        GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
-        // Using the KNS DD validation service here instead of KRAD
-        getKnsDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document,
-                getMaxDictionaryValidationDepth(), false);
-        // leaving this in because there is no DocumentDictionaryService in KNS to check for existence. This might just be
-        //handled by the call above.
-        getDictionaryValidationService().validateDefaultExistenceChecksForTransDoc((TransactionalDocument) document);
-
-        GlobalVariables.getMessageMap().removeFromErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
-
-        isValid &= GlobalVariables.getMessageMap().hasNoErrors();
-        isValid &= processCustomSaveDocumentBusinessRules(document);
-
-        return isValid;
-    }
 
     protected DictionaryValidationService getKnsDictionaryValidationService() {
         if (this.knsDictionaryValidationService == null) {
@@ -306,4 +277,6 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
         }
         return this.knsDictionaryValidationService;
     }
+    
+
 }
