@@ -8,12 +8,9 @@
 	express or implied. See the License for the specific language governing permissions 
 	and limitations under the License. -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-                    http://www.springframework.org/schema/util
-                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="PropDev-PersonnelPage" parent="PropDev-PersonnelPage-parentBean" />
 	<bean id="PropDev-PersonnelPage-parentBean" parent="Uif-DocumentPage">
@@ -107,7 +104,7 @@
 	<bean id="PropDev-PersonnelPage-WizardPage1-TypeSelection"
 		parent="PropDev-PersonnelPage-WizardPage1-TypeSelection-parentBean" />
 	<bean id="PropDev-PersonnelPage-WizardPage1-TypeSelection-parentBean"
-		abstract="true" parent="Uif-InputField-LabelTop"
+		abstract="true" parent="Uif-InputField"
 		p:fieldLabel.renderColon="true" p:propertyName="personType" p:label="Search for"
 		p:defaultValue="E">
 		<property name="control">
@@ -230,7 +227,7 @@
 		parent="Uif-CssGridSection">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField-LabelTop"
+				<bean parent="Uif-InputField"
 					p:fieldLabel.renderColon="true" p:propertyName="personRole"
 					p:label="Assign a role" p:order="10">
 					<property name="control">

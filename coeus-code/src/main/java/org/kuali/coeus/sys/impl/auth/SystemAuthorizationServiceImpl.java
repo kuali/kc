@@ -102,7 +102,7 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
         QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();
         List<Predicate> predicates = new ArrayList<Predicate>();
         predicates.add(PredicateFactory.equal(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, namespaceCode));
-        predicates.add(PredicateFactory.equal(KRADPropertyConstants.ACTIVE, "Y"));
+        predicates.add(PredicateFactory.equal(KRADPropertyConstants.ACTIVE, Boolean.TRUE));
         queryBuilder.setPredicates(PredicateFactory.and(predicates.toArray(new Predicate[] {})));
         RoleQueryResults roleResults = roleManagementService.findRoles(queryBuilder.build());
         return roleResults.getResults();

@@ -32,7 +32,6 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
-import org.kuali.rice.krad.uif.UifConstants.WorkflowAction;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -49,14 +48,30 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class ProposalDevelopmentControllerBase {
 
+    protected static final String PROPDEV_DEFAULT_VIEW_ID = "PropDev-DefaultView";
+
+    @Autowired
+    @Qualifier("transactionalDocumentControllerService")
     private TransactionalDocumentControllerService transactionalDocumentControllerService;
+
+    @Autowired
+    @Qualifier("documentService")
     private DocumentService documentService;
-    
-    protected String PROPDEV_DEFAULT_VIEW_ID = "PropDev-DefaultView";
-    
+
+    @Autowired
+    @Qualifier("kcAuthorizationService")
     private KcAuthorizationService kraAuthorizationService;
+
+    @Autowired
+    @Qualifier("proposalDevelopmentService")
     private ProposalDevelopmentService proposalDevelopmentService;
+
+    @Autowired
+    @Qualifier("attachmentService")
     private AttachmentService attachmentService;
+
+    @Autowired
+    @Qualifier("legacyDataAdapter")
     private LegacyDataAdapter legacyDataAdapter;
     
     protected DocumentFormBase createInitialForm(HttpServletRequest request) {
@@ -64,8 +79,10 @@ public abstract class ProposalDevelopmentControllerBase {
     }
     
     @ModelAttribute(value = "KualiForm")
-    public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) {
-        return getTransactionalDocumentControllerService().initForm(this.createInitialForm(request), request, response);
+    public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        UifFormBase form =  getTransactionalDocumentControllerService().initForm(this.createInitialForm(request), request, response);
+        getTransactionalDocumentControllerService().createDocument((DocumentFormBase) form);
+        return form;
     }
     
     /**
@@ -102,7 +119,7 @@ public abstract class ProposalDevelopmentControllerBase {
                  proposalDevelopmentDocument);
          proposalDevelopmentService.initializeProposalSiteNumbers(
                  proposalDevelopmentDocument);
-         getTransactionalDocumentControllerService().performWorkflowAction(form, WorkflowAction.SAVE, true);
+         getTransactionalDocumentControllerService().save(form, result, request, response);
          
          initializeProposalUsers(proposalDevelopmentDocument);
          
@@ -126,7 +143,7 @@ public abstract class ProposalDevelopmentControllerBase {
                  proposalDevelopmentDocument);
          ModelAndView view = null;
          if (eventClazz == null) {
-             getTransactionalDocumentControllerService().performWorkflowAction(form, WorkflowAction.SAVE, true);
+             getTransactionalDocumentControllerService().save(form, result, request, response);
          } else {
              performCustomSave(proposalDevelopmentDocument, SaveDocumentSpecialReviewEvent.class);
          }
@@ -161,8 +178,6 @@ public abstract class ProposalDevelopmentControllerBase {
         return kraAuthorizationService;
     }
 
-    @Autowired
-    @Qualifier("kcAuthorizationService")
     public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
@@ -171,8 +186,6 @@ public abstract class ProposalDevelopmentControllerBase {
         return proposalDevelopmentService;
     }
 
-    @Autowired
-    @Qualifier("proposalDevelopmentService")
     public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
         this.proposalDevelopmentService = proposalDevelopmentService;
     }
@@ -181,8 +194,6 @@ public abstract class ProposalDevelopmentControllerBase {
         return attachmentService;
     }
 
-    @Autowired
-    @Qualifier("attachmentService")
     public void setAttachmentService(AttachmentService attachmentService) {
         this.attachmentService = attachmentService;
     }
@@ -191,8 +202,6 @@ public abstract class ProposalDevelopmentControllerBase {
         return transactionalDocumentControllerService;
     }
 
-    @Autowired
-    @Qualifier("transactionalDocumentControllerService")
     public void setTransactionalDocumentControllerService(TransactionalDocumentControllerService transactionalDocumentControllerService) {
         this.transactionalDocumentControllerService = transactionalDocumentControllerService;
     }
@@ -201,8 +210,6 @@ public abstract class ProposalDevelopmentControllerBase {
         return documentService;
     }
 
-    @Autowired
-    @Qualifier("documentService")
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -211,8 +218,6 @@ public abstract class ProposalDevelopmentControllerBase {
         return legacyDataAdapter;
     }
 
-    @Autowired
-    @Qualifier("legacyDataAdapter")
     public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
         this.legacyDataAdapter = legacyDataAdapter;
     }    

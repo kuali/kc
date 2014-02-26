@@ -1,45 +1,22 @@
 package org.kuali.coeus.sys.impl.controller;
 
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
-import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.bo.AdHocRouteRecipient;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.DocumentAuthorizationException;
-import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.web.controller.TransactionalDocumentControllerBase;
-import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
+import org.kuali.rice.krad.web.controller.UifExportController;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-/*
- * Copyright 2005-2010 The Kuali Foundation
- * 
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.opensource.org/licenses/ecl1.php
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 /** this service must @Override methods and call super in order to elevate a method to public to satisfy the interface. */
-@Service("transactionalDocumentControllerService")
-public class TransactionalDocumentControllerServiceImpl extends TransactionalDocumentControllerBase implements TransactionalDocumentControllerService {
+@Component("uifExportControllerService")
+public class UifExportControllerServiceImpl extends UifExportController implements UifExportControllerService {
 
     @Autowired
     @Qualifier("kcCommonControllerService")
@@ -50,8 +27,8 @@ public class TransactionalDocumentControllerServiceImpl extends TransactionalDoc
     }
 
     @Override
-    public DocumentFormBase createInitialForm(HttpServletRequest request) {
-        return (DocumentFormBase) kcCommonControllerService.createInitialForm(request);
+    public UifFormBase createInitialForm(HttpServletRequest request) {
+        return kcCommonControllerService.createInitialForm(request);
     }
 
     @Override
@@ -128,37 +105,24 @@ public class TransactionalDocumentControllerServiceImpl extends TransactionalDoc
     }
 
     @Override
-    public void loadDocument(DocumentFormBase form) throws WorkflowException {
-        super.loadDocument(form);
+    public String retrieveTableData(UifFormBase form, HttpServletRequest request,
+                             HttpServletResponse response) {
+        return super.retrieveTableData(form, request, response);
     }
 
     @Override
-    public void createDocument(DocumentFormBase form) throws WorkflowException {
-        super.createDocument(form);
+    public void setAttachmentResponseHeader(HttpServletResponse response, String filename, String contentType) {
+        super.setAttachmentResponseHeader(response, filename, contentType);
     }
 
     @Override
-    public void performWorkflowAction(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData) {
-        super.performWorkflowAction(form, action, checkSensitiveData);
+    public String getValidatedFormatType(String formatType) {
+        return super.getValidatedFormatType(formatType);
     }
 
     @Override
-    public String checkAndWarnAboutSensitiveData(DocumentFormBase form, HttpServletRequest request,
-                                                 HttpServletResponse response, String fieldName, String fieldValue, String caller,
-                                                 String context) throws Exception {
-        return super.checkAndWarnAboutSensitiveData(form, request,
-                response, fieldName, fieldValue, caller,
-                context);
-    }
-
-    @Override
-    public List<AdHocRouteRecipient> combineAdHocRecipients(DocumentFormBase form) {
-        return super.combineAdHocRecipients(form);
-    }
-
-    @Override
-    public DocumentAuthorizationException buildAuthorizationException(String action, Document document) {
-        return super.buildAuthorizationException(action, document);
+    public String getContentType(String formatType) {
+        return super.getContentType(formatType);
     }
 
     public void setKcCommonControllerService(KcCommonControllerService kcCommonControllerService) {
