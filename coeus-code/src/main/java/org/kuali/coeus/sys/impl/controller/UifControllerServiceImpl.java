@@ -15,114 +15,89 @@
  */
 package org.kuali.coeus.sys.impl.controller;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifControllerService;
-import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
-import org.kuali.rice.krad.web.form.DocumentFormBase;
-import org.kuali.rice.krad.web.form.HistoryManager;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krad.web.form.UifFormManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+import java.util.Properties;
+/** this service must @Override methods and call super in order to elevate a method to public to satisfy the interface. */
 @Service(value="uifControllerService")
 public class UifControllerServiceImpl extends UifControllerBase implements UifControllerService {
-    
-    /**
-     * Create/obtain the model(form) object before it is passed to the Binder/BeanWrapper. This method
-     * is not intended to be overridden by client applications as it handles framework setup and session
-     * maintenance. Clients should override createInitialForm() instead when they need custom form initialization.
-     *
-     * @param request the http request that was made
-     * @param response the http response object
-     */
+
+    @Autowired
+    @Qualifier("kcCommonControllerService")
+    private KcCommonControllerService kcCommonControllerService;
+
     public UifFormBase initForm(UifFormBase requestForm, HttpServletRequest request, HttpServletResponse response) {
-
-        // get Uif form manager from session if exists or setup a new one for the session
-        UifFormManager uifFormManager = (UifFormManager) request.getSession().getAttribute(UifParameters.FORM_MANAGER);
-        if (uifFormManager == null) {
-            uifFormManager = new UifFormManager();
-            request.getSession().setAttribute(UifParameters.FORM_MANAGER, uifFormManager);
-        }
-
-        // add form manager to GlobalVariables for easy reference by other controller methods
-        GlobalVariables.setUifFormManager(uifFormManager);
-
-        String formKeyParam = request.getParameter(UifParameters.FORM_KEY);
-        if (StringUtils.isNotBlank(formKeyParam)) {
-            // retrieves the session form and updates the request from with the session transient attributes
-            uifFormManager.updateFormWithSession(requestForm, formKeyParam);
-        }
-
-        //set the originally requested form key
-        String requestedFormKey = request.getParameter(UifParameters.REQUESTED_FORM_KEY);
-        if (StringUtils.isNotBlank(requestedFormKey)) {
-            requestForm.setRequestedFormKey(requestedFormKey);
-        } else {
-            requestForm.setRequestedFormKey(formKeyParam);
-        }
-
-        //get the initial referer
-        String referer = request.getHeader(UifConstants.REFERER);
-
-        //if none, set the no return flag string
-        if (StringUtils.isBlank(referer) && StringUtils.isBlank(requestForm.getReturnLocation())) {
-            requestForm.setReturnLocation(UifConstants.NO_RETURN);
-        } else if (StringUtils.isBlank(requestForm.getReturnLocation())) {
-            requestForm.setReturnLocation(referer);
-        }
-
-        //get initial request params
-        if (requestForm.getInitialRequestParameters() == null) {
-            Map<String, String> requestParams = new HashMap<String, String>();
-            Enumeration<String> names = request.getParameterNames();
-
-            while (names != null && names.hasMoreElements()) {
-                String name = KRADUtils.stripXSSPatterns(names.nextElement());
-                String value = KRADUtils.stripXSSPatterns(request.getParameter(name));
-
-                requestParams.put(name, value);
-            }
-
-            requestParams.remove(UifConstants.UrlParams.LOGIN_USER);
-            //requestForm.setInitialRequestParameters(requestParams);
-        }
-
-        //set the original request url for this view/form
-        String requestUrl = KRADUtils.stripXSSPatterns(KRADUtils.getFullURL(request));
-        requestForm.setRequestUrl(requestUrl);
-
-        Object historyManager = request.getSession().getAttribute(UifConstants.HistoryFlow.HISTORY_MANAGER);
-        String flowKey = request.getParameter(UifConstants.HistoryFlow.FLOW);
-
-        //add history manager and current flowKey to the form
-        if (requestForm != null && historyManager != null && historyManager instanceof HistoryManager) {
-            requestForm.setHistoryManager((HistoryManager) historyManager);
-            requestForm.setFlowKey(flowKey);
-        }
-
-        // sets the request form in the request for later retrieval
-        request.setAttribute(UifConstants.REQUEST_FORM, requestForm);
-
-        return requestForm;
+        return kcCommonControllerService.initForm(requestForm,request,response);
     }
-    
+
     @Override
-    protected DocumentFormBase createInitialForm(HttpServletRequest request) {
-        throw new UnsupportedOperationException();
+    public UifFormBase createInitialForm(HttpServletRequest request) {
+        return kcCommonControllerService.createInitialForm(request);
     }
-    
+
+    @Override
+    public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) {
+        return kcCommonControllerService.initForm(request, response);
+    }
+
+    @Override
+    public boolean hasDialogBeenDisplayed(String dialogId, UifFormBase form) {
+        return super.hasDialogBeenDisplayed(dialogId, form);
+    }
+
+    @Override
+    public boolean hasDialogBeenAnswered(String dialogId, UifFormBase form) {
+        return super.hasDialogBeenAnswered(dialogId, form);
+    }
+
+    @Override
+    public void resetDialogStatus(String dialogId, UifFormBase form) {
+        super.resetDialogStatus(dialogId, form);
+    }
+
+    @Override
+    public boolean getBooleanDialogResponse(String dialogId, UifFormBase form, HttpServletRequest request,
+                                     HttpServletResponse response) {
+        return super.getBooleanDialogResponse(dialogId, form, request, response);
+    }
+
+    @Override
+    public String getStringDialogResponse(String dialogId, UifFormBase form, HttpServletRequest request,
+                                   HttpServletResponse response) {
+        return super.getStringDialogResponse(dialogId, form, request, response);
+    }
+
+    @Override
+    public ModelAndView showDialog(String dialogId, UifFormBase form, HttpServletRequest request,
+                            HttpServletResponse response) {
+        return super.showDialog(dialogId, form, request, response);
+    }
+
+    @Override
+    public ModelAndView performRedirect(UifFormBase form, String baseUrl, Properties urlParameters) {
+        return super.performRedirect(form, baseUrl, urlParameters);
+    }
+
+    @Override
+    public ModelAndView performRedirect(UifFormBase form, String redirectUrl) {
+        return super.performRedirect(form, redirectUrl);
+    }
+
+    @Override
+    public ModelAndView getMessageView(UifFormBase form, String headerText, String messageText) {
+        return super.getMessageView(form, headerText, messageText);
+    }
+
     @Override
     public ModelAndView getUIFModelAndView(UifFormBase form) {
         return super.getUIFModelAndView(form);
@@ -142,6 +117,8 @@ public class UifControllerServiceImpl extends UifControllerBase implements UifCo
     public ModelAndView getUIFModelAndView(UifFormBase form, Map<String, Object> additionalViewAttributes) {
         return super.getUIFModelAndView(form, additionalViewAttributes);
     }
-    
 
+    public void setKcCommonControllerService(KcCommonControllerService kcCommonControllerService) {
+        this.kcCommonControllerService = kcCommonControllerService;
+    }
 }

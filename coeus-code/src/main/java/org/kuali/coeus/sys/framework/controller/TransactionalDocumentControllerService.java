@@ -15,115 +15,18 @@
  */
 package org.kuali.coeus.sys.framework.controller;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Map;
+import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.kuali.rice.krad.uif.UifConstants.WorkflowAction;
-import org.kuali.rice.krad.uif.field.AttributeQueryResult;
-import org.kuali.rice.krad.web.form.DocumentFormBase;
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.ServletRequestBindingException;
-import org.springframework.web.servlet.ModelAndView;
+/** public and protected methods from Rice's TransactionalDocumentControllerBase */
+public interface TransactionalDocumentControllerService extends DocumentControllerService, KcCommonControllerService {
 
-
-public interface TransactionalDocumentControllerService {
-
-    /**
-     * Create/obtain the model(form) object before it is passed to the Binder/BeanWrapper. This method
-     * is not intended to be overridden by client applications as it handles framework setup and session
-     * maintenance. Clients should override createInitialForm() instead when they need custom form initialization.
-     *
-     * @param request the http request that was made
-     * @param response the http response object
-     */
-    public UifFormBase initForm(DocumentFormBase requestForm, HttpServletRequest request, HttpServletResponse response);
-
-    public void performWorkflowAction(DocumentFormBase form, WorkflowAction action, boolean checkSensitiveData);
-
-    public ModelAndView getUIFModelAndView(UifFormBase form);
-
-    public ModelAndView getUIFModelAndView(UifFormBase form, String pageId);
-
-    public ModelAndView getUIFModelAndViewWithInit(UifFormBase form, String viewId);
-
-    public ModelAndView getUIFModelAndView(UifFormBase form, Map<String, Object> additionalViewAttributes);
-
-    public ModelAndView addBlankLine(UifFormBase uifForm, HttpServletRequest request, HttpServletResponse response);
-
-    public ModelAndView docHandler(DocumentFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response) throws Exception;
-
-    public ModelAndView addLine(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public ModelAndView back(UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response);
-
-    public ModelAndView checkForm(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public void checkViewAuthorization(UifFormBase form, String methodToCall);
-
-    public ModelAndView complete(DocumentFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response) throws Exception;
-
-    public ModelAndView defaultMapping(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public ModelAndView deleteLine(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public ModelAndView start(UifFormBase form, HttpServletRequest request, HttpServletResponse response);
-
-    public ModelAndView downloadAttachment(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response) throws FileNotFoundException, IOException, ServletRequestBindingException;
-
-    public ModelAndView navigate(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public AttributeQueryResult performFieldQuery(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public ModelAndView performLookup(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public ModelAndView refresh(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response) throws Exception;
-
-    public AttributeQueryResult performFieldSuggest(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public ModelAndView reload(DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception;
-
-    public ModelAndView returnFromLightbox(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public ModelAndView returnToHistory(UifFormBase form, boolean homeFlag);
-
-    public ModelAndView returnToHub(UifFormBase form);
-
-    public ModelAndView returnToPrevious(UifFormBase form);
-
-    public ModelAndView saveLine(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public ModelAndView sessionTimeout(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public String tableCsvRetrieval(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public String tableXlsRetrieval(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public String tableXmlRetrieval(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
-
-    public ModelAndView tableJsonRetrieval(UifFormBase form, BindingResult result, HttpServletRequest request,
-            HttpServletResponse response);
+    //from TransactionalDocumentControllerBase
+    public ModelAndView copy(TransactionalDocumentFormBase form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 }
