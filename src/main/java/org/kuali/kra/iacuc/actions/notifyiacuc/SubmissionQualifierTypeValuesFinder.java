@@ -57,7 +57,7 @@ public class SubmissionQualifierTypeValuesFinder extends IacucActionsKeyValuesBa
             }
         } else {
             for (IacucValidProtoSubTypeQual typeQual : validProtoSubTypeQuals) {
-                keyValues.add(new ConcreteKeyValue(typeQual.getIacucSubmissionTypeQualCode(), typeQual.getIacucSubmissionTypeQualifier()
+                keyValues.add(new ConcreteKeyValue(typeQual.getSubmissionTypeQualCode(), typeQual.getSubmissionTypeQualifier()
                         .getDescription()));
             }
         }
