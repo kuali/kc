@@ -56,7 +56,7 @@ public abstract class ValidProtoSubTypeQualMaintenanceDocumentRuleBase extends K
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         setOldTYpeId(document);
-        ValidProtoSubTypeQual validProtoSubTypeQual = (ValidProtoSubTypeQual) document.getNoteTarget();
+        ValidProtoSubTypeQual validProtoSubTypeQual = (ValidProtoSubTypeQual) document.getDocumentBusinessObject();
         return validate(validProtoSubTypeQual);
     }
 
