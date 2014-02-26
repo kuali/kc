@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="RateClassType" parent="RateClassType-parentBean" />
-
   <bean id="RateClassType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.rates.RateClassType" />
 		<property name="objectLabel" value="Rate Class Type" />
@@ -27,11 +22,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="RateClassType-rateClassType" parent="RateClassType-rateClassType-parentBean" />
-
   <bean id="RateClassType-rateClassType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rateClassType" />
     <property name="forceUppercase" value="false" />
@@ -41,15 +32,20 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+      <bean parent="TextControlDefinition" p:size="1"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="1" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rate Class Type" />
     <property name="description" value="Rate Class Type" />
   </bean>
-  <bean id="RateClassType-prefixActivityType" parent="RateClassType-prefixActivityType-parentBean" />
 
+  <bean id="RateClassType-prefixActivityType" parent="RateClassType-prefixActivityType-parentBean"/>
   <bean id="RateClassType-prefixActivityType-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="prefixActivityType" />
     <property name="label" value="Prefix Activity Type?" />
@@ -57,8 +53,8 @@
     <property name="summary" value="Prefix Activity Type" />
     <property name="description" value="Prefix Activity Type in rates page" />
   </bean>
-  <bean id="RateClassType-sortId" parent="RateClassType-sortId-parentBean" />
 
+  <bean id="RateClassType-sortId" parent="RateClassType-sortId-parentBean"/>
   <bean id="RateClassType-sortId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sortId" />
     <property name="forceUppercase" value="false" />
@@ -68,27 +64,27 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Sort Id" />
     <property name="description" value="This sort id is used for sorting budget category." />
   </bean>
-  <bean id="RateClassType-description" parent="RateClassType-description-parentBean" />
 
-  <bean id="RateClassType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
-  </bean>
+  <bean id="RateClassType-description" parent="RateClassType-description-parentBean"/>
+  <bean id="RateClassType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
   <bean id="RateClassType-versionNumber" parent="RateClassType-versionNumber-parentBean" />
-
-  <bean id="RateClassType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
-
+  <bean id="RateClassType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
   <bean id="RateClassType-inquiryDefinition" parent="RateClassType-inquiryDefinition-parentBean" />
-
+  <bean id="RateClassType-InquiryView" parent="RateClassType-InquiryView-parentBean"/>
   <bean id="RateClassType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Rate Class Type" />
     <property name="inquirySections" >
@@ -98,15 +94,10 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="rateClassType"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="sortId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="prefixActivityType" />
+              <bean parent="FieldDefinition" p:attributeName="rateClassType" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="sortId"/>
+              <bean parent="FieldDefinition" p:attributeName="prefixActivityType"/>
             </list>
           </property>
         </bean>
@@ -114,41 +105,83 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="RateClassType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Rate Class Type"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.rates.RateClassType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Rate Class Type"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="rateClassType" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="sortId" parent="Uif-DataField"/>
+              <bean p:propertyName="prefixActivityType" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="RateClassType-lookupDefinition" parent="RateClassType-lookupDefinition-parentBean" />
-
+  <bean id="RateClassType-LookupView" parent="RateClassType-LookupView-parentBean"/>
   <bean id="RateClassType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Rate Class Type Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="rateClassType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="prefixActivityType" />
+        <bean parent="FieldDefinition" p:attributeName="rateClassType"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="prefixActivityType"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="rateClassType"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sortId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="prefixActivityType" />
+        <bean parent="FieldDefinition" p:attributeName="rateClassType" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="sortId"/>
+        <bean parent="FieldDefinition" p:attributeName="prefixActivityType"/>
       </list>
     </property>
   </bean>
+
+  <bean id="RateClassType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.rates.RateClassType"/>
+    <property name="headerText" value="Rate Class Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="rateClassType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="prefixActivityType" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="rateClassType" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="sortId" parent="Uif-DataField"/>
+        <bean p:propertyName="prefixActivityType" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

@@ -1,14 +1,7 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="KcKimAttributes" parent="KcKimAttributes-parentBean" />
-
-  <bean id="KcKimAttributes-parentBean" abstract="true" parent="KimAttributes-parentBean"
-        p:businessObjectClass="org.kuali.kra.kim.bo.KcKimAttributes"
-        p:objectLabel="Kc Core KIM Attributes">
+  <bean id="KcKimAttributes-parentBean" abstract="true" parent="KimAttributes-parentBean" p:businessObjectClass="org.kuali.kra.kim.bo.KcKimAttributes" p:objectLabel="Kc Core KIM Attributes">
     <property name="attributes">
       <list merge="true">
         <ref bean="KcKimAttributes-proposal" />
@@ -28,9 +21,7 @@
           <property name="objectAttributeName" value="unit" /> 
           <property name="primitiveAttributes" >
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="unitNumber"
-                    p:targetName="unitNumber" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="unitNumber" p:targetName="unitNumber"/>
             </list>
           </property>  
         </bean>   
@@ -68,8 +59,10 @@
     <property name="label" value="Section Name"/>
     <property name="shortLabel" value="Section Name"/>
     <property name="control">
-        <bean parent="TextControlDefinition"
-            p:size="50" />
+      <bean parent="TextControlDefinition" p:size="50"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="50" parent="Uif-TextControl"/>
     </property>
    </bean>
    
@@ -79,8 +72,10 @@
     <property name="label" value="Document Action"/>
     <property name="shortLabel" value="Document Action"/>
     <property name="control">
-        <bean parent="TextControlDefinition"
-            p:size="50" />
+      <bean parent="TextControlDefinition" p:size="50"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="50" parent="Uif-TextControl"/>
     </property>
    </bean>
    

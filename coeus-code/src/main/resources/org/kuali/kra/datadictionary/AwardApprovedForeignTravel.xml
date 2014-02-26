@@ -1,20 +1,12 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="AwardApprovedForeignTravel" parent="AwardApprovedForeignTravel-parentBean" />
-
   <bean id="AwardApprovedForeignTravel-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel" />
 		<property name="objectLabel" value="Award Approved Foreign Travel" />
     <property name="titleAttribute" value="AwardApprovedForeignTravel" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-ADMIN"
-            p:parameterName="awardApprovedForeignTravelHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-ADMIN" p:parameterName="awardApprovedForeignTravelHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -32,11 +24,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="AwardApprovedForeignTravel-approvedForeignTravelId" parent="AwardApprovedForeignTravel-approvedForeignTravelId-parentBean" />
-
   <bean id="AwardApprovedForeignTravel-approvedForeignTravelId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="approvedForeignTravelId" />
     <property name="forceUppercase" value="false" />
@@ -46,20 +34,22 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="8" />
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Approved Foreign Travel ID" />
     <property name="description" value="Approved Foreign Travel  ID" />
   </bean>
   
   <bean id="AwardApprovedForeignTravel-awardNumber" parent="AwardApprovedForeignTravel-awardNumber-parentBean" />
-
-  <bean id="AwardApprovedForeignTravel-awardNumber-parentBean" abstract="true" parent="Award-awardNumber">
-  </bean>
-  
+  <bean id="AwardApprovedForeignTravel-awardNumber-parentBean" abstract="true" parent="Award-awardNumber"/>
   <bean id="AwardApprovedForeignTravel-sequenceNumber" parent="AwardApprovedForeignTravel-sequenceNumber-parentBean" />
-
   <bean id="AwardApprovedForeignTravel-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sequenceNumber" />
     <property name="forceUppercase" value="false" />
@@ -69,8 +59,14 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="4" />
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Sequence Number" />
     <property name="description" value="Sequence Number" />
@@ -86,9 +82,17 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="false"/>
+      </bean>
+    </property>
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="9" />
+    </property>
+    <property name="controlField">
+      <bean p:size="9" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Person Id" />
     <property name="description" value="Person Id" />
@@ -104,9 +108,15 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="9" />
+    </property>
+    <property name="controlField">
+      <bean p:size="9" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rolodex Id" />
     <property name="description" value="Rolodex Id" />
@@ -122,9 +132,17 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="40" />
+    </property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Traveler Name" />
     <property name="description" value="Traveler Name" />
@@ -141,17 +159,23 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="30" />
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Destination" />
     <property name="description" value="Destination" />
   </bean>
   
- 
   <bean id="AwardApprovedForeignTravel-startDate" parent="AwardApprovedForeignTravel-startDate-parentBean" />
-
   <bean id="AwardApprovedForeignTravel-startDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="startDate" />
     <property name="label" value="Start Date" />
@@ -183,9 +207,18 @@
     <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern" p:precision="12"  p:scale="2" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="12"/>
+        <property name="scale" value="2"/>
+      </bean>
+    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="40" />
+    </property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Amount" />
     <property name="description" value="Amount" />

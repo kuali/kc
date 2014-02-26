@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="ProtocolNotepad" parent="ProtocolNotepad-parentBean" />
     <bean id="ProtocolNotepad-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.irb.noteattachment.ProtocolNotepad" />
@@ -50,8 +31,6 @@
         </property>
     </bean>
 
-    <!-- Attribute Definitions -->
-    
     <bean id="ProtocolNotepad-id" parent="ProtocolNotepad-id-parentBean" />
     <bean id="ProtocolNotepad-id-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="id" />
@@ -62,19 +41,21 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Protocol Notepad Id" />
         <property name="description" value="Protocol Notepad Id" />
     </bean>
 
     <bean id="ProtocolNotepad-protocolNumber" parent="ProtocolNotepad-protocolNumber-parentBean" />
-
-  <bean id="ProtocolNotepad-protocolNumber-parentBean" abstract="true" parent="Protocol-protocolNumber">
-  </bean>
-
+  <bean id="ProtocolNotepad-protocolNumber-parentBean" abstract="true" parent="Protocol-protocolNumber"/>
     <bean id="ProtocolNotepad-entryNumber" parent="ProtocolNotepad-entryNumber-parentBean" />
     <bean id="ProtocolNotepad-entryNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="entryNumber" />
@@ -85,9 +66,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Entry Number" />
         <property name="description" value="Entry Number" />
@@ -102,12 +88,18 @@
         <property name="maxLength" value="60" />
         <property name="required" value="true" />
         <property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     	</property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="25" />
+      <bean parent="TextControlDefinition" p:size="25"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="25" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
@@ -126,10 +118,16 @@
             	<property name="allowWhitespace" value="true" />
             </bean>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="3"
-                p:cols="100" />
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="100"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="100" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
@@ -173,11 +171,11 @@
 	</bean>
 
     <bean id="ProtocolNotepad-versionNumber" parent="ProtocolNotepad-versionNumber-parentBean" />
-    <bean id="ProtocolNotepad-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
+  <bean id="ProtocolNotepad-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
-    <!-- Business Object Inquiry Definition -->
     <bean id="ProtocolNotepad-inquiryDefinition" parent="ProtocolNotepad-inquiryDefinition-parentBean" />
+  <bean id="ProtocolNotepad-InquiryView" parent="ProtocolNotepad-InquiryView-parentBean"/>
     <bean id="ProtocolNotepad-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Protocol Notepad Id" />
         <property name="inquirySections" >
@@ -187,17 +185,33 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="id"
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="protocolNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="entryNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="comments" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="restrictedView" />
+              <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="entryNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="comments"/>
+              <bean parent="FieldDefinition" p:attributeName="restrictedView"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolNotepad-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Protocol Notepad Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.noteattachment.ProtocolNotepad"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Protocol Notepad Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="entryNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
+              <bean p:propertyName="restrictedView" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -205,45 +219,68 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <!-- Lookup View -->
+
     <bean id="ProtocolNotepad-lookupDefinition" parent="ProtocolNotepad-lookupDefinition-parentBean" />
+  <bean id="ProtocolNotepad-LookupView" parent="ProtocolNotepad-LookupView-parentBean"/>
     <bean id="ProtocolNotepad-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Protocol Notepad Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="id" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="entryNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="restrictedView" />
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="entryNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+        <bean parent="FieldDefinition" p:attributeName="restrictedView"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="id" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="entryNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="restrictedView" />
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="entryNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+        <bean parent="FieldDefinition" p:attributeName="restrictedView"/>
             </list>
         </property>
     </bean>
+
+  <bean id="ProtocolNotepad-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.noteattachment.ProtocolNotepad"/>
+    <property name="headerText" value="Protocol Notepad Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="entryNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="restrictedView" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="id" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="entryNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="comments" parent="Uif-DataField"/>
+        <bean p:propertyName="restrictedView" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

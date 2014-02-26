@@ -1,24 +1,15 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="InstitutionalProposalPerson" parent="InstitutionalProposalPerson-parentBean" />
   <bean id="InstitutionalProposalPerson-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" />
 		<property name="objectLabel" value="InstitutionalProposal Person" />
-    
     <property name="lookupDefinition" >
       <ref bean="InstitutionalProposalPerson-lookupDefinition" />
     </property>
-    
     <property name="titleAttribute" value="institutionalProposalContact" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-PROP"
-            p:parameterName="institutionalProposalContactHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-PROP" p:parameterName="institutionalProposalContactHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -45,9 +36,6 @@
 		</property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
 	<bean id="InstitutionalProposalPerson-institutionalProposalContactId" parent="InstitutionalProposalPerson-institutionalProposalContactId-parentBean" />
 	<bean id="InstitutionalProposalPerson-institutionalProposalContactId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="institutionalProposalContactId" />
@@ -58,20 +46,22 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="8" />
 		</property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="InstitutionalProposal Contact ID" />
 		<property name="description" value="InstitutionalProposal Contact ID" />
 	</bean>
 	
 	<bean id="InstitutionalProposalPerson-proposalNumber" parent="InstitutionalProposalPerson-proposalNumber-parentBean" />
-	
-	<bean id="InstitutionalProposalPerson-proposalNumber-parentBean" abstract="true" parent="InstitutionalProposal-proposalNumber">
-	</bean>
-	
+  <bean id="InstitutionalProposalPerson-proposalNumber-parentBean" abstract="true" parent="InstitutionalProposal-proposalNumber"/>
 	<bean id="InstitutionalProposalPerson-sequenceNumber" parent="InstitutionalProposalPerson-sequenceNumber-parentBean" />
-	
 	<bean id="InstitutionalProposalPerson-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="sequenceNumber" />
 		<property name="forceUppercase" value="false" />
@@ -81,9 +71,15 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="4" />
 		</property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Sequence Number" />
 		<property name="description" value="Sequence Number" />
 	</bean>
@@ -107,9 +103,17 @@
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="20" />
 		</property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Full Name" />
 		<property name="description" value="Full Name" />
 	</bean>
@@ -122,6 +126,9 @@
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Academic Year Effort" />
 		<property name="description" value="Academic Year Effort" />
 	</bean>
@@ -134,6 +141,9 @@
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Calendar Year Effort" />
 		<property name="description" value="Calendar Year Effort" />
 	</bean>
@@ -146,6 +156,9 @@
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="10" />
 	  	</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Summer Effort" />
 		<property name="description" value="Summer Effort" />
 	</bean>
@@ -158,6 +171,9 @@
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Total Effort" />
 		<property name="description" value="Total Effort" />
 	</bean>
@@ -172,11 +188,18 @@
 	    <property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 	    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 	    <property name="required" value="true" />
 	    <property name="control" >
-	      	<bean parent="SelectControlDefinition"
-	            p:valuesFinderClass="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonProjectRolesValuesFinder"
-	            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonProjectRolesValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonProjectRolesValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
 	    <property name="summary" value="Project Role" />
 	    <property name="description" value="Project Role" />
@@ -191,11 +214,14 @@
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Project Role" />
 		<property name="description" value="Project Role" />
 	</bean>	
-  <bean id="InstitutionalProposalPerson-multiplePi" parent="InstitutionalProposalPerson-multiplePi-parentBean" />
 
+  <bean id="InstitutionalProposalPerson-multiplePi" parent="InstitutionalProposalPerson-multiplePi-parentBean"/>
   <bean id="InstitutionalProposalPerson-multiplePi-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="multiplePi" />
     <property name="label" value="Multiple PI" />
@@ -213,12 +239,13 @@
 		<property name="name" value="units.unitNumber" />
 	</bean>
 
+  <!-- Lookup View -->
+
 	<bean id="InstitutionalProposalPerson-lookupDefinition" parent="InstitutionalProposalPerson-lookupDefinition-parentBean" />
+  <bean id="InstitutionalProposalPerson-LookupView" parent="InstitutionalProposalPerson-LookupView-parentBean"/>
   	<bean id="InstitutionalProposalPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="InstitutionalProposal Person Lookup" />
-		<!-- property name="lookupableID" value="institutionalProposalPersonLookupable" /-->
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
 		  <bean parent="SortDefinition" />
 		</property>
@@ -239,4 +266,34 @@
 		<property name="resultSetLimit" value="50" />
 	</bean>
   
+  <bean id="InstitutionalProposalPerson-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson"/>
+    <property name="headerText" value="InstitutionalProposal Person Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="fullName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="units.unit.unitName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="units.unitNumber" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="fullName" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="S2sOppFormQuestionnaire" parent="S2sOppFormQuestionnaire-parentBean" />
-
   <bean id="S2sOppFormQuestionnaire-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.S2sOppFormQuestionnaire" />
 		<property name="objectLabel" value="S2S Opportunity Form to Questionnaire Mapping" />
@@ -25,10 +20,6 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
-
 	<bean id="S2sOppFormQuestionnaire-s2sOppFormQuestionnaireId" parent="S2sOppFormQuestionnaire-s2sOppFormQuestionnaireId-parentBean" />
    	<bean id="S2sOppFormQuestionnaire-s2sOppFormQuestionnaireId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="s2sOppFormQuestionnaireId" />
@@ -39,9 +30,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="S2S Opportunity Form to Questionnaire Mapping Id" />
         <property name="description" value="S2S Opportunity Form to Questionnaire Mapping Id" />
@@ -53,8 +49,10 @@
     	<property name="label" value="Opportunity Name Space" />
     	<property name="shortLabel" value="Opportunity Name Space" />
     	<property name="control" >
-      		<bean parent="TextControlDefinition"
-            	p:size="80" />
+      <bean parent="TextControlDefinition" p:size="80"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="80" parent="Uif-TextControl"/>
     	</property>
   	 </bean>
   
@@ -64,8 +62,10 @@
     	<property name="label" value="Form Name" />
     	<property name="shortLabel" value="Form Name" />
     	<property name="control" >
-      		<bean parent="TextControlDefinition"
-            	p:size="80" />
+      <bean parent="TextControlDefinition" p:size="80"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="80" parent="Uif-TextControl"/>
     	</property>
   	 </bean>
   
@@ -76,8 +76,10 @@
     	<property name="shortLabel" value="Questionnaire Id" />
   	 </bean>
   
-  <bean id="S2sOppFormQuestionnaire-inquiryDefinition" parent="S2sOppFormQuestionnaire-inquiryDefinition-parentBean" />
+  <!-- Inquiry View -->
 
+  <bean id="S2sOppFormQuestionnaire-inquiryDefinition" parent="S2sOppFormQuestionnaire-inquiryDefinition-parentBean"/>
+  <bean id="S2sOppFormQuestionnaire-InquiryView" parent="S2sOppFormQuestionnaire-InquiryView-parentBean"/>
   <bean id="S2sOppFormQuestionnaire-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="S2S Opportunity Form to Questionnaire Mapping" />
     <property name="inquirySections" >
@@ -87,15 +89,9 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="oppNameSpace"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="formName"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="questionnaireId"
-                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="oppNameSpace" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="formName" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="questionnaireId" p:forceInquiry="true"/>
             </list>
           </property>
         </bean>
@@ -103,41 +99,78 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="S2sOppFormQuestionnaire-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="S2S Opportunity Form to Questionnaire Mapping"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.S2sOppFormQuestionnaire"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="S2S Opportunity Form to Questionnaire Mapping"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="oppNameSpace" parent="Uif-DataField"/>
+              <bean p:propertyName="formName" parent="Uif-DataField"/>
+              <bean p:propertyName="questionnaireId" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="S2sOppFormQuestionnaire-lookupDefinition" parent="S2sOppFormQuestionnaire-lookupDefinition-parentBean" />
-
+  <bean id="S2sOppFormQuestionnaire-LookupView" parent="S2sOppFormQuestionnaire-LookupView-parentBean"/>
   <bean id="S2sOppFormQuestionnaire-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="S2S Opportunity Form to Questionnaire Mapping Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
+        <bean parent="FieldDefinition" p:attributeName="oppNameSpace"/>
+        <bean parent="FieldDefinition" p:attributeName="formName"/>
+        <bean parent="FieldDefinition" p:attributeName="questionnaireId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="oppNameSpace" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="formName" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="questionnaireId" p:forceInquiry="true"/>
+      </list>
+    </property>
+  </bean>
      
-        <bean parent="FieldDefinition"
-              p:attributeName="oppNameSpace" />
-        <bean parent="FieldDefinition"
-              p:attributeName="formName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="questionnaireId" />
+  <bean id="S2sOppFormQuestionnaire-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.S2sOppFormQuestionnaire"/>
+    <property name="headerText" value="S2S Opportunity Form to Questionnaire Mapping Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="oppNameSpace" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="formName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="questionnaireId" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="oppNameSpace"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="formName"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="questionnaireId"
-              p:forceInquiry="true" />
+        <bean p:propertyName="oppNameSpace" parent="Uif-DataField"/>
+        <bean p:propertyName="formName" parent="Uif-DataField"/>
+        <bean p:propertyName="questionnaireId" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="SponsorType" parent="SponsorType-parentBean"/>
-
   <bean abstract="true" id="SponsorType-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorType"/>
 		<property name="objectLabel" value="Sponsor Type"/>
@@ -21,11 +20,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="SponsorType-sponsorTypeCode" parent="SponsorType-sponsorTypeCode-parentBean"/>
-
   <bean abstract="true" id="SponsorType-sponsorTypeCode-parentBean" parent="AttributeDefinition">
     <property name="name" value="sponsorTypeCode"/>
     <property name="forceUppercase" value="false"/>
@@ -35,23 +30,24 @@
     <property name="control">
       <bean p:size="4" parent="TextControlDefinition"/>
     </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
+    </property>
     <property name="summary" value="Sponsor Type"/>
     <property name="description" value="Sponsor Type"/>
   </bean>
+
   <bean id="SponsorType-description" parent="SponsorType-description-parentBean"/>
-
   <bean abstract="true" id="SponsorType-description-parentBean" parent="KraAttributeReferenceDummy-description">
-  <property name="maxLength" value="100"/></bean>
-  <bean id="SponsorType-versionNumber" parent="SponsorType-versionNumber-parentBean"/>
-
-  <bean abstract="true" id="SponsorType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
+    <property name="maxLength" value="100"/>
   </bean>
 
-<!-- Business Object Inquiry Definition -->
-
+  <bean id="SponsorType-versionNumber" parent="SponsorType-versionNumber-parentBean"/>
+  <bean abstract="true" id="SponsorType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
   <bean id="SponsorType-inquiryDefinition" parent="SponsorType-inquiryDefinition-parentBean"/>
-
+  <bean id="SponsorType-InquiryView" parent="SponsorType-InquiryView-parentBean"/>
   <bean abstract="true" id="SponsorType-inquiryDefinition-parentBean" parent="InquiryDefinition">
     <property name="title" value="Sponsor Type"/>
     <property name="inquirySections">
@@ -70,18 +66,34 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="SponsorType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Sponsor Type"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.SponsorType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Sponsor Type"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="sponsorTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="SponsorType-lookupDefinition" parent="SponsorType-lookupDefinition-parentBean"/>
-
+  <bean id="SponsorType-LookupView" parent="SponsorType-LookupView-parentBean"/>
   <bean abstract="true" id="SponsorType-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Sponsor Type Lookup"/>
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
     <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields">
       <list>
@@ -96,4 +108,33 @@
       </list>
     </property>
   </bean>
+
+  <bean id="SponsorType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.SponsorType"/>
+    <property name="headerText" value="Sponsor Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="sponsorTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="sponsorTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

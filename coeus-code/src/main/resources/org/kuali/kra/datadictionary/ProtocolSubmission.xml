@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="ProtocolSubmission" parent="ProtocolSubmission-parentBean" />
     <bean id="ProtocolSubmission-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolSubmission" />
@@ -63,74 +44,8 @@
                 <ref bean="ProtocolSubmission-isBillable" />
             </list>
         </property>
-    
-    <!--     
-    <property name="relationships" >
-      <list>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="submissionStatus" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="submissionStatusCode"
-                    p:targetName="protocolSubmissionStatusCode" />
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="submissionStatus.description"
-                    p:targetName="description" />
-            </list>
-          </property>
-        </bean>
-
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="protocolSubmissionType" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="submissionTypeCode"
-                    p:targetName="submissionTypeCode" />
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="protocolSubmissionType.description"
-                    p:targetName="description" />
-            </list>
-          </property>
-        </bean>
-        
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="protocolReviewType" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="protocolReviewTypeCode"
-                    p:targetName="reviewTypeCode" />
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="protocolReviewType.description"
-                    p:targetName="description" />
-            </list>
-          </property>
-        </bean>
-        
-      </list>
-    </property>
-         -->
     </bean>
 
-    <!-- Attribute Definitions -->
-    
     <bean id="ProtocolSubmission-submissionNumber" parent="ProtocolSubmission-submissionNumber-parentBean" />
     <bean id="ProtocolSubmission-submissionNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="submissionNumber" />
@@ -141,9 +56,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Submission Number" />
         <property name="description" value="Submission Number" />
@@ -164,9 +84,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Sequence Number" />
         <property name="description" value="Sequence Number" />
@@ -182,9 +107,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Schedule Id" />
         <property name="description" value="Schedule Id" />
@@ -198,13 +128,21 @@
         <property name="shortLabel" value="Committee Id" />
         <property name="maxLength" value="15" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" 
-                  p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
 		<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdIdPairValuesFinder"
-                p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdIdPairValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdIdPairValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
         <property name="summary" value="Committee Id" />
         <property name="description" value="Committee Id" />
@@ -219,14 +157,23 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.committee.bo.Committee"
-            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false" 
-            	p:includeBlankRow="false"
-            	p:keyAttribute="id"
-            	p:labelAttribute="committeeId" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.committee.bo.Committee" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="id" p:labelAttribute="committeeId"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.committee.bo.Committee"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="id"/>
+        <property name="labelAttributeName" value="committeeId"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Committee Id" />
         <property name="description" value="Committee Id" />
@@ -242,14 +189,23 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType"
-            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false" 
-            	p:includeBlankRow="false"
-            	p:keyAttribute="submissionTypeCode"
-            	p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="submissionTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="submissionTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Submission Type Code" />
         <property name="description" value="Submission Type Code" />
@@ -265,9 +221,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Submission Type Qual Code" />
         <property name="description" value="Submission Type Qual Code" />
@@ -283,14 +244,23 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewType"
-            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false" 
-            	p:includeBlankRow="false"
-            	p:keyAttribute="reviewTypeCode"
-            	p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="reviewTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolReviewType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="reviewTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Protocol Review Type Code" />
         <property name="description" value="Protocol Review Type Code" />
@@ -306,14 +276,23 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus"
-            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false" 
-            	p:includeBlankRow="false"
-            	p:keyAttribute="protocolSubmissionStatusCode"
-            	p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="protocolSubmissionStatusCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="protocolSubmissionStatusCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Submission Status Code" />
         <property name="description" value="Submission Status Code" />
@@ -374,12 +353,18 @@
         <property name="shortLabel" value="Comments" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                  p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
@@ -393,9 +378,13 @@
         <property name="shortLabel" value="Committee Decision Motion Type" />
         <property name="maxLength" value="3" />
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeDecisionMotionValuesFinder"
-                  p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeDecisionMotionValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeDecisionMotionValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Committee Decision Motion Type" />
         <property name="description" value="Committee Decision Motion Type" />
@@ -411,9 +400,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Yes Vote Count" />
         <property name="description" value="Yes Vote Count" />
@@ -429,9 +423,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="No Vote Count" />
         <property name="description" value="No Vote Count" />
@@ -447,9 +446,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Abstainer Count" />
         <property name="description" value="Abstainer Count" />
@@ -463,23 +467,26 @@
         <property name="shortLabel" value="Voting Comments" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" 
-                  p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Voting Comments" />
         <property name="description" value="Voting Comments" />
     </bean>
 
     <bean id="ProtocolSubmission-versionNumber" parent="ProtocolSubmission-versionNumber-parentBean" />
-    <bean id="ProtocolSubmission-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="ProtocolSubmission-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
   <bean id="ProtocolSubmission-protocolReviewType.description" parent="ProtocolSubmission-protocolReviewType.description-parentBean" />
-
   <bean id="ProtocolSubmission-protocolReviewType.description-parentBean" abstract="true" parent="ProtocolReviewType-description">
     <property name="name" value="protocolReviewType.description" />
     <property name="label" value="Review Type" />
@@ -519,9 +526,10 @@
 		<property name="description" value="Is Billable" />
 	</bean>
 
+  <!-- Inquiry View -->
 
-    <!-- Business Object Inquiry Definition -->
     <bean id="ProtocolSubmission-inquiryDefinition" parent="ProtocolSubmission-inquiryDefinition-parentBean" />
+  <bean id="ProtocolSubmission-InquiryView" parent="ProtocolSubmission-InquiryView-parentBean"/>
     <bean id="ProtocolSubmission-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Submission Number" />
         <property name="inquirySections" >
@@ -531,31 +539,18 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="submissionNumber" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="protocolNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sequenceNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="scheduleId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="committeeId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="submissionDate" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="comments" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="committeeDecisionMotionTypeCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="yesVoteCount" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="noVoteCount" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="abstainerCount" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="votingComments" />
+              <bean parent="FieldDefinition" p:attributeName="submissionNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="scheduleId"/>
+              <bean parent="FieldDefinition" p:attributeName="committeeId"/>
+              <bean parent="FieldDefinition" p:attributeName="submissionDate"/>
+              <bean parent="FieldDefinition" p:attributeName="comments"/>
+              <bean parent="FieldDefinition" p:attributeName="committeeDecisionMotionTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="yesVoteCount"/>
+              <bean parent="FieldDefinition" p:attributeName="noVoteCount"/>
+              <bean parent="FieldDefinition" p:attributeName="abstainerCount"/>
+              <bean parent="FieldDefinition" p:attributeName="votingComments"/>
                         </list>
                     </property>
                 </bean>
@@ -563,83 +558,116 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <bean id="ProtocolSubmission-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Submission Number"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.actions.submit.ProtocolSubmission"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Submission Number"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="submissionNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="scheduleId" parent="Uif-DataField"/>
+              <bean p:propertyName="committeeId" parent="Uif-DataField"/>
+              <bean p:propertyName="submissionDate" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
+              <bean p:propertyName="committeeDecisionMotionTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="yesVoteCount" parent="Uif-DataField"/>
+              <bean p:propertyName="noVoteCount" parent="Uif-DataField"/>
+              <bean p:propertyName="abstainerCount" parent="Uif-DataField"/>
+              <bean p:propertyName="votingComments" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Lookup View -->
+
     <bean id="ProtocolSubmission-lookupDefinition" parent="ProtocolSubmission-lookupDefinition-parentBean" />
+  <bean id="ProtocolSubmission-LookupView" parent="ProtocolSubmission-LookupView-parentBean"/>
     <bean id="ProtocolSubmission-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Protocol Submission Lookup" />
         <property name="lookupableID" value="protocolSubmissionLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-               <!--  <bean parent="FieldDefinition"
-                    p:attributeName="submissionNumber" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="scheduleId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="submissionDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeDecisionMotionTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="yesVoteCount" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="noVoteCount" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="abstainerCount" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="votingComments" />
-                     -->
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="submissionTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="submissionStatusCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="submissionDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocol.title" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeSchedule.scheduledDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolReviewTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeId" />
+        <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="submissionTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="submissionStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="submissionDate"/>
+        <bean parent="FieldDefinition" p:attributeName="protocol.title"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeSchedule.scheduledDate"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolReviewTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="submissionStatus.description"/>
+        <bean parent="FieldDefinition" p:attributeName="submissionDate"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolSubmissionType.description"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolSubmissionQualifierType.description"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolReviewType.description"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeId"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeSchedule.scheduledDate"/>
+        <bean parent="FieldDefinition" p:attributeName="protocol.title"/>
+        <bean parent="FieldDefinition" p:attributeName="piName"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolSubmission-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.actions.submit.ProtocolSubmission"/>
+    <property name="headerText" value="Protocol Submission Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="protocolNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="submissionTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="submissionStatusCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="submissionDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocol.title" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="committeeSchedule.scheduledDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolReviewTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="committeeId" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="submissionStatus.description" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="submissionDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolSubmissionType.description" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolSubmissionQualifierType.description" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolReviewType.description" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeSchedule.scheduledDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocol.title" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="piName" />
+        <bean p:propertyName="protocolNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="submissionStatus.description" parent="Uif-DataField"/>
+        <bean p:propertyName="submissionDate" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolSubmissionType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolSubmissionQualifierType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolReviewType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="committeeId" parent="Uif-DataField"/>
+        <bean p:propertyName="committeeSchedule.scheduledDate" parent="Uif-DataField"/>
+        <bean p:propertyName="protocol.title" parent="Uif-DataField"/>
+        <bean p:propertyName="piName" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

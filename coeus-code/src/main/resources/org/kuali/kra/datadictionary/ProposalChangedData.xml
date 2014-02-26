@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="ProposalChangedData" parent="ProposalChangedData-parentBean"/>
-
   <bean abstract="true" id="ProposalChangedData-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData"/>
 		<property name="objectLabel" value="Proposal Changed Data"/>
@@ -28,11 +27,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="ProposalChangedData-changeNumber" parent="ProposalChangedData-changeNumber-parentBean"/>
-
   <bean abstract="true" id="ProposalChangedData-changeNumber-parentBean" parent="AttributeDefinition">
     <property name="name" value="changeNumber"/>
     <property name="forceUppercase" value="false"/>
@@ -42,14 +37,20 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="3" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Change Number"/>
     <property name="description" value="Change Number"/>
   </bean>
-  <bean id="ProposalChangedData-columnName" parent="ProposalChangedData-columnName-parentBean"/>
 
+  <bean id="ProposalChangedData-columnName" parent="ProposalChangedData-columnName-parentBean"/>
   <bean abstract="true" id="ProposalChangedData-columnName-parentBean" parent="AttributeDefinition">
     <property name="name" value="columnName"/>
     <property name="forceUppercase" value="false"/>
@@ -59,14 +60,25 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:includeKeyInLabel="false" p:script="updateOtherFields(this, updateOtherFields_Callback)" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalEditableColumnsValuesFinder" parent="SelectControlDefinition"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalEditableColumnsValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Field"/>
     <property name="description" value="Field"/>
   </bean>
-  <bean id="ProposalChangedData-proposalNumber" parent="ProposalChangedData-proposalNumber-parentBean"/>
 
+  <bean id="ProposalChangedData-proposalNumber" parent="ProposalChangedData-proposalNumber-parentBean"/>
   <bean abstract="true" id="ProposalChangedData-proposalNumber-parentBean" parent="AttributeDefinition">
     <property name="name" value="proposalNumber"/>
     <property name="forceUppercase" value="false"/>
@@ -76,14 +88,20 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean parent="HiddenControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="Proposal Number"/>
     <property name="description" value="Proposal Number"/>
   </bean>
-  <bean id="ProposalChangedData-changedValue" parent="ProposalChangedData-changedValue-parentBean"/>
 
+  <bean id="ProposalChangedData-changedValue" parent="ProposalChangedData-changedValue-parentBean"/>
   <bean abstract="true" id="ProposalChangedData-changedValue-parentBean" parent="AttributeDefinition">
     <property name="name" value="changedValue"/>
     <property name="forceUppercase" value="false"/>
@@ -93,14 +111,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Changed Value"/>
     <property name="description" value="Changed Value"/>
   </bean>
-  <bean id="ProposalChangedData-comments" parent="ProposalChangedData-comments-parentBean"/>
 
+  <bean id="ProposalChangedData-comments" parent="ProposalChangedData-comments-parentBean"/>
   <bean abstract="true" id="ProposalChangedData-comments-parentBean" parent="AttributeDefinition">
     <property name="name" value="comments"/>
     <property name="forceUppercase" value="false"/>
@@ -110,14 +136,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:cols="40" p:rows="3" parent="TextareaControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:cols="40" p:rows="3" parent="Uif-TextAreaControl"/>
     </property>
     <property name="summary" value="Comments"/>
     <property name="description" value="Comments"/>
   </bean>
-  <bean id="ProposalChangedData-displayValue" parent="ProposalChangedData-displayValue-parentBean"/>
 
+  <bean id="ProposalChangedData-displayValue" parent="ProposalChangedData-displayValue-parentBean"/>
   <bean abstract="true" id="ProposalChangedData-displayValue-parentBean" parent="AttributeDefinition">
     <property name="name" value="displayValue"/>
     <property name="forceUppercase" value="false"/>
@@ -127,14 +161,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Display Value"/>
     <property name="description" value="Display Value"/>
   </bean>
-  <bean id="ProposalChangedData-oldDisplayValue" parent="ProposalChangedData-oldDisplayValue-parentBean"/>
 
+  <bean id="ProposalChangedData-oldDisplayValue" parent="ProposalChangedData-oldDisplayValue-parentBean"/>
   <bean abstract="true" id="ProposalChangedData-oldDisplayValue-parentBean" parent="AttributeDefinition">
     <property name="name" value="oldDisplayValue"/>
     <property name="forceUppercase" value="false"/>
@@ -144,22 +186,30 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Old Display Value"/>
     <property name="description" value="Old Display Value"/>
   </bean>
-  <bean id="ProposalChangedData-updateUser" parent="ProposalChangedData-updateUser-parentBean"/>
 
+  <bean id="ProposalChangedData-updateUser" parent="ProposalChangedData-updateUser-parentBean"/>
   <bean abstract="true" id="ProposalChangedData-updateUser-parentBean" parent="KraAttributeReferenceDummy-updateUser">
     <property name="label" value="Changed By"/>
     <property name="shortLabel" value="Changed By"/>
     <property name="summary" value="User who changes the field"/>
     <property name="description" value="User who changes the field"/>
   </bean>
-  <bean id="ProposalChangedData-updateTimestamp" parent="ProposalChangedData-updateTimestamp-parentBean"/>
 
+  <bean id="ProposalChangedData-updateTimestamp" parent="ProposalChangedData-updateTimestamp-parentBean"/>
   <bean abstract="true" id="ProposalChangedData-updateTimestamp-parentBean" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="updateTimestamp"/>
     <property name="label" value="Changed Date"/>
@@ -167,16 +217,13 @@
     <property name="summary" value="Date when field gets updated"/>
     <property name="description" value="Date when field gets updated"/>
   </bean>
+
   <bean id="ProposalChangedData-versionNumber" parent="ProposalChangedData-versionNumber-parentBean"/>
-
-  <bean abstract="true" id="ProposalChangedData-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
-
+  <bean abstract="true" id="ProposalChangedData-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
   <bean id="ProposalChangedData-inquiryDefinition" parent="ProposalChangedData-inquiryDefinition-parentBean"/>
-
+  <bean id="ProposalChangedData-InquiryView" parent="ProposalChangedData-InquiryView-parentBean"/>
   <bean abstract="true" id="ProposalChangedData-inquiryDefinition-parentBean" parent="InquiryDefinition">
     <property name="title" value="Prop Changed Data"/>
     <property name="inquirySections">
@@ -200,18 +247,39 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="ProposalChangedData-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Prop Changed Data"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Prop Changed Data"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="changeNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="columnName" parent="Uif-DataField"/>
+              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="changedValue" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
+              <bean p:propertyName="displayValue" parent="Uif-DataField"/>
+              <bean p:propertyName="oldDisplayValue" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="ProposalChangedData-lookupDefinition" parent="ProposalChangedData-lookupDefinition-parentBean"/>
-
+  <bean id="ProposalChangedData-LookupView" parent="ProposalChangedData-LookupView-parentBean"/>
   <bean abstract="true" id="ProposalChangedData-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Prop Changed Data Lookup"/>
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
     <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields">
       <list>
@@ -236,4 +304,43 @@
       </list>
     </property>
   </bean>
+
+  <bean id="ProposalChangedData-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData"/>
+    <property name="headerText" value="Prop Changed Data Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="changeNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="columnName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="changedValue" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="displayValue" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="oldDisplayValue" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="changeNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="columnName" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="changedValue" parent="Uif-DataField"/>
+        <bean p:propertyName="comments" parent="Uif-DataField"/>
+        <bean p:propertyName="displayValue" parent="Uif-DataField"/>
+        <bean p:propertyName="oldDisplayValue" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

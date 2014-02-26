@@ -1,20 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="ProposalDevelopmentDocument" parent="ProposalDevelopmentDocument-parentBean"/>
-
   <bean id="ProposalDevelopmentDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    
-    
-    
-    
     <property name="usePessimisticLocking" value="true"/>
     <property name="useWorkflowPessimisticLocking" value="true"/>
-    
     <property name="documentTypeName" value="ProposalDevelopmentDocument"/>
     <property name="documentClass" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentAuthorizer"/>
-     
     <property name="displayTopicFieldInNotes" value="true"/>
     <property name="allowsCopy" value="true"/>
     <property name="headerNavigationList">
@@ -113,11 +106,9 @@
       </list>
     </property>
     <property name="allowsNoteAttachments" value="false"/>
-    
     <property name="workflowProperties">
     	<ref bean="ProposalDevelopmentDocument-workflowProperties"/>
     </property>
-    
     <property name="attributes">
       <list>
         <ref bean="ProposalDevelopmentDocument-versionNumber"/>
@@ -127,20 +118,14 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
   <bean id="ProposalDevelopmentDocument-versionNumber" parent="ProposalDevelopmentDocument-versionNumber-parentBean"/>
-
-  <bean id="ProposalDevelopmentDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean id="ProposalDevelopmentDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <bean id="ProposalDevelopmentDocument-updateUser" parent="ProposalDevelopmentDocument-updateUser-parentBean" />
-
     <bean id="ProposalDevelopmentDocument-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser">
         <property name="description" value="The user who created or last modified the Proposal Development Document." />
     </bean>
-    <bean id="ProposalDevelopmentDocument-updateTimestamp" parent="ProposalDevelopmentDocument-updateTimestamp-parentBean" />
 
+  <bean id="ProposalDevelopmentDocument-updateTimestamp" parent="ProposalDevelopmentDocument-updateTimestamp-parentBean"/>
     <bean id="ProposalDevelopmentDocument-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
         <property name="description" value="The timestamp when the Proposal Development Document was created or last modified." />
     </bean>

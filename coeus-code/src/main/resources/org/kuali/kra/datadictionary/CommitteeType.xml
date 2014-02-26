@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<bean id="CommitteeType" parent="CommitteeType-parentBean" />
 	<bean id="CommitteeType-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.coeus.common.committee.impl.bo.CommitteeType" />
@@ -39,8 +20,6 @@
 		</property>
 	</bean>
 
-	<!-- Attribute Definitions -->
-	
 	<bean id="CommitteeType-CommitteeTypeCode" parent="CommitteeType-CommitteeTypeCode-parentBean" />
 	<bean id="CommitteeType-CommitteeTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="committeeTypeCode" />
@@ -51,9 +30,14 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Committee Type Code" />
 		<property name="description" value="Committee Type Code" />
@@ -61,13 +45,12 @@
 
 	<bean id="CommitteeType-description" parent="CommitteeType-description-parentBean" />
     <bean id="CommitteeType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
-
 	<bean id="CommitteeType-versionNumber" parent="CommitteeType-versionNumber-parentBean" />
-	<bean id="CommitteeType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
+  <bean id="CommitteeType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
-	<!-- Business Object Inquiry Definition -->
 	<bean id="CommitteeType-inquiryDefinition" parent="CommitteeType-inquiryDefinition-parentBean" />
+  <bean id="CommitteeType-InquiryView" parent="CommitteeType-InquiryView-parentBean"/>
 	<bean id="CommitteeType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Committee Type Code" />
 		<property name="inquirySections" >
@@ -77,11 +60,8 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="committeeTypeCode" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="description" />
+              <bean parent="FieldDefinition" p:attributeName="committeeTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
 						</list>
 					</property>
 				</bean>
@@ -89,33 +69,75 @@
 		</property>
 	</bean>
 
-	<!-- Business Object Lookup Definition -->
+  <bean id="CommitteeType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Committee Type Code"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.committee.impl.bo.CommitteeType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Committee Type Code"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="committeeTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Lookup View -->
+
 	<bean id="CommitteeType-lookupDefinition" parent="CommitteeType-lookupDefinition-parentBean" />
+  <bean id="CommitteeType-LookupView" parent="CommitteeType-LookupView-parentBean"/>
 	<bean id="CommitteeType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Committee Type Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="committeeTypeCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="committeeTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="committeeTypeCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="committeeTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
 			</list>
 		</property>
 	</bean>
+
+  <bean id="CommitteeType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.committee.impl.bo.CommitteeType"/>
+    <property name="headerText" value="Committee Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="committeeTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="committeeTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

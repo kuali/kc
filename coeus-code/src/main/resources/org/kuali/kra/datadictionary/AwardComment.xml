@@ -1,20 +1,12 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="AwardComment" parent="AwardComment-parentBean" />
-
   <bean id="AwardComment-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardComment" />
 		<property name="objectLabel" value="Award Comment" />
     <property name="titleAttribute" value="awardComment" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-AWARD"
-            p:parameterName="awardCommentHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardCommentHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -28,11 +20,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="AwardComment-awardCommentId" parent="AwardComment-awardCommentId-parentBean" />
-
   <bean id="AwardComment-awardCommentId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="awardCommentId" />
     <property name="forceUppercase" value="false" />
@@ -42,26 +30,24 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Award Comment ID" />
     <property name="description" value="Award Comment ID" />
   </bean>
   
   <bean id="AwardComment-awardNumber" parent="AwardComment-awardNumber-parentBean" />
-
-  <bean id="AwardComment-awardNumber-parentBean" abstract="true" parent="Award-awardNumber">
-  </bean>
-  
+  <bean id="AwardComment-awardNumber-parentBean" abstract="true" parent="Award-awardNumber"/>
   <bean id="AwardComment-awardId" parent="AwardComment-awardId-parentBean" />
-
-  <bean id="AwardComment-awardId-parentBean" abstract="true" parent="Award-awardId">
-  </bean>
-  
+  <bean id="AwardComment-awardId-parentBean" abstract="true" parent="Award-awardId"/>
   <bean id="AwardComment-sequenceNumber" parent="AwardComment-sequenceNumber-parentBean" />
-
   <bean id="AwardComment-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sequenceNumber" />
     <property name="forceUppercase" value="false" />
@@ -71,17 +57,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Sequence Number" />
     <property name="description" value="Sequence Number" />
   </bean>
   
   <bean id="AwardCostShare-projectPeriod" parent="AwardCostShare-projectPeriod-parentBean" />
-
-  
   <bean id="AwardComment-checklistPrintFlag" parent="AwardComment-checklistPrintFlag-parentBean" />
   <bean id="AwardComment-checklistPrintFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="checklistPrintFlag" />
@@ -90,13 +79,19 @@
     <property name="shortLabel" value="Checklist Print Flag" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+      <bean parent="TextControlDefinition" p:size="1"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="1" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Checklist Print Flag" />
     <property name="description" value="Checklist Print Flag" />
@@ -111,13 +106,18 @@
     <property name="shortLabel" value="Comments" />
     <property name="maxLength" value="999999999" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="5" p:cols="80" parent="Uif-TextAreaControl"/>
     </property>
     <property name="summary" value="Comments" />
     <property name="description" value="Comments" />

@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="InstitutionalProposal" parent="InstitutionalProposal-parentBean" />
     <bean id="InstitutionalProposal-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
@@ -30,10 +11,7 @@
             <ref bean="InstitutionalProposal-lookupDefinition" />
         </property>
         <property name="helpDefinition" >
-      		<bean parent="HelpDefinition"
-            	p:parameterNamespace="KC-IP"
-            	p:parameterName="InstitutionalProposalHomeHelpUrl"
-            	p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalHomeHelpUrl" p:parameterDetailType="Document"/>
     	</property>
         <property name="titleAttribute" value="proposalId" />
         <property name="attributes" >
@@ -125,8 +103,6 @@
         </property>
     </bean>
 
-    <!-- Attribute Definitions -->
-    
     <bean id="InstitutionalProposal-proposalId" parent="InstitutionalProposal-proposalId-parentBean" />
     <bean id="InstitutionalProposal-proposalId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalId" />
@@ -137,9 +113,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Institutional Proposal ID" />
         <property name="description" value="Institutional Proposal ID" />
@@ -155,9 +136,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Fiscal Month" />
         <property name="description" value="Fiscal Month" />
@@ -173,9 +159,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="5" />
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="5" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Fiscal Year" />
         <property name="description" value="Fiscal Year" />
@@ -191,9 +182,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Institutional Proposal Number" />
         <property name="description" value="Institutional Proposal Number" />
@@ -209,9 +205,16 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Sponsor Proposal ID" />
         <property name="description" value="Sponsor Proposal ID" />
@@ -227,9 +230,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Institutional Proposal Version" />
         <property name="description" value="Institutional Proposal Version" />
@@ -245,15 +253,24 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     	<property name="required" value="true" />
    	 	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalType"
-            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false"
-            	p:includeBlankRow="false"
-            	p:keyAttribute="proposalTypeCode"
-            	p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="proposalTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="proposalTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Proposal Type Code" />
         <property name="description" value="Proposal Type Code" />
@@ -280,9 +297,11 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="15" />
 		</property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="The Deadline Time of the Proposal" />
-		<property name="description"
-			value="The time in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.)." />
+    <property name="description" value="The time in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.)."/>
 	</bean>
   	
   	<bean id="InstitutionalProposal-deadlineType" parent="InstitutionalProposal-deadlineType-parentBean"/>
@@ -296,15 +315,29 @@
     	<property name="validationPattern">
       		<bean parent="AnyCharacterValidationPattern"/>
     	</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     	<property name="required" value="false"/>
     	<property name="control">
       		<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.DeadlineType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="deadlineTypeCode" p:labelAttribute="description"/>
     	</property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.DeadlineType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="keyAttributeName" value="deadlineTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
     	<property name="summary" value="The Deadline Type for this Proposal."/>
     	<property name="description" value="Indicates the type of proposal deadline."/>
   			</bean>
-  	<bean id="DevelopmentProposal-primeSponsorCode" parent="DevelopmentProposal-primeSponsorCode-parentBean"/>
 
+  <bean id="DevelopmentProposal-primeSponsorCode" parent="DevelopmentProposal-primeSponsorCode-parentBean"/>
     <bean id="InstitutionalProposal-currentAccountNumber" parent="InstitutionalProposal-currentAccountNumber-parentBean" />
     <bean id="InstitutionalProposal-currentAccountNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="currentAccountNumber" />
@@ -315,9 +348,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Current Account Number" />
         <property name="description" value="Current Account Number" />
@@ -332,13 +370,18 @@
         <property name="maxLength" value="200" />
         <property name="required" value="true" />
         <property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     	</property>
    		 <property name="control" >
-      		<bean parent="TextareaControlDefinition"
-            	p:rows="3"
-                p:cols="80" />
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="80"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="80" parent="Uif-TextAreaControl"/>
     	</property>
         <property name="summary" value="Title" />
         <property name="description" value="Title" />
@@ -354,10 +397,15 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="required" value="true" />
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Sponsor ID" />
         <property name="description" value="Sponsor ID" />
@@ -373,9 +421,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Rolodex ID" />
         <property name="description" value="Rolodex ID" />
@@ -391,12 +444,18 @@
     	<property name="validationPattern">
       		<bean parent="AnyCharacterValidationPattern"/>
     	</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
    	 	<property name="required" value="false"/>
     	<property name="control">
-      		<bean parent="SelectControlDefinition" 
-      			p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NoticeOfOpportunityValuesFinder" 
-      			p:includeKeyInLabel="false"
-      			p:includeBlankRow="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NoticeOfOpportunityValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NoticeOfOpportunityValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Notice Of Opportunity Code" />
         <property name="description" value="Notice Of Opportunity Code" />
@@ -412,9 +471,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="16" />
+      <bean parent="TextControlDefinition" p:size="16"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="16" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Grad Stud Headcount" />
         <property name="description" value="Grad Stud Headcount" />
@@ -428,15 +492,20 @@
         <property name="shortLabel" value="Person Months" />
         <property name="maxLength" value="6" />
         <property name="validationPattern" >
-      		<bean parent="FixedPointValidationPattern"
-            	p:precision="5"
-           		p:scale="2"
-            	p:allowNegative="true" />
+      <bean parent="FixedPointValidationPattern" p:precision="5" p:scale="2" p:allowNegative="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="5"/>
+        <property name="scale" value="2"/>
+        <property name="allowNegative" value="true"/>
+      </bean>
     	</property>
         <property name="control" >
-      		<bean parent="CurrencyControlDefinition"
-            	p:formattedMaxLength="6"
-           		p:size="16" />
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="6" p:size="16"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="16" p:maxLength="6" parent="Uif-CurrencyTextControl"/>
    		</property>
         <property name="summary" value="Grad Stud Person Months" />
         <property name="description" value="Grad Stud Person Months" />
@@ -461,15 +530,24 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     	<property name="required" value="true" />
    	 	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ActivityType"
-            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false"
-            	p:includeBlankRow="false"
-            	p:keyAttribute="activityTypeCode"
-            	p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ActivityType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="activityTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ActivityType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="activityTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Activity Type Code" />
         <property name="description" value="Activity Type Code" />
@@ -519,15 +597,20 @@
         <property name="shortLabel" value="Total Direct Cost" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-      		<bean parent="FixedPointValidationPattern"
-            	p:precision="12"
-           		p:scale="2"
-            	p:allowNegative="true" />
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="12"/>
+        <property name="scale" value="2"/>
+        <property name="allowNegative" value="true"/>
+      </bean>
     	</property>
         <property name="control" >
-      		<bean parent="CurrencyControlDefinition"
-            	p:formattedMaxLength="22"
-           		p:size="12" />
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
    		</property>
         <property name="summary" value="Total Direct Cost Initial" />
         <property name="description" value="Total Direct Cost Initial" />
@@ -541,15 +624,20 @@
         <property name="shortLabel" value="Total Direct Cost Total" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-      		<bean parent="FixedPointValidationPattern"
-            	p:precision="12"
-           		p:scale="2"
-            	p:allowNegative="true" />
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="12"/>
+        <property name="scale" value="2"/>
+        <property name="allowNegative" value="true"/>
+      </bean>
     	</property>
         <property name="control" >
-      		<bean parent="CurrencyControlDefinition"
-            	p:formattedMaxLength="22"
-           		p:size="12" />
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
    		</property>
         <property name="summary" value="Total Direct Cost Total" />
         <property name="description" value="Total Direct Cost Total" />
@@ -563,15 +651,20 @@
         <property name="shortLabel" value="F&amp;A Cost" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-      		<bean parent="FixedPointValidationPattern"
-            	p:precision="12"
-           		p:scale="2"
-            	p:allowNegative="true" />
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="12"/>
+        <property name="scale" value="2"/>
+        <property name="allowNegative" value="true"/>
+      </bean>
     	</property>
         <property name="control" >
-      		<bean parent="CurrencyControlDefinition"
-            	p:formattedMaxLength="22"
-           		p:size="12" />
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
    		</property>
         <property name="summary" value="Total Indirect Cost Initial" />
         <property name="description" value="Total Indirect Cost Initial" />
@@ -585,15 +678,20 @@
         <property name="shortLabel" value="Total F&amp;A Cost" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-      		<bean parent="FixedPointValidationPattern"
-            	p:precision="12"
-           		p:scale="2"
-            	p:allowNegative="true" />
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="12"/>
+        <property name="scale" value="2"/>
+        <property name="allowNegative" value="true"/>
+      </bean>
     	</property>
         <property name="control" >
-      		<bean parent="CurrencyControlDefinition"
-            	p:formattedMaxLength="22"
-           		p:size="12" />
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
    		</property>
         <property name="summary" value="Total Indirect Cost Total" />
         <property name="description" value="Total Indirect Cost Total" />
@@ -609,10 +707,16 @@
     	<property name="validationPattern">
       		<bean parent="NumericValidationPattern"/>
     	</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     	<property name="required" value="false"/>
     	<property name="control">
       		<bean parent="TextControlDefinition" p:size="3"/>
     	</property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
+    </property>
     	<property name="summary" value="Number of Copies"/>
     	<property name="description" value="The number of paper copies of the proposal that should be mailed to the agency/sponsor."/>
   </bean>
@@ -629,18 +733,24 @@
     <bean id="InstitutionalProposal-mailBy-parentBean" abstract="true" parent="MailBy-mailByCode">
     	<property name="name" value="mailBy"/>
     	<property name="control">
-      		<bean parent="SelectControlDefinition" 
-      		p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailBy" 
-      		p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-      		p:includeKeyInLabel="false" 
-      		p:includeBlankRow="false"
-      		p:keyAttribute="mailByCode" 
-      		p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailBy" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="mailByCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.MailBy"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="mailByCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
     	<property name="description" value="This field determines whether the Sponsored Programs Office or the department will be mailing the proposal to the agency/sponsor."/>
   	</bean>
-  <bean id="DevelopmentProposal-mailType" parent="DevelopmentProposal-mailType-parentBean"/>
 
+  <bean id="DevelopmentProposal-mailType" parent="DevelopmentProposal-mailType-parentBean"/>
     <bean id="InstitutionalProposal-mailType" parent="InstitutionalProposal-mailType-parentBean" />
     <bean id="InstitutionalProposal-mailType-parentBean" abstract="true" parent="AttributeDefinition">
     	<property name="name" value="mailType"/>
@@ -651,15 +761,24 @@
    	 	<property name="validationPattern">
       		<bean parent="AnyCharacterValidationPattern"/>
     	</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     	<property name="required" value="false"/>
     	<property name="control">
-      		<bean parent="SelectControlDefinition" 
-      		p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailType" 
-      		p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-      		p:includeKeyInLabel="false" 
-      		p:includeBlankRow="false"
-      		p:keyAttribute="mailType" 
-      		p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="mailType" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.MailType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="mailType"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
    	 	<property name="summary" value="Mail Type"/>
     	<property name="description" value="The method by which the proposal will be delivered to the agency/sponsor."/>
@@ -675,10 +794,18 @@
     	<property name="validationPattern">
       		<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     	</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     	<property name="required" value="false"/>
     	<property name="control">
       		<bean parent="TextControlDefinition" p:size="10"/>
     	</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
     	<property name="summary" value="Mail Account ID"/>
     	<property name="description" value="The internal school account number that should be charged the mailing costs."/>
   </bean>
@@ -694,9 +821,17 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="required" value="false"/>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="40" parent="Uif-TextAreaControl"/>
     </property>
     <property name="summary" value="Mail Description"/>
     <property name="description" value="Any information that will assist in the delivery of the proposal."/>
@@ -711,9 +846,15 @@
     	<property name="validationPattern" >
       		<bean parent="AnyCharacterValidationPattern" />
     	</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     	<property name="control" >
       		<bean parent="CheckboxControlDefinition" />
     	</property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
         <property name="summary" value="Subcontract Flag" />
         <property name="description" value="Subcontract Flag" />
     </bean>
@@ -728,15 +869,18 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     	<property name="required" value="true" />
    	 	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.institutionalproposal.ProposalStatus"
-            	p:valuesFinderClass="org.kuali.kra.institutionalproposal.lookup.keyvalue.InstitutionalProposalStatusCodeValuesFinder"
-            	p:includeKeyInLabel="false"
-            	p:includeBlankRow="false"
-            	p:keyAttribute="proposalStatusCode"
-            	p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.institutionalproposal.ProposalStatus" p:valuesFinderClass="org.kuali.kra.institutionalproposal.lookup.keyvalue.InstitutionalProposalStatusCodeValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="proposalStatusCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.institutionalproposal.lookup.keyvalue.InstitutionalProposalStatusCodeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Status Code" />
         <property name="description" value="Status Code" />
@@ -752,15 +896,24 @@
     	<property name="validationPattern">
    			<bean parent="AnyCharacterValidationPattern"/>
     	</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     	<property name="required" value="false"/>
     	<property name="control">
-      		<bean parent="SelectControlDefinition" 
-      			p:businessObjectClass="org.kuali.kra.bo.NsfCode" 
-      			p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-      			p:includeKeyInLabel="false"
-      			p:includeBlankRow="false" 
-      			p:keyAttribute="nsfCode" 
-      			p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.NsfCode" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="nsfCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.NsfCode"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="nsfCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="NSF Code" />
         <property name="description" value="NSF Code" />
@@ -776,9 +929,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Prime Sponsor Code" />
         <property name="description" value="Prime Sponsor Code" />
@@ -794,15 +952,20 @@
         <property name="validationPattern" >
              <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="30" />
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Initial Contract Admin" />
         <property name="description" value="Initial Contract Admin" />
     </bean>
-
-    
 
     <bean id="InstitutionalProposal-ipReviewActivityIndicator" parent="InstitutionalProposal-ipReviewActivityIndicator-parentBean" />
     <bean id="InstitutionalProposal-ipReviewActivityIndicator-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -814,9 +977,16 @@
         <property name="validationPattern" >
             <bean p:allowWhitespace="true" parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="5" />
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="5" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Ip Review Activity Indicator" />
         <property name="description" value="Ip Review Activity Indicator" />
@@ -832,9 +1002,14 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Current Award Number" />
         <property name="description" value="Current Award Number" />
@@ -848,8 +1023,10 @@
         <property name="shortLabel" value="CFDA Number" />
         <property name="maxLength" value="7" />
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="CFDA Number" />
         <property name="description" value="CFDA Number" />
@@ -865,9 +1042,16 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Opportunity" />
         <property name="description" value="Opportunity" />
@@ -883,24 +1067,31 @@
     	<property name="validationPattern">
    			<bean parent="AnyCharacterValidationPattern"/>
     	</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     	<property name="required" value="false"/>
     	<property name="control">
-      		<bean parent="SelectControlDefinition" 
-      			p:businessObjectClass="org.kuali.kra.award.home.AwardType" 
-      			p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-      			p:includeKeyInLabel="false" 
-      			p:includeBlankRow="false"
-      			p:keyAttribute="awardTypeCode" 
-      			p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.home.AwardType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="awardTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="awardTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Award Type Code" />
         <property name="description" value="Award Type Code" />
     </bean>
 
     <bean id="InstitutionalProposal-versionNumber" parent="InstitutionalProposal-versionNumber-parentBean" />
-    <bean id="InstitutionalProposal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-    
+  <bean id="InstitutionalProposal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <bean id="InstitutionalProposal-updateUser" parent="InstitutionalProposal-updateUser-parentBean" />
 	<bean id="InstitutionalProposal-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
 		<property name="name" value="updateUser" />
@@ -913,7 +1104,6 @@
 		<property name="label" value="Last Update" />
 	</bean>
 	
-	<!-- Lookup Fields -->
 	<bean id="InstitutionalProposal-leadUnit.unitNumber" parent="InstitutionalProposal-leadUnit.unitNumber-parentBean" />
     <bean id="InstitutionalProposal-leadUnit.unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
         <property name="name" value="leadUnit.unitNumber" />
@@ -970,7 +1160,6 @@
         <property name="shortLabel" value="Sponsor Name" />
     </bean>
     
-    <!-- Result Fields -->
     <bean id="InstitutionalProposal-proposalType.description" parent="InstitutionalProposal-proposalType.description-parentBean" />
     <bean id="InstitutionalProposal-proposalType.description-parentBean" abstract="true" parent="ProposalType-description">
         <property name="name" value="proposalType.description" />
@@ -999,98 +1188,118 @@
         <property name="shortLabel" value="Prime Sponsor" />
     </bean>
     
-    <!-- Business Object Lookup Definition -->
+  <!-- Lookup View -->
+
     <bean id="InstitutionalProposal-lookupDefinition" parent="InstitutionalProposal-lookupDefinition-parentBean" />
+  <bean id="InstitutionalProposal-LookupView" parent="InstitutionalProposal-LookupView-parentBean"/>
     <bean id="InstitutionalProposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Institutional Proposal Lookup" />
         <property name="lookupableID" value="institutionalProposalLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="resultSetLimit" value="50" />
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber" />
-                <bean parent="FieldDefinition" 
-                    p:attributeName="proposalTypeCode" />
-                <bean parent="FieldDefinition" 
-                    p:attributeName="statusCode" />
-                <bean parent="FieldDefinition" 
-                    p:attributeName="currentAccountNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="title" />
-                <bean parent="FieldDefinition" p:useShortLabel="true"
-                    p:attributeName="lookupUnit.unitNumber" />
-                <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true" p:useShortLabel="true"
-                    p:attributeName="lookupUnit.unitName" />
-                <!-- 
-                <bean parent="FieldDefinition" p:useShortLabel="true"
-                    p:attributeName="leadUnit.unitNumber" />
-                <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true" p:useShortLabel="true"
-                    p:attributeName="leadUnit.unitName" />
-                -->
-                <bean parent="FieldDefinition" p:useShortLabel="true" p:noDirectInquiry="true"
-                    p:attributeName="projectPersons.fullName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="projectPersons.institutionalProposalContactId" p:hidden="true" />
-                <bean parent="FieldDefinition" 
-                    p:attributeName="sponsorCode" />
-                <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true"
-                    p:attributeName="sponsor.sponsorName" />
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="currentAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="title"/>
+        <bean parent="FieldDefinition" p:useShortLabel="true" p:attributeName="lookupUnit.unitNumber"/>
+        <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true" p:useShortLabel="true" p:attributeName="lookupUnit.unitName"/>
+        <bean parent="FieldDefinition" p:useShortLabel="true" p:noDirectInquiry="true" p:attributeName="projectPersons.fullName"/>
+        <bean parent="FieldDefinition" p:attributeName="projectPersons.institutionalProposalContactId" p:hidden="true"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
+        <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true" p:attributeName="sponsor.sponsorName"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:forceInquiry="true" p:attributeName="proposalType.description"/>
+        <bean parent="FieldDefinition" p:forceInquiry="true" p:attributeName="activityType.description"/>
+        <bean parent="FieldDefinition" p:forceInquiry="true" p:attributeName="proposalStatus.description"/>
+        <bean parent="FieldDefinition" p:forceInquiry="true" p:attributeName="leadUnit.unitNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="leadUnit.unitName"/>
+        <bean parent="FieldDefinition" p:forceInquiry="true" p:attributeName="currentAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="title"/>
+        <bean parent="FieldDefinition" p:forceInquiry="true" p:attributeName="sponsorCode"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsor.sponsorName"/>
+        <bean parent="FieldDefinition" p:forceInquiry="true" p:attributeName="primeSponsor.sponsorName"/>
+        <bean parent="FieldDefinition" p:attributeName="principalInvestigator.fullName"/>
+        <bean parent="FieldDefinition" p:attributeName="requestedStartDateInitial"/>
+        <bean parent="FieldDefinition" p:attributeName="requestedStartDateTotal"/>
+        <bean parent="FieldDefinition" p:attributeName="requestedEndDateInitial"/>
+        <bean parent="FieldDefinition" p:attributeName="requestedEndDateTotal"/>
+        <bean parent="FieldDefinition" p:attributeName="totalDirectCostInitial"/>
+        <bean parent="FieldDefinition" p:attributeName="totalDirectCostTotal"/>
+        <bean parent="FieldDefinition" p:attributeName="totalIndirectCostInitial"/>
+        <bean parent="FieldDefinition" p:attributeName="totalIndirectCostTotal"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="InstitutionalProposal-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposal"/>
+    <property name="headerText" value="Institutional Proposal Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="statusCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="currentAccountNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lookupUnit.unitNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lookupUnit.unitName" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="projectPersons.fullName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="projectPersons.institutionalProposalContactId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsor.sponsorName" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition" 
-                    p:attributeName="proposalNumber" />
-                <bean parent="FieldDefinition" p:forceInquiry="true" 
-                    p:attributeName="proposalType.description" />
-                <bean parent="FieldDefinition" p:forceInquiry="true" 
-                    p:attributeName="activityType.description" />
-                <bean parent="FieldDefinition" p:forceInquiry="true" 
-                    p:attributeName="proposalStatus.description" />
-                <bean parent="FieldDefinition" p:forceInquiry="true" 
-                    p:attributeName="leadUnit.unitNumber" />
-                <bean parent="FieldDefinition" 
-                    p:attributeName="leadUnit.unitName" />
-                <bean parent="FieldDefinition" p:forceInquiry="true" 
-                    p:attributeName="currentAccountNumber" />
-                <bean parent="FieldDefinition" 
-                    p:attributeName="title" />
-                <bean parent="FieldDefinition" p:forceInquiry="true" 
-                    p:attributeName="sponsorCode" />
-                <bean parent="FieldDefinition" 
-                    p:attributeName="sponsor.sponsorName" />
-                <bean parent="FieldDefinition" p:forceInquiry="true" 
-                    p:attributeName="primeSponsor.sponsorName" />
-                <bean parent="FieldDefinition" 
-                    p:attributeName="principalInvestigator.fullName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="requestedStartDateInitial" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="requestedStartDateTotal" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="requestedEndDateInitial" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="requestedEndDateTotal" />
-                    <bean parent="FieldDefinition"
-                    p:attributeName="totalDirectCostInitial" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="totalDirectCostTotal" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="totalIndirectCostInitial" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="totalIndirectCostTotal" />
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="activityType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalStatus.description" parent="Uif-DataField"/>
+        <bean p:propertyName="leadUnit.unitNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="leadUnit.unitName" parent="Uif-DataField"/>
+        <bean p:propertyName="currentAccountNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="title" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsor.sponsorName" parent="Uif-DataField"/>
+        <bean p:propertyName="primeSponsor.sponsorName" parent="Uif-DataField"/>
+        <bean p:propertyName="principalInvestigator.fullName" parent="Uif-DataField"/>
+        <bean p:propertyName="requestedStartDateInitial" parent="Uif-DataField"/>
+        <bean p:propertyName="requestedStartDateTotal" parent="Uif-DataField"/>
+        <bean p:propertyName="requestedEndDateInitial" parent="Uif-DataField"/>
+        <bean p:propertyName="requestedEndDateTotal" parent="Uif-DataField"/>
+        <bean p:propertyName="totalDirectCostInitial" parent="Uif-DataField"/>
+        <bean p:propertyName="totalDirectCostTotal" parent="Uif-DataField"/>
+        <bean p:propertyName="totalIndirectCostInitial" parent="Uif-DataField"/>
+        <bean p:propertyName="totalIndirectCostTotal" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>
 
-    <!-- Business Object Inquiry Definition -->
+  <!-- Inquiry View -->
+
     <bean id="InstitutionalProposal-inquiryDefinition" parent="InstitutionalProposal-inquiryDefinition-parentBean" />
+  <bean id="InstitutionalProposal-InquiryView" parent="InstitutionalProposal-InquiryView-parentBean"/>
     <bean id="InstitutionalProposal-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Proposal Id" />
         <property name="inquirySections" >
@@ -1100,103 +1309,107 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="proposalId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="proposalNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sponsorProposalNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sequenceNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="proposalTypeCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="currentAccountNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="title" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sponsorCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="rolodexId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="noticeOfOpportunityCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="gradStudHeadcount" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="gradStudPersonMonths" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="typeOfAccount" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="activityTypeCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="requestedStartDateInitial" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="requestedStartDateTotal" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="requestedEndDateInitial" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="requestedEndDateTotal" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="totalDirectCostInitial" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="totalDirectCostTotal" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="totalIndirectCostInitial" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="totalIndirectCostTotal" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="numberOfCopies" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="deadlineDate" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="deadlineType" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="mailBy" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="mailType" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="mailAccountNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="subcontractFlag" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="costSharingIndicator" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="idcRateIndicator" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="specialReviewIndicator" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="statusCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="scienceCodeIndicator" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="nsfCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="primeSponsorCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="initialContractAdmin" />
-                            <!--     
-                            <bean parent="FieldDefinition"
-                                p:attributeName="ipReviewReqTypeCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="reviewSubmissionDate" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="reviewReceiveDate" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="reviewResultCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="ipReviewer" />
-                            -->
-                            <bean parent="FieldDefinition"
-                                p:attributeName="ipReviewActivityIndicator" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="currentAwardNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="cfdaNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="opportunity" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="awardTypeCode" />
+              <bean parent="FieldDefinition" p:attributeName="proposalId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sponsorProposalNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="currentAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="title"/>
+              <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
+              <bean parent="FieldDefinition" p:attributeName="rolodexId"/>
+              <bean parent="FieldDefinition" p:attributeName="noticeOfOpportunityCode"/>
+              <bean parent="FieldDefinition" p:attributeName="gradStudHeadcount"/>
+              <bean parent="FieldDefinition" p:attributeName="gradStudPersonMonths"/>
+              <bean parent="FieldDefinition" p:attributeName="typeOfAccount"/>
+              <bean parent="FieldDefinition" p:attributeName="activityTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="requestedStartDateInitial"/>
+              <bean parent="FieldDefinition" p:attributeName="requestedStartDateTotal"/>
+              <bean parent="FieldDefinition" p:attributeName="requestedEndDateInitial"/>
+              <bean parent="FieldDefinition" p:attributeName="requestedEndDateTotal"/>
+              <bean parent="FieldDefinition" p:attributeName="totalDirectCostInitial"/>
+              <bean parent="FieldDefinition" p:attributeName="totalDirectCostTotal"/>
+              <bean parent="FieldDefinition" p:attributeName="totalIndirectCostInitial"/>
+              <bean parent="FieldDefinition" p:attributeName="totalIndirectCostTotal"/>
+              <bean parent="FieldDefinition" p:attributeName="numberOfCopies"/>
+              <bean parent="FieldDefinition" p:attributeName="deadlineDate"/>
+              <bean parent="FieldDefinition" p:attributeName="deadlineType"/>
+              <bean parent="FieldDefinition" p:attributeName="mailBy"/>
+              <bean parent="FieldDefinition" p:attributeName="mailType"/>
+              <bean parent="FieldDefinition" p:attributeName="mailAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="subcontractFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="costSharingIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="idcRateIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="specialReviewIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="scienceCodeIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="nsfCode"/>
+              <bean parent="FieldDefinition" p:attributeName="primeSponsorCode"/>
+              <bean parent="FieldDefinition" p:attributeName="initialContractAdmin"/>
+              <bean parent="FieldDefinition" p:attributeName="ipReviewActivityIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="currentAwardNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="opportunity"/>
+              <bean parent="FieldDefinition" p:attributeName="awardTypeCode"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="InstitutionalProposal-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Proposal Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposal"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Proposal Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="proposalId" parent="Uif-DataField"/>
+              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sponsorProposalNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="proposalTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="currentAccountNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="title" parent="Uif-DataField"/>
+              <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+              <bean p:propertyName="rolodexId" parent="Uif-DataField"/>
+              <bean p:propertyName="noticeOfOpportunityCode" parent="Uif-DataField"/>
+              <bean p:propertyName="gradStudHeadcount" parent="Uif-DataField"/>
+              <bean p:propertyName="gradStudPersonMonths" parent="Uif-DataField"/>
+              <bean p:propertyName="typeOfAccount" parent="Uif-DataField"/>
+              <bean p:propertyName="activityTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="requestedStartDateInitial" parent="Uif-DataField"/>
+              <bean p:propertyName="requestedStartDateTotal" parent="Uif-DataField"/>
+              <bean p:propertyName="requestedEndDateInitial" parent="Uif-DataField"/>
+              <bean p:propertyName="requestedEndDateTotal" parent="Uif-DataField"/>
+              <bean p:propertyName="totalDirectCostInitial" parent="Uif-DataField"/>
+              <bean p:propertyName="totalDirectCostTotal" parent="Uif-DataField"/>
+              <bean p:propertyName="totalIndirectCostInitial" parent="Uif-DataField"/>
+              <bean p:propertyName="totalIndirectCostTotal" parent="Uif-DataField"/>
+              <bean p:propertyName="numberOfCopies" parent="Uif-DataField"/>
+              <bean p:propertyName="deadlineDate" parent="Uif-DataField"/>
+              <bean p:propertyName="deadlineType" parent="Uif-DataField"/>
+              <bean p:propertyName="mailBy" parent="Uif-DataField"/>
+              <bean p:propertyName="mailType" parent="Uif-DataField"/>
+              <bean p:propertyName="mailAccountNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="subcontractFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="costSharingIndicator" parent="Uif-DataField"/>
+              <bean p:propertyName="idcRateIndicator" parent="Uif-DataField"/>
+              <bean p:propertyName="specialReviewIndicator" parent="Uif-DataField"/>
+              <bean p:propertyName="statusCode" parent="Uif-DataField"/>
+              <bean p:propertyName="scienceCodeIndicator" parent="Uif-DataField"/>
+              <bean p:propertyName="nsfCode" parent="Uif-DataField"/>
+              <bean p:propertyName="primeSponsorCode" parent="Uif-DataField"/>
+              <bean p:propertyName="initialContractAdmin" parent="Uif-DataField"/>
+              <bean p:propertyName="ipReviewActivityIndicator" parent="Uif-DataField"/>
+              <bean p:propertyName="currentAwardNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="cfdaNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="opportunity" parent="Uif-DataField"/>
+              <bean p:propertyName="awardTypeCode" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>

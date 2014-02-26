@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="CommentType" parent="CommentType-parentBean" />
-
   <bean id="CommentType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.CommentType" />
 		<property name="objectLabel" value="Comment Type" />
@@ -17,10 +12,7 @@
     </property>
     <property name="titleAttribute" value="commentTypeCode" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-AWARD"
-            p:parameterName="CommentTypeHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="CommentTypeHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -33,9 +25,6 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="CommentType-commentTypeCode" parent="CommentType-commentTypeCode-parentBean" />
   <bean id="CommentType-commentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="commentTypeCode" />
@@ -46,9 +35,14 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Comment Type Code" />
     <property name="description" value="Comment Type Code" />
@@ -84,21 +78,14 @@
     <property name="description" value="Award Comment Screen Flag" />
   </bean>
   
-  
   <bean id="CommentType-description" parent="CommentType-description-parentBean" />
-
-  <bean id="CommentType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
-  </bean>
+  <bean id="CommentType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
   <bean id="CommentType-versionNumber" parent="CommentType-versionNumber-parentBean" />
-
-  <bean id="CommentType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
-
+  <bean id="CommentType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
   <bean id="CommentType-inquiryDefinition" parent="CommentType-inquiryDefinition-parentBean" />
-
+  <bean id="CommentType-InquiryView" parent="CommentType-InquiryView-parentBean"/>
   <bean id="CommentType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Comment Type" />
     <property name="inquirySections" >
@@ -108,15 +95,10 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="commentTypeCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="templateFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="awardCommentScreenFlag" />
+              <bean parent="FieldDefinition" p:attributeName="commentTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="templateFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="awardCommentScreenFlag"/>
             </list>
           </property>
         </bean>
@@ -124,42 +106,83 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="CommentType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Comment Type"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.CommentType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Comment Type"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="commentTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="templateFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="awardCommentScreenFlag" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="CommentType-lookupDefinition" parent="CommentType-lookupDefinition-parentBean" />
-
+  <bean id="CommentType-LookupView" parent="CommentType-LookupView-parentBean"/>
   <bean id="CommentType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Comment Type Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="commentTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="templateFlag" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardCommentScreenFlag" />
+        <bean parent="FieldDefinition" p:attributeName="commentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="templateFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="awardCommentScreenFlag"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="commentTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="templateFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="awardCommentScreenFlag"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CommentType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.CommentType"/>
+    <property name="headerText" value="Comment Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="commentTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="templateFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="awardCommentScreenFlag" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="commentTypeCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-	    <bean parent="FieldDefinition"
-	          p:attributeName="templateFlag" />
-	    <bean parent="FieldDefinition"
-              p:attributeName="awardCommentScreenFlag" />
+        <bean p:propertyName="commentTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="templateFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="awardCommentScreenFlag" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

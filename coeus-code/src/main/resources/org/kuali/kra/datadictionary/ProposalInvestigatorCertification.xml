@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="ProposalInvestigatorCertification" parent="ProposalInvestigatorCertification-parentBean" />
-
   <bean id="ProposalInvestigatorCertification-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification" />
 		<property name="objectLabel" value="Proposal Investigator Certification" />
@@ -28,11 +23,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="ProposalInvestigatorCertification-proposalNumber" parent="ProposalInvestigatorCertification-proposalNumber-parentBean" />
-
   <bean id="ProposalInvestigatorCertification-proposalNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
     <property name="name" value="proposalNumber" />
     <property name="label" value="Proposal Number" />
@@ -40,8 +31,8 @@
     <property name="summary" value="Proposal Number" />
     <property name="description" value="Proposal Number" />
   </bean>
-  <bean id="ProposalInvestigatorCertification-proposalPersonNumber" parent="ProposalInvestigatorCertification-proposalPersonNumber-parentBean" />
 
+  <bean id="ProposalInvestigatorCertification-proposalPersonNumber" parent="ProposalInvestigatorCertification-proposalPersonNumber-parentBean"/>
   <bean id="ProposalInvestigatorCertification-proposalPersonNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
     <property name="name" value="proposalPersonNumber" />
     <property name="label" value="Proposal Person Number" />
@@ -49,11 +40,14 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
+    </property>
     <property name="summary" value="Proposal Person Number" />
     <property name="description" value="Proposal Person Number" />
   </bean>
-  <bean id="ProposalInvestigatorCertification-certified" parent="ProposalInvestigatorCertification-certified-parentBean" />
 
+  <bean id="ProposalInvestigatorCertification-certified" parent="ProposalInvestigatorCertification-certified-parentBean"/>
   <bean id="ProposalInvestigatorCertification-certified-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="certified" />
     <property name="label" value="Is Certified" />
@@ -61,8 +55,8 @@
     <property name="summary" value="Is Certified" />
     <property name="description" value="Is Certified" />
   </bean>
-  <bean id="ProposalInvestigatorCertification-dateCertified" parent="ProposalInvestigatorCertification-dateCertified-parentBean" />
 
+  <bean id="ProposalInvestigatorCertification-dateCertified" parent="ProposalInvestigatorCertification-dateCertified-parentBean"/>
   <bean id="ProposalInvestigatorCertification-dateCertified-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="dateCertified" />
     <property name="label" value="Date Certified" />
@@ -70,8 +64,8 @@
     <property name="summary" value="Date Certified" />
     <property name="description" value="Date Certified" />
   </bean>
-  <bean id="ProposalInvestigatorCertification-dateReceivedByOsp" parent="ProposalInvestigatorCertification-dateReceivedByOsp-parentBean" />
 
+  <bean id="ProposalInvestigatorCertification-dateReceivedByOsp" parent="ProposalInvestigatorCertification-dateReceivedByOsp-parentBean"/>
   <bean id="ProposalInvestigatorCertification-dateReceivedByOsp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="dateReceivedByOsp" />
     <property name="label" value="Date Received by OSP" />
@@ -79,16 +73,13 @@
     <property name="summary" value="Date Received by OSP" />
     <property name="description" value="Date Received by OSP" />
   </bean>
-  <bean id="ProposalInvestigatorCertification-versionNumber" parent="ProposalInvestigatorCertification-versionNumber-parentBean" />
 
-  <bean id="ProposalInvestigatorCertification-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
-
+  <bean id="ProposalInvestigatorCertification-versionNumber" parent="ProposalInvestigatorCertification-versionNumber-parentBean"/>
+  <bean id="ProposalInvestigatorCertification-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
   <bean id="ProposalInvestigatorCertification-inquiryDefinition" parent="ProposalInvestigatorCertification-inquiryDefinition-parentBean" />
-
+  <bean id="ProposalInvestigatorCertification-InquiryView" parent="ProposalInvestigatorCertification-InquiryView-parentBean"/>
   <bean id="ProposalInvestigatorCertification-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Proposal Investigator Certification" />
     <property name="inquirySections" >
@@ -98,18 +89,11 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalPersonNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="certified" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="dateCertified" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="dateReceivedByOsp" />
+              <bean parent="FieldDefinition" p:attributeName="proposalPersonNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="certified"/>
+              <bean parent="FieldDefinition" p:attributeName="dateCertified"/>
+              <bean parent="FieldDefinition" p:attributeName="dateReceivedByOsp"/>
             </list>
           </property>
         </bean>
@@ -117,42 +101,84 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="ProposalInvestigatorCertification-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Proposal Investigator Certification"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Proposal Investigator Certification"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="proposalPersonNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="certified" parent="Uif-DataField"/>
+              <bean p:propertyName="dateCertified" parent="Uif-DataField"/>
+              <bean p:propertyName="dateReceivedByOsp" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="ProposalInvestigatorCertification-lookupDefinition" parent="ProposalInvestigatorCertification-lookupDefinition-parentBean" />
-
+  <bean id="ProposalInvestigatorCertification-LookupView" parent="ProposalInvestigatorCertification-LookupView-parentBean"/>
   <bean id="ProposalInvestigatorCertification-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Proposal Investigator Certification" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalPersonNumber" />
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalPersonNumber"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalPersonNumber"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="certified" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dateCertified" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dateReceivedByOsp" />
+        <bean parent="FieldDefinition" p:attributeName="proposalPersonNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="certified"/>
+        <bean parent="FieldDefinition" p:attributeName="dateCertified"/>
+        <bean parent="FieldDefinition" p:attributeName="dateReceivedByOsp"/>
       </list>
     </property>
   </bean>
+
+  <bean id="ProposalInvestigatorCertification-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification"/>
+    <property name="headerText" value="Proposal Investigator Certification"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalPersonNumber" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="proposalPersonNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="certified" parent="Uif-DataField"/>
+        <bean p:propertyName="dateCertified" parent="Uif-DataField"/>
+        <bean p:propertyName="dateReceivedByOsp" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

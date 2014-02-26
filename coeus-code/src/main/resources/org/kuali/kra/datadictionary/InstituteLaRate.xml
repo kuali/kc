@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="InstituteLaRate" parent="InstituteLaRate-parentBean" />
-
   <bean id="InstituteLaRate-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.InstituteLaRate" />
 		<property name="objectLabel" value="Institute La Rate" />
@@ -33,11 +28,7 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="InstituteLaRate-fiscalYear" parent="InstituteLaRate-fiscalYear-parentBean" />
-
   <bean id="InstituteLaRate-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fiscalYear" />
     <property name="forceUppercase" value="false" />
@@ -47,15 +38,20 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Fiscal Year" />
     <property name="description" value="Fiscal Year" />
   </bean>
-  <bean id="InstituteLaRate-onOffCampusFlag" parent="InstituteLaRate-onOffCampusFlag-parentBean" />
 
+  <bean id="InstituteLaRate-onOffCampusFlag" parent="InstituteLaRate-onOffCampusFlag-parentBean"/>
   <bean id="InstituteLaRate-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="onOffCampusFlag" />
     <property name="forceUppercase" value="false" />
@@ -65,14 +61,20 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
     </property>
     <property name="summary" value="On Off CampusContractContract Flag" />
     <property name="description" value="On Off CampusContractContract Flag" />
   </bean>
-  <bean id="InstituteLaRate-active" parent="InstituteLaRate-active-parentBean" />
 
+  <bean id="InstituteLaRate-active" parent="InstituteLaRate-active-parentBean"/>
   <bean id="InstituteLaRate-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="active" />
     <property name="label" value="Active" />
@@ -80,8 +82,8 @@
     <property name="summary" value="Active" />
     <property name="description" value="Active" />
   </bean>
-  <bean id="InstituteLaRate-rateClassCode" parent="InstituteLaRate-rateClassCode-parentBean" />
 
+  <bean id="InstituteLaRate-rateClassCode" parent="InstituteLaRate-rateClassCode-parentBean"/>
   <bean id="InstituteLaRate-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rateClassCode" />
     <property name="forceUppercase" value="false" />
@@ -91,15 +93,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rate Class Code" />
     <property name="description" value="Rate Class Code" />
   </bean>
-  <bean id="InstituteLaRate-rateTypeCode" parent="InstituteLaRate-rateTypeCode-parentBean" />
 
+  <bean id="InstituteLaRate-rateTypeCode" parent="InstituteLaRate-rateTypeCode-parentBean"/>
   <bean id="InstituteLaRate-rateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rateTypeCode" />
     <property name="forceUppercase" value="false" />
@@ -109,15 +116,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rate Type Code" />
     <property name="description" value="Rate Type Code" />
   </bean>
-  <bean id="InstituteLaRate-startDate" parent="InstituteLaRate-startDate-parentBean" />
 
+  <bean id="InstituteLaRate-startDate" parent="InstituteLaRate-startDate-parentBean"/>
   <bean id="InstituteLaRate-startDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="startDate" />
     <property name="forceUppercase" value="false" />
@@ -127,16 +139,20 @@
     <property name="validationPattern" >
       <bean parent="DateValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="DatePatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10"
-            p:datePicker="true" />
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Start Date" />
     <property name="description" value="Start Date" />
   </bean>
-  <bean id="InstituteLaRate-unitNumber" parent="InstituteLaRate-unitNumber-parentBean" />
 
+  <bean id="InstituteLaRate-unitNumber" parent="InstituteLaRate-unitNumber-parentBean"/>
   <bean id="InstituteLaRate-unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="unitNumber" />
     <property name="forceUppercase" value="false" />
@@ -146,15 +162,20 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Unit Number" />
     <property name="description" value="Unit Number" />
   </bean>
-  <bean id="InstituteLaRate-instituteRate" parent="InstituteLaRate-instituteRate-parentBean" />
 
+  <bean id="InstituteLaRate-instituteRate" parent="InstituteLaRate-instituteRate-parentBean"/>
   <bean id="InstituteLaRate-instituteRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="instituteRate" />
     <property name="forceUppercase" value="false" />
@@ -162,37 +183,40 @@
     <property name="shortLabel" value="Rate" />
     <property name="maxLength" value="5" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern"
-            p:precision="5"
-            p:scale="2" />
+      <bean parent="FixedPointValidationPattern" p:precision="5" p:scale="2"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="5"/>
+        <property name="scale" value="2"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="5" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rate" />
     <property name="description" value="Rate" />
   </bean>
-  <bean id="InstituteLaRate-versionNumber" parent="InstituteLaRate-versionNumber-parentBean" />
 
-  <bean id="InstituteLaRate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
+  <bean id="InstituteLaRate-versionNumber" parent="InstituteLaRate-versionNumber-parentBean"/>
+  <bean id="InstituteLaRate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
   <bean id="InstituteLaRate-rateClass.description" parent="InstituteLaRate-rateClass.description-parentBean" />
-
   <bean id="InstituteLaRate-rateClass.description-parentBean" abstract="true" parent="RateClass-description">
     <property name="name" value="rateClass.description" />
   </bean>
-  <bean id="InstituteLaRate-rateType.description" parent="InstituteLaRate-rateType.description-parentBean" />
 
+  <bean id="InstituteLaRate-rateType.description" parent="InstituteLaRate-rateType.description-parentBean"/>
   <bean id="InstituteLaRate-rateType.description-parentBean" abstract="true" parent="RateType-description">
     <property name="name" value="rateType.description" />
   </bean>
 
-<!-- Business Object Inquiry Definition -->
-
+  <!-- Inquiry View -->
 
   <bean id="InstituteLaRate-inquiryDefinition" parent="InstituteLaRate-inquiryDefinition-parentBean" />
-
+  <bean id="InstituteLaRate-InquiryView" parent="InstituteLaRate-InquiryView-parentBean"/>
   <bean id="InstituteLaRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Institute La Rates" />
     <property name="inquirySections" >
@@ -202,28 +226,14 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="fiscalYear"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="onOffCampusFlag"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="rateClassCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="rateTypeCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="startDate"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="unitNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="instituteRate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="fiscalYear" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="onOffCampusFlag" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="rateClassCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="rateTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="startDate" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="unitNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="instituteRate"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -231,71 +241,110 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="InstituteLaRate-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Institute La Rates"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.InstituteLaRate"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Institute La Rates"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="fiscalYear" parent="Uif-DataField"/>
+              <bean p:propertyName="onOffCampusFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="rateClassCode" parent="Uif-DataField"/>
+              <bean p:propertyName="rateTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="startDate" parent="Uif-DataField"/>
+              <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="instituteRate" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="InstituteLaRate-lookupDefinition" parent="InstituteLaRate-lookupDefinition-parentBean" />
-
+  <bean id="InstituteLaRate-LookupView" parent="InstituteLaRate-LookupView-parentBean"/>
   <bean id="InstituteLaRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Institute La Rates Lookup" />
     <property name="lookupableID" value="onOffCampusLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="fiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="onOffCampusFlag" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateClassCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="startDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="unitNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="instituteRate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="fiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="onOffCampusFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassCode"/>
+        <bean parent="FieldDefinition" p:attributeName="rateTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="startDate"/>
+        <bean parent="FieldDefinition" p:attributeName="unitNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="instituteRate"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="fiscalYear"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="onOffCampusFlag"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateClassCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateClass.description"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateTypeCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateType.description"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="startDate"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="unitNumber"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="instituteRate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="fiscalYear" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="onOffCampusFlag" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClass.description" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="rateTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="rateType.description" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="startDate" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="unitNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="instituteRate"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>
+
+  <bean id="InstituteLaRate-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.InstituteLaRate"/>
+    <property name="headerText" value="Institute La Rates Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="fiscalYear" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="onOffCampusFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateClassCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="startDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="unitNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="instituteRate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="fiscalYear" parent="Uif-DataField"/>
+        <bean p:propertyName="onOffCampusFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="rateClassCode" parent="Uif-DataField"/>
+        <bean p:propertyName="rateClass.description" parent="Uif-DataField"/>
+        <bean p:propertyName="rateTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="rateType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="startDate" parent="Uif-DataField"/>
+        <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="instituteRate" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

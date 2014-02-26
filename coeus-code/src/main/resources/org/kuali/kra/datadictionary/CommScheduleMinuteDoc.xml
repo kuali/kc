@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="CommScheduleMinuteDoc" parent="CommScheduleMinuteDoc-parentBean" />
     <bean id="CommScheduleMinuteDoc-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.meeting.CommScheduleMinuteDoc" />
@@ -45,8 +26,6 @@
         </property>
     </bean>
 
-    <!-- Attribute Definitions -->
-    
     <bean id="CommScheduleMinuteDoc-commScheduleMinuteDocId" parent="CommScheduleMinuteDoc-commScheduleMinuteDocId-parentBean" />
     <bean id="CommScheduleMinuteDoc-commScheduleMinuteDocId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="commScheduleMinuteDocId" />
@@ -57,9 +36,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Comm Schedule Minute Doc Id" />
         <property name="description" value="Comm Schedule Minute Doc Id" />
@@ -75,9 +59,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Schedule Id" />
         <property name="description" value="Schedule Id" />
@@ -93,9 +82,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Minute Number" />
         <property name="description" value="Minute Number" />
@@ -111,9 +105,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Minute Name" />
         <property name="description" value="Minute Name" />
@@ -129,20 +128,25 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Pdf Store" />
         <property name="description" value="Pdf Store" />
     </bean>
 
     <bean id="CommScheduleMinuteDoc-versionNumber" parent="CommScheduleMinuteDoc-versionNumber-parentBean" />
-    <bean id="CommScheduleMinuteDoc-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
+  <bean id="CommScheduleMinuteDoc-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
-    <!-- Business Object Inquiry Definition -->
     <bean id="CommScheduleMinuteDoc-inquiryDefinition" parent="CommScheduleMinuteDoc-inquiryDefinition-parentBean" />
+  <bean id="CommScheduleMinuteDoc-InquiryView" parent="CommScheduleMinuteDoc-InquiryView-parentBean"/>
     <bean id="CommScheduleMinuteDoc-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Comm Schedule Minute Doc Id" />
         <property name="inquirySections" >
@@ -152,17 +156,33 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="commScheduleMinuteDocId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="scheduleIdFk" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="minuteNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="minuteName" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="pdfStore" />
+              <bean parent="FieldDefinition" p:attributeName="commScheduleMinuteDocId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="scheduleIdFk"/>
+              <bean parent="FieldDefinition" p:attributeName="minuteNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="minuteName"/>
+              <bean parent="FieldDefinition" p:attributeName="pdfStore"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CommScheduleMinuteDoc-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Comm Schedule Minute Doc Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.meeting.CommScheduleMinuteDoc"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Comm Schedule Minute Doc Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="commScheduleMinuteDocId" parent="Uif-DataField"/>
+              <bean p:propertyName="scheduleIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="minuteNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="minuteName" parent="Uif-DataField"/>
+              <bean p:propertyName="pdfStore" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -170,43 +190,66 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <!-- Lookup View -->
+
     <bean id="CommScheduleMinuteDoc-lookupDefinition" parent="CommScheduleMinuteDoc-lookupDefinition-parentBean" />
+  <bean id="CommScheduleMinuteDoc-LookupView" parent="CommScheduleMinuteDoc-LookupView-parentBean"/>
     <bean id="CommScheduleMinuteDoc-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Comm Schedule Minute Doc Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="commScheduleMinuteDocId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="scheduleIdFk" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="minuteNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="minuteName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="pdfStore" />
+        <bean parent="FieldDefinition" p:attributeName="commScheduleMinuteDocId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="scheduleIdFk"/>
+        <bean parent="FieldDefinition" p:attributeName="minuteNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="minuteName"/>
+        <bean parent="FieldDefinition" p:attributeName="pdfStore"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="commScheduleMinuteDocId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="scheduleIdFk"/>
+        <bean parent="FieldDefinition" p:attributeName="minuteNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="minuteName"/>
+        <bean parent="FieldDefinition" p:attributeName="pdfStore"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CommScheduleMinuteDoc-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.meeting.CommScheduleMinuteDoc"/>
+    <property name="headerText" value="Comm Schedule Minute Doc Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="commScheduleMinuteDocId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="scheduleIdFk" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="minuteNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="minuteName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="pdfStore" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="commScheduleMinuteDocId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="scheduleIdFk" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="minuteNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="minuteName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="pdfStore" />
+        <bean p:propertyName="commScheduleMinuteDocId" parent="Uif-DataField"/>
+        <bean p:propertyName="scheduleIdFk" parent="Uif-DataField"/>
+        <bean p:propertyName="minuteNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="minuteName" parent="Uif-DataField"/>
+        <bean p:propertyName="pdfStore" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

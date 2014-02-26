@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="SponsorForms" parent="SponsorForms-parentBean" />
-
   <bean id="SponsorForms-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorForms" />
 		<property name="objectLabel" value="Sponsor Forms" />
@@ -27,8 +22,6 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
   <bean id="SponsorForms-sponsorFormId" parent="SponsorForms-sponsorFormId-parentBean" />
   <bean id="SponsorForms-sponsorFormId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sponsorFormId" />
@@ -39,10 +32,15 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Sponsor Form Id" />
     <property name="description" value="Sponsor Form Id" />    
@@ -57,14 +55,16 @@
     <property name="shortLabel" value="Package Name" />
     <property name="maxLength" value="200" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+      <bean parent="TextControlDefinition" p:size="50"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="50" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Package Name" />
     <property name="description" value="Package Name" />
   </bean>
-  <bean id="SponsorForms-packageNumber" parent="SponsorForms-packageNumber-parentBean" />
 
+  <bean id="SponsorForms-packageNumber" parent="SponsorForms-packageNumber-parentBean"/>
   <bean id="SponsorForms-packageNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="packageNumber" />
     <property name="forceUppercase" value="false" />
@@ -74,15 +74,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Package Number" />
     <property name="description" value="Package Number" />
   </bean>
-  <bean id="SponsorForms-sponsorCode" parent="SponsorForms-sponsorCode-parentBean" />
 
+  <bean id="SponsorForms-sponsorCode" parent="SponsorForms-sponsorCode-parentBean"/>
   <bean id="SponsorForms-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sponsorCode" />
     <property name="forceUppercase" value="false" />
@@ -92,15 +97,20 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Sponsor Code" />
     <property name="description" value="Sponsor Code" />
   </bean>
-  <bean id="SponsorForms-sponsorHierarchyName" parent="SponsorForms-sponsorHierarchyName-parentBean" />
 
+  <bean id="SponsorForms-sponsorHierarchyName" parent="SponsorForms-sponsorHierarchyName-parentBean"/>
   <bean id="SponsorForms-sponsorHierarchyName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sponsorHierarchyName" />
     <property name="forceUppercase" value="false" />
@@ -110,24 +120,30 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.PrintingHierarchyNameValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.PrintingHierarchyNameValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.PrintingHierarchyNameValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Sponsor Hierarchy Group Name" />
     <property name="description" value="Sponsor Hierarchy Group Name" />
   </bean>  
-  <bean id="SponsorForms-versionNumber" parent="SponsorForms-versionNumber-parentBean" />
 
-  <bean id="SponsorForms-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
-
+  <bean id="SponsorForms-versionNumber" parent="SponsorForms-versionNumber-parentBean"/>
+  <bean id="SponsorForms-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
   <bean id="SponsorForms-inquiryDefinition" parent="SponsorForms-inquiryDefinition-parentBean" />
-
+  <bean id="SponsorForms-InquiryView" parent="SponsorForms-InquiryView-parentBean"/>
   <bean id="SponsorForms-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Sponsor Forms" />
     <property name="inquirySections" >
@@ -137,14 +153,10 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="packageName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="packageNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="sponsorCode" />
-              <bean parent="FieldDefinition"
-              		p:attributeName="sponsorHierarchyName" />
+              <bean parent="FieldDefinition" p:attributeName="packageName"/>
+              <bean parent="FieldDefinition" p:attributeName="packageNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
+              <bean parent="FieldDefinition" p:attributeName="sponsorHierarchyName"/>
             </list>
           </property>
         </bean>
@@ -152,41 +164,83 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="SponsorForms-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Sponsor Forms"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.SponsorForms"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Sponsor Forms"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="packageName" parent="Uif-DataField"/>
+              <bean p:propertyName="packageNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+              <bean p:propertyName="sponsorHierarchyName" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="SponsorForms-lookupDefinition" parent="SponsorForms-lookupDefinition-parentBean" />
-
+  <bean id="SponsorForms-LookupView" parent="SponsorForms-LookupView-parentBean"/>
   <bean id="SponsorForms-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Sponsor Forms Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="packageName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="packageNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorCode" />
-        <bean parent="FieldDefinition"
-        	  p:attributeName="sponsorHierarchyName" />
+        <bean parent="FieldDefinition" p:attributeName="packageName"/>
+        <bean parent="FieldDefinition" p:attributeName="packageNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorHierarchyName"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="packageName"/>
+        <bean parent="FieldDefinition" p:attributeName="packageNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorHierarchyName"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="SponsorForms-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.SponsorForms"/>
+    <property name="headerText" value="Sponsor Forms Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="packageName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="packageNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorHierarchyName" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="packageName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="packageNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorCode" />
-        <bean parent="FieldDefinition"
-        	  p:attributeName="sponsorHierarchyName" />              
+        <bean p:propertyName="packageName" parent="Uif-DataField"/>
+        <bean p:propertyName="packageNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorHierarchyName" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

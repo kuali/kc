@@ -1,29 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-
-<!--
-This class holds the ProtocolAssociate information.  All BOs that extend ProtocolAssociate should
-reference this file within there spring beans definition.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<bean id="ProtocolAssociate" abstract="true" parent="ProtocolAssociate-parentBean" />
 	<bean id="ProtocolAssociate-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.protocol.ProtocolAssociateBase" />
@@ -48,21 +24,18 @@ reference this file within there spring beans definition.
 	
 	<bean id="ProtocolAssociate-protocolNumber" parent="ProtocolAssociate-protocolNumber-parentBean" />
 	<bean id="ProtocolAssociate-protocolNumber-parentBean" abstract="true" parent="Protocol-protocolNumber"/>
-
 	<bean id="ProtocolAssociate-sequenceNumber" parent="ProtocolAssociate-sequenceNumber-parentBean" />
 	<bean id="ProtocolAssociate-sequenceNumber-parentBean" abstract="true" parent="Protocol-sequenceNumber"/>
-	
 	<bean id="ProtocolAssociate-versionNumber" parent="ProtocolAssociate-versionNumber-parentBean" />
 	<bean id="ProtocolAssociate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
-	
 	<bean id="ProtocolAssociate-updateUser" parent="ProtocolAssociate-updateUser-parentBean" />
 	<bean id="ProtocolAssociate-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser"/>
-	
 	<bean id="ProtocolAssociate-updateTimestamp" parent="ProtocolAssociate-updateTimestamp-parentBean" />
 	<bean id="ProtocolAssociate-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp"/>
+  <!-- Inquiry View -->
   
-	<!-- Business Object Inquiry Definition -->
 	<bean id="ProtocolAssociate-inquiryDefinition" parent="ProtocolAssociate-inquiryDefinition-parentBean" />
+  <bean id="ProtocolAssociate-InquiryView" parent="ProtocolAssociate-InquiryView-parentBean"/>
 	<bean id="ProtocolAssociate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="protocolNumber" />
 		<property name="inquirySections" >
@@ -72,16 +45,11 @@ reference this file within there spring beans definition.
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="protocolNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="sequenceNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="versionNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="updateUser" />
-							<bean parent="FieldDefinition"
-								p:attributeName="updateTimestamp" />
+              <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="versionNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="updateUser"/>
+              <bean parent="FieldDefinition" p:attributeName="updateTimestamp"/>
 						</list>
 					</property>
 				</bean>
@@ -89,43 +57,89 @@ reference this file within there spring beans definition.
 		</property>
 	</bean>
 	
-		<!-- Business Object Lookup Definition -->
+  <bean id="ProtocolAssociate-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="protocolNumber"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.protocol.ProtocolAssociateBase"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="protocolNumber"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="protocolNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="updateUser" parent="Uif-DataField"/>
+              <bean p:propertyName="updateTimestamp" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Lookup View -->
+
 	<bean id="ProtocolAssociate-lookupDefinition" parent="ProtocolAssociate-lookupDefinition-parentBean" />
+  <bean id="ProtocolAssociate-LookupView" parent="ProtocolAssociate-LookupView-parentBean"/>
 	<bean id="ProtocolAssociate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Associate Lookup" />
         <property name="lookupableID" value="ProtocolAssociateLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="versionNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="updateUser" />
-				<bean parent="FieldDefinition"
-					p:attributeName="updateTimestamp" />
+        <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="versionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="updateUser"/>
+        <bean parent="FieldDefinition" p:attributeName="updateTimestamp"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="versionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="updateUser"/>
+        <bean parent="FieldDefinition" p:attributeName="updateTimestamp"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolAssociate-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.protocol.ProtocolAssociateBase"/>
+    <property name="headerText" value="Protocol Associate Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="protocolNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="versionNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="updateUser" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="updateTimestamp" parent="Uif-LookupCriteriaInputField"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="versionNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="updateUser" />
-				<bean parent="FieldDefinition"
-					p:attributeName="updateTimestamp" />
+        <bean p:propertyName="protocolNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="updateUser" parent="Uif-DataField"/>
+        <bean p:propertyName="updateTimestamp" parent="Uif-DataField"/>
 			</list>
 		</property>
 	</bean>

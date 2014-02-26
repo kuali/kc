@@ -1,24 +1,5 @@
-<!--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="Question" parent="Question-parentBean" />
     <bean id="Question-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.Question" />
@@ -60,8 +41,6 @@
         </property>
     </bean>
 
-    <!-- Attribute Definitions -->
-    
     <bean id="Question-questionRefId" parent="Question-questionRefId-parentBean" />
     <bean id="Question-questionRefId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="questionRefId" />
@@ -72,9 +51,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Question Ref Id" />
         <property name="description" value="Question Ref Id" />
@@ -90,9 +74,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Document Number" />
         <property name="description" value="Document Number" />
@@ -108,9 +97,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="6" />
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Question Id" />
         <property name="description" value="Question Id" />
@@ -126,9 +120,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="6" />
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Question Id" />
         <property name="description" value="Question Id" />
@@ -145,9 +144,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Sequence Number" />
         <property name="description" value="Sequence Number" />
@@ -162,13 +166,18 @@
         <property name="required" value="true" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="2"
-                p:cols="120" />
+      <bean parent="TextareaControlDefinition" p:rows="2" p:cols="120"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="2" p:cols="120" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Question" />
         <property name="description" value="Question" />
@@ -185,15 +194,21 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqQuestionStatusValuesFinder"
-                p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqQuestionStatusValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.YnqQuestionStatusValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Status" />
         <property name="description" value="Status" />
     </bean>
-            <!-- ExtendedPersistableBusinessObjectValuesFinder"-->
 
     <bean id="Question-categoryTypeCode" parent="Question-categoryTypeCode-parentBean" />
     <bean id="Question-categoryTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -206,14 +221,23 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
          <property name="control" >
-      		<bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionCategory"
-            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="categoryTypeCode"
-            p:labelAttribute="categoryName" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionCategory" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="categoryTypeCode" p:labelAttribute="categoryName"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.QuestionCategory"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="categoryTypeCode"/>
+        <property name="labelAttributeName" value="categoryName"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
         <property name="summary" value="Category Type Code" />
         <property name="description" value="Category Type Code" />
@@ -230,14 +254,23 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionType"
-                p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-                p:includeKeyInLabel="false"
-                p:includeBlankRow="false"
-                p:keyAttribute="questionTypeId"
-                p:labelAttribute="questionTypeName" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="questionTypeId" p:labelAttribute="questionTypeName"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.QuestionType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="questionTypeId"/>
+        <property name="labelAttributeName" value="questionTypeName"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Question Type Id" />
         <property name="description" value="Question Type Id" />
@@ -253,11 +286,17 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupableBoValuesFinder"
-                  p:includeKeyInLabel="false"
-                  p:script="updateLookupReturn(this, updateLookupReturn_Callback)" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupableBoValuesFinder" p:includeKeyInLabel="false" p:script="updateLookupReturn(this, updateLookupReturn_Callback)"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.LookupableBoValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Lookup Class" />
         <property name="description" value="Lookup Class" />
@@ -273,10 +312,17 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder"
-                  p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Lookup Return" />
         <property name="description" value="Lookup Return" />
@@ -292,9 +338,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="2" />
+      <bean parent="TextControlDefinition" p:size="2"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="2" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Displayed Answers" />
         <property name="description" value="Displayed Answers" />
@@ -310,9 +361,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="2" />
+      <bean parent="TextControlDefinition" p:size="2"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="2" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Max Answers" />
         <property name="description" value="Max Answers" />
@@ -328,9 +384,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Answer Max Length" />
         <property name="description" value="Answer Max Length" />
@@ -343,9 +404,7 @@
   </bean>
 
     <bean id="Question-versionNumber" parent="Question-versionNumber-parentBean" />
-    <bean id="Question-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="Question-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <bean id="Question-explanation" parent="Question-explanation-parentBean" />
     <bean id="Question-explanation-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="explanation" />
@@ -354,13 +413,18 @@
         <property name="shortLabel" value="Explanation" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="2"
-                p:cols="120" />
+      <bean parent="TextareaControlDefinition" p:rows="2" p:cols="120"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="2" p:cols="120" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Explanation" />
         <property name="description" value="Explanation" />
@@ -374,13 +438,18 @@
         <property name="shortLabel" value="Policy" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="2"
-                p:cols="120" />
+      <bean parent="TextareaControlDefinition" p:rows="2" p:cols="120"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="2" p:cols="120" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Policy" />
         <property name="description" value="Policy" />
@@ -394,13 +463,18 @@
         <property name="shortLabel" value="Regulation" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="2"
-                p:cols="120" />
+      <bean parent="TextareaControlDefinition" p:rows="2" p:cols="120"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="2" p:cols="120" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Regulation" />
         <property name="description" value="Regulation" />
@@ -414,13 +488,18 @@
         <property name="shortLabel" value="Affirmative Statement" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="2"
-                p:cols="120" />
+      <bean parent="TextareaControlDefinition" p:rows="2" p:cols="120"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="2" p:cols="120" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Affirmative Statement" />
         <property name="description" value="Affirmative Statement" />
@@ -434,20 +513,27 @@
         <property name="shortLabel" value="Negative Statement" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="2"
-                p:cols="120" />
+      <bean parent="TextareaControlDefinition" p:rows="2" p:cols="120"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="2" p:cols="120" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Negative Statement" />
         <property name="description" value="Negative Statement" />
     </bean>
     
-    <!-- Business Object Inquiry Definition -->
+  <!-- Inquiry View -->
+
     <bean id="Question-inquiryDefinition" parent="Question-inquiryDefinition-parentBean" />
+  <bean id="Question-InquiryView" parent="Question-InquiryView-parentBean"/>
     <bean id="Question-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Question Id" />
         <property name="inquirySections" >
@@ -457,31 +543,45 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="questionId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sequenceNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="question" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="status" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="categoryTypeCode" />
-                            <!-- <bean parent="FieldDefinition"
-                                p:attributeName="questionTypeId" /> -->
-                            <bean parent="FieldDefinition"
-                                p:attributeName="questionType.questionTypeName" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="lookupClass" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="lookupReturn" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="displayedAnswers" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="maxAnswers" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="answerMaxLength" />
+              <bean parent="FieldDefinition" p:attributeName="questionId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="question"/>
+              <bean parent="FieldDefinition" p:attributeName="status"/>
+              <bean parent="FieldDefinition" p:attributeName="categoryTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="questionType.questionTypeName"/>
+              <bean parent="FieldDefinition" p:attributeName="lookupClass"/>
+              <bean parent="FieldDefinition" p:attributeName="lookupReturn"/>
+              <bean parent="FieldDefinition" p:attributeName="displayedAnswers"/>
+              <bean parent="FieldDefinition" p:attributeName="maxAnswers"/>
+              <bean parent="FieldDefinition" p:attributeName="answerMaxLength"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Question-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Question Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.questionnaire.question.Question"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Question Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="questionId" parent="Uif-DataField"/>
+              <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="question" parent="Uif-DataField"/>
+              <bean p:propertyName="status" parent="Uif-DataField"/>
+              <bean p:propertyName="categoryTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="questionType.questionTypeName" parent="Uif-DataField"/>
+              <bean p:propertyName="lookupClass" parent="Uif-DataField"/>
+              <bean p:propertyName="lookupReturn" parent="Uif-DataField"/>
+              <bean p:propertyName="displayedAnswers" parent="Uif-DataField"/>
+              <bean p:propertyName="maxAnswers" parent="Uif-DataField"/>
+              <bean p:propertyName="answerMaxLength" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -489,70 +589,93 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <!-- Lookup View -->
+
     <bean id="Question-lookupDefinition" parent="Question-lookupDefinition-parentBean" />
+  <bean id="Question-LookupView" parent="Question-LookupView-parentBean"/>
     <bean id="Question-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Question Lookup" />
         <property name="lookupableID" value="questionLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="question" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="status" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="categoryTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionTypeId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="lookupClass" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="lookupReturn" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="displayedAnswers" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="maxAnswers" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="answerMaxLength" />
+        <bean parent="FieldDefinition" p:attributeName="questionId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="question"/>
+        <bean parent="FieldDefinition" p:attributeName="status"/>
+        <bean parent="FieldDefinition" p:attributeName="categoryTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="questionTypeId"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupClass"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupReturn"/>
+        <bean parent="FieldDefinition" p:attributeName="displayedAnswers"/>
+        <bean parent="FieldDefinition" p:attributeName="maxAnswers"/>
+        <bean parent="FieldDefinition" p:attributeName="answerMaxLength"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionIdAsInteger" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="question" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="status" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="categoryTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionTypeId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="lookupClass" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="lookupReturn" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="displayedAnswers" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="maxAnswers" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="answerMaxLength" />
+        <bean parent="FieldDefinition" p:attributeName="questionIdAsInteger" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="question"/>
+        <bean parent="FieldDefinition" p:attributeName="status"/>
+        <bean parent="FieldDefinition" p:attributeName="categoryTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="questionTypeId"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupClass"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupReturn"/>
+        <bean parent="FieldDefinition" p:attributeName="displayedAnswers"/>
+        <bean parent="FieldDefinition" p:attributeName="maxAnswers"/>
+        <bean parent="FieldDefinition" p:attributeName="answerMaxLength"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Question-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.questionnaire.question.Question"/>
+    <property name="headerText" value="Question Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
             </list>
         </property>
     </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="questionId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="question" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="status" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="categoryTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="questionTypeId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lookupClass" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lookupReturn" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="displayedAnswers" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="maxAnswers" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="answerMaxLength" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="questionIdAsInteger" parent="Uif-DataField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="question" parent="Uif-DataField"/>
+        <bean p:propertyName="status" parent="Uif-DataField"/>
+        <bean p:propertyName="categoryTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="questionTypeId" parent="Uif-DataField"/>
+        <bean p:propertyName="lookupClass" parent="Uif-DataField"/>
+        <bean p:propertyName="lookupReturn" parent="Uif-DataField"/>
+        <bean p:propertyName="displayedAnswers" parent="Uif-DataField"/>
+        <bean p:propertyName="maxAnswers" parent="Uif-DataField"/>
+        <bean p:propertyName="answerMaxLength" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

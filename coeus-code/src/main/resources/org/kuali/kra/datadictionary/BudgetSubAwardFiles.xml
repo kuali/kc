@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="BudgetSubAwardFiles" parent="BudgetSubAwardFiles-parentBean" />
-
   <bean id="BudgetSubAwardFiles-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles" />
 		<property name="objectLabel" value="Budget Sub Award Files" />
@@ -19,18 +14,12 @@
     <property name="attributes" >
       <list>
         <ref bean="BudgetSubAwardFiles-subAwardNumber" />
-<!--        <ref bean="BudgetSubAwardFiles-proposalNumber" />-->
-<!--        <ref bean="BudgetSubAwardFiles-budgetVersionNumber" />-->
         <ref bean="BudgetSubAwardFiles-versionNumber" />
       </list>
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
   <bean id="BudgetSubAwardFiles-subAwardNumber" parent="BudgetSubAwardFiles-subAwardNumber-parentBean" />
-
   <bean id="BudgetSubAwardFiles-subAwardNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAwardNumber" />
     <property name="forceUppercase" value="false" />
@@ -40,58 +29,25 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="subAwardNumber" />
     <property name="description" value="subAwardNumber" />
   </bean>
-<!--  <bean id="BudgetSubAwardFiles-proposalNumber" parent="BudgetSubAwardFiles-proposalNumber-parentBean" />-->
-<!---->
-<!--  <bean id="BudgetSubAwardFiles-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
-<!--    <property name="name" value="proposalNumber" />-->
-<!--    <property name="forceUppercase" value="false" />-->
-<!--    <property name="label" value="Proposal Number" />-->
-<!--    <property name="shortLabel" value="Proposal Number" />-->
-<!--    <property name="maxLength" value="12" />-->
-<!--    <property name="validationPattern" >-->
-<!--      <bean parent="AlphaNumericValidationPattern" />-->
-<!--    </property>-->
-<!--    <property name="control" >-->
-<!--      <bean parent="TextControlDefinition"-->
-<!--            p:size="12" />-->
-<!--    </property>-->
-<!--    <property name="summary" value="Proposal Number" />-->
-<!--    <property name="description" value="Proposal Number" />-->
-<!--  </bean>-->
-<!--  <bean id="BudgetSubAwardFiles-budgetVersionNumber" parent="BudgetSubAwardFiles-budgetVersionNumber-parentBean" />-->
-<!---->
-<!--  <bean id="BudgetSubAwardFiles-budgetVersionNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
-<!--    <property name="name" value="budgetVersionNumber" />-->
-<!--    <property name="forceUppercase" value="false" />-->
-<!--    <property name="label" value="Budget Version Number" />-->
-<!--    <property name="shortLabel" value="Budget Version Number" />-->
-<!--    <property name="maxLength" value="3" />-->
-<!--    <property name="validationPattern" >-->
-<!--      <bean parent="NumericValidationPattern" />-->
-<!--    </property>-->
-<!--    <property name="control" >-->
-<!--      <bean parent="TextControlDefinition"-->
-<!--            p:size="3" />-->
-<!--    </property>-->
-<!--    <property name="summary" value="Budget Version Number" />-->
-<!--    <property name="description" value="Budget Version Number" />-->
-<!--  </bean>-->
-  <bean id="BudgetSubAwardFiles-versionNumber" parent="BudgetSubAwardFiles-versionNumber-parentBean" />
 
-  <bean id="BudgetSubAwardFiles-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
-
+  <bean id="BudgetSubAwardFiles-versionNumber" parent="BudgetSubAwardFiles-versionNumber-parentBean"/>
+  <bean id="BudgetSubAwardFiles-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+  <!-- Inquiry View -->
 
   <bean id="BudgetSubAwardFiles-inquiryDefinition" parent="BudgetSubAwardFiles-inquiryDefinition-parentBean" />
-
+  <bean id="BudgetSubAwardFiles-InquiryView" parent="BudgetSubAwardFiles-InquiryView-parentBean"/>
   <bean id="BudgetSubAwardFiles-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Budget Sub Award Files" />
     <property name="inquirySections" >
@@ -101,18 +57,8 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-<!--              <bean parent="FieldDefinition"-->
-<!--                    p:attributeName="proposalNumber"-->
-<!--                    p:forceInquiry="true" />-->
-              <bean parent="FieldDefinition"
-                    p:attributeName="subAwardNumber"
-                    p:forceInquiry="true" />
-<!--              <bean parent="FieldDefinition"-->
-<!--                    p:attributeName="budgetVersionNumber"-->
-<!--                    p:forceInquiry="true" />-->
-              <bean parent="FieldDefinition"
-                    p:attributeName="versionNumber"
-                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="subAwardNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="versionNumber" p:forceInquiry="true"/>
             </list>
           </property>
         </bean>
@@ -120,46 +66,75 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="BudgetSubAwardFiles-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Budget Sub Award Files"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Budget sub Awards"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="subAwardNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Lookup View -->
 
   <bean id="BudgetSubAwardFiles-lookupDefinition" parent="BudgetSubAwardFiles-lookupDefinition-parentBean" />
-
+  <bean id="BudgetSubAwardFiles-LookupView" parent="BudgetSubAwardFiles-LookupView-parentBean"/>
   <bean id="BudgetSubAwardFiles-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Sub Awards" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="subAwardNumber" />
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="budgetVersionNumber" />-->
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="proposalNumber" />-->
-        <bean parent="FieldDefinition"
-              p:attributeName="versionNumber" />
+        <bean parent="FieldDefinition" p:attributeName="subAwardNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="versionNumber"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="subAwardNumber"
-              p:forceInquiry="true" />
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="budgetVersionNumber"-->
-<!--              p:forceInquiry="true" />-->
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="proposalNumber"-->
-<!--              p:forceInquiry="true" />-->
-        <bean parent="FieldDefinition"
-              p:attributeName="versionNumber"
-              p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="subAwardNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="versionNumber" p:forceInquiry="true"/>
       </list>
     </property>
   </bean>
+
+  <bean id="BudgetSubAwardFiles-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles"/>
+    <property name="headerText" value="Budget Sub Awards"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+      </list>
+    </property>
+  </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="subAwardNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="versionNumber" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="subAwardNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

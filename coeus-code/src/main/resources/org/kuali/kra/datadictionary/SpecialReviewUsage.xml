@@ -1,26 +1,5 @@
-<!--
-/*
- * Copyright 2005-2013 The Kuali Foundation
- * 
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.osedu.org/licenses/ECL-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="SpecialReviewUsage" parent="SpecialReviewUsage-parentBean" />
     <bean id="SpecialReviewUsage-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.bo.SpecialReviewUsage" />
@@ -44,8 +23,6 @@
         </property>
     </bean>
 
-    <!-- Attribute Definitions -->
-    
     <bean id="SpecialReviewUsage-specialReviewUsageId" parent="SpecialReviewUsage-specialReviewUsageId-parentBean" />
     <bean id="SpecialReviewUsage-specialReviewUsageId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="specialReviewUsageId" />
@@ -56,9 +33,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                  p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Special Review Usage Id" />
         <property name="description" value="Special Review Usage Id" />
@@ -67,13 +49,19 @@
     <bean id="SpecialReviewUsage-specialReviewTypeCode" parent="SpecialReviewUsage-specialReviewTypeCode-parentBean" />
     <bean id="SpecialReviewUsage-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReviewType-specialReviewTypeCode">
         <property name="control">
-	        <bean parent="SelectControlDefinition"
-	              p:businessObjectClass="org.kuali.kra.bo.SpecialReviewType"
-	              p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	              p:includeKeyInLabel="false"
-	              p:includeBlankRow="false"
-	              p:keyAttribute="specialReviewTypeCode"
-	              p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.SpecialReviewType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="specialReviewTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.SpecialReviewType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="specialReviewTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
     </bean>
 
@@ -87,14 +75,23 @@
 	    <property name="validationPattern">
             <bean parent="AlphaNumericValidationPattern"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control">
-            <bean parent="SelectControlDefinition"
-                  p:businessObjectClass="org.kuali.kra.bo.CoeusModule"
-                  p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-                  p:includeKeyInLabel="false"
-                  p:includeBlankRow="false"
-                  p:keyAttribute="moduleCode"
-                  p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.CoeusModule" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="moduleCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.CoeusModule"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="moduleCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Module Code" />
         <property name="description" value="Module Code" />
@@ -120,10 +117,10 @@
 
     <bean id="SpecialReviewUsage-versionNumber" parent="SpecialReviewUsage-versionNumber-parentBean" />
     <bean id="SpecialReviewUsage-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
-
-    <!-- Business Object Inquiry Definition -->
+  <!-- Inquiry View -->
     
     <bean id="SpecialReviewUsage-inquiryDefinition" parent="SpecialReviewUsage-inquiryDefinition-parentBean" />
+  <bean id="SpecialReviewUsage-InquiryView" parent="SpecialReviewUsage-InquiryView-parentBean"/>
     <bean id="SpecialReviewUsage-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Special Review Usage" />
         <property name="inquirySections" >
@@ -133,17 +130,11 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition" 
-                                  p:attributeName="specialReviewUsageId" 
-                                  p:forceInquiry="true" />
-                            <bean parent="FieldDefinition" 
-                                  p:attributeName="specialReviewTypeCode" />
-                            <bean parent="FieldDefinition" 
-                                  p:attributeName="moduleCode" />
-                            <bean parent="FieldDefinition"
-                                  p:attributeName="global" />
-                            <bean parent="FieldDefinition"
-                                  p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="specialReviewUsageId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
+              <bean parent="FieldDefinition" p:attributeName="global"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
                         </list>
                     </property>
                 </bean>
@@ -151,9 +142,32 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <bean id="SpecialReviewUsage-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Special Review Usage"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.SpecialReviewUsage"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Special Review Usage"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="specialReviewUsageId" parent="Uif-DataField"/>
+              <bean p:propertyName="specialReviewTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="moduleCode" parent="Uif-DataField"/>
+              <bean p:propertyName="global" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Lookup View -->
 
     <bean id="SpecialReviewUsage-lookupDefinition" parent="SpecialReviewUsage-lookupDefinition-parentBean" />
+  <bean id="SpecialReviewUsage-LookupView" parent="SpecialReviewUsage-LookupView-parentBean"/>
     <bean id="SpecialReviewUsage-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Special Review Usage Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
@@ -162,31 +176,54 @@
         </property>
         <property name="lookupFields" >
             <list>
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="specialReviewUsageId" />
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="specialReviewTypeCode" />
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="moduleCode" />
-	            <bean parent="FieldDefinition"
-                      p:attributeName="global" />
-	            <bean parent="FieldDefinition"
-                      p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="specialReviewUsageId"/>
+        <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
+        <bean parent="FieldDefinition" p:attributeName="global"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="specialReviewUsageId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
+        <bean parent="FieldDefinition" p:attributeName="global"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="SpecialReviewUsage-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.SpecialReviewUsage"/>
+    <property name="headerText" value="Special Review Usage Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="specialReviewUsageId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="specialReviewTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="moduleCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="global" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="specialReviewUsageId" 
-	                  p:forceInquiry="true" />
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="specialReviewTypeCode" />
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="moduleCode" />
-	            <bean parent="FieldDefinition"
-                      p:attributeName="global" />
-                <bean parent="FieldDefinition"
-                      p:attributeName="active" />
+        <bean p:propertyName="specialReviewUsageId" parent="Uif-DataField"/>
+        <bean p:propertyName="specialReviewTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="moduleCode" parent="Uif-DataField"/>
+        <bean p:propertyName="global" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>
