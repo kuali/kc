@@ -15,41 +15,41 @@
  */
 package org.kuali.kra.proposaldevelopment.web.krad;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
+import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.uif.element.ToggleMenu;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
-   
+
+   @Autowired
+   @Qualifier("uifExportControllerService")
+   private UifExportControllerService uifExportControllerService;
+
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
    public ModelAndView createProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -309,24 +309,28 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=tableCsvRetrieval", produces = {"text/csv"})
    @ResponseBody
    public String tableCsvRetrieval(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().tableCsvRetrieval(form, result, request, response);
+       return uifExportControllerService.tableCsvRetrieval(form, request, response);
    }
 
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=tableXlsRetrieval", produces = {"text/csv"})
    @ResponseBody
    public String tableXlsRetrieval(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().tableXlsRetrieval(form, result, request, response);
+       return uifExportControllerService.tableXlsRetrieval(form, request, response);
    }
 
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=tableXmlRetrieval", produces = {"text/csv"})
    @ResponseBody
    public String tableXmlRetrieval(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().tableXmlRetrieval(form, result, request, response);
+       return uifExportControllerService.tableXmlRetrieval(form, request, response);
    }
 
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=tableJsonRetrieval")
    public ModelAndView tableJsonRetrieval(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
            HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().tableJsonRetrieval(form, result, request, response);
-   }   
+       return uifExportControllerService.tableJsonRetrieval(form, result, request, response);
+   }
+
+    public void setUifExportControllerService(UifExportControllerService uifExportControllerService) {
+        this.uifExportControllerService = uifExportControllerService;
+    }
 }

@@ -1,13 +1,13 @@
 package org.kuali.coeus.sys.impl.controller;
 
+import org.kuali.coeus.sys.framework.controller.DocumentControllerService;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
-import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
 import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.web.controller.TransactionalDocumentControllerBase;
+import org.kuali.rice.krad.web.controller.DocumentControllerBase;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,25 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-/*
- * Copyright 2005-2010 The Kuali Foundation
- * 
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.opensource.org/licenses/ecl1.php
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 /** this service must @Override methods and call super in order to elevate a method to public to satisfy the interface. */
-@Service("transactionalDocumentControllerService")
-public class TransactionalDocumentControllerServiceImpl extends TransactionalDocumentControllerBase implements TransactionalDocumentControllerService {
+@Service(value="documentControllerService")
+public class DocumentControllerServiceImpl extends DocumentControllerBase implements DocumentControllerService {
 
     @Autowired
     @Qualifier("kcCommonControllerService")
@@ -144,8 +128,8 @@ public class TransactionalDocumentControllerServiceImpl extends TransactionalDoc
 
     @Override
     public String checkAndWarnAboutSensitiveData(DocumentFormBase form, HttpServletRequest request,
-                                                 HttpServletResponse response, String fieldName, String fieldValue, String caller,
-                                                 String context) throws Exception {
+                                          HttpServletResponse response, String fieldName, String fieldValue, String caller,
+                                          String context) throws Exception {
         return super.checkAndWarnAboutSensitiveData(form, request,
                 response, fieldName, fieldValue, caller,
                 context);
