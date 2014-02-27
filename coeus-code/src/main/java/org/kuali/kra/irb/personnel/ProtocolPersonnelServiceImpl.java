@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,11 +62,10 @@ public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBa
                     protocol.getProtocolPersons().add(newPrincipalInvestigator);
                 }
                 
-                // Assign the PI the AGGREGATOR role if PI has a personId.
+                // Assign the PI the APPROVER role if PI has a personId (for doc cancel).
                 if (newPrincipalInvestigator.getPersonId() != null) {
                     personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
                     KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
                     kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
                 } else {
                     personEditableService.populateContactFieldsFromRolodexId(newPrincipalInvestigator);

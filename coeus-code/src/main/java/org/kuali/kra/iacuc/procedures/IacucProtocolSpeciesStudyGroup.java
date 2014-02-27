@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2010 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -129,6 +129,9 @@ public class IacucProtocolSpeciesStudyGroup implements Serializable {
         this.allProceduresSelected = allProceduresSelected;
     }
 
+    public void addSpeciesCount(Integer speciesCount) {
+        this.totalSpeciesCount = this.totalSpeciesCount + speciesCount;
+    }
 
 }
 

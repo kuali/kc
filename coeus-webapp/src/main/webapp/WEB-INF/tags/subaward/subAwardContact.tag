@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2013 The Kuali Foundation
+ Copyright 2005-2014 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@
       </h3>
         
    <table id="subAward-contacts-table" cellpadding="0" cellspacing="0">
+        <tbody class="addline">            
         <tr>
 		  <th scope="row" width="5%">&nbsp;</th>
 		  <th width="15%">* Person or Organization</th>
@@ -112,13 +113,13 @@
    						<c:if test="${readOnly!='true'}">
 						<html:image property="methodToCall.addContacts.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-						            styleClass="tinybutton"/>
+						            styleClass="tinybutton addButton"/>
 						</c:if>
 	                </div>
 	             </td>	  			  
 		  </tr>
 		  </c:if>  
-		  
+		  </tbody>
 		  <c:forEach var="subAwardContacts" items="${KualiForm.document.subAwardList[0].subAwardContactsList}" varStatus="status">		  
 		              <tr>
 						<th width="5%" class="infoline" rowspan="2">

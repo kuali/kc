@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright 2005-2013 The Kuali Foundation.
+    Copyright 2005-2014 The Kuali Foundation.
 
     Licensed under the Educational Community License, Version 1.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -496,7 +496,7 @@
                 
                 <bean class="org.kuali.kra.iacuc.auth.IacucProtocolAssignReviewersCmtSelAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="iacucProtocolAssignReviewersCmtSel" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService"/>
                 </bean>
            </list>
         </property>
@@ -1083,6 +1083,7 @@
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="iacucProtocolActionService" />
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolVersionService" ref="iacucProtocolVersionService" />
     </bean>
 
     <bean id="iacucProtocolAmendRenewService" class="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewServiceImpl">
@@ -1222,5 +1223,12 @@
 
     <bean id="iacucPersonTrainingLookupableHelperService" class="org.kuali.kra.iacuc.IacucPersonTrainingLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" />
+
+    <bean id="iacucReviewDeterminationTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="iacucReviewDeterminationTypeLookupableHelperService" />
+    </bean>
+
+    <bean id="iacucReviewDeterminationTypeLookupableHelperService" class="org.kuali.kra.iacuc.onlinereview.IacucReviewDeterminationTypeLookupableHelperServiceImpl" 
+          parent="parentLookupableHelperService" scope="prototype" />       
 
 </beans>

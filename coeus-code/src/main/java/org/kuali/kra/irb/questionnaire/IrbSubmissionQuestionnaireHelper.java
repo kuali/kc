@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@
 package org.kuali.kra.irb.questionnaire;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 
 public class IrbSubmissionQuestionnaireHelper extends ProtocolSubmissionQuestionnaireHelper {
@@ -30,6 +32,12 @@ public class IrbSubmissionQuestionnaireHelper extends ProtocolSubmissionQuestion
     @Override
     public String getModuleCode() {
         return CoeusModule.IRB_MODULE_CODE;
+    }
+
+    @Override
+    public ProtocolModuleQuestionnaireBeanBase getBaseProtocolModuleQuestionnaireBean(String sequenceNumber) {
+        return new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, getProtocol().getProtocolNumber(), CoeusSubModule.ZERO_SUBMODULE, sequenceNumber, 
+                getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved());
     }
 
 }

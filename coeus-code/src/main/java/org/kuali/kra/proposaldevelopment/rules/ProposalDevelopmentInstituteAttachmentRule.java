@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,9 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
+import org.kuali.kra.proposaldevelopment.rule.ReplaceInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.ReplaceInstituteAttachmentEvent;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -40,7 +42,8 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.INSTITUTE_NARRATIVE_TYPE_GROUP;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 
-public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalDocumentRuleBase implements AddInstituteAttachmentRule {
+
+public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalDocumentRuleBase implements AddInstituteAttachmentRule, ReplaceInstituteAttachmentRule { 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
     private static final String INSTITUTE = "Institute";
     private static final String NEW_INSTITUTE_ATTACHMENT = "newInstituteAttachment";
@@ -117,6 +120,19 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
             reportError(errorPath + NARRATIVE_FILE, KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
         }
     
+        rulePassed &= validFileNameCharacters(narrative, errorPath);
+        
+        return rulePassed;
+    }
+    
+    @Override
+    public boolean processReplaceInstituteAttachmentBusinessRules(ReplaceInstituteAttachmentEvent event) {
+        return validFileNameCharacters(event.getNarrative(), event.getErrorPathPrefix());
+    }
+    
+    private boolean validFileNameCharacters(Narrative narrative, String errorPath) {
+        boolean rulePassed = true;
+        
         KcAttachmentService attachmentService = getKcAttachmentService();
         // Checking attachment file name for invalid characters.
         String attachmentFileName = narrative.getFileName();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2005-2013 The Kuali Foundation.
+<!-- Copyright 2005-2014 The Kuali Foundation.
 # 
 # Licensed under the Educational Community License, Version 1.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -1667,6 +1667,12 @@
 		<MessageKey>s2s.budget.participantcost.required</MessageKey>
 		<Message>You must provide participant support costs when defining the number of participants.</Message>
 		<FixLink>budgetVersions</FixLink>
+	</Error>
+
+	<Error>
+ 		<MessageKey>s2s.budget.modularbudget.required</MessageKey> 
+ 		<Message>Complete Modular Budget in the Modular Budget tab for each budget period</Message> 
+  		<FixLink>budgetVersions</FixLink> 
 	</Error>
 	
 </S2SErrors>

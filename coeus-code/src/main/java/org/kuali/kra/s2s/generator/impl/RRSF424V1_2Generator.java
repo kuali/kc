@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation.
+ * Copyright 2005-2014 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +54,9 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
@@ -152,6 +154,10 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 				BudgetDecimal totalCost = BudgetDecimal.ZERO;
 				// get modular budget amounts instead of budget detail amounts
 				for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+	                if(budgetPeriod.getBudgetModular()==null){
+	                    getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.MODULAR_BUDGET_REQUIRED));
+	                    break;
+	                }else{
 					totalDirectCost = totalDirectCost.add(budgetPeriod
 							.getBudgetModular().getTotalDirectCost());
 					for (BudgetModularIdc budgetModularIdc : budgetPeriod
@@ -159,6 +165,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 						fundsRequested = fundsRequested.add(budgetModularIdc
 								.getFundsRequested());
 					}
+				}
 				}
 				totalCost = totalCost.add(totalDirectCost);
 				totalCost = totalCost.add(fundsRequested);

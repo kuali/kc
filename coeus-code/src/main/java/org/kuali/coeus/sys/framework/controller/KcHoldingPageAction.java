@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,14 +78,25 @@ public class KcHoldingPageAction extends AbstractHoldingPageAction {
             // this is a temporary solution
             // introduced to unload the block ui in embedded mode
             GlobalVariables.getUserSession().removeObject(Constants.FORCE_HOLDING_PAGE_FOR_ACTION_LIST); 
+            forward = getReturnPath(alternateDocIdSessionKey);
         }
         else if (isDocumentPostprocessingComplete(document)) {
-            // get the return location and clean up session
+            forward = getReturnPath(alternateDocIdSessionKey);
+        }
+        
+        return forward;
+    }
+
+    /**
+     * This method is to get the return location and clean up session
+     * @param alternateDocIdSessionKey
+     * @return
+     */
+    private ActionForward getReturnPath(String alternateDocIdSessionKey) {
+        ActionForward forward = null;
             String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
             cleanupUserSession(alternateDocIdSessionKey);
             forward = new ActionForward(backLocation, true);
-        }
-        
         return forward;
     }
 

@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2013 The Kuali Foundation
+ Copyright 2005-2014 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -101,13 +101,23 @@
             <div align="left">
                 <kul:htmlControlAttribute property="batchCorrespondence.finalActionCorrespType"
                                           attributeEntry="${DataDictionary.BatchCorrespondence.attributes.finalActionCorrespType}"
-                                          readOnlyAlternateDisplay="${KualiForm.batchCorrespondence.protocolCorrespondenceType.description}" />
+                                          readOnlyAlternateDisplay="${KualiForm.batchCorrespondence.protocolCorrespondenceType.description}" />                                          
                 <c:if test="${readOnly && not empty KualiForm.batchCorrespondence.finalActionCorrespType && not empty KualiForm.batchCorrespondence.finalActionTypeCode}">
                     &nbsp; | &nbsp;  
                 </c:if>
-                <kul:htmlControlAttribute property="batchCorrespondence.finalActionTypeCode"
-                                          attributeEntry="${DataDictionary.BatchCorrespondence.attributes.finalActionTypeCode}" 
-                                          readOnlyAlternateDisplay="${KualiForm.batchCorrespondence.protocolActionType.description}" />
+                <html:select property="batchCorrespondence.finalActionTypeCode">
+                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.irb.actions.ProtocolFinalActionTypeValuesFinder', paramMap)}" var="option">   
+	                    <c:choose>                      
+	                        <c:when test="${KualiForm.batchCorrespondence.finalActionTypeCode eq option.key}">
+	                            <option value="${option.key}" selected="selected">${option.value}</option>
+	                        </c:when>
+	                        <c:otherwise>                               
+	                            <option value="${option.key}">${option.value}</option>
+	                        </c:otherwise>
+	                    </c:choose>                                                
+                    </c:forEach>
+                </html:select>
+                
             </div>
         </td>
         <c:if test="${!readOnly}">

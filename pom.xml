@@ -575,7 +575,7 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-
+                
                 <plugin>
                     <groupId>org.kuali.maven.plugins</groupId>
                     <artifactId>license-maven-plugin</artifactId>
@@ -1738,7 +1738,6 @@
                 </plugins>
             </build>
         </profile>
-
     </profiles>
 
     <repositories>
@@ -1796,5 +1795,4 @@
             </notifier>
         </notifiers>
     </ciManagement>
-
 </project>

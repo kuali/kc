@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2013 The Kuali Foundation
+ Copyright 2005-2014 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,6 +17,9 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolAmendmentBean.attributes}" />
 <c:choose>
+    <c:when test="${KualiForm.protocolDocument.renewalWithAmendment}">
+        <c:set var="tabTitle" value="Renewal With Amendment Details"/>
+    </c:when>
     <c:when test="${KualiForm.protocolDocument.renewal}">
         <c:set var="tabTitle" value="Renewal Details"/>
     </c:when>

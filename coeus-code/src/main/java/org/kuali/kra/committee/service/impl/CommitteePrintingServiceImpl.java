@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,12 @@
  */
 package org.kuali.kra.committee.service.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
+
 import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
+import org.kuali.coeus.common.committee.impl.print.TemplatePrintBase;
 import org.kuali.kra.committee.print.*;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
@@ -24,10 +29,6 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.impl.PrintingServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.List;
 
 /**
  * 
@@ -47,7 +48,7 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
     /**
      * {@inheritDoc}
      */
-    public AbstractPrint getCommitteePrintable(CommitteeReportType reportType) {
+    public AbstractPrint getCommitteePrintable(CommitteeReportType reportType, String committeeId) {
         AbstractPrint printable = null;
         
         switch(reportType) {
@@ -72,7 +73,10 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
             default :
                 throw new IllegalArgumentException(ERROR_MESSAGE);
         }
-        
+        if(printable instanceof TemplatePrintBase) {
+            TemplatePrintBase printBase = (TemplatePrintBase)printable;
+            printBase.setCommitteeId(committeeId);
+        }
         return printable;
     }
     

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -177,7 +177,8 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
         List<Printable> printableArtifactLists = new ArrayList<Printable>();
         Map<String, String> allFields = new HashMap<String,String>(lookupForm.getFields());
-        List<ReportTracking> detailResults = getReportTrackingDao().getDetailResults(allFields, lookupForm.getDetailFields());
+		List<ReportTracking> detailResults =
+                getReportTrackingDao().getResultsGroupedBy(allFields, lookupForm.getGroupedByFields(), lookupForm.getGroupedByDisplayFields());
         for (ReportTracking detailResult : detailResults) {
             AwardReportTracking  printables = new AwardReportTracking();  
             printables = getReportTrackingPrintingService().getReportPrintable(ReportTrackingType.AWARD_REPORT_TRACKING,detailResult,printables);

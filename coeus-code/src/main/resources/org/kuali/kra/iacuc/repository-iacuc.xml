@@ -1,5 +1,5 @@
 <!--
- Copyright 2005-2013 The Kuali Foundation.
+ Copyright 2005-2014 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -810,6 +810,10 @@
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
         
+        <collection-descriptor name="iacucProcedurePersonResponsibleList" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolPersonId" />
+        </collection-descriptor>
+        
     </class-descriptor>
     
     
@@ -1512,36 +1516,21 @@
 
 	</class-descriptor>
 
-	<class-descriptor
-	class="org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubTypeQual"
-	table="IACUC_VALID_PROTO_SUB_TYP_QL">
-	
-	<field-descriptor name="validProtoSubTypeQualId"
-			column="VALID_PROTO_SUB_TYPE_QUAL_ID" jdbc-type="BIGINT"
-			sequence-name="SEQ_VALID_PRO_SUB_TYPE_QUAL_ID" autoincrement="true" primarykey="true" />
-	<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE"
-		jdbc-type="VARCHAR" />
-	<field-descriptor name="iacucSubmissionTypeQualCode"
-		column="SUBMISSION_TYPE_QUAL_CODE" jdbc-type="VARCHAR" />
-	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP"
-		jdbc-type="TIMESTAMP" />
-	<field-descriptor name="updateUser" column="UPDATE_USER"
-		jdbc-type="VARCHAR" />
-	<field-descriptor name="versionNumber" column="VER_NBR"
-		jdbc-type="BIGINT" locking="true" />
-	<field-descriptor name="objectId" column="OBJ_ID"
-		jdbc-type="VARCHAR" />
+	<class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubTypeQual" table="IACUC_VALID_PROTO_SUB_TYP_QL">
+		<field-descriptor name="validProtoSubTypeQualId" column="VALID_PROTO_SUB_TYPE_QUAL_ID" jdbc-type="BIGINT" sequence-name="SEQ_VALID_PRO_SUB_TYPE_QUAL_ID" autoincrement="true" primarykey="true" />
+		<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="submissionTypeQualCode" column="SUBMISSION_TYPE_QUAL_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 
-	<reference-descriptor name="iacucProtocolSubmissionType"
-		class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType"
-		auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="submissionType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="submissionTypeCode" />
 	</reference-descriptor>
 
-	<reference-descriptor name="iacucSubmissionTypeQualifier"
-		class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType"
-		auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="iacucSubmissionTypeQualCode" />
+		<reference-descriptor name="submissionTypeQualifier" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="submissionTypeQualCode" />
 	</reference-descriptor>
 </class-descriptor>
                     
@@ -1561,22 +1550,6 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.iacuc.actions.modifysubmission.IacucValidProtoSubTypeQual" table="IACUC_VALID_PROTO_SUB_TYP_QL">
-		<field-descriptor name="validProtoSubTypeQualId" column="VALID_PROTO_SUB_TYPE_QUAL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_ID" autoincrement="true"/>
-		<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="submissionTypeQualCode" column="SUBMISSION_TYPE_QUAL_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="submissionType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="submissionTypeCode"/>
-		</reference-descriptor>
-		<reference-descriptor name="submissionTypeQualifier" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="submissionTypeQualCode"/>
-		</reference-descriptor>
-	</class-descriptor>
-
     <class-descriptor class="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence" table="IACUC_PROTO_CORRESPONDENCE">
         <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_PROTO_CORR_ID"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
@@ -1752,6 +1725,7 @@
         <field-descriptor name="subject" column="SUBJECT" jdbc-type="VARCHAR" />
         <field-descriptor name="message" column="MESSAGE" jdbc-type="VARCHAR" />
         <field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />

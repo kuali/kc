@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation.
+ * Copyright 2005-2014 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,5 +86,6 @@ public interface S2SConstants {
     public static final String ERROR_ERA_COMMON_USER_NAME="eRA Commons User Name is missing for ";
     public static final String PARTICIPANT_COUNT_REQUIRED = "s2s.budget.participantcount.required";
     public static final String PARTICIPANT_COSTS_REQUIRED = "s2s.budget.participantcost.required";
+    public static final String MODULAR_BUDGET_REQUIRED = "s2s.budget.modularbudget.required";
 
 }

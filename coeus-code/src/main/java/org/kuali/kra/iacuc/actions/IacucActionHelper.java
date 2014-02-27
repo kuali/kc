@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 package org.kuali.kra.iacuc.actions;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -73,7 +80,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.*;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
+import org.kuali.kra.protocol.ProtocolVersionService;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolEditableBean;
@@ -114,9 +125,6 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import java.sql.Date;
-import java.util.*;
 
 /**
  * The form helper class for the ProtocolBase Actions tab.
@@ -374,6 +382,7 @@ public class IacucActionHelper extends ActionHelperBase {
         hidePrivateFinalFlagsForPublicCommentsAttachments = checkToHidePrivateFinalFlagsForPublicCommentsAttachments();
 
         initSummaryDetails();
+        setAmendmentDetails();
         initFilterDatesView();
         
         if(canSubmitProtocol) {
@@ -894,7 +903,7 @@ public class IacucActionHelper extends ActionHelperBase {
     protected IacucProtocolAmendRenewal getCorrectAmendment(List<ProtocolBase> protocols) {
         for (ProtocolBase protocol : protocols) {
             // There should always be an amendment with the current submission number.
-            if (protocol.isAmendment() && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
+            if ((protocol.isAmendment() || protocol.isRenewalWithAmendment()) && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
                 && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
                 IacucProtocol iacucProtocol = (IacucProtocol)protocol;
                 return (IacucProtocolAmendRenewal) iacucProtocol.getProtocolAmendRenewal();
