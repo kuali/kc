@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,11 @@ import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnai
 import org.kuali.kra.proposaldevelopment.service.*;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService.ProposalLockingRegion;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.kra.s2s.formmapping.FormMappingInfo;
+import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.PersonEditableService;
@@ -138,7 +142,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
                 proposalDevelopmentForm.setApproverViewDO(approverViewDO);
                 
-                super.docHandler(mapping, form, request, response);
+                loadDocument(proposalDevelopmentForm);
                 return approverView(mapping, form, request, response);
             }
             else if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
@@ -204,7 +208,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
         proposalDevelopmentForm.setProposalDataOverrideMethodToCalls(getProposalDevelopmentService().constructColumnsToAlterLookupMTCs(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
         getProposalDevelopmentService().sortS2sForms(document.getDevelopmentProposal());    
-        
+                
+        if(document.getDevelopmentProposal().getS2sOpportunity()!=null && document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms()!=null){
+            Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator1());
+            Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator3());
+        }
         return actionForward;
     }
     
@@ -1057,6 +1065,34 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     public void setProposalRoleTemplateService(ProposalRoleTemplateService proposalRoleTemplateService) {
         this.proposalRoleTemplateService = proposalRoleTemplateService;
     }
+       
+    class S2sOppFormsComparator1 implements Comparator<S2sOppForms> {
+	    public int compare(S2sOppForms s2sOppForms1, S2sOppForms s2sOppForms2) {
+	        if (s2sOppForms2.getAvailable() && s2sOppForms1.getAvailable()) {
+	            return 1;
+	        }
+	        return  s2sOppForms2.getAvailable().compareTo(s2sOppForms1.getAvailable());
+	    }
+    }
+    
+    class S2sOppFormsComparator3 implements Comparator<S2sOppForms> {
+	    public int compare(S2sOppForms s2sOppForms1, S2sOppForms s2sOppForms2) {
+	        FormMappingInfo info1 = null;
+	        FormMappingInfo info2 = null;
+	        try {
+	            info1 = new FormMappingLoader().getFormInfo(s2sOppForms1.getOppNameSpace()); 
+	            info2 = new FormMappingLoader().getFormInfo(s2sOppForms2.getOppNameSpace());
+	        }
+	        catch (S2SGeneratorNotFoundException e) {
+	        }
+	        if(info1 != null && info2 != null) {
+	            Integer sortIndex1 = info1.getSortIndex();               
+	            Integer sortIndex2 = info2.getSortIndex();  
+	            return  sortIndex1.compareTo(sortIndex2);
+	        }
+	        return 1;
+	    }    
+	}    
 
 
     public ProposalDevelopmentPrintingService getProposalDevelopmentPrintingService() {
@@ -1075,7 +1111,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         private ErrorUtils() {
             throw new UnsupportedOperationException("do not call");
         }
-
 
         /**
          * Copies audit errors from audit error map to message map. Arguments are optional and can both be null.

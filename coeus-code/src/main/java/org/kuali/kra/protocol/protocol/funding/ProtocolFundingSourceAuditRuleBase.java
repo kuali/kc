@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,10 @@ public abstract class ProtocolFundingSourceAuditRuleBase extends KcTransactional
         boolean isValid = true;
         ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) document;
         
-        isValid = processRequiredProtocolFundingSources(protocolDocument.getProtocol());
+        // disable for now.  Flag in maintenance object is supposed to control whether funding source type is 
+        // available to user, not whether it is required. So I'll leave the code in and disable it. In the future,
+        // if the need arises for a "required" flag, the code is here and would just need to be tweaked.
+//        isValid = processRequiredProtocolFundingSources(protocolDocument.getProtocol());
         
         return isValid;
     }

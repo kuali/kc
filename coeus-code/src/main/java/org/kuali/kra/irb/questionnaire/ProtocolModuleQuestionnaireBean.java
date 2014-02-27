@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +44,8 @@ public class ProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaire
         String protocolNumber = getModuleItemKey().indexOf("|")==-1 ? getModuleItemKey() : getModuleItemKey().substring(0, getModuleItemKey().indexOf("|"));
         Integer sequenceNumber = Integer.valueOf(getModuleSubItemKey());
         Map<String, Object> values = new HashMap<String, Object>();
+        values.put("protocolNumber", protocolNumber);
+        values.put("sequenceNumber", sequenceNumber);
         List<Protocol> protocols = 
                 (List<Protocol>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(Protocol.class, values);
         if (protocols != null && !protocols.isEmpty()) {
@@ -53,7 +55,6 @@ public class ProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaire
         }
     }
 
-   
     private void setProtocolSubItemCode(Protocol protocol) {
         // For now check renewal/amendment.  will add 'Protocol Submission' when it is cleared
         String subModuleCode = CoeusSubModule.ZERO_SUBMODULE;

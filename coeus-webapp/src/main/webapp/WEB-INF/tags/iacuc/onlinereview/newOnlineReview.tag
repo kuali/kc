@@ -1,4 +1,4 @@
-<%-- Copyright 2005-2013 The Kuali Foundation
+<%-- Copyright 2005-2014 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="onlineReviewAttributes" value="${DataDictionary.IacucProtocolOnlineReview.attributes}" />
-<c:set var="protocolReviewerAttributes" value="${DataDictionary.IacucProtocolReviewer.attributes}" />
+<c:set var="protocolReviewerAttributes" value="${DataDictionary.IacucProtocolReviewerBean.attributes}" />
 <c:set var="newOnlineReviewAttributes" value="${DataDictionary.NewProtocolOnlineReviewBean.attributes}" />
 
 <c:set var="readOnly" value = "false"/>

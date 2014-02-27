@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 package org.kuali.kra.award.budget.document;
+
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -30,6 +33,8 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -40,8 +45,7 @@ import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-
-import java.util.List;
+import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_AWARD_BUDGET)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
@@ -274,4 +278,14 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         this.awardBudgetService = awardBudgetService;
     }
  
+    @Override
+    public void populateContextQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_AWARD_BUDGET);
+        qualifiers.put("name", KcKrmsConstants.AwardBudget.BUDGET_CONTEXT);
+    }
+    @Override
+    public void addFacts(Builder factsBuilder) {
+        KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("awardBudgetFactBuilderService");
+        fbService.addFacts(factsBuilder, this);
+    }
 }

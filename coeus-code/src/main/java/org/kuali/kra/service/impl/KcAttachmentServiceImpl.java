@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,6 +94,9 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
             Pattern pattern = Pattern.compile(REGEX_TITLE_FILENAME_PATTERN);
             Matcher matcher = pattern.matcher(text);
             cleanText = matcher.replaceAll(REPLACEMENT_CHARACTER);
+            if(cleanText.length() > 50){
+               cleanText = cleanText.substring(0, 50);
+            }
         }
         return cleanText;
     }

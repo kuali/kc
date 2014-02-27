@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2013 The Kuali Foundation
+ Copyright 2005-2014 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -67,6 +67,7 @@
 						</td>
 					</tr>
 				</c:forEach>
+			</c:if>
 				<tr>
 					<td class="infoline">
 						<div align="center">&nbsp;</div>
@@ -74,19 +75,16 @@
 					<td>
 						<div align="center">
 							<html:image
-								property="methodToCall.selectAllProtocolPrint.anchor${tabKey}"
 								src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif"
 								title="Select All" alt="Select All" styleClass="tinybutton"
 								onclick="$j('.printCorOptions').attr('checked', true);return false;" />
 							<html:image
-								property="methodToCall.deselectAllProtocolPrint.anchor${tabKey}"
 								src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif"
 								title="Select None" alt="Select None" styleClass="tinybutton"
 								onclick="$j('.printCorOptions').attr('checked', false);return false;" />
 						</div>
 					</td>
 				</tr>
-			</c:if>
 
 			<tr>
                     <td class="infoline"><div align="left">&nbsp;</div></td> 

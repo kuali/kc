@@ -68,13 +68,14 @@
           <property name="workflowProperties">
             <list>
               <bean parent="WorkflowProperty" p:path="documentHeader"/>
- 			  <bean parent="WorkflowProperty" p:path="subAward.subAwardId"/>
- 			  <bean parent="WorkflowProperty" p:path="subAward.subAwardCode"/>
-              <bean parent="WorkflowProperty" p:path="subAward.organizationId"/>
-              <bean parent="WorkflowProperty" p:path="subAward.title"/>
-              <bean parent="WorkflowProperty" p:path="subAward.requisitionerName"/>
-              <bean parent="WorkflowProperty" p:path="subAward.requisitionerId"/>
-              <bean parent="WorkflowProperty" p:path="subAward.requisitionerUnit"/>
+ 			  <bean parent="WorkflowProperty" p:path="subAwardList.subAwardId"/>
+ 			  <bean parent="WorkflowProperty" p:path="subAwardList.subAwardCode"/>
+              <bean parent="WorkflowProperty" p:path="subAwardList.organizationId"/>
+              <bean parent="WorkflowProperty" p:path="subAwardList.title"/>
+              <bean parent="WorkflowProperty" p:path="subAwardList.requisitionerName"/>
+              <bean parent="WorkflowProperty" p:path="subAwardList.requisitionerId"/>
+              <bean parent="WorkflowProperty" p:path="subAwardList.requisitionerUnit"/>
+              <bean parent="WorkflowProperty" p:path="subAwardList.leadUnitNumber"/>
             </list>
           </property>
         </bean>

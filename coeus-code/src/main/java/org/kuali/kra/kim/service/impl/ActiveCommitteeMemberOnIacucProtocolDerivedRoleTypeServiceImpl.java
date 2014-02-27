@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,21 @@
  */
 package org.kuali.kra.kim.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ActiveCommitteeMemberOnIacucProtocolDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
@@ -52,7 +53,7 @@ public class ActiveCommitteeMemberOnIacucProtocolDerivedRoleTypeServiceImpl exte
                     CommitteeBase<?, ?, ?> committee = protocol.getProtocolSubmission().getCommittee();
                     if (committee != null) {
                         for (CommitteeMembershipBase membership : committee.getCommitteeMemberships()) {
-                            if (membership.getPersonId()!=null && membership.isActive()) {
+                            if (membership.getPersonId()!=null && membership.isActive() && isMemberInProtocol(protocol, membership.getPersonId())) {
                                 members.add(RoleMembership.Builder.create(null, null, membership.getPersonId(), MemberType.PRINCIPAL, null).build());
                             }
                         }
@@ -88,6 +89,16 @@ public class ActiveCommitteeMemberOnIacucProtocolDerivedRoleTypeServiceImpl exte
 
         }
         
+        return false;
+    }
+    
+    private boolean isMemberInProtocol(ProtocolBase protocol, String memberPersonId) {
+        List<ProtocolPersonBase> protocolPersons =  protocol.getProtocolPersons();
+        for(ProtocolPersonBase protocolPerson : protocolPersons) {
+            if(protocolPerson.getPersonId().equalsIgnoreCase(memberPersonId)) {
+                return true;
+            }
+        }
         return false;
     }
     

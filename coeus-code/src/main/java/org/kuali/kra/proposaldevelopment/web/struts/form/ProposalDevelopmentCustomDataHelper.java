@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,9 @@ import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
 import org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeStatusValuesFinder;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+
 import java.util.List;
 import java.util.Map;
 
@@ -72,6 +75,12 @@ public class ProposalDevelopmentCustomDataHelper extends CustomDataHelperBase<Cu
     
     public String getNarrativeStatusChange() {
         return form.getNarrativeStatusesChangeKey();
+    }
+
+    @Override
+    public boolean documentNotRouted() {
+        WorkflowDocument doc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
+        return doc.isSaved() || doc.isInitiated();
     }
 
 }

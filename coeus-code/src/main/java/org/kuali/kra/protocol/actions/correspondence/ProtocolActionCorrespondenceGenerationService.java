@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.kuali.kra.protocol.actions.correspondence;
 
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.protocol.ProtocolBase;
 
 /**
  * 
@@ -34,4 +35,6 @@ public interface ProtocolActionCorrespondenceGenerationService {
     
     AttachmentDataSource reGenerateCorrespondenceDocument(ProtocolActionsCorrespondenceBase printableCorrespondence) throws PrintingException ; 
 
+    public void attachProtocolCorrespondence(ProtocolBase protocol, byte[] data, String correspTypeCode);
+    
 }

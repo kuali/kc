@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -97,6 +97,7 @@ public interface Constants {
     public static final String SPONSOR_HIERARCHY_ROUTING = "Routing";
     public static final String SPONSOR_HIERARCHY_NIH_OSC = "NIH Other Significant Contributor";
     public static final String MODULE_NAMESPACE_PROTOCOL = "KC-PROTOCOL"; 
+    public static final String MODULE_DOC_ROLE_NAMESPACE_PROTOCOL = "KC-PROTOCOL-DOC"; 
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID1 = "irb.protocol.referenceID1";
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID2 = "irb.protocol.referenceID2";
     public static final String PARAMETER_MODULE_PROTOCOL_BILLABLE = "irb.protocol.billable";
@@ -109,6 +110,7 @@ public interface Constants {
     public static final String MODULE_NAMESPACE_NEGOTIATION = "KC-NEGOTIATION";
     public static final String MODULE_NAMESPACE_SUBAWARD = "KC-SUBAWARD";
     public static final String MODULE_NAMESPACE_IACUC = "KC-IACUC"; 
+    public static final String MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL = "KC-IP";
 
     public static final String PESSIMISTIC_LOCKING_EXPIRATION_AGE = "pessimisticLocking.expirationAge";
     
@@ -255,7 +257,8 @@ public interface Constants {
     public static final String SUBCONTRACTOR_DIRECT_GT_25K_PARAM = "SUBCONTRACTOR_DIRECT_GT_25K";
     public static final String SUBCONTRACTOR_DIRECT_LT_25K_PARAM = "SUBCONTRACTOR_DIRECT_LT_25K";
     
-    
+    // research.gov 
+    public static final String RESEARCH_GOV_SERVICE_HOST = "research.gov.s2s.host";
     //Grants.gov
     public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.developmentProposalList[0].s2sOpportunity.s2sSubmissionTypeCode";
     public static final String GRANTS_GOV_PANEL_ANCHOR  = "Opportunity";
@@ -902,6 +905,8 @@ public interface Constants {
     public static final String SUBAWARD_MODULE = "subaward";
     public static final String IRB_MODULE = "irb";
     public static final String IACUC_MODULE = "iacuc";
+    
+    public static final String PD_INITIATED_ROUTE_NODE_NAME = "Initiated";
     
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,17 @@
  */
 package org.kuali.coeus.common.notification.impl.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -29,13 +40,21 @@ import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.exception.UnknownRoleException;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.KcEmailService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.util.EmailAttachment;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.ken.api.notification.*;
+import org.kuali.rice.ken.api.notification.Notification;
+import org.kuali.rice.ken.api.notification.NotificationChannel;
+import org.kuali.rice.ken.api.notification.NotificationContentType;
+import org.kuali.rice.ken.api.notification.NotificationPriority;
+import org.kuali.rice.ken.api.notification.NotificationProducer;
+import org.kuali.rice.ken.api.notification.NotificationRecipient;
+import org.kuali.rice.ken.api.notification.NotificationSender;
 import org.kuali.rice.ken.api.service.SendNotificationService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kim.api.KimConstants;
@@ -44,6 +63,7 @@ import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -122,6 +142,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             String instanceMessage = context.replaceContextVariables(notificationType.getMessage());
             notification.setMessage(instanceMessage);
             notification.setNotificationType(notificationType);
+            notification.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+            notification.setCreateTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
         }
         
         return notification;

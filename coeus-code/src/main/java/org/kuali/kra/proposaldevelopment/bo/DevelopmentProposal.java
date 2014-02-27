@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -372,6 +372,11 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Column(name = "OPPORTUNITYID_GG")
     private String opportunityIdForGG;
 
+    @Column(name = "AGENCY_ROUTING_IDENTIFIER")
+    private String agencyRoutingIdentifier;
+    
+    @Column(name = "PREV_GG_TRACKID")
+    private String prevGrantsGovTrackingID;
     /**
      * Gets the proposalNumberForGG attribute. 
      * @return Returns the proposalNumberForGG.
@@ -2365,6 +2370,42 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.lastSyncedBudgetDocumentNumber = lastSyncedBudgetDocumentNumber;
     }
 
+/**
+ * Gets the agencyRoutingIdentifier attribute.
+ * 
+ * @return Returns the agencyRoutingIdentifier.
+ */
+public String getAgencyRoutingIdentifier() {
+    return agencyRoutingIdentifier;
+}
+
+/**
+ * Sets the agencyRoutingIdentifier attribute value.
+ * 
+ * @param agencyRoutingIdentifier The agencyRoutingIdentifier to set.
+ */
+public void setAgencyRoutingIdentifier(String agencyRoutingIdentifier) {
+    this.agencyRoutingIdentifier = agencyRoutingIdentifier;
+}
+
+/**
+ * Gets the prevGrantsGovTrackingID attribute.
+ * 
+ * @return Returns the prevGrantsGovTrackingID.
+ */
+public String getPrevGrantsGovTrackingID() {
+    return prevGrantsGovTrackingID;
+}
+
+/**
+ * Sets the prevGrantsGovTrackingID attribute value.
+ * 
+ * @param prevGrantsGovTrackingID The prevGrantsGovTrackingID to set.
+ */
+public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
+    this.prevGrantsGovTrackingID = prevGrantsGovTrackingID;
+}
+   
     public void markNarratives(NarrativeStatus narrativeStatus) {
         if (narrativeStatus != null) {
             for (Narrative narrative : narratives) {

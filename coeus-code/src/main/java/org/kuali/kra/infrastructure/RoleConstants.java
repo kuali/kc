@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ public interface RoleConstants {
     public static final String OSP_ROLE_TYPE = "KC-ADM";
     public static final String DEPARTMENT_ROLE_TYPE = "KC-UNT";
     public static final String PROTOCOL_ROLE_TYPE = Constants.MODULE_NAMESPACE_PROTOCOL;
+    public static final String PROTOCOL_DOC_ROLE_TYPE = Constants.MODULE_DOC_ROLE_NAMESPACE_PROTOCOL;
     public static final String AWARD_ROLE_TYPE = Constants.MODULE_NAMESPACE_AWARD;
     public static final String NEGOTIATION_ROLE_TYPE = Constants.MODULE_NAMESPACE_NEGOTIATION;
     public static final String COI_DISCLOSURE_ROLE_TYPE = Constants.MODULE_NAMESPACE_COIDISCLOSURE;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2010 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -745,13 +745,29 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
      * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#withdrawProtocol(org.kuali.kra.irb.ProtocolForm)
      */
     public String withdrawProtocol(ProtocolForm protocolForm) throws Exception {
+        ProtocolBase previousProtocol = protocolForm.getProtocolDocument().getProtocol();
+        boolean isVersion = ProtocolStatus.IN_PROGRESS.equals(previousProtocol.getProtocolStatusCode()) || 
+        ProtocolStatus.SUBMITTED_TO_IRB.equals(previousProtocol.getProtocolStatusCode());
         ProtocolDocument pd = (ProtocolDocument) getProtocolWithdrawService().withdraw(protocolForm.getProtocolDocument().getProtocol(),
                 protocolForm.getActionHelper().getProtocolWithdrawBean());
         Protocol protocol = pd.getProtocol();
         generateActionCorrespondence(ProtocolActionType.WITHDRAWN, protocol);
         refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_WITHDRAW, false);
         ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocol, ProtocolActionType.WITHDRAWN, "Withdrawn");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocol, IrbConstants.PROTOCOL_TAB, notificationBean, false));
+        ProtocolCorrespondence protocolCorrespondence = (ProtocolCorrespondence)getProtocolCorrespondence(protocol, IrbConstants.PROTOCOL_TAB, notificationBean, false);
+        protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
+        if(isVersion) {
+            ProtocolNotificationContextBase context = getProtocolNotificationContextHook(notificationBean, protocolForm);
+            ProtocolBase notificationProtocol = null;
+            if(protocolCorrespondence != null) {
+                getProtocolActionCorrespondenceGenerationService().attachProtocolCorrespondence(previousProtocol, protocolCorrespondence.getCorrespondence(), 
+                        protocolCorrespondence.getProtoCorrespTypeCode());
+                notificationProtocol = previousProtocol;
+            }else {
+                notificationProtocol = protocol;
+            }
+            getNotificationService().sendNotificationAndPersist(context, getProtocolNotificationInstanceHook(), notificationProtocol);
+        }
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IrbConstants.PROTOCOL_TAB);
     }
     
@@ -784,6 +800,14 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
             valid &= isMandatoryQuestionnaireComplete(answerHeaders, "actionHelper." + requestAction.getBeanName() + ".datavalidation");
             if (valid) {
                 getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), requestBean);            
+                
+                //Assign to Committee and Schedule sub-panel Committee drop down needs to reflect the Committee value just selected
+                protocolForm.getProtocolDocument().getProtocol().refreshReferenceObject("protocolSubmissions");
+                ProtocolAssignCmtSchedBean cmtAssignBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
+                cmtAssignBean.setCommitteeId(requestBean.getCommitteeId());
+                cmtAssignBean.setScheduleId("");
+                cmtAssignBean.prepareView();
+
                 generateActionCorrespondence(requestBean.getProtocolActionTypeCode(), protocolForm.getProtocolDocument().getProtocol());
                 recordProtocolActionSuccess(requestAction.getActionName());
                 return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IrbConstants.PROTOCOL_ACTIONS_TAB);

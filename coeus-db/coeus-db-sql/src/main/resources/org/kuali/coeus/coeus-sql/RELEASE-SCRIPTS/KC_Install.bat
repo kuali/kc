@@ -24,12 +24,13 @@ echo Invalid Database Type <%dbtype%>
 goto dbtype
 
 :Version
-set /p Version="Enter Currently Installed Version (NEW, 3.1.1, 5.0, 5.0.1, 5.1) <%Version%>: "
+set /p Version="Enter Currently Installed Version (NEW, 3.1.1, 5.0, 5.0.1, 5.1, 5.1.1) <%Version%>: "
 if /i "%Version%" == "NEW" goto User
 if /i "%Version%" == "3.1.1" goto User
 if /i "%Version%" == "5.0" goto User
 if /i "%Version%" == "5.0.1" goto User
 if /i "%Version%" == "5.1" goto User
+if /i "%Version%" == "5.1.1" goto User
 echo Invalid Version <%Version%>
 goto Version
 
@@ -280,6 +281,20 @@ sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_1_1-Upgrade-ORACLE.
 move *.log ../LOGS
 cd ..
 
+:5.1.1ORACLE
+cd KC-RELEASE-5_2_0-SCRIPT
+
+if /i "%mode%" == "EMBED" (
+	sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-5_2_0-Upgrade-ORACLE.sql
+)
+if /i "%InstRice%" == "Y" (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_RICE-RELEASE-5_2_0-Upgrade-ORACLE.sql
+)
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-5_2_0-Upgrade-ORACLE.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_2_0-Upgrade-ORACLE.sql
+move *.log ../LOGS
+cd ..
+
 cd KC-RELEASE-99_9_9-SCRIPT
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-99_9_9-Upgrade-ORACLE.sql
 move *.log ../LOGS/
@@ -486,6 +501,22 @@ mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR-RELEASE-5_1_1-Upgrade-M
 move *.log ../LOGS/
 cd ..
 
+:5.1.1MYSQL
+cd KC-RELEASE-5_2_0-SCRIPT
+
+if /i "%mode%" == "EMBED" (
+	mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KRC_RICE-RELEASE-5_2_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_2_0-Upgrade-MYSQL-Install.log 2>&1
+)
+
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR_RICE-RELEASE-5_2_0-Upgrade-MYSQL.sql > KR_RICE-RELEASE-5_2_0-Upgrade-MYSQL-Install.log 2>&1
+)
+
+mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KC-RELEASE-5_2_0-Upgrade-MYSQL.sql > KC-RELEASE-5_2_0-Upgrade-MYSQL-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR-RELEASE-5_2_0-Upgrade-MYSQL.sql > KR-RELEASE-5_2_0-Upgrade-MYSQL-Install.log 2>&1
+move *.log ../LOGS/
+cd ..
+
 cd KC-RELEASE-99_9_9-SCRIPT
 mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR-RELEASE-99_9_9-Upgrade-MYSQL.sql > KR-RELEASE-99_9_9-Upgrade-MYSQL-Install.log 2>&1
 move *.log ../LOGS/
@@ -513,11 +544,9 @@ Echo       - bundle = Rice installed with KC client tables
 Echo       - embed = Rice installed in a separate schema 
 Echo           - When installing in embedded mode, you will be asked to install embedded rice server.
 Echo    - DB_Type = Choose one: oracle, mysql
-Echo    - Ver = Choose one: NEW, 3.1.1, 5.0, 5.0.1
+Echo    - Ver = Choose one: NEW, 3.1.1, ...
 Echo       - NEW = New install with an empty database schema
-Echo       - 3.1.1 = upgrading from 3.1.1 KC version
-Echo       - 5.0 = upgrading from 5.0 KC version
-Echo       - 5.0.1 = upgrading from 5.0.1 KC version
+Echo       - 3.1.1, etc. = upgrading from 3.1.1 KC version, etc.
 Echo    - un = The kc Database schema name to install database scripts to (bundled rice goes here too).
 Echo    - pw = the password for username
 Echo    - DB_svr_name = the TNS name used to locate the database server where kc schema is located (Oracle Only)

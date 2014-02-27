@@ -13,18 +13,23 @@
 <docHandler>${kuali.docHandler.url.prefix}/budgetVersions.do?methodToCall=docHandler</docHandler>
 <helpDefinitionURL>default.htm?turl=Documents/budget.htm</helpDefinitionURL>
 <active>true</active>
-<routePaths>
-<routePath>
-<start name="Initiated" />
-</routePath>
-</routePaths>
-<routeNodes>
-<start name="Initiated">
-<activationType>P</activationType>
-<mandatoryRoute>false</mandatoryRoute>
-<finalApproval>false</finalApproval>
-</start>
-</routeNodes>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" nextNode="PeopleFlows"/>
+					<requests name="PeopleFlows" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+	            <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kra.proposaldevelopment.budget.service.impl.PropDevBudgetRulesEngineExecutorImpl"/>
+                </requests>
+			</routeNodes>
 </documentType>
 </documentTypes>
 </data>

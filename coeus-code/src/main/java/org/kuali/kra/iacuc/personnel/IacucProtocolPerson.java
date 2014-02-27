@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.personnel;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.procedures.IacucProtocolSpeciesStudyGroup;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
@@ -34,6 +35,8 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
     
     private static final String PERSON_TRAINED_TRUE = "Yes";
     private static final String PERSON_TRAINED_FALSE = "No";
+    
+    private List<IacucProcedurePersonResponsible> iacucProcedurePersonResponsibleList;
     
     /* 
      * List of protocol studies and related procedures grouped by species
@@ -78,6 +81,12 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
         setIacucPersonTrainings(getIacucProtocolProcedureService().getIacucPersonTrainingDetails(getPersonId()));
     }
 
+    @Override
+    protected void postPersist() {
+        super.postPersist();
+        setIacucPersonTrainings(getIacucProtocolProcedureService().getIacucPersonTrainingDetails(getPersonId()));
+    }
+    
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
         return (IacucProtocolProcedureService) KcServiceLocator.getService("iacucProtocolProcedureService");
     }
@@ -96,6 +105,14 @@ public class IacucProtocolPerson extends ProtocolPersonBase {
 
     public void setAllProceduresSelected(boolean allProceduresSelected) {
         this.allProceduresSelected = allProceduresSelected;
+    }
+
+    public List<IacucProcedurePersonResponsible> getIacucProcedurePersonResponsibleList() {
+        return iacucProcedurePersonResponsibleList;
+    }
+
+    public void setIacucProcedurePersonResponsibleList(List<IacucProcedurePersonResponsible> iacucProcedurePersonResponsibleList) {
+        this.iacucProcedurePersonResponsibleList = iacucProcedurePersonResponsibleList;
     }
 
 }

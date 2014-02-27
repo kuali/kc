@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +44,11 @@ public class ProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServiceImpl
     @Override
     protected ProtocolActionBase getNewRenewalProtocolActionInstanceHook(ProtocolBase protocol) {
         return new ProtocolAction((Protocol)protocol, ProtocolActionType.RENEWAL_CREATED);
+    }
+
+    @Override
+    protected ProtocolActionBase getNewRenewalWithAmendmentProtocolActionInstanceHook(ProtocolBase protocol) {
+        return new ProtocolAction((Protocol)protocol, ProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED);
     }
 
     @Override
