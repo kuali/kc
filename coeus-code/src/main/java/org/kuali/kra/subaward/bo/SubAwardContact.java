@@ -16,8 +16,8 @@
 package org.kuali.kra.subaward.bo;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.bo.Rolodex;
 
 public class SubAwardContact extends SubAwardAssociate { 
 

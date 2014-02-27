@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.subaward.notification;
 
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.notification.impl.NotificationContextBase;
 import org.kuali.coeus.common.notification.impl.NotificationRenderer;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationModuleRoleService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.util.EmailAttachment;

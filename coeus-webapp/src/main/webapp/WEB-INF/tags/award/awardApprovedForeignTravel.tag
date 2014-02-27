@@ -52,13 +52,13 @@
                     </div>
                     <div>
                         <div align="left">
-                            <kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
+                            <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson"
                                 fieldConversions="personId:approvedForeignTravelBean.newApprovedForeignTravel.personId,fullName:approvedForeignTravelBean.newApprovedForeignTravel.travelerName"
                                 lookupParameters="approvedForeignTravelBean.newApprovedForeignTravel.personId:contactIdId"
                                 anchor="${tabKey}" /> Employee Lookup
                         </div>
                         <div align="left">
-                            <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex"
+                            <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex"
                                 fieldConversions="rolodexId:approvedForeignTravelBean.newApprovedForeignTravel.rolodexId,fullName:approvedForeignTravelBean.newApprovedForeignTravel.travelerName"
                                 lookupParameters="approvedForeignTravelBean.newApprovedForeignTravel.rolodexId:contactId"
                                 anchor="${tabKey}" /> Non-employee Lookup
@@ -108,12 +108,12 @@
                 		<kul:htmlControlAttribute property="${docAward}.approvedForeignTravelTrips[${status.index}].travelerName" 
                 								attributeEntry="${approvedForeignTravelAttributes.travelerName}" readOnly="true"/>
                         <c:if test="${formAward.approvedForeignTravelTrips[status.index].employee}">
-                		    <kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
+                		    <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson"
                 			    	fieldConversions="personId:${docAward}.approvedForeignTravelTrips[${status.index}].travelerId" anchor="${tabKey}"
         	  	 				    lookupParameters="${docAward}.approvedForeignTravelTrips[${status.index}].travelerId:personId" />
                         </c:if>
                         <c:if test="${formAward.approvedForeignTravelTrips[status.index].nonemployee}">
-                		    <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex"
+                		    <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex"
                 			    	fieldConversions="rolodexId:${docAward}.approvedForeignTravelTrips[${status.index}].rolodexId" anchor="${tabKey}"
         	  	 				    lookupParameters="${docAward}.approvedForeignTravelTrips[${status.index}].rolodexId:rolodexId" />
                         </c:if>

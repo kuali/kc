@@ -73,10 +73,10 @@
   <c:when test="${empty KualiForm.newPersonId && empty KualiForm.newRolodexId}">
                 <td nowrap class="grid">
                 <label> Employee Search</label>
-                  <label><kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+                  <label><kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
                                 fieldConversions="personId:newPersonId" /></label><br>
                   <label>Non-employee Search</label> 
-                  <label><kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+                  <label><kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" 
                                 fieldConversions="rolodexId:newRolodexId" /></label></td>
   </c:when>
   <c:otherwise>

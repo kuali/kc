@@ -46,7 +46,7 @@
     <tr>
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${intellectualPropertyReviewAttributes.ipReviewer}" /></th>
         <td>
-            <kul:inquiry boClassName="org.kuali.kra.bo.KcPerson" keyValues="personId=${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.ipReviewer}" render="true">
+            <kul:inquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" keyValues="personId=${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.ipReviewer}" render="true">
                 <c:out value="${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.person.userName}" />
             </kul:inquiry>&nbsp;
         </td>

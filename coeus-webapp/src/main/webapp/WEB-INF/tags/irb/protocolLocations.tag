@@ -147,7 +147,7 @@
 							                    and empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.city
 							                    and empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.state
 							                    and empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.postalCode}">
-			                    	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" searchIconOverride='${ConfigProperties.kra.externalizable.images.url}tinybutton-addcontact.gif'
+			                    	<kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" searchIconOverride='${ConfigProperties.kra.externalizable.images.url}tinybutton-addcontact.gif'
 			                    		fieldConversions="rolodexId:document.protocolList[0].protocolLocations[${status.index}].rolodexId,firstName:document.protocolList[0].protocolLocations[${status.index}].rolodex.firstName,lastName:document.protocolList[0].protocolLocations[${status.index}].rolodex.lastName,postalCode:document.protocolList[0].protocolLocations[${status.index}].rolodex.postalCode,addressLine1:document.protocolList[0].protocolLocations[${status.index}].rolodex.addressLine1,addressLine2:document.protocolList[0].protocolLocations[${status.index}].rolodex.addressLine2,addressLine3:document.protocolList[0].protocolLocations[${status.index}].rolodex.addressLine3,city:document.protocolList[0].protocolLocations[${status.index}].rolodex.city,state:document.protocolList[0].protocolLocations[${status.index}].rolodex.state"	anchor="${currentTabIndex}"/> 
 							    </c:when>
 							    <c:otherwise>
@@ -156,7 +156,7 @@
 	                            </c:otherwise>
 	                        </c:choose>
 						</kra:permission>  
-                    	<kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="document.protocolList[0].protocolLocations[${status.index}].rolodexId:rolodexId" anchor="${currentTabIndex}"/>
+                    	<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" inquiryParameters="document.protocolList[0].protocolLocations[${status.index}].rolodexId:rolodexId" anchor="${currentTabIndex}"/>
 					</div>
 				  </td>
                   <td align="left" valign="middle">

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.dao.ojb;
+package org.kuali.coeus.common.impl.rolodex;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.junit.Test;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.dao.RolodexDao;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
+import org.kuali.coeus.common.impl.rolodex.RolodexDaoOjb;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.HashMap;

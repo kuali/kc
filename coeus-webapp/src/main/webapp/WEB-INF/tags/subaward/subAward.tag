@@ -44,11 +44,11 @@
 	                               							'sub.siteInvestigatorId.div');"
            	        							  			readOnly="${readOnly}"/>           	         						  			  
                       <c:if test="${!readOnly}">
-                      	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
+                      	<kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" 
 								fieldConversions="rolodexId:document.subAwardList[0].siteInvestigator" 			
           						anchor="${tabKey}"/> 
           			  </c:if>			
-          			  	<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="document.subAwardList[0].siteInvestigator:rolodexId" anchor="${tabKey}" />
+          			  	<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" inquiryParameters="document.subAwardList[0].siteInvestigator:rolodexId" anchor="${tabKey}" />
           			  
           			  <div id="sub.fullName.div">
           			      &nbsp; 
@@ -144,9 +144,9 @@
 					<c:if test="${readOnly}">${KualiForm.document.subAwardList[0].requisitionerUserName}</c:if>
 				  
 				  <c:if test="${!readOnly}">
-                  	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:document.subAwardList[0].requisitionerId,fullName:document.subAwardList[0].requisitionerName,unit.unitNumber:document.subAwardList[0].requisitionerUnit,unit.unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
+                  	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" fieldConversions="personId:document.subAwardList[0].requisitionerId,fullName:document.subAwardList[0].requisitionerName,unit.unitNumber:document.subAwardList[0].requisitionerUnit,unit.unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
             	  </c:if> 	 
-            	  	  <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="document.subAwardList[0].requisitionerId:personId" anchor="${tabKey}" /> 
+            	  	  <kul:directInquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" inquiryParameters="document.subAwardList[0].requisitionerId:personId" anchor="${tabKey}" /> 
                      
                       <br/><span id="requistioner.fullName"><c:out value="${KualiForm.document.subAwardList[0].requisitionerName}"/>&nbsp;</span>                
                 	  <html:hidden styleId ="sub.requisitionerId.div" property="document.subAwardList[0].requisitionerId" />

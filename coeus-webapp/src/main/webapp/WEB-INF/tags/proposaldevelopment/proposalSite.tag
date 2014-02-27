@@ -97,7 +97,7 @@
                     <kra:section permission="modifyProposal">
                         <c:if test="${addressSelectable}">
                             <kul:lookup
-                                boClassName="org.kuali.kra.bo.Rolodex" 
+                                boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" 
                                 fieldConversions="rolodexId:${proposalSiteBoName}.rolodexId,organization:${proposalSiteBoName}.locationName,postalCode:${proposalSiteBoName}.rolodex.postalCode,addressLine1:${proposalSiteBoName}.rolodex.addressLine1,addressLine2:${proposalSiteBoName}.rolodex.addressLine2,addressLine3:${proposalSiteBoName}.rolodex.addressLine3,city:${proposalSiteBoName}.rolodex.city,state:${proposalSiteBoName}.rolodex.state"
                                 anchor="${currentTabIndex}" /> 
                         </c:if>
@@ -105,7 +105,7 @@
                             type="hidden" name="${proposalSiteBoName}_rolodexId"
                             value="${proposalSiteBo.rolodexId}" />
                         <kul:directInquiry
-                            boClassName="org.kuali.kra.bo.Rolodex"
+                            boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
                             inquiryParameters="${proposalSiteBoName}_rolodexId:rolodexId"
                             anchor="${currentTabIndex}" />
                         <c:if test="${!empty clearAddressMethodToCall && !empty proposalSiteBo.rolodexId}">

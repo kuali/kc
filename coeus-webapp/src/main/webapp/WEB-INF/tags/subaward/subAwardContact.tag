@@ -56,7 +56,7 @@
            	        							  			readOnly="${readOnly}"/>  
            	        							  			
   					<c:if test="${!readOnly}">					
-  						<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:newSubAwardContact.rolodexId" 
+  						<kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" fieldConversions="rolodexId:newSubAwardContact.rolodexId" 
   									anchor="${tabKey}" lookupParameters="newSubAwardContact.rolodexId:rolodexId"/>
   					</c:if>
   					
@@ -135,7 +135,7 @@
 	                	           ${subAwardContacts.rolodex.fullName}&nbsp;
 	                		    </c:otherwise>
 	                		</c:choose>	                		
-						<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="subAward_contact.identifier_${status.index}:rolodexId" anchor="${tabKey}" />
+						<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" inquiryParameters="subAward_contact.identifier_${status.index}:rolodexId" anchor="${tabKey}" />
 						</div>
 						</td>
 		                <td width="9%" valign="middle">

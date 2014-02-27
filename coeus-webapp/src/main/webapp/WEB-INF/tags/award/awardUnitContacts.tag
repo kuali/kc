@@ -64,7 +64,7 @@
            	        							  			'emailAddress',
            	        							  			'personId');"
 					readOnly="${readOnly}" /> <c:if test="${!readOnly}">
-					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
+					<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson"
 						fieldConversions="personId:unitContactsBean.personId"
 						lookupParameters="unitContactsBean.personId:personId"
 						anchor="${tabKey}" />
@@ -130,7 +130,7 @@
 					name="unit_contact.identifier_${awardContactRowStatus.index}"
 					value="${awardContact.contact.identifier}" />
 				${awardContact.fullName}&nbsp; <kul:directInquiry
-					boClassName="org.kuali.kra.bo.KcPerson"
+					boClassName="org.kuali.coeus.common.framework.person.KcPerson"
 					inquiryParameters="unit_contact.identifier_${awardContactRowStatus.index}:personId"
 					anchor="${tabKey}" /></div>
 				</td>
