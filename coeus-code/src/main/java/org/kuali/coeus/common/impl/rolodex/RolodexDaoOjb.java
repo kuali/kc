@@ -18,7 +18,6 @@ package org.kuali.coeus.common.impl.rolodex;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexDao;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -40,7 +39,7 @@ public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(RolodexDaoOjb.class);
     
     /**
-     * @see org.kuali.coeus.common.framework.rolodex.RolodexDao#getNonOrganizationalRolodexResults(java.util.Map, boolean)
+     * @see org.kuali.coeus.common.impl.rolodex.RolodexDao#getNonOrganizationalRolodexResults(java.util.Map, boolean)
      */
     public List<? extends BusinessObject> getNonOrganizationalRolodexResults(Map fieldValues, boolean usePrimaryKeys) {
         Collection searchResults = new ArrayList();
