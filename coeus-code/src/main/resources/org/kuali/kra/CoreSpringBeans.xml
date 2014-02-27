@@ -29,7 +29,8 @@
     <context:annotation-config />
     <!--<context:component-scan base-package="org.kuali.coeus.sys" />-->
 
-	<context:component-scan base-package="org.kuali.coeus.common.impl.rolodex"/>
+    <context:component-scan base-package="org.kuali.coeus.common.impl.mail"/>
+    <context:component-scan base-package="org.kuali.coeus.common.impl.rolodex"/>
 	<context:component-scan base-package="org.kuali.kra.service.impl"/>
 	
 	<context:component-scan base-package="org.kuali.coeus.common.notification.impl.service.impl"/>
@@ -1331,10 +1332,13 @@
         <property name="serviceName" value="documentHeaderService" />
     </bean>
 
-    <bean id="kcEmailService" class="org.kuali.kra.service.impl.KcEmailServiceImpl" >
+    <!-- Autowired -->
+    <!--
+    <bean id="kcEmailService" class="org.kuali.coeus.common.impl.mail.KcEmailServiceImpl" >
     	<property name="mailSender" ref="mailSender" />
     	<property name="parameterService" ref="parameterService" />
     </bean>
+    -->
 
     <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dbPlatform" />
