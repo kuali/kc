@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,11 @@
  */
 
 package org.kuali.kra.irb;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -55,11 +60,6 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -211,7 +211,7 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         }
         ProtocolAction newDocPaToUse = null;
         for (ProtocolActionBase pa2 : newProtocolDocument.getProtocol().getProtocolActions()) {
-            if (StringUtils.equals(ProtocolActionType.APPROVED, pa2.getProtocolActionTypeCode())) {
+            if (isProtocolApproved(pa2.getProtocolActionTypeCode())) {
                 if (newDocPaToUse == null || newDocPaToUse.getUpdateTimestamp().before(pa2.getUpdateTimestamp())) {
                     newDocPaToUse = (ProtocolAction) pa2;
                 }
@@ -255,6 +255,15 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         }   
     }
     
+        private boolean isProtocolApproved(String protocolActionTypeCode) {
+            if (StringUtils.equals(ProtocolActionType.APPROVED, protocolActionTypeCode) || 
+                    StringUtils.equals(ProtocolActionType.EXPEDITE_APPROVAL, protocolActionTypeCode) ||
+                    StringUtils.equals(ProtocolActionType.RESPONSE_APPROVAL, protocolActionTypeCode)){
+                return true;
+            }
+            return false;
+        }
+        
     private boolean isEligibleForMerging(String status, Protocol otherProtocol) {
         return listOfStatiiEligibleForMerging.contains(status) && !StringUtils.equals(this.getProtocol().getProtocolNumber(), otherProtocol.getProtocolNumber());
     }

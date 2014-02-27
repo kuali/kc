@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ public enum ProtocolRequestAction {
                                     TaskName.PROTOCOL_REQUEST_SUSPENSION,
                                     Constants.PROTOCOL_SUSPEND_REQUEST_PROPERTY_KEY, 
                                     "protocolSuspendRequestBean", 
-                                    "Withdraw Request for Suspension"), 
+                                    "Request for Suspension"), 
                                   
     /**
      * Request for termination of a Protocol.

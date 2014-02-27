@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,13 @@ package org.kuali.coeus.common.notification.impl.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.rice.krad.service.BusinessObjectService;
-
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Defines a document-specific instance of a Notification Type.
@@ -45,6 +49,8 @@ public class KcNotification extends KcPersistableBusinessObjectBase {
     private NotificationType notificationType;
 
     private String createUser;
+    
+    private Timestamp createTimestamp;
     
     public Long getNotificationId() {
         return notificationId;
@@ -122,9 +128,18 @@ public class KcNotification extends KcPersistableBusinessObjectBase {
         this.createUser = createUser;
     }
 
+    public Timestamp getCreateTimestamp() {
+        // fall back to update timestamp for backwards compatibility
+        return createTimestamp != null ? createTimestamp : getUpdateTimestamp();
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
     public String getUpdateTimestampString() {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-        return (getUpdateTimestamp() == null ? "" : dateFormat.format(getUpdateTimestamp()));
+        return (getCreateTimestamp() == null ? "" : dateFormat.format(getCreateTimestamp()));
     }
 
     public void persistOwningObject(KcPersistableBusinessObjectBase object) {
@@ -135,4 +150,14 @@ public class KcNotification extends KcPersistableBusinessObjectBase {
         setNotificationId(null);
         setOwningDocumentIdFk(null);
     }
+    
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+        if (StringUtils.isEmpty(createUser)) {
+            createUser = GlobalVariables.getUserSession().getPrincipalName();
+            createTimestamp = KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp();  
+        }
+    }
+
 }

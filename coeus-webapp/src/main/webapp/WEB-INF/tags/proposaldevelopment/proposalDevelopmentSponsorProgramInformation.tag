@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2013 The Kuali Foundation
+ Copyright 2005-2014 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -109,6 +109,17 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyProgramCode}" /></div></th>
            		<td>
            			<kul:htmlControlAttribute property="document.developmentProposalList[0].agencyProgramCode" attributeEntry="${proposalDevelopmentAttributes.agencyProgramCode}" />
+           		</td>
+     		</tr>
+     		
+     		<tr>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyRoutingIdentifier}" /></div></th>
+                <td>
+                	<kul:htmlControlAttribute property="document.developmentProposalList[0].agencyRoutingIdentifier" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.agencyRoutingIdentifier}" styleClass="fixed-size-200-select"/>
+                </td>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.prevGrantsGovTrackingID}" /></div></th>
+           		<td>
+           			<kul:htmlControlAttribute property="document.developmentProposalList[0].prevGrantsGovTrackingID" attributeEntry="${proposalDevelopmentAttributes.prevGrantsGovTrackingID}" />
            		</td>
      		</tr>
      		</tr>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,4 +68,17 @@ public interface PropDevJavaFunctionKrmsTermService {
     public String mtdcDeviationInVersion(DevelopmentProposal developmentProposal, String versionNumber);
     public String proposalTypeRule(DevelopmentProposal developmentProposal, String proposalTypeCode);
     public String incompleteNarrativeRule(DevelopmentProposal developmentProposal);
+    
+    public String investigatorCitizenshipTypeRule(DevelopmentProposal developmentProposal, String citizenshipTypeToCheck);
+    public String piAppointmentTypeRule(DevelopmentProposal developmentProposal);
+    public String proposalCampusRule(DevelopmentProposal developmentProposal, String a2SCampusCode);
+    public String routedToOSPRule(DevelopmentProposal developmentProposal);
+    public String isUserProposalPI(DevelopmentProposal developmentProposal, String principalId);
+    public String proposalUnitBelow(DevelopmentProposal developmentProposal, String unitNumberToCheck);
+    public String usesRolodex(DevelopmentProposal developmentProposal, Integer rolodexId);
+    public String competitionIdRule(DevelopmentProposal developmentProposal, String competitionId);
+    public String specialReviewDateRule(DevelopmentProposal developmentProposal);
+    public String deadlineDateRule(DevelopmentProposal developmentProposal, String deadlineDate);
+    public String routingSequenceRule(DevelopmentProposal developmentProposal);
+    
 }

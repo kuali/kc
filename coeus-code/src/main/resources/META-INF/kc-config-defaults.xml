@@ -1,5 +1,5 @@
 <!--
- Copyright 2005-2013 The Kuali Foundation
+ Copyright 2005-2014 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -70,7 +70,7 @@
 	<param name="kns.css.files">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css,scripts/fancybox2.1.5/jquery.fancybox.css,css/kuali_application.css</param>
 
     <param name="portal.css.files">rice-portal/css/portal.css,plugins/fancybox/jquery.fancybox.css,plugins/textpopout/popoutTextarea.css,plugins/jgrowl/jquery.jgrowl.css,css/kuali_overrides.css</param>
-    <param name="portal.javascript.files">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,plugins/scrollto/jquery.scrollTo-1.4.3-min.js,plugins/blockUI/jquery.blockUI.js,kr/scripts/my_common.js,plugins/easydrag/jquery.easydrag.js,plugins/fancybox/jquery.fancybox.pack.js,plugins/easing/jquery.easing-1.3.pack.js,plugins/jgrowl/jquery.jgrowl.js,rice-portal/scripts/portal.initialize.js,rice-portal/scripts/easyXDM/easyXDM.js</param>
+    <param name="portal.javascript.files">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,plugins/scrollto/jquery.scrollTo-1.4.6.js,plugins/blockUI/jquery.blockUI.js,kr/scripts/my_common.js,plugins/easydrag/jquery.easydrag.js,plugins/fancybox/jquery.fancybox.pack.js,plugins/easing/jquery.easing-1.3.pack.js,plugins/jgrowl/jquery.jgrowl.js,rice-portal/scripts/portal.initialize.js,rice-portal/scripts/easyXDM/easyXDM.js</param>
 	<param name="portal.title">Kuali Coeus</param>
 
 	<param name="kr.url">${rice.server.url}/kr</param>
@@ -163,8 +163,17 @@
 	<param name="grants.gov.s2s.host.production">https://ws07.grants.gov:446/grantsws-applicant/services/v2/</param>
 	<param name="grants.gov.s2s.host.development">https://at07ws.grants.gov:446/grantsws-applicant/services/v2/</param>
 	<param name="grants.gov.s2s.host">${grants.gov.s2s.host.development}</param>
-	
 	<param name="grants.gov.s2s.port">ApplicantWebServicesSoapPort</param>
+
+    <param name="research.gov.keystore.location">path to keystore</param>
+    <param name="research.gov.keystore.password">keystore password</param>
+    <param name="research.gov.truststore.location">path to truststore</param>
+    <param name="research.gov.truststore.password">truststore password</param>
+    
+    <param name="research.gov.s2s.production"></param>
+    <param name="research.gov.s2s.development">https://ws.acpt.research.gov/applyws/</param>
+    <param name="research.gov.s2s.host">${research.gov.s2s.development}</param>
+    <param name="research.gov.s2s.port">ApplicantWebServicesSoapPort</param>
 
 	<param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>

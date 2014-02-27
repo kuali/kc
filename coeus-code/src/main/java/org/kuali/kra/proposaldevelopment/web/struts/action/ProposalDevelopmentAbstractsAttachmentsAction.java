@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.kra.proposaldevelopment.rule.event.*;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAbstractsService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
@@ -447,7 +448,11 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
         Narrative modifiedNarrative = pd.getDevelopmentProposal().getNarrative(getSelectedLine(request));
+        
+        boolean rulePassed = getKualiRuleService().applyRules(new ReplaceNarrativeEvent("document.developmentProposalList[0].narrative[" + getSelectedLine(request) + "]", pd, modifiedNarrative));
+        if(rulePassed) {
         pd.getDevelopmentProposal().replaceAttachment(getSelectedLine(request));
+
         ProposalDevelopmentNotificationContext context = 
             new ProposalDevelopmentNotificationContext(pd.getDevelopmentProposal(), "102", "Proposal Data Override");
         ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setModifiedNarrative(modifiedNarrative);
@@ -457,6 +462,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         } else {
             getNotificationService().sendNotification(context);                
         }                
+        }
 
         return forward;
     }
@@ -465,13 +471,18 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
-        
         ProposalPersonBiography ppb = pd.getDevelopmentProposal().getPropPersonBio(getSelectedLine(request));
+
+        boolean rulePassed = getKualiRuleService().applyRules(
+                new ReplacePersonnelAttachmentEvent("document.developmentProposalList[0].propPersonBios[" + getSelectedLine(request) + "]",
+                        pd,
+                        ppb));
+        if(rulePassed) {
         ppb.populateAttachment();
        //I don't think anything needs to be done
         
         this.getBusinessObjectService().save(ppb);
-        
+        }
         return forward;
     }
     
@@ -489,7 +500,13 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        boolean rulePassed = getKualiRuleService().applyRules(
+                new ReplaceInstituteAttachmentEvent("document.developmentProposalList[0].instituteAttachment[" + getSelectedLine(request) + "]",
+                            pd,
+                            pd.getDevelopmentProposal().getInstituteAttachment(getSelectedLine(request))));
+        if(rulePassed) {
         pd.getDevelopmentProposal().replaceInstituteAttachment(getSelectedLine(request));
+        }
         return mapping.findForward(MAPPING_BASIC);
     }
     

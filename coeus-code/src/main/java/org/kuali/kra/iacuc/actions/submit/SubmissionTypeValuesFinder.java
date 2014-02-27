@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,7 +105,7 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
     private boolean displayResponseToPrevIACUCNotification(String currentStatus) {
         String validStatuses[] = { IacucProtocolStatus.MINOR_REVISIONS_REQUIRED,
                 IacucProtocolStatus.MAJOR_REVISIONS_REQUIRED,
-                IacucProtocolStatus.ACTIVE_ON_HOLD, IacucProtocolStatus.SUBMITTED_TO_IACUC, IacucProtocolStatus.RETURN_TO_PI };
+                IacucProtocolStatus.ACTIVE_ON_HOLD, IacucProtocolStatus.SUBMITTED_TO_IACUC, IacucProtocolStatus.RETURN_TO_PI, IacucProtocolStatus.TABLED };
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     

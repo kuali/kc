@@ -1,5 +1,5 @@
 <!--
- Copyright 2005-2013 The Kuali Foundation.
+ Copyright 2005-2014 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -1099,6 +1099,7 @@
 		<field-descriptor name="overdue" column="OVERDUE" jdbc-type="INTEGER" />
 		<field-descriptor name="reportStatusCode" column="REPORT_STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="submittedByPersonId" column="SUBMITTED_BY_PERSON_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="awardReportTermDescription" column="AWARD_REPORT_TERM_DESC" jdbc-type="VARCHAR" />
 		<reference-descriptor name="reportStatus" class-ref="org.kuali.kra.award.paymentreports.ReportStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="reportStatusCode"/>
 		</reference-descriptor> 

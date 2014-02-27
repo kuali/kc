@@ -5,7 +5,9 @@
 
 <kul:tabTop defaultOpen="false" tabTitle="Correspondence"
     tabErrorKey="document.committee*">
-
+        <script type="text/javascript">
+		   var $j = jQuery.noConflict();
+		</script>
 <div class="tab-container" align="center">
     <h3>
         <span class="subhead-left"> Correspondence </span>
@@ -44,8 +46,8 @@
                 <tr>
                     <td colspan="4">
                             <div align="center">&nbsp;   
-                                  <html:image property="methodToCall.selectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="$('.finalclass').attr('checked', true);return false;" />
-                                  <html:image property="methodToCall.deselectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="$('.finalclass').attr('checked', false);return false;" />
+                                  <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="$j('.finalclass').attr('checked', true);return false;" />
+                                  <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="$j('.finalclass').attr('checked', false);return false;" />
                             </div>
                     </td>
                 </tr>    

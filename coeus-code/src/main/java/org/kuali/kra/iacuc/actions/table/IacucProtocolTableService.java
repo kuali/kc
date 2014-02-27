@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.actions.table;
 
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 
 /**
  * This class is the service API for the protocol "table" action
@@ -39,6 +40,6 @@ public interface IacucProtocolTableService {
      * @param actionBean
      * @throws Exception 
      */
-    public void tableProtocol(IacucProtocol protocol, IacucProtocolTableBean actionBean) throws Exception;
+    public IacucProtocolDocument tableProtocol(IacucProtocol protocol, IacucProtocolTableBean actionBean) throws Exception;
 
 }

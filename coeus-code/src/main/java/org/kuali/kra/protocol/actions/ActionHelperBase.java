@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,18 @@
  */
 package org.kuali.kra.protocol.actions;
 
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -27,6 +39,7 @@ import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteRecusedBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueComparator;
 import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -78,17 +91,15 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.ken.util.NotificationConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.*;
 
 /**
  * The form helper class for the ProtocolBase Actions tab.
@@ -99,6 +110,9 @@ public abstract class ActionHelperBase implements Serializable {
     protected static final String NAMESPACE = "KC-UNT";
     protected transient QuestionnaireAnswerService questionnaireAnswerService;
 
+    private static final String DEFAULT_TAB = "Versions";
+    private static final String ALTERNATE_OPEN_TAB = "Parameters";
+    
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
@@ -2102,7 +2116,7 @@ public abstract class ActionHelperBase implements Serializable {
     protected ProtocolAmendRenewalBase getCorrectAmendment(List<ProtocolBase> protocols) {
         for (ProtocolBase protocol : protocols) {
             // There should always be an amendment with the current submission number.
-            if (protocol.isAmendment() && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
+            if ((protocol.isAmendment() || protocol.isRenewalWithAmendment()) && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
                 && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
                 return protocol.getProtocolAmendRenewal();
             }
@@ -2683,4 +2697,94 @@ public abstract class ActionHelperBase implements Serializable {
         return this.allowedToRegenerateProtocolCorrespondence;
     }
     
+    public class AmendmentSummary {
+        private String amendmentType;
+        private String versionNumber;
+        private String versionNumberUrl;
+        private String description;
+        private String status;
+        private String createDate;
+        
+        public String getAmendmentType() {
+            return amendmentType;
+        }
+        public String getVersionNumber() {
+            return versionNumber;
+        }
+        public String getVersionNumberUrl() {
+            return versionNumberUrl;
+        }
+        public String getDescription() {
+            return description;
+        }
+        public String getStatus() {
+            return status;
+        }
+        public String getCreateDate() {
+            return createDate;
+        }
+        
+        public AmendmentSummary(ProtocolBase protocol) {
+            amendmentType = protocol.isRenewalWithoutAmendment() ? "Renewal" : protocol.isRenewal() ? "Renewal with Amendment" : protocol.isAmendment() ? "Amendment" : "New";
+            versionNumber = protocol.getProtocolNumber().substring(protocol.getProtocolNumber().length() - 3);
+            versionNumberUrl = buildForwardUrl(protocol.getProtocolDocument().getDocumentNumber());
+            if (protocol.isAmendment() || protocol.isRenewal()) {
+                ProtocolAmendRenewalBase correctAmendment = protocol.getProtocolAmendRenewal();
+                if (correctAmendment != null) {
+                    description = correctAmendment.getSummary();
+                    versionNumber = String.valueOf(protocol.getSequenceNumber());
+                    versionNumberUrl = buildForwardUrl(protocol.getProtocolDocument().getDocumentNumber());
+                } else {
+                    description = "";
+                    versionNumber = "";
+                    versionNumberUrl = "";
+                }
+            }
+            status = protocol.getProtocolStatus().getDescription();
+            try {
+                ProtocolDocumentBase protocolDoc = (ProtocolDocumentBase)KcServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+                Date docDate = new Date(protocolDoc.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+                createDate = new SimpleDateFormat("MM/dd/yyyy").format(docDate);
+            } catch (Exception e) {
+                createDate = "";
+            }
+        }
+    }
+    
+    public List<AmendmentSummary> getAmendmentSummaries() throws Exception {
+        List<AmendmentSummary> results = new ArrayList<AmendmentSummary>();
+        // only list amendments if this protocol is not one
+        if (getProtocol().isNew()) {
+            // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
+            String originalProtocolNumber = getProtocol().getProtocolNumber();
+            List<ProtocolBase> protocols = getProtocolAmendRenewServiceHook().getAmendmentAndRenewals(originalProtocolNumber);
+            Collections.sort(protocols, new Comparator<ProtocolBase>(){
+                public int compare(ProtocolBase p1, ProtocolBase p2) {
+                    return p1.getProtocolDocument().getDocumentNumber().compareTo(p2.getProtocolDocument().getDocumentNumber());
+                }
+            });
+            for (ProtocolBase protocol: protocols) {
+                results.add(new AmendmentSummary(protocol));
+            }
+        }
+        return results;
+    }
+
+    protected String buildForwardUrl(String routeHeaderId) {
+    	DocHandlerService researchDocumentService = KcServiceLocator.getService(DocHandlerService.class);
+        String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
+        forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
+        if (forward.indexOf("?") == -1) {
+            forward += "?";
+        }
+        else {
+            forward += "&";
+        }
+        forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + routeHeaderId;
+        forward += "&" + KewApiConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
+        if (GlobalVariables.getUserSession().isBackdoorInUse()) {
+            forward += "&" + KewApiConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
+        }
+        return forward;
+    }
 }

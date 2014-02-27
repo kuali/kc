@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,12 +39,13 @@ public abstract class ValidProtoSubTypeQualMaintenanceDocumentRuleBase extends K
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         setOldTYpeId(document);
-        ValidProtoSubTypeQual validProtoSubTypeQual = (ValidProtoSubTypeQual) document.getNoteTarget();
+        ValidProtoSubTypeQual validProtoSubTypeQual = (ValidProtoSubTypeQual) document.getDocumentBusinessObject();
         return validate(validProtoSubTypeQual);
     }
 
     private void setOldTYpeId(MaintenanceDocument document) {
-        if (document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
+        if (document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION) || 
+            document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)    ) {
             oldTypeId = ((ValidProtoSubTypeQual)document.getOldMaintainableObject().getDataObject()).getValidProtoSubTypeQualId();
          }        
     }
@@ -103,6 +104,8 @@ public abstract class ValidProtoSubTypeQualMaintenanceDocumentRuleBase extends K
 
     protected abstract Class<? extends ProtocolSubmissionQualifierTypeBase> getProtocolSubmissionQualifierTypeBOClassHook();
     
+    protected abstract Class<? extends ValidProtoSubTypeQual> getValidProtoSubTypeQualBOClassHook();
+    
 
     private boolean checkSubmTypeQualifierExists(ValidProtoSubTypeQual validProtoSubTypeQual) {
         boolean valid = true;
@@ -111,8 +114,7 @@ public abstract class ValidProtoSubTypeQualMaintenanceDocumentRuleBase extends K
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("submissionTypeCode", validProtoSubTypeQual.getSubmissionTypeCode());
             fieldValues.put("submissionTypeQualCode", validProtoSubTypeQual.getSubmissionTypeQualCode());
-            List<ValidProtoSubTypeQual> validProtoSubTypeQuals = (List<ValidProtoSubTypeQual>) boService.findMatching(
-                    ValidProtoSubTypeQual.class, fieldValues);
+            List<ValidProtoSubTypeQual> validProtoSubTypeQuals = (List<ValidProtoSubTypeQual>) boService.findMatching(getValidProtoSubTypeQualBOClassHook(), fieldValues);
             if (!validProtoSubTypeQuals.isEmpty()) {
                 ValidProtoSubTypeQual existvalidProtoSubTypeQual = validProtoSubTypeQuals.get(0);
                 if ((oldTypeId == null || !existvalidProtoSubTypeQual.getValidProtoSubTypeQualId().equals(oldTypeId)) 

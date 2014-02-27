@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,19 @@
  */
 package org.kuali.kra.subaward.document;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -28,15 +36,14 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 /**
  * This class is for subAwardDocument...
  */
 public class SubAwardDocument extends KcTransactionalDocumentBase
-implements  Copyable, SessionDocument {
+	implements  Copyable, SessionDocument, KrmsRulesContext {
+
 
     /**.
      * Comment for <code>serialVersionUID</code>
@@ -178,5 +185,24 @@ implements  Copyable, SessionDocument {
     
     public String getDocumentBoNumber() {
         return getSubAward().getSubAwardCode();
+    }
+    @Override
+    public void populateContextQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_SUBAWARD);
+        qualifiers.put("name", KcKrmsConstants.SubAward.SUBAWARD_CONTEXT);
+    }
+    
+    @Override
+    public void addFacts(Builder factsBuilder) {
+        KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("subAwardFactBuilderService");
+        fbService.addFacts(factsBuilder, this);
+    }
+    @Override
+    public void populateAgendaQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getLeadUnitNumber());
+    }
+
+    public String getLeadUnitNumber() {
+        return getSubAward().getLeadUnitNumber();
     }
 }

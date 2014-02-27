@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright 2005-2013 The Kuali Foundation.
+    Copyright 2005-2014 The Kuali Foundation.
 
     Licensed under the Educational Community License, Version 1.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -323,8 +323,19 @@
     
     <bean id="lookupableDevelopmentProposalLookupableHelperService" class="org.kuali.kra.proposaldevelopment.service.impl.LookupableDevelopmentProposalLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype">
+        <property name="proposalPersonDao" ref="proposalPersonDao" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
     </bean>
     
+    <bean id="proposalPersonDao" parent="platformAwareDao" class="org.kuali.kra.proposaldevelopment.dao.ojb.ProposalPersonDaoOjb">
+        <property name="lookupDao" ref="lookupDao" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>  
+
+    <bean id="lookupDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lookupDao" />
+    </bean>
     
     <bean id="proposalAbstractsService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAbstractsServiceImpl">
         <property name="personService" ref="personService" />
@@ -950,6 +961,7 @@
     	<property name="unitService" ref="unitService" />
     	<property name="parameterService" ref="parameterService" />
     	<property name="documentService" ref="documentService" />
+        <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 
     <bean id="countryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">

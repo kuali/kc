@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule;
+import org.kuali.kra.proposaldevelopment.rule.ReplacePersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.SavePersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.ReplacePersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -40,7 +42,8 @@ import java.util.Map;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
 
-public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule {
+
+public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule, ReplacePersonnelAttachmentRule {
     public static final String OTHER_DOCUMENT_TYPE_DESCRIPTION = "Other";
     
     private static final String DOC_TYPE_DESCRIPTION = "description";
@@ -77,24 +80,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
             reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, FILE_NAME_PARM);
         }
                 
-        KcAttachmentService attachmentService = getKcAttachmentService();
-       
-        // Checking attachment file name for invalid characters.
-        String attachmentFileName = proposalPersonBiography.getFileName();
-        String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
-        if (ObjectUtils.isNotNull(invalidCharacters)) {
-            String parameter = getParameterService().
-                getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
-            if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
-                rulePassed &= false;
-                reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, invalidCharacters);
-            } else {
-                rulePassed &= true;
-                reportWarning(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, invalidCharacters);
-            }
-        }
+        rulePassed &= checkForInvalidCharacters(proposalPersonBiography);
         
         rulePassed &= checkForDescriptionWhenTypeIsOther(proposalPersonBiography);
         
@@ -111,6 +97,11 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         }
         
         return rulePassed;
+    }
+
+    @Override
+    public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event) {
+        return checkForInvalidCharacters(event.getProposalPersonBiography());
     }
 
     /**
@@ -135,6 +126,28 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
             }
         }
 
+        return rulePassed;
+    }
+    
+    private boolean checkForInvalidCharacters(ProposalPersonBiography proposalPersonBiography) {
+        KcAttachmentService attachmentService = getKcAttachmentService();
+        boolean rulePassed = true;
+        // Checking attachment file name for invalid characters.
+        String attachmentFileName = proposalPersonBiography.getFileName();
+        String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
+        if (ObjectUtils.isNotNull(invalidCharacters)) {
+            String parameter = getParameterService().
+                getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+            if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
+                rulePassed &= false;
+                reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, invalidCharacters);
+            } else {
+                rulePassed &= true;
+                reportWarning(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
+                        attachmentFileName, invalidCharacters);
+            }
+        }
         return rulePassed;
     }
     

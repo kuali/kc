@@ -1,0 +1,79 @@
+====
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+====
+
+Questions about licensing should be directed to licensing@kuali.org.
+
+Third Party Contributions:
+
+Portions of Kuali were developed by Indiana University, Cornell University, 
+University of Hawaii, Michigan State University, University of Arizona, 
+San Joaquin Delta Community College, University of California, Rutgers University, 
+University of Southern California, University of Maryland, University of Washington, 
+Iowa State University, University of British Columbia, Innovativ Consulting Partners, 
+Syntel Inc., and The rSmart Group (http://www.kuali.org).
+
+This product includes software developed by the Apache Software Foundation ([http://www.apache.org]).
+
+This product includes software developed by ANTLR ([http://www.antlr.org/]).
+
+This product includes software developed by Displaytag ([http://displaytag.sourceforge.net/11/]).
+
+This product includes software developed by the JDOM Project ([http://www.jdom.org/]).
+
+This product includes software developed by the University Corporation for Advanced Internet Development  Internet2 Project ([http://www.ucaid.edu]).
+
+This product includes software developed by the Open Symphony Group ([http://www.opensymphony.com/]).
+
+This product includes software developed by the Indiana University Extreme\! Lab ([http://www.extreme.indiana.edu/]).
+
+This product includes software developed by the JOTM project ([http://jotm.objectweb.org/bsd_license.html]).
+
+This product includes software developed by the JA-SIG Collaborative ([http://www.ja-sig.org/]).
+
+This product includes software developed by Yale University ([http://www.yale.edu/tp/cas/LICENSE]).
+
+This product includes software licensed under the GNU Lesser General Public License ([http://www.opensource.org/licenses/lgpl-license.php]).
+
+This product includes software licensed under the Eclipse Public License ([http://www.eclipse.org/legal/epl-v10.html]).
+
+This product includes software licensed under the Common Development and Distribution License ([http://www.opensource.org/licenses/cddl1.php]).
+
+This product includes software licensed under the Creative Commons Public Domain License ([http://creativecommons.org/licenses/publicdomain/]).
+
+This product includes software licensed under the Common Public License. ([http://www.opensource.org/licenses/cpl1.0.php])
+
+This product includes software licensed under the Mozilla Public License ([http://www.mozilla.org/MPL/]).
+
+This product includes software developed by Andy Clark. ([http://people.apache.org/~andyc/neko/LICENSE])
+
+Portions Copyright (c) 2000-2006 The Legion of the Bouncy Castle.  All Rights Reserved.   ([http://www.bouncycastle.org])
+
+Portions Copyright (c) 2000-2005 INRIA, France Telecom. All Rights Reserved.
+
+Portions Copyright (c) 2001-2006 Sun Microsystems, Inc. All Rights Reserved.
+
+Portions Copyright (c) 2002, 2003 Mihai Bazon. All Rights Reserved.  Licensed under GNU Lesser General Public License ([http://www.opensource.org/licenses/lgpl-license.php]).{HTMLcomment}Rice 1.0.0 - for javascript calendar{HTMLcomment}
+
+Portions Copyright (c) 2003-2006 The Werken Company. All Rights Reserved. ([http://jaxen.codehaus.org/])
+
+Portions Copyright (c) 2001-2005 MetaStuff, Ltd. All Rights Reserved. ([http://www.dom4j.org/])
+
+Portions Copyright (c) 1999-2004 Bull S. A. All Rights Reserved.
+
+Portions Copyright (c) 2003-2005 Joe Walnes. All Rights Reserved ([http://xstream.codehaus.org/]).
+
+Portions Copyright (c) 1998-2003 World Wide Web Consortium (Massachusetts Institute of Technology, European Research Consortium for Informatics and Mathematics, Keio University).  All Rights Reserved.  This work is distributed under the W3C� Software License in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
