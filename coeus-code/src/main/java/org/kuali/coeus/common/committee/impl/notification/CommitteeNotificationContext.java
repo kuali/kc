@@ -18,6 +18,7 @@ package org.kuali.coeus.common.committee.impl.notification;
 
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.framework.mail.EmailAttachment;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.notification.impl.NotificationContextBase;
 import org.kuali.coeus.common.notification.impl.NotificationRenderer;
@@ -26,7 +27,6 @@ import org.kuali.coeus.common.notification.impl.exception.UnknownRoleException;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationModuleRoleService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.util.EmailAttachment;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
