@@ -22,6 +22,7 @@ import org.kuali.kra.personmasschange.service.SubawardPersonMassChangeService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -30,6 +31,7 @@ import java.util.*;
  * 
  * Person roles that might be replaced are: Requisitioner, Contact.
  */
+@Component("subawardPersonMassChangeService")
 public class SubawardPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements SubawardPersonMassChangeService {
     
     private static final String SUBAWARD_CODE = "subAwardCode";

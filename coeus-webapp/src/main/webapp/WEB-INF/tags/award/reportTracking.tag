@@ -65,7 +65,7 @@
 				<kul:htmlControlAttribute property="reportTrackingBeans[${index}].preparerName" 
 							attributeEntry="${reportTrackingBeanAttributes.preparerName}" readOnly="${reportTrackingReadOnly }"  />
 						<c:if test="${!reportTrackingReadOnly}">
-	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+	                	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 	                                fieldConversions="userName:reportTrackingBeans[${index}].preparerName,personId:reportTrackingBeans[${index}].preparerId" />
                     </c:if>				
 					<kul:htmlControlAttribute property="reportTrackingBeans[${index}].preparerId" 
@@ -144,7 +144,7 @@
 					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerName" 
 						attributeEntry="${reportTrackingAttributes.preparerName}" readOnly="${reportTrackingReadOnly }"  />
 					<c:if test="${!reportTrackingReadOnly}">
-	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+	                	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 	                                fieldConversions="userName:document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerName,personId:document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" />
                     </c:if>				
 					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" 

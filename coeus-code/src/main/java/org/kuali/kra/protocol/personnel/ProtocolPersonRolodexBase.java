@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import org.kuali.kra.bo.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 
 public abstract class ProtocolPersonRolodexBase extends Rolodex {
 

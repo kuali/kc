@@ -17,10 +17,10 @@ package org.kuali.kra.protocol.onlinereview;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.KcPersonService;

@@ -16,13 +16,13 @@
 package org.kuali.kra.coi;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.actions.DisclosureActionHelper;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.coi.disclosure.DisclosureHelper;

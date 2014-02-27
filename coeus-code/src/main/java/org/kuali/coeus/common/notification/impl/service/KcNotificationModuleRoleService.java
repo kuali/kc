@@ -25,7 +25,7 @@ public interface KcNotificationModuleRoleService {
      * This method retrieves all notification module roles for a given coeus module code.
      * @param moduleCode The module code as defined in the CoeusModule object
      * @return The list of matching notification modules roles for the given code
-     * @see org.kuali.kra.bo.CoeusModule
+     * @see org.kuali.coeus.common.framework.module.CoeusModule
      */
     List<NotificationModuleRole> getNotificationModuleRoles(String moduleCode);
     
@@ -33,7 +33,7 @@ public interface KcNotificationModuleRoleService {
      * This method retrieves all notification module roles for a given coeus module code as a String.
      * @param moduleCode The module code as defined in the CoeusModule object
      * @return The String representation of the list of matching notification modules roles for the given code
-     * @see org.kuali.kra.bo.CoeusModule
+     * @see org.kuali.coeus.common.framework.module.CoeusModule
      */
     String getNotificationModuleRolesString(String moduleCode);
     
@@ -42,7 +42,7 @@ public interface KcNotificationModuleRoleService {
      * @param moduleCode The module code as defined in the CoeusModule object
      * @param roleName The KIM namespace and role name, combined with a semicolon, ie. namespace:rolename
      * @return The list of matching notification modules roles for the given code and role name
-     * @see org.kuali.kra.bo.CoeusModule
+     * @see org.kuali.coeus.common.framework.module.CoeusModule
      */
     List<NotificationModuleRole> getNotificationModuleRolesForKimRole(String moduleCode, String roleName);
 }

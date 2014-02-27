@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.common.framework.person.KcPerson;
+
 public interface AbstractUnitAdministrator {
 
     String getPersonId();

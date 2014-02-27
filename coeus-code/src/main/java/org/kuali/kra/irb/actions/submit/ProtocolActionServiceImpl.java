@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.logging.Log;
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;

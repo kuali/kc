@@ -16,10 +16,10 @@
 package org.kuali.kra.protocol;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.krms.KcKrmsConstants;

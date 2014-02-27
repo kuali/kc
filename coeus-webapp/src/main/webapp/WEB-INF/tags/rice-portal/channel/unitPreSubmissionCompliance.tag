@@ -108,7 +108,7 @@
       <td>
         <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
      	<portal:portalLink displayTitle="false" title="Person Search" 
-		      url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.KcPerson&docFormKey=88888888&includeCustomActionUrls=false&returnLocation=${ConfigProperties.application.url}/coiPersonSearch.do&hideReturnLink=false&showMaintenanceLinks=false&refreshCaller=CoiDisclosurePersonSearch" >
+		      url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.coeus.common.framework.person.KcPerson&docFormKey=88888888&includeCustomActionUrls=false&returnLocation=${ConfigProperties.application.url}/coiPersonSearch.do&hideReturnLink=false&showMaintenanceLinks=false&refreshCaller=CoiDisclosurePersonSearch" >
           <img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle">
         </portal:portalLink>
       </td>

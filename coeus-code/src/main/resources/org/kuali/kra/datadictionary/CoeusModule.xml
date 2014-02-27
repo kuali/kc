@@ -21,7 +21,7 @@
 
     <bean id="CoeusModule" parent="CoeusModule-parentBean" />
     <bean id="CoeusModule-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.CoeusModule" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.module.CoeusModule" />
 		<property name="objectLabel" value="Coeus Module" />
         <property name="inquiryDefinition" >
             <ref bean="CoeusModule-inquiryDefinition" />

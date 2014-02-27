@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.dao.ojb;
+package org.kuali.coeus.common.impl.rolodex;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.dao.RolodexDao;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -40,7 +39,7 @@ public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(RolodexDaoOjb.class);
     
     /**
-     * @see org.kuali.kra.dao.RolodexDao#getNonOrganizationalRolodexResults(java.util.Map, boolean)
+     * @see org.kuali.coeus.common.impl.rolodex.RolodexDao#getNonOrganizationalRolodexResults(java.util.Map, boolean)
      */
     public List<? extends BusinessObject> getNonOrganizationalRolodexResults(Map fieldValues, boolean usePrimaryKeys) {
         Collection searchResults = new ArrayList();

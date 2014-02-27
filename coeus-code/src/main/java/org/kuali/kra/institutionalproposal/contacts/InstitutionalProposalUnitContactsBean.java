@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitContactType;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;

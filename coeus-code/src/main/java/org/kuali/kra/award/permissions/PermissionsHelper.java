@@ -16,6 +16,7 @@
 package org.kuali.kra.award.permissions;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -23,7 +24,6 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.RoleConstants;

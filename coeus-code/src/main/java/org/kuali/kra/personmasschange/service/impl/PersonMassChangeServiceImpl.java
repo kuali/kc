@@ -26,6 +26,8 @@ import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.*;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -34,14 +36,34 @@ import java.util.List;
  */
 public class PersonMassChangeServiceImpl implements PersonMassChangeService {
     
+	@Autowired
+	@Qualifier("awardPersonMassChangeService")
     private AwardPersonMassChangeService awardPersonMassChangeService;
+
     private IacucProtocolPersonMassChangeService iacucProtocolPersonMassChangeService;
+    
+	@Autowired
+	@Qualifier("institutionalProposalPersonMassChangeService")
     private InstitutionalProposalPersonMassChangeService institutionalProposalPersonMassChangeService;
-    private ProposalDevelopmentPersonMassChangeService proposalDevelopmentPersonMassChangeService;
+
+	private ProposalDevelopmentPersonMassChangeService proposalDevelopmentPersonMassChangeService;
+	
+	@Autowired
+	@Qualifier("proposalLogPersonMassChangeService")
     private ProposalLogPersonMassChangeService proposalLogPersonMassChangeService;
+	
+	@Autowired
+	@Qualifier("subawardPersonMassChangeService")
     private SubawardPersonMassChangeService subawardPersonMassChangeService;
+	
+	@Autowired
+	@Qualifier("negotiationPersonMassChangeService")
     private NegotiationPersonMassChangeService negotiationPersonMassChangeService;
+
     private ProtocolPersonMassChangeService protocolPersonMassChangeService;
+	
+    @Autowired
+	@Qualifier("unitAdministratorPersonMassChangeService")
     private UnitAdministratorPersonMassChangeService unitAdministratorPersonMassChangeService;
 
     @Override

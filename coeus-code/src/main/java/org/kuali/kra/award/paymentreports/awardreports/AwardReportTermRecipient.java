@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
@@ -22,7 +23,6 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.bo.Rolodex;
 
 /**
  * 

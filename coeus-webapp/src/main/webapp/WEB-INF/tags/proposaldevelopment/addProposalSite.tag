@@ -73,11 +73,11 @@
             </c:if>
             <kra:section permission="modifyProposal">
                 <kul:lookup
-                    boClassName="org.kuali.kra.bo.Rolodex" 
+                    boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" 
                     fieldConversions="rolodexId:${newProposalSiteField}.rolodexId,organization:${newProposalSiteField}.locationName,postalCode:${newProposalSiteField}.rolodex.postalCode,addressLine1:${newProposalSiteField}.rolodex.addressLine1,addressLine2:${newProposalSiteField}.rolodex.addressLine2,addressLine3:${newProposalSiteField}.rolodex.addressLine3,city:${newProposalSiteField}.rolodex.city,state:${newProposalSiteField}.rolodex.state"
                     anchor="${currentTabIndex}"/> 
                 <kul:directInquiry
-                    boClassName="org.kuali.kra.bo.Rolodex"
+                    boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
                     inquiryParameters="${newProposalSiteField}.rolodexId:rolodexId"
                     anchor="${currentTabIndex}"/>
                 <br/>

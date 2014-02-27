@@ -16,10 +16,10 @@
 package org.kuali.kra.external.award.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ValidRates;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.external.award.AwardAccountValidationService;
 import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
 import org.kuali.kra.infrastructure.KeyConstants;

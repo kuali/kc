@@ -493,7 +493,7 @@
 		<reference-descriptor name="appointmentType" class-ref="org.kuali.kra.budget.personnel.AppointmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="appointmentTypeCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/> 
 		</reference-descriptor>
 		<reference-descriptor name="jobCodeRef" class-ref="org.kuali.kra.budget.personnel.JobCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 

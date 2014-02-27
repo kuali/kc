@@ -15,12 +15,13 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.NegotiationPersonMassChangeService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.List;
  * 
  * Person roles that might be replaced are: Negotiator.
  */
+@Component("negotiationPersonMassChangeService")
 public class NegotiationPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements NegotiationPersonMassChangeService {
     
     private static final String NEGOTIATION = "negotiation";

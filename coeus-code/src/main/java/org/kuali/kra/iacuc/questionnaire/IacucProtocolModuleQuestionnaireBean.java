@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.questionnaire;
 
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.krms.KrmsRulesContext;

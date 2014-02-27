@@ -26,8 +26,8 @@ import gov.grants.apply.forms.rrKeyPersonV10.RRKeyPersonDocument.RRKeyPerson.Bio
 import gov.grants.apply.forms.rrKeyPersonV10.RRKeyPersonDocument.RRKeyPerson.SupportsAttached;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;

@@ -17,7 +17,7 @@ package org.kuali.kra.questionnaire.answer;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.rules.TemplateRuleTest;

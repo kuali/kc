@@ -16,9 +16,9 @@
 package org.kuali.kra.personmasschange.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact;
@@ -27,6 +27,7 @@ import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.InstitutionalProposalPersonMassChangeService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -35,6 +36,7 @@ import java.util.*;
  * 
  * Person roles that might be replaced are: Investigator, Unit Contact, Mailing Information, IP Reviewer.
  */
+@Component("institutionalProposalPersonMassChangeService")
 public class InstitutionalProposalPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements InstitutionalProposalPersonMassChangeService {
     
     private static final String PROPOSAL_NUMBER = "proposalNumber";

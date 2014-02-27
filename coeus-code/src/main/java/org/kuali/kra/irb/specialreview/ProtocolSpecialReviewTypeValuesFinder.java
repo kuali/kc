@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.specialreview;
 
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewTypeValuesFinder;
-import org.kuali.kra.bo.CoeusModule;
 
 /**
  * Provides a value finder for the Protocol-specific Special Review Types.

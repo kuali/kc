@@ -20,9 +20,9 @@ import gov.grants.apply.forms.performanceSite12V12.PerformanceSite12Document.Per
 import gov.grants.apply.forms.performanceSite12V12.SiteLocationDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;

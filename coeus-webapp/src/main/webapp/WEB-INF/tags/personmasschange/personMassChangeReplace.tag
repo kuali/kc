@@ -18,7 +18,7 @@
                                     Employee Search
                                 </td>
                                 <td style="border: medium none;">
-                                    <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+                                    <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
                                                 fieldConversions="personId:personMassChangeHomeHelper.replaceePersonId" />
                                 </td>
                             </tr>
@@ -27,7 +27,7 @@
                                     Non-Employee Search
                                 </td>
                                 <td style="border: medium none;">
-                                    <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+                                    <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" 
                                                 fieldConversions="rolodexId:personMassChangeHomeHelper.replaceeRolodexId" />
                                 </td>
                             </tr>
@@ -58,7 +58,7 @@
                                     Employee Search
                                 </td>
                                 <td style="border: medium none;">
-                                    <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+                                    <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
                                                 fieldConversions="personId:personMassChangeHomeHelper.replacerPersonId" />
                                 </td>
                             </tr>
@@ -67,7 +67,7 @@
                                     Non-Employee Search
                                 </td>
                                 <td style="border: medium none;">
-                                    <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+                                    <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" 
                                                 fieldConversions="rolodexId:personMassChangeHomeHelper.replacerRolodexId" />
                                 </td>
                             </tr>

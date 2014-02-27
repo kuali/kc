@@ -13,18 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.rolodex;
 
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.service.RolodexService;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component("rolodexService")
 public class RolodexServiceImpl implements RolodexService {
 
+	@Autowired
+	@Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
 
     /**
@@ -37,7 +44,7 @@ public class RolodexServiceImpl implements RolodexService {
     }
     
     /**
-     * @see org.kuali.kra.service.RolodexService#getRolodex(int)
+     * @see org.kuali.coeus.common.framework.rolodex.RolodexService#getRolodex(int)
      */
     public Rolodex getRolodex(int rolodexId) {
         Rolodex rolodex = null;

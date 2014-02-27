@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.bo;
 
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPerson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
