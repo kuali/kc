@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.type.KimType;
 
 import java.util.*;
 
@@ -76,12 +77,23 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put("unitNumber", unitNumber);
         List<String> roleIds = new ArrayList<String>();
-        List<Role> proposalRoles = systemAuthorizationService.getRoles(documentTypeCode);
-        for(Role role : proposalRoles) {
+        List<Role> roles = systemAuthorizationService.getRoles(documentTypeCode);
+        for(Role role : roles) {
+            if (isAccessListRole(role)) {
             roleIds.add(role.getId());
         }
+        }
         List<RoleMembership> membershipInfoList = roleManagementService.getRoleMembers(roleIds,new HashMap<String,String>(qualifiedRoleAttributes));
-        return membershipInfoList;
         
+        return membershipInfoList;
     }
+        
+    /* 
+     * This method filters out derived roles and roles that are not based on Unit or workflow
+     */
+    protected boolean isAccessListRole(Role role) {
+        KimType type = systemAuthorizationService.getKimTypeInfoForRole(role);
+        return (!StringUtils.startsWith(type.getName(), "Derived Role") && !StringUtils.startsWith(type.getName(), "Default"));
+    }
+    
 }

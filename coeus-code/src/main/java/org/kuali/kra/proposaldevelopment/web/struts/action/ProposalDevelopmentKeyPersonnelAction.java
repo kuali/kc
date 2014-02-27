@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,7 +117,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         boolean rulePassed = true;
-        ProposalDevelopmentDocument pd = pdform.getProposalDevelopmentDocument();
         rulePassed &= getKualiRuleService().applyRules(new SaveKeyPersonEvent(EMPTY_STRING, pdform.getProposalDevelopmentDocument()));
         if(rulePassed) {
             List<AnswerHeader> answerHeadersToSave = new ArrayList<AnswerHeader>();
@@ -547,16 +546,16 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
              * and we manually save them in correct order here. This may be a bug in how it's set up, but this works well, so we are going with it.  
              * Please feel free to to fix if you like.
              */
-            List peropleObjectsToSave = new ArrayList();
+            List peopleObjectsToSave = new ArrayList();
             for (ProposalPerson proposalPerson : keyPersonnel) {
                 this.getBusinessObjectService().save(proposalPerson);
                 if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
-                    peropleObjectsToSave.add(proposalPerson);
-                    peropleObjectsToSave.add(proposalPerson.getProposalPersonExtendedAttributes());
+                    peopleObjectsToSave.add(proposalPerson);
+                    peopleObjectsToSave.add(proposalPerson.getProposalPersonExtendedAttributes());
                     //this.getBusinessObjectService().save(proposalPerson.getProposalPersonExtendedAttributes());
                 }
             }
-            this.getBusinessObjectService().save(peropleObjectsToSave);
+            this.getBusinessObjectService().save(peopleObjectsToSave);
             
             for (ProposalPerson person : personsToDelete) {
                 if (person.getProposalPersonExtendedAttributes() != null) {

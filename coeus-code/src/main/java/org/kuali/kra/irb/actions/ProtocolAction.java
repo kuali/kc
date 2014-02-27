@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
-import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
-
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,9 +39,9 @@ import java.util.Map;
 public class ProtocolAction extends ProtocolActionBase {
 
     
-    private static final long serialVersionUID = -2148599171919464303L;
+    private static final String COMMENT_SUBMITTED_TO_IRB = "Submitted to IRB";
 
-    private transient QuestionnairePrintOption questionnairePrintOption;
+    private static final long serialVersionUID = -2148599171919464303L;
     
     public ProtocolAction() {
     }
@@ -55,14 +55,6 @@ public class ProtocolAction extends ProtocolActionBase {
         super(protocol, protocolActionTypeCode);
     }
 
-    public QuestionnairePrintOption getQuestionnairePrintOption() {
-        return questionnairePrintOption;
-    }
-
-    public void setQuestionnairePrintOption(QuestionnairePrintOption questionnairePrintOption) {
-        this.questionnairePrintOption = questionnairePrintOption;
-    }
-
     public void setQuestionnairePrintOptionFromHelper(ActionHelper actionHelper) {
         if (getSubmissionNumber() != null
                 && !ProtocolActionType.SUBMIT_TO_IRB.equals(getProtocolActionTypeCode())) {
@@ -71,7 +63,7 @@ public class ProtocolAction extends ProtocolActionBase {
                                 getSubmissionNumber().toString(), CoeusSubModule.PROTOCOL_SUBMISSION));
             }
         } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(getProtocolActionTypeCode())
-                && ("Submitted to IRB").equals(getComments())) {
+                && COMMENT_SUBMITTED_TO_IRB.equals(getComments())) {
             if (getProtocol().isAmendment() || getProtocol().isRenewal()) {
                 setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber(),
                                 getSequenceNumber().toString(), CoeusSubModule.AMENDMENT_RENEWAL));
@@ -81,41 +73,28 @@ public class ProtocolAction extends ProtocolActionBase {
                                 getInitialSequence(this, ""), CoeusSubModule.ZERO_SUBMODULE));
             }
         } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(getProtocolActionTypeCode()) && StringUtils.isNotBlank(getComments())
-                                                            && (getComments().startsWith("Amendment-") || getComments().startsWith("Renewal-"))) {
+                                                            && (getComments().startsWith(COMMENT_PREFIX_AMMENDMENT) || getComments().startsWith(COMMENT_PREFIX_RENEWAL))) {
             String amendmentRenewalNumber = getAmendmentRenewalNumber(getComments());
             setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber() + amendmentRenewalNumber, 
                                         getInitialSequence(this, amendmentRenewalNumber), CoeusSubModule.AMENDMENT_RENEWAL));
         }
     }
     
-    private QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode) {
-
-        if (!getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
-            QuestionnairePrintOption qnPrintOption = new QuestionnairePrintOption();
-            qnPrintOption.setItemKey(itemKey);
-            qnPrintOption.setSubItemCode(subItemCode);
-            qnPrintOption.setSubItemKey(subItemKey);
-            return qnPrintOption;
-        } else {
-            return null;
-        }
-    }
-
     /*
      * get the sequence number of the protocol that the action initially created
      */
     private String getInitialSequence(ProtocolAction protocolAction, String amendmentRenewalNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("protocolNumber", protocolAction.getProtocolNumber() + amendmentRenewalNumber);
+        fieldValues.put(PROTOCOL_NUMBER_FIELD_KEY, protocolAction.getProtocolNumber() + amendmentRenewalNumber);
         if (StringUtils.isBlank(amendmentRenewalNumber)) {
-            fieldValues.put("actionId", protocolAction.getActionId().toString());
+            fieldValues.put(ACTION_ID_FIELD_KEY, protocolAction.getActionId().toString());
         }
         else {
-            fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber().toString());
+            fieldValues.put(SUBMISSION_NUMBER_FIELD_KEY, protocolAction.getSubmissionNumber().toString());
         }
-        fieldValues.put("protocolActionTypeCode", ProtocolActionType.SUBMIT_TO_IRB);
+        fieldValues.put(PROTOCOL_ACTION_TYPE_CODE_FIELD_KEY, ProtocolActionType.SUBMIT_TO_IRB);
         return ((List<ProtocolAction>) getBusinessObjectService().findMatchingOrderBy(ProtocolAction.class, fieldValues,
-                "protocolActionId", true)).get(0).getProtocol().getSequenceNumber().toString();
+                PROTOCOL_ACTION_ID_FIELD_KEY, true)).get(0).getProtocol().getSequenceNumber().toString();
     }
 
     @Override
@@ -134,4 +113,22 @@ public class ProtocolAction extends ProtocolActionBase {
             String submissionNumber) {
         return new IrbSubmissionQuestionnaireHelper(protocol, actionTypeCode, submissionNumber, true);
     }   
+    
+    @Override
+    public ProtocolSubmissionQuestionnaireHelper getQuestionnaireHelper() {
+        IrbSubmissionQuestionnaireHelper questionnaireHelper = (IrbSubmissionQuestionnaireHelper) super.getQuestionnaireHelper();
+        
+        if(StringUtils.equals(getProtocolActionTypeCode(),ProtocolActionType.SUBMIT_TO_IRB)) {
+            //add ZERO_SUBMODULE answer headers. These headers do not get picked up by populateAnswers() above.
+            ProtocolModuleQuestionnaireBeanBase protocolBaseQnBean = questionnaireHelper.getBaseProtocolModuleQuestionnaireBean(getSequenceNumber() == null ? null : getSequenceNumber().toString());
+            List<AnswerHeader> protocolAnswerHeaders = questionnaireHelper.getQuestionnaireAnswerService().getQuestionnaireAnswer(protocolBaseQnBean);
+            List<AnswerHeader> submissionAnswerHeaders = questionnaireHelper.getAnswerHeaders();
+            submissionAnswerHeaders.addAll(protocolAnswerHeaders);
+            questionnaireHelper.setAnswerHeaders(submissionAnswerHeaders);
+            questionnaireHelper.resetHeaderLabels();
+        }
+        
+        return questionnaireHelper;
+    }
+
 }

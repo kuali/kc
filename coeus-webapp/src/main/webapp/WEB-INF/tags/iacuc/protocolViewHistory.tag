@@ -201,7 +201,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		           		                            <c:forEach items="${protocolAction.filteredProtocolNotifications}" var="notification" varStatus="notificationStatus">
 		           		    	                        <tr>
 															<td>
-																<div align="center"><fmt:formatDate value="${notification.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> 
+																<div align="center"><fmt:formatDate value="${notification.createTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> 
 															</div>
                     										<td align="left" valign="middle">
 																<div align="center">
@@ -271,7 +271,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	            		    <c:set var="printOption" value="${protocolAction.questionnairePrintOption}"/>
 	            			<tr>
 	            				<td class="infoline">&nbsp;</td>
-	            			    <td class="infoline" colspan="4">
+	            			    <td class="infoline" colspan="6">
 	            		        	<kul:innerTab tabTitle="Questionnaires" tabItemCount="${fn:length(protocolAction.questionnaireHelper.answerHeaders)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
 	            		        		<div class="innerTab-container" align="left">
 	            		        			<c:forEach var="answerHeader" items="${protocolAction.questionnaireHelper.answerHeaders}" varStatus="answerStatus">

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,17 +24,16 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 /**
  * 
  * This class manages all the attributes needed to maintain a protocol action.
@@ -43,7 +42,13 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
 
     private static final long serialVersionUID = -2148599171919464303L;
 
-    private static final String NEXT_ACTION_ID_KEY = "actionId";
+    protected static final String PROTOCOL_ACTION_ID_FIELD_KEY = "protocolActionId";
+    protected static final String PROTOCOL_ACTION_TYPE_CODE_FIELD_KEY = "protocolActionTypeCode";
+    protected static final String SUBMISSION_NUMBER_FIELD_KEY = "submissionNumber";
+    protected static final String ACTION_ID_FIELD_KEY = "actionId";
+    protected static final String PROTOCOL_NUMBER_FIELD_KEY = "protocolNumber";
+    protected static final String COMMENT_PREFIX_RENEWAL = "Renewal-";
+    protected static final String COMMENT_PREFIX_AMMENDMENT = "Amendment-";
 
     //not thread safe cannot be static  
     private transient SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -95,32 +100,35 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
 
     private transient CommitteeServiceBase committeeService;
 
+    private transient QuestionnairePrintOption questionnairePrintOption;
+
     public ProtocolActionBase() {
     }
 
     public ProtocolActionBase(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolActionTypeCode) {
-        initializeProtocolAction(protocol, protocolActionTypeCode);
+        initializeProtocolAction(protocol, protocolSubmission, protocolActionTypeCode);
+    }
+
+    public ProtocolActionBase(ProtocolBase protocol, String protocolActionTypeCode) {
+        initializeProtocolAction(protocol, null, protocolActionTypeCode);
+    }
+    
+    protected void initializeProtocolAction(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolActionTypeCode) {
         if (protocolSubmission != null) {
             setSubmissionIdFk(protocolSubmission.getSubmissionId());
             setSubmissionNumber(protocolSubmission.getSubmissionNumber());
         }
-    }
-
-    public ProtocolActionBase(ProtocolBase protocol, String protocolActionTypeCode) {
-        initializeProtocolAction(protocol, protocolActionTypeCode);
-    }
-    
-    protected void initializeProtocolAction(ProtocolBase protocol, String protocolActionTypeCode) {
         setProtocolId(protocol.getProtocolId());
         setProtocolNumber(protocol.getProtocolNumber());
         setSequenceNumber(0);
-        setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
+        setActionId(protocol.getNextValue(ACTION_ID_FIELD_KEY));
         setActualActionDate(new Timestamp(System.currentTimeMillis()));
         setActionDate(new Timestamp(System.currentTimeMillis()));
         setProtocolActionTypeCode(protocolActionTypeCode);
         setProtocol(protocol);
         createUser = GlobalVariables.getUserSession().getPrincipalName();
         createTimestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
+
 //        createTimestamp = ((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp();
     }
     
@@ -396,7 +404,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         } else {
             List<KcNotification>filteredList = new ArrayList<KcNotification>();
             for (KcNotification notification: unfilteredList) {
-                if (currentUser.equals(notification.getUpdateUser())) {
+                if (currentUser.equals(notification.getCreateUser())) {
                     filteredList.add(notification);
                 } else {
                     for (String recipient: notification.getRecipients().split(",")) {
@@ -553,15 +561,34 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     public ProtocolSubmissionQuestionnaireHelper getQuestionnaireHelper() {
-        if (questionnaireHelper == null) {
             setQuestionnaireHelper(getProtocolSubmissionQuestionnaireHelperHook(getProtocol(), protocolActionTypeCode, submissionNumber == null ? null : submissionNumber.toString()));
-            getQuestionnaireHelper().populateAnswers();
-        }
+        questionnaireHelper.populateAnswers();
         return questionnaireHelper;
     }
 
     public void setQuestionnaireHelper(ProtocolSubmissionQuestionnaireHelper questionnaireHelper) {
         this.questionnaireHelper = questionnaireHelper;
+    }
+    
+    public QuestionnairePrintOption getQuestionnairePrintOption() {
+        return questionnairePrintOption;
+    }
+
+    public void setQuestionnairePrintOption(QuestionnairePrintOption questionnairePrintOption) {
+        this.questionnairePrintOption = questionnairePrintOption;
+    }
+
+    protected QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode) {
+    
+        if (!getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
+            QuestionnairePrintOption qnPrintOption = new QuestionnairePrintOption();
+            qnPrintOption.setItemKey(itemKey);
+            qnPrintOption.setSubItemCode(subItemCode);
+            qnPrintOption.setSubItemKey(subItemKey);
+            return qnPrintOption;
+        } else {
+            return null;
+        }
     }
     
 }

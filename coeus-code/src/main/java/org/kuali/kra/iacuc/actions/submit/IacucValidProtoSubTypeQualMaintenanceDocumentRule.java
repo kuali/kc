@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.actions.submit;
 
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierTypeBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
+import org.kuali.kra.protocol.actions.submit.ValidProtoSubTypeQual;
 import org.kuali.kra.protocol.actions.submit.ValidProtoSubTypeQualMaintenanceDocumentRuleBase;
 
 public class IacucValidProtoSubTypeQualMaintenanceDocumentRule extends ValidProtoSubTypeQualMaintenanceDocumentRuleBase {
@@ -30,5 +31,10 @@ public class IacucValidProtoSubTypeQualMaintenanceDocumentRule extends ValidProt
     protected Class<? extends ProtocolSubmissionQualifierTypeBase> getProtocolSubmissionQualifierTypeBOClassHook() {
         return IacucProtocolSubmissionQualifierType.class;
     }
+    
+    @Override
+    protected  Class<? extends ValidProtoSubTypeQual> getValidProtoSubTypeQualBOClassHook() {
+        return org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubTypeQual.class;
+    }   
 
 }

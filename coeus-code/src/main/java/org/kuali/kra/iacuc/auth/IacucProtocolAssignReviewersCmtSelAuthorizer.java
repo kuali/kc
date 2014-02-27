@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2010 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import java.util.Collections;
+
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.Constants;
@@ -25,13 +27,11 @@ import org.kuali.rice.kew.api.action.RoutingReportCriteria;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 
-import java.util.Collections;
-
 public class IacucProtocolAssignReviewersCmtSelAuthorizer extends IacucProtocolAuthorizer {
 
-    private KcWorkflowService kraWorkflowService;
+	private KcWorkflowService kraWorkflowService;
 
-    @Override
+	@Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         IacucProtocol protocol = task.getProtocol();
         return (isOnNode(protocol) || willBeOnNode(userId, protocol)) && 
@@ -60,12 +60,14 @@ public class IacucProtocolAssignReviewersCmtSelAuthorizer extends IacucProtocolA
         } catch (Exception e) {}
         return results;
     }
+    
+	
+    protected KcWorkflowService getKraWorkflowService() {
+		return kraWorkflowService;
+	}
 
-    public KcWorkflowService getKraWorkflowService() {
-        return kraWorkflowService;
-    }
+	public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+		this.kraWorkflowService = kraWorkflowService;
+	}
 
-    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
-        this.kraWorkflowService = kraWorkflowService;
-    }
 }

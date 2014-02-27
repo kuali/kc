@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,16 +63,18 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
                 fieldValues1.put("documentNumber", aai.getTimeAndMoneyDocumentNumber());
                 List<TimeAndMoneyDocument> timeAndMoneyDocuments =
                     (List<TimeAndMoneyDocument>)getBusinessObjectService().findMatching(TimeAndMoneyDocument.class, fieldValues1);
-                try {
-                TimeAndMoneyDocument timeAndMoneyDocument = 
-                    (TimeAndMoneyDocument)getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
-                if(timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument()) {
-                    if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
-                        validAwardAmountInfos.add(aai);
+                if(!timeAndMoneyDocuments.isEmpty()) {
+                    try {
+                    TimeAndMoneyDocument timeAndMoneyDocument = 
+                        (TimeAndMoneyDocument)getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
+                    if(timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument()) {
+                        if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
+                            validAwardAmountInfos.add(aai);
+                        }
                     }
-                }
-                } catch (WorkflowException e) {
-                    LOG.error(e.getMessage(), e);
+                    } catch (WorkflowException e) {
+                        LOG.error(e.getMessage(), e);
+                    }
                 }
         
             }

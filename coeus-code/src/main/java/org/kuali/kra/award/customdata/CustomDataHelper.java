@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
 import java.util.Map;
@@ -76,6 +78,12 @@ public class CustomDataHelper extends CustomDataHelperBase<AwardCustomData> {
     @Override
     public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
         return awardForm.getAwardDocument().getCustomAttributeDocuments();
+    }
+
+    @Override
+    public boolean documentNotRouted() {
+        WorkflowDocument doc = awardForm.getAwardDocument().getDocumentHeader().getWorkflowDocument();
+        return doc.isSaved() || doc.isInitiated();
     }
 
 }

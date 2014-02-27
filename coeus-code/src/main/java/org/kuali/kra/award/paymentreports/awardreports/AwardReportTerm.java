@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,6 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
 
     private Long awardReportTermId;
     private List<ReportTracking> reportTrackings;
-
 
     @AwardSyncableProperty(key = true)
     @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
@@ -179,7 +178,13 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
         if (!(obj instanceof AwardReportTerm)) {
             return false;
         }
-        return true;
+        
+        AwardReportTerm other = (AwardReportTerm) obj;
+        return StringUtils.equals(getReportClassCode(),other.getReportClassCode()) && 
+                StringUtils.equals(getReportCode(), other.getReportCode()) &&
+                StringUtils.equals(getFrequencyCode(), other.getFrequencyCode()) &&
+                StringUtils.equals(getOspDistributionCode(), other.getOspDistributionCode()) &&
+                ObjectUtils.equals(getDueDate(), other.getDueDate());
     }
 
     /**

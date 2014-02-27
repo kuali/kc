@@ -107,7 +107,8 @@ convert_file()
 	cat ${oracleFile} >> ${mysqlFile}
 	if [ `grep -c 'DELIMITER ;' ${mysqlFile}` -lt 1 ]
 	then
-		echo "\nDELIMITER ;" >> ${mysqlFile}
+		echo ' ' >> ${mysqlFile}
+		echo "DELIMITER ;" >> ${mysqlFile}
 	fi
 	sed -i -e s/SYS_GUID/UUID/ig -e s/SYSDATE/NOW\(\)/ig -e 's/to_date(/STR_TO_DATE(/ig' -e 's/YYYYMMDD/%Y%m%d/ig' -e 's/HH24MI/%H%i/ig' ${mysqlFile}
 	if [ `grep -ci '.NEXTVAL' ${mysqlFile}` -gt 0 ]
@@ -147,16 +148,19 @@ cd ${mysql_base}
 dir_list='sequences tables views dml constraints'
 for thisDir in ${dir_list}
 do
-	if [ ! -d ${thisDir} ]
+	if [ -d "${oracle_base}/${thisDir}" ]
 	then
-		mkdir ${thisDir}
-	fi
-	for srcFile in `find ${oracle_base}/${thisDir} -maxdepth 1 -type f`
-	do
-		shortFile=`basename ${srcFile}`
-		if [ ! -f ${thisDir}/${shortFile} ]
+		if [ ! -d ${thisDir} ]
 		then
-			convert_file ${srcFile} ${mysql_base}/${thisDir}/${shortFile}
+			mkdir ${thisDir}
 		fi
-	done
+		for srcFile in `find ${oracle_base}/${thisDir} -maxdepth 1 -type f`
+		do
+			shortFile=`basename ${srcFile}`
+			if [ ! -f ${thisDir}/${shortFile} ]
+			then
+				convert_file ${srcFile} ${mysql_base}/${thisDir}/${shortFile}
+			fi
+		done
+	fi
 done

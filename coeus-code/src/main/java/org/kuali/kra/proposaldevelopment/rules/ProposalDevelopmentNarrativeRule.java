@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,10 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
+import org.kuali.kra.proposaldevelopment.rule.ReplaceNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.ReplaceNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.service.KcPersonService;
@@ -60,7 +62,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.*;
  * @author kualidev@oncourse.iu.edu
  * @version 1.0
  */
-public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRuleBase implements AddNarrativeRule,SaveNarrativesRule, NewNarrativeUserRightsRule {
+public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRuleBase implements AddNarrativeRule, ReplaceNarrativeRule, SaveNarrativesRule, NewNarrativeUserRightsRule { 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
     private static final String DOCUMENT_NARRATIVES = "document.narratives";
     private static final String PROPOSAL = "Proposal";
@@ -102,9 +104,21 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
             reportError("newNarrative.narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
         }
         
+        rulePassed &= validFileNameCharacters(narrative);
+        
+        map.addToErrorPath("newNarrative");
+        getKnsDictionaryValidationService().validateBusinessObject(narrative,false);
+        map.removeFromErrorPath("newNarrative");
+        int size = map.getErrorMessages().keySet().size();
+        rulePassed &= size<=0;
+        rulePassed &= checkNarrative(document.getDevelopmentProposal().getNarratives(), narrative);
+        
+        return rulePassed;
+    }
+    private boolean validFileNameCharacters(Narrative narrative) {
         String attachmentFileName = narrative.getFileName();
         KcAttachmentService attachmentService = getKcAttachmentService();
-      
+        boolean rulePassed = true;
         // Checking attachment file name for invalid characters.
         String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
         if (ObjectUtils.isNotNull(invalidCharacters)) {
@@ -121,14 +135,6 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
                         attachmentFileName, invalidCharacters);
             }
         }
-        
-        map.addToErrorPath("newNarrative");
-        getKnsDictionaryValidationService().validateBusinessObject(narrative,false);
-        map.removeFromErrorPath("newNarrative");
-        int size = map.getErrorMessages().keySet().size();
-        rulePassed &= size<=0;
-        rulePassed &= checkNarrative(document.getDevelopmentProposal().getNarratives(), narrative);
-        
         return rulePassed;
     }
     /**
@@ -163,6 +169,31 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         
         return rulePassed;
     }
+    
+    /**
+     * This method is used to validate characters in the attachment file name, and should be invoked when a user attempts
+     * to replace a narrative post-route.
+     * @see org.kuali.kra.proposaldevelopment.rule.ReplaceNarrativeRule#processReplaceNarrativeBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.ReplaceNarrativeEvent)
+     */
+    public boolean processReplaceNarrativeBusinessRules(ReplaceNarrativeEvent replaceNarrativeEvent) {
+        Narrative narrative = replaceNarrativeEvent.getNarrative();
+        boolean rulePassed = true;
+        populateNarrativeType(narrative);
+        MessageMap map = GlobalVariables.getMessageMap();
+
+        if(narrative.getNarrativeType()==null)
+            rulePassed = false;
+        
+        rulePassed &= validFileNameCharacters(narrative);
+        
+        map.addToErrorPath(replaceNarrativeEvent.getErrorPathPrefix());
+        getKnsDictionaryValidationService().validateBusinessObject(narrative,false);
+        map.removeFromErrorPath(replaceNarrativeEvent.getErrorPathPrefix());
+        int size = map.getErrorMessages().keySet().size();
+        rulePassed &= size<=0 ;
+        
+        return rulePassed;
+    } 
     
     /**
      * Check to see if the user modified a narrative and verify that the

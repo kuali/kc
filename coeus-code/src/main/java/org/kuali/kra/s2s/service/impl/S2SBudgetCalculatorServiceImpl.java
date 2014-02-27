@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation.
+ * Copyright 2005-2014 The Kuali Foundation.
  *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1615,6 +1615,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     protected List<List<KeyPersonInfo>> getKeyPersons(BudgetPeriod budgetPeriod, ProposalDevelopmentDocument pdDoc,
             int numKeyPersons) {
         List<KeyPersonInfo> keyPersons = new ArrayList<KeyPersonInfo>();
+        List<KeyPersonInfo> seniorPersons = new ArrayList<KeyPersonInfo>();
         KeyPersonInfo keyPerson = new KeyPersonInfo();
         ProposalPerson principalInvestigator = s2SUtilService.getPrincipalInvestigator(pdDoc);
 
@@ -1681,8 +1682,8 @@ public class S2SBudgetCalculatorServiceImpl implements
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 personAlreadyAdded = false;
-                for (ProposalPerson coInvestigator : pdDoc.getDevelopmentProposal().getInvestigators()) {
-                    if (s2SUtilService.proposalPersonEqualsBudgetPerson(coInvestigator, budgetPersonnelDetails)) {
+                for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+                    if (s2SUtilService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
                         personAlreadyAdded = true;
                         break;
                     }
@@ -1755,12 +1756,14 @@ public class S2SBudgetCalculatorServiceImpl implements
                 }
             }
         }
+        for(KeyPersonInfo seniorPerson : keyPersons){
+            if(seniorPerson.getRole().equals(NID_PD_PI)||hasPersonnelBudget(budgetPeriod,seniorPerson)){
+                seniorPersons.add(seniorPerson);
+            }            
+        }
 
-        List<KeyPersonInfo> allPersons = new ArrayList<KeyPersonInfo>();
-        allPersons.addAll(keyPersons);
-        List<KeyPersonInfo> nKeyPersons = getNKeyPersons(keyPersons, true, numKeyPersons);
-        List<KeyPersonInfo> extraPersons = getNKeyPersons(allPersons, false, numKeyPersons);
-
+        List<KeyPersonInfo> nKeyPersons = getNKeyPersons(seniorPersons, true, numKeyPersons);
+        List<KeyPersonInfo> extraPersons = getNKeyPersons(seniorPersons, false, numKeyPersons);         
         CompensationInfo compensationInfo;
         for (KeyPersonInfo keyPersonInfo : nKeyPersons) {
             keyPerson = keyPersonInfo;
@@ -1805,6 +1808,17 @@ public class S2SBudgetCalculatorServiceImpl implements
         return listKeyPersons;
     }
 
+    private Boolean hasPersonnelBudget(BudgetPeriod budgetPeriod,KeyPersonInfo keyPerson){
+
+        for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+            for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
+                if( budgetPersonnelDetails.getPersonId().equals(keyPerson.getPersonId())){
+                    return true;
+                } 
+            }
+        }
+        return false;
+    }
     /**
      * This method...
      * @return

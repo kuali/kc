@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2010 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,9 @@ public class IacucProtocolOnlineReviewTypesNotDeterminationValuesFinder extends 
      */
     private static final long serialVersionUID = -4118821657613491616L;
     
-    private static final String DEFAULT_SELECTION = "Select"; 
+    
+    //value should match org.kuali.kra.maintenanceIacucProtocolOnlineReviewDeterminationTypeRecommendationMaintainableImpl.DEFAULT_SELECTION
+    private static final String DEFAULT_SELECTION = "select"; 
     
     KeyValuesService keyValuesService = null;
 
@@ -56,7 +58,8 @@ public class IacucProtocolOnlineReviewTypesNotDeterminationValuesFinder extends 
                 }
             }
             if (!found) {
-                keyValues.add(new ConcreteKeyValue(reviewType.getReviewTypeCode(), reviewType.getDescription()));
+                String description = new String (reviewType.getReviewTypeCode() + " - " + reviewType.getDescription());
+                keyValues.add(new ConcreteKeyValue(reviewType.getReviewTypeCode(), description));
             }
             found = false;
         }       

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -113,7 +113,6 @@ class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
         for (Role role : roles) {
             if (RoleConstants.VIEWER.equalsIgnoreCase(role.getDisplayName()) 
                     || RoleConstants.AGGREGATOR.equalsIgnoreCase(role.getDisplayName()) 
-                        || role.getDisplayName().equalsIgnoreCase(MAINTAIN_IRB_QUESTIONNAIRE) 
                             || role.getDisplayName().equalsIgnoreCase(PROTOCOL_DELETER)) {
                 PermissionsRoleState roleState = new PermissionsRoleState(role);
                 roleStates.add(roleState);

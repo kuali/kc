@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ public class ProtocolAssignToAgendaAuthorizer extends ProtocolAuthorizer {
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
         return kraWorkflowService.isInWorkflow(protocol.getProtocolDocument())
-                && kraWorkflowService.isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)
+                && kraWorkflowService.isCurrentNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)
                 && isAssignedToCommittee(protocol)
                 && hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }

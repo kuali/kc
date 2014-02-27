@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation.
+ * Copyright 2005-2014 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
@@ -63,6 +64,9 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
     protected static final String ERROR1_PROPERTY_KEY = "s2sSubawardBudgetV1-2_10000";
     protected static final String ERROR2_PROPERTY_KEY = "s2sSubawardBudget_10002";
     private transient static KcAttachmentService  kcAttachmentService;
+    public static ArrayList <String> attachmentList = new ArrayList<String> ();
+    public static ArrayList <String> budgetIdList = new ArrayList<String> ();
+    public static ArrayList <String> budgetSubawardNumberList = new ArrayList<String> ();
 
     /**
      * This method convert node of form in to a Document
@@ -150,13 +154,69 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
      */
     protected static final String prepareAttName(BudgetSubAwards budgetSubAwards) {
         StringBuilder attachmentName = new StringBuilder();
+        boolean hasSameFileName = false;
+        boolean isAlreadyprinted = false;
+        int attachmentCount=0;
+        int suffix=1;
+       
+        int index =0;
+        for(String budgetId : budgetIdList){
+            
+            if(budgetSubAwards.getBudgetId().toString().equals(budgetId)){
+                if(budgetSubawardNumberList.get(index).equals(budgetSubAwards.getSubAwardNumber().toString())){
+                    attachmentList.clear();
+                    isAlreadyprinted = true;
+                    break;
+                }
+            }
+            index++;
+        }
+        if(isAlreadyprinted){
+            budgetIdList.clear();
+            budgetSubawardNumberList.clear();
+        }
         
-        attachmentName.append(budgetSubAwards.getBudgetId() + "-");
         //checking organization name and replacing invalid characters
         // with underscores.
-        String cleanSubAwardOrganizationName = getKcAttachmentService().checkAndReplaceInvalidCharacters(budgetSubAwards.getOrganizationName());
-        attachmentName.append(cleanSubAwardOrganizationName + "-");
-        attachmentName.append(budgetSubAwards.getSubAwardNumber());
+        String cleanSubAwardOrganizationName = getKcAttachmentService()
+                .checkAndReplaceInvalidCharacters(budgetSubAwards.getOrganizationName());
+        attachmentName.append(cleanSubAwardOrganizationName);        
+        Map<String,Object> paramMap = new HashMap<String,Object>();
+        paramMap.put("budgetId", budgetSubAwards.getBudgetId());
+        List <BudgetSubAwards >budgetSubAwardsList = (List<BudgetSubAwards>) KcServiceLocator
+                .getService(BusinessObjectService.class).findMatching(BudgetSubAwards.class, paramMap);      
+        ArrayList <String> attachments = new ArrayList<String> ();
+        for (BudgetSubAwards budgetSubAward: budgetSubAwardsList) {
+            StringBuilder existingAttachmentName = new StringBuilder();
+            String subAward_OrganizationName = getKcAttachmentService()
+                    .checkAndReplaceInvalidCharacters(budgetSubAward.getOrganizationName());
+            existingAttachmentName.append(subAward_OrganizationName);
+            attachments.add(existingAttachmentName.toString());                 
+        }
+        for (String attachment :attachments) {                
+            if (attachment.equals(attachmentName.toString())) {
+                attachmentCount++;
+            }
+        }        
+        if (attachmentCount>1 && !attachmentList.contains(attachmentName.toString())) {
+            attachmentList.add(attachmentName.toString());
+            attachmentName.append(1);
+            hasSameFileName = true;                
+        } else {
+            for (String attachment:attachmentList) {                  
+                if (attachment.equals(attachmentName.toString())) {
+                    suffix++;
+                }                    
+            }
+        }            
+        if (attachmentList.contains(attachmentName.toString()) && !hasSameFileName) {
+            attachmentList.add(attachmentName.toString());
+            attachmentName.append(suffix);
+        } else {
+            attachmentList.add(attachmentName.toString());             
+        }                           
+        budgetIdList.add(budgetSubAwards.getBudgetId().toString());
+        budgetSubawardNumberList.add(budgetSubAwards.getSubAwardNumber().toString());           
         return attachmentName.toString();
     }
     

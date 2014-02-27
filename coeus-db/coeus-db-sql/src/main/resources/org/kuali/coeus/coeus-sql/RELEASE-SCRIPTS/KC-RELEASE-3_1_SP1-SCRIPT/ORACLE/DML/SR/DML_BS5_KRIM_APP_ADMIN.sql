@@ -140,7 +140,12 @@ VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim
 --assign edit document permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
-    (select MIN(PERM_ID) from KRIM_PERM_T where NM='Edit Kuali ENROUTE Document Node Name PreRoute' and nmspc_cd = 'KUALI'), 'Y');
+    (select MIN(PERM_ID) from KRIM_PERM_T where NM='Edit Kuali ENROUTE Document Route Status Code S' and nmspc_cd = 'KUALI'), 'Y');
+    
+--assign edit document permission to Application Administrator role
+INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+VALUES (KRIM_ROLE_PERM_ID_BS_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),
+    (select MIN(PERM_ID) from KRIM_PERM_T where NM='Edit Kuali ENROUTE Document Route Status Code I' and nmspc_cd = 'KUALI'), 'Y');
 
 --assign log in permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)

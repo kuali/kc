@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,7 +102,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
      */
     private static final long serialVersionUID = 1668673531338660064L;
     
-    public static final String DOCUMENT_TYPE_CODE = "AWARD";
+    public static final String DOCUMENT_TYPE_CODE = "AWRD";
     private static final String DEFAULT_TAB = "Versions";
     private static final String ALTERNATE_OPEN_TAB = "Parameters";
     

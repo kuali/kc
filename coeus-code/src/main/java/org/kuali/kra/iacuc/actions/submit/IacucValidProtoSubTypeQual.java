@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,68 +15,27 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierTypeBase;
+import org.kuali.kra.protocol.actions.submit.ValidProtoSubTypeQual;
 
-public class IacucValidProtoSubTypeQual  extends KcPersistableBusinessObjectBase {
+
+public class IacucValidProtoSubTypeQual  extends ValidProtoSubTypeQual {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 6546751709369749190L;
 
-    private Long validProtoSubTypeQualId;
-
-    private String submissionTypeCode;
-
-    private String iacucSubmissionTypeQualCode;
-
-    private IacucProtocolSubmissionType iacucProtocolSubmissionType;
-
-    private IacucProtocolSubmissionQualifierType iacucSubmissionTypeQualifier;
 
     public IacucValidProtoSubTypeQual() {
     }
 
-    public Long getValidProtoSubTypeQualId() {
-        return validProtoSubTypeQualId;
-    }
-
-    public void setValidProtoSubTypeQualId(Long validProtoSubTypeQualId) {
-        this.validProtoSubTypeQualId = validProtoSubTypeQualId;
-    }
-
-    public String getSubmissionTypeCode() {
-        return submissionTypeCode;
-    }
-
-    public void setSubmissionTypeCode(String submissionTypeCode) {
-        this.submissionTypeCode = submissionTypeCode;
-    }
-
-
-    public void setIacucProtocolSubmissionType(IacucProtocolSubmissionType iacucProtocolSubmissionType) {
-        this.iacucProtocolSubmissionType = iacucProtocolSubmissionType;
-    }
-
-    public IacucProtocolSubmissionType getIacucProtocolSubmissionType() {
-        return iacucProtocolSubmissionType;
-    }
-
-    public IacucProtocolSubmissionQualifierType getIacucSubmissionTypeQualifier() {
-        return iacucSubmissionTypeQualifier;
-    }
-
-    public void setIacucSubmissionTypeQualifier(IacucProtocolSubmissionQualifierType iacucSubmissionTypeQualifier) {
-        this.iacucSubmissionTypeQualifier = iacucSubmissionTypeQualifier;
-    }
-
     public String getIacucSubmissionTypeQualCode() {
-        return iacucSubmissionTypeQualCode;
+        return super.getSubmissionTypeQualCode();
     }
 
-    public void setIacucSubmissionTypeQualCode(String iacucSubmissionTypeQualCode) {
-        this.iacucSubmissionTypeQualCode = iacucSubmissionTypeQualCode;
+    public ProtocolSubmissionQualifierTypeBase getIacucSubmissionTypeQualifier() {
+        return super.getSubmissionTypeQualifier();
     }
-
 
 }

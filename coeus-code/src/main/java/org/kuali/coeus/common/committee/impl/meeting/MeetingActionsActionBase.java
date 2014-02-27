@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,8 +102,8 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
      * get the printable and add to printable list. 
      */
     private List<Printable> getPrintableArtifacts(MeetingHelperBase meetingHelper, String protocolCorrespondenceTypeCode) {
-        AbstractPrint printable = (AbstractPrint)getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.SCHEDULE_TEMPLATE);    
         CommitteeBase committee = meetingHelper.getCommitteeSchedule().getParentCommittee();
+        AbstractPrint printable = (AbstractPrint)getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.SCHEDULE_TEMPLATE, committee.getCommitteeId());    
         printable.setPrintableBusinessObject(meetingHelper.getCommitteeSchedule());        
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put("committeeId", committee.getCommitteeId());
@@ -383,14 +383,14 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
             AbstractPrint printable;
             List<Printable> printableArtifactList = new ArrayList<Printable>();
             if (printRooster) {
-                printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER);
+                printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER, document.getCommittee().getCommitteeId());
                 printable.setPrintableBusinessObject(document.getCommittee());
                 document.getCommittee().setPrintRooster(printRooster);
                 printableArtifactList.add(printable);
                 meetingHelper.setPrintRooster(false);
             }
             if (printFutureScheduledMeeting) {
-                printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS);
+                printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS, document.getCommittee().getCommitteeId());
                 printable.setPrintableBusinessObject(document.getCommittee());
                 printableArtifactList.add(printable);
                 document.getCommittee().setPrintRooster(printFutureScheduledMeeting);

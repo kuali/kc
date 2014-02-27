@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -373,7 +373,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      * @return
      */
     public boolean isRenewal() {
-        return getProtocol().getProtocolNumber().contains(RENEWAL_KEY);
+        return getProtocol().isRenewal();
     }
 
     /**
@@ -381,7 +381,15 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      * @return
      */
     public boolean isAmendment() {
-        return getProtocol().getProtocolNumber().contains(AMENDMENT_KEY);
+        return getProtocol().isAmendment();
+    }
+    
+    /**
+     * Is this an amendment protocol document?
+     * @return
+     */
+    public boolean isRenewalWithAmendment() {
+        return getProtocol().isRenewalWithAmendment();
     }
     
     /**

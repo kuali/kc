@@ -1,6 +1,6 @@
 DELIMITER /
 --
--- Copyright 2005-2013 The Kuali Foundation
+-- Copyright 2005-2014 The Kuali Foundation
 --
 -- Licensed under the Educational Community License, Version 2.0 (the "License");
 -- you may not use this file except in compliance with the License.
@@ -45,9 +45,9 @@ perm_id = (select perm_id from krim_perm_t where nm = 'Add Message to Route Log'
 --     KULRICE-6676 - external message tables
 --
 
--------------------------------------------------------------------------
+--
 -- krad_msg_t
--------------------------------------------------------------------------
+--
 CREATE TABLE krad_msg_t
 (
     nmspc_cd VARCHAR(20) NOT NULL,

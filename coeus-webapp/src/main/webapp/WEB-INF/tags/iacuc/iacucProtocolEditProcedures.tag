@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2013 The Kuali Foundation
+ Copyright 2005-2014 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@
 <script type="text/javascript">
 	var saveButtonClicked = false;
 	var editProcedureSelectedDiv="editProcedure";
+	var checkboxDisabled = "${readOnly}";
 	jq(document).ready(function() {
     	jq("#editProcedureLink").fancybox({
 			'afterClose' : function() {
@@ -46,11 +47,15 @@
 		jq("#viewTrainingLink").fancybox();
 
 		jq(".checkBoxSelectAll").click(function () {
-			funcCheckForAllProcs(editProcedureSelectedDiv, jq(this).is(':checked'));
+			if(checkboxDisabled == "false") {
+				funcCheckForAllProcs(editProcedureSelectedDiv, jq(this).is(':checked'));
+			}
 		});     
 
 		jq(".checkBoxAllGroup").click(function () {
-			jq("."+editProcedureSelectedDiv).attr('checked',this.checked);
+			if(checkboxDisabled == "false") {
+				jq("."+editProcedureSelectedDiv).attr('checked',this.checked);
+			}
 		});     
 		
         function funcCheckForAllProcs(divName, isChecked) {

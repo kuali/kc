@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1145,63 +1145,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return forward;
     }
     
-    /**
-     * Assign a protocol to a committee/schedule.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward assignCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        final String callerString = "assignCommitteeSchedule";
-        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, (Protocol) protocolForm.getProtocolDocument().getProtocol());
-        
-        if (!hasDocumentStateChanged(protocolForm)) {
-            if (isAuthorized(task)) {
-                ProtocolAssignCmtSchedBean actionBean = ((ActionHelper) protocolForm.getActionHelper()).getAssignCmtSchedBean();
-                if (applyRules(new ProtocolAssignCmtSchedEvent((ProtocolDocument) protocolForm.getProtocolDocument(), actionBean))) {
-                    
-                    if( protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission() != null) {
-                        boolean performAssignment = false;
-                        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-                        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-    
-                    
-                        if (isCommitteeMeetingAssignedMaxProtocols(actionBean.getNewCommitteeId(), actionBean.getNewScheduleId())) {
-                            //There are existing reviews and we are changing schedules
-                            //need to verify with the user that they want to remove the existing reviews before proceeding.
-                            if (question==null || !CONFIRM_ASSIGN_CMT_SCHED_KEY.equals(question)) {
-                                return performQuestionWithoutInput(mapping, form, request, response, CONFIRM_ASSIGN_CMT_SCHED_KEY,
-                                        getKualiConfigurationService().getPropertyValueAsString(KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW), KRADConstants.CONFIRMATION_QUESTION, callerString, "" );
-                            } else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
-                                performAssignment = true;
-                            } else {
-                                //nothing to do, answered no.
-                            }
-                        } else {
-                            performAssignment = true;
-                        }
-        
-                        if (performAssignment) {
-                            getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule((Protocol) protocolForm.getProtocolDocument().getProtocol(), actionBean);
-                            recordProtocolActionSuccess("Assign to Committee and Schedule");
-                        }
-                        
-                    }
-                }
-            }
-        } else {
-            GlobalVariables.getMessageMap().clearErrorMessages();
-            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
-        }
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
     public ActionForward confirmAssignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
@@ -1827,17 +1770,44 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward modifySubmsionAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward modifySubmissionAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        
-        if (!hasDocumentStateChanged(protocolForm)) {
+        final String callerString = "assignCommitteeSchedule";
             ProtocolModifySubmissionBean bean = protocolForm.getActionHelper().getProtocolModifySubmissionBean();
+        ProtocolAssignCmtSchedBean actionBean = ((ActionHelper) protocolForm.getActionHelper()).getAssignCmtSchedBean();
             if (applyRules(new ProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), bean))) {
-                KcServiceLocator.getService(ProtocolModifySubmissionService.class).modifySubmisison(protocolForm.getProtocolDocument(), bean);
+            if (!hasDocumentStateChanged(protocolForm)) {
+                ProtocolSubmission protocolSubmission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
+                if( protocolSubmission != null) {
+                    boolean performAssignment = false;
+                    Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+                    Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             
-                recordProtocolActionSuccess("Modify Submission Request");
+                    if (isCommitteeMeetingAssignedMaxProtocols(actionBean.getNewCommitteeId(), actionBean.getNewScheduleId())) {
+                        //There are existing reviews and we are changing schedules
+                        //need to verify with the user that they want to remove the existing reviews before proceeding.
+                        if (question==null || !CONFIRM_ASSIGN_CMT_SCHED_KEY.equals(question)) {
+                            return performQuestionWithoutInput(mapping, form, request, response, CONFIRM_ASSIGN_CMT_SCHED_KEY,
+                                    getKualiConfigurationService().getPropertyValueAsString(KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW), KRADConstants.CONFIRMATION_QUESTION, callerString, "" );
+                        } else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
+                            performAssignment = true;
+                        } else {
+                            // reset selected value on panel, since they declined reassignment.
+                            actionBean.setScheduleId(protocolSubmission.getScheduleId());
             }
+        } else {
+                        performAssignment = true;
+                    }
+        
+                    if (performAssignment) {
+                        getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule((Protocol) protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                    }
+                        
+                }
+            }
+            KcServiceLocator.getService(ProtocolModifySubmissionService.class).modifySubmission(protocolForm.getProtocolDocument(), bean);
+            recordProtocolActionSuccess("Modify Submission Request");
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
             GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 

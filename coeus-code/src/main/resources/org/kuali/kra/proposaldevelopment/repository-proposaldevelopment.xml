@@ -1,5 +1,5 @@
 <!--
- Copyright 2005-2013 The Kuali Foundation.
+ Copyright 2005-2014 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -81,6 +81,8 @@
         <field-descriptor name="mailingAddressId" column="MAILING_ADDRESS_ID" jdbc-type="INTEGER" />
         <field-descriptor name="numberOfCopies" column="NUMBER_OF_COPIES" jdbc-type="VARCHAR" />
         <field-descriptor name="proposalStateTypeCode" column="STATUS_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="agencyRoutingIdentifier" column="AGENCY_ROUTING_IDENTIFIER" jdbc-type="VARCHAR" />
+        <field-descriptor name="prevGrantsGovTrackingID" column="PREV_GG_TRACKID" jdbc-type="VARCHAR" />
         <field-descriptor name="submitFlag" column="SUBMIT_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <!-- 
         <field-descriptor name="budgetStatus" column="BUDGET_STATUS" jdbc-type="VARCHAR" />
@@ -260,6 +262,7 @@
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal" table="EPS_PROPOSAL">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" access="readonly"/>
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="ownedByUnitNumber" column="OWNED_BY_UNIT" jdbc-type="VARCHAR" />
         <field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="VARCHAR" />

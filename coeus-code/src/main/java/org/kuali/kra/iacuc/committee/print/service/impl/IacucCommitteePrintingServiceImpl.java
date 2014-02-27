@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.committee.print.service.impl;
 
 import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
 import org.kuali.coeus.common.committee.impl.print.ScheduleTemplatePrintBase;
+import org.kuali.coeus.common.committee.impl.print.TemplatePrintBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.committee.print.*;
 import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
@@ -49,7 +50,7 @@ public class IacucCommitteePrintingServiceImpl extends PrintingServiceImpl imple
     /**
      * {@inheritDoc}
      */
-    public AbstractPrint getCommitteePrintable(CommitteeReportType reportType) {
+    public AbstractPrint getCommitteePrintable(CommitteeReportType reportType, String committeeId) {
         AbstractPrint printable = null;
         switch(reportType) {
             case COMMITTEE_TEMPLATE :
@@ -73,7 +74,10 @@ public class IacucCommitteePrintingServiceImpl extends PrintingServiceImpl imple
             default :
                 throw new IllegalArgumentException(ERROR_MESSAGE);
         }
-        
+        if(printable instanceof TemplatePrintBase) {
+            TemplatePrintBase printBase = (TemplatePrintBase)printable;
+            printBase.setCommitteeId(committeeId);
+        }
         return printable;
     }
     

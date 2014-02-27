@@ -53,7 +53,8 @@
 				<routePath>
 					<start name="Initiated" nextNode="AwardBudgetOSPApproval"/><!--
 					<requests name="AwardBudgetInitialApproval" nextNode="AwardBudgetOSPApproval"/>
-					--><requests name="AwardBudgetOSPApproval"/>
+					--><requests name="AwardBudgetOSPApproval" nextNode="PeopleFlows"/>
+					<requests name="PeopleFlows" />
 				</routePath>
 			</routePaths>
 			<routeNodes>
@@ -69,6 +70,10 @@
                     <activationType>S</activationType>
                     <finalApproval>true</finalApproval>
 	            </role>
+	            <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kra.award.budget.service.impl.AwardBudgetRulesEngineExecutorImpl"/>
+                </requests>
 			</routeNodes>
 		</documentType>
 	</documentTypes>
