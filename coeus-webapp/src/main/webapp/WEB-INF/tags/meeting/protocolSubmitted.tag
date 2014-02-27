@@ -96,11 +96,11 @@
                                                <c:choose>
 	                                               <c:when test="${!empty KualiForm.meetingHelper.protocolSubmittedBeans[status.index].personId}">
 						                               <input type="hidden" name="meetingHelper.protocolSubmittedBeans[${status.index}].personId" value="${KualiForm.meetingHelper.protocolSubmittedBeans[status.index].personId}"/>
-                                                       <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="meetingHelper.protocolSubmittedBeans[${status.index}].personId:personId" anchor="${tabKey}" />
+                                                       <kul:directInquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" inquiryParameters="meetingHelper.protocolSubmittedBeans[${status.index}].personId:personId" anchor="${tabKey}" />
 	                                               </c:when>
 	                                               <c:otherwise>
 						                               <input type="hidden" name="meetingHelper.protocolSubmittedBeans[${status.index}].rolodexId" value="${KualiForm.meetingHelper.protocolSubmittedBeans[status.index].rolodexId}"/>
-                                                       <kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="meetingHelper.protocolSubmittedBeans[${status.index}].rolodexId:rolodexId" anchor="${tabKey}" />
+                                                       <kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" inquiryParameters="meetingHelper.protocolSubmittedBeans[${status.index}].rolodexId:rolodexId" anchor="${tabKey}" />
 	                                               </c:otherwise>
                                               </c:choose>
 	                	<%-- TODO : need to take care of rolodex_id  --%>

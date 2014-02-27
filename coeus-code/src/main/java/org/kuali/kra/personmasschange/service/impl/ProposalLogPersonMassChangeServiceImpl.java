@@ -15,12 +15,13 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.Rolodex;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.ProposalLogPersonMassChangeService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,6 +33,7 @@ import java.util.Set;
  * 
  * Person roles that might be replaced are: Principal Investigator.
  */
+@Component("proposalLogPersonMassChangeService")
 public class ProposalLogPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements ProposalLogPersonMassChangeService {
 
     private static final String PROPOSAL_LOG = "proposal log";

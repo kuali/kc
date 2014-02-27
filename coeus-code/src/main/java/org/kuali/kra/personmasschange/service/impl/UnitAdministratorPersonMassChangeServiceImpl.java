@@ -21,6 +21,7 @@ import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.UnitAdministratorPersonMassChangeService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,6 +34,7 @@ import java.util.Set;
  * Person roles that might be replaced are: Administrative Officer, OSP Administrator, Unit Head, Dean VP, Other Individual to Notify, Administrative Contact, 
  * Financial Contact.
  */
+@Component("unitAdministratorPersonMassChangeService")
 public class UnitAdministratorPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements UnitAdministratorPersonMassChangeService {
 
     @Override

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.questionnaire;
 
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.infrastructure.TaskName;

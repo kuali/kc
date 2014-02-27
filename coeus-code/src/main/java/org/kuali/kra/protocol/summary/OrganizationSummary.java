@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.summary;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 
 import java.io.Serializable;
 

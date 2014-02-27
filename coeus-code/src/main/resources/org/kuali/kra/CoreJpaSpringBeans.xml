@@ -52,6 +52,7 @@
         <value>org.kuali.kra.document</value>
         <value>org.kuali.kra.s2s.bo</value>
         <value>org.kuali.coeus.common.specialreview.impl.bo</value>
+        <value>org.kuali.coeus.common.framework.rolodex</value>
 
         <!--converters -->
         <value>org.kuali.kra.budget</value>

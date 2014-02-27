@@ -48,7 +48,7 @@
 	                	<div align="center">
 	                		<input type="hidden" name="admin_contact.identifier_${institutionalProposalContactRowStatus.index}" value="${institutionalProposalContact.contact.identifier}" />
 	                		${institutionalProposalContact.fullName}&nbsp;
-	                		<kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="admin_contact.identifier_${institutionalProposalContactRowStatus.index}:personId" anchor="${tabKey}" />		                	
+	                		<kul:directInquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" inquiryParameters="admin_contact.identifier_${institutionalProposalContactRowStatus.index}:personId" anchor="${tabKey}" />		                	
 						</div>
 					</td>
 	                <td valign="middle">

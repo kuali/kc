@@ -15,8 +15,8 @@
  */
 package org.kuali.coeus.common.notification.impl;
 
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.util.GlobalVariables;
 

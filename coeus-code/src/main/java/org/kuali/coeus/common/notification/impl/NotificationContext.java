@@ -28,10 +28,10 @@ import java.util.List;
 public interface NotificationContext {
     
     /**
-     * Returns the associated module as defined in {@link org.kuali.kra.bo.CoeusModule}.
+     * Returns the associated module as defined in {@link org.kuali.coeus.common.framework.module.CoeusModule}.
      * 
      * @return the Coeus module code
-     * @see org.kuali.kra.bo.CoeusModule
+     * @see org.kuali.coeus.common.framework.module.CoeusModule
      */
     String getModuleCode();
     

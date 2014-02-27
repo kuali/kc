@@ -30,6 +30,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.coeus.common.notification.impl.NotificationContext;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationType;
@@ -38,12 +41,9 @@ import org.kuali.coeus.common.notification.impl.exception.UnknownRoleException;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.KcEmailService;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.util.EmailAttachment;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.membership.MemberType;
@@ -64,6 +64,10 @@ import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
+import java.util.*;
 
 /**
  * Defines methods for creating and sending KC Notifications.
@@ -84,7 +88,11 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private BusinessObjectService businessObjectService;
     private SendNotificationService sendNotificationService;
     private RoleService roleManagementService;
+    @Autowired
+    @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
+    @Autowired
+    @Qualifier("rolodexService")
     private RolodexService rolodexService;
     private ParameterService parameterService;
     private IdentityService identityService;

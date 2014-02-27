@@ -16,8 +16,8 @@
 package org.kuali.kra.institutionalproposal.proposallog.printing;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 import org.kuali.kra.printing.PrintingException;

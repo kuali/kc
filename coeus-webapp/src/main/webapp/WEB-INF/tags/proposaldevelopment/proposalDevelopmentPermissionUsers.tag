@@ -57,7 +57,7 @@
 	                	                          attributeEntry="${proposalUserAttributes.username}" 
 	                	                          onblur="loadPersonName('newProposalUser.username', 
 	                	                          						'fullnameCell', 'unitNumberCell', 'unitNameCell');"/>
-	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+	                	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 	                	            fieldConversions="userName:newProposalUser.username,fullName:newProposalUser.fullname,unit.unitName:newProposalUser.unitName,unit.unitNumber:newProposalUser.unitNumber"
 	                	            anchor="${tabKey}" />                        
 					</td>

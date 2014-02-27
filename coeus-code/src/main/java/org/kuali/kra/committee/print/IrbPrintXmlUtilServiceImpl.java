@@ -26,7 +26,7 @@ import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.Subm
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo.Checklists;
 
 import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;

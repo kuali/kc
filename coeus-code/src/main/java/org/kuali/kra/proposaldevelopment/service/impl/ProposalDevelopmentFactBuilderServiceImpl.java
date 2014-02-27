@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;

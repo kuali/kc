@@ -19,6 +19,7 @@ package org.kuali.kra.award.awardhierarchy.sync.helpers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
@@ -30,7 +31,6 @@ import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
-import org.kuali.kra.bo.Rolodex;
 import static org.junit.Assert.*;
 public class AwardSyncReportHelperTest extends AwardSyncHelperTestBase {
     

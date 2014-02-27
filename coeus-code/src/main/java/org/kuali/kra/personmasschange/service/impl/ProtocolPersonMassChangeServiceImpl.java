@@ -16,8 +16,8 @@
 package org.kuali.kra.personmasschange.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.Rolodex;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -32,6 +32,7 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 

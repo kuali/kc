@@ -16,8 +16,8 @@
 package org.kuali.kra.award.home;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
 
 public class AwardTemplateReportTermRecipient extends KcPersistableBusinessObjectBase {
