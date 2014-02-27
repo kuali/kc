@@ -20,6 +20,7 @@ import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDa
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,7 @@ import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements PropDevJavaFunctionKrmsTermService {
@@ -947,6 +949,13 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
                 break;
             case 'P' :
                 if(citizenshipTypeCode.equals(INT_PERMANENT_RESIDENT_OF_U_S_PENDING)) {
+                    RETURN_VALUE = TRUE;
+                }
+                break;
+            default :
+                Collection<String> citizenshipTypeParams = getParameterService().getParameterValuesAsString(ProposalDevelopmentDocument.class, 
+                        ProposalDevelopmentUtils.PROPOSAL_PI_CITIZENSHIP_TYPE_PARM);
+                if(ObjectUtils.isNotNull(citizenshipTypeParams) && citizenshipTypeParams.contains(citizenshipTypeToCheck)) {
                     RETURN_VALUE = TRUE;
                 }
                 break;
