@@ -16,7 +16,7 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.MultiCampusIdentityService;
@@ -25,6 +25,9 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.entity.EntityContract;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +36,19 @@ import java.util.Map;
 /**
  * Service for working with KcPerson objects.
  */
+@Component("kcPersonService")
 public class KcPersonServiceImpl implements KcPersonService {
     
+	@Autowired
+	@Qualifier("identityService")
     private IdentityService identityService;
     
+	@Autowired
+	@Qualifier("parameterService")
     private ParameterService parameterService;
     
+    @Autowired
+    @Qualifier("multiCampusIdentityService")
     private MultiCampusIdentityService multiCampusIdentityService;
 
     

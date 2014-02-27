@@ -61,7 +61,7 @@
 						</td>
 						<td width="40" valign="middle" style="border: medium none ;">
 							<label>
-							<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+							<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 	                         fieldConversions="personId:protocolHelper.personId,fullName:protocolHelper.principalInvestigatorName,unit.unitNumber:protocolHelper.lookupUnitNumber,unit.unitName:protocolHelper.lookupUnitName" 
 	                         /></label>
                          </td>
@@ -73,7 +73,7 @@
             	        <kul:checkErrors keyMatch="document.protocolList[0].principalInvestigatorId" auditMatch="document.protocolList[0].principalInvestigatorId"/>
                         <td width="40" valign="middle" style="border: medium none ;">	
 							<label>
-							<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+							<kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" 
 	                         fieldConversions="rolodexId:protocolHelper.rolodexId,unit.unitNumber:protocolHelper.lookupUnitNumber,unit.unitName:protocolHelper.lookupUnitName,fullName:protocolHelper.principalInvestigatorName"  
 	                         />   
 							</label>

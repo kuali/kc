@@ -15,12 +15,12 @@
   						<c:when test="${empty KualiForm.personnelHelper.newProtocolPerson.personId && empty KualiForm.personnelHelper.newProtocolPerson.rolodexId}">
                 			<label>Employee Search</label>
                   			<label>
-                  				<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:personnelHelper.newProtocolPerson.personId,fullName:personnelHelper.newProtocolPerson.personName" />
+                  				<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" fieldConversions="personId:personnelHelper.newProtocolPerson.personId,fullName:personnelHelper.newProtocolPerson.personName" />
 							</label>
 							<br>
                   			<label>Non-employee Search</label> 
                   			<label>
-                  				<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:personnelHelper.newProtocolPerson.rolodexId,fullName:personnelHelper.newProtocolPerson.personName" />
+                  				<kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" fieldConversions="rolodexId:personnelHelper.newProtocolPerson.rolodexId,fullName:personnelHelper.newProtocolPerson.personName" />
 							</label>
   						</c:when>
   						<c:otherwise>

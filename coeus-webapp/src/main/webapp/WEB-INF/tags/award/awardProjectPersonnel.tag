@@ -71,7 +71,7 @@
            	        							  			'key.emailAddress',
            	        							  			'key.personId');"
 											readOnly="${readOnly}" /> <c:if test="${!readOnly}">
-              					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
+              					<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson"
                                             fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}"
       	 									lookupParameters="projectPersonnelBean.newProjectPerson.person.fullName:lastName"/>				
 
@@ -111,7 +111,7 @@
            	        							  			'key.rolodexId');"
            	        							 readOnly="${readOnly}"/>
  					<c:if test="${!readOnly}">
-  					<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:projectPersonnelBean.rolodexId" 
+  					<kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" fieldConversions="rolodexId:projectPersonnelBean.rolodexId" 
           			anchor="${tabKey}"
           			lookupParameters="projectPersonnelBean.rolodexId:rolodexId,projectPersonnelBean.newProjectPerson.rolodex.fullName:lastName"/>																	
   					</c:if>
@@ -223,10 +223,10 @@
     	                		${awardContact.fullName}&nbsp;
     	                		<c:choose>
     		                		<c:when test="${awardContact.employee}">
-    		                			<kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:personId" anchor="${tabKey}" />
+    		                			<kul:directInquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:personId" anchor="${tabKey}" />
     		                		</c:when>
     		                		<c:otherwise>
-    		                			<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
+    		                			<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
     		                		</c:otherwise>
     		                	</c:choose>
     						</div>
@@ -240,7 +240,7 @@
     		                			<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="award_person.orgNumber_${awardContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
     		                		</c:when>
     		                		<c:otherwise>
-    		                			<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
+    		                			<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
     		                		</c:otherwise>
     		                	</c:choose>		                	
     						</div>

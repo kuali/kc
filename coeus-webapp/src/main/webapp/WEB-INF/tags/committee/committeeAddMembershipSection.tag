@@ -19,13 +19,13 @@
                         <c:when test="${empty KualiForm.committeeHelper.newCommitteeMembership.personId && empty KualiForm.committeeHelper.newCommitteeMembership.rolodexId}">
                             <label>Employee Search</label>
                             <label>
-                                <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
+                                <kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
                                     fieldConversions="personId:committeeHelper.newCommitteeMembership.personId,fullName:committeeHelper.newCommitteeMembership.personName" />
                             </label>
                             <br>
                             <label>Non-employee Search</label> 
                             <label>
-                                <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+                                <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" 
                                     fieldConversions="rolodexId:committeeHelper.newCommitteeMembership.rolodexId,fullName:committeeHelper.newCommitteeMembership.personName" />
                             </label>
                         </c:when>

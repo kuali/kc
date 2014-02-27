@@ -22,7 +22,7 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

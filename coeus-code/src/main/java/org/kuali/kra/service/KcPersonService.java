@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.rice.kim.api.identity.Person;
 
 import java.util.List;

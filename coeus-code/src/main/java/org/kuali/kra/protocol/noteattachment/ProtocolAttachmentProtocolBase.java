@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.service.KcPersonService;

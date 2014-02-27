@@ -3,7 +3,7 @@
   <bean id="Rolodex" parent="Rolodex-parentBean"/>
 
   <bean abstract="true" id="Rolodex-parentBean" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.Rolodex"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.rolodex.Rolodex"/>
 		<property name="objectLabel" value="Rolodex"/>
     <property name="inquiryDefinition">
       <ref bean="Rolodex-inquiryDefinition"/>

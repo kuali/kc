@@ -16,9 +16,9 @@
 package org.kuali.kra.proposaldevelopment.web.krad;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;

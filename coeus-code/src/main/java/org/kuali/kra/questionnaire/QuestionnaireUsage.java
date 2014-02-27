@@ -16,10 +16,10 @@
 package org.kuali.kra.questionnaire;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

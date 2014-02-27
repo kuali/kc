@@ -17,9 +17,9 @@ package org.kuali.kra.budget.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;

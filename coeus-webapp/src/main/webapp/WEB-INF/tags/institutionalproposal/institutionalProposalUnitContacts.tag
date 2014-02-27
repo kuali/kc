@@ -47,7 +47,7 @@
 					<kul:htmlControlAttribute property="unitContactsBean.newInstitutionalProposalContact.fullName" 
       							attributeEntry="${institutionalProposalContactAttributes.fullName}" readOnly="true"/>
       				<label>
-      					<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:unitContactsBean.personId" anchor="${tabKey}" 
+      					<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" fieldConversions="personId:unitContactsBean.personId" anchor="${tabKey}" 
  									lookupParameters="unitContactsBean.personId:personId"/>
  					</label>
         		</td>
@@ -86,7 +86,7 @@
 	                	<div align="center">
 	                		<input type="hidden" name="unit_contact.identifier_${institutionalProposalContactRowStatus.index}" value="${institutionalProposalContact.contact.identifier}" />
 	                		${institutionalProposalContact.fullName}&nbsp;
-	                		<kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="unit_contact.identifier_${institutionalProposalContactRowStatus.index}:personId" anchor="${tabKey}" />		                	
+	                		<kul:directInquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" inquiryParameters="unit_contact.identifier_${institutionalProposalContactRowStatus.index}:personId" anchor="${tabKey}" />		                	
 						</div>
 					</td>
 	                <td valign="middle">

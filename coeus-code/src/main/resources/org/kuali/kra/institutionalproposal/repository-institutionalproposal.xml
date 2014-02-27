@@ -49,7 +49,7 @@
         <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="leadUnit"/>
         </reference-descriptor>
-        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.NonOrganizationalRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
         <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -173,7 +173,7 @@
         <reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="proposalTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
         <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 

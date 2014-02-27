@@ -25,6 +25,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;

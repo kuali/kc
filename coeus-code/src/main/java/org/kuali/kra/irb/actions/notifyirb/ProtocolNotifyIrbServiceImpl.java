@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.actions.notifyirb;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.bo.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;

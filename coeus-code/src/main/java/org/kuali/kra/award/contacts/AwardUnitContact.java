@@ -16,6 +16,8 @@
 package org.kuali.kra.award.contacts;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
@@ -92,7 +94,7 @@ public class AwardUnitContact extends AwardContact {
     }
 
     /**
-     * @see org.kuali.kra.award.contacts.AwardContact#setPerson(org.kuali.kra.bo.KcPerson)
+     * @see org.kuali.kra.award.contacts.AwardContact#setPerson(org.kuali.coeus.common.framework.person.KcPerson)
      */
     @Override
     public void setPerson(KcPerson person) {
