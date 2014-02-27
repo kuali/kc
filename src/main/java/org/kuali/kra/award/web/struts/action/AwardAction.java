@@ -48,6 +48,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -735,11 +736,13 @@ public class AwardAction extends BudgetParentActionBase {
     }
 
 
-    protected void generateDirectFandADistribution(AwardForm awardForm) {
-        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
-        Award award = awardDocument.getAward();
+    protected void generateDirectFandADistribution(Award award) {
         // set awardDirectFandADistributions on award
-        if(isNewAward(awardForm) && !(award.getAwardEffectiveDate() == null)){
+        if(!(award.getAwardEffectiveDate() == null)){
+            
+            // delete entries that were added during previous T&M initiations but the doc cancelled.
+            getBusinessObjectService().delete(award.getAwardDirectFandADistributions());
+            
             Boolean autoGenerate = getParameterService().getParameterValueAsBoolean(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, 
                                                                                     KeyConstants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS); 
             if (autoGenerate) {
@@ -791,11 +794,12 @@ public class AwardAction extends BudgetParentActionBase {
             if(timeAndMoneyDocuments.size() > 0 && timeAndMoneyDocument != null) {
                 firstTimeAndMoneyDocCreation = Boolean.FALSE;
             }
-    
+            
+            if (timeAndMoneyDocument == null) {
+                generateDirectFandADistribution(currentAward);
+            }
+
             if(firstTimeAndMoneyDocCreation){
-                
-                generateDirectFandADistribution(awardForm);
-                
                 timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
                 timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
                 timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);
@@ -824,7 +828,7 @@ public class AwardAction extends BudgetParentActionBase {
             String forward = buildForwardUrl(routeHeaderId);
             actionForward = new ActionForward(forward, true);
             //add this to session and leverage in T&M for return to award action.
-            GlobalVariables.getUserSession  ().addObject(Constants.AWARD_DOCUMENT_STRING_FOR_SESSION + "-" + timeAndMoneyDocument.getDocumentNumber(), awardDocument.getDocumentNumber());            
+            GlobalVariables.getUserSession().addObject(Constants.AWARD_DOCUMENT_STRING_FOR_SESSION + "-" + timeAndMoneyDocument.getDocumentNumber(), awardDocument.getDocumentNumber());            
         } else {
             actionForward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
