@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="Rolodex" parent="Rolodex-parentBean"/>
-
   <bean abstract="true" id="Rolodex-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.coeus.common.framework.rolodex.Rolodex"/>
 		<property name="objectLabel" value="Rolodex"/>
@@ -92,14 +91,20 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rolodex Id"/>
     <property name="description" value="Rolodex Id"/>
   </bean>
-  <bean id="Rolodex-addressLine1" parent="Rolodex-addressLine1-parentBean"/>
 
+  <bean id="Rolodex-addressLine1" parent="Rolodex-addressLine1-parentBean"/>
   <bean abstract="true" id="Rolodex-addressLine1-parentBean" parent="AttributeDefinition">
     <property name="name" value="addressLine1"/>
     <property name="forceUppercase" value="false"/>
@@ -109,14 +114,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="80" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="80" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Address Line 1"/>
     <property name="description" value="Address Line 1"/>
   </bean>
-  <bean id="Rolodex-addressLine2" parent="Rolodex-addressLine2-parentBean"/>
 
+  <bean id="Rolodex-addressLine2" parent="Rolodex-addressLine2-parentBean"/>
   <bean abstract="true" id="Rolodex-addressLine2-parentBean" parent="AttributeDefinition">
     <property name="name" value="addressLine2"/>
     <property name="forceUppercase" value="false"/>
@@ -126,14 +139,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="80" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="80" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Address Line 2"/>
     <property name="description" value="Address Line 2"/>
   </bean>
-  <bean id="Rolodex-addressLine3" parent="Rolodex-addressLine3-parentBean"/>
 
+  <bean id="Rolodex-addressLine3" parent="Rolodex-addressLine3-parentBean"/>
   <bean abstract="true" id="Rolodex-addressLine3-parentBean" parent="AttributeDefinition">
     <property name="name" value="addressLine3"/>
     <property name="forceUppercase" value="false"/>
@@ -143,14 +164,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="80" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="80" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Address Line 3"/>
     <property name="description" value="Address Line 3"/>
   </bean>
-  <bean id="Rolodex-comments" parent="Rolodex-comments-parentBean"/>
 
+  <bean id="Rolodex-comments" parent="Rolodex-comments-parentBean"/>
   <bean abstract="true" id="Rolodex-comments-parentBean" parent="AttributeDefinition">
     <property name="name" value="comments"/>
     <property name="forceUppercase" value="false"/>
@@ -160,14 +189,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="40" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Comments"/>
     <property name="description" value="Comments"/>
   </bean>
-  <bean id="Rolodex-deleteFlag" parent="Rolodex-deleteFlag-parentBean"/>
 
+  <bean id="Rolodex-deleteFlag" parent="Rolodex-deleteFlag-parentBean"/>
   <bean abstract="true" id="Rolodex-deleteFlag-parentBean" parent="AttributeDefinition">
     <property name="name" value="deleteFlag"/>
     <property name="forceUppercase" value="false"/>
@@ -177,33 +214,47 @@
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="1" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="1" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Delete Flag"/>
     <property name="description" value="Delete Flag"/>
   </bean>
+
   <bean id="Rolodex-emailAddress" parent="Rolodex-emailAddress-parentBean"/>
-
-  <bean abstract="true" id="Rolodex-emailAddress-parentBean" parent="KraAttributeReferenceDummy-emailAddress">
-  </bean>
+  <bean abstract="true" id="Rolodex-emailAddress-parentBean" parent="KraAttributeReferenceDummy-emailAddress"/>
   <bean id="Rolodex-faxNumber" parent="Rolodex-faxNumber-parentBean"/>
-
   <bean abstract="true" id="Rolodex-faxNumber-parentBean" parent="AttributeDefinition">
     <property name="name" value="faxNumber"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Fax Number"/>
     <property name="shortLabel" value="Fax Number"/>
     <property name="maxLength" value="20"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Fax Number"/>
     <property name="description" value="Fax Number"/>
   </bean>
-  <bean id="Rolodex-firstName" parent="Rolodex-firstName-parentBean"/>
 
+  <bean id="Rolodex-firstName" parent="Rolodex-firstName-parentBean"/>
   <bean abstract="true" id="Rolodex-firstName-parentBean" parent="AttributeDefinition">
     <property name="name" value="firstName"/>
     <property name="forceUppercase" value="false"/>
@@ -213,14 +264,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="First Name"/>
     <property name="description" value="First Name"/>
   </bean>
-  <bean id="Rolodex-lastName" parent="Rolodex-lastName-parentBean"/>
 
+  <bean id="Rolodex-lastName" parent="Rolodex-lastName-parentBean"/>
   <bean abstract="true" id="Rolodex-lastName-parentBean" parent="AttributeDefinition">
     <property name="name" value="lastName"/>
     <property name="forceUppercase" value="false"/>
@@ -230,29 +289,47 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Last Name"/>
     <property name="description" value="Last Name"/>
   </bean>
-  <bean id="Rolodex-middleName" parent="Rolodex-middleName-parentBean"/>
 
+  <bean id="Rolodex-middleName" parent="Rolodex-middleName-parentBean"/>
   <bean abstract="true" id="Rolodex-middleName-parentBean" parent="AttributeDefinition">
     <property name="name" value="middleName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Middle Name"/>
     <property name="shortLabel" value="Middle Name"/>
     <property name="maxLength" value="20"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Middle Name"/>
     <property name="description" value="Middle Name"/>
   </bean>
-  <bean id="Rolodex-fullName" parent="Rolodex-fullName-parentBean"/>
 
+  <bean id="Rolodex-fullName" parent="Rolodex-fullName-parentBean"/>
   <bean abstract="true" id="Rolodex-fullName-parentBean" parent="AttributeDefinition">
     <property name="name" value="fullName"/>
     <property name="forceUppercase" value="false"/>
@@ -262,11 +339,14 @@
     <property name="control">
       <bean p:size="63" parent="TextControlDefinition"/>
     </property>
+    <property name="controlField">
+      <bean p:size="63" parent="Uif-TextControl"/>
+    </property>
     <property name="summary" value="Full Name"/>
     <property name="description" value="Full Name"/>
   </bean>
-  <bean id="Rolodex-organization" parent="Rolodex-organization-parentBean"/>
 
+  <bean id="Rolodex-organization" parent="Rolodex-organization-parentBean"/>
   <bean abstract="true" id="Rolodex-organization-parentBean" parent="AttributeDefinition">
     <property name="name" value="organization"/>
     <property name="forceUppercase" value="false"/>
@@ -276,14 +356,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="40" parent="TextControlDefinition"/> 
+    </property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Organization"/>
     <property name="description" value="Organization"/>
   </bean>
-  <bean id="Rolodex-ownedByUnit" parent="Rolodex-ownedByUnit-parentBean"/>
 
+  <bean id="Rolodex-ownedByUnit" parent="Rolodex-ownedByUnit-parentBean"/>
   <bean abstract="true" id="Rolodex-ownedByUnit-parentBean" parent="AttributeDefinition">
     <property name="name" value="ownedByUnit"/>
     <property name="forceUppercase" value="false"/>
@@ -293,36 +381,52 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="8" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Owned By Unit"/>
     <property name="description" value="Owned By Unit"/>
   </bean>
-  <bean id="Rolodex-unit.unitName" parent="Rolodex-unit.unitName-parentBean"/>
 
+  <bean id="Rolodex-unit.unitName" parent="Rolodex-unit.unitName-parentBean"/>
   <bean abstract="true" id="Rolodex-unit.unitName-parentBean" parent="Unit-unitName">
     <property name="name" value="unit.unitName"/>
     <property name="label" value="Owned By Unit"/>
     <property name="shortLabel" value="Owned By Unit"/>
   </bean>
-  <bean id="Rolodex-phoneNumber" parent="Rolodex-phoneNumber-parentBean"/>
 
+  <bean id="Rolodex-phoneNumber" parent="Rolodex-phoneNumber-parentBean"/>
   <bean abstract="true" id="Rolodex-phoneNumber-parentBean" parent="AttributeDefinition">
     <property name="name" value="phoneNumber"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Phone Number"/>
     <property name="shortLabel" value="Phone Number"/>
     <property name="maxLength" value="20"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="20" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Phone Number"/>
     <property name="description" value="Phone Number"/>
   </bean>
-  <bean id="Rolodex-postalCode" parent="Rolodex-postalCode-parentBean"/>
 
+  <bean id="Rolodex-postalCode" parent="Rolodex-postalCode-parentBean"/>
   <bean abstract="true" id="Rolodex-postalCode-parentBean" parent="AttributeDefinition">
     <property name="name" value="postalCode"/>
     <property name="forceUppercase" value="false"/>
@@ -332,14 +436,20 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="15" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Postal Code"/>
     <property name="description" value="Postal Code"/>
   </bean>
-  <bean id="Rolodex-prefix" parent="Rolodex-prefix-parentBean"/>
 
+  <bean id="Rolodex-prefix" parent="Rolodex-prefix-parentBean"/>
   <bean abstract="true" id="Rolodex-prefix-parentBean" parent="AttributeDefinition">
     <property name="name" value="prefix"/>
     <property name="forceUppercase" value="false"/>
@@ -349,14 +459,20 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Prefix"/>
     <property name="description" value="Prefix"/>
   </bean>
-  <bean id="Rolodex-isSponsorAddress" parent="Rolodex-isSponsorAddress-parentBean"/>
 
+  <bean id="Rolodex-isSponsorAddress" parent="Rolodex-isSponsorAddress-parentBean"/>
   <bean abstract="true" id="Rolodex-isSponsorAddress-parentBean" parent="AttributeDefinition">
     <property name="name" value="isSponsorAddress"/>
     <property name="forceUppercase" value="false"/>
@@ -366,16 +482,23 @@
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" 
-      p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.RolodexAddressFlagValuesFinder"
-      p:script="updateOrganizationLookupReturn(this)"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.RolodexAddressFlagValuesFinder" p:script="updateOrganizationLookupReturn(this)"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.RolodexAddressFlagValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Sponsor Address Flag"/>
     <property name="description" value="Sponsor Address Flag"/>
   </bean>
-  <bean id="Rolodex-sponsorAddressFlag" parent="Rolodex-sponsorAddressFlag-parentBean"/>
 
+  <bean id="Rolodex-sponsorAddressFlag" parent="Rolodex-sponsorAddressFlag-parentBean"/>
   <bean abstract="true" id="Rolodex-sponsorAddressFlag-parentBean" parent="AttributeDefinition">
     <property name="name" value="sponsorAddressFlag"/>
     <property name="forceUppercase" value="false"/>
@@ -385,14 +508,20 @@
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="1" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="1" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Sponsor Address Flag"/>
     <property name="description" value="Sponsor Address Flag"/>
   </bean>
-  <bean id="Rolodex-sponsorCode" parent="Rolodex-sponsorCode-parentBean"/>
 
+  <bean id="Rolodex-sponsorCode" parent="Rolodex-sponsorCode-parentBean"/>
   <bean abstract="true" id="Rolodex-sponsorCode-parentBean" parent="AttributeDefinition">
     <property name="name" value="sponsorCode"/>
     <property name="forceUppercase" value="false"/>
@@ -402,37 +531,35 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Sponsor Code"/>
     <property name="description" value="Sponsor Code"/>
   </bean>
-  <bean id="Rolodex-sponsor.sponsorName" parent="Rolodex-sponsor.sponsorName-parentBean"/>
 
+  <bean id="Rolodex-sponsor.sponsorName" parent="Rolodex-sponsor.sponsorName-parentBean"/>
   <bean abstract="true" id="Rolodex-sponsor.sponsorName-parentBean" parent="Sponsor-sponsorName">
     <property name="name" value="sponsor.sponsorName"/>
     <property name="label" value="Sponsor"/>
     <property name="shortLabel" value="Sponsor"/>
   </bean>
+
   <bean id="Rolodex-city" parent="Rolodex-city-parentBean"/>
-
-  <bean abstract="true" id="Rolodex-city-parentBean" parent="KraAttributeReferenceDummy-city">
-  </bean>
+  <bean abstract="true" id="Rolodex-city-parentBean" parent="KraAttributeReferenceDummy-city"/>
   <bean id="Rolodex-county" parent="Rolodex-county-parentBean"/>
-
-  <bean abstract="true" id="Rolodex-county-parentBean" parent="KraAttributeReferenceDummy-county">
-  </bean>
+  <bean abstract="true" id="Rolodex-county-parentBean" parent="KraAttributeReferenceDummy-county"/>
   <bean id="Rolodex-state" parent="Rolodex-state-parentBean"/>
-
-  <bean abstract="true" id="Rolodex-state-parentBean" parent="KraAttributeReferenceDummy-state">
-  </bean>
+  <bean abstract="true" id="Rolodex-state-parentBean" parent="KraAttributeReferenceDummy-state"/>
   <bean id="Rolodex-countryCode" parent="Rolodex-countryCode-parentBean"/>
-
-  <bean abstract="true" id="Rolodex-countryCode-parentBean" parent="KraAttributeReferenceDummy-countryCode">
-  </bean>
+  <bean abstract="true" id="Rolodex-countryCode-parentBean" parent="KraAttributeReferenceDummy-countryCode"/>
   <bean id="Rolodex-suffix" parent="Rolodex-suffix-parentBean"/>
-
   <bean abstract="true" id="Rolodex-suffix-parentBean" parent="AttributeDefinition">
     <property name="name" value="suffix"/>
     <property name="forceUppercase" value="false"/>
@@ -442,23 +569,39 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="10" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Suffix"/>
     <property name="description" value="Suffix"/>
   </bean>
-  <bean id="Rolodex-title" parent="Rolodex-title-parentBean"/>
 
+  <bean id="Rolodex-title" parent="Rolodex-title-parentBean"/>
   <bean abstract="true" id="Rolodex-title-parentBean" parent="AttributeDefinition">
     <property name="name" value="title"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Title"/>
     <property name="shortLabel" value="Title"/>
     <property name="maxLength" value="35"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="35" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="35" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Title"/>
     <property name="description" value="Title"/>
@@ -475,15 +618,10 @@
    </bean>
   
   <bean id="Rolodex-versionNumber" parent="Rolodex-versionNumber-parentBean"/>
-
-  <bean abstract="true" id="Rolodex-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean abstract="true" id="Rolodex-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="Rolodex-inquiryDefinition" parent="Rolodex-inquiryDefinition-parentBean"/>
-
+  <bean id="Rolodex-InquiryView" parent="Rolodex-InquiryView-parentBean"/>
   <bean abstract="true" id="Rolodex-inquiryDefinition-parentBean" parent="InquiryDefinition">
     <property name="title" value="Address Book"/>
     <property name="inquirySections">
@@ -526,19 +664,58 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="Rolodex-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Address Book"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.rolodex.Rolodex"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Address Book"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="rolodexId" parent="Uif-DataField"/>
+              <bean p:propertyName="addressLine1" parent="Uif-DataField"/>
+              <bean p:propertyName="addressLine2" parent="Uif-DataField"/>
+              <bean p:propertyName="addressLine3" parent="Uif-DataField"/>
+              <bean p:propertyName="city" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
+              <bean p:propertyName="countryCode" parent="Uif-DataField"/>
+              <bean p:propertyName="county" parent="Uif-DataField"/>
+              <bean p:propertyName="state" parent="Uif-DataField"/>
+              <bean p:propertyName="deleteFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="emailAddress" parent="Uif-DataField"/>
+              <bean p:propertyName="faxNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="firstName" parent="Uif-DataField"/>
+              <bean p:propertyName="lastName" parent="Uif-DataField"/>
+              <bean p:propertyName="middleName" parent="Uif-DataField"/>
+              <bean p:propertyName="fullName" parent="Uif-DataField"/>
+              <bean p:propertyName="sponsorAddressFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="organization" parent="Uif-DataField"/>
+              <bean p:propertyName="unit.unitName" parent="Uif-DataField"/>
+              <bean p:propertyName="phoneNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="postalCode" parent="Uif-DataField"/>
+              <bean p:propertyName="prefix" parent="Uif-DataField"/>
+              <bean p:propertyName="sponsor.sponsorName" parent="Uif-DataField"/>
+              <bean p:propertyName="suffix" parent="Uif-DataField"/>
+              <bean p:propertyName="title" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="Rolodex-lookupDefinition" parent="Rolodex-lookupDefinition-parentBean"/>
-
+  <bean id="Rolodex-LookupView" parent="Rolodex-LookupView-parentBean"/>
   <bean abstract="true" id="Rolodex-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Address Book Lookup"/>
     <property name="lookupableID" value="rolodexLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
     <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields">
       <list>
@@ -584,4 +761,64 @@
       </list>
     </property>
   </bean>
+
+  <bean id="Rolodex-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.rolodex.Rolodex"/>
+    <property name="headerText" value="Address Book Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="rolodexId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsor.sponsorName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="isSponsorAddress" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="organization" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lastName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="firstName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="middleName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="addressLine1" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="addressLine2" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="addressLine3" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="city" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="county" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="state" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="countryCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="postalCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="emailAddress" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="rolodexId" parent="Uif-DataField"/>
+        <bean p:propertyName="organization" parent="Uif-DataField"/>
+        <bean p:propertyName="lastName" parent="Uif-DataField"/>
+        <bean p:propertyName="firstName" parent="Uif-DataField"/>
+        <bean p:propertyName="middleName" parent="Uif-DataField"/>
+        <bean p:propertyName="addressLine1" parent="Uif-DataField"/>
+        <bean p:propertyName="addressLine2" parent="Uif-DataField"/>
+        <bean p:propertyName="addressLine3" parent="Uif-DataField"/>
+        <bean p:propertyName="city" parent="Uif-DataField"/>
+        <bean p:propertyName="county" parent="Uif-DataField"/>
+        <bean p:propertyName="state" parent="Uif-DataField"/>
+        <bean p:propertyName="countryCode" parent="Uif-DataField"/>
+        <bean p:propertyName="postalCode" parent="Uif-DataField"/>
+        <bean p:propertyName="emailAddress" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorAddressFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

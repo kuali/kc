@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
@@ -15,12 +16,7 @@
  * limitations under the License.
  */
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="IacucAlternateSearch" parent="IacucAlternateSearch-parentBean" />
     <bean id="IacucAlternateSearch-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.iacuc.threers.IacucAlternateSearch" />
@@ -63,13 +59,15 @@
         <property name="shortLabel" value="Databases" />
         <property name="maxLength" value="200" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="MultiselectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.iacuc.threers.IacucAlternateSearchDatabaseValuesFinder"
-                p:rows="5" />
+      <bean parent="MultiselectControlDefinition" p:valuesFinderClass="org.kuali.kra.iacuc.threers.IacucAlternateSearchDatabaseValuesFinder" p:rows="5"/>
         </property>
         <property name="summary" value="Databases" />
         <property name="description" value="Databases" />
@@ -83,14 +81,18 @@
         <property name="shortLabel" value="Years Searched" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="5"
-                p:cols="20"
-                p:expandedTextArea="true" />
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="20" p:expandedTextArea="true"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="5" p:cols="20" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Years Searched" />
         <property name="description" value="Years Searched" />
@@ -104,14 +106,18 @@
         <property name="shortLabel" value="Keywords" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="5"
-                p:cols="20"
-                p:expandedTextArea="true" />
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="20" p:expandedTextArea="true"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="5" p:cols="20" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Keywords" />
         <property name="description" value="Keywords" />
@@ -125,22 +131,26 @@
         <property name="shortLabel" value="Comments" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="5"
-                p:cols="35"
-                p:expandedTextArea="true" />
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="35" p:expandedTextArea="true"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="5" p:cols="35" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
     </bean>           
 
-
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucAlternateSearch-inquiryDefinition" parent="IacucAlternateSearch-inquiryDefinition-parentBean" />
+  <bean id="IacucAlternateSearch-InquiryView" parent="IacucAlternateSearch-InquiryView-parentBean"/>
     <bean id="IacucAlternateSearch-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Alternative Search" />
         <property name="inquirySections" >
@@ -150,16 +160,33 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="searchDate" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="databases" />    
-                            <bean parent="FieldDefinition"
-                                p:attributeName="yearsSearched" />     
-                            <bean parent="FieldDefinition"
-                                p:attributeName="keywords" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="comments" />                                                                                                                         
+              <bean parent="FieldDefinition" p:attributeName="searchDate"/>
+              <bean parent="FieldDefinition" p:attributeName="databases"/>
+              <bean parent="FieldDefinition" p:attributeName="yearsSearched"/>
+              <bean parent="FieldDefinition" p:attributeName="keywords"/>
+              <bean parent="FieldDefinition" p:attributeName="comments"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IacucAlternateSearch-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Alternative Search"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.threers.IacucAlternateSearch"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Alternative Search"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="searchDate" parent="Uif-DataField"/>
+              <bean p:propertyName="databases" parent="Uif-DataField"/>
+              <bean p:propertyName="yearsSearched" parent="Uif-DataField"/>
+              <bean p:propertyName="keywords" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -169,40 +196,53 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="IacucAlternateSearch-lookupDefinition" parent="IacucAlternateSearch-lookupDefinition-parentBean" />
+  <bean id="IacucAlternateSearch-LookupView" parent="IacucAlternateSearch-LookupView-parentBean"/>
     <bean id="IacucAlternateSearch-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Alternative Search Lookup" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="searchDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="databases" />                    
-                <bean parent="FieldDefinition"
-                    p:attributeName="yearsSearched" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="keywords" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />                                                            
+        <bean parent="FieldDefinition" p:attributeName="searchDate"/>
+        <bean parent="FieldDefinition" p:attributeName="databases"/>
+        <bean parent="FieldDefinition" p:attributeName="yearsSearched"/>
+        <bean parent="FieldDefinition" p:attributeName="keywords"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="searchDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="databases" />                    
-                <bean parent="FieldDefinition"
-                    p:attributeName="yearsSearched" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="keywords" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" /> 
+        <bean parent="FieldDefinition" p:attributeName="searchDate"/>
+        <bean parent="FieldDefinition" p:attributeName="databases"/>
+        <bean parent="FieldDefinition" p:attributeName="yearsSearched"/>
+        <bean parent="FieldDefinition" p:attributeName="keywords"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
             </list>
         </property>
     </bean>                 
+
+  <bean id="IacucAlternateSearch-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.threers.IacucAlternateSearch"/>
+    <property name="headerText" value="Alternative Search Lookup"/>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="searchDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="databases" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="yearsSearched" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="keywords" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="searchDate" parent="Uif-DataField"/>
+        <bean p:propertyName="databases" parent="Uif-DataField"/>
+        <bean p:propertyName="yearsSearched" parent="Uif-DataField"/>
+        <bean p:propertyName="keywords" parent="Uif-DataField"/>
+        <bean p:propertyName="comments" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

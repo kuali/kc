@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,14 +14,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <import resource="classpath*:CorrespondentType.xml"/>
-
     <bean id="IacucCorrespondentType" parent="IacucCorrespondentType-parentBean" />
     <bean id="IacucCorrespondentType-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.iacuc.correspondence.IacucCorrespondentType" />
@@ -43,24 +38,17 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="IacucCorrespondentType-correspondentTypeCode" parent="IacucCorrespondentType-correspondentTypeCode-parentBean" />
-    <bean id="IacucCorrespondentType-correspondentTypeCode-parentBean" abstract="true" parent="CorrespondentType-correspondentTypeCode" >
-    </bean>
-
+  <bean id="IacucCorrespondentType-correspondentTypeCode-parentBean" abstract="true" parent="CorrespondentType-correspondentTypeCode"/>
     <bean id="IacucCorrespondentType-description" parent="IacucCorrespondentType-description-parentBean" />
     <bean id="IacucCorrespondentType-description-parentBean" abstract="true" parent="CorrespondentType-description" />
-
     <bean id="IacucCorrespondentType-qualifier" parent="IacucCorrespondentType-qualifier-parentBean" />
-    <bean id="IacucCorrespondentType-qualifier-parentBean" abstract="true" parent="CorrespondentType-qualifier" >
-    </bean>
-
+  <bean id="IacucCorrespondentType-qualifier-parentBean" abstract="true" parent="CorrespondentType-qualifier"/>
     <bean id="IacucCorrespondentType-versionNumber" parent="IacucCorrespondentType-versionNumber-parentBean" />
-    <bean id="IacucCorrespondentType-versionNumber-parentBean" abstract="true" parent="CorrespondentType-versionNumber">
-    </bean>
-
+  <bean id="IacucCorrespondentType-versionNumber-parentBean" abstract="true" parent="CorrespondentType-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucCorrespondentType-inquiryDefinition" parent="IacucCorrespondentType-inquiryDefinition-parentBean" />
+  <bean id="IacucCorrespondentType-InquiryView" parent="IacucCorrespondentType-InquiryView-parentBean"/>
     <bean id="IacucCorrespondentType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Correspondent Type Code" />
         <property name="inquirySections" >
@@ -70,13 +58,29 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="correspondentTypeCode" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="description" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="qualifier" />
+              <bean parent="FieldDefinition" p:attributeName="correspondentTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="qualifier"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IacucCorrespondentType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Correspondent Type Code"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.correspondence.IacucCorrespondentType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Correspondent Type Code"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="correspondentTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="qualifier" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -86,34 +90,57 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="IacucCorrespondentType-lookupDefinition" parent="IacucCorrespondentType-lookupDefinition-parentBean" />
+  <bean id="IacucCorrespondentType-LookupView" parent="IacucCorrespondentType-LookupView-parentBean"/>
     <bean id="IacucCorrespondentType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="IACUC Correspondent Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="correspondentTypeCode" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="qualifier" />
+        <bean parent="FieldDefinition" p:attributeName="correspondentTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="qualifier"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="correspondentTypeCode" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="qualifier" />
+        <bean parent="FieldDefinition" p:attributeName="correspondentTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="qualifier"/>
             </list>
         </property>
     </bean>
+
+  <bean id="IacucCorrespondentType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.correspondence.IacucCorrespondentType"/>
+    <property name="headerText" value="IACUC Correspondent Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="correspondentTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="qualifier" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="correspondentTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="qualifier" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

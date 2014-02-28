@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
  
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="BudgetFormulatedCostDetail" parent="BudgetFormulatedCostDetail-parentBean" />
     <bean id="BudgetFormulatedCostDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail" />
@@ -45,7 +41,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="BudgetFormulatedCostDetail-budgetFormulatedCostDetailId" parent="BudgetFormulatedCostDetail-budgetFormulatedCostDetailId-parentBean" />
     <bean id="BudgetFormulatedCostDetail-budgetFormulatedCostDetailId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="budgetFormulatedCostDetailId" />
@@ -56,9 +51,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Budget Formulated Cost Detail Id" />
         <property name="description" value="Budget Formulated Cost Detail Id" />
@@ -74,9 +74,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Budget Details Id" />
         <property name="description" value="Budget Details Id" />
@@ -93,9 +98,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Formulated Number" />
         <property name="description" value="Formulated Number" />
@@ -112,14 +122,23 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.budget.rates.FormulatedType"
-            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-           	 	p:includeKeyInLabel="false"
-           	 	p:includeBlankRow="false"
-            	p:keyAttribute="formulatedTypeCode"
-            	p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.budget.rates.FormulatedType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="formulatedTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.budget.rates.FormulatedType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="formulatedTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Formulated Type" />
         <property name="description" value="Formulated Type" />
@@ -148,9 +167,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Count" />
         <property name="description" value="Count" />
@@ -167,9 +191,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Frequency" />
         <property name="description" value="Frequency" />
@@ -187,11 +216,10 @@
     </bean>
 
     <bean id="BudgetFormulatedCostDetail-versionNumber" parent="BudgetFormulatedCostDetail-versionNumber-parentBean" />
-    <bean id="BudgetFormulatedCostDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="BudgetFormulatedCostDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="BudgetFormulatedCostDetail-inquiryDefinition" parent="BudgetFormulatedCostDetail-inquiryDefinition-parentBean" />
+  <bean id="BudgetFormulatedCostDetail-InquiryView" parent="BudgetFormulatedCostDetail-InquiryView-parentBean"/>
     <bean id="BudgetFormulatedCostDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Bud Formulated Cost Detail Id" />
         <property name="inquirySections" >
@@ -201,23 +229,39 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="budgetFormulatedCostDetailId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="budgetLineItemId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="formulatedNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="formulatedTypeCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="unitCost" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="count" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="frequency" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="calculatedExpenses" />
+              <bean parent="FieldDefinition" p:attributeName="budgetFormulatedCostDetailId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="budgetLineItemId"/>
+              <bean parent="FieldDefinition" p:attributeName="formulatedNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="formulatedTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="unitCost"/>
+              <bean parent="FieldDefinition" p:attributeName="count"/>
+              <bean parent="FieldDefinition" p:attributeName="frequency"/>
+              <bean parent="FieldDefinition" p:attributeName="calculatedExpenses"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="BudgetFormulatedCostDetail-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Bud Formulated Cost Detail Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Bud Formulated Cost Detail Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="budgetFormulatedCostDetailId" parent="Uif-DataField"/>
+              <bean p:propertyName="budgetLineItemId" parent="Uif-DataField"/>
+              <bean p:propertyName="formulatedNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="formulatedTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="unitCost" parent="Uif-DataField"/>
+              <bean p:propertyName="count" parent="Uif-DataField"/>
+              <bean p:propertyName="frequency" parent="Uif-DataField"/>
+              <bean p:propertyName="calculatedExpenses" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -227,53 +271,75 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="BudgetFormulatedCostDetail-lookupDefinition" parent="BudgetFormulatedCostDetail-lookupDefinition-parentBean" />
+  <bean id="BudgetFormulatedCostDetail-LookupView" parent="BudgetFormulatedCostDetail-LookupView-parentBean"/>
     <bean id="BudgetFormulatedCostDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Bud Formulated Cost Detail Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="budgetFormulatedCostDetailId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="budgetLineItemId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="formulatedNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="formulatedTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="unitCost" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="count" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="frequency" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="calculatedExpenses" />
+        <bean parent="FieldDefinition" p:attributeName="budgetFormulatedCostDetailId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="budgetLineItemId"/>
+        <bean parent="FieldDefinition" p:attributeName="formulatedNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="formulatedTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="unitCost"/>
+        <bean parent="FieldDefinition" p:attributeName="count"/>
+        <bean parent="FieldDefinition" p:attributeName="frequency"/>
+        <bean parent="FieldDefinition" p:attributeName="calculatedExpenses"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="budgetFormulatedCostDetailId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="budgetLineItemId"/>
+        <bean parent="FieldDefinition" p:attributeName="formulatedNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="formulatedTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="unitCost"/>
+        <bean parent="FieldDefinition" p:attributeName="count"/>
+        <bean parent="FieldDefinition" p:attributeName="frequency"/>
+        <bean parent="FieldDefinition" p:attributeName="calculatedExpenses"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="BudgetFormulatedCostDetail-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail"/>
+    <property name="headerText" value="Bud Formulated Cost Detail Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="budgetFormulatedCostDetailId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="budgetLineItemId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="formulatedNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="formulatedTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="unitCost" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="count" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="frequency" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="calculatedExpenses" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="budgetFormulatedCostDetailId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="budgetLineItemId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="formulatedNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="formulatedTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="unitCost" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="count" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="frequency" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="calculatedExpenses" />
+        <bean p:propertyName="budgetFormulatedCostDetailId" parent="Uif-DataField"/>
+        <bean p:propertyName="budgetLineItemId" parent="Uif-DataField"/>
+        <bean p:propertyName="formulatedNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="formulatedTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="unitCost" parent="Uif-DataField"/>
+        <bean p:propertyName="count" parent="Uif-DataField"/>
+        <bean p:propertyName="frequency" parent="Uif-DataField"/>
+        <bean p:propertyName="calculatedExpenses" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

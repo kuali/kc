@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="AwardBudgetLineItemExt" parent="AwardBudgetLineItemExt-parentBean" />
     <bean id="AwardBudgetLineItemExt-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.award.budget.AwardBudgetLineItemExt" />
@@ -41,7 +37,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="AwardBudgetLineItemExt-budgetLineItemId" parent="AwardBudgetLineItemExt-budgetLineItemId-parentBean" />
     <bean id="AwardBudgetLineItemExt-budgetLineItemId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="budgetLineItemId" />
@@ -52,9 +47,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Budget Line Item Id" />
         <property name="description" value="Budget Line Item Id" />
@@ -72,6 +72,11 @@
             	<property name="allowNegative" value="true"/>
             </bean>
      </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FloatingPointPatternConstraint">
+        <property name="allowNegative" value="true"/>
+      </bean>
+    </property>
   </bean>
   
   <bean id="AwardBudgetLineItemExt-obligatedAmount" parent="AwardBudgetLineItemExt-obligatedAmount-parentBean"/>
@@ -83,11 +88,12 @@
     <property name="summary" value="Obligated amount from award amount info"/>
     <property name="description" value="Obligated amount from award amount info"/>
   </bean>
+
     <bean id="AwardBudgetLineItemExt-versionNumber" parent="AwardBudgetLineItemExt-versionNumber-parentBean" />
     <bean id="AwardBudgetLineItemExt-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
-
     <!-- Business Object Inquiry Definition -->
     <bean id="AwardBudgetLineItemExt-inquiryDefinition" parent="AwardBudgetLineItemExt-inquiryDefinition-parentBean" />
+  <bean id="AwardBudgetLineItemExt-InquiryView" parent="AwardBudgetLineItemExt-InquiryView-parentBean"/>
     <bean id="AwardBudgetLineItemExt-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Budget Id" />
         <property name="inquirySections" >
@@ -97,11 +103,27 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="budgetLineItemId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="obligatedAmount" />
+              <bean parent="FieldDefinition" p:attributeName="budgetLineItemId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="obligatedAmount"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AwardBudgetLineItemExt-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Budget Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.award.budget.AwardBudgetLineItemExt"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Budget Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="budgetLineItemId" parent="Uif-DataField"/>
+              <bean p:propertyName="obligatedAmount" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -111,29 +133,51 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="AwardBudgetLineItemExt-lookupDefinition" parent="AwardBudgetLineItemExt-lookupDefinition-parentBean" />
+  <bean id="AwardBudgetLineItemExt-LookupView" parent="AwardBudgetLineItemExt-LookupView-parentBean"/>
     <bean id="AwardBudgetLineItemExt-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Award Budget Ext Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="budgetLineItemId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="obligatedAmount" />
+        <bean parent="FieldDefinition" p:attributeName="budgetLineItemId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="obligatedAmount"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="budgetLineItemId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="obligatedAmount"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AwardBudgetLineItemExt-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.award.budget.AwardBudgetLineItemExt"/>
+    <property name="headerText" value="Award Budget Ext Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="budgetLineItemId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="obligatedAmount" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="budgetLineItemId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="obligatedAmount" />
+        <bean p:propertyName="budgetLineItemId" parent="Uif-DataField"/>
+        <bean p:propertyName="obligatedAmount" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

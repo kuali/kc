@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,14 +14,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!-- Attribute Definitions -->
-    
     <bean id="CorrespondentType-correspondentTypeCode" parent="CorrespondentType-correspondentTypeCode-parentBean" />
     <bean id="CorrespondentType-correspondentTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="correspondentTypeCode" />
@@ -31,9 +26,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Correspondent Type Code" />
         <property name="description" value="Correspondent Type Code" />
@@ -52,75 +52,23 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="required" value="true" />
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kra.irb.correspondence.CorrespondentTypeQualifierValuesFinder"
-                  p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.irb.correspondence.CorrespondentTypeQualifierValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.irb.correspondence.CorrespondentTypeQualifierValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Qualifier" />
         <property name="description" value="Qualifier" />
     </bean>
 
     <bean id="CorrespondentType-versionNumber" parent="CorrespondentType-versionNumber-parentBean" />
-    <bean id="CorrespondentType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
-    <!-- Business Object Inquiry Definition -->
-    <bean id="CorrespondentType-inquiryDefinition" parent="CorrespondentType-inquiryDefinition-parentBean" />
-    <bean id="CorrespondentType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Correspondent Type Code" />
-        <property name="inquirySections" >
-            <list>
-                <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Correspondent Type Code" />
-                    <property name="numberOfColumns" value="1" />
-                    <property name="inquiryFields" >
-                        <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="correspondentTypeCode" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="description" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="qualifier" />
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <!-- Business Object Lookup Definition -->
-    <bean id="CorrespondentType-lookupDefinition" parent="CorrespondentType-lookupDefinition-parentBean" />
-    <bean id="CorrespondentType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Correspondent Type Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
-        </property>
-        <property name="lookupFields" >
-            <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="correspondentTypeCode" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="qualifier" />
-            </list>
-        </property>
-        <property name="resultFields" >
-            <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="correspondentTypeCode" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="qualifier" />
-            </list>
-        </property>
-    </bean>
+  <bean id="CorrespondentType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 </beans>

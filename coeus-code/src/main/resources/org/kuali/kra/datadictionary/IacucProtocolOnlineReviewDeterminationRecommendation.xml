@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
  Copyright 2005-2014 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -12,8 +13,8 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
---><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="IacucProtocolOnlineReviewDeterminationRecommendation" parent="IacucProtocolOnlineReviewDeterminationRecommendation-parentBean"/>
 	<bean abstract="true" id="IacucProtocolOnlineReviewDeterminationRecommendation-parentBean" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationRecommendation"/>
@@ -39,7 +40,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
 	<bean id="IacucProtocolOnlineReviewDeterminationRecommendation-protocolOnlineReviewDeterminationRecommendationCode" parent="IacucProtocolOnlineReviewDeterminationRecommendation-protocolOnlineReviewDeterminationRecommendationCode-parentBean"/>
 	<bean abstract="true" id="IacucProtocolOnlineReviewDeterminationRecommendation-protocolOnlineReviewDeterminationRecommendationCode-parentBean" parent="AttributeDefinition">
 		<property name="name" value="protocolOnlineReviewDeterminationRecommendationCode"/>
@@ -50,9 +50,15 @@
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="3" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Status Code"/>
 		<property name="description" value="Status Code"/>
 	</bean>
@@ -66,9 +72,7 @@
     </bean>
 	
 	<bean id="IacucProtocolOnlineReviewDeterminationRecommendation-versionNumber" parent="IacucProtocolOnlineReviewDeterminationRecommendation-versionNumber-parentBean"/>
-	<bean abstract="true" id="IacucProtocolOnlineReviewDeterminationRecommendation-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+  <bean abstract="true" id="IacucProtocolOnlineReviewDeterminationRecommendation-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
     <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolReviewTypeCode" parent="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolReviewTypeCode-parentBean" />
     <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-iacucProtocolReviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="iacucProtocolReviewTypeCode" />
@@ -80,14 +84,23 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 	    <property name="control" >
-    	    <bean parent="SelectControlDefinition" 
-    	        p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" 
-    	        p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-    	        p:includeKeyInLabel="false"
-    	        p:includeBlankRow="false"
-    	        p:keyAttribute="reviewTypeCode"
-    	        p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="reviewTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="reviewTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Review Type" />
         <property name="description" value="Review Type" />
@@ -111,14 +124,23 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 	    <property name="control" >
-    	    <bean parent="SelectControlDefinition" 
-    	        p:businessObjectClass="org.kuali.kra.iacuc.actions.IacucProtocolActionType" 
-    	        p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-    	        p:includeKeyInLabel="false"
-    	        p:includeBlankRow="false"
-    	        p:keyAttribute="protocolActionTypeCode"
-    	        p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.iacuc.actions.IacucProtocolActionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="protocolActionTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.IacucProtocolActionType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="protocolActionTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Recommended Action" />
         <property name="description" value="Recommended Action" />
@@ -133,6 +155,7 @@
   
 	<!-- Business Object Inquiry Definition -->
 	<bean id="IacucProtocolOnlineReviewDeterminationRecommendation-inquiryDefinition" parent="IacucProtocolOnlineReviewDeterminationRecommendation-inquiryDefinition-parentBean"/>
+  <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-InquiryView" parent="IacucProtocolOnlineReviewDeterminationRecommendation-InquiryView-parentBean"/>
 	<bean abstract="true" id="IacucProtocolOnlineReviewDeterminationRecommendation-inquiryDefinition-parentBean" parent="InquiryDefinition">
 		<property name="title" value="Status Code"/>
 		<property name="inquirySections">
@@ -153,14 +176,35 @@
 		</property>
 	</bean>
 
+  <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Status Code"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationRecommendation"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Status Code"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="protocolOnlineReviewDeterminationRecommendationCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="iacucProtocolReviewTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="iacucProtocolActionTypeCode" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
 	<!-- Business Object Lookup Definition -->
 	<bean id="IacucProtocolOnlineReviewDeterminationRecommendation-lookupDefinition" parent="IacucProtocolOnlineReviewDeterminationRecommendation-lookupDefinition-parentBean"/>
+  <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-LookupView" parent="IacucProtocolOnlineReviewDeterminationRecommendation-LookupView-parentBean"/>
 	<bean abstract="true" id="IacucProtocolOnlineReviewDeterminationRecommendation-lookupDefinition-parentBean" parent="LookupDefinition">
 		<property name="title" value="IACUC Protocol Review Determination Recommendation Code Status Lookup"/>
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 		<property name="defaultSort">
-			<bean parent="SortDefinition">
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields">
 			<list>
@@ -179,4 +223,37 @@
 			</list>
 		</property>
 	</bean>
+
+  <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationRecommendation"/>
+    <property name="headerText" value="IACUC Protocol Review Determination Recommendation Code Status Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="protocolOnlineReviewDeterminationRecommendationCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="iacucProtocolReviewTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="iacucProtocolActionTypeCode" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="protocolOnlineReviewDeterminationRecommendationCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="iacucProtocolReviewTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="iacucProtocolActionType.description" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

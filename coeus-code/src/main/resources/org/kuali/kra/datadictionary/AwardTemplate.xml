@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="AwardTemplate" parent="AwardTemplate-parentBean" />
 	<bean id="AwardTemplate-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplate" />
@@ -29,11 +25,8 @@
 		</property>
 		<property name="lookupDefinition" >
 			<ref bean="AwardTemplate-lookupDefinition" />
-		</property><!--
-		<property name="relationshipDefinition" >
-			<ref bean="AwardTemplate-relationshipDefinition" />
 		</property>
-		--><property name="titleAttribute" value="templateCode" />
+    <property name="titleAttribute" value="templateCode"/>
 		<property name="attributes" >
 			<list>
 				<ref bean="AwardTemplate-templateCode" />
@@ -43,7 +36,6 @@
 				<ref bean="AwardTemplate-basisOfPaymentCode" />
 				<ref bean="AwardTemplate-methodOfPaymentCode" />
 				<ref bean="AwardTemplate-versionNumber" />
-				<!-- Defined to allow lookup screen to display the descriptions instead of the codes. -->
 				<ref bean="AwardTemplate-statusCodeDescription" />
 				<ref bean="AwardTemplate-basisOfPaymentDescription"/>
 				<ref bean="AwardTemplate-methodOfPaymentDescription"/>
@@ -61,7 +53,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
 	<bean id="AwardTemplate-templateCode" parent="AwardTemplate-templateCode-parentBean" />
 	<bean id="AwardTemplate-templateCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="templateCode" />
@@ -72,9 +63,14 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Sponsor Template Code" />
 		<property name="description" value="Sponsor Template Code" />
@@ -88,13 +84,18 @@
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="200" />
 		<property name="validationPattern" >
-			<bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
 	    <property name="control" >
-	      <bean parent="TextareaControlDefinition"
-	            p:rows="5"
-	            p:cols="40" />
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="5" p:cols="40" parent="Uif-TextAreaControl"/>
 	    </property>
 		<property name="summary" value="Description" />
 		<property name="description" value="Description" />
@@ -110,14 +111,23 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.home.AwardStatus"
-	            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:includeBlankRow="false"
-	            p:keyAttribute="statusCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.home.AwardStatus" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="statusCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardStatus"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="statusCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
 		<property name="summary" value="Status Code" />
 		<property name="description" value="Status Code" />
@@ -132,8 +142,10 @@
 		<property name="summary" value="Status Code" />
 		<property name="description" value="Status Code" />
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 	</bean>
 
@@ -147,9 +159,14 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Prime Sponsor Code" />
 		<property name="description" value="Prime Sponsor Code" />
@@ -165,14 +182,23 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.home.AwardBasisOfPayment"
-	            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:includeBlankRow="false"
-	            p:keyAttribute="basisOfPaymentCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.home.AwardBasisOfPayment" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="basisOfPaymentCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardBasisOfPayment"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="basisOfPaymentCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
 		<property name="summary" value="Payment Basis" />
 		<property name="description" value="Payment Basis" />
@@ -181,8 +207,10 @@
 	<bean id="AwardTemplate-basisOfPaymentDescription" parent="AwardTemplate-basisOfPaymentCode-parentBean">
 		<property name="name" value="awardBasisOfPayment.description" />
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 	</bean>
 	
@@ -196,14 +224,23 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.home.AwardMethodOfPayment"
-	            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:includeBlankRow="false"
-	            p:keyAttribute="methodOfPaymentCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.home.AwardMethodOfPayment" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="methodOfPaymentCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardMethodOfPayment"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="methodOfPaymentCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
 		<property name="summary" value="Payment Method" />
 		<property name="description" value="Payment Method" />
@@ -212,17 +249,18 @@
 	<bean id="AwardTemplate-methodOfPaymentDescription" parent="AwardTemplate-methodOfPaymentCode-parentBean">
 		<property name="name" value="awardMethodOfPayment.description" />
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 	</bean>
 	
-
 	<bean id="AwardTemplate-versionNumber" parent="AwardTemplate-versionNumber-parentBean" />
 	<bean id="AwardTemplate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
-	
 	<!-- Business Object Inquiry Definition -->
 	<bean id="AwardTemplate-inquiryDefinition" parent="AwardTemplate-inquiryDefinition-parentBean" />
+  <bean id="AwardTemplate-InquiryView" parent="AwardTemplate-InquiryView-parentBean"/>
 	<bean id="AwardTemplate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Sponsor Template Details" />
 		<property name="inquirySections" >
@@ -342,12 +380,115 @@
 		                    <bean p:attributeName="reportClassCode" parent="FieldDefinition"/>
 		                    <bean p:attributeName="reportCode" parent="FieldDefinition"/>
 		                    <bean p:attributeName="frequencyCode" parent="FieldDefinition"/>
-		                    <bean p:attributeName="frequencyBaseCode" parent="FieldDefinition"/><!--
-		                    <bean p:attributeName="ospFileCopyCode" parent="FieldDefinition"/>
-		                    --><bean p:attributeName="dueDate" parent="FieldDefinition"/>
+                    <bean p:attributeName="frequencyBaseCode" parent="FieldDefinition"/>
+                    <bean p:attributeName="dueDate" parent="FieldDefinition"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AwardTemplate-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Sponsor Template Details"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.award.home.AwardTemplate"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="SponsorTemplate Code"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="templateCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="statusCode" parent="Uif-DataField"/>
+              <bean p:propertyName="primeSponsorCode" parent="Uif-DataField"/>
+              <bean p:propertyName="basisOfPaymentCode" parent="Uif-DataField"/>
+              <bean p:propertyName="methodOfPaymentCode" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-StackedCollectionSection">
+          <property name="headerText" value="Sponsor Template Contacts"/>
+          <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="6"/>
+          <property name="propertyName" value="templateContacts"/>
+          <property name="collectionObjectClass" value="org.kuali.kra.award.home.AwardTemplateContact"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="templateContactId" parent="Uif-DataField"/>
+              <bean p:propertyName="roleCode" parent="Uif-DataField"/>
+              <bean p:propertyName="rolodexId" parent="Uif-DataField"/>
+            </list>
+          </property>
+          <property name="layoutManager.summaryTitle" value="Sponsor Contact Type "/>
+          <property name="layoutManager.summaryFields">
+            <list>
+              <value>templateContactId</value>
+              <value>roleCode</value>
 		                  </list>
 		                </property>
 		              </bean>
+        <bean parent="Uif-StackedCollectionSection">
+          <property name="headerText" value="Sponsor Template Comments"/>
+          <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="6"/>
+          <property name="propertyName" value="templateComments"/>
+          <property name="collectionObjectClass" value="org.kuali.kra.award.home.AwardTemplateComment"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="templateCommentsId" parent="Uif-DataField"/>
+              <bean p:propertyName="commentTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
+            </list>
+          </property>
+          <property name="layoutManager.summaryFields">
+            <list>
+              <value>templateCommentsId</value>
+              <value>commentTypeCode</value>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-StackedCollectionSection">
+          <property name="headerText" value="Sponsor Template Terms"/>
+          <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="6"/>
+          <property name="propertyName" value="templateTerms"/>
+          <property name="collectionObjectClass" value="org.kuali.kra.award.home.AwardTemplateTerm"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="awardTemplateTermId" parent="Uif-DataField"/>
+              <bean p:propertyName="sponsorTermTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+            </list>
+          </property>
+          <property name="layoutManager.summaryFields">
+            <list>
+              <value>awardTemplateTermId</value>
+              <value>sponsorTermTypeCode</value>
+              <value>description</value>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-StackedCollectionSection">
+          <property name="headerText" value="Sponsor Template Report Terms"/>
+          <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="12"/>
+          <property name="propertyName" value="templateReportTerms"/>
+          <property name="collectionObjectClass" value="org.kuali.kra.award.home.AwardTemplateReportTerm"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="templateReportTermId" parent="Uif-DataField"/>
+              <bean p:propertyName="reportClassCode" parent="Uif-DataField"/>
+              <bean p:propertyName="reportCode" parent="Uif-DataField"/>
+              <bean p:propertyName="frequencyCode" parent="Uif-DataField"/>
+              <bean p:propertyName="frequencyBaseCode" parent="Uif-DataField"/>
+              <bean p:propertyName="dueDate" parent="Uif-DataField"/>
+            </list>
+          </property>
+          <property name="layoutManager.summaryFields">
+            <list>
+              <value>templateReportTermId</value>
+              <value>reportClassCode</value>
 		            </list>
 		          </property>
 		        </bean>
@@ -357,53 +498,71 @@
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="AwardTemplate-lookupDefinition" parent="AwardTemplate-lookupDefinition-parentBean" />
+  <bean id="AwardTemplate-LookupView" parent="AwardTemplate-LookupView-parentBean"/>
 	<bean id="AwardTemplate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Sponsor Template Lookup" />
         <property name="lookupableID" value="awardTemplateLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="helpDefinition" >
-    	    <bean parent="HelpDefinition"
-        	    p:parameterNamespace="KC-M"
-            	p:parameterName="sponsorTemplateMaintenanceHelp"
-       	   		p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="sponsorTemplateMaintenanceHelp" p:parameterDetailType="Document"/>
     	</property>  			
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="templateCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="statusCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="primeSponsorCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="basisOfPaymentCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="methodOfPaymentCode" />
+        <bean parent="FieldDefinition" p:attributeName="templateCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="primeSponsorCode"/>
+        <bean parent="FieldDefinition" p:attributeName="basisOfPaymentCode"/>
+        <bean parent="FieldDefinition" p:attributeName="methodOfPaymentCode"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="templateCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="awardTemplateStatus.description"/>
+        <bean parent="FieldDefinition" p:attributeName="primeSponsorCode"/>
+        <bean parent="FieldDefinition" p:attributeName="awardBasisOfPayment.description"/>
+        <bean parent="FieldDefinition" p:attributeName="awardMethodOfPayment.description"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AwardTemplate-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.award.home.AwardTemplate"/>
+    <property name="headerText" value="Sponsor Template Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="templateCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="statusCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="primeSponsorCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="basisOfPaymentCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="methodOfPaymentCode" parent="Uif-LookupCriteriaInputField"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="templateCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="awardTemplateStatus.description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="primeSponsorCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="awardBasisOfPayment.description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="awardMethodOfPayment.description" />
+        <bean p:propertyName="templateCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="awardTemplateStatus.description" parent="Uif-DataField"/>
+        <bean p:propertyName="primeSponsorCode" parent="Uif-DataField"/>
+        <bean p:propertyName="awardBasisOfPayment.description" parent="Uif-DataField"/>
+        <bean p:propertyName="awardMethodOfPayment.description" parent="Uif-DataField"/>
 			</list>
 		</property>
 	</bean>

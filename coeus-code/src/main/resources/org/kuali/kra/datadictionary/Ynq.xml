@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="Ynq" parent="Ynq-parentBean" />
-
   <bean id="Ynq-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.Ynq" />
 		<property name="objectLabel" value="Ynq" />
@@ -17,10 +12,7 @@
     </property>
     <property name="titleAttribute" value="questionId" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-PD"
-            p:parameterName="proposalDevelopmentYnqHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentYnqHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -39,13 +31,7 @@
     </property>
     <property name="collections" >
       <list>
-        <bean parent="CollectionDefinition"
-              p:name="ynqExplanations"
-              p:label="YNQ Explanation"
-              p:shortLabel="YNQ Explanation"
-              p:summary="YNQ Explanation"
-              p:description="Listing of YNQ Explanation."
-              p:elementLabel="YNQ Explanation" />
+        <bean parent="CollectionDefinition" p:name="ynqExplanations" p:label="YNQ Explanation" p:shortLabel="YNQ Explanation" p:summary="YNQ Explanation" p:description="Listing of YNQ Explanation." p:elementLabel="YNQ Explanation"/>
       </list>
     </property>
   </bean>
@@ -64,15 +50,20 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Question Id" />
     <property name="description" value="Question Id" />
   </bean>
-  <bean id="Ynq-questionType" parent="Ynq-questionType-parentBean" />
 
+  <bean id="Ynq-questionType" parent="Ynq-questionType-parentBean"/>
   <bean id="Ynq-questionType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="questionType" />
     <property name="forceUppercase" value="false" />
@@ -80,15 +71,19 @@
     <property name="shortLabel" value="Applies To" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqQuestionTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqQuestionTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.YnqQuestionTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Question Type" />
     <property name="description" value="Question Type" />
   </bean>
-  <bean id="Ynq-status" parent="Ynq-status-parentBean" />
 
+  <bean id="Ynq-status" parent="Ynq-status-parentBean"/>
   <bean id="Ynq-status-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="status" />
     <property name="forceUppercase" value="false" />
@@ -96,15 +91,19 @@
     <property name="shortLabel" value="Status" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqQuestionStatusValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqQuestionStatusValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.YnqQuestionStatusValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-VerticalRadioControl"/>
     </property>
     <property name="summary" value="Status" />
     <property name="description" value="Status" />
   </bean>
-  <bean id="Ynq-effectiveDate" parent="Ynq-effectiveDate-parentBean" />
 
+  <bean id="Ynq-effectiveDate" parent="Ynq-effectiveDate-parentBean"/>
   <bean id="Ynq-effectiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="effectiveDate" />
     <property name="label" value="Effective Date" />
@@ -112,8 +111,8 @@
     <property name="summary" value="Effective Date" />
     <property name="description" value="Effective Date" />
   </bean>
-  <bean id="Ynq-description" parent="Ynq-description-parentBean" />
 
+  <bean id="Ynq-description" parent="Ynq-description-parentBean"/>
   <bean id="Ynq-description-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="description" />
     <property name="forceUppercase" value="false" />
@@ -121,15 +120,16 @@
     <property name="shortLabel" value="Question" />
     <property name="maxLength" value="400" />
     <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="40" />
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="5" p:cols="40" parent="Uif-TextAreaControl"/>
     </property>
     <property name="summary" value="Description" />
     <property name="description" value="Description" />
   </bean>
-  <bean id="Ynq-noOfAnswers" parent="Ynq-noOfAnswers-parentBean" />
 
+  <bean id="Ynq-noOfAnswers" parent="Ynq-noOfAnswers-parentBean"/>
   <bean id="Ynq-noOfAnswers-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="noOfAnswers" />
     <property name="forceUppercase" value="false" />
@@ -139,16 +139,23 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqValidAnswersValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqValidAnswersValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.YnqValidAnswersValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-VerticalRadioControl"/>
     </property>
     <property name="summary" value="No Of Answers" />
     <property name="description" value="No Of Answers" />
   </bean>
-  <bean id="Ynq-explanationRequiredFor" parent="Ynq-explanationRequiredFor-parentBean" />
 
+  <bean id="Ynq-explanationRequiredFor" parent="Ynq-explanationRequiredFor-parentBean"/>
   <bean id="Ynq-explanationRequiredFor-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="explanationRequiredFor" />
     <property name="forceUppercase" value="false" />
@@ -156,15 +163,19 @@
     <property name="shortLabel" value="Explanation Required For" />
     <property name="maxLength" value="3" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Explanation Required For" />
     <property name="description" value="Explanation Required For" />
   </bean>
-  <bean id="Ynq-dateRequiredFor" parent="Ynq-dateRequiredFor-parentBean" />
 
+  <bean id="Ynq-dateRequiredFor" parent="Ynq-dateRequiredFor-parentBean"/>
   <bean id="Ynq-dateRequiredFor-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dateRequiredFor" />
     <property name="forceUppercase" value="false" />
@@ -172,15 +183,19 @@
     <property name="shortLabel" value="Date Required For" />
     <property name="maxLength" value="3" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Date Required For" />
     <property name="description" value="Date Required For" />
   </bean>
-  <bean id="Ynq-groupName" parent="Ynq-groupName-parentBean" />
 
+  <bean id="Ynq-groupName" parent="Ynq-groupName-parentBean"/>
   <bean id="Ynq-groupName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="groupName" />
     <property name="forceUppercase" value="false" />
@@ -188,8 +203,10 @@
     <property name="shortLabel" value="Group Name" />
     <property name="maxLength" value="150" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+      <bean parent="TextControlDefinition" p:size="50"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="50" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Group Name" />
     <property name="description" value="Group Name" />
@@ -197,15 +214,11 @@
   
   <bean id="Ynq-sortId" parent="Ynq-sortId-parentBean" />
   <bean id="Ynq-sortId-parentBean" abstract="true" parent="KraAttributeReferenceDummy-sortId" />
-    
   <bean id="Ynq-versionNumber" parent="Ynq-versionNumber-parentBean" />
   <bean id="Ynq-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
-
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="Ynq-inquiryDefinition" parent="Ynq-inquiryDefinition-parentBean" />
-
+  <bean id="Ynq-InquiryView" parent="Ynq-InquiryView-parentBean"/>
   <bean id="Ynq-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Ynq" />
     <property name="inquirySections" >
@@ -215,25 +228,15 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="questionId"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="questionType" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="status" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effectiveDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="noOfAnswers" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="explanationRequiredFor" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="dateRequiredFor" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="groupName" />
+              <bean parent="FieldDefinition" p:attributeName="questionId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="questionType"/>
+              <bean parent="FieldDefinition" p:attributeName="status"/>
+              <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="noOfAnswers"/>
+              <bean parent="FieldDefinition" p:attributeName="explanationRequiredFor"/>
+              <bean parent="FieldDefinition" p:attributeName="dateRequiredFor"/>
+              <bean parent="FieldDefinition" p:attributeName="groupName"/>
             </list>
           </property>
         </bean>
@@ -248,10 +251,8 @@
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="ynqExplanationType.description" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="explanation" />
+                    <bean parent="FieldDefinition" p:attributeName="ynqExplanationType.description"/>
+                    <bean parent="FieldDefinition" p:attributeName="explanation"/>
                   </list>
                 </property>
               </bean>
@@ -262,52 +263,109 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="Ynq-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Ynq"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.Ynq"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Ynq"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="questionId" parent="Uif-DataField"/>
+              <bean p:propertyName="questionType" parent="Uif-DataField"/>
+              <bean p:propertyName="status" parent="Uif-DataField"/>
+              <bean p:propertyName="effectiveDate" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="noOfAnswers" parent="Uif-DataField"/>
+              <bean p:propertyName="explanationRequiredFor" parent="Uif-DataField"/>
+              <bean p:propertyName="dateRequiredFor" parent="Uif-DataField"/>
+              <bean p:propertyName="groupName" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="Uif-StackedCollectionSection">
+          <property name="headerText" value="Ynq Explanations"/>
+          <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="2"/>
+          <property name="propertyName" value="ynqExplanations"/>
+          <property name="collectionObjectClass" value="org.kuali.kra.bo.YnqExplanation"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="ynqExplanationType.description" parent="Uif-DataField"/>
+              <bean p:propertyName="explanation" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="Ynq-lookupDefinition" parent="Ynq-lookupDefinition-parentBean" />
-
+  <bean id="Ynq-LookupView" parent="Ynq-LookupView-parentBean"/>
   <bean id="Ynq-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Ynq Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="questionId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="questionType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="status" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effectiveDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="noOfAnswers" />
-        <bean parent="FieldDefinition"
-              p:attributeName="explanationRequiredFor" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dateRequiredFor" />
-        <bean parent="FieldDefinition"
-              p:attributeName="groupName" />
+        <bean parent="FieldDefinition" p:attributeName="questionId"/>
+        <bean parent="FieldDefinition" p:attributeName="questionType"/>
+        <bean parent="FieldDefinition" p:attributeName="status"/>
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="noOfAnswers"/>
+        <bean parent="FieldDefinition" p:attributeName="explanationRequiredFor"/>
+        <bean parent="FieldDefinition" p:attributeName="dateRequiredFor"/>
+        <bean parent="FieldDefinition" p:attributeName="groupName"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="questionId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="groupName"/>
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Ynq-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.Ynq"/>
+    <property name="headerText" value="Ynq Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="questionId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="questionType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="status" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="effectiveDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="noOfAnswers" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="explanationRequiredFor" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dateRequiredFor" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="groupName" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="questionId"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="groupName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effectiveDate" />
+        <bean p:propertyName="questionId" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="groupName" parent="Uif-DataField"/>
+        <bean p:propertyName="effectiveDate" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

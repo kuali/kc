@@ -1,19 +1,12 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="InstitutionalProposalPersonUnit" parent="InstitutionalProposalPersonUnit-parentBean" />
   <bean id="InstitutionalProposalPersonUnit-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit" />
 		<property name="objectLabel" value="InstitutionalProposal Person Unit" />
     <property name="titleAttribute" value="unit.unitName" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-PROP"
-            p:parameterName="institutionalProposalContactHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-PROP" p:parameterName="institutionalProposalContactHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -39,8 +32,14 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="8" />
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="InstitutionalProposalPersonUnit ID" />
     <property name="description" value="InstitutionalProposalPersonUnit ID" />
@@ -65,8 +64,16 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="20" />
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Full Name" />
     <property name="description" value="Full Name" />
@@ -82,8 +89,16 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="30" />
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Unit Name" />
     <property name="description" value="Unit Name" />
@@ -99,8 +114,16 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="20" />
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Unit Number" />
     <property name="description" value="Unit Number" />

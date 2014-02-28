@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
@@ -15,12 +16,7 @@
  * limitations under the License.
  */
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans                            http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="NotificationModuleRole" parent="NotificationModuleRole-parentBean" />
     <bean id="NotificationModuleRole-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRole" />
@@ -53,9 +49,14 @@
         <property name="validationPattern">
             <bean parent="NumericValidationPattern"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control">
-            <bean parent="TextControlDefinition" 
-                  p:size="6"/>
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Notification Module Role Id" />
         <property name="description" value="Notification Module Role Id" />
@@ -72,14 +73,23 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.coeus.common.framework.module.CoeusModule"
-                p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-                p:includeKeyInLabel="false"
-                p:includeBlankRow="false"
-                p:keyAttribute="moduleCode"
-                p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.framework.module.CoeusModule" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="moduleCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.module.CoeusModule"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="moduleCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Module Code" />
         <property name="description" value="Module Code" />
@@ -94,22 +104,29 @@
         <property name="required" value="true" />
         <property name="maxLength" value="125" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" 
-                  p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.coeus.common.notification.impl.lookup.keyvalue.NotificationModuleRoleRoleNameValuesFinder"
-                  p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.notification.impl.lookup.keyvalue.NotificationModuleRoleRoleNameValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.common.notification.impl.lookup.keyvalue.NotificationModuleRoleRoleNameValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Role Name" />
         <property name="description" value="Role Name" />
     </bean>
     
- 
     <!-- Business Object Inquiry Definition -->
-    
     <bean id="NotificationModuleRole-inquiryDefinition" parent="NotificationModuleRole-inquiryDefinition-parentBean" />
+  <bean id="NotificationModuleRole-InquiryView" parent="NotificationModuleRole-InquiryView-parentBean"/>
     <bean id="NotificationModuleRole-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Notification Module Role" />
         <property name="inquirySections" >
@@ -119,13 +136,9 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition" 
-                                  p:attributeName="notificationModuleRoleId" 
-                                  p:forceInquiry="true" />
-                            <bean parent="FieldDefinition" 
-                                  p:attributeName="moduleCode" />
-                            <bean parent="FieldDefinition" 
-                                  p:attributeName="roleName" />                                 
+              <bean parent="FieldDefinition" p:attributeName="notificationModuleRoleId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
+              <bean parent="FieldDefinition" p:attributeName="roleName"/>
                         </list>
                     </property>
                 </bean>
@@ -133,9 +146,29 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <bean id="NotificationModuleRole-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Notification Module Role"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRole"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Notification Module Role"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="notificationModuleRoleId" parent="Uif-DataField"/>
+              <bean p:propertyName="moduleCode" parent="Uif-DataField"/>
+              <bean p:propertyName="roleName" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Business Object Lookup Definition -->
     <bean id="NotificationModuleRole-lookupDefinition" parent="NotificationModuleRole-lookupDefinition-parentBean" />
+  <bean id="NotificationModuleRole-LookupView" parent="NotificationModuleRole-LookupView-parentBean"/>
     <bean id="NotificationModuleRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Notification Module Role Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
@@ -144,24 +177,46 @@
         </property>
         <property name="lookupFields" >
             <list>
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="notificationModuleRoleId" 
-	                  p:forceLookup="true" />
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="moduleCode" />
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="roleName" />                 
+        <bean parent="FieldDefinition" p:attributeName="notificationModuleRoleId" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
+        <bean parent="FieldDefinition" p:attributeName="roleName"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="notificationModuleRoleId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
+        <bean parent="FieldDefinition" p:attributeName="roleName"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="NotificationModuleRole-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRole"/>
+    <property name="headerText" value="Notification Module Role Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="notificationModuleRoleId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="moduleCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="roleName" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="notificationModuleRoleId" 
-	                  p:forceInquiry="true" />                                
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="moduleCode" />
-	            <bean parent="FieldDefinition" 
-	                  p:attributeName="roleName" />	   	                           
+        <bean p:propertyName="notificationModuleRoleId" parent="Uif-DataField"/>
+        <bean p:propertyName="moduleCode" parent="Uif-DataField"/>
+        <bean p:propertyName="roleName" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="PersonDegree" parent="PersonDegree-parentBean"/>
-
   <bean abstract="true" id="PersonDegree-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.PersonDegree"/>
     <property name="objectLabel" value="Person Degree"/>
@@ -41,8 +40,8 @@
     <property name="summary" value="KcPersonExtendedAttributes Id"/>
     <property name="description" value="KcPersonExtendedAttributes Id"/>  
   </bean>
-  <bean id="PersonDegree-graduationYear" parent="PersonDegree-graduationYear-parentBean"/>
 
+  <bean id="PersonDegree-graduationYear" parent="PersonDegree-graduationYear-parentBean"/>
   <bean abstract="true" id="PersonDegree-graduationYear-parentBean" parent="AttributeDefinition">
     <property name="name" value="graduationYear"/>
     <property name="forceUppercase" value="false"/>
@@ -53,14 +52,20 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="5" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="5" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Graduation Year"/>
     <property name="description" value="Graduation Year"/>
   </bean>
-  <bean id="PersonDegree-degreeCode" parent="PersonDegree-degreeCode-parentBean"/>
 
+  <bean id="PersonDegree-degreeCode" parent="PersonDegree-degreeCode-parentBean"/>
   <bean abstract="true" id="PersonDegree-degreeCode-parentBean" parent="AttributeDefinition">
     <property name="name" value="degreeCode"/>
     <property name="forceUppercase" value="false"/>
@@ -71,11 +76,23 @@
     <property name="control">
       <bean p:businessObjectClass="org.kuali.kra.bo.DegreeType" p:includeBlankRow="false" p:includeKeyInLabel="false" p:keyAttribute="degreeCode" p:labelAttribute="description" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" parent="SelectControlDefinition"/>
     </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.DegreeType"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="keyAttributeName" value="degreeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
     <property name="summary" value="Degree Code"/>
     <property name="description" value="Degree Code"/>
   </bean>
-  <bean id="PersonDegree-degree" parent="PersonDegree-degree-parentBean"/>
 
+  <bean id="PersonDegree-degree" parent="PersonDegree-degree-parentBean"/>
   <bean abstract="true" id="PersonDegree-degree-parentBean" parent="AttributeDefinition">
     <property name="name" value="degree"/>
     <property name="forceUppercase" value="false"/>
@@ -86,11 +103,14 @@
     <property name="control">
       <bean p:size="25" parent="TextControlDefinition"/>
     </property>
+    <property name="controlField">
+      <bean p:size="25" parent="Uif-TextControl"/>
+    </property>
     <property name="summary" value="Degree"/>
     <property name="description" value="Degree"/>
   </bean>
-  <bean id="PersonDegree-fieldOfStudy" parent="PersonDegree-fieldOfStudy-parentBean"/>
 
+  <bean id="PersonDegree-fieldOfStudy" parent="PersonDegree-fieldOfStudy-parentBean"/>
   <bean abstract="true" id="PersonDegree-fieldOfStudy-parentBean" parent="AttributeDefinition">
     <property name="name" value="fieldOfStudy"/>
     <property name="forceUppercase" value="false"/>
@@ -100,11 +120,14 @@
     <property name="control">
       <bean p:size="25" parent="TextControlDefinition"/>
     </property>
+    <property name="controlField">
+      <bean p:size="25" parent="Uif-TextControl"/>
+    </property>
     <property name="summary" value="Field of Study"/>
     <property name="description" value="Field of Study"/>
   </bean>
-  <bean id="PersonDegree-specialization" parent="PersonDegree-specialization-parentBean"/>
 
+  <bean id="PersonDegree-specialization" parent="PersonDegree-specialization-parentBean"/>
   <bean abstract="true" id="PersonDegree-specialization-parentBean" parent="AttributeDefinition">
     <property name="name" value="specialization"/>
     <property name="forceUppercase" value="false"/>
@@ -114,11 +137,14 @@
     <property name="control">
       <bean p:size="25" parent="TextControlDefinition"/>
     </property>
+    <property name="controlField">
+      <bean p:size="25" parent="Uif-TextControl"/>
+    </property>
     <property name="summary" value="Specialization"/>
     <property name="description" value="Specialization"/>
   </bean>
-  <bean id="PersonDegree-school" parent="PersonDegree-school-parentBean"/>
 
+  <bean id="PersonDegree-school" parent="PersonDegree-school-parentBean"/>
   <bean abstract="true" id="PersonDegree-school-parentBean" parent="AttributeDefinition">
     <property name="name" value="school"/>
     <property name="forceUppercase" value="false"/>
@@ -128,11 +154,14 @@
     <property name="control">
       <bean p:size="25" parent="TextControlDefinition"/>
     </property>
+    <property name="controlField">
+      <bean p:size="25" parent="Uif-TextControl"/>
+    </property>
     <property name="summary" value="School"/>
     <property name="description" value="School"/>
   </bean>
-  <bean id="PersonDegree-schoolIdCode" parent="PersonDegree-schoolIdCode-parentBean"/>
 
+  <bean id="PersonDegree-schoolIdCode" parent="PersonDegree-schoolIdCode-parentBean"/>
   <bean abstract="true" id="PersonDegree-schoolIdCode-parentBean" parent="AttributeDefinition">
     <property name="name" value="schoolIdCode"/>
     <property name="forceUppercase" value="false"/>
@@ -140,16 +169,24 @@
     <property name="shortLabel" value="School Id Cd"/>
     <property name="maxLength" value="3"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.SchoolCode"
-          p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-          p:includeKeyInLabel="false" p:keyAttribute="schoolCode"
-          p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.SchoolCode" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="schoolCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.SchoolCode"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="keyAttributeName" value="schoolCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="School Id Code"/>
     <property name="description" value="School Id Code"/>
   </bean>
-  <bean id="PersonDegree-schoolId" parent="PersonDegree-schoolId-parentBean"/>
 
+  <bean id="PersonDegree-schoolId" parent="PersonDegree-schoolId-parentBean"/>
   <bean abstract="true" id="PersonDegree-schoolId-parentBean" parent="AttributeDefinition">
     <property name="name" value="schoolId"/>
     <property name="forceUppercase" value="false"/>
@@ -159,19 +196,18 @@
     <property name="control">
       <bean p:size="25" parent="TextControlDefinition"/>
     </property>
+    <property name="controlField">
+      <bean p:size="25" parent="Uif-TextControl"/>
+    </property>
     <property name="summary" value="School Id"/>
     <property name="description" value="School Id"/>
   </bean>
+
   <bean id="PersonDegree-versionNumber" parent="PersonDegree-versionNumber-parentBean"/>
-
-  <bean abstract="true" id="PersonDegree-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean abstract="true" id="PersonDegree-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="PersonDegree-inquiryDefinition" parent="PersonDegree-inquiryDefinition-parentBean"/>
-
+  <bean id="PersonDegree-InquiryView" parent="PersonDegree-InquiryView-parentBean"/>
   <bean abstract="true" id="PersonDegree-inquiryDefinition-parentBean" parent="InquiryDefinition">
     <property name="title" value="Person Degree"/>
     <property name="inquirySections">
@@ -197,17 +233,40 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="PersonDegree-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Person Degree"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.PersonDegree"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Person Degree"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="personId" parent="Uif-DataField"/>
+              <bean p:propertyName="graduationYear" parent="Uif-DataField"/>
+              <bean p:propertyName="degreeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="degree" parent="Uif-DataField"/>
+              <bean p:propertyName="fieldOfStudy" parent="Uif-DataField"/>
+              <bean p:propertyName="specialization" parent="Uif-DataField"/>
+              <bean p:propertyName="school" parent="Uif-DataField"/>
+              <bean p:propertyName="schoolIdCode" parent="Uif-DataField"/>
+              <bean p:propertyName="schoolId" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="PersonDegree-lookupDefinition" parent="PersonDegree-lookupDefinition-parentBean"/>
-
+  <bean id="PersonDegree-LookupView" parent="PersonDegree-LookupView-parentBean"/>
   <bean abstract="true" id="PersonDegree-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Person Degree"/>
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
     <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields">
       <list>
@@ -231,4 +290,42 @@
       </list>
     </property>
   </bean>
+
+  <bean id="PersonDegree-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.PersonDegree"/>
+    <property name="headerText" value="Person Degree"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="personId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="graduationYear" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="degreeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="degree" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="personId" parent="Uif-DataField"/>
+        <bean p:propertyName="graduationYear" parent="Uif-DataField"/>
+        <bean p:propertyName="degreeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="degree" parent="Uif-DataField"/>
+        <bean p:propertyName="fieldOfStudy" parent="Uif-DataField"/>
+        <bean p:propertyName="specialization" parent="Uif-DataField"/>
+        <bean p:propertyName="school" parent="Uif-DataField"/>
+        <bean p:propertyName="schoolIdCode" parent="Uif-DataField"/>
+        <bean p:propertyName="schoolId" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

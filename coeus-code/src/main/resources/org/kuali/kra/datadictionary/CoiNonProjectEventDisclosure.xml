@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="CoiNonProjectEventDisclosure" parent="CoiNonProjectEventDisclosure-parentBean" />
     <bean id="CoiNonProjectEventDisclosure-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.coi.CoiNonProjectEventDisclosure" />
@@ -48,65 +44,41 @@
                 <ref bean="CoiNonProjectEventDisclosure-moduleItemKey" />
                 <ref bean="CoiNonProjectEventDisclosure-eventTypeCode" />
 				<ref bean="CoiNonProjectEventDisclosure-coiDisclosureEventType.description" />
-<!--                 <ref bean="CoiNonProjectEventDisclosure-reviewStatusCode" /> -->
                 <ref bean="CoiNonProjectEventDisclosure-discActiveStatus" />
                 <ref bean="CoiNonProjectEventDisclosure-versionNumber" />
                 <ref bean="CoiNonProjectEventDisclosure-leadUnitNumber" />
 		        <ref bean="CoiNonProjectEventDisclosure-person.fullName" />
 		        <ref bean="CoiNonProjectEventDisclosure-person.userName" />
-                
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="CoiNonProjectEventDisclosure-coiDisclosureId" parent="CoiDisclosure-coiDisclosureId-parentBean" />
-   
     <bean id="CoiNonProjectEventDisclosure-coiDisclosureNumber" parent="CoiDisclosure-coiDisclosureNumber-parentBean" /> 
-
     <bean id="CoiNonProjectEventDisclosure-sequenceNumber" parent="CoiDisclosure-sequenceNumber-parentBean" />
-
     <bean id="CoiNonProjectEventDisclosure-personId" parent="CoiDisclosure-personId-parentBean" />
-
     <bean id="CoiNonProjectEventDisclosure-person.fullName" parent="CoiDisclosure-person.fullName-parentBean" />
     <bean id="CoiNonProjectEventDisclosure-person.userName" parent="CoiDisclosure-person.userName-parentBean" />
-
-
     <bean id="CoiNonProjectEventDisclosure-certificationText" parent="CoiDisclosure-certificationText-parentBean" />
-
     <bean id="CoiNonProjectEventDisclosure-certifiedBy" parent="CoiDisclosure-certifiedBy-parentBean" />
-
     <bean id="CoiNonProjectEventDisclosure-certificationTimestamp" parent="CoiDisclosure-certificationTimestamp-parentBean" />
-
     <bean id="CoiNonProjectEventDisclosure-updateTimestamp" parent="CoiDisclosure-updateTimestamp-parentBean" />
-
     <bean id="CoiNonProjectEventDisclosure-disclosureDispositionCode" parent="CoiDisclosure-disclosureDispositionCode-parentBean" />
-
     <bean id="CoiNonProjectEventDisclosure-disclosureStatusCode" parent="CoiDisclosure-disclosureStatusCode-parentBean" />
-    
     <bean id="CoiNonProjectEventDisclosure-expirationDate" parent="CoiDisclosure-expirationDate-parentBean" />
-   
     <bean id="CoiNonProjectEventDisclosure-moduleItemKey" parent="CoiDisclosure-moduleItemKey-parentBean" />
-   
 <!--     <bean id="CoiNonProjectEventDisclosure-reviewStatusCode" parent="CoiDisclosure-reviewStatusCode-parentBean" /> -->
-
     <bean id="CoiNonProjectEventDisclosure-eventTypeCode" parent="CoiDisclosure-eventTypeCode-parentBean" />
-
 	<bean id="CoiNonProjectEventDisclosure-leadUnitNumber" parent="CoiDisclosure-leadUnitNumber-parentBean" />
- 
     <bean id="CoiNonProjectEventDisclosure-discActiveStatus" parent="CoiDisclosure-discActiveStatus-parentBean" />
-    
     <bean id="CoiNonProjectEventDisclosure-versionNumber" parent="CoiDisclosure-versionNumber-parentBean" />
-   
 	<bean id="CoiNonProjectEventDisclosure-coiDispositionStatus.description" parent="CoiDisclosure-coiDispositionStatus.description-parentBean" />
-	
 	<bean id="CoiNonProjectEventDisclosure-coiDisclosureStatus.description" parent="CoiDisclosure-coiDisclosureStatus.description-parentBean" />
-	
 	<bean id="CoiNonProjectEventDisclosure-coiDisclosureEventType.description" parent="CoiDisclosure-coiDisclosureEventType.description-parentBean" />
-
     <!-- Business Object Inquiry Definition -->
     <bean id="CoiNonProjectEventDisclosure-inquiryDefinition" parent="CoiNonProjectEventDisclosure-inquiryDefinition-parentBean" />
+  <bean id="CoiNonProjectEventDisclosure-InquiryView" parent="CoiNonProjectEventDisclosure-InquiryView-parentBean"/>
     <bean id="CoiNonProjectEventDisclosure-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Coi Disclosure Id" />
         <property name="inquirySections" >
@@ -122,7 +94,6 @@
                             <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode" />
                             <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode" />
                             <bean parent="FieldDefinition" p:attributeName="expirationDate" />
-<!--                             <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" /> -->
                             <bean parent="FieldDefinition" p:attributeName="eventTypeCode" />
                             <bean parent="FieldDefinition" p:attributeName="discActiveStatus" />
                             <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
@@ -133,44 +104,108 @@
         </property>
     </bean>
 
+  <bean id="CoiNonProjectEventDisclosure-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Coi Disclosure Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.CoiNonProjectEventDisclosure"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Coi Disclosure Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="coiDisclosureNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="personId" parent="Uif-DataField"/>
+              <bean p:propertyName="certifiedBy" parent="Uif-DataField"/>
+              <bean p:propertyName="disclosureDispositionCode" parent="Uif-DataField"/>
+              <bean p:propertyName="disclosureStatusCode" parent="Uif-DataField"/>
+              <bean p:propertyName="expirationDate" parent="Uif-DataField"/>
+              <bean p:propertyName="eventTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="discActiveStatus" parent="Uif-DataField"/>
+              <bean p:propertyName="leadUnitNumber" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
     <!-- Business Object Lookup Definition -->
     <bean id="CoiNonProjectEventDisclosure-lookupDefinition" parent="CoiNonProjectEventDisclosure-lookupDefinition-parentBean" />
+  <bean id="CoiNonProjectEventDisclosure-LookupView" parent="CoiNonProjectEventDisclosure-LookupView-parentBean"/>
     <bean id="CoiNonProjectEventDisclosure-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Coi Non Project Event Disclosure Lookup" />
         <property name="lookupableID" value="coiNonProjectEventDisclosureLookupable" />        
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" 
-					p:forceLookup="true" />
+        <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" p:forceLookup="true"/>
                 <bean parent="FieldDefinition" p:attributeName="person.userName" />
                 <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
                 <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode" />
                 <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode" />
                 <bean parent="FieldDefinition" p:attributeName="expirationDate" />
-<!--                 <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" /> -->
                 <bean parent="FieldDefinition" p:attributeName="eventTypeCode" />
                 <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" 
-					p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" p:forceInquiry="true"/>
                 <bean parent="FieldDefinition" p:attributeName="personId" />
                 <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
                 <bean parent="FieldDefinition" p:attributeName="certificationTimestamp" />
                 <bean parent="FieldDefinition" p:attributeName="coiDisclosureStatus.description" />
                 <bean parent="FieldDefinition" p:attributeName="coiDispositionStatus.description" />
                 <bean parent="FieldDefinition" p:attributeName="expirationDate" />
-<!--                 <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" /> -->
                 <bean parent="FieldDefinition" p:attributeName="coiDisclosureEventType.description" />
                 <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
             </list>
         </property>
     </bean>
+
+  <bean id="CoiNonProjectEventDisclosure-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.CoiNonProjectEventDisclosure"/>
+    <property name="headerText" value="Coi Non Project Event Disclosure Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="coiDisclosureNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="person.userName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="certifiedBy" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="disclosureDispositionCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="disclosureStatusCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="expirationDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="eventTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="leadUnitNumber" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="coiDisclosureNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="personId" parent="Uif-DataField"/>
+        <bean p:propertyName="certifiedBy" parent="Uif-DataField"/>
+        <bean p:propertyName="certificationTimestamp" parent="Uif-DataField"/>
+        <bean p:propertyName="coiDisclosureStatus.description" parent="Uif-DataField"/>
+        <bean p:propertyName="coiDispositionStatus.description" parent="Uif-DataField"/>
+        <bean p:propertyName="expirationDate" parent="Uif-DataField"/>
+        <bean p:propertyName="coiDisclosureEventType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="leadUnitNumber" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

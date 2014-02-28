@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="CustomAttribute" parent="CustomAttribute-parentBean" />
-
   <bean id="CustomAttribute-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.CustomAttribute" />
 		<property name="objectLabel" value="Custom Attribute" />
@@ -17,10 +12,7 @@
     </property>
     <property name="titleAttribute" value="id" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-PD"
-            p:parameterName="proposalDevelopmentCustomAttributeHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentCustomAttributeHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -52,15 +44,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Id" />
     <property name="description" value="Id" />
   </bean>
-  <bean id="CustomAttribute-dataLength" parent="CustomAttribute-dataLength-parentBean" />
 
+  <bean id="CustomAttribute-dataLength" parent="CustomAttribute-dataLength-parentBean"/>
   <bean id="CustomAttribute-dataLength-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dataLength" />
     <property name="forceUppercase" value="false" />
@@ -70,15 +67,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Data Length" />
     <property name="description" value="Data Length" />
   </bean>
-  <bean id="CustomAttribute-dataTypeCode" parent="CustomAttribute-dataTypeCode-parentBean" />
 
+  <bean id="CustomAttribute-dataTypeCode" parent="CustomAttribute-dataTypeCode-parentBean"/>
   <bean id="CustomAttribute-dataTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dataTypeCode" />
     <property name="forceUppercase" value="false" />
@@ -88,16 +90,23 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CustomAttributeDataTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CustomAttributeDataTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.CustomAttributeDataTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Data Type Code" />
     <property name="description" value="Data Type Code" />
   </bean>
-  <bean id="CustomAttribute-defaultValue" parent="CustomAttribute-defaultValue-parentBean" />
 
+  <bean id="CustomAttribute-defaultValue" parent="CustomAttribute-defaultValue-parentBean"/>
   <bean id="CustomAttribute-defaultValue-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="defaultValue" />
     <property name="forceUppercase" value="false" />
@@ -105,19 +114,24 @@
     <property name="shortLabel" value="Default Value" />
     <property name="maxLength" value="2000" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="80" />
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="80"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="80" parent="Uif-TextAreaControl"/>
     </property>
     <property name="summary" value="Default Value" />
     <property name="description" value="Default Value" />
   </bean>
-  <bean id="CustomAttribute-groupName" parent="CustomAttribute-groupName-parentBean" />
 
+  <bean id="CustomAttribute-groupName" parent="CustomAttribute-groupName-parentBean"/>
   <bean id="CustomAttribute-groupName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="groupName" />
     <property name="forceUppercase" value="false" />
@@ -126,18 +140,24 @@
     <property name="maxLength" value="250" />
     <property name="required" value="true" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+      <bean parent="TextControlDefinition" p:size="50"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="50" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Group Name" />
     <property name="description" value="Group Name" />
   </bean>
-  <bean id="CustomAttribute-label" parent="CustomAttribute-label-parentBean" />
 
+  <bean id="CustomAttribute-label" parent="CustomAttribute-label-parentBean"/>
   <bean id="CustomAttribute-label-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="label" />
     <property name="forceUppercase" value="false" />
@@ -145,18 +165,24 @@
     <property name="shortLabel" value="Label" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="30" />
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Label" />
     <property name="description" value="Label" />
   </bean>
-  <bean id="CustomAttribute-lookupClass" parent="CustomAttribute-lookupClass-parentBean" />
 
+  <bean id="CustomAttribute-lookupClass" parent="CustomAttribute-lookupClass-parentBean"/>
   <bean id="CustomAttribute-lookupClass-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="lookupClass" />
     <property name="forceUppercase" value="false" />
@@ -166,17 +192,23 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupableBoValuesFinder"
-            p:includeKeyInLabel="false"
-            p:script="updateLookupReturn(this, updateLookupReturn_Callback)" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupableBoValuesFinder" p:includeKeyInLabel="false" p:script="updateLookupReturn(this, updateLookupReturn_Callback)"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.LookupableBoValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Lookup Class" />
     <property name="description" value="Lookup Class" />
   </bean>
-  <bean id="CustomAttribute-lookupReturn" parent="CustomAttribute-lookupReturn-parentBean" />
 
+  <bean id="CustomAttribute-lookupReturn" parent="CustomAttribute-lookupReturn-parentBean"/>
   <bean id="CustomAttribute-lookupReturn-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="lookupReturn" />
     <property name="forceUppercase" value="false" />
@@ -186,16 +218,23 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Lookup Return" />
     <property name="description" value="Lookup Return" />
   </bean>
-  <bean id="CustomAttribute-name" parent="CustomAttribute-name-parentBean" />
 
+  <bean id="CustomAttribute-name" parent="CustomAttribute-name-parentBean"/>
   <bean id="CustomAttribute-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
     <property name="forceUppercase" value="false" />
@@ -203,26 +242,28 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="30" />
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Name" />
     <property name="description" value="Name" />
   </bean>
-  <bean id="CustomAttribute-versionNumber" parent="CustomAttribute-versionNumber-parentBean" />
 
-  <bean id="CustomAttribute-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean id="CustomAttribute-versionNumber" parent="CustomAttribute-versionNumber-parentBean"/>
+  <bean id="CustomAttribute-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="CustomAttribute-inquiryDefinition" parent="CustomAttribute-inquiryDefinition-parentBean" />
-
+  <bean id="CustomAttribute-InquiryView" parent="CustomAttribute-InquiryView-parentBean"/>
   <bean id="CustomAttribute-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Custom Attribute" />
     <property name="inquirySections" >
@@ -232,25 +273,15 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="id"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="dataLength" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="dataTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="defaultValue" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="groupName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="label" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="lookupClass" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="lookupReturn" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
+              <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="dataLength"/>
+              <bean parent="FieldDefinition" p:attributeName="dataTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="defaultValue"/>
+              <bean parent="FieldDefinition" p:attributeName="groupName"/>
+              <bean parent="FieldDefinition" p:attributeName="label"/>
+              <bean parent="FieldDefinition" p:attributeName="lookupClass"/>
+              <bean parent="FieldDefinition" p:attributeName="lookupReturn"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
             </list>
           </property>
         </bean>
@@ -258,63 +289,108 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="CustomAttribute-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Custom Attribute"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.CustomAttribute"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Custom Attribute"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
+              <bean p:propertyName="dataLength" parent="Uif-DataField"/>
+              <bean p:propertyName="dataTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="defaultValue" parent="Uif-DataField"/>
+              <bean p:propertyName="groupName" parent="Uif-DataField"/>
+              <bean p:propertyName="label" parent="Uif-DataField"/>
+              <bean p:propertyName="lookupClass" parent="Uif-DataField"/>
+              <bean p:propertyName="lookupReturn" parent="Uif-DataField"/>
+              <bean p:propertyName="name" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="CustomAttribute-lookupDefinition" parent="CustomAttribute-lookupDefinition-parentBean" />
-
+  <bean id="CustomAttribute-LookupView" parent="CustomAttribute-LookupView-parentBean"/>
   <bean id="CustomAttribute-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Custom Attribute Lookup" />
     <property name="lookupableID" value="customLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="id" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dataLength" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dataTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="defaultValue" />
-        <bean parent="FieldDefinition"
-              p:attributeName="groupName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="label" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lookupClass" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lookupReturn" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="dataLength"/>
+        <bean parent="FieldDefinition" p:attributeName="dataTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="defaultValue"/>
+        <bean parent="FieldDefinition" p:attributeName="groupName"/>
+        <bean parent="FieldDefinition" p:attributeName="label"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupClass"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupReturn"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="dataLength"/>
+        <bean parent="FieldDefinition" p:attributeName="dataTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="defaultValue"/>
+        <bean parent="FieldDefinition" p:attributeName="groupName"/>
+        <bean parent="FieldDefinition" p:attributeName="label"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupClass"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupReturn"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CustomAttribute-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.CustomAttribute"/>
+    <property name="headerText" value="Custom Attribute Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dataLength" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dataTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="defaultValue" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="groupName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="label" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lookupClass" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lookupReturn" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="name" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="id"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dataLength" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dataTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="defaultValue" />
-        <bean parent="FieldDefinition"
-              p:attributeName="groupName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="label" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lookupClass" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lookupReturn" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
+        <bean p:propertyName="id" parent="Uif-DataField"/>
+        <bean p:propertyName="dataLength" parent="Uif-DataField"/>
+        <bean p:propertyName="dataTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="defaultValue" parent="Uif-DataField"/>
+        <bean p:propertyName="groupName" parent="Uif-DataField"/>
+        <bean p:propertyName="label" parent="Uif-DataField"/>
+        <bean p:propertyName="lookupClass" parent="Uif-DataField"/>
+        <bean p:propertyName="lookupReturn" parent="Uif-DataField"/>
+        <bean p:propertyName="name" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

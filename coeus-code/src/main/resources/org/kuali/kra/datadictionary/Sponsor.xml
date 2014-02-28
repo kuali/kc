@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="Sponsor" parent="Sponsor-parentBean" />
-
   <bean id="Sponsor-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.Sponsor" />
 		<property name="objectLabel" value="Sponsor" />
@@ -17,10 +12,7 @@
     </property>
     <property name="titleAttribute" value="sponsorCode" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-PD"
-            p:parameterName="proposalDevelopmentSponsorHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentSponsorHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -42,6 +34,7 @@
         <ref bean="Sponsor-countryCode" />
         <ref bean="Sponsor-versionNumber" />
         <ref bean="Sponsor-active" />
+      <!-- <value>updateTimestamp</value> -->
       </list>
     </property>
     <property name="relationships" >
@@ -50,17 +43,12 @@
           <property name="objectAttributeName" value="unit" />
           <property name="primitiveAttributes" >
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="ownedByUnit"
-                    p:targetName="unitNumber" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="ownedByUnit" p:targetName="unitNumber"/>
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="unit.unitName"
-                    p:targetName="unitName" />
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="unit.unitName" p:targetName="unitName"/>
             </list>
           </property>
         </bean>
@@ -68,17 +56,12 @@
           <property name="objectAttributeName" value="sponsorType" />
           <property name="primitiveAttributes" >
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="sponsorTypeCode"
-                    p:targetName="sponsorTypeCode" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="sponsorTypeCode" p:targetName="sponsorTypeCode"/>
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="sponsorType.description"
-                    p:targetName="description" />
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="sponsorType.description" p:targetName="description"/>
             </list>
           </property>
         </bean>
@@ -86,17 +69,12 @@
           <property name="objectAttributeName" value="rolodex" />
           <property name="primitiveAttributes" >
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="rolodexId"
-                    p:targetName="rolodexId" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="rolodexId" p:targetName="rolodexId"/>
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="rolodex.rolodexId"
-                    p:targetName="rolodexId" />
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="rolodex.rolodexId" p:targetName="rolodexId"/>
             </list>
           </property>
         </bean>
@@ -118,15 +96,20 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Sponsor Code" />
     <property name="description" value="Sponsor Code" />
   </bean>
-  <bean id="Sponsor-acronym" parent="Sponsor-acronym-parentBean" />
 
+  <bean id="Sponsor-acronym" parent="Sponsor-acronym-parentBean"/>
   <bean id="Sponsor-acronym-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="acronym" />
     <property name="forceUppercase" value="false" />
@@ -134,18 +117,24 @@
     <property name="shortLabel" value="Acronym" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Acronym" />
     <property name="description" value="Acronym" />
   </bean>
-  <bean id="Sponsor-auditReportSentForFy" parent="Sponsor-auditReportSentForFy-parentBean" />
 
+  <bean id="Sponsor-auditReportSentForFy" parent="Sponsor-auditReportSentForFy-parentBean"/>
   <bean id="Sponsor-auditReportSentForFy-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="auditReportSentForFy" />
     <property name="forceUppercase" value="false" />
@@ -153,18 +142,24 @@
     <property name="shortLabel" value="Audit Report Sent For Fy" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Audit Report Sent For Fy" />
     <property name="description" value="Audit Report Sent For Fy" />
   </bean>
-  <bean id="Sponsor-cageNumber" parent="Sponsor-cageNumber-parentBean" />
 
+  <bean id="Sponsor-cageNumber" parent="Sponsor-cageNumber-parentBean"/>
   <bean id="Sponsor-cageNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cageNumber" />
     <property name="forceUppercase" value="false" />
@@ -172,18 +167,24 @@
     <property name="shortLabel" value="CAGE Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="CAGE Number" />
     <property name="description" value="CAGE Number" />
   </bean>
-  <bean id="Sponsor-dodacNumber" parent="Sponsor-dodacNumber-parentBean" />
 
+  <bean id="Sponsor-dodacNumber" parent="Sponsor-dodacNumber-parentBean"/>
   <bean id="Sponsor-dodacNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dodacNumber" />
     <property name="forceUppercase" value="false" />
@@ -191,18 +192,24 @@
     <property name="shortLabel" value="DODAC Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="DODAC Number" />
     <property name="description" value="DODAC Number" />
   </bean>
-  <bean id="Sponsor-dunAndBradstreetNumber" parent="Sponsor-dunAndBradstreetNumber-parentBean" />
 
+  <bean id="Sponsor-dunAndBradstreetNumber" parent="Sponsor-dunAndBradstreetNumber-parentBean"/>
   <bean id="Sponsor-dunAndBradstreetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dunAndBradstreetNumber" />
     <property name="forceUppercase" value="false" />
@@ -210,18 +217,24 @@
     <property name="shortLabel" value="DUN And Bradstreet Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="DUN And Bradstreet Number" />
     <property name="description" value="DUN And Bradstreet Number" />
   </bean>
-  <bean id="Sponsor-dunsPlusFourNumber" parent="Sponsor-dunsPlusFourNumber-parentBean" />
 
+  <bean id="Sponsor-dunsPlusFourNumber" parent="Sponsor-dunsPlusFourNumber-parentBean"/>
   <bean id="Sponsor-dunsPlusFourNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dunsPlusFourNumber" />
     <property name="forceUppercase" value="false" />
@@ -229,18 +242,24 @@
     <property name="shortLabel" value="DUNS Plus Four Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="DUNS Plus Four Number" />
     <property name="description" value="DUNS Plus Four Number" />
   </bean>
-  <bean id="Sponsor-ownedByUnit" parent="Sponsor-ownedByUnit-parentBean" />
 
+  <bean id="Sponsor-ownedByUnit" parent="Sponsor-ownedByUnit-parentBean"/>
   <bean id="Sponsor-ownedByUnit-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="ownedByUnit" />
     <property name="forceUppercase" value="false" />
@@ -248,25 +267,31 @@
     <property name="shortLabel" value="Owned By Unit" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Owned By Unit" />
     <property name="description" value="Owned By Unit" />
   </bean>
-  <bean id="Sponsor-unit.unitName" parent="Sponsor-unit.unitName-parentBean" />
 
+  <bean id="Sponsor-unit.unitName" parent="Sponsor-unit.unitName-parentBean"/>
   <bean id="Sponsor-unit.unitName-parentBean" abstract="true" parent="Unit-unitName">
     <property name="name" value="unit.unitName" />
     <property name="label" value="Owned By Unit" />
     <property name="shortLabel" value="Owned By Unit" />
   </bean>
-  <bean id="Sponsor-postalCode" parent="Sponsor-postalCode-parentBean" />
 
+  <bean id="Sponsor-postalCode" parent="Sponsor-postalCode-parentBean"/>
   <bean id="Sponsor-postalCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="postalCode" />
     <property name="forceUppercase" value="false" />
@@ -274,18 +299,24 @@
     <property name="shortLabel" value="Postal Code" />
     <property name="maxLength" value="15" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Postal Code" />
     <property name="description" value="Postal Code" />
   </bean>
-  <bean id="Sponsor-rolodexId" parent="Sponsor-rolodexId-parentBean" />
 
+  <bean id="Sponsor-rolodexId" parent="Sponsor-rolodexId-parentBean"/>
   <bean id="Sponsor-rolodexId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rolodexId" />
     <property name="forceUppercase" value="false" />
@@ -295,15 +326,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rolodex Id" />
     <property name="description" value="Rolodex Id" />
   </bean>
-  <bean id="Sponsor-sponsorName" parent="Sponsor-sponsorName-parentBean" />
 
+  <bean id="Sponsor-sponsorName" parent="Sponsor-sponsorName-parentBean"/>
   <bean id="Sponsor-sponsorName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sponsorName" />
     <property name="forceUppercase" value="false" />
@@ -311,19 +347,24 @@
     <property name="shortLabel" value="Sponsor Name" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="40" />
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="5" p:cols="40" parent="Uif-TextAreaControl"/>
     </property>
     <property name="summary" value="Sponsor Name" />
     <property name="description" value="The name of the sponsoring agency." />
   </bean>
-  <bean id="Sponsor-sponsorTypeCode" parent="Sponsor-sponsorTypeCode-parentBean" />
 
+  <bean id="Sponsor-sponsorTypeCode" parent="Sponsor-sponsorTypeCode-parentBean"/>
   <bean id="Sponsor-sponsorTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sponsorTypeCode" />
     <property name="forceUppercase" value="false" />
@@ -331,41 +372,45 @@
     <property name="shortLabel" value="Sponsor Type Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.bo.SponsorType"
-            p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="sponsorTypeCode"
-            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.SponsorType" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="sponsorTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="sponsorTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Sponsor Type Code" />
     <property name="description" value="Sponsor Type Code" />
   </bean>
-  <bean id="Sponsor-sponsorType.description" parent="Sponsor-sponsorType.description-parentBean" />
 
+  <bean id="Sponsor-sponsorType.description" parent="Sponsor-sponsorType.description-parentBean"/>
   <bean id="Sponsor-sponsorType.description-parentBean" abstract="true" parent="SponsorType-description">
     <property name="name" value="sponsorType.description" />
     <property name="label" value="Sponsor Type" />
     <property name="shortLabel" value="Sponsor Type" />
   </bean>
-  <bean id="Sponsor-state" parent="Sponsor-state-parentBean" />
 
-  <bean id="Sponsor-state-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
-  </bean>
+  <bean id="Sponsor-state" parent="Sponsor-state-parentBean"/>
+  <bean id="Sponsor-state-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state"/>
   <bean id="Sponsor-countryCode" parent="Sponsor-countryCode-parentBean" />
-
-  <bean id="Sponsor-countryCode-parentBean" abstract="true" parent="KraAttributeReferenceDummy-countryCode">
-  </bean>
+  <bean id="Sponsor-countryCode-parentBean" abstract="true" parent="KraAttributeReferenceDummy-countryCode"/>
   <bean id="Sponsor-versionNumber" parent="Sponsor-versionNumber-parentBean" />
-
-  <bean id="Sponsor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-  
+  <bean id="Sponsor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
   <bean id="Sponsor-active" parent="Sponsor-active-parentBean"/>
    <bean id="Sponsor-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"> 
 		<property name="name" value="active" />
@@ -376,9 +421,8 @@
    </bean>
 
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="Sponsor-inquiryDefinition" parent="Sponsor-inquiryDefinition-parentBean" />
+  <bean id="Sponsor-InquiryView" parent="Sponsor-InquiryView-parentBean"/>
   <bean id="Sponsor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Sponsor" />
     <property name="inquirySections" >
@@ -410,11 +454,41 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="Sponsor-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Sponsor"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.Sponsor"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Sponsor"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+              <bean p:propertyName="acronym" parent="Uif-DataField"/>
+              <bean p:propertyName="auditReportSentForFy" parent="Uif-DataField"/>
+              <bean p:propertyName="cageNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="countryCode" parent="Uif-DataField"/>
+              <bean p:propertyName="dodacNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="dunAndBradstreetNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="dunsPlusFourNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="unit.unitName" parent="Uif-DataField"/>
+              <bean p:propertyName="postalCode" parent="Uif-DataField"/>
+              <bean p:propertyName="rolodexId" parent="Uif-DataField"/>
+              <bean p:propertyName="sponsorName" parent="Uif-DataField"/>
+              <bean p:propertyName="sponsorType.description" parent="Uif-DataField"/>
+              <bean p:propertyName="state" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="Sponsor-lookupDefinition" parent="Sponsor-lookupDefinition-parentBean" />
-
+  <bean id="Sponsor-LookupView" parent="Sponsor-LookupView-parentBean"/>
   <bean id="Sponsor-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Sponsor Lookup" />
     <property name="lookupableID" value="sponsorLookupable" />
@@ -425,13 +499,11 @@
         <property name="attributeNames">
           <list>
           	<value>sponsorCode</value>
-  		 <!-- <value>updateTimestamp</value> -->
           </list>
         </property>
         <property name="sortAscending" value="false"/>
       </bean>
     </property>
-    
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition" p:attributeName="sponsorCode" />
@@ -465,8 +537,62 @@
         <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
-    
     <property name="resultSetLimit" value="8000" />
-    
   </bean>
+    
+  <bean id="Sponsor-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.Sponsor"/>
+    <property name="headerText" value="Sponsor Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+  </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="defaultSortAscending" value="false"/>
+    <property name="defaultSortAttributeNames">
+      <list>
+        <value>sponsorCode</value>
+      </list>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="acronym" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dunAndBradstreetNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dunsPlusFourNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dodacNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="cageNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="postalCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="state" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="countryCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="auditReportSentForFy" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="ownedByUnit" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rolodexId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorName" parent="Uif-DataField"/>
+        <bean p:propertyName="acronym" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="dunAndBradstreetNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="dodacNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="cageNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="state" parent="Uif-DataField"/>
+        <bean p:propertyName="countryCode" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

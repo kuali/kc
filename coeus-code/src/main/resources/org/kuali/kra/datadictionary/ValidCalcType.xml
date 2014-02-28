@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ValidCalcType" parent="ValidCalcType-parentBean" />
-
   <bean id="ValidCalcType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.calculator.ValidCalcType" />
 		<property name="objectLabel" value="Valid Calc Type" />
@@ -43,15 +38,20 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Calc Type Id" />
     <property name="description" value="Calc Type Id" />
   </bean>
-  <bean id="ValidCalcType-dependentSeqNumber" parent="ValidCalcType-dependentSeqNumber-parentBean" />
 
+  <bean id="ValidCalcType-dependentSeqNumber" parent="ValidCalcType-dependentSeqNumber-parentBean"/>
   <bean id="ValidCalcType-dependentSeqNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dependentSeqNumber" />
     <property name="forceUppercase" value="false" />
@@ -61,15 +61,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Dependent Seq Number" />
     <property name="description" value="Dependent Seq Number" />
   </bean>
-  <bean id="ValidCalcType-rateClassType" parent="ValidCalcType-rateClassType-parentBean" />
 
+  <bean id="ValidCalcType-rateClassType" parent="ValidCalcType-rateClassType-parentBean"/>
   <bean id="ValidCalcType-rateClassType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rateClassType" />
     <property name="forceUppercase" value="false" />
@@ -79,15 +84,20 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+      <bean parent="TextControlDefinition" p:size="1"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="1" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rate Class Type" />
     <property name="description" value="Rate Class Type" />
   </bean>
-  <bean id="ValidCalcType-dependentRateClassType" parent="ValidCalcType-dependentRateClassType-parentBean" />
 
+  <bean id="ValidCalcType-dependentRateClassType" parent="ValidCalcType-dependentRateClassType-parentBean"/>
   <bean id="ValidCalcType-dependentRateClassType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dependentRateClassType" />
     <property name="forceUppercase" value="false" />
@@ -97,15 +107,20 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+      <bean parent="TextControlDefinition" p:size="1"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="1" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Dependent Rate Class Type" />
     <property name="description" value="Dependent Rate Class Type" />
   </bean>
-  <bean id="ValidCalcType-rateClassCode" parent="ValidCalcType-rateClassCode-parentBean" />
 
+  <bean id="ValidCalcType-rateClassCode" parent="ValidCalcType-rateClassCode-parentBean"/>
   <bean id="ValidCalcType-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rateClassCode" />
     <property name="forceUppercase" value="false" />
@@ -115,15 +130,20 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rate Class Code" />
     <property name="description" value="Rate Class Code" />
   </bean>
-  <bean id="ValidCalcType-rateTypeCode" parent="ValidCalcType-rateTypeCode-parentBean" />
 
+  <bean id="ValidCalcType-rateTypeCode" parent="ValidCalcType-rateTypeCode-parentBean"/>
   <bean id="ValidCalcType-rateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rateTypeCode" />
     <property name="forceUppercase" value="false" />
@@ -133,23 +153,24 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rate Type Code" />
     <property name="description" value="Rate Type Code" />
   </bean>
-  <bean id="ValidCalcType-versionNumber" parent="ValidCalcType-versionNumber-parentBean" />
 
-  <bean id="ValidCalcType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean id="ValidCalcType-versionNumber" parent="ValidCalcType-versionNumber-parentBean"/>
+  <bean id="ValidCalcType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="ValidCalcType-inquiryDefinition" parent="ValidCalcType-inquiryDefinition-parentBean" />
-
+  <bean id="ValidCalcType-InquiryView" parent="ValidCalcType-InquiryView-parentBean"/>
   <bean id="ValidCalcType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Valid Calc Types" />
     <property name="inquirySections" >
@@ -159,21 +180,12 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="calcTypeId"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="dependentSeqNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="rateClassType"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="dependentRateClassType" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="rateClassCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="rateTypeCode" />
+              <bean parent="FieldDefinition" p:attributeName="calcTypeId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="dependentSeqNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="rateClassType" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="dependentRateClassType"/>
+              <bean parent="FieldDefinition" p:attributeName="rateClassCode"/>
+              <bean parent="FieldDefinition" p:attributeName="rateTypeCode"/>
             </list>
           </property>
         </bean>
@@ -181,56 +193,95 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="ValidCalcType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Valid Calc Types"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.calculator.ValidCalcType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Valid Calc Types"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="calcTypeId" parent="Uif-DataField"/>
+              <bean p:propertyName="dependentSeqNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="rateClassType" parent="Uif-DataField"/>
+              <bean p:propertyName="dependentRateClassType" parent="Uif-DataField"/>
+              <bean p:propertyName="rateClassCode" parent="Uif-DataField"/>
+              <bean p:propertyName="rateTypeCode" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="ValidCalcType-lookupDefinition" parent="ValidCalcType-lookupDefinition-parentBean" />
-
+  <bean id="ValidCalcType-LookupView" parent="ValidCalcType-LookupView-parentBean"/>
   <bean id="ValidCalcType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Valid Calc Types Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
 	<property name="helpDefinition" >
-        <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-M"
-            p:parameterName="proposalValidCalTypeMaintenanceHelp"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="proposalValidCalTypeMaintenanceHelp" p:parameterDetailType="Document"/>
     </property>         
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="calcTypeId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateClassType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dependentRateClassType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateClassCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateTypeCode" />
+        <bean parent="FieldDefinition" p:attributeName="calcTypeId"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassType"/>
+        <bean parent="FieldDefinition" p:attributeName="dependentRateClassType"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassCode"/>
+        <bean parent="FieldDefinition" p:attributeName="rateTypeCode"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="calcTypeId"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateClassType"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dependentRateClassType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateClassCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dependentSeqNumber" />
+        <bean parent="FieldDefinition" p:attributeName="calcTypeId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassType" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="dependentRateClassType"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassCode"/>
+        <bean parent="FieldDefinition" p:attributeName="rateTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="dependentSeqNumber"/>
       </list>
     </property>
   </bean>
+
+  <bean id="ValidCalcType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.calculator.ValidCalcType"/>
+    <property name="headerText" value="Valid Calc Types Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="calcTypeId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateClassType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dependentRateClassType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateClassCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateTypeCode" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="calcTypeId" parent="Uif-DataField"/>
+        <bean p:propertyName="rateClassType" parent="Uif-DataField"/>
+        <bean p:propertyName="dependentRateClassType" parent="Uif-DataField"/>
+        <bean p:propertyName="rateClassCode" parent="Uif-DataField"/>
+        <bean p:propertyName="rateTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="dependentSeqNumber" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

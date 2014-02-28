@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
  Copyright 2005-2014 The Kuali Foundation
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -11,8 +12,8 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
---><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="IacucProtocolReviewAttachment" parent="IacucProtocolReviewAttachment-parentBean"/>
 	<bean abstract="true" id="IacucProtocolReviewAttachment-parentBean" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment"/>
@@ -37,14 +38,12 @@
 				<ref bean="IacucProtocolReviewAttachment-protocolPersonCanView" />
 				<ref bean="IacucProtocolReviewAttachment-protocolIdFk" />
 				<ref bean="IacucProtocolReviewAttachment-submissionIdFk" />
-				
 			</list>
 		</property>
-		 
-		
+  <!-- <property name="required" value="true" />-->
 	</bean>
-	<!-- Attribute Definitions -->
 	
+  <!-- Attribute Definitions -->
 	<bean id="IacucProtocolReviewAttachment-reviewerAttachmentId" parent="IacucProtocolReviewAttachment-reviewerAttachmentId-parentBean"/>
 	<bean abstract="true" id="IacucProtocolReviewAttachment-reviewerAttachmentId-parentBean" parent="AttributeDefinition">
 		<property name="name" value="reviewerAttachmentId"/>
@@ -55,9 +54,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Id"/>
 		<property name="description" value="Id"/>
 	</bean>
@@ -66,9 +71,10 @@
 	<bean id="IacucProtocolReviewAttachment-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
 	    <property name="required" value="true" />	
 		<property name="control" >
-			<bean parent="TextareaControlDefinition"
-	            p:rows="3"
-	            p:cols="40"/> 
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="40" parent="Uif-TextAreaControl"/>
         </property>
 	</bean>
 
@@ -79,7 +85,6 @@
 		<property name="shortLabel" value="File Name" />
 		<property name="summary" value="File Name" />
 		<property name="description" value="File Name" />
-		<!-- <property name="required" value="true" />-->
 	</bean>
 
 	<bean id="IacucProtocolReviewAttachment-protocolOnlineReviewIdFk" parent="IacucProtocolReviewAttachment-protocolOnlineReviewIdFk-parentBean"/>
@@ -98,9 +103,11 @@
         <property name="control">
 			<bean parent="TextControlDefinition" p:size="40" />
 		</property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
+    </property>
         <property name="summary" value="Create User" />
         <property name="description" value="Create User" />
-	
 	</bean>
 
 	<bean id="IacucProtocolReviewAttachment-createTimestamp" parent="IacucProtocolReviewAttachment-createTimestamp-parentBean" />
@@ -114,8 +121,7 @@
   	</bean>
  
 	<bean id="IacucProtocolReviewAttachment-privateFlag" parent="IacucProtocolReviewAttachment-privateFlag-parentBean" />
-	<bean id="IacucProtocolReviewAttachment-privateFlag-parentBean"
-		abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="IacucProtocolReviewAttachment-privateFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 		<property name="name" value="privateFlag" />
 		<property name="label" value="Protocol personnel can view" />
 		<property name="shortLabel" value="Protocol personnel can view" />
@@ -124,8 +130,7 @@
 	</bean>
 	
 	<bean id="IacucProtocolReviewAttachment-protocolPersonCanView" parent="IacucProtocolReviewAttachment-protocolPersonCanView-parentBean" />
-	<bean id="IacucProtocolReviewAttachment-protocolPersonCanView-parentBean"
-		abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="IacucProtocolReviewAttachment-protocolPersonCanView-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 		<property name="name" value="protocolPersonCanView" />
 		<property name="label" value="Protocol personnel can view" />
 		<property name="shortLabel" value="Protocol personnel can view" />
@@ -134,17 +139,14 @@
 	</bean>
 
 	<bean id="IacucProtocolReviewAttachment-protocolIdFk" parent="IacucProtocolReviewAttachment-protocolIdFk-parentBean" />
-	<bean id="IacucProtocolReviewAttachment-protocolIdFk-parentBean"
-		abstract="true" parent="Protocol-protocolId">
+  <bean id="IacucProtocolReviewAttachment-protocolIdFk-parentBean" abstract="true" parent="Protocol-protocolId">
 		<property name="name" value="protocolIdFk" />
 		<property name="summary" value="Protocol Id Fk" />
 		<property name="description" value="Protocol Id Fk" />
 	</bean>
 
-
 	<bean id="IacucProtocolReviewAttachment-submissionIdFk" parent="IacucProtocolReviewAttachment-submissionIdFk-parentBean" />
-	<bean id="IacucProtocolReviewAttachment-submissionIdFk-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="IacucProtocolReviewAttachment-submissionIdFk-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="submissionIdFk" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Submission Id Fk" />
@@ -153,9 +155,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Submission Id Fk" />
 		<property name="description" value="Submission Id Fk" />
 	</bean>
@@ -170,22 +178,24 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="9" />
+      <bean parent="TextControlDefinition" p:size="9"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="9" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Person Id" />
 		<property name="description" value="Person Id" />
 	</bean>
 
-
 	<bean id="IacucProtocolReviewAttachment-versionNumber" parent="IacucProtocolReviewAttachment-versionNumber-parentBean"/>
-	<bean abstract="true" id="IacucProtocolReviewAttachment-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+  <bean abstract="true" id="IacucProtocolReviewAttachment-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
 	<bean id="IacucProtocolReviewAttachment-inquiryDefinition" parent="IacucProtocolReviewAttachment-inquiryDefinition-parentBean" />
-	<bean id="IacucProtocolReviewAttachment-inquiryDefinition-parentBean"
-		abstract="true" parent="InquiryDefinition">
+  <bean id="IacucProtocolReviewAttachment-InquiryView" parent="IacucProtocolReviewAttachment-InquiryView-parentBean"/>
+  <bean id="IacucProtocolReviewAttachment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="reviewerAttachmentId" />
 		<property name="inquirySections">
 			<list>
@@ -194,8 +204,7 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="reviewerAttachmentId"
-								p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="reviewerAttachmentId" p:forceInquiry="true"/>
 							<bean parent="FieldDefinition" p:attributeName="protocolOnlineReviewIdFk" />
 							<bean parent="FieldDefinition" p:attributeName="description" />
 						</list>
@@ -205,15 +214,34 @@
 		</property>
 	</bean>
 
+  <bean id="IacucProtocolReviewAttachment-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="reviewerAttachmentId"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="reviewerAttachmentId"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="reviewerAttachmentId" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolOnlineReviewIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="IacucProtocolReviewAttachment-lookupDefinition" parent="IacucProtocolReviewAttachment-lookupDefinition-parentBean"/>
+  <bean id="IacucProtocolReviewAttachment-LookupView" parent="IacucProtocolReviewAttachment-LookupView-parentBean"/>
 	<bean abstract="true" id="IacucProtocolReviewAttachment-lookupDefinition-parentBean" parent="LookupDefinition">
 		<property name="title" value="Protocol Review Attachment Lookup"/>
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 		<property name="defaultSort">
-			<bean parent="SortDefinition">
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields">
 			<list>
@@ -228,4 +256,33 @@
 			</list>
 		</property>
 	</bean>
+
+  <bean id="IacucProtocolReviewAttachment-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment"/>
+    <property name="headerText" value="Protocol Review Attachment Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="reviewerAttachmentId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="createUser" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="reviewerAttachmentId" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

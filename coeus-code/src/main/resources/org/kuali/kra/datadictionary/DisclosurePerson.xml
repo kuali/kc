@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
@@ -15,12 +16,7 @@
  * limitations under the License.
  */
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="DisclosurePerson" parent="DisclosurePerson-parentBean" />
     <bean id="DisclosurePerson-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.coi.disclosure.DisclosurePerson" />
@@ -43,7 +39,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="DisclosurePerson-disclosurePersonId" parent="DisclosurePerson-disclosurePersonId-parentBean" />
     <bean id="DisclosurePerson-disclosurePersonId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="disclosurePersonId" />
@@ -54,9 +49,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Disclosure Person Id" />
         <property name="description" value="Disclosure Person Id" />
@@ -72,9 +72,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Role Id" />
         <property name="description" value="Role Id" />
@@ -90,20 +95,24 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Person Id" />
         <property name="description" value="Person Id" />
     </bean>
 
     <bean id="DisclosurePerson-versionNumber" parent="DisclosurePerson-versionNumber-parentBean" />
-    <bean id="DisclosurePerson-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="DisclosurePerson-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="DisclosurePerson-inquiryDefinition" parent="DisclosurePerson-inquiryDefinition-parentBean" />
+  <bean id="DisclosurePerson-InquiryView" parent="DisclosurePerson-InquiryView-parentBean"/>
     <bean id="DisclosurePerson-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Disclosure Person Id" />
         <property name="inquirySections" >
@@ -113,13 +122,29 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="disclosurePersonId" 
-                                p:forceInquiry="true" />
-                             <bean parent="FieldDefinition"
-                                p:attributeName="personRoleId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="personId" />
+              <bean parent="FieldDefinition" p:attributeName="disclosurePersonId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="personRoleId"/>
+              <bean parent="FieldDefinition" p:attributeName="personId"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DisclosurePerson-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Disclosure Person Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.disclosure.DisclosurePerson"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Disclosure Person Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="disclosurePersonId" parent="Uif-DataField"/>
+              <bean p:propertyName="personRoleId" parent="Uif-DataField"/>
+              <bean p:propertyName="personId" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -129,34 +154,55 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="DisclosurePerson-lookupDefinition" parent="DisclosurePerson-lookupDefinition-parentBean" />
+  <bean id="DisclosurePerson-LookupView" parent="DisclosurePerson-LookupView-parentBean"/>
     <bean id="DisclosurePerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Disclosure Persons Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="disclosurePersonId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="personRoleId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="personId" />
+        <bean parent="FieldDefinition" p:attributeName="disclosurePersonId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="personRoleId"/>
+        <bean parent="FieldDefinition" p:attributeName="personId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="disclosurePersonId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="personRoleId"/>
+        <bean parent="FieldDefinition" p:attributeName="personId"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DisclosurePerson-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.disclosure.DisclosurePerson"/>
+    <property name="headerText" value="Disclosure Persons Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="disclosurePersonId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="personRoleId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="personId" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="disclosurePersonId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="personRoleId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="personId" />
+        <bean p:propertyName="disclosurePersonId" parent="Uif-DataField"/>
+        <bean p:propertyName="personRoleId" parent="Uif-DataField"/>
+        <bean p:propertyName="personId" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

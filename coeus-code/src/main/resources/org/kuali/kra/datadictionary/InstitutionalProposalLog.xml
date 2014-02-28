@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="InstitutionalProposalLog" parent="InstitutionalProposalLog-parentBean" />
     <bean id="InstitutionalProposalLog-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalLog" />
@@ -50,7 +46,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="InstitutionalProposalLog-proposalNumber" parent="InstitutionalProposalLog-proposalNumber-parentBean" />
     <bean id="InstitutionalProposalLog-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalNumber" />
@@ -61,9 +56,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Proposal Number" />
         <property name="description" value="Proposal Number" />
@@ -79,9 +79,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Proposal Type Code" />
         <property name="description" value="Proposal Type Code" />
@@ -97,9 +102,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Title" />
         <property name="description" value="Title" />
@@ -115,9 +125,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Pi Id" />
         <property name="description" value="Pi Id" />
@@ -133,9 +148,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Pi Name" />
         <property name="description" value="Pi Name" />
@@ -160,9 +180,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Lead Unit" />
         <property name="description" value="Lead Unit" />
@@ -178,9 +203,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Sponsor Code" />
         <property name="description" value="Sponsor Code" />
@@ -196,9 +226,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Sponsor Name" />
         <property name="description" value="Sponsor Name" />
@@ -223,9 +258,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
@@ -241,11 +281,10 @@
     </bean>
 
     <bean id="InstitutionalProposalLog-versionNumber" parent="InstitutionalProposalLog-versionNumber-parentBean" />
-    <bean id="InstitutionalProposalLog-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="InstitutionalProposalLog-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="InstitutionalProposalLog-inquiryDefinition" parent="InstitutionalProposalLog-inquiryDefinition-parentBean" />
+  <bean id="InstitutionalProposalLog-InquiryView" parent="InstitutionalProposalLog-InquiryView-parentBean"/>
     <bean id="InstitutionalProposalLog-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Proposal Number" />
         <property name="inquirySections" >
@@ -255,31 +294,47 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="proposalNumber" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="proposalTypeCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="title" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="piId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="piName" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="nonMitPersonFlag" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="leadUnit" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sponsorCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sponsorName" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="logStatus" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="comments" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="deadlineDate" />
+              <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="title"/>
+              <bean parent="FieldDefinition" p:attributeName="piId"/>
+              <bean parent="FieldDefinition" p:attributeName="piName"/>
+              <bean parent="FieldDefinition" p:attributeName="nonMitPersonFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="leadUnit"/>
+              <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
+              <bean parent="FieldDefinition" p:attributeName="sponsorName"/>
+              <bean parent="FieldDefinition" p:attributeName="logStatus"/>
+              <bean parent="FieldDefinition" p:attributeName="comments"/>
+              <bean parent="FieldDefinition" p:attributeName="deadlineDate"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="InstitutionalProposalLog-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Proposal Number"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalLog"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Proposal Number"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="proposalTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="title" parent="Uif-DataField"/>
+              <bean p:propertyName="piId" parent="Uif-DataField"/>
+              <bean p:propertyName="piName" parent="Uif-DataField"/>
+              <bean p:propertyName="nonMitPersonFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="leadUnit" parent="Uif-DataField"/>
+              <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+              <bean p:propertyName="sponsorName" parent="Uif-DataField"/>
+              <bean p:propertyName="logStatus" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
+              <bean p:propertyName="deadlineDate" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -289,70 +344,91 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="InstitutionalProposalLog-lookupDefinition" parent="InstitutionalProposalLog-lookupDefinition-parentBean" />
+  <bean id="InstitutionalProposalLog-LookupView" parent="InstitutionalProposalLog-LookupView-parentBean"/>
     <bean id="InstitutionalProposalLog-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proposal Log Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="title" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="piId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="piName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="nonMitPersonFlag" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="leadUnit" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsorCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsorName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="logStatus" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="deadlineDate" />
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="title"/>
+        <bean parent="FieldDefinition" p:attributeName="piId"/>
+        <bean parent="FieldDefinition" p:attributeName="piName"/>
+        <bean parent="FieldDefinition" p:attributeName="nonMitPersonFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="leadUnit"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorName"/>
+        <bean parent="FieldDefinition" p:attributeName="logStatus"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+        <bean parent="FieldDefinition" p:attributeName="deadlineDate"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="title"/>
+        <bean parent="FieldDefinition" p:attributeName="piId"/>
+        <bean parent="FieldDefinition" p:attributeName="piName"/>
+        <bean parent="FieldDefinition" p:attributeName="nonMitPersonFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="leadUnit"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
+        <bean parent="FieldDefinition" p:attributeName="sponsorName"/>
+        <bean parent="FieldDefinition" p:attributeName="logStatus"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+        <bean parent="FieldDefinition" p:attributeName="deadlineDate"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="InstitutionalProposalLog-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalLog"/>
+    <property name="headerText" value="Proposal Log Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="piId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="piName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="nonMitPersonFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="leadUnit" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="logStatus" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="title" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="piId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="piName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="nonMitPersonFlag" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="leadUnit" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsorCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsorName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="logStatus" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="deadlineDate" />
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="title" parent="Uif-DataField"/>
+        <bean p:propertyName="piId" parent="Uif-DataField"/>
+        <bean p:propertyName="piName" parent="Uif-DataField"/>
+        <bean p:propertyName="nonMitPersonFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="leadUnit" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorName" parent="Uif-DataField"/>
+        <bean p:propertyName="logStatus" parent="Uif-DataField"/>
+        <bean p:propertyName="comments" parent="Uif-DataField"/>
+        <bean p:propertyName="deadlineDate" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

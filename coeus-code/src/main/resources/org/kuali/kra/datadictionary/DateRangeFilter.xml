@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
@@ -15,12 +16,7 @@
  * limitations under the License.
  */
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="DateRangeFilter" parent="DateRangeFilter-parentBean" />
 	<bean id="DateRangeFilter-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.history.DateRangeFilter" />
@@ -34,7 +30,6 @@
 	</bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="DateRangeFilter-beginningOn" parent="DateRangeFilter-beginningOn-parentBean"/>
     <bean id="DateRangeFilter-beginningOn-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
         <property name="name" value="beginningOn"/>
@@ -54,5 +49,5 @@
         <property name="summary" value="Ending On"/>
         <property name="description" value="Ending On"/>
     </bean>
-</beans>
   
+</beans>

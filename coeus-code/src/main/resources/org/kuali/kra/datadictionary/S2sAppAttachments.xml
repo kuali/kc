@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="S2sAppAttachments" parent="S2sAppAttachments-parentBean" />
-
   <bean id="S2sAppAttachments-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sAppAttachments" />
 		<property name="objectLabel" value="S2s App Attachments" />
@@ -39,14 +34,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="Proposal Number" />
     <property name="description" value="Proposal Number" />
   </bean>
-  <bean id="S2sAppAttachments-contentId" parent="S2sAppAttachments-contentId-parentBean" />
 
+  <bean id="S2sAppAttachments-contentId" parent="S2sAppAttachments-contentId-parentBean"/>
   <bean id="S2sAppAttachments-contentId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contentId" />
     <property name="forceUppercase" value="false" />
@@ -56,15 +57,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="300" />
+      <bean parent="TextControlDefinition" p:size="300"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="300" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Attachments" />
     <property name="description" value="Attachments" />
   </bean>
-  <bean id="S2sAppAttachments-contentType" parent="S2sAppAttachments-contentType-parentBean" />
 
+  <bean id="S2sAppAttachments-contentType" parent="S2sAppAttachments-contentType-parentBean"/>
   <bean id="S2sAppAttachments-contentType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contentType" />
     <property name="forceUppercase" value="false" />
@@ -74,15 +80,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="30" />
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Content Type" />
     <property name="description" value="Content Type" />
   </bean>
-  <bean id="S2sAppAttachments-hashCode" parent="S2sAppAttachments-hashCode-parentBean" />
 
+  <bean id="S2sAppAttachments-hashCode" parent="S2sAppAttachments-hashCode-parentBean"/>
   <bean id="S2sAppAttachments-hashCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hashCode" />
     <property name="forceUppercase" value="false" />
@@ -92,18 +103,22 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="Hash Code" />
     <property name="description" value="Hash Code" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="S2sAppAttachments-inquiryDefinition" parent="S2sAppAttachments-inquiryDefinition-parentBean" />
-
+  <bean id="S2sAppAttachments-InquiryView" parent="S2sAppAttachments-InquiryView-parentBean"/>
   <bean id="S2sAppAttachments-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="S2s App Attachments" />
     <property name="inquirySections" >
@@ -113,15 +128,10 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="contentId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="contentType" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="hashCode" />
+              <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="contentId"/>
+              <bean parent="FieldDefinition" p:attributeName="contentType"/>
+              <bean parent="FieldDefinition" p:attributeName="hashCode"/>
             </list>
           </property>
         </bean>
@@ -129,42 +139,84 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="S2sAppAttachments-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="S2s App Attachments"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.s2s.bo.S2sAppAttachments"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="S2s App Attachments"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="contentId" parent="Uif-DataField"/>
+              <bean p:propertyName="contentType" parent="Uif-DataField"/>
+              <bean p:propertyName="hashCode" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="S2sAppAttachments-lookupDefinition" parent="S2sAppAttachments-lookupDefinition-parentBean" />
-
+  <bean id="S2sAppAttachments-LookupView" parent="S2sAppAttachments-LookupView-parentBean"/>
   <bean id="S2sAppAttachments-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="S2s App Submission" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="contentId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="contentType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="hashCode" />
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="contentId"/>
+        <bean parent="FieldDefinition" p:attributeName="contentType"/>
+        <bean parent="FieldDefinition" p:attributeName="hashCode"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="contentId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="contentType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="hashCode" />
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="contentId"/>
+        <bean parent="FieldDefinition" p:attributeName="contentType"/>
+        <bean parent="FieldDefinition" p:attributeName="hashCode"/>
       </list>
     </property>
   </bean>
+
+  <bean id="S2sAppAttachments-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.s2s.bo.S2sAppAttachments"/>
+    <property name="headerText" value="S2s App Submission"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="contentId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="contentType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="hashCode" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="contentId" parent="Uif-DataField"/>
+        <bean p:propertyName="contentType" parent="Uif-DataField"/>
+        <bean p:propertyName="hashCode" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

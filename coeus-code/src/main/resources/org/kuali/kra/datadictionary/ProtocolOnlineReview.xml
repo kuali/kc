@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
  Copyright 2005-2014 The Kuali Foundation
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -11,8 +12,8 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
---><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="ProtocolOnlineReview" parent="ProtocolOnlineReview-parentBean"/>
 	<bean abstract="true" id="ProtocolOnlineReview-parentBean" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.onlinereview.ProtocolOnlineReview"/>
@@ -55,10 +56,8 @@
 				<ref bean="ProtocolOnlineReview-protocol.protocolStatus.description"/>
 				<!--  Result fields -->
 				<ref bean="ProtocolOnlineReview-resultDueDate"/>
-				
 			</list>
 		</property>
-		 
 		<property name="relationships">
       		<list>
         		<bean parent="RelationshipDefinition">
@@ -68,13 +67,7 @@
               				<bean p:sourceName="lookupReviewerRolodexId" p:targetName="rolodexId" parent="PrimitiveAttributeDefinition"/>
             			</list>
           			</property>
-          			<!--  <property name="supportAttributes">
-            			<list>
-              				<bean p:sourceName="lookupReviewerRolodex.lastName" p:targetName="lastName" parent="SupportAttributeDefinition"/>
-            			</list>
-          			</property> --> 
         		</bean>
-        		
         		<bean parent="RelationshipDefinition">
           			<property name="objectAttributeName" value="lookupReviewerPerson"/>
 	          		<property name="primitiveAttributes">
@@ -82,28 +75,12 @@
               				<bean p:sourceName="lookupReviewerPersonId" p:targetName="personId" parent="PrimitiveAttributeDefinition"/>
             			</list>
           			</property>
-          			<!--  <property name="supportAttributes">
-            			<list>
-              				<bean p:sourceName="lookupReviewerPerson.lastName" p:targetName="lastName" parent="SupportAttributeDefinition"/>
-            			</list>
-          			</property> -->
         		</bean>
-<!-- TEMPORARILY COMMENTED OUT DURING IRB BACKFIT -->        		
-<!--         		<bean parent="RelationshipDefinition"> -->
-<!--           			<property name="objectAttributeName" value="lookupProtocol"/> -->
-<!-- 	          		<property name="primitiveAttributes"> -->
-<!--             			<list> -->
-<!--               				<bean p:sourceName="lookupProtocol.protocolNumber" p:targetName="protocolNumber" parent="PrimitiveAttributeDefinition"/> -->
-<!--             			</list> -->
-<!--           			</property> -->
-<!--         		</bean> -->
-        		
 			</list>
 		</property>	
-		
 	</bean>
-	<!-- Attribute Definitions -->
 	
+  <!-- Attribute Definitions -->
 	<bean id="ProtocolOnlineReview-protocolOnlineReviewId" parent="ProtocolOnlineReview-protocolOnlineReviewId-parentBean"/>
 	<bean abstract="true" id="ProtocolOnlineReview-protocolOnlineReviewId-parentBean" parent="AttributeDefinition">
 		<property name="name" value="protocolOnlineReviewId"/>
@@ -114,9 +91,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Id"/>
 		<property name="description" value="Id"/>
 	</bean>
@@ -131,9 +114,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Protocol Id"/>
 		<property name="description" value="Protocol Id"/>
 	</bean>
@@ -148,9 +137,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Submission Id"/>
 		<property name="description" value="Submission Id"/>
 	</bean>
@@ -165,9 +160,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Protocol Reviewer Id"/>
 		<property name="description" value="Protocol Reviewer Id"/>
 	</bean>
@@ -193,8 +194,7 @@
 	</bean>
 
 	<bean id="ProtocolOnlineReview-protocolOnlineReviewStatusCode" parent="ProtocolOnlineReview-protocolOnlineReviewStatusCode-parentBean" />
-	<bean id="ProtocolOnlineReview-protocolOnlineReviewStatusCode-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="ProtocolOnlineReview-protocolOnlineReviewStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="protocolOnlineReviewStatusCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Status" />
@@ -203,18 +203,24 @@
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatusValuesFinder"
-				p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatusValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatusValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
 		<property name="summary" value="Protocol Review Status Code" />
 		<property name="description" value="The status of the protocol review." />
 	</bean>
 	
 	<bean id="ProtocolOnlineReview-protocolOnlineReviewStatus.description" parent="ProtocolOnlineReview-protocolOnlineReviewStatus.description-parentBean" />
-	<bean id="ProtocolOnlineReview-protocolOnlineReviewStatus.description-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="ProtocolOnlineReview-protocolOnlineReviewStatus.description-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="protocolOnlineReviewStatus.description" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Online Review Status" />
@@ -223,17 +229,21 @@
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control">
 				<bean p:size="30" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Protocol Review Status Code" />
 		<property name="description" value="The status of the protocol review." />
 	</bean>
 	
-		
 	<bean id="ProtocolOnlineReview-determinationRecommendationCode" parent="ProtocolOnlineReview-determinationRecommendationCode-parentBean" />
-	<bean id="ProtocolOnlineReview-determinationRecommendationCode-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="ProtocolOnlineReview-determinationRecommendationCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="protocolOnlineReviewDeterminationRecommendationCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Determination Recommendation" />
@@ -242,18 +252,24 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewDeterminationRecommendationValuesFinder"
-				p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewDeterminationRecommendationValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewDeterminationRecommendationValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
 		<property name="summary" value="Determination Recommendation" />
 		<property name="description" value="Determination Recommendation" />
 	</bean>
 		
 	<bean id="ProtocolOnlineReview-determinationRecommendation.description" parent="ProtocolOnlineReview-determinationRecommendation.description-parentBean" />
-	<bean id="ProtocolOnlineReview-determinationRecommendation.description-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="ProtocolOnlineReview-determinationRecommendation.description-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="protocolOnlineReviewDeterminationRecommendation.description" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Determination Recommendation" />
@@ -262,25 +278,24 @@
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="30" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Determination Recommendation" />
 		<property name="description" value="Determination Recommendation" />
 	</bean>
 
-
-
 	<bean id="ProtocolOnlineReview-versionNumber" parent="ProtocolOnlineReview-versionNumber-parentBean"/>
-	<bean abstract="true" id="ProtocolOnlineReview-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
-
+  <bean abstract="true" id="ProtocolOnlineReview-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
 	<!-- Lookup fields -->
-	
 	<bean id="ProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode" parent="ProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode-parentBean" />
-	<bean id="ProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode-parentBean"
-		abstract="true" parent="AttributeDefinition">
+  <bean id="ProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="lookupProtocolOnlineReviewStatusCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Online Review Status" />
@@ -289,18 +304,26 @@
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-				p:businessObjectClass="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus"
-				p:includeKeyInLabel="false" p:keyAttribute="statusCode"
-				p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:businessObjectClass="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus" p:includeKeyInLabel="false" p:keyAttribute="statusCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="keyAttributeName" value="statusCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
 		<property name="summary" value="Protocol Review Status Code" />
 		<property name="description" value="The status of the protocol review." />
 	</bean>
-	
-	
 	
 	<bean id="ProtocolOnlineReview-lookupReviewerRolodexId" parent="ProtocolOnlineReview-lookupReviewerRolodexId-parentBean" />
 	<bean id="ProtocolOnlineReview-lookupReviewerRolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -310,12 +333,18 @@
 		<property name="shortLabel" value="Reviewer Rolodex Id" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Reviewer Rolodex Id" />
 		<property name="description" value="Reviewer Rolodex Id" />
@@ -328,8 +357,6 @@
     	<property name="shortLabel" value="Rolodex Last Name"/>
   	</bean>
 	
-	
-	
 	<bean id="ProtocolOnlineReview-lookupReviewerPersonId" parent="ProtocolOnlineReview-lookupReviewerPersonId-parentBean" />
 	<bean id="ProtocolOnlineReview-lookupReviewerPersonId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="lookupReviewerPersonId" />
@@ -338,17 +365,22 @@
 		<property name="shortLabel" value="Reviewer Person Id" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Reviewer Person Id" />
 		<property name="description" value="Reviewer Person Id" />
 	</bean>
-	
 	
 	<bean id="ProtocolOnlineReview-lookupReviwerPerson.lastName" parent="ProtocolOnlineReview-lookupReviwerPerson.lastName-parentBean"/>
   	<bean abstract="true" id="ProtocolOnlineReview-lookupReviwerPerson.lastName-parentBean" parent="KcPerson-lastName">
@@ -357,7 +389,6 @@
     	<property name="shortLabel" value="Kc Person Last Name"/>
   	</bean>
 	
-		
 	<bean id="ProtocolOnlineReview-lookupProtocol.protocolNumber" parent="ProtocolOnlineReview-lookupProtocol.protocolNumber-parentBean" />
 	<bean id="ProtocolOnlineReview-lookupProtocol.protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="lookupProtocol.protocolNumber" />
@@ -366,12 +397,18 @@
 		<property name="shortLabel" value="Protocol Number" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Number" />
 		<property name="description" value="Protocol Number" />
@@ -385,12 +422,18 @@
 		<property name="shortLabel" value="Submission Number" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Submission Number" />
 		<property name="description" value="Protocol Submission Number" />
@@ -404,12 +447,18 @@
 		<property name="shortLabel" value="Submission Status" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Submission Status" />
 		<property name="description" value="Protocol Submission Status" />
@@ -423,12 +472,18 @@
 		<property name="shortLabel" value="Submission Type" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Submission Type" />
 		<property name="description" value="Protocol Submission Type" />
@@ -443,12 +498,18 @@
 		<property name="shortLabel" value="Type Code" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern">
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Submission Type Code" />
 		<property name="description" value="Protocol Submission Type Code" />
@@ -462,12 +523,18 @@
 		<property name="shortLabel" value="Reviewer Name" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Reviewer Name" />
 		<property name="description" value="Reviewer Name" />
@@ -481,12 +548,18 @@
 		<property name="shortLabel" value="PI" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Principal Investigator" />
 		<property name="description" value="Principal Investigator" />
@@ -507,15 +580,24 @@
 	    <property name="validationPattern" >
 	      <bean parent="AlphaNumericValidationPattern" />
 	    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 	    <property name="required" value="false" />
 	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewerType"
-	            p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-            	p:includeBlankRow="false"
-	            p:keyAttribute="reviewerTypeCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewerType" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="reviewerTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolReviewerType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="reviewerTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
 	    <property name="summary" value="Reviewer Type" />
 	    <property name="description" value="Reviewer Type" />
@@ -540,6 +622,7 @@
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="ProtocolOnlineReview-inquiryDefinition" parent="ProtocolOnlineReview-inquiryDefinition-parentBean"/>
+  <bean id="ProtocolOnlineReview-InquiryView" parent="ProtocolOnlineReview-InquiryView-parentBean"/>
 	<bean abstract="true" id="ProtocolOnlineReview-inquiryDefinition-parentBean" parent="InquiryDefinition">
 		<property name="title" value="Status Code"/>
 		<property name="inquirySections">
@@ -560,16 +643,36 @@
 		</property>
 	</bean>
 
+  <bean id="ProtocolOnlineReview-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Status Code"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.onlinereview.ProtocolOnlineReview"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Status Code"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="protocolOnlineReviewId" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolId" parent="Uif-DataField"/>
+              <bean p:propertyName="submissionIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolReviewerId" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="ProtocolOnlineReview-lookupDefinition" parent="ProtocolOnlineReview-lookupDefinition-parentBean"/>
+  <bean id="ProtocolOnlineReview-LookupView" parent="ProtocolOnlineReview-LookupView-parentBean"/>
 	<bean abstract="true" id="ProtocolOnlineReview-lookupDefinition-parentBean" parent="LookupDefinition">
 		<property name="title" value="Protocol Review Lookup"/>
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 		<property name="lookupableID" value="protocolOnlineReviewLookupable" />
 		<property name="defaultSort">
-			<bean parent="SortDefinition">
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields">
 			<list>
@@ -596,4 +699,45 @@
 			</list>
 		</property>
 	</bean>
+
+  <bean id="ProtocolOnlineReview-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.onlinereview.ProtocolOnlineReview"/>
+    <property name="headerText" value="Protocol Review Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="protocolOnlineReviewId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lookupProtocol.protocolNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lookupProtocolOnlineReviewStatusCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lookupReviewerRolodexId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lookupReviewerPersonId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dateRequested" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dateDue" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="protocol.principalInvestigator.personName" parent="Uif-DataField"/>
+        <bean p:propertyName="protocol.protocolNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="protocol.protocolStatus.description" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolSubmission.submissionNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolSubmission.protocolSubmissionType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolSubmission.submissionStatus.description" parent="Uif-DataField"/>
+        <bean p:propertyName="lookupReviewerFullName" parent="Uif-DataField"/>
+        <bean p:propertyName="resultDueDate" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolOnlineReviewStatus.description" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="BudgetPersonnelCalculatedAmount" parent="BudgetPersonnelCalculatedAmount-parentBean" />
-
   <bean id="BudgetPersonnelCalculatedAmount-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount" />
 		<property name="objectLabel" value="Budget Personnel Calculated Amount" />
@@ -21,7 +16,6 @@
         <ref bean="BudgetPersonnelCalculatedAmount-budgetPeriod" />
         <ref bean="BudgetPersonnelCalculatedAmount-lineItemNumber" />
         <ref bean="BudgetPersonnelCalculatedAmount-personNumber" />
-<!--        <ref bean="BudgetPersonnelCalculatedAmount-proposalNumber" />-->
         <ref bean="BudgetPersonnelCalculatedAmount-rateClassCode" />
         <ref bean="BudgetPersonnelCalculatedAmount-rateTypeCode" />
         <ref bean="BudgetPersonnelCalculatedAmount-versionNumber" />
@@ -46,15 +40,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Budget Period" />
     <property name="description" value="Budget Period" />
   </bean>
-  <bean id="BudgetPersonnelCalculatedAmount-lineItemNumber" parent="BudgetPersonnelCalculatedAmount-lineItemNumber-parentBean" />
 
+  <bean id="BudgetPersonnelCalculatedAmount-lineItemNumber" parent="BudgetPersonnelCalculatedAmount-lineItemNumber-parentBean"/>
   <bean id="BudgetPersonnelCalculatedAmount-lineItemNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="lineItemNumber" />
     <property name="forceUppercase" value="false" />
@@ -64,15 +63,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Line Item Number" />
     <property name="description" value="Line Item Number" />
   </bean>
-  <bean id="BudgetPersonnelCalculatedAmount-personNumber" parent="BudgetPersonnelCalculatedAmount-personNumber-parentBean" />
 
+  <bean id="BudgetPersonnelCalculatedAmount-personNumber" parent="BudgetPersonnelCalculatedAmount-personNumber-parentBean"/>
   <bean id="BudgetPersonnelCalculatedAmount-personNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personNumber" />
     <property name="forceUppercase" value="false" />
@@ -82,9 +86,14 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Person Number" />
     <property name="description" value="Person Number" />
@@ -118,15 +127,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rate Class Code" />
     <property name="description" value="Rate Class Code" />
   </bean>
-  <bean id="BudgetPersonnelCalculatedAmount-rateTypeCode" parent="BudgetPersonnelCalculatedAmount-rateTypeCode-parentBean" />
 
+  <bean id="BudgetPersonnelCalculatedAmount-rateTypeCode" parent="BudgetPersonnelCalculatedAmount-rateTypeCode-parentBean"/>
   <bean id="BudgetPersonnelCalculatedAmount-rateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rateTypeCode" />
     <property name="forceUppercase" value="false" />
@@ -136,15 +150,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rate Type Code" />
     <property name="description" value="Rate Type Code" />
   </bean>
-  <bean id="BudgetPersonnelCalculatedAmount-versionNumber" parent="BudgetPersonnelCalculatedAmount-versionNumber-parentBean" />
 
+  <bean id="BudgetPersonnelCalculatedAmount-versionNumber" parent="BudgetPersonnelCalculatedAmount-versionNumber-parentBean"/>
   <bean id="BudgetPersonnelCalculatedAmount-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="versionNumber" />
     <property name="forceUppercase" value="false" />
@@ -154,15 +173,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Version Number" />
     <property name="description" value="Version Number" />
   </bean>
-  <bean id="BudgetPersonnelCalculatedAmount-applyRateFlag" parent="BudgetPersonnelCalculatedAmount-applyRateFlag-parentBean" />
 
+  <bean id="BudgetPersonnelCalculatedAmount-applyRateFlag" parent="BudgetPersonnelCalculatedAmount-applyRateFlag-parentBean"/>
   <bean id="BudgetPersonnelCalculatedAmount-applyRateFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="applyRateFlag" />
     <property name="forceUppercase" value="false" />
@@ -172,15 +196,20 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+      <bean parent="TextControlDefinition" p:size="1"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="1" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Apply Rate?" />
     <property name="description" value="Apply Rate?" />
   </bean>
-  <bean id="BudgetPersonnelCalculatedAmount-calculatedCost" parent="BudgetPersonnelCalculatedAmount-calculatedCost-parentBean" />
 
+  <bean id="BudgetPersonnelCalculatedAmount-calculatedCost" parent="BudgetPersonnelCalculatedAmount-calculatedCost-parentBean"/>
   <bean id="BudgetPersonnelCalculatedAmount-calculatedCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="calculatedCost" />
     <property name="label" value="Calculated Cost" />
@@ -188,8 +217,8 @@
     <property name="summary" value="Calculated Cost" />
     <property name="description" value="Calculated Cost" />
   </bean>
-  <bean id="BudgetPersonnelCalculatedAmount-calculatedCostSharing" parent="BudgetPersonnelCalculatedAmount-calculatedCostSharing-parentBean" />
 
+  <bean id="BudgetPersonnelCalculatedAmount-calculatedCostSharing" parent="BudgetPersonnelCalculatedAmount-calculatedCostSharing-parentBean"/>
   <bean id="BudgetPersonnelCalculatedAmount-calculatedCostSharing-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="calculatedCostSharing" />
     <property name="label" value="Calculated Cost Sharing" />
@@ -199,10 +228,8 @@
   </bean>
 
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="BudgetPersonnelCalculatedAmount-inquiryDefinition" parent="BudgetPersonnelCalculatedAmount-inquiryDefinition-parentBean" />
-
+  <bean id="BudgetPersonnelCalculatedAmount-InquiryView" parent="BudgetPersonnelCalculatedAmount-InquiryView-parentBean"/>
   <bean id="BudgetPersonnelCalculatedAmount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Budget Personnel Cal Amts" />
     <property name="inquirySections" >
@@ -212,33 +239,15 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="budgetPeriod"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="lineItemNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="personNumber"
-                    p:forceInquiry="true" />
-<!--              <bean parent="FieldDefinition"-->
-<!--                    p:attributeName="proposalNumber"-->
-<!--                    p:forceInquiry="true" />-->
-              <bean parent="FieldDefinition"
-                    p:attributeName="rateClassCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="rateTypeCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="versionNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="applyRateFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="calculatedCost" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="calculatedCostSharing" />
+              <bean parent="FieldDefinition" p:attributeName="budgetPeriod" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="lineItemNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="personNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="rateClassCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="rateTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="versionNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="applyRateFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="calculatedCost"/>
+              <bean parent="FieldDefinition" p:attributeName="calculatedCostSharing"/>
             </list>
           </property>
         </bean>
@@ -246,72 +255,107 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="BudgetPersonnelCalculatedAmount-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Budget Personnel Cal Amts"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Budget Personnel Cal Amts"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="budgetPeriod" parent="Uif-DataField"/>
+              <bean p:propertyName="lineItemNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="personNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="rateClassCode" parent="Uif-DataField"/>
+              <bean p:propertyName="rateTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="applyRateFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="calculatedCost" parent="Uif-DataField"/>
+              <bean p:propertyName="calculatedCostSharing" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="BudgetPersonnelCalculatedAmount-lookupDefinition" parent="BudgetPersonnelCalculatedAmount-lookupDefinition-parentBean" />
-
+  <bean id="BudgetPersonnelCalculatedAmount-LookupView" parent="BudgetPersonnelCalculatedAmount-LookupView-parentBean"/>
   <bean id="BudgetPersonnelCalculatedAmount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Personnel Cal Amts Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetPeriod" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lineItemNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="personNumber" />
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="proposalNumber" />-->
-        <bean parent="FieldDefinition"
-              p:attributeName="rateClassCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="versionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="applyRateFlag" />
-        <bean parent="FieldDefinition"
-              p:attributeName="calculatedCost" />
-        <bean parent="FieldDefinition"
-              p:attributeName="calculatedCostSharing" />
+        <bean parent="FieldDefinition" p:attributeName="budgetPeriod"/>
+        <bean parent="FieldDefinition" p:attributeName="lineItemNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="personNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassCode"/>
+        <bean parent="FieldDefinition" p:attributeName="rateTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="versionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="applyRateFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="calculatedCost"/>
+        <bean parent="FieldDefinition" p:attributeName="calculatedCostSharing"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="budgetPeriod" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="lineItemNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="personNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="rateTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="versionNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="applyRateFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="calculatedCost"/>
+        <bean parent="FieldDefinition" p:attributeName="calculatedCostSharing"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="BudgetPersonnelCalculatedAmount-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount"/>
+    <property name="headerText" value="Budget Personnel Cal Amts Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="budgetPeriod" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lineItemNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="personNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateClassCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="versionNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="applyRateFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="calculatedCost" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="calculatedCostSharing" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetPeriod"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lineItemNumber"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="personNumber"
-              p:forceInquiry="true" />
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="proposalNumber"-->
-<!--              p:forceInquiry="true" />-->
-        <bean parent="FieldDefinition"
-              p:attributeName="rateClassCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rateTypeCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="versionNumber"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="applyRateFlag" />
-        <bean parent="FieldDefinition"
-              p:attributeName="calculatedCost" />
-        <bean parent="FieldDefinition"
-              p:attributeName="calculatedCostSharing" />
+        <bean p:propertyName="budgetPeriod" parent="Uif-DataField"/>
+        <bean p:propertyName="lineItemNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="personNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="rateClassCode" parent="Uif-DataField"/>
+        <bean p:propertyName="rateTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="applyRateFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="calculatedCost" parent="Uif-DataField"/>
+        <bean p:propertyName="calculatedCostSharing" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

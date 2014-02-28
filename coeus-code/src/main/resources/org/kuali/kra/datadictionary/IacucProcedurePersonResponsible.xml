@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="IacucProcedurePersonResponsible" parent="IacucProcedurePersonResponsible-parentBean" />
     <bean id="IacucProcedurePersonResponsible-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible" />
@@ -42,7 +38,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="IacucProcedurePersonResponsible-iacucProcedurePersonResponsibleId" parent="IacucProcedurePersonResponsible-iacucProcedurePersonResponsibleId-parentBean" />
     <bean id="IacucProcedurePersonResponsible-iacucProcedurePersonResponsibleId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="iacucProcedurePersonResponsibleId" />
@@ -53,22 +48,23 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Procedure Person Responsible Id" />
         <property name="description" value="Procedure Person Responsible Id" />
     </bean>
     
     <bean id="IacucProcedurePersonResponsible-iacucProtocolStudyGroupId" parent="IacucProtocolStudyGroup-iacucProtocolStudyGroupId-parentBean" />
-
     <bean id="IacucProcedurePersonResponsible-protocolPersonId" parent="IacucProtocolPerson-protocolPersonId-parentBean" />
-
 	<bean id="IacucProcedurePersonResponsible-versionNumber" parent="IacucProcedurePersonResponsible-versionNumber-parentBean" />
-	<bean id="IacucProcedurePersonResponsible-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+  <bean id="IacucProcedurePersonResponsible-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 	<bean id="IacucProcedurePersonResponsible-trainingDetails" parent="IacucProcedurePersonResponsible-trainingDetails-parentBean"/>
 	<bean abstract="true" id="IacucProcedurePersonResponsible-trainingDetails-parentBean" parent="AttributeReferenceDummy-genericSystemId">
 	  	<property name="name" value="trainingDetails"/>
@@ -81,6 +77,7 @@
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="IacucProcedurePersonResponsible-inquiryDefinition" parent="IacucProcedurePersonResponsible-inquiryDefinition-parentBean" />
+  <bean id="IacucProcedurePersonResponsible-InquiryView" parent="IacucProcedurePersonResponsible-InquiryView-parentBean"/>
 	<bean id="IacucProcedurePersonResponsible-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Procedure Person Responsible" />
 		<property name="inquirySections" >
@@ -90,11 +87,27 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="iacucProcedurePersonResponsibleId" 
-								p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="iacucProtocolStudyGroupId" />
+              <bean parent="FieldDefinition" p:attributeName="iacucProcedurePersonResponsibleId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="iacucProtocolStudyGroupId"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IacucProcedurePersonResponsible-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Procedure Person Responsible"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Procedure Person Responsible"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="iacucProcedurePersonResponsibleId" parent="Uif-DataField"/>
+              <bean p:propertyName="iacucProtocolStudyGroupId" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -104,30 +117,51 @@
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="IacucProcedurePersonResponsible-lookupDefinition" parent="IacucProcedurePersonResponsible-lookupDefinition-parentBean" />
+  <bean id="IacucProcedurePersonResponsible-LookupView" parent="IacucProcedurePersonResponsible-LookupView-parentBean"/>
 	<bean id="IacucProcedurePersonResponsible-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Procedure Person Responsible Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="iacucProcedurePersonResponsibleId" 
-					p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="iacucProtocolStudyGroupId" />
+        <bean parent="FieldDefinition" p:attributeName="iacucProcedurePersonResponsibleId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="iacucProtocolStudyGroupId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="iacucProcedurePersonResponsibleId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="iacucProtocolStudyGroupId"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IacucProcedurePersonResponsible-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible"/>
+    <property name="headerText" value="Procedure Person Responsible Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="iacucProcedurePersonResponsibleId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="iacucProtocolStudyGroupId" parent="Uif-LookupCriteriaInputField"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="iacucProcedurePersonResponsibleId"
-					p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="iacucProtocolStudyGroupId" />
+        <bean p:propertyName="iacucProcedurePersonResponsibleId" parent="Uif-DataField"/>
+        <bean p:propertyName="iacucProtocolStudyGroupId" parent="Uif-DataField"/>
 			</list>
 		</property>
 	</bean>
