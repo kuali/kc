@@ -17,10 +17,10 @@ package org.kuali.coeus.common.committee.impl.bo;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
-import org.kuali.kra.service.KcPersonService;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;

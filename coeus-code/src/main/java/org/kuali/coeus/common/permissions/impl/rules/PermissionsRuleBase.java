@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.permissions.impl.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsRoleState;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles;
@@ -26,7 +27,6 @@ import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;

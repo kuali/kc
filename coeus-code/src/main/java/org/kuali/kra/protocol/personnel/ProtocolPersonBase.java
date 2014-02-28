@@ -18,13 +18,13 @@ package org.kuali.kra.protocol.personnel;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.PersonEditableInterface;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
-import org.kuali.kra.service.KcPersonService;
 
 import java.sql.Date;
 import java.util.ArrayList;

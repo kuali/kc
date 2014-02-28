@@ -16,6 +16,7 @@
 package org.kuali.kra.institutionalproposal.ipreview;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -24,7 +25,6 @@ import org.kuali.kra.institutionalproposal.ProposalComment;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;

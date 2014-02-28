@@ -30,6 +30,7 @@ import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
 import edu.mit.irb.irbnamespace.VulnerableSubjectDocument.VulnerableSubject;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
@@ -49,7 +50,6 @@ import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.protocol.actions.print.ProtocolXmlStreamBase;
-import org.kuali.kra.service.KcPersonService;
 
 import java.math.BigInteger;
 import java.util.HashMap;

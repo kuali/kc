@@ -17,8 +17,8 @@ package org.kuali.coeus.common.framework.rolodex.nonorg;
 
 import java.io.Serializable;
 
+import org.kuali.coeus.common.framework.contactable.Contactable;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.kra.bo.Contactable;
 
 /**
  * Special Business Object for NonOrganizational types of <code>{@link Rolodex}</code> instances.
@@ -28,28 +28,28 @@ public class NonOrganizationalRolodex extends Rolodex implements Contactable {
     private static final long serialVersionUID = -4699230471690515157L;
 
     /**
-     * @see org.kuali.kra.bo.Contactable#getIdentifier()
+     * @see org.kuali.coeus.common.framework.contactable.Contactable#getIdentifier()
      */
     public Serializable getIdentifier() {
         return getRolodexId();
     }
 
     /**
-     * @see org.kuali.kra.bo.Contactable#setIdentifier(java.io.Serializable)
+     * @see org.kuali.coeus.common.framework.contactable.Contactable#setIdentifier(java.io.Serializable)
      */
     public void setIdentifier(Serializable identifier) {
         setRolodexId((Integer) identifier);
     }
 
     /**
-     * @see org.kuali.kra.bo.Contactable#getContactOrganizationName()
+     * @see org.kuali.coeus.common.framework.contactable.Contactable#getContactOrganizationName()
      */
     public String getContactOrganizationName() {
         return getOrganization();
     }
 
     /**
-     * @see org.kuali.kra.bo.Contactable#getOrganizationIdentifier()
+     * @see org.kuali.coeus.common.framework.contactable.Contactable#getOrganizationIdentifier()
      */
     public String getOrganizationIdentifier() {
         return getOwnedByUnit();
