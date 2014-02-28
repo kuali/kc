@@ -17,6 +17,7 @@ package org.kuali.kra.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -26,7 +27,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.service.CustomAttributeService;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;

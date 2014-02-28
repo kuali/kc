@@ -16,14 +16,14 @@
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.contactable.Contactable;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.SpecialApprovalBean;
-import org.kuali.kra.bo.Contactable;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.util.List;

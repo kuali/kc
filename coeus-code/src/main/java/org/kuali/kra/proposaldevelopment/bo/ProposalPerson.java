@@ -21,6 +21,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
@@ -30,7 +31,6 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
@@ -1784,7 +1784,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     }
 
     /**
-     * @see org.kuali.kra.bo.Contactable#getOrganization()
+     * @see org.kuali.coeus.common.framework.contactable.Contactable#getOrganization()
      */
     public String getOrganization() {
         return getUnit().getUnitName();
@@ -2154,49 +2154,49 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     }
 
     /**
-     * @see org.kuali.kra.bo.Contactable#getIdentifier()
+     * @see org.kuali.coeus.common.framework.contactable.Contactable#getIdentifier()
      */
     public Serializable getIdentifier() {
         return personId;
     }
 
     /**
-     * @see org.kuali.kra.bo.Contactable#getUnit()
+     * @see org.kuali.coeus.common.framework.contactable.Contactable#getUnit()
      */
     public Unit getUnit() {
         return homeUnitRef;
     }
 
     /**
-     * @see org.kuali.kra.bo.Contactable#setIdentifier(java.io.Serializable)
+     * @see org.kuali.coeus.common.framework.contactable.Contactable#setIdentifier(java.io.Serializable)
      */
     public void setIdentifier(Serializable identifier) {
         setPersonId((String) identifier);
     }
 
     /**
-     * @see org.kuali.kra.bo.Contactable#setUnit(org.kuali.kra.bo.Unit)
+     * @see org.kuali.coeus.common.framework.contactable.Contactable#setUnit(org.kuali.kra.bo.Unit)
      */
     public void setUnit(Unit unit) {
         setHomeUnitRef(unit);
     }
 
     /**
-     * @see org.kuali.kra.bo.Contactable#getPhoneNumber()
+     * @see org.kuali.coeus.common.framework.contactable.Contactable#getPhoneNumber()
      */
     public String getPhoneNumber() {
         return officePhone;
     }
 
     /**
-     * @see org.kuali.kra.bo.Contactable#getContactOrganizationName()
+     * @see org.kuali.coeus.common.framework.contactable.Contactable#getContactOrganizationName()
      */
     public String getContactOrganizationName() {
         return getUnit().getUnitName();
     }
 
     /**
-     * @see org.kuali.kra.bo.Contactable#getOrganizationIdentifier()
+     * @see org.kuali.coeus.common.framework.contactable.Contactable#getOrganizationIdentifier()
      */
     public String getOrganizationIdentifier() {
         return homeUnit;

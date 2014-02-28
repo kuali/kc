@@ -18,11 +18,11 @@ package org.kuali.kra.award.notesandattachments.notes;
 //import java.sql.Date;  
 
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.infrastructure.KraNotepadInterface;
-import org.kuali.kra.service.KcPersonService;
 
 import java.sql.Timestamp;
 

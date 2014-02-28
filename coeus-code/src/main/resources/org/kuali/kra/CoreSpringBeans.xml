@@ -1441,7 +1441,7 @@
     
     <!-- Autowired -->
     <!--
-     <bean id="kcPersonService" class="org.kuali.kra.service.impl.KcPersonServiceImpl">
+     <bean id="kcPersonService" class="org.kuali.coeus.common.impl.person.KcPersonServiceImpl">
        <property name="identityService" ref="identityService" />
        <property name="parameterService" ref="parameterService" />
        <property name="multiCampusIdentityService" ref="multiCampusIdentityService" /> 

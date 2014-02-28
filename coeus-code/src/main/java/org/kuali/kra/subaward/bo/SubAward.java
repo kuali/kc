@@ -16,6 +16,7 @@
 package org.kuali.kra.subaward.bo;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
@@ -30,7 +31,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.OrganizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
