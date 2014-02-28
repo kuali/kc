@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="UnitAdministratorType" parent="UnitAdministratorType-parentBean"/>
-
   <bean abstract="true" id="UnitAdministratorType-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType"/>
 		<property name="objectLabel" value="Unit Administrator Type"/>
@@ -37,14 +36,20 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="3" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Unit Administrator Type Code"/>
     <property name="description" value="Unit Administrator Type Code"/>
   </bean>
-  <bean id="UnitAdministratorType-description" parent="UnitAdministratorType-description-parentBean"/>
 
+  <bean id="UnitAdministratorType-description" parent="UnitAdministratorType-description-parentBean"/>
   <bean abstract="true" id="UnitAdministratorType-description-parentBean" parent="AttributeDefinition">
     <property name="name" value="description"/>
     <property name="forceUppercase" value="false"/>
@@ -54,19 +59,24 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="30" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Description"/>
     <property name="description" value="Description"/>
   </bean>
-  <bean id="UnitAdministratorType-versionNumber" parent="UnitAdministratorType-versionNumber-parentBean"/>
-
-  <bean abstract="true" id="UnitAdministratorType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
   
+  <bean id="UnitAdministratorType-versionNumber" parent="UnitAdministratorType-versionNumber-parentBean"/>
+  <bean abstract="true" id="UnitAdministratorType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
   <bean id="UnitAdministratorType-defaultGroupFlag" parent="UnitAdministratorType-defaultGroupFlag-parentBean"/>
-
   <bean abstract="true" id="UnitAdministratorType-defaultGroupFlag-parentBean" parent="AttributeDefinition">
     <property name="name" value="defaultGroupFlag"/>
     <property name="forceUppercase" value="false"/>
@@ -76,8 +86,16 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="3" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Default Group Flag"/>
     <property name="description" value="Default Group Flag"/>
@@ -94,18 +112,24 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="3" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Multiples Flag"/>
     <property name="description" value="Multiples Flag"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="UnitAdministratorType-inquiryDefinition" parent="UnitAdministratorType-inquiryDefinition-parentBean"/>
-
+  <bean id="UnitAdministratorType-InquiryView" parent="UnitAdministratorType-InquiryView-parentBean"/>
   <bean abstract="true" id="UnitAdministratorType-inquiryDefinition-parentBean" parent="InquiryDefinition">
     <property name="title" value="Unit Administrator Type"/>
     <property name="inquirySections">
@@ -126,18 +150,35 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="UnitAdministratorType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Unit Administrator Type"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.UnitAdministratorType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Unit Administrator Type"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="unitAdministratorTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="defaultGroupFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="multiplesFlag" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="UnitAdministratorType-lookupDefinition" parent="UnitAdministratorType-lookupDefinition-parentBean"/>
-
+  <bean id="UnitAdministratorType-LookupView" parent="UnitAdministratorType-LookupView-parentBean"/>
   <bean abstract="true" id="UnitAdministratorType-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Unit Administrator Type Lookup"/>
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
     <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields">
       <list>
@@ -156,4 +197,37 @@
       </list>
     </property>
   </bean>
+
+  <bean id="UnitAdministratorType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.UnitAdministratorType"/>
+    <property name="headerText" value="Unit Administrator Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="unitAdministratorTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="defaultGroupFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="multiplesFlag" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="unitAdministratorTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="defaultGroupFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="multiplesFlag" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

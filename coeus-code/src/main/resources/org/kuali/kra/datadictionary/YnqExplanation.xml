@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="YnqExplanation" parent="YnqExplanation-parentBean" />
-
   <bean id="YnqExplanation-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.YnqExplanation" />
 		<property name="objectLabel" value="Ynq Explanation" />
@@ -38,19 +33,24 @@
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="400" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="40" />
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="5" p:cols="40" parent="Uif-TextAreaControl"/>
     </property>
     <property name="summary" value="Explanation" />
     <property name="description" value="Explanation" />
   </bean>
-  <bean id="YnqExplanation-explanationType" parent="YnqExplanation-explanationType-parentBean" />
 
+  <bean id="YnqExplanation-explanationType" parent="YnqExplanation-explanationType-parentBean"/>
   <bean id="YnqExplanation-explanationType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="explanationType" />
     <property name="forceUppercase" value="false" />
@@ -60,14 +60,20 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="Explanation Type" />
     <property name="description" value="Explanation Type" />
   </bean>
-  <bean id="YnqExplanation-questionId" parent="YnqExplanation-questionId-parentBean" />
 
+  <bean id="YnqExplanation-questionId" parent="YnqExplanation-questionId-parentBean"/>
   <bean id="YnqExplanation-questionId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="questionId" />
     <property name="forceUppercase" value="false" />
@@ -77,22 +83,24 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="Question Id" />
     <property name="description" value="Question Id" />
   </bean>
-  <bean id="YnqExplanation-versionNumber" parent="YnqExplanation-versionNumber-parentBean" />
 
-  <bean id="YnqExplanation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean id="YnqExplanation-versionNumber" parent="YnqExplanation-versionNumber-parentBean"/>
+  <bean id="YnqExplanation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="YnqExplanation-inquiryDefinition" parent="YnqExplanation-inquiryDefinition-parentBean" />
-
+  <bean id="YnqExplanation-InquiryView" parent="YnqExplanation-InquiryView-parentBean"/>
   <bean id="YnqExplanation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Ynq Explanation" />
     <property name="inquirySections" >
@@ -102,14 +110,9 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="explanationType"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="questionId"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="explanation" />
+              <bean parent="FieldDefinition" p:attributeName="explanationType" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="questionId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="explanation"/>
             </list>
           </property>
         </bean>
@@ -117,39 +120,77 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="YnqExplanation-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Ynq Explanation"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.YnqExplanation"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Ynq Explanation"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="explanationType" parent="Uif-DataField"/>
+              <bean p:propertyName="questionId" parent="Uif-DataField"/>
+              <bean p:propertyName="explanation" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="YnqExplanation-lookupDefinition" parent="YnqExplanation-lookupDefinition-parentBean" />
-
+  <bean id="YnqExplanation-LookupView" parent="YnqExplanation-LookupView-parentBean"/>
   <bean id="YnqExplanation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Ynq Explanation Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="explanationType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="questionId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="explanation" />
+        <bean parent="FieldDefinition" p:attributeName="explanationType"/>
+        <bean parent="FieldDefinition" p:attributeName="questionId"/>
+        <bean parent="FieldDefinition" p:attributeName="explanation"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="explanationType" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="questionId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="explanation"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="YnqExplanation-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.YnqExplanation"/>
+    <property name="headerText" value="Ynq Explanation Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="explanationType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="questionId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="explanation" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="explanationType"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="questionId"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="explanation" />
+        <bean p:propertyName="explanationType" parent="Uif-DataField"/>
+        <bean p:propertyName="questionId" parent="Uif-DataField"/>
+        <bean p:propertyName="explanation" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

@@ -1,20 +1,12 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="BudgetModularIdc" parent="BudgetModularIdc-parentBean" />
-
   <bean id="BudgetModularIdc-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc" />
 		<property name="objectLabel" value="Budget Modular Idc" />
     <property name="titleAttribute" value="budgetModularIdc" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-B"
-            p:parameterName="budgetModularIdcHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetModularIdcHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -43,15 +35,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Budget Period" />
     <property name="description" value="Budget Period" />
   </bean>
-  <bean id="BudgetModularIdc-rateNumber" parent="BudgetModularIdc-rateNumber-parentBean" />
 
+  <bean id="BudgetModularIdc-rateNumber" parent="BudgetModularIdc-rateNumber-parentBean"/>
   <bean id="BudgetModularIdc-rateNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rateNumber" />
     <property name="forceUppercase" value="false" />
@@ -61,15 +58,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Rate Number" />
     <property name="description" value="Rate Number" />
   </bean>
-  <bean id="BudgetModularIdc-description" parent="BudgetModularIdc-description-parentBean" />
 
+  <bean id="BudgetModularIdc-description" parent="BudgetModularIdc-description-parentBean"/>
   <bean id="BudgetModularIdc-description-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="description" />
     <property name="forceUppercase" value="false" />
@@ -79,16 +81,25 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetModularIDCRateTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetModularIDCRateTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.budget.lookup.keyvalue.BudgetModularIDCRateTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Description" />
     <property name="description" value="Description" />
   </bean>
-  <bean id="BudgetModularIdc-idcRate" parent="BudgetModularIdc-idcRate-parentBean" />
 
+  <bean id="BudgetModularIdc-idcRate" parent="BudgetModularIdc-idcRate-parentBean"/>
   <bean id="BudgetModularIdc-idcRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="idcRate" />
     <property name="forceUppercase" value="false" />
@@ -96,20 +107,26 @@
     <property name="shortLabel" value="IDC Rate" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern"
-            p:precision="5"
-            p:scale="2" />
+      <bean parent="FixedPointValidationPattern" p:precision="5" p:scale="2"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="5"/>
+        <property name="scale" value="2"/>
+      </bean>
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="5" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="IDC Rate" />
     <property name="description" value="IDC Rate" />
   </bean>
-  <bean id="BudgetModularIdc-idcBase" parent="BudgetModularIdc-idcBase-parentBean" />
 
+  <bean id="BudgetModularIdc-idcBase" parent="BudgetModularIdc-idcBase-parentBean"/>
   <bean id="BudgetModularIdc-idcBase-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="idcBase" />
     <property name="forceUppercase" value="false" />
@@ -117,21 +134,26 @@
     <property name="shortLabel" value="IDC Base" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern"
-            p:precision="12"
-            p:scale="2" />
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="12"/>
+        <property name="scale" value="2"/>
+      </bean>
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="CurrencyControlDefinition"
-            p:formattedMaxLength="22"
-            p:size="16" />
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
     </property>
     <property name="summary" value="IDC Base" />
     <property name="description" value="IDC Base" />
   </bean>
-  <bean id="BudgetModularIdc-fundsRequested" parent="BudgetModularIdc-fundsRequested-parentBean" />
 
+  <bean id="BudgetModularIdc-fundsRequested" parent="BudgetModularIdc-fundsRequested-parentBean"/>
   <bean id="BudgetModularIdc-fundsRequested-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fundsRequested" />
     <property name="forceUppercase" value="false" />
@@ -139,21 +161,25 @@
     <property name="shortLabel" value="Funds Requested" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern"
-            p:precision="12"
-            p:scale="2" />
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="12"/>
+        <property name="scale" value="2"/>
+      </bean>
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="CurrencyControlDefinition"
-            p:formattedMaxLength="22"
-            p:size="16" />
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
     </property>
     <property name="summary" value="Funds Requested" />
     <property name="description" value="Funds Requested" />
   </bean>
-  <bean id="BudgetModularIdc-versionNumber" parent="BudgetModularIdc-versionNumber-parentBean" />
 
-  <bean id="BudgetModularIdc-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
+  <bean id="BudgetModularIdc-versionNumber" parent="BudgetModularIdc-versionNumber-parentBean"/>
+  <bean id="BudgetModularIdc-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 </beans>

@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="TrainingStipendRate" parent="TrainingStipendRate-parentBean" />
-
   <bean id="TrainingStipendRate-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.rates.TrainingStipendRate" />
     <property name="objectLabel" value="Training Stipend Rate" />
@@ -40,9 +35,14 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Career Level" />
     <property name="description" value="Career Level" />
@@ -61,18 +61,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Experience Level" />
     <property name="description" value="Experience Level" />
   </bean>
 
-  <!-- -->
-
   <bean id="TrainingStipendRate-stipendRate" parent="TrainingStipendRate-stipendRate-parentBean" />
-
   <bean id="TrainingStipendRate-stipendRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="stipendRate" />
     <property name="forceUppercase" value="false" />
@@ -80,22 +82,25 @@
     <property name="shortLabel" value="Stipend Rate" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" 
-            p:precision="7"
-            p:scale="2" />
+      <bean parent="FixedPointValidationPattern" p:precision="7" p:scale="2"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="7"/>
+        <property name="scale" value="2"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Stipend Rate" />
     <property name="description" value="Stipend Rate" />
   </bean>
 
-  <!-- -->
-  
   <bean id="TrainingStipendRate-effectiveDate" parent="TrainingStipendRate-effectiveDate-parentBean" />
-
   <bean id="TrainingStipendRate-effectiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="effectiveDate" />
     <property name="label" value="Effective Date" />
@@ -104,25 +109,13 @@
     <property name="description" value="Effective Date" />
   </bean>
 
-  <!-- -->
-
   <bean id="TrainingStipendRate-description" parent="TrainingStipendRate-description-parentBean" />
-
-  <bean id="TrainingStipendRate-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
-  </bean>
-  
-  <!-- -->
-
+  <bean id="TrainingStipendRate-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
   <bean id="TrainingStipendRate-versionNumber" parent="TrainingStipendRate-versionNumber-parentBean" />
-
-  <bean id="TrainingStipendRate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean id="TrainingStipendRate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="TrainingStipendRate-inquiryDefinition" parent="TrainingStipendRate-inquiryDefinition-parentBean" />
-
+  <bean id="TrainingStipendRate-InquiryView" parent="TrainingStipendRate-InquiryView-parentBean"/>
   <bean id="TrainingStipendRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Training Stipend Rate" />
     <property name="inquirySections" >
@@ -132,20 +125,11 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="careerLevel"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="experienceLevel"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="stipendRate"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effectiveDate"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+              <bean parent="FieldDefinition" p:attributeName="careerLevel" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="experienceLevel" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="stipendRate" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
             </list>
           </property>
         </bean>
@@ -153,51 +137,92 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="TrainingStipendRate-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Training Stipend Rate"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.rates.TrainingStipendRate"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Training Stipend Rate"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="careerLevel" parent="Uif-DataField"/>
+              <bean p:propertyName="experienceLevel" parent="Uif-DataField"/>
+              <bean p:propertyName="stipendRate" parent="Uif-DataField"/>
+              <bean p:propertyName="effectiveDate" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Business Object Lookup Definition -->
   <bean id="TrainingStipendRate-lookupDefinition" parent="TrainingStipendRate-lookupDefinition-parentBean" />
-
+  <bean id="TrainingStipendRate-LookupView" parent="TrainingStipendRate-LookupView-parentBean"/>
   <bean id="TrainingStipendRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Training Stipend Rate Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
 	<property name="helpDefinition" >
-        <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-M"
-            p:parameterName="trainingStipendRateMaintenanceHelp"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="trainingStipendRateMaintenanceHelp" p:parameterDetailType="Document"/>
     </property>      
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="careerLevel" />
-        <bean parent="FieldDefinition"
-              p:attributeName="experienceLevel" />
-        <bean parent="FieldDefinition"
-              p:attributeName="stipendRate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effectiveDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="careerLevel"/>
+        <bean parent="FieldDefinition" p:attributeName="experienceLevel"/>
+        <bean parent="FieldDefinition" p:attributeName="stipendRate"/>
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="careerLevel" />
-        <bean parent="FieldDefinition"
-              p:attributeName="experienceLevel" />
-        <bean parent="FieldDefinition"
-              p:attributeName="stipendRate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effectiveDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="careerLevel"/>
+        <bean parent="FieldDefinition" p:attributeName="experienceLevel"/>
+        <bean parent="FieldDefinition" p:attributeName="stipendRate"/>
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
       </list>
     </property>
   </bean>
+
+  <bean id="TrainingStipendRate-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.rates.TrainingStipendRate"/>
+    <property name="headerText" value="Training Stipend Rate Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="careerLevel" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="experienceLevel" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="stipendRate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="effectiveDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="careerLevel" parent="Uif-DataField"/>
+        <bean p:propertyName="experienceLevel" parent="Uif-DataField"/>
+        <bean p:propertyName="stipendRate" parent="Uif-DataField"/>
+        <bean p:propertyName="effectiveDate" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,21 +14,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="IntellectualPropertyReviewActivity" parent="IntellectualPropertyReviewActivity-parentBean" />
     <bean id="IntellectualPropertyReviewActivity-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity" />
 		<property name="objectLabel" value="Institutional Proposal Ip Review Activity" />
 		<property name="helpDefinition" >
-      		<bean parent="HelpDefinition"
-            	p:parameterNamespace="KC-IP"
-            	p:parameterName="IntellectualPropertyReviewActivityHelpUrl"
-            	p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="IntellectualPropertyReviewActivityHelpUrl" p:parameterDetailType="Document"/>
     	</property>
         <property name="inquiryDefinition" >
             <ref bean="IntellectualPropertyReviewActivity-inquiryDefinition" />
@@ -51,7 +44,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="IntellectualPropertyReviewActivity-proposalIpReviewActivityId" parent="IntellectualPropertyReviewActivity-proposalIpReviewActivityId-parentBean" />
     <bean id="IntellectualPropertyReviewActivity-proposalIpReviewActivityId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalIpReviewActivityId" />
@@ -62,9 +54,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Proposal Ip Rev Activity Id" />
         <property name="description" value="Proposal Ip Rev Activity Id" />
@@ -80,9 +77,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Proposal Number" />
         <property name="description" value="Proposal Number" />
@@ -98,9 +100,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Sequence Number" />
         <property name="description" value="Sequence Number" />
@@ -117,9 +124,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Activity Number" />
         <property name="description" value="Activity Number" />
@@ -135,14 +147,23 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivityType"
-                p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-                p:includeKeyInLabel="false"
-                p:includeBlankRow="false"
-                p:keyAttribute="intellectualPropertyReviewActivityTypeCode"
-                p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivityType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="intellectualPropertyReviewActivityTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivityType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="intellectualPropertyReviewActivityTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="IP Review Activity Type Code" />
         <property name="description" value="IP Review Activity Type Code" />
@@ -165,23 +186,28 @@
         <property name="shortLabel" value="Comments" />
         <property name="maxLength" value="150" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
     </bean>
 
     <bean id="IntellectualPropertyReviewActivity-versionNumber" parent="IntellectualPropertyReviewActivity-versionNumber-parentBean" />
-    <bean id="IntellectualPropertyReviewActivity-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="IntellectualPropertyReviewActivity-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="IntellectualPropertyReviewActivity-inquiryDefinition" parent="IntellectualPropertyReviewActivity-inquiryDefinition-parentBean" />
+  <bean id="IntellectualPropertyReviewActivity-InquiryView" parent="IntellectualPropertyReviewActivity-InquiryView-parentBean"/>
     <bean id="IntellectualPropertyReviewActivity-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Proposal Ip Rev Activity Id" />
         <property name="inquirySections" >
@@ -191,21 +217,37 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="proposalIpReviewActivityId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="proposalNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sequenceNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="activityNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="ipReviewActivityTypeCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="activityDate" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="comments" />
+              <bean parent="FieldDefinition" p:attributeName="proposalIpReviewActivityId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="activityNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="ipReviewActivityTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="activityDate"/>
+              <bean parent="FieldDefinition" p:attributeName="comments"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IntellectualPropertyReviewActivity-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Proposal Ip Rev Activity Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Proposal Ip Rev Activity Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="proposalIpReviewActivityId" parent="Uif-DataField"/>
+              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="activityNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="ipReviewActivityTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="activityDate" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -215,50 +257,71 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="IntellectualPropertyReviewActivity-lookupDefinition" parent="IntellectualPropertyReviewActivity-lookupDefinition-parentBean" />
+  <bean id="IntellectualPropertyReviewActivity-LookupView" parent="IntellectualPropertyReviewActivity-LookupView-parentBean"/>
     <bean id="IntellectualPropertyReviewActivity-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proposal Ip Rev Activity Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalIpReviewActivityId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="activityNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="ipReviewActivityTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="activityDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
+        <bean parent="FieldDefinition" p:attributeName="proposalIpReviewActivityId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="activityNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="ipReviewActivityTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="activityDate"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="proposalIpReviewActivityId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="activityNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="ipReviewActivityTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="activityDate"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IntellectualPropertyReviewActivity-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity"/>
+    <property name="headerText" value="Proposal Ip Rev Activity Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalIpReviewActivityId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="activityNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="ipReviewActivityTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="activityDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalIpReviewActivityId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="activityNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="ipReviewActivityTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="activityDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
+        <bean p:propertyName="proposalIpReviewActivityId" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="activityNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="ipReviewActivityTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="activityDate" parent="Uif-DataField"/>
+        <bean p:propertyName="comments" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

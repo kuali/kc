@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-		
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="IacucProtocolModifySubmissionBean" parent="IacucProtocolModifySubmissionBean-parentBean" />
 	<bean id="IacucProtocolModifySubmissionBean-parentBean" abstract="true" parent="IacucProtocolSubmitAction-parentBean">
 		<property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean" />
@@ -37,13 +33,9 @@
 		</property>
 	</bean>
 	
-	
 	<bean id="IacucProtocolModifySubmissionBean-submissionTypeCode" parent="IacucProtocolSubmitAction-submissionTypeCode-parentBean" />
-	
 	<bean id="IacucProtocolModifySubmissionBean-protocolReviewTypeCode" parent="IacucProtocolSubmitAction-protocolReviewTypeCode-parentBean" />
-	
 	<bean id="IacucProtocolModifySubmissionBean-submissionQualifierTypeCode" parent="IacucProtocolSubmitAction-submissionQualifierTypeCode-parentBean" />
-	
  	<bean id="IacucProtocolModifySubmissionBean-dueDate" parent="IacucProtocolModifySubmissionBean-dueDate-parentBean" />
 	<bean id="IacucProtocolModifySubmissionBean-dueDate-parentBean" parent="AttributeReferenceDummy-genericDate" >
 		<property name="name" value="dueDate" />
@@ -65,9 +57,13 @@
 		<property name="maxLength" value="15" />
 		<property name="required" value="false" />
 		<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdValuesFinder"
-                p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
 		<property name="summary" value="Committee" />
 		<property name="description" value="Committee" />
@@ -82,9 +78,13 @@
 		<property name="maxLength" value="10" />
 		<property name="required" value="false" />
 		<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionScheduleValuesFinder"
-                p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionScheduleValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionScheduleValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
 		<property name="summary" value="Schedule Date" />
 		<property name="description" value="Schedule Date" />

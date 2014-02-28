@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
  
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="CoiUserRole" parent="CoiUserRole-parentBean" />
     <bean id="CoiUserRole-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.coi.CoiUserRole" />
@@ -40,7 +36,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="CoiUserRole-coiUserRolesId" parent="CoiUserRole-coiUserRolesId-parentBean" />
     <bean id="CoiUserRole-coiUserRolesId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="coiUserRolesId" />
@@ -51,9 +46,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Coi User Role Id" />
         <property name="description" value="Coi User Role Id" />
@@ -67,25 +67,29 @@
         <property name="shortLabel" value="Recommended Action" />
         <property name="maxLength" value="3" />
         <property name="control" >
-                <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.coi.CoiRecomendedActionType"
-	            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:includeBlankRow="false"
-	            p:keyAttribute="coiRecomendedTypeCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.coi.CoiRecomendedActionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="coiRecomendedTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.coi.CoiRecomendedActionType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="coiRecomendedTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Coi Recommended Action" />
         <property name="description" value="Coi Recommended Action" />
     </bean>
 
-
     <bean id="CoiUserRole-versionNumber" parent="CoiUserRole-versionNumber-parentBean" />
-    <bean id="CoiUserRole-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="CoiUserRole-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="CoiUserRole-inquiryDefinition" parent="CoiUserRole-inquiryDefinition-parentBean" />
+  <bean id="CoiUserRole-InquiryView" parent="CoiUserRole-InquiryView-parentBean"/>
     <bean id="CoiUserRole-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Coi User Role Id" />
         <property name="inquirySections" >
@@ -95,9 +99,25 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="coiUserRolesId" 
-                                p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="coiUserRolesId" p:forceInquiry="true"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CoiUserRole-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Coi User Role Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.CoiUserRole"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Coi User Role Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="coiUserRolesId" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -107,28 +127,49 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="CoiUserRole-lookupDefinition" parent="CoiUserRole-lookupDefinition-parentBean" />
+  <bean id="CoiUserRole-LookupView" parent="CoiUserRole-LookupView-parentBean"/>
     <bean id="CoiUserRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Coi User Role Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiUserRolesId" 
-                    p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="coiUserRolesId" p:forceInquiry="true"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiUserRolesId" 
-                    p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="coiUserRolesId" p:forceInquiry="true"/>
             </list>
         </property>
     </bean>
 
+  <bean id="CoiUserRole-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.CoiUserRole"/>
+    <property name="headerText" value="Coi User Role Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="coiUserRolesId" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="coiUserRolesId" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
 
 </beans>

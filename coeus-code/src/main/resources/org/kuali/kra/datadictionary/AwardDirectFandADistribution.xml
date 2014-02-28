@@ -1,20 +1,12 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="AwardDirectFandADistribution" parent="AwardDirectFandADistribution-parentBean" />
-
   <bean id="AwardDirectFandADistribution-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution" />
 		<property name="objectLabel" value="Award Direct Fand A Distribution" />
     <property name="titleAttribute" value="awardCostShare" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-AWARD"
-            p:parameterName="awardCostShareHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardCostShareHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -45,21 +37,22 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Award Direct F and A Distribution ID" />
     <property name="description" value="Award Direct F and A Distribution ID" />
   </bean>
   
   <bean id="AwardDirectFandADistribution-awardNumber" parent="AwardDirectFandADistribution-awardNumber-parentBean" />
-
-  <bean id="AwardDirectFandADistribution-awardNumber-parentBean" abstract="true" parent="Award-awardNumber">
-  </bean>
-  
+  <bean id="AwardDirectFandADistribution-awardNumber-parentBean" abstract="true" parent="Award-awardNumber"/>
   <bean id="AwardDirectFandADistribution-sequenceNumber" parent="AwardDirectFandADistribution-sequenceNumber-parentBean" />
-
   <bean id="AwardDirectFandADistribution-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sequenceNumber" />
     <property name="forceUppercase" value="false" />
@@ -69,15 +62,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Sequence Number" />
     <property name="description" value="Sequence Number" />
   </bean>
-  <bean id="AwardDirectFandADistribution-amountSequenceNumber" parent="AwardDirectFandADistribution-amountSequenceNumber-parentBean" />
 
+  <bean id="AwardDirectFandADistribution-amountSequenceNumber" parent="AwardDirectFandADistribution-amountSequenceNumber-parentBean"/>
   <bean id="AwardDirectFandADistribution-amountSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="amountSequenceNumber" />
     <property name="forceUppercase" value="false" />
@@ -87,9 +85,14 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Amount Sequence Number" />
     <property name="description" value="Amount Sequence Number" />
@@ -107,17 +110,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Budget Period" />
     <property name="description" value="Budget Period" />
   </bean>
   
- 
  <bean id="AwardDirectFandADistribution-startDate" parent="AwardDirectFandADistribution-startDate-parentBean" />
-
   <bean id="AwardDirectFandADistribution-startDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="startDate" />
     <property name="label" value="Start Date" />
@@ -147,15 +153,20 @@
     <property name="shortLabel" value="Direct Cost" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern"
-            p:precision="12"
-            p:scale="2" />
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="12"/>
+        <property name="scale" value="2"/>
+      </bean>
     </property>
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="CurrencyControlDefinition"
-            p:formattedMaxLength="22"
-            p:size="16" />
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
     </property>
     <property name="summary" value="Direct Cost" />
     <property name="description" value="Direct Cost" />
@@ -170,15 +181,20 @@
     <property name="shortLabel" value="F&amp;A Cost" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern"
-            p:precision="12"
-            p:scale="2" />
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="12"/>
+        <property name="scale" value="2"/>
+      </bean>
     </property>
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="CurrencyControlDefinition"
-            p:formattedMaxLength="22"
-            p:size="16" />
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
     </property>
     <property name="summary" value="F&amp;A Cost" />
     <property name="description" value="F&amp;A Cost" />

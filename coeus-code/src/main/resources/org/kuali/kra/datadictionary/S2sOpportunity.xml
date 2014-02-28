@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="S2sOpportunity" parent="S2sOpportunity-parentBean" />
-
   <bean id="S2sOpportunity-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sOpportunity" />
 		<property name="objectLabel" value="S2s Opportunity" />
@@ -16,10 +11,7 @@
       <ref bean="S2sOpportunity-lookupDefinition" />
     </property>
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-PD"
-            p:parameterName="proposalDevelopmentOpportunityHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentOpportunityHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -57,14 +49,20 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="Proposal Number" />
     <property name="description" value="Proposal Number" />
   </bean>
-  <bean id="S2sOpportunity-cfdaNumber" parent="S2sOpportunity-cfdaNumber-parentBean" />
 
+  <bean id="S2sOpportunity-cfdaNumber" parent="S2sOpportunity-cfdaNumber-parentBean"/>
   <bean id="S2sOpportunity-cfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cfdaNumber" />
     <property name="forceUppercase" value="false" />
@@ -74,16 +72,21 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="The CFDA Number for this Proposal." />
     <property name="description" value="A unique identifier for the sponsor and the funding opportunity announcement.  AKA &quot;Catalogue of Federal Domestic Assistance Number&quot;" />
   </bean>
-  <bean id="S2sOpportunity-competetionId" parent="S2sOpportunity-competetionId-parentBean" />
 
+  <bean id="S2sOpportunity-competetionId" parent="S2sOpportunity-competetionId-parentBean"/>
   <bean id="S2sOpportunity-competetionId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="competetionId" />
     <property name="forceUppercase" value="false" />
@@ -93,15 +96,20 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Competition Id" />
     <property name="description" value="Competition Id" />
   </bean>
-  <bean id="S2sOpportunity-instructionUrl" parent="S2sOpportunity-instructionUrl-parentBean" />
 
+  <bean id="S2sOpportunity-instructionUrl" parent="S2sOpportunity-instructionUrl-parentBean"/>
   <bean id="S2sOpportunity-instructionUrl-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="instructionUrl" />
     <property name="forceUppercase" value="false" />
@@ -109,18 +117,24 @@
     <property name="shortLabel" value="Instruction Page" />
     <property name="maxLength" value="300" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="300" />
+      <bean parent="TextControlDefinition" p:size="300"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="300" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Instruction Page" />
     <property name="description" value="Instruction Page" />
   </bean>
-  <bean id="S2sOpportunity-opportunity" parent="S2sOpportunity-opportunity-parentBean" />
 
+  <bean id="S2sOpportunity-opportunity" parent="S2sOpportunity-opportunity-parentBean"/>
   <bean id="S2sOpportunity-opportunity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="opportunity" />
     <property name="forceUppercase" value="false" />
@@ -130,19 +144,23 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
+    </property>
     <property name="summary" value="Opportunity" />
     <property name="description" value="Opportunity" />
   </bean>
-  <bean id="S2sOpportunity-closingDate" parent="S2sOpportunity-closingDate-parentBean" />
 
+  <bean id="S2sOpportunity-closingDate" parent="S2sOpportunity-closingDate-parentBean"/>
   <bean id="S2sOpportunity-closingDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="forceUppercase" value="false" />
     <property name="shortLabel" value="ClosingDate" />
     <property name="maxLength" value="21" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:datePicker="true"
-            p:size="10" />
+      <bean parent="TextControlDefinition" p:datePicker="true" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
@@ -173,9 +191,10 @@
     <property name="shortLabel" value="OpeningDate" />
     <property name="maxLength" value="21" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:datePicker="true"
-            p:size="10" />
+      <bean parent="TextControlDefinition" p:datePicker="true" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Opening Date" />
     <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
@@ -183,8 +202,8 @@
     <property name="label" value="Opening Date" />
     <property name="description" value="Opening Date" />
   </bean>
-  <bean id="S2sOpportunity-opportunityId" parent="S2sOpportunity-opportunityId-parentBean" />
 
+  <bean id="S2sOpportunity-opportunityId" parent="S2sOpportunity-opportunityId-parentBean"/>
   <bean id="S2sOpportunity-opportunityId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="opportunityId" />
     <property name="forceUppercase" value="false" />
@@ -192,19 +211,25 @@
     <property name="shortLabel" value="Opportunity ID" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+      <bean parent="TextControlDefinition" p:size="50"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="50" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="The Opportunity ID for this Proposal." />
-    <property name="description" value="A unique identifier associated with each sponsor&apos;s funding opportunity announcement. AKA &quot;Funding Opportunity Announcement number&quot; or &quot;FOA number&quot;" />
+    <property name="description" value="A unique identifier associated with each sponsor's funding opportunity announcement. AKA &quot;Funding Opportunity Announcement number&quot; or &quot;FOA number&quot;"/>
   </bean>
-  <bean id="S2sOpportunity-opportunityTitle" parent="S2sOpportunity-opportunityTitle-parentBean" />
 
+  <bean id="S2sOpportunity-opportunityTitle" parent="S2sOpportunity-opportunityTitle-parentBean"/>
   <bean id="S2sOpportunity-opportunityTitle-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="opportunityTitle" />
     <property name="forceUppercase" value="false" />
@@ -212,25 +237,30 @@
     <property name="shortLabel" value="Opportunity Title" />
     <property name="maxLength" value="255" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="80" />
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="80"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="80" parent="Uif-TextAreaControl"/>
     </property>
     <property name="summary" value="The Opportunity Title for this Proposal." />
-    <property name="description" value="The title of a publicly available document, announcing a federal agency&apos;s intentions to award discretionary grants or cooperative agreements, usually as a result of competition for funds.  AKA  Funding opportunity announcements, notices of funding availability, or solicitations." />
+    <property name="description" value="The title of a publicly available document, announcing a federal agency's intentions to award discretionary grants or cooperative agreements, usually as a result of competition for funds.  AKA  Funding opportunity announcements, notices of funding availability, or solicitations."/>
   </bean>
-  <bean id="S2sOpportunity-revisionCode" parent="S2sOpportunity-revisionCode-parentBean" />
 
+  <bean id="S2sOpportunity-revisionCode" parent="S2sOpportunity-revisionCode-parentBean"/>
   <bean id="S2sOpportunity-revisionCode-parentBean" abstract="true" parent="S2sRevisionType-s2sRevisionTypeCode">
     <property name="name" value="revisionCode" />
   </bean>
-  <bean id="S2sOpportunity-revisionOtherDescription" parent="S2sOpportunity-revisionOtherDescription-parentBean" />
 
+  <bean id="S2sOpportunity-revisionOtherDescription" parent="S2sOpportunity-revisionOtherDescription-parentBean"/>
   <bean id="S2sOpportunity-revisionOtherDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="revisionOtherDescription" />
     <property name="forceUppercase" value="false" />
@@ -238,22 +268,26 @@
     <property name="shortLabel" value="Revision Other Description" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="45" />
+      <bean parent="TextControlDefinition" p:size="45"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="45" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Revision Other Description" />
     <property name="description" value="Revision Other Description" />
   </bean>
-  <bean id="S2sOpportunity-s2sSubmissionTypeCode" parent="S2sOpportunity-s2sSubmissionTypeCode-parentBean" />
 
-  <bean id="S2sOpportunity-s2sSubmissionTypeCode-parentBean" abstract="true" parent="S2sSubmissionType-s2sSubmissionTypeCode">
-  </bean>
+  <bean id="S2sOpportunity-s2sSubmissionTypeCode" parent="S2sOpportunity-s2sSubmissionTypeCode-parentBean"/>
+  <bean id="S2sOpportunity-s2sSubmissionTypeCode-parentBean" abstract="true" parent="S2sSubmissionType-s2sSubmissionTypeCode"/>
   <bean id="S2sOpportunity-schemaUrl" parent="S2sOpportunity-schemaUrl-parentBean" />
-
   <bean id="S2sOpportunity-schemaUrl-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="schemaUrl" />
     <property name="forceUppercase" value="false" />
@@ -263,9 +297,14 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="300" />
+      <bean parent="TextControlDefinition" p:size="300"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="300" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Schema URL" />
     <property name="description" value="Schema URL" />
@@ -282,14 +321,23 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.s2s.bo.S2sProvider"
-            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="code"
-            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.s2s.bo.S2sProvider" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="code" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sProvider"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="code"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="S2S Provider" />
     <property name="description" value="S2S Provider" />
@@ -307,15 +355,10 @@
   </bean>
   
   <bean id="S2sOpportunity-versionNumber" parent="S2sOpportunity-versionNumber-parentBean" />
-
-  <bean id="S2sOpportunity-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean id="S2sOpportunity-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="S2sOpportunity-inquiryDefinition" parent="S2sOpportunity-inquiryDefinition-parentBean" />
-
+  <bean id="S2sOpportunity-InquiryView" parent="S2sOpportunity-InquiryView-parentBean"/>
   <bean id="S2sOpportunity-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="S2s Opportunity" />
     <property name="inquirySections" >
@@ -325,33 +368,19 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cfdaNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="closingDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="competetionId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="instructionUrl" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="openingDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="opportunity" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="opportunityId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="opportunityTitle" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="revisionCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="revisionOtherDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="s2sSubmissionTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="schemaUrl" />
+              <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="closingDate"/>
+              <bean parent="FieldDefinition" p:attributeName="competetionId"/>
+              <bean parent="FieldDefinition" p:attributeName="instructionUrl"/>
+              <bean parent="FieldDefinition" p:attributeName="openingDate"/>
+              <bean parent="FieldDefinition" p:attributeName="opportunity"/>
+              <bean parent="FieldDefinition" p:attributeName="opportunityId"/>
+              <bean parent="FieldDefinition" p:attributeName="opportunityTitle"/>
+              <bean parent="FieldDefinition" p:attributeName="revisionCode"/>
+              <bean parent="FieldDefinition" p:attributeName="revisionOtherDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="s2sSubmissionTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="schemaUrl"/>
             </list>
           </property>
         </bean>
@@ -359,49 +388,100 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="S2sOpportunity-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="S2s Opportunity"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.s2s.bo.S2sOpportunity"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="S2s Opportunity"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="cfdaNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="closingDate" parent="Uif-DataField"/>
+              <bean p:propertyName="competetionId" parent="Uif-DataField"/>
+              <bean p:propertyName="instructionUrl" parent="Uif-DataField"/>
+              <bean p:propertyName="openingDate" parent="Uif-DataField"/>
+              <bean p:propertyName="opportunity" parent="Uif-DataField"/>
+              <bean p:propertyName="opportunityId" parent="Uif-DataField"/>
+              <bean p:propertyName="opportunityTitle" parent="Uif-DataField"/>
+              <bean p:propertyName="revisionCode" parent="Uif-DataField"/>
+              <bean p:propertyName="revisionOtherDescription" parent="Uif-DataField"/>
+              <bean p:propertyName="s2sSubmissionTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="schemaUrl" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="S2sOpportunity-lookupDefinition" parent="S2sOpportunity-lookupDefinition-parentBean" />
-
+  <bean id="S2sOpportunity-LookupView" parent="S2sOpportunity-LookupView-parentBean"/>
   <bean id="S2sOpportunity-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Opportunity Lookup" />
     <property name="lookupableID" value="s2sOpportunityLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="providerCode" />      
-        <bean parent="FieldDefinition"
-              p:attributeName="opportunityId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="cfdaNumber" />
+        <bean parent="FieldDefinition" p:attributeName="providerCode"/>
+        <bean parent="FieldDefinition" p:attributeName="opportunityId"/>
+        <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="cfdaNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="closingDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="competetionId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="instructionUrl" />
-        <bean parent="FieldDefinition"
-              p:attributeName="openingDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="opportunityId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="opportunityTitle" />
-        <bean parent="FieldDefinition"
-              p:attributeName="schemaUrl" />
+        <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="closingDate"/>
+        <bean parent="FieldDefinition" p:attributeName="competetionId"/>
+        <bean parent="FieldDefinition" p:attributeName="instructionUrl"/>
+        <bean parent="FieldDefinition" p:attributeName="openingDate"/>
+        <bean parent="FieldDefinition" p:attributeName="opportunityId"/>
+        <bean parent="FieldDefinition" p:attributeName="opportunityTitle"/>
+        <bean parent="FieldDefinition" p:attributeName="schemaUrl"/>
       </list>
     </property>
   </bean>
+
+  <bean id="S2sOpportunity-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.s2s.bo.S2sOpportunity"/>
+    <property name="headerText" value="Opportunity Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="providerCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="opportunityId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="cfdaNumber" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="cfdaNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="closingDate" parent="Uif-DataField"/>
+        <bean p:propertyName="competetionId" parent="Uif-DataField"/>
+        <bean p:propertyName="instructionUrl" parent="Uif-DataField"/>
+        <bean p:propertyName="openingDate" parent="Uif-DataField"/>
+        <bean p:propertyName="opportunityId" parent="Uif-DataField"/>
+        <bean p:propertyName="opportunityTitle" parent="Uif-DataField"/>
+        <bean p:propertyName="schemaUrl" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

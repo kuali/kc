@@ -1,19 +1,11 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalCopyCriteria" parent="ProposalCopyCriteria-parentBean" />
-
   <bean id="ProposalCopyCriteria-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria" />
 		<property name="objectLabel" value="Proposal Copy Criteria" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-PD"
-            p:parameterName="proposalDevelopmentCopyCriteriaHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentCopyCriteriaHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -40,14 +32,20 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
     </property>
     <property name="summary" value="Include Attachments?" />
     <property name="description" value="Include Attachments in the Proposal Copy?" />
   </bean>
-  <bean id="ProposalCopyCriteria-includeBudget" parent="ProposalCopyCriteria-includeBudget-parentBean" />
 
+  <bean id="ProposalCopyCriteria-includeBudget" parent="ProposalCopyCriteria-includeBudget-parentBean"/>
   <bean id="ProposalCopyCriteria-includeBudget-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="includeBudget" />
     <property name="forceUppercase" value="false" />
@@ -57,14 +55,20 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
     </property>
     <property name="summary" value="Include Budget?" />
     <property name="description" value="Include Budget(s) in the Proposal Copy?" />
   </bean>
-  <bean id="ProposalCopyCriteria-budgetVersions" parent="ProposalCopyCriteria-budgetVersions-parentBean" />
 
+  <bean id="ProposalCopyCriteria-budgetVersions" parent="ProposalCopyCriteria-budgetVersions-parentBean"/>
   <bean id="ProposalCopyCriteria-budgetVersions-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetVersions" />
     <property name="forceUppercase" value="false" />
@@ -74,17 +78,24 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.CopyBudgetVersionsValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.CopyBudgetVersionsValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.CopyBudgetVersionsValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Budget Versions" />
     <property name="description" value="Budget Versions" />
   </bean>
-  <bean id="ProposalCopyCriteria-leadUnitNumber" parent="ProposalCopyCriteria-leadUnitNumber-parentBean" />
 
+  <bean id="ProposalCopyCriteria-leadUnitNumber" parent="ProposalCopyCriteria-leadUnitNumber-parentBean"/>
   <bean id="ProposalCopyCriteria-leadUnitNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="leadUnitNumber" />
     <property name="forceUppercase" value="false" />
@@ -94,14 +105,21 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Lead Unit (Owned by Unit)" />
-    <property name="description" value="The copied proposal&apos;s fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit." />
+    <property name="description" value="The copied proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit."/>
   </bean>
 
   <bean id="ProposalCopyCriteria-includeQuestionnaire" parent="ProposalCopyCriteria-includeQuestionnaire-parentBean" />
@@ -114,8 +132,14 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
     </property>
     <property name="summary" value="Include Questionnaires?" />
     <property name="description" value="Include Questionnaires in the Proposal Copy?" />

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="AwardPaymentSchedule" parent="AwardPaymentSchedule-parentBean" />
 	<bean id="AwardPaymentSchedule-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule" />
@@ -31,10 +27,7 @@
 		</property>
 		<property name="titleAttribute" value="awardPaymentScheduleId" />
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition"
-                p:parameterNamespace="KC-AWARD"
-                p:parameterName="awardPaymentsReportsAndTermsHelp"
-                p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardPaymentsReportsAndTermsHelp" p:parameterDetailType="Document"/>
         </property>
 		<property name="attributes" >
 			<list>
@@ -57,7 +50,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
 	<bean id="AwardPaymentSchedule-awardPaymentScheduleId" parent="AwardPaymentSchedule-awardPaymentScheduleId-parentBean" />
 	<bean id="AwardPaymentSchedule-awardPaymentScheduleId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="awardPaymentScheduleId" />
@@ -68,18 +60,21 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Award Payment Schedule Id" />
 		<property name="description" value="Award Payment Schedule Id" />
 	</bean>
 
 	<bean id="AwardPaymentSchedule-awardNumber" parent="AwardPaymentSchedule-awardNumber-parentBean" />
-	<bean id="AwardPaymentSchedule-awardNumber-parentBean" abstract="true" parent="Award-awardNumber" >
-	</bean>
-
+  <bean id="AwardPaymentSchedule-awardNumber-parentBean" abstract="true" parent="Award-awardNumber"/>
 	<bean id="AwardPaymentSchedule-sequenceNumber" parent="AwardPaymentSchedule-sequenceNumber-parentBean" />
 	<bean id="AwardPaymentSchedule-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="sequenceNumber" />
@@ -90,9 +85,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Sequence Number" />
 		<property name="description" value="Sequence Number" />
@@ -139,9 +139,16 @@
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Preparer" />
 		<property name="description" value="Preparer" />
@@ -163,9 +170,16 @@
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Invoice ID" />
 		<property name="description" value="Invoice ID" />
@@ -181,9 +195,17 @@
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
 		<property name="control" >
 			<bean parent="TextareaControlDefinition" p:rows="1" p:cols="30" />
 		</property>
+    <property name="controlField">
+      <bean p:rows="1" p:cols="30" parent="Uif-TextAreaControl"/>
+    </property>
 		<property name="summary" value="Comments" />
 		<property name="description" value="Comments" />
 	</bean>
@@ -198,9 +220,16 @@
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Status" />
 		<property name="description" value="Status" />
@@ -216,17 +245,21 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Overdue" />
 		<property name="description" value="Overdue" />
 	</bean>
 
 	<bean id="AwardPaymentSchedule-versionNumber" parent="AwardPaymentSchedule-versionNumber-parentBean" />
-	<bean id="AwardPaymentSchedule-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-	
+  <bean id="AwardPaymentSchedule-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 	<bean id="AwardPaymentSchedule-reportStatusCode" parent="AwardPaymentSchedule-reportStatusCode-parentBean"/>
 	<bean id="AwardPaymentSchedule-reportStatusCode-parentBean" abstract="true" parent="AwardPaymentSchedule-status">
 		<property name="name" value="reportStatusCode" />
@@ -236,19 +269,29 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.paymentreports.ReportStatus"
-	            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:includeBlankRow="false"
-	            p:keyAttribute="reportStatusCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.paymentreports.ReportStatus" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="reportStatusCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ReportStatus"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="reportStatusCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="AwardPaymentSchedule-inquiryDefinition" parent="AwardPaymentSchedule-inquiryDefinition-parentBean" />
+  <bean id="AwardPaymentSchedule-InquiryView" parent="AwardPaymentSchedule-InquiryView-parentBean"/>
 	<bean id="AwardPaymentSchedule-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Award Payment Schedule Id" />
 		<property name="inquirySections" >
@@ -258,27 +301,43 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="awardPaymentScheduleId" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="awardNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="sequenceNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="dueDate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="amount" />
-							<bean parent="FieldDefinition"
-								p:attributeName="submitDate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="submittedBy" />
-							<bean parent="FieldDefinition"
-								p:attributeName="invoiceNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="statusDescription" />
-							<bean parent="FieldDefinition"
-								p:attributeName="status" />	
+              <bean parent="FieldDefinition" p:attributeName="awardPaymentScheduleId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="awardNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="dueDate"/>
+              <bean parent="FieldDefinition" p:attributeName="amount"/>
+              <bean parent="FieldDefinition" p:attributeName="submitDate"/>
+              <bean parent="FieldDefinition" p:attributeName="submittedBy"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="statusDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="status"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AwardPaymentSchedule-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Award Payment Schedule Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Award Payment Schedule Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="awardPaymentScheduleId" parent="Uif-DataField"/>
+              <bean p:propertyName="awardNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="dueDate" parent="Uif-DataField"/>
+              <bean p:propertyName="amount" parent="Uif-DataField"/>
+              <bean p:propertyName="submitDate" parent="Uif-DataField"/>
+              <bean p:propertyName="submittedBy" parent="Uif-DataField"/>
+              <bean p:propertyName="invoiceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="statusDescription" parent="Uif-DataField"/>
+              <bean p:propertyName="status" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -288,63 +347,85 @@
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="AwardPaymentSchedule-lookupDefinition" parent="AwardPaymentSchedule-lookupDefinition-parentBean" />
+  <bean id="AwardPaymentSchedule-LookupView" parent="AwardPaymentSchedule-LookupView-parentBean"/>
 	<bean id="AwardPaymentSchedule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Award Payment Schedule Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="awardPaymentScheduleId" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="awardNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="dueDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="amount" />
-				<bean parent="FieldDefinition"
-					p:attributeName="submitDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="submittedBy" />
-				<bean parent="FieldDefinition"
-					p:attributeName="invoiceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="statusDescription" />
-				<bean parent="FieldDefinition"
-					p:attributeName="status" />	
+        <bean parent="FieldDefinition" p:attributeName="awardPaymentScheduleId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="awardNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="dueDate"/>
+        <bean parent="FieldDefinition" p:attributeName="amount"/>
+        <bean parent="FieldDefinition" p:attributeName="submitDate"/>
+        <bean parent="FieldDefinition" p:attributeName="submittedBy"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="statusDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="status"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="awardPaymentScheduleId" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="awardNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="dueDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="amount" />
-				<bean parent="FieldDefinition"
-					p:attributeName="submitDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="submittedBy" />
-				<bean parent="FieldDefinition"
-					p:attributeName="invoiceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="statusDescription" />
-				<bean parent="FieldDefinition"
-					p:attributeName="status" />	
+        <bean parent="FieldDefinition" p:attributeName="awardPaymentScheduleId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="awardNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="dueDate"/>
+        <bean parent="FieldDefinition" p:attributeName="amount"/>
+        <bean parent="FieldDefinition" p:attributeName="submitDate"/>
+        <bean parent="FieldDefinition" p:attributeName="submittedBy"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="statusDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="status"/>
 			</list>
 		</property>
 	</bean>
+
+  <bean id="AwardPaymentSchedule-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule"/>
+    <property name="headerText" value="Award Payment Schedule Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="awardPaymentScheduleId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="awardNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dueDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="amount" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="submitDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="submittedBy" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="invoiceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="statusDescription" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="status" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="awardPaymentScheduleId" parent="Uif-DataField"/>
+        <bean p:propertyName="awardNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="dueDate" parent="Uif-DataField"/>
+        <bean p:propertyName="amount" parent="Uif-DataField"/>
+        <bean p:propertyName="submitDate" parent="Uif-DataField"/>
+        <bean p:propertyName="submittedBy" parent="Uif-DataField"/>
+        <bean p:propertyName="invoiceNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="statusDescription" parent="Uif-DataField"/>
+        <bean p:propertyName="status" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

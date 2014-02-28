@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="ValidProtoSubTypeQual" parent="ValidProtoSubTypeQual-parentBean" />
     <bean id="ValidProtoSubTypeQual-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ValidProtoSubTypeQual" />
@@ -43,7 +39,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="ValidProtoSubTypeQual-validProtoSubTypeQualId" parent="ValidProtoSubTypeQual-validProtoSubTypeQualId-parentBean" />
     <bean id="ValidProtoSubTypeQual-validProtoSubTypeQualId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="validProtoSubTypeQualId" />
@@ -54,9 +49,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Valid Proto Sub Type Qual Id" />
         <property name="description" value="Valid Proto Sub Type Qual Id" />
@@ -72,13 +72,22 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-			<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType"
-            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false"
-            	p:keyAttribute="submissionTypeCode"
-            	p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="submissionTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="keyAttributeName" value="submissionTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Submission Type Code" />
         <property name="description" value="Submission Type Code" />
@@ -94,13 +103,22 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType"
-            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false"
-            	p:keyAttribute="submissionQualifierTypeCode"
-            	p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="submissionQualifierTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="keyAttributeName" value="submissionQualifierTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Submission Type Qual Code" />
         <property name="description" value="Submission Type Qual Code" />
@@ -123,11 +141,10 @@
  </bean>
  
     <bean id="ValidProtoSubTypeQual-versionNumber" parent="ValidProtoSubTypeQual-versionNumber-parentBean" />
-    <bean id="ValidProtoSubTypeQual-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="ValidProtoSubTypeQual-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="ValidProtoSubTypeQual-inquiryDefinition" parent="ValidProtoSubTypeQual-inquiryDefinition-parentBean" />
+  <bean id="ValidProtoSubTypeQual-InquiryView" parent="ValidProtoSubTypeQual-InquiryView-parentBean"/>
     <bean id="ValidProtoSubTypeQual-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Valid Proto Sub Type Qual Id" />
         <property name="inquirySections" >
@@ -137,13 +154,29 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="validProtoSubTypeQualId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="submissionTypeCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="submissionTypeQualCode" />
+              <bean parent="FieldDefinition" p:attributeName="validProtoSubTypeQualId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="submissionTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="submissionTypeQualCode"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ValidProtoSubTypeQual-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Valid Proto Sub Type Qual Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.actions.submit.ValidProtoSubTypeQual"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Valid Protocol Submission Type Qualifier Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="validProtoSubTypeQualId" parent="Uif-DataField"/>
+              <bean p:propertyName="submissionTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="submissionTypeQualCode" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -153,33 +186,53 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="ValidProtoSubTypeQual-lookupDefinition" parent="ValidProtoSubTypeQual-lookupDefinition-parentBean" />
+  <bean id="ValidProtoSubTypeQual-LookupView" parent="ValidProtoSubTypeQual-LookupView-parentBean"/>
     <bean id="ValidProtoSubTypeQual-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Valid Protocol Submission Type Qualifier Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <!-- <bean parent="FieldDefinition"
-                    p:attributeName="validProtoSubTypeQualId" 
-                    p:forceInquiry="true" /> -->
-                <bean parent="FieldDefinition"
-                    p:attributeName="submissionTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="submissionTypeQualCode" />
+        <bean parent="FieldDefinition" p:attributeName="submissionTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="submissionTypeQualCode"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="validProtoSubTypeQualId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="submissionType.description"/>
+        <bean parent="FieldDefinition" p:attributeName="submissionTypeQualifier.description"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ValidProtoSubTypeQual-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.actions.submit.ValidProtoSubTypeQual"/>
+    <property name="headerText" value="Valid Protocol Submission Type Qualifier Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="submissionTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="submissionTypeQualCode" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="validProtoSubTypeQualId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="submissionType.description" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="submissionTypeQualifier.description" />
+        <bean p:propertyName="validProtoSubTypeQualId" parent="Uif-DataField"/>
+        <bean p:propertyName="submissionType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="submissionTypeQualifier.description" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

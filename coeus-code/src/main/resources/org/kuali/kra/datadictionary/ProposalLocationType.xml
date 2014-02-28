@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="ProposalLocationType" parent="ProposalLocationType-parentBean" />
 	<bean id="ProposalLocationType-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalLocationType" />
@@ -36,9 +32,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="3" />
 		</property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Proposal Location Type" />
 		<property name="description" value="Proposal Location Type" />
 	</bean>
@@ -50,10 +52,9 @@
 
 	<bean id="ProposalLocationType-versionNumber" parent="ProposalLocationType-versionNumber-parentBean" />
 	<bean id="ProposalLocationType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
-
 	<!-- Business Object Inquiry Definition -->
-
 	<bean id="ProposalLocationType-inquiryDefinition" parent="ProposalLocationType-inquiryDefinition-parentBean" />
+  <bean id="ProposalLocationType-InquiryView" parent="ProposalLocationType-InquiryView-parentBean"/>
 	<bean id="ProposalLocationType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Proposal Location Type" />
 		<property name="inquirySections">
@@ -72,9 +73,28 @@
 		</property>
 	</bean>
 
-	<!-- Business Object Lookup Definition -->
+  <bean id="ProposalLocationType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Proposal Location Type"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalLocationType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Proposal Location Type"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="locationTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="locationTypeDesc" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Business Object Lookup Definition -->
 	<bean id="ProposalLocationType-lookupDefinition" parent="ProposalLocationType-lookupDefinition-parentBean" />
+  <bean id="ProposalLocationType-LookupView" parent="ProposalLocationType-LookupView-parentBean"/>
 	<bean id="ProposalLocationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Proposal Location Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
@@ -82,10 +102,7 @@
 			<bean parent="SortDefinition" />
 		</property>
 		<property name="helpDefinition" >
-    	    <bean parent="HelpDefinition"
-        	    p:parameterNamespace="KC-M"
-            	p:parameterName="locationTypeMaintenanceHelp"
- 	            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="locationTypeMaintenanceHelp" p:parameterDetailType="Document"/>
    		</property>		
 		<property name="lookupFields">
 			<list>
@@ -101,4 +118,32 @@
 		</property>
 	</bean>
 	
+  <bean id="ProposalLocationType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalLocationType"/>
+    <property name="headerText" value="Proposal Location Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="locationTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="locationTypeDesc" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="locationTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="locationTypeDesc" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,11 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="PersonMassChange" parent="PersonMassChange-parentBean" />
     <bean id="PersonMassChange-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.personmasschange.bo.PersonMassChange" />
@@ -38,7 +35,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="PersonMassChange-personMassChangeId" parent="PersonMassChange-personMassChangeId-parentBean" />
     <bean id="PersonMassChange-personMassChangeId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="personMassChangeId" />
@@ -49,9 +45,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Person Mass Change Id" />
         <property name="description" value="Person Mass Change Id" />
@@ -67,9 +68,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="9" />
+      <bean parent="TextControlDefinition" p:size="9"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="9" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Employee" />
         <property name="description" value="Employee" />
@@ -85,9 +91,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="9" />
+      <bean parent="TextControlDefinition" p:size="9"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="9" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Non-Employee" />
         <property name="description" value="Non-Employee" />
@@ -101,8 +112,10 @@
         <property name="shortLabel" value="Full Name" />
         <property name="maxLength" value="125" />
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="125" />
+      <bean parent="TextControlDefinition" p:size="125"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="125" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Full Name" />
         <property name="description" value="Full Name" />
@@ -118,9 +131,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="9" />
+      <bean parent="TextControlDefinition" p:size="9"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="9" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Employee" />
         <property name="description" value="Employee" />
@@ -136,9 +154,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="9" />
+      <bean parent="TextControlDefinition" p:size="9"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="9" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Non-Employee" />
         <property name="description" value="Non-Employee" />
@@ -152,8 +175,10 @@
         <property name="shortLabel" value="Full Name" />
         <property name="maxLength" value="125" />
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="125" />
+      <bean parent="TextControlDefinition" p:size="125"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="125" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Full Name" />
         <property name="description" value="Full Name" />
@@ -169,11 +194,13 @@
         <property name="control" >
             <bean parent="CheckboxControlDefinition" />
         </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
         <property name="summary" value="Change All Sequences" />
         <property name="description" value="Change All Sequences" />
     </bean>
     
     <bean id="PersonMassChange-versionNumber" parent="PersonMassChange-versionNumber-parentBean" />
     <bean id="PersonMassChange-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
-    
 </beans>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
  
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="RateClassBaseExclusion" parent="RateClassBaseExclusion-parentBean" />
     <bean id="RateClassBaseExclusion-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.budget.rates.RateClassBaseExclusion" />
@@ -42,7 +38,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="RateClassBaseExclusion-rateClassBaseExclusionId" parent="RateClassBaseExclusion-rateClassBaseExclusionId-parentBean" />
     <bean id="RateClassBaseExclusion-rateClassBaseExclusionId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="rateClassBaseExclusionId" />
@@ -53,9 +48,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Rate Class Base Exclusion Id" />
         <property name="description" value="Rate Class Base Exclusion Id" />
@@ -71,14 +71,23 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-      		<bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.budget.rates.RateClass"
-	            p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:includeBlankRow="false"
-	            p:keyAttribute="rateClassCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.budget.rates.RateClass" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="rateClassCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.budget.rates.RateClass"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="rateClassCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
         <property name="summary" value="Rate Class" />
         <property name="description" value="Rate Class" />
@@ -94,14 +103,23 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-      		<bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.budget.rates.RateType"
-	            p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:includeBlankRow="false"
-	            p:keyAttribute="rateTypeCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.budget.rates.RateType" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="rateTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.budget.rates.RateType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="rateTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
         <property name="summary" value="Rate Type" />
         <property name="description" value="Rate Type" />
@@ -117,14 +135,23 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-      		<bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.budget.rates.RateClass"
-	            p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:includeBlankRow="false"
-	            p:keyAttribute="rateClassCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.budget.rates.RateClass" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="rateClassCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.budget.rates.RateClass"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="rateClassCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
         <property name="summary" value="Rate Class Exclusion" />
         <property name="description" value="Rate Class Exclusion" />
@@ -140,25 +167,33 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-      		<bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.budget.rates.RateType"
-	            p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:includeBlankRow="false"
-	            p:keyAttribute="rateTypeCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.budget.rates.RateType" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="rateTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.budget.rates.RateType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="rateTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
         <property name="summary" value="Rate Type Exclusion" />
         <property name="description" value="Rate Type Exclusion" />
     </bean>
 
     <bean id="RateClassBaseExclusion-versionNumber" parent="RateClassBaseExclusion-versionNumber-parentBean" />
-    <bean id="RateClassBaseExclusion-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="RateClassBaseExclusion-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="RateClassBaseExclusion-inquiryDefinition" parent="RateClassBaseExclusion-inquiryDefinition-parentBean" />
+  <bean id="RateClassBaseExclusion-InquiryView" parent="RateClassBaseExclusion-InquiryView-parentBean"/>
     <bean id="RateClassBaseExclusion-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="inquirySections" >
             <list>
@@ -166,16 +201,31 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="rateClassBaseExclusionId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="rateClassCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="rateTypeCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="rateClassCodeExcl" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="rateTypeCodeExcl" />
+              <bean parent="FieldDefinition" p:attributeName="rateClassBaseExclusionId"/>
+              <bean parent="FieldDefinition" p:attributeName="rateClassCode"/>
+              <bean parent="FieldDefinition" p:attributeName="rateTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="rateClassCodeExcl"/>
+              <bean parent="FieldDefinition" p:attributeName="rateTypeCodeExcl"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="RateClassBaseExclusion-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.rates.RateClassBaseExclusion"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="rateClassBaseExclusionId" parent="Uif-DataField"/>
+              <bean p:propertyName="rateClassCode" parent="Uif-DataField"/>
+              <bean p:propertyName="rateTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="rateClassCodeExcl" parent="Uif-DataField"/>
+              <bean p:propertyName="rateTypeCodeExcl" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -185,40 +235,65 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="RateClassBaseExclusion-lookupDefinition" parent="RateClassBaseExclusion-lookupDefinition-parentBean" />
+  <bean id="RateClassBaseExclusion-LookupView" parent="RateClassBaseExclusion-LookupView-parentBean"/>
     <bean id="RateClassBaseExclusion-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Rate Class Base Exclusion Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="rateClassBaseExclusionId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="rateClassCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="rateTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="rateClassCodeExcl" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="rateTypeCodeExcl" />
+        <bean parent="FieldDefinition" p:attributeName="rateClassBaseExclusionId"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassCode"/>
+        <bean parent="FieldDefinition" p:attributeName="rateTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassCodeExcl"/>
+        <bean parent="FieldDefinition" p:attributeName="rateTypeCodeExcl"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="rateClassBaseExclusionId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="rateClassCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="rateTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="rateClassCodeExcl" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="rateTypeCodeExcl" />
+        <bean parent="FieldDefinition" p:attributeName="rateClassBaseExclusionId"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassCode"/>
+        <bean parent="FieldDefinition" p:attributeName="rateTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassCodeExcl"/>
+        <bean parent="FieldDefinition" p:attributeName="rateTypeCodeExcl"/>
             </list>
         </property>
     </bean>
+
+  <bean id="RateClassBaseExclusion-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.rates.RateClassBaseExclusion"/>
+    <property name="headerText" value="Rate Class Base Exclusion Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="rateClassBaseExclusionId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateClassCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateClassCodeExcl" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateTypeCodeExcl" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="rateClassBaseExclusionId" parent="Uif-DataField"/>
+        <bean p:propertyName="rateClassCode" parent="Uif-DataField"/>
+        <bean p:propertyName="rateTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="rateClassCodeExcl" parent="Uif-DataField"/>
+        <bean p:propertyName="rateTypeCodeExcl" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

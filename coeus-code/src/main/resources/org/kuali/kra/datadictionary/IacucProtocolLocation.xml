@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="IacucProtocolLocation" parent="IacucProtocolLocation-parentBean" />
 	<bean id="IacucProtocolLocation-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation" />
@@ -47,7 +43,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
 	<bean id="IacucProtocolLocation-protocolLocationId" parent="IacucProtocolLocation-protocolLocationId-parentBean" />
 	<bean id="IacucProtocolLocation-protocolLocationId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolLocationId" />
@@ -58,9 +53,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Location Id" />
 		<property name="description" value="Protocol Location Id" />
@@ -76,9 +76,14 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Number" />
 		<property name="description" value="Protocol Number" />
@@ -94,9 +99,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Sequence Number" />
 		<property name="description" value="Sequence Number" />
@@ -112,15 +122,24 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="required" value="true" />
     	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.iacuc.protocol.location.IacucProtocolOrganizationType"
-            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false"
-            	p:includeBlankRow="false"
-            	p:keyAttribute="protocolOrganizationTypeCode"
-            	p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.iacuc.protocol.location.IacucProtocolOrganizationType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="protocolOrganizationTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.protocol.location.IacucProtocolOrganizationType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="protocolOrganizationTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
 		<property name="summary" value="Protocol Organization Type Code" />
 		<property name="description" value="Protocol Organization Type Code" />
@@ -136,10 +155,15 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="required" value="true" />
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Organization Id" />
 		<property name="description" value="Organization Id" />
@@ -155,20 +179,24 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Contact - Rolodex Id" />
 		<property name="description" value="Contact - Rolodex Id" />
 	</bean>
 
 	<bean id="IacucProtocolLocation-versionNumber" parent="IacucProtocolLocation-versionNumber-parentBean" />
-	<bean id="IacucProtocolLocation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+  <bean id="IacucProtocolLocation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 	<!-- Business Object Inquiry Definition -->
 	<bean id="IacucProtocolLocation-inquiryDefinition" parent="IacucProtocolLocation-inquiryDefinition-parentBean" />
+  <bean id="IacucProtocolLocation-InquiryView" parent="IacucProtocolLocation-InquiryView-parentBean"/>
 	<bean id="IacucProtocolLocation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Protocol Location Id" />
 		<property name="inquirySections" >
@@ -178,19 +206,35 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="protocolLocationId" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="protocolNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="sequenceNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="protocolOrganizationTypeCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="organizationId" />
-							<bean parent="FieldDefinition"
-								p:attributeName="rolodexId" />
+              <bean parent="FieldDefinition" p:attributeName="protocolLocationId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolOrganizationTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationId"/>
+              <bean parent="FieldDefinition" p:attributeName="rolodexId"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IacucProtocolLocation-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Protocol Location Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Protocol Location Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="protocolLocationId" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolOrganizationTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="organizationId" parent="Uif-DataField"/>
+              <bean p:propertyName="rolodexId" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -200,46 +244,67 @@
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="IacucProtocolLocation-lookupDefinition" parent="IacucProtocolLocation-lookupDefinition-parentBean" />
+  <bean id="IacucProtocolLocation-LookupView" parent="IacucProtocolLocation-LookupView-parentBean"/>
 	<bean id="IacucProtocolLocation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Location Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolLocationId" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolOrganizationTypeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="organizationId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="rolodexId" />
+        <bean parent="FieldDefinition" p:attributeName="protocolLocationId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolOrganizationTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationId"/>
+        <bean parent="FieldDefinition" p:attributeName="rolodexId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="protocolLocationId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolOrganizationTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationId"/>
+        <bean parent="FieldDefinition" p:attributeName="rolodexId"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IacucProtocolLocation-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation"/>
+    <property name="headerText" value="Protocol Location Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="protocolLocationId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolOrganizationTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="organizationId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rolodexId" parent="Uif-LookupCriteriaInputField"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolLocationId" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolOrganizationTypeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="organizationId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="rolodexId" />
+        <bean p:propertyName="protocolLocationId" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolOrganizationTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="organizationId" parent="Uif-DataField"/>
+        <bean p:propertyName="rolodexId" parent="Uif-DataField"/>
 			</list>
 		</property>
 	</bean>

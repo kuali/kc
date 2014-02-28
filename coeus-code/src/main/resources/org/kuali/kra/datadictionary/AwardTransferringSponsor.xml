@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="AwardTransferringSponsor" parent="AwardTransferringSponsor-parentBean" />
 	<bean id="AwardTransferringSponsor-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTransferringSponsor" />
@@ -34,7 +30,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
 	<bean id="AwardTransferringSponsor-awardTransferringSponsorId" parent="AwardTransferringSponsor-awardTransferringSponsorId-parentBean" />
 	<bean id="AwardTransferringSponsor-awardTransferringSponsorId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="awardTransferringSponsorId" />
@@ -45,9 +40,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Award Transferring Sponsor Id" />
 		<property name="description" value="Award Transferring Sponsor Id" />
@@ -63,16 +63,19 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Sponsor Code" />
 		<property name="description" value="Sponsor Code" />
 	</bean>
 
 	<bean id="AwardTransferringSponsor-versionNumber" parent="AwardTransferringSponsor-versionNumber-parentBean" />
-	<bean id="AwardTransferringSponsor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+  <bean id="AwardTransferringSponsor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 </beans>

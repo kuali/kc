@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
@@ -15,12 +16,7 @@
  * limitations under the License.
  */
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans                            http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="ValidSpecialReviewApproval" parent="ValidSpecialReviewApproval-parentBean" />
     <bean id="ValidSpecialReviewApproval-parentBean" abstract="true" parent="BusinessObjectEntry">
 	    <property name="businessObjectClass" value="org.kuali.kra.bo.ValidSpecialReviewApproval" />
@@ -48,7 +44,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="ValidSpecialReviewApproval-validSpecialReviewApprovalId" parent="ValidSpecialReviewApproval-validSpecialReviewApprovalId-parentBean" />
     <bean id="ValidSpecialReviewApproval-validSpecialReviewApprovalId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="validSpecialReviewApprovalId" />
@@ -59,9 +54,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                  p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Valid Special Review Approval Id" />
         <property name="description" value="Valid Special Review Approval Id" />
@@ -69,10 +69,8 @@
 
     <bean id="ValidSpecialReviewApproval-specialReviewTypeCode" parent="ValidSpecialReviewApproval-specialReviewTypeCode-parentBean" />
     <bean id="ValidSpecialReviewApproval-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReviewType-specialReviewTypeCode"/>
-    
     <bean id="ValidSpecialReviewApproval-approvalTypeCode" parent="ValidSpecialReviewApproval-approvalTypeCode-parentBean" />
     <bean id="ValidSpecialReviewApproval-approvalTypeCode-parentBean" abstract="true" parent="SpecialReviewApprovalType-approvalTypeCode" />
-    
     <bean id="ValidSpecialReviewApproval-applicationDateFlag" parent="ValidSpecialReviewApproval-applicationDateFlag-parentBean" />
     <bean id="ValidSpecialReviewApproval-applicationDateFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="applicationDateFlag" />
@@ -111,10 +109,9 @@
 
     <bean id="ValidSpecialReviewApproval-versionNumber" parent="ValidSpecialReviewApproval-versionNumber-parentBean" />
     <bean id="ValidSpecialReviewApproval-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
-
     <!-- Business Object Inquiry Definition -->
-
     <bean id="ValidSpecialReviewApproval-inquiryDefinition" parent="ValidSpecialReviewApproval-inquiryDefinition-parentBean" />
+  <bean id="ValidSpecialReviewApproval-InquiryView" parent="ValidSpecialReviewApproval-InquiryView-parentBean"/>
     <bean id="ValidSpecialReviewApproval-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 	    <property name="title" value="Valid Special Review Approval" />
 	    <property name="inquirySections" >
@@ -124,21 +121,13 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-						    <bean parent="FieldDefinition"
-                                  p:attributeName="validSpecialReviewApprovalId" 
-                                  p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-							      p:attributeName="specialReviewTypeCode" />
-							<bean parent="FieldDefinition"
-							      p:attributeName="approvalTypeCode" />
-							<bean parent="FieldDefinition"
-							      p:attributeName="applicationDateFlag" />
-							<bean parent="FieldDefinition"
-							      p:attributeName="approvalDateFlag" />
-							<bean parent="FieldDefinition"
-							      p:attributeName="protocolNumberFlag" />
-							<bean parent="FieldDefinition"
-							      p:attributeName="exemptNumberFlag" />
+              <bean parent="FieldDefinition" p:attributeName="validSpecialReviewApprovalId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="approvalTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="applicationDateFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="approvalDateFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolNumberFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="exemptNumberFlag"/>
 						</list>
 					</property>
 				</bean>
@@ -146,9 +135,33 @@
 	    </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <bean id="ValidSpecialReviewApproval-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Valid Special Review Approval"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.ValidSpecialReviewApproval"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Valid Special Review Approval"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="validSpecialReviewApprovalId" parent="Uif-DataField"/>
+              <bean p:propertyName="specialReviewTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="approvalTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="applicationDateFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="approvalDateFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolNumberFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="exemptNumberFlag" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Business Object Lookup Definition -->
     <bean id="ValidSpecialReviewApproval-lookupDefinition" parent="ValidSpecialReviewApproval-lookupDefinition-parentBean" />
+  <bean id="ValidSpecialReviewApproval-LookupView" parent="ValidSpecialReviewApproval-LookupView-parentBean"/>
     <bean id="ValidSpecialReviewApproval-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 	    <property name="title" value="Valid Special Review Approval Lookup" />
 	    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
@@ -157,41 +170,62 @@
 	    </property>
 	    <property name="lookupFields" >
 			<list>
-                <bean parent="FieldDefinition"
-                      p:attributeName="validSpecialReviewApprovalId" 
-                      p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-				      p:attributeName="specialReviewTypeCode" />
-				<bean parent="FieldDefinition"
-				      p:attributeName="approvalTypeCode" />
-				<bean parent="FieldDefinition"
-				      p:attributeName="applicationDateFlag" />
-				<bean parent="FieldDefinition"
-				      p:attributeName="approvalDateFlag" />
-				<bean parent="FieldDefinition"
-				      p:attributeName="protocolNumberFlag" />
-				<bean parent="FieldDefinition"
-				      p:attributeName="exemptNumberFlag" />
+        <bean parent="FieldDefinition" p:attributeName="validSpecialReviewApprovalId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="approvalTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="applicationDateFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="approvalDateFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolNumberFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="exemptNumberFlag"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="validSpecialReviewApprovalId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="approvalTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="applicationDateFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="approvalDateFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolNumberFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="exemptNumberFlag"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ValidSpecialReviewApproval-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.ValidSpecialReviewApproval"/>
+    <property name="headerText" value="Valid Special Review Approval Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="validSpecialReviewApprovalId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="specialReviewTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="approvalTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="applicationDateFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="approvalDateFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolNumberFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="exemptNumberFlag" parent="Uif-LookupCriteriaInputField"/>
 			</list>
 	    </property>
 	    <property name="resultFields" >
 			<list>
-			    <bean parent="FieldDefinition"
-                      p:attributeName="validSpecialReviewApprovalId" 
-                      p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-				      p:attributeName="specialReviewTypeCode"
-				      p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-				      p:attributeName="approvalTypeCode" />
-				<bean parent="FieldDefinition"
-				      p:attributeName="applicationDateFlag" />
-				<bean parent="FieldDefinition"
-				      p:attributeName="approvalDateFlag" />
-				<bean parent="FieldDefinition"
-				      p:attributeName="protocolNumberFlag" />
-				<bean parent="FieldDefinition"
-				      p:attributeName="exemptNumberFlag" />
+        <bean p:propertyName="validSpecialReviewApprovalId" parent="Uif-DataField"/>
+        <bean p:propertyName="specialReviewTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="approvalTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="applicationDateFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="approvalDateFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolNumberFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="exemptNumberFlag" parent="Uif-DataField"/>
 			</list>
 	    </property>
     </bean>

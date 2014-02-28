@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalSite" parent="ProposalSite-parentBean" />
-
   <bean id="ProposalSite-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalSite" />
 		<property name="objectLabel" value="Proposal Site" />
@@ -17,10 +12,7 @@
     </property>
     <property name="titleAttribute" value="location" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-PD"
-            p:parameterName="proposalDevelopmentLocationHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentLocationHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -47,10 +39,15 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Proposal Number" />
     <property name="description" value="This is the foreign key into the Proposal" />
@@ -66,8 +63,14 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="Site Number" />
     <property name="description" value="The site number within the proposal" />
@@ -81,13 +84,19 @@
     <property name="shortLabel" value="Location" />
     <property name="maxLength" value="60" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="60" />
+      <bean parent="TextControlDefinition" p:size="60"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="60" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Location Name" />
     <property name="description" value="The name to display for the Proposal Site; may differ from the name in the rolodex" />
@@ -103,8 +112,14 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="Location Type Code" />
     <property name="description" value="The type of location (applicant org., performing org., etc.)" />
@@ -120,8 +135,14 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="Organization ID" />
     <property name="description" value="This is the foreign key into the Organization" />
@@ -137,19 +158,23 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="Rolodex Id" />
     <property name="description" value="Rolodex Id" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="ProposalSite-inquiryDefinition" parent="ProposalSite-inquiryDefinition-parentBean" />
-
+  <bean id="ProposalSite-InquiryView" parent="ProposalSite-InquiryView-parentBean"/>
   <bean id="ProposalSite-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Prop Location" />
     <property name="inquirySections" >
@@ -159,17 +184,10 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="siteNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="locationName"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="rolodexId" />
+              <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="siteNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="locationName" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="rolodexId"/>
             </list>
           </property>
         </bean>
@@ -177,44 +195,82 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="ProposalSite-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Prop Location"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalSite"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Proposal Site"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="siteNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="locationName" parent="Uif-DataField"/>
+              <bean p:propertyName="rolodexId" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="ProposalSite-lookupDefinition" parent="ProposalSite-lookupDefinition-parentBean" />
-
+  <bean id="ProposalSite-LookupView" parent="ProposalSite-LookupView-parentBean"/>
   <bean id="ProposalSite-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Prop Location Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-	      <bean parent="FieldDefinition"
-	            p:attributeName="proposalNumber" />
-	      <bean parent="FieldDefinition"
-	            p:attributeName="siteNumber" />
-	      <bean parent="FieldDefinition"
-	            p:attributeName="locationName" />
-	      <bean parent="FieldDefinition"
-	            p:attributeName="rolodexId" />
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="siteNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="locationName"/>
+        <bean parent="FieldDefinition" p:attributeName="rolodexId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="siteNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="locationName" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="rolodexId"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProposalSite-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalSite"/>
+    <property name="headerText" value="Prop Location Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="siteNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="locationName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rolodexId" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-          <bean parent="FieldDefinition"
-                p:attributeName="proposalNumber"
-                p:forceInquiry="true" />
-          <bean parent="FieldDefinition"
-                p:attributeName="siteNumber"
-                p:forceInquiry="true" />
-          <bean parent="FieldDefinition"
-                p:attributeName="locationName"
-                p:forceInquiry="true" />
-          <bean parent="FieldDefinition"
-                p:attributeName="rolodexId" />
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="siteNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="locationName" parent="Uif-DataField"/>
+        <bean p:propertyName="rolodexId" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>
