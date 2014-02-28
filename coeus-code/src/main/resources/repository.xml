@@ -1697,6 +1697,6 @@
 		<reference-descriptor name="custReportType" class-ref="org.kuali.kra.reporting.bo.CustReportType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="reportTypeCode"/> 
 		</reference-descriptor>
-	</class-descriptor>	  
+	</class-descriptor>
 	
 </descriptor-repository>

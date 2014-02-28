@@ -21,7 +21,6 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.committee.bo.Committee;
@@ -36,7 +35,8 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 /**
  * Test the Committee Action Authorizer.
  */
@@ -60,7 +60,6 @@ public class CommitteeActionAuthorizerTest extends KcIntegrationTestBase {
     }
     
     @Test
-    @Ignore // KCINFR-983
     public void testPerformActionsPermission() throws WorkflowException {
         CommitteeActionAuthorizer authorizer = new CommitteeActionAuthorizer();
         

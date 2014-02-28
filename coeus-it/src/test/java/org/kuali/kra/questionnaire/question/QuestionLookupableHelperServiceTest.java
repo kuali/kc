@@ -19,7 +19,10 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -38,7 +41,7 @@ import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-@Ignore("6.0 failure - deadlock")
+
 public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
     
     private static final String SEQUENCE_STATUS_CURRENT = "C";
