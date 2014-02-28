@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
  * 
@@ -14,8 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
---><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="Frequency" parent="Frequency-parentBean"/>
 	<bean abstract="true" id="Frequency-parentBean" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.Frequency"/>
@@ -43,7 +44,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
 	<bean id="Frequency-frequencyCode" parent="Frequency-frequencyCode-parentBean"/>
 	<bean abstract="true" id="Frequency-frequencyCode-parentBean" parent="AttributeDefinition">
 		<property name="name" value="frequencyCode"/>
@@ -54,9 +54,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Frequency Code"/>
 		<property name="description" value="Frequency Code"/>
 	</bean>
@@ -68,10 +74,20 @@
 		<property name="label" value="Description"/>
 		<property name="shortLabel" value="Description"/>
 		<property name="maxLength" value="200"/>
-		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Description"/>
 		<property name="description" value="Description"/>
 	</bean>
@@ -86,9 +102,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Number Of Days"/>
 		<property name="description" value="Number Of Days"/>
 	</bean>
@@ -103,9 +125,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Number Of Months"/>
 		<property name="description" value="Number Of Months"/>
 	</bean>
@@ -129,9 +157,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Advance Number Of Days"/>
 		<property name="description" value="Advance Number Of Days"/>
 	</bean>
@@ -146,9 +180,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Advance Number Of Months"/>
 		<property name="description" value="Advance Number Of Months"/>
 	</bean>
@@ -165,11 +205,10 @@
 	</bean>	
 
 	<bean id="Frequency-versionNumber" parent="Frequency-versionNumber-parentBean"/>
-	<bean abstract="true" id="Frequency-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+  <bean abstract="true" id="Frequency-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
 	<!-- Business Object Inquiry Definition -->
 	<bean id="Frequency-inquiryDefinition" parent="Frequency-inquiryDefinition-parentBean"/>
+  <bean id="Frequency-InquiryView" parent="Frequency-InquiryView-parentBean"/>
 	<bean abstract="true" id="Frequency-inquiryDefinition-parentBean" parent="InquiryDefinition">
 		<property name="title" value="Frequency Code"/>
 		<property name="inquirySections">
@@ -187,7 +226,31 @@
 							<bean p:attributeName="advanceNumberOfDays" parent="FieldDefinition"/>
 							<bean p:attributeName="advanceNumberOfMonths" parent="FieldDefinition"/>
 							<bean p:attributeName="active" parent="FieldDefinition"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 							
+  <bean id="Frequency-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Frequency Code"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.award.paymentreports.Frequency"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Frequency Code"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="frequencyCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="numberOfDays" parent="Uif-DataField"/>
+              <bean p:propertyName="numberOfMonths" parent="Uif-DataField"/>
+              <bean p:propertyName="repeatFlag" parent="Uif-DataField"/>
+              <bean p:propertyName="advanceNumberOfDays" parent="Uif-DataField"/>
+              <bean p:propertyName="advanceNumberOfMonths" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -197,19 +260,15 @@
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="Frequency-lookupDefinition" parent="Frequency-lookupDefinition-parentBean"/>
+  <bean id="Frequency-LookupView" parent="Frequency-LookupView-parentBean"/>
 	<bean abstract="true" id="Frequency-lookupDefinition-parentBean" parent="LookupDefinition">
 		<property name="title" value="Frequency Lookup"/>
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
 		<property name="defaultSort">
-			<bean parent="SortDefinition">
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="helpDefinition" >
-    	    <bean parent="HelpDefinition"
-        	    p:parameterNamespace="KC-M"
-            	p:parameterName="frequencyMaintenanceHelp"
-       	   		p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="frequencyMaintenanceHelp" p:parameterDetailType="Document"/>
     	</property>  				
 		<property name="lookupFields">
 			<list>
@@ -236,4 +295,45 @@
 			</list>
 		</property>
 	</bean>
+
+  <bean id="Frequency-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.award.paymentreports.Frequency"/>
+    <property name="headerText" value="Frequency Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="frequencyCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="numberOfDays" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="numberOfMonths" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="repeatFlag" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="advanceNumberOfDays" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="advanceNumberOfMonths" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="frequencyCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="numberOfDays" parent="Uif-DataField"/>
+        <bean p:propertyName="numberOfMonths" parent="Uif-DataField"/>
+        <bean p:propertyName="repeatFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="advanceNumberOfDays" parent="Uif-DataField"/>
+        <bean p:propertyName="advanceNumberOfMonths" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

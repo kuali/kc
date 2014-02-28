@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="CustomAttributeDocument" parent="CustomAttributeDocument-parentBean"/>
-
   <bean abstract="true" id="CustomAttributeDocument-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.CustomAttributeDocument"/>
 		<property name="objectLabel" value="Custom Attribute Document"/>
@@ -48,8 +47,8 @@
     <property name="summary" value="Custom Attribute ID"/>
     <property name="description" value="Custom Attribute ID"/>
   </bean>
-  <bean id="CustomAttributeDocument-documentTypeName" parent="CustomAttributeDocument-documentTypeName-parentBean"/>
 
+  <bean id="CustomAttributeDocument-documentTypeName" parent="CustomAttributeDocument-documentTypeName-parentBean"/>
   <bean abstract="true" id="CustomAttributeDocument-documentTypeName-parentBean" parent="AttributeDefinition">
     <property name="name" value="documentTypeName"/>
     <property name="forceUppercase" value="false"/>
@@ -59,15 +58,23 @@
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control">
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.bo.CustomAttributeValuesFinder" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.bo.CustomAttributeValuesFinder"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.bo.CustomAttributeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Document Type Code"/>
     <property name="description" value="Document Type Code"/>
   </bean>
-  <bean id="CustomAttributeDocument-required" parent="CustomAttributeDocument-required-parentBean"/>
 
+  <bean id="CustomAttributeDocument-required" parent="CustomAttributeDocument-required-parentBean"/>
   <bean abstract="true" id="CustomAttributeDocument-required-parentBean" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="required"/>
     <property name="label" value="Required"/>
@@ -75,8 +82,8 @@
     <property name="summary" value="Required"/>
     <property name="description" value="Required"/>
   </bean>
-  <bean id="CustomAttributeDocument-typeName" parent="CustomAttributeDocument-typeName-parentBean"/>
 
+  <bean id="CustomAttributeDocument-typeName" parent="CustomAttributeDocument-typeName-parentBean"/>
   <bean abstract="true" id="CustomAttributeDocument-typeName-parentBean" parent="AttributeDefinition">
     <property name="name" value="typeName"/>
     <property name="forceUppercase" value="false"/>
@@ -86,14 +93,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="100" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="100" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Type Name"/>
     <property name="description" value="Type Name"/>
   </bean>
-  <bean id="CustomAttributeDocument-active" parent="CustomAttributeDocument-active-parentBean"/>
 
+  <bean id="CustomAttributeDocument-active" parent="CustomAttributeDocument-active-parentBean"/>
   <bean abstract="true" id="CustomAttributeDocument-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="active"/>
     <property name="label" value="Active"/>
@@ -101,16 +116,12 @@
     <property name="summary" value="Active"/>
     <property name="description" value="Active"/>
   </bean>
+
   <bean id="CustomAttributeDocument-versionNumber" parent="CustomAttributeDocument-versionNumber-parentBean"/>
-
-  <bean abstract="true" id="CustomAttributeDocument-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean abstract="true" id="CustomAttributeDocument-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="CustomAttributeDocument-inquiryDefinition" parent="CustomAttributeDocument-inquiryDefinition-parentBean"/>
-
+  <bean id="CustomAttributeDocument-InquiryView" parent="CustomAttributeDocument-InquiryView-parentBean"/>
   <bean abstract="true" id="CustomAttributeDocument-inquiryDefinition-parentBean" parent="InquiryDefinition">
     <property name="title" value="Custom Attribute Document"/>
     <property name="inquirySections">
@@ -132,19 +143,37 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="CustomAttributeDocument-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Custom Attribute Document"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.CustomAttributeDocument"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Custom Attribute Document"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="customAttributeId" parent="Uif-DataField"/>
+              <bean p:propertyName="documentTypeName" parent="Uif-DataField"/>
+              <bean p:propertyName="required" parent="Uif-DataField"/>
+              <bean p:propertyName="typeName" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="CustomAttributeDocument-lookupDefinition" parent="CustomAttributeDocument-lookupDefinition-parentBean"/>
-
+  <bean id="CustomAttributeDocument-LookupView" parent="CustomAttributeDocument-LookupView-parentBean"/>
   <bean abstract="true" id="CustomAttributeDocument-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Custom Attribute Document Lookup"/>
     <property name="lookupableID" value="customAttributeDocumentLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
     <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields">
       <list>
@@ -165,4 +194,39 @@
       </list>
     </property>
   </bean>
+
+  <bean id="CustomAttributeDocument-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.CustomAttributeDocument"/>
+    <property name="headerText" value="Custom Attribute Document Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="customAttributeId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="documentTypeName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="required" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="typeName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="customAttributeId" parent="Uif-DataField"/>
+        <bean p:propertyName="documentTypeName" parent="Uif-DataField"/>
+        <bean p:propertyName="required" parent="Uif-DataField"/>
+        <bean p:propertyName="typeName" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

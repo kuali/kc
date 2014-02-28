@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalPersonYnq" parent="ProposalPersonYnq-parentBean" />
-
   <bean id="ProposalPersonYnq-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq" />
 		<property name="objectLabel" value="Proposal Person Ynq" />
@@ -37,14 +32,16 @@
     <property name="shortLabel" value="Person Id" />
     <property name="maxLength" value="40" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+      <bean parent="TextControlDefinition" p:size="9"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="9" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Person Id" />
     <property name="description" value="Person Id" />
   </bean>
-  <bean id="ProposalPersonYnq-proposalNumber" parent="ProposalPersonYnq-proposalNumber-parentBean" />
 
+  <bean id="ProposalPersonYnq-proposalNumber" parent="ProposalPersonYnq-proposalNumber-parentBean"/>
   <bean id="ProposalPersonYnq-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="proposalNumber" />
     <property name="forceUppercase" value="false" />
@@ -52,14 +49,16 @@
     <property name="shortLabel" value="Proposal Number" />
     <property name="maxLength" value="8" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Proposal Number" />
     <property name="description" value="Proposal Number" />
   </bean>
-  <bean id="ProposalPersonYnq-questionId" parent="ProposalPersonYnq-questionId-parentBean" />
 
+  <bean id="ProposalPersonYnq-questionId" parent="ProposalPersonYnq-questionId-parentBean"/>
   <bean id="ProposalPersonYnq-questionId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="questionId" />
     <property name="forceUppercase" value="false" />
@@ -67,14 +66,16 @@
     <property name="shortLabel" value="Question Id" />
     <property name="maxLength" value="4" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Question Id" />
     <property name="description" value="Question Id" />
   </bean>
-  <bean id="ProposalPersonYnq-answer" parent="ProposalPersonYnq-answer-parentBean" />
 
+  <bean id="ProposalPersonYnq-answer" parent="ProposalPersonYnq-answer-parentBean"/>
   <bean id="ProposalPersonYnq-answer-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="answer" />
     <property name="forceUppercase" value="false" />
@@ -82,15 +83,19 @@
     <property name="shortLabel" value="Answer" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-VerticalRadioControl"/>
     </property>
     <property name="summary" value="Answer" />
     <property name="description" value="Answer" />
   </bean>
-  <bean id="ProposalPersonYnq-dummyAnswer" parent="ProposalPersonYnq-dummyAnswer-parentBean" />
 
+  <bean id="ProposalPersonYnq-dummyAnswer" parent="ProposalPersonYnq-dummyAnswer-parentBean"/>
   <bean id="ProposalPersonYnq-dummyAnswer-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dummyAnswer" />
     <property name="forceUppercase" value="false" />
@@ -98,9 +103,13 @@
     <property name="shortLabel" value="Answer" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqDummyAnswersValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqDummyAnswersValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.YnqDummyAnswersValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-VerticalRadioControl"/>
     </property>
     <property name="summary" value="Answer" />
     <property name="description" value="Answer" />
@@ -108,45 +117,61 @@
   
   <bean id="ProposalPersonYnq-sortId" parent="ProposalPersonYnq-sortId-parentBean" />
   <bean id="ProposalPersonYnq-sortId-parentBean" abstract="true" parent="KraAttributeReferenceDummy-sortId" />
-
 <!-- Business Object Lookup Definition -->
-
-
   <bean id="ProposalPersonYnq-lookupDefinition" parent="ProposalPersonYnq-lookupDefinition-parentBean" />
-
+  <bean id="ProposalPersonYnq-LookupView" parent="ProposalPersonYnq-LookupView-parentBean"/>
   <bean id="ProposalPersonYnq-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Prop Pers Ynq Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalPersonNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="questionId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="answer" />
+        <bean parent="FieldDefinition" p:attributeName="proposalPersonNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="questionId"/>
+        <bean parent="FieldDefinition" p:attributeName="answer"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="proposalPersonNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="questionId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="answer"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProposalPersonYnq-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq"/>
+    <property name="headerText" value="Prop Pers Ynq Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalPersonNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="questionId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="answer" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalPersonNumber"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="questionId"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="answer" />
+        <bean p:propertyName="proposalPersonNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="questionId" parent="Uif-DataField"/>
+        <bean p:propertyName="answer" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

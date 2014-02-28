@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="CoiDisclosureNotepad" parent="CoiDisclosureNotepad-parentBean" />
     <bean id="CoiDisclosureNotepad-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad" />
@@ -64,9 +60,17 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiNoteTypeValuesFinder" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiNoteTypeValuesFinder"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.coi.lookup.keyvalue.CoiNoteTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Note Type" />
         <property name="description" value="Note Type" />
@@ -82,9 +86,17 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureFinancialEntitiesValuesFinder" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureFinancialEntitiesValuesFinder"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureFinancialEntitiesValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
 		<property name="summary" value="Financial Entity" />
 		<property name="description" value="Financial Entity" />
@@ -100,9 +112,14 @@
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Project" />
 		<property name="description" value="Project" />
@@ -118,19 +135,21 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="CoiDisclosure Notepad Id" />
         <property name="description" value="CoiDisclosure Notepad Id" />
     </bean>
 
     <bean id="CoiDisclosureNotepad-coiDisclosureNumber" parent="CoiDisclosureNotepad-coiDisclosureNumber-parentBean" />
-
-  <bean id="CoiDisclosureNotepad-coiDisclosureNumber-parentBean" abstract="true" parent="CoiDisclosure-coiDisclosureNumber">
-  </bean>
-
+  <bean id="CoiDisclosureNotepad-coiDisclosureNumber-parentBean" abstract="true" parent="CoiDisclosure-coiDisclosureNumber"/>
     <bean id="CoiDisclosureNotepad-entryNumber" parent="CoiDisclosureNotepad-entryNumber-parentBean" />
     <bean id="CoiDisclosureNotepad-entryNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="entryNumber" />
@@ -141,9 +160,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Entry Number" />
         <property name="description" value="Entry Number" />
@@ -158,12 +182,18 @@
         <property name="maxLength" value="60" />
         <property name="required" value="true" />
         <property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     	</property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="25" />
+      <bean parent="TextControlDefinition" p:size="25"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="25" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
@@ -182,10 +212,16 @@
             	<property name="allowWhitespace" value="true" />
             </bean>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="3"
-                p:cols="70" />
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="70"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="70" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
@@ -229,11 +265,10 @@
 	</bean>
 
     <bean id="CoiDisclosureNotepad-versionNumber" parent="CoiDisclosureNotepad-versionNumber-parentBean" />
-    <bean id="CoiDisclosureNotepad-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="CoiDisclosureNotepad-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="CoiDisclosureNotepad-inquiryDefinition" parent="CoiDisclosureNotepad-inquiryDefinition-parentBean" />
+  <bean id="CoiDisclosureNotepad-InquiryView" parent="CoiDisclosureNotepad-InquiryView-parentBean"/>
     <bean id="CoiDisclosureNotepad-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="CoiDisclosure Notepad Id" />
         <property name="inquirySections" >
@@ -243,17 +278,33 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="id"
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="coiDisclosureNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="entryNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="comments" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="restrictedView" />
+              <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="entryNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="comments"/>
+              <bean parent="FieldDefinition" p:attributeName="restrictedView"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CoiDisclosureNotepad-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="CoiDisclosure Notepad Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="CoiDisclosure Notepad Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
+              <bean p:propertyName="coiDisclosureNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="entryNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
+              <bean p:propertyName="restrictedView" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -263,42 +314,63 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="CoiDisclosureNotepad-lookupDefinition" parent="CoiDisclosureNotepad-lookupDefinition-parentBean" />
+  <bean id="CoiDisclosureNotepad-LookupView" parent="CoiDisclosureNotepad-LookupView-parentBean"/>
     <bean id="CoiDisclosureNotepad-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="CoiDisclosure Notepad Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="id" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiDisclosureNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="entryNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="restrictedView" />
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="entryNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+        <bean parent="FieldDefinition" p:attributeName="restrictedView"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="entryNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+        <bean parent="FieldDefinition" p:attributeName="restrictedView"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CoiDisclosureNotepad-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad"/>
+    <property name="headerText" value="CoiDisclosure Notepad Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="coiDisclosureNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="entryNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="restrictedView" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="id" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiDisclosureNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="entryNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="restrictedView" />
+        <bean p:propertyName="id" parent="Uif-DataField"/>
+        <bean p:propertyName="coiDisclosureNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="entryNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="comments" parent="Uif-DataField"/>
+        <bean p:propertyName="restrictedView" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

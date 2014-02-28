@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,18 +14,15 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="ProtocolAttachmentPersonnel" parent="ProtocolAttachmentPersonnel-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-parentBean" abstract="true" parent="ProtocolAttachmentBase">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" />
 		<property name="objectLabel" value="Protocol Attachment Personnel" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolAttachmentPersonnel-inquiryDefinition" />
+    <!--<bean parent="SelectControlDefinition"
+	            p:valuesFinderClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder" />-->
 		</property>
 		<property name="lookupDefinition" >
 			<ref bean="ProtocolAttachmentPersonnel-lookupDefinition" />
@@ -65,31 +63,34 @@
         <property name="maxLength" value="3" />
         <property name="required" value="true" />
 	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType"
-	            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-            	p:includeBlankRow="false"
-	            p:keyAttribute="code"
-	            p:labelAttribute="description" />
-	      <!--<bean parent="SelectControlDefinition"
-	            p:valuesFinderClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder" />-->
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="code" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="code"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
 	</bean>
 	
 	<bean id="ProtocolAttachmentPersonnel-documentId" parent="ProtocolAttachmentPersonnel-documentId-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-documentId-parentBean" abstract="true" parent="ProtocolAttachmentBase-documentId" />
-	
 	<bean id="ProtocolAttachmentPersonnel-fileId" parent="ProtocolAttachmentPersonnel-fileId-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-fileId-parentBean" abstract="true" parent="ProtocolAttachmentBase-fileId"/>
-
 	<bean id="ProtocolAttachmentPersonnel-description" parent="ProtocolAttachmentPersonnel-description-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
 	    <property name="required" value="true"/>
 		<property name="control" >
-			<bean parent="TextareaControlDefinition"
-	            p:rows="3"
-	            p:cols="40"/> 
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="40" parent="Uif-TextAreaControl"/>
         </property>
 	</bean>
 	
@@ -99,13 +100,19 @@
 		<property name="label" value="Person" />
 		<property name="shortLabel" value="Person" />
 	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.irb.personnel.ProtocolPerson"
-	            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-            	p:includeBlankRow="false"
-	            p:keyAttribute="protocolPersonId"
-	            p:labelAttribute="personName" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.irb.personnel.ProtocolPerson" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="protocolPersonId" p:labelAttribute="personName"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.irb.personnel.ProtocolPerson"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="protocolPersonId"/>
+        <property name="labelAttributeName" value="personName"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
 		<property name="summary" value="Person" />
 		<property name="description" value="Person" />
@@ -113,15 +120,13 @@
 	
 	<bean id="ProtocolAttachmentPersonnel-versionNumber" parent="ProtocolAttachmentPersonnel-versionNumber-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-versionNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-versionNumber" />
-	
 	<bean id="ProtocolAttachmentPersonnel-updateUser" parent="ProtocolAttachmentPersonnel-updateUser-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-updateUser-parentBean" abstract="true" parent="ProtocolAttachmentBase-updateUser"/>
-	
 	<bean id="ProtocolAttachmentPersonnel-updateTimestamp" parent="ProtocolAttachmentPersonnel-updateTimestamp-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-updateTimestamp-parentBean" abstract="true" parent="ProtocolAttachmentBase-updateTimestamp"/>
-  
 	<!-- Business Object Inquiry Definition -->
 	<bean id="ProtocolAttachmentPersonnel-inquiryDefinition" parent="ProtocolAttachmentPersonnel-inquiryDefinition-parentBean" />
+  <bean id="ProtocolAttachmentPersonnel-InquiryView" parent="ProtocolAttachmentPersonnel-InquiryView-parentBean"/>
 	<bean id="ProtocolAttachmentPersonnel-inquiryDefinition-parentBean" abstract="true" parent="ProtocolAttachmentBase-inquiryDefinition">
 		<property name="inquirySections" >
 			<list>
@@ -130,12 +135,28 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list merge="true">
-							<bean parent="FieldDefinition"
-								p:attributeName="typeCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="description" />
-							<bean parent="FieldDefinition"
-								p:attributeName="personId" />
+              <bean parent="FieldDefinition" p:attributeName="typeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="personId"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolAttachmentPersonnel-InquiryView-parentBean" abstract="true" parent="ProtocolAttachmentBase-InquiryView">
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="typeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="personId" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -145,30 +166,55 @@
 	
 		<!-- Business Object Lookup Definition -->
 	<bean id="ProtocolAttachmentPersonnel-lookupDefinition" parent="ProtocolAttachmentPersonnel-lookupDefinition-parentBean" />
+  <bean id="ProtocolAttachmentPersonnel-LookupView" parent="ProtocolAttachmentPersonnel-LookupView-parentBean"/>
 	<bean id="ProtocolAttachmentPersonnel-lookupDefinition-parentBean" abstract="true" parent="ProtocolAttachmentBase-lookupDefinition">
 		<property name="title" value="Protocol Attachment Lookup" />
         <property name="lookupableID" value="ProtocolAttachmentPersonnelLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="lookupFields" >
 			<list merge="true">
-				<bean parent="FieldDefinition"
-					p:attributeName="typeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="personId" />
+        <bean parent="FieldDefinition" p:attributeName="typeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="personId"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list merge="true">
-				<bean parent="FieldDefinition"
-					p:attributeName="typeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="personId" />
+        <bean parent="FieldDefinition" p:attributeName="typeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="personId"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolAttachmentPersonnel-LookupView-parentBean" abstract="true" parent="ProtocolAttachmentBase-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel"/>
+    <property name="headerText" value="Protocol Attachment Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
 			</list>
 		</property>
 	</bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="typeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="personId" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="typeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="personId" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

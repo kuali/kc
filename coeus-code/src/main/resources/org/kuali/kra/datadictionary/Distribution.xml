@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
  * 
@@ -14,8 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
---><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="Distribution" parent="Distribution-parentBean"/>
 	<bean abstract="true" id="Distribution-parentBean" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.home.Distribution"/>
@@ -38,7 +39,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
 	<bean id="Distribution-ospDistributionCode" parent="Distribution-ospDistributionCode-parentBean"/>
 	<bean abstract="true" id="Distribution-ospDistributionCode-parentBean" parent="AttributeDefinition">
 		<property name="name" value="ospDistributionCode"/>
@@ -49,9 +49,15 @@
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="OSP File Copy Code"/>
 		<property name="description" value="OSP File Copy Code"/>
 	</bean>
@@ -63,10 +69,20 @@
 		<property name="label" value="Description"/>
 		<property name="shortLabel" value="Description"/>
 		<property name="maxLength" value="200"/>
-		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
 		<property name="control">
 			<bean p:size="10" parent="TextControlDefinition"/>
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Description"/>
 		<property name="description" value="Description"/>
 	</bean>
@@ -83,11 +99,10 @@
 	</bean>		
 
 	<bean id="Distribution-versionNumber" parent="Distribution-versionNumber-parentBean"/>
-	<bean abstract="true" id="Distribution-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+  <bean abstract="true" id="Distribution-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
 	<!-- Business Object Inquiry Definition -->
 	<bean id="Distribution-inquiryDefinition" parent="Distribution-inquiryDefinition-parentBean"/>
+  <bean id="Distribution-InquiryView" parent="Distribution-InquiryView-parentBean"/>
 	<bean abstract="true" id="Distribution-inquiryDefinition-parentBean" parent="InquiryDefinition">
 		<property name="title" value="OSP File Copy Code"/>
 		<property name="inquirySections">
@@ -107,15 +122,34 @@
 		</property>
 	</bean>
 
+  <bean id="Distribution-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="OSP File Copy Code"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.award.home.Distribution"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="OSP File Copy Code"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="ospDistributionCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
 	<!-- Business Object Lookup Definition -->
 	<bean id="Distribution-lookupDefinition" parent="Distribution-lookupDefinition-parentBean"/>
+  <bean id="Distribution-LookupView" parent="Distribution-LookupView-parentBean"/>
 	<bean abstract="true" id="Distribution-lookupDefinition-parentBean" parent="LookupDefinition">
 		<property name="title" value="OSP File Copy Lookup"/>
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
 		<property name="defaultSort">
-			<bean parent="SortDefinition">
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields">
 			<list>
@@ -132,4 +166,35 @@
 			</list>
 		</property>
 	</bean>
+
+  <bean id="Distribution-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.award.home.Distribution"/>
+    <property name="headerText" value="OSP File Copy Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="ospDistributionCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="ospDistributionCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalUnitCreditSplit" parent="ProposalUnitCreditSplit-parentBean" />
-
   <bean id="ProposalUnitCreditSplit-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit" />
 		<property name="objectLabel" value="Proposal Unit Credit Split" />
@@ -34,16 +29,16 @@
     <property name="summary" value="Proposal Number" />
     <property name="description" value="Proposal Number" />
   </bean>
-  <bean id="ProposalUnitCreditSplit-unitNumber" parent="ProposalUnitCreditSplit-unitNumber-parentBean" />
 
+  <bean id="ProposalUnitCreditSplit-unitNumber" parent="ProposalUnitCreditSplit-unitNumber-parentBean"/>
   <bean id="ProposalUnitCreditSplit-unitNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
     <property name="name" value="unitNumber" />
     <property name="label" value="Unit Number" />
     <property name="summary" value="Unit Number" />
     <property name="description" value="Unit Number" />
   </bean>
-  <bean id="ProposalUnitCreditSplit-proposalPersonNumber" parent="ProposalUnitCreditSplit-proposalPersonNumber-parentBean" />
 
+  <bean id="ProposalUnitCreditSplit-proposalPersonNumber" parent="ProposalUnitCreditSplit-proposalPersonNumber-parentBean"/>
   <bean id="ProposalUnitCreditSplit-proposalPersonNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
     <property name="name" value="proposalPersonNumber" />
     <property name="label" value="Proposal Person Number" />
@@ -51,11 +46,14 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
+    </property>
     <property name="summary" value="Proposal Person Number" />
     <property name="description" value="Proposal Person Number" />
   </bean>
-  <bean id="ProposalUnitCreditSplit-credit" parent="ProposalUnitCreditSplit-credit-parentBean" />
 
+  <bean id="ProposalUnitCreditSplit-credit" parent="ProposalUnitCreditSplit-credit-parentBean"/>
   <bean id="ProposalUnitCreditSplit-credit-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="credit" />
     <property name="forceUppercase" value="false" />
@@ -63,22 +61,25 @@
     <property name="shortLabel" value="Credit" />
     <property name="maxLength" value="6" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern"
-            p:precision="6"
-            p:scale="2" />
+      <bean parent="FixedPointValidationPattern" p:precision="6" p:scale="2"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="6"/>
+        <property name="scale" value="2"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+      <bean parent="TextControlDefinition" p:size="7"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="7" parent="Uif-TextControl"/>
     </property>
     <property name="description" value="Credit" />
   </bean>
-  <bean id="ProposalUnitCreditSplit-invCreditTypeCode" parent="ProposalUnitCreditSplit-invCreditTypeCode-parentBean" />
 
-  <bean id="ProposalUnitCreditSplit-invCreditTypeCode-parentBean" abstract="true" parent="InvestigatorCreditType-invCreditTypeCode">
-  </bean>
+  <bean id="ProposalUnitCreditSplit-invCreditTypeCode" parent="ProposalUnitCreditSplit-invCreditTypeCode-parentBean"/>
+  <bean id="ProposalUnitCreditSplit-invCreditTypeCode-parentBean" abstract="true" parent="InvestigatorCreditType-invCreditTypeCode"/>
   <bean id="ProposalUnitCreditSplit-versionNumber" parent="ProposalUnitCreditSplit-versionNumber-parentBean" />
-
-  <bean id="ProposalUnitCreditSplit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
+  <bean id="ProposalUnitCreditSplit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 </beans>

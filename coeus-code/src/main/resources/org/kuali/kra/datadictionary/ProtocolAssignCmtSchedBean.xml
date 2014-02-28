@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="ProtocolAssignCmtSchedBean" parent="ProtocolAssignCmtSchedBean-parentBean" />
 	<bean id="ProtocolAssignCmtSchedBean-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean" />
@@ -33,7 +29,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
 	<bean id="ProtocolAssignCmtSchedBean-committeeId" parent="ProtocolAssignCmtSchedBean-committeeId-parentBean" />
 	<bean id="ProtocolAssignCmtSchedBean-committeeId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="committeeId" />
@@ -43,9 +38,13 @@
 		<property name="maxLength" value="15" />
 		<property name="required" value="false" />
 		<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder"
-                p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
 		<property name="summary" value="Committee" />
 		<property name="description" value="Committee" />
@@ -60,9 +59,13 @@
 		<property name="maxLength" value="10" />
 		<property name="required" value="false" />
 		<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeScheduleValuesFinder2"
-                p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeScheduleValuesFinder2" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.committee.lookup.keyvalue.CommitteeScheduleValuesFinder2"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
 		<property name="summary" value="Schedule Date" />
 		<property name="description" value="Schedule Date" />

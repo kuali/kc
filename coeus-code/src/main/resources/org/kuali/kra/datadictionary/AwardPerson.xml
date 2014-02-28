@@ -1,24 +1,15 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="AwardPerson" parent="AwardPerson-parentBean" />
   <bean id="AwardPerson-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.contacts.AwardPerson" />
 		<property name="objectLabel" value="Award Person" />
-    
     <property name="lookupDefinition" >
       <ref bean="AwardPerson-lookupDefinition" />
     </property>
-    
     <property name="titleAttribute" value="awardContact" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-AWARD"
-            p:parameterName="awardContactHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardContactHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -51,20 +42,22 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="8" />
 		</property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Award Contact ID" />
 		<property name="description" value="Award Contact ID" />
 	</bean>
 	
 	<bean id="AwardPerson-awardNumber" parent="AwardPerson-awardNumber-parentBean" />
-	
-	<bean id="AwardPerson-awardNumber-parentBean" abstract="true" parent="Award-awardNumber">
-	</bean>
-	
+  <bean id="AwardPerson-awardNumber-parentBean" abstract="true" parent="Award-awardNumber"/>
 	<bean id="AwardPerson-sequenceNumber" parent="AwardPerson-sequenceNumber-parentBean" />
-	
 	<bean id="AwardPerson-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="sequenceNumber" />
 		<property name="forceUppercase" value="false" />
@@ -74,9 +67,15 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="4" />
 		</property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Sequence Number" />
 		<property name="description" value="Sequence Number" />
 	</bean>
@@ -100,9 +99,17 @@
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="20" />
 		</property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Full Name" />
 		<property name="description" value="Full Name" />
 	</bean>
@@ -115,6 +122,9 @@
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Academic Year Effort" />
 		<property name="description" value="Academic Year Effort" />
 	</bean>
@@ -127,6 +137,9 @@
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Calendar Year Effort" />
 		<property name="description" value="Calendar Year Effort" />
 	</bean>
@@ -139,6 +152,9 @@
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="10" />
 	  	</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Summer Effort" />
 		<property name="description" value="Summer Effort" />
 	</bean>
@@ -151,6 +167,9 @@
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Total Effort" />
 		<property name="description" value="Total Effort" />
 	</bean>
@@ -165,11 +184,18 @@
 	    <property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 	    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 	    <property name="required" value="true" />
 	    <property name="control" >
-	      	<bean parent="SelectControlDefinition"
-	            p:valuesFinderClass="org.kuali.kra.award.contacts.AwardPersonProjectRolesValuesFinder"
-	            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.award.contacts.AwardPersonProjectRolesValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.award.contacts.AwardPersonProjectRolesValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
 	    <property name="summary" value="Project Role" />
 	    <property name="description" value="Project Role" />
@@ -184,11 +210,14 @@
 		<property name="control" >
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
 		<property name="summary" value="Project Role" />
 		<property name="description" value="Project Role" />
 	</bean>	
-    <bean id="AwardPerson-multiplePi" parent="AwardPerson-multiplePi-parentBean" />
 
+  <bean id="AwardPerson-multiplePi" parent="AwardPerson-multiplePi-parentBean"/>
     <bean id="AwardPerson-multiplePi-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
       <property name="name" value="multiplePi" />
       <property name="label" value="Multiple PI" />
@@ -198,6 +227,7 @@
     </bean>  	
 
 	<bean id="AwardPerson-lookupDefinition" parent="AwardPerson-lookupDefinition-parentBean" />
+  <bean id="AwardPerson-LookupView" parent="AwardPerson-LookupView-parentBean"/>
   	<bean id="AwardPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Award Person Lookup" />
 		<property name="lookupableID" value="awardPersonLookupable" />
@@ -221,4 +251,32 @@
 		<property name="resultSetLimit" value="50" />
 	</bean>
   
+  <bean id="AwardPerson-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.award.contacts.AwardPerson"/>
+    <property name="headerText" value="Award Person Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="awardNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="fullName" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="fullName" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalRoleTemplate" parent="ProposalRoleTemplate-parentBean"/>
-
   <bean abstract="true" id="ProposalRoleTemplate-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate"/>
 		<property name="objectLabel" value="Proposal Role Template"/>
@@ -40,18 +39,22 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean parent="HiddenControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="Id"/>
     <property name="description" value="Id"/>
   </bean>
+
   <bean id="ProposalRoleTemplate-personId" parent="ProposalRoleTemplate-personId-parentBean"/>
-
-  <bean abstract="true" id="ProposalRoleTemplate-personId-parentBean" parent="KcPerson-personId">
-  </bean>
+  <bean abstract="true" id="ProposalRoleTemplate-personId-parentBean" parent="KcPerson-personId"/>
   <bean id="ProposalRoleTemplate-personName" parent="ProposalRoleTemplate-personName-parentBean"/>
-
   <bean abstract="true" id="ProposalRoleTemplate-personName-parentBean" parent="AttributeDefinition">
     <property name="name" value="personName"/>
     <property name="forceUppercase" value="false"/>
@@ -61,11 +64,14 @@
     <property name="control">
       <bean p:size="10" parent="TextControlDefinition"/>
     </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
     <property name="summary" value="Person Full Name"/>
     <property name="description" value="Person Full Name"/>
   </bean>
-  <bean id="ProposalRoleTemplate-roleName" parent="ProposalRoleTemplate-roleName-parentBean"/>
 
+  <bean id="ProposalRoleTemplate-roleName" parent="ProposalRoleTemplate-roleName-parentBean"/>
   <bean abstract="true" id="ProposalRoleTemplate-roleName-parentBean" parent="AttributeDefinition">
     <property name="name" value="roleName"/>
     <property name="forceUppercase" value="false"/>
@@ -75,11 +81,17 @@
     <property name="control">
       <bean p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalRoleValuesFinder" parent="SelectControlDefinition"/>
     </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalRoleValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
     <property name="summary" value="Role Name"/>
     <property name="description" value="Role Name"/>
   </bean>
-  <bean id="ProposalRoleTemplate-unitNumber" parent="ProposalRoleTemplate-unitNumber-parentBean"/>
 
+  <bean id="ProposalRoleTemplate-unitNumber" parent="ProposalRoleTemplate-unitNumber-parentBean"/>
   <bean abstract="true" id="ProposalRoleTemplate-unitNumber-parentBean" parent="AttributeDefinition">
     <property name="name" value="unitNumber"/>
     <property name="forceUppercase" value="false"/>
@@ -89,11 +101,14 @@
     <property name="control">
       <bean p:size="10" parent="TextControlDefinition"/>
     </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
     <property name="summary" value="Unit Number"/>
     <property name="description" value="Unit Number"/>
   </bean>
-  <bean id="ProposalRoleTemplate-unitName" parent="ProposalRoleTemplate-unitName-parentBean"/>
 
+  <bean id="ProposalRoleTemplate-unitName" parent="ProposalRoleTemplate-unitName-parentBean"/>
   <bean abstract="true" id="ProposalRoleTemplate-unitName-parentBean" parent="AttributeDefinition">
     <property name="name" value="unitName"/>
     <property name="forceUppercase" value="false"/>
@@ -103,11 +118,14 @@
     <property name="control">
       <bean p:size="10" parent="TextControlDefinition"/>
     </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
     <property name="summary" value="Unit Name"/>
     <property name="description" value="Unit Name"/>
   </bean>
-  <bean id="ProposalRoleTemplate-active" parent="ProposalRoleTemplate-active-parentBean"/>
 
+  <bean id="ProposalRoleTemplate-active" parent="ProposalRoleTemplate-active-parentBean"/>
   <bean abstract="true" id="ProposalRoleTemplate-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="active"/>
     <property name="label" value="Active"/>
@@ -115,16 +133,12 @@
     <property name="summary" value="Active"/>
     <property name="description" value="Active"/>
   </bean>
+
   <bean id="ProposalRoleTemplate-versionNumber" parent="ProposalRoleTemplate-versionNumber-parentBean"/>
-
-  <bean abstract="true" id="ProposalRoleTemplate-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean abstract="true" id="ProposalRoleTemplate-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="ProposalRoleTemplate-inquiryDefinition" parent="ProposalRoleTemplate-inquiryDefinition-parentBean"/>
-
+  <bean id="ProposalRoleTemplate-InquiryView" parent="ProposalRoleTemplate-InquiryView-parentBean"/>
   <bean abstract="true" id="ProposalRoleTemplate-inquiryDefinition-parentBean" parent="InquiryDefinition">
     <property name="title" value="Proposal Role Template"/>
     <property name="inquirySections">
@@ -143,18 +157,33 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="ProposalRoleTemplate-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Proposal Role Template"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="KcPerson-Role"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="personId" parent="Uif-DataField"/>
+              <bean p:propertyName="roleName" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="ProposalRoleTemplate-lookupDefinition" parent="ProposalRoleTemplate-lookupDefinition-parentBean"/>
-
+  <bean id="ProposalRoleTemplate-LookupView" parent="ProposalRoleTemplate-LookupView-parentBean"/>
   <bean abstract="true" id="ProposalRoleTemplate-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Proposal Role Template Lookup"/>
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
     <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields">
       <list>
@@ -175,4 +204,39 @@
       </list>
     </property>
   </bean>
+
+  <bean id="ProposalRoleTemplate-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate"/>
+    <property name="headerText" value="Proposal Role Template Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="personId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="roleName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="unitNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="personId" parent="Uif-DataField"/>
+        <bean p:propertyName="personName" parent="Uif-DataField"/>
+        <bean p:propertyName="roleName" parent="Uif-DataField"/>
+        <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="unitName" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

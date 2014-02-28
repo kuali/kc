@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalPerson" parent="ProposalPerson-parentBean" />
-
   <bean id="ProposalPerson-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" />
 		<property name="objectLabel" value="Proposal Person" />
@@ -103,8 +98,8 @@
     <property name="summary" value="Proposal Number" />
     <property name="description" value="Proposal Number" />
   </bean>
-  <bean id="ProposalPerson-proposalPersonNumber" parent="ProposalPerson-proposalPersonNumber-parentBean" />
 
+  <bean id="ProposalPerson-proposalPersonNumber" parent="ProposalPerson-proposalPersonNumber-parentBean"/>
   <bean id="ProposalPerson-proposalPersonNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
     <property name="name" value="proposalPersonNumber" />
     <property name="label" value="Proposal Person Number" />
@@ -112,43 +107,52 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
+    </property>
     <property name="summary" value="Proposal Person Number" />
     <property name="description" value="Proposal Person Number" />
   </bean>
-  <bean id="ProposalPerson-proposalPersonRoleId" parent="ProposalPerson-proposalPersonRoleId-parentBean" />
 
+  <bean id="ProposalPerson-proposalPersonRoleId" parent="ProposalPerson-proposalPersonRoleId-parentBean"/>
   <bean id="ProposalPerson-proposalPersonRoleId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
     <property name="name" value="proposalPersonRoleId" />
     <property name="label" value="Proposal Person Role Id" />
     <property name="shortLabel" value="Prop Per Role Id" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Proposal Person Role Id" />
     <property name="description" value="Proposal Person Role Id" />
   </bean>
-  <bean id="ProposalPerson-nonNihProposalPersonRoleId" parent="ProposalPerson-nonNihProposalPersonRoleId-parentBean" />
 
+  <bean id="ProposalPerson-nonNihProposalPersonRoleId" parent="ProposalPerson-nonNihProposalPersonRoleId-parentBean"/>
   <bean id="ProposalPerson-nonNihProposalPersonRoleId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
     <property name="name" value="nonNihProposalPersonRoleId" />
     <property name="label" value="Non-NIH Proposal Person Role Id" />
     <property name="shortLabel" value="Non-NIH Prop Per Role Id" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NonNihProposalPersonRoleValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NonNihProposalPersonRoleValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NonNihProposalPersonRoleValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Non-NIH Proposal Person Role Id" />
     <property name="description" value="Non-NIH Proposal Person Role Id" />
   </bean>
-  <bean id="ProposalPerson-personId" parent="ProposalPerson-personId-parentBean" />
 
-  <bean id="ProposalPerson-personId-parentBean" abstract="true" parent="KcPerson-personId">
-  </bean>
+  <bean id="ProposalPerson-personId" parent="ProposalPerson-personId-parentBean"/>
+  <bean id="ProposalPerson-personId-parentBean" abstract="true" parent="KcPerson-personId"/>
   <bean id="ProposalPerson-rolodexId" parent="ProposalPerson-rolodexId-parentBean" />
-
   <bean id="ProposalPerson-rolodexId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
     <property name="name" value="rolodexId" />
     <property name="label" value="Rolodex Id" />
@@ -156,153 +160,83 @@
     <property name="summary" value="Rolodex Id" />
     <property name="description" value="Rolodex Id" />
   </bean>
-  <bean id="ProposalPerson-socialSecurityNumber" parent="ProposalPerson-socialSecurityNumber-parentBean" />
 
-  <bean id="ProposalPerson-socialSecurityNumber-parentBean" abstract="true" parent="KcPerson-socialSecurityNumber">
-  </bean>
+  <bean id="ProposalPerson-socialSecurityNumber" parent="ProposalPerson-socialSecurityNumber-parentBean"/>
+  <bean id="ProposalPerson-socialSecurityNumber-parentBean" abstract="true" parent="KcPerson-socialSecurityNumber"/>
   <bean id="ProposalPerson-lastName" parent="ProposalPerson-lastName-parentBean" />
-
-  <bean id="ProposalPerson-lastName-parentBean" abstract="true" parent="KcPerson-lastName">
-  </bean>
+  <bean id="ProposalPerson-lastName-parentBean" abstract="true" parent="KcPerson-lastName"/>
   <bean id="ProposalPerson-firstName" parent="ProposalPerson-firstName-parentBean" />
-
-  <bean id="ProposalPerson-firstName-parentBean" abstract="true" parent="KcPerson-firstName">
-  </bean>
+  <bean id="ProposalPerson-firstName-parentBean" abstract="true" parent="KcPerson-firstName"/>
   <bean id="ProposalPerson-middleName" parent="ProposalPerson-middleName-parentBean" />
-
-  <bean id="ProposalPerson-middleName-parentBean" abstract="true" parent="KcPerson-middleName">
-  </bean>
+  <bean id="ProposalPerson-middleName-parentBean" abstract="true" parent="KcPerson-middleName"/>
   <bean id="ProposalPerson-fullName" parent="ProposalPerson-fullName-parentBean" />
-
-  <bean id="ProposalPerson-fullName-parentBean" abstract="true" parent="KcPerson-fullName">
-  </bean>
+  <bean id="ProposalPerson-fullName-parentBean" abstract="true" parent="KcPerson-fullName"/>
   <bean id="ProposalPerson-priorName" parent="ProposalPerson-priorName-parentBean" />
-
-  <bean id="ProposalPerson-priorName-parentBean" abstract="true" parent="KcPerson-priorName">
-  </bean>
+  <bean id="ProposalPerson-priorName-parentBean" abstract="true" parent="KcPerson-priorName"/>
   <bean id="ProposalPerson-userName" parent="ProposalPerson-userName-parentBean" />
-
-  <bean id="ProposalPerson-userName-parentBean" abstract="true" parent="KcPerson-userName">
-  </bean>
+  <bean id="ProposalPerson-userName-parentBean" abstract="true" parent="KcPerson-userName"/>
   <bean id="ProposalPerson-emailAddress" parent="ProposalPerson-emailAddress-parentBean" />
-
-  <bean id="ProposalPerson-emailAddress-parentBean" abstract="true" parent="KcPerson-emailAddress">
-  </bean>
+  <bean id="ProposalPerson-emailAddress-parentBean" abstract="true" parent="KcPerson-emailAddress"/>
   <bean id="ProposalPerson-dateOfBirth" parent="ProposalPerson-dateOfBirth-parentBean" />
-
-  <bean id="ProposalPerson-dateOfBirth-parentBean" abstract="true" parent="KcPerson-dateOfBirth">
-  </bean>
+  <bean id="ProposalPerson-dateOfBirth-parentBean" abstract="true" parent="KcPerson-dateOfBirth"/>
   <bean id="ProposalPerson-age" parent="ProposalPerson-age-parentBean" />
-
-  <bean id="ProposalPerson-age-parentBean" abstract="true" parent="KcPerson-age">
-  </bean>
+  <bean id="ProposalPerson-age-parentBean" abstract="true" parent="KcPerson-age"/>
   <bean id="ProposalPerson-ageByFiscalYear" parent="ProposalPerson-ageByFiscalYear-parentBean" />
-
-  <bean id="ProposalPerson-ageByFiscalYear-parentBean" abstract="true" parent="KcPersonExtendedAttributes-ageByFiscalYear">
-  </bean>
+  <bean id="ProposalPerson-ageByFiscalYear-parentBean" abstract="true" parent="KcPersonExtendedAttributes-ageByFiscalYear"/>
   <bean id="ProposalPerson-gender" parent="ProposalPerson-gender-parentBean" />
-
-  <bean id="ProposalPerson-gender-parentBean" abstract="true" parent="KcPerson-gender">
-  </bean>
+  <bean id="ProposalPerson-gender-parentBean" abstract="true" parent="KcPerson-gender"/>
   <bean id="ProposalPerson-race" parent="ProposalPerson-race-parentBean" />
-
-  <bean id="ProposalPerson-race-parentBean" abstract="true" parent="KcPersonExtendedAttributes-race">
-  </bean>
+  <bean id="ProposalPerson-race-parentBean" abstract="true" parent="KcPersonExtendedAttributes-race"/>
   <bean id="ProposalPerson-educationLevel" parent="ProposalPerson-educationLevel-parentBean" />
-
-  <bean id="ProposalPerson-educationLevel-parentBean" abstract="true" parent="KcPersonExtendedAttributes-educationLevel">
-  </bean>
+  <bean id="ProposalPerson-educationLevel-parentBean" abstract="true" parent="KcPersonExtendedAttributes-educationLevel"/>
   <bean id="ProposalPerson-degree" parent="ProposalPerson-degree-parentBean" />
-
-  <bean id="ProposalPerson-degree-parentBean" abstract="true" parent="KcPersonExtendedAttributes-degree">
-  </bean>
+  <bean id="ProposalPerson-degree-parentBean" abstract="true" parent="KcPersonExtendedAttributes-degree"/>
   <bean id="ProposalPerson-major" parent="ProposalPerson-major-parentBean" />
-
-  <bean id="ProposalPerson-major-parentBean" abstract="true" parent="KcPersonExtendedAttributes-major">
-  </bean>
+  <bean id="ProposalPerson-major-parentBean" abstract="true" parent="KcPersonExtendedAttributes-major"/>
   <bean id="ProposalPerson-handicappedFlag" parent="ProposalPerson-handicappedFlag-parentBean" />
-
-  <bean id="ProposalPerson-handicappedFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-handicappedFlag">
-  </bean>
+  <bean id="ProposalPerson-handicappedFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-handicappedFlag"/>
   <bean id="ProposalPerson-handicapType" parent="ProposalPerson-handicapType-parentBean" />
-
-  <bean id="ProposalPerson-handicapType-parentBean" abstract="true" parent="KcPersonExtendedAttributes-handicapType">
-  </bean>
+  <bean id="ProposalPerson-handicapType-parentBean" abstract="true" parent="KcPersonExtendedAttributes-handicapType"/>
   <bean id="ProposalPerson-veteranFlag" parent="ProposalPerson-veteranFlag-parentBean" />
-
-  <bean id="ProposalPerson-veteranFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-veteranFlag">
-  </bean>
+  <bean id="ProposalPerson-veteranFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-veteranFlag"/>
   <bean id="ProposalPerson-veteranType" parent="ProposalPerson-veteranType-parentBean" />
-
-  <bean id="ProposalPerson-veteranType-parentBean" abstract="true" parent="KcPersonExtendedAttributes-veteranType">
-  </bean>
+  <bean id="ProposalPerson-veteranType-parentBean" abstract="true" parent="KcPersonExtendedAttributes-veteranType"/>
   <bean id="ProposalPerson-visaCode" parent="ProposalPerson-visaCode-parentBean" />
-
-  <bean id="ProposalPerson-visaCode-parentBean" abstract="true" parent="KcPersonExtendedAttributes-visaCode">
-  </bean>
+  <bean id="ProposalPerson-visaCode-parentBean" abstract="true" parent="KcPersonExtendedAttributes-visaCode"/>
   <bean id="ProposalPerson-visaType" parent="ProposalPerson-visaType-parentBean" />
-
-  <bean id="ProposalPerson-visaType-parentBean" abstract="true" parent="KcPersonExtendedAttributes-visaType">
-  </bean>
+  <bean id="ProposalPerson-visaType-parentBean" abstract="true" parent="KcPersonExtendedAttributes-visaType"/>
   <bean id="ProposalPerson-visaRenewalDate" parent="ProposalPerson-visaRenewalDate-parentBean" />
-
-  <bean id="ProposalPerson-visaRenewalDate-parentBean" abstract="true" parent="KcPersonExtendedAttributes-visaRenewalDate">
-  </bean>
+  <bean id="ProposalPerson-visaRenewalDate-parentBean" abstract="true" parent="KcPersonExtendedAttributes-visaRenewalDate"/>
   <bean id="ProposalPerson-hasVisa" parent="ProposalPerson-hasVisa-parentBean" />
-
-  <bean id="ProposalPerson-hasVisa-parentBean" abstract="true" parent="KcPersonExtendedAttributes-hasVisa">
-  </bean>
+  <bean id="ProposalPerson-hasVisa-parentBean" abstract="true" parent="KcPersonExtendedAttributes-hasVisa"/>
   <bean id="ProposalPerson-officeLocation" parent="ProposalPerson-officeLocation-parentBean" />
-
-  <bean id="ProposalPerson-officeLocation-parentBean" abstract="true" parent="KcPersonExtendedAttributes-officeLocation">
-  </bean>
+  <bean id="ProposalPerson-officeLocation-parentBean" abstract="true" parent="KcPersonExtendedAttributes-officeLocation"/>
   <bean id="ProposalPerson-officePhone" parent="ProposalPerson-officePhone-parentBean" />
-
-  <bean id="ProposalPerson-officePhone-parentBean" abstract="true" parent="KcPerson-officePhone">
-  </bean>
+  <bean id="ProposalPerson-officePhone-parentBean" abstract="true" parent="KcPerson-officePhone"/>
   <bean id="ProposalPerson-secondaryOfficeLocation" parent="ProposalPerson-secondaryOfficeLocation-parentBean" />
-
-  <bean id="ProposalPerson-secondaryOfficeLocation-parentBean" abstract="true" parent="KcPersonExtendedAttributes-secondaryOfficeLocation">
-  </bean>
+  <bean id="ProposalPerson-secondaryOfficeLocation-parentBean" abstract="true" parent="KcPersonExtendedAttributes-secondaryOfficeLocation"/>
   <bean id="ProposalPerson-secondaryOfficePhone" parent="ProposalPerson-secondaryOfficePhone-parentBean" />
-
-  <bean id="ProposalPerson-secondaryOfficePhone-parentBean" abstract="true" parent="KcPerson-secondaryOfficePhone">
-  </bean>
+  <bean id="ProposalPerson-secondaryOfficePhone-parentBean" abstract="true" parent="KcPerson-secondaryOfficePhone"/>
   <bean id="ProposalPerson-school" parent="ProposalPerson-school-parentBean" />
-
-  <bean id="ProposalPerson-school-parentBean" abstract="true" parent="KcPersonExtendedAttributes-school">
-  </bean>
+  <bean id="ProposalPerson-school-parentBean" abstract="true" parent="KcPersonExtendedAttributes-school"/>
   <bean id="ProposalPerson-yearGraduated" parent="ProposalPerson-yearGraduated-parentBean" />
-
-  <bean id="ProposalPerson-yearGraduated-parentBean" abstract="true" parent="KcPersonExtendedAttributes-yearGraduated">
-  </bean>
+  <bean id="ProposalPerson-yearGraduated-parentBean" abstract="true" parent="KcPersonExtendedAttributes-yearGraduated"/>
   <bean id="ProposalPerson-directoryDepartment" parent="ProposalPerson-directoryDepartment-parentBean" />
-
-  <bean id="ProposalPerson-directoryDepartment-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryDepartment">
-  </bean>
+  <bean id="ProposalPerson-directoryDepartment-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryDepartment"/>
   <bean id="ProposalPerson-saluation" parent="ProposalPerson-saluation-parentBean" />
-
-  <bean id="ProposalPerson-saluation-parentBean" abstract="true" parent="KcPerson-saluation">
-  </bean>
+  <bean id="ProposalPerson-saluation-parentBean" abstract="true" parent="KcPerson-saluation"/>
   <bean id="ProposalPerson-primaryTitle" parent="ProposalPerson-primaryTitle-parentBean" />
-
-  <bean id="ProposalPerson-primaryTitle-parentBean" abstract="true" parent="KcPersonExtendedAttributes-primaryTitle">
-  </bean>
+  <bean id="ProposalPerson-primaryTitle-parentBean" abstract="true" parent="KcPersonExtendedAttributes-primaryTitle"/>
   <bean id="ProposalPerson-directoryTitle" parent="ProposalPerson-directoryTitle-parentBean" />
-
-  <bean id="ProposalPerson-directoryTitle-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryTitle">
-  </bean>
+  <bean id="ProposalPerson-directoryTitle-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryTitle"/>
   <bean id="ProposalPerson-homeUnit" parent="ProposalPerson-homeUnit-parentBean" />
-
   <bean id="ProposalPerson-homeUnit-parentBean" abstract="true" parent="KcPerson-organizationIdentifier-parentBean">
       <property name="name" value="homeUnit" />
   </bean>
-  <bean id="ProposalPerson-facultyFlag" parent="ProposalPerson-facultyFlag-parentBean" />
 
-  <bean id="ProposalPerson-facultyFlag-parentBean" abstract="true" parent="KcPerson-facultyFlag">
-  </bean>
+  <bean id="ProposalPerson-facultyFlag" parent="ProposalPerson-facultyFlag-parentBean"/>
+  <bean id="ProposalPerson-facultyFlag-parentBean" abstract="true" parent="KcPerson-facultyFlag"/>
   <bean id="ProposalPerson-otherSignificantContributorFlag" parent="ProposalPerson-otherSignificantContributorFlag-parentBean" />
-
   <bean id="ProposalPerson-otherSignificantContributorFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="otherSignificantContributorFlag" />
     <property name="label" value="Other Significant Contributor" />
@@ -310,64 +244,36 @@
     <property name="summary" value="Other Significant Contributor" />
     <property name="description" value="Other Significant Contributor" />
   </bean>
-  <bean id="ProposalPerson-graduateStudentStaffFlag" parent="ProposalPerson-graduateStudentStaffFlag-parentBean" />
 
-  <bean id="ProposalPerson-graduateStudentStaffFlag-parentBean" abstract="true" parent="KcPerson-graduateStudentStaffFlag">
-  </bean>
+  <bean id="ProposalPerson-graduateStudentStaffFlag" parent="ProposalPerson-graduateStudentStaffFlag-parentBean"/>
+  <bean id="ProposalPerson-graduateStudentStaffFlag-parentBean" abstract="true" parent="KcPerson-graduateStudentStaffFlag"/>
   <bean id="ProposalPerson-researchStaffFlag" parent="ProposalPerson-researchStaffFlag-parentBean" />
-
-  <bean id="ProposalPerson-researchStaffFlag-parentBean" abstract="true" parent="KcPerson-researchStaffFlag">
-  </bean>
+  <bean id="ProposalPerson-researchStaffFlag-parentBean" abstract="true" parent="KcPerson-researchStaffFlag"/>
   <bean id="ProposalPerson-serviceStaffFlag" parent="ProposalPerson-serviceStaffFlag-parentBean" />
-
-  <bean id="ProposalPerson-serviceStaffFlag-parentBean" abstract="true" parent="KcPerson-serviceStaffFlag">
-  </bean>
+  <bean id="ProposalPerson-serviceStaffFlag-parentBean" abstract="true" parent="KcPerson-serviceStaffFlag"/>
   <bean id="ProposalPerson-supportStaffFlag" parent="ProposalPerson-supportStaffFlag-parentBean" />
-
-  <bean id="ProposalPerson-supportStaffFlag-parentBean" abstract="true" parent="KcPerson-supportStaffFlag">
-  </bean>
+  <bean id="ProposalPerson-supportStaffFlag-parentBean" abstract="true" parent="KcPerson-supportStaffFlag"/>
   <bean id="ProposalPerson-otherAcademicGroupFlag" parent="ProposalPerson-otherAcademicGroupFlag-parentBean" />
-
-  <bean id="ProposalPerson-otherAcademicGroupFlag-parentBean" abstract="true" parent="KcPerson-otherAcademicGroupFlag">
-  </bean>
+  <bean id="ProposalPerson-otherAcademicGroupFlag-parentBean" abstract="true" parent="KcPerson-otherAcademicGroupFlag"/>
   <bean id="ProposalPerson-medicalStaffFlag" parent="ProposalPerson-medicalStaffFlag-parentBean" />
-
-  <bean id="ProposalPerson-medicalStaffFlag-parentBean" abstract="true" parent="KcPerson-medicalStaffFlag">
-  </bean>
+  <bean id="ProposalPerson-medicalStaffFlag-parentBean" abstract="true" parent="KcPerson-medicalStaffFlag"/>
   <bean id="ProposalPerson-vacationAccrualFlag" parent="ProposalPerson-vacationAccrualFlag-parentBean" />
-
-  <bean id="ProposalPerson-vacationAccrualFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-vacationAccrualFlag">
-  </bean>
+  <bean id="ProposalPerson-vacationAccrualFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-vacationAccrualFlag"/>
   <bean id="ProposalPerson-onSabbaticalFlag" parent="ProposalPerson-onSabbaticalFlag-parentBean" />
-
-  <bean id="ProposalPerson-onSabbaticalFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-onSabbaticalFlag">
-  </bean>
+  <bean id="ProposalPerson-onSabbaticalFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-onSabbaticalFlag"/>
   <bean id="ProposalPerson-idProvided" parent="ProposalPerson-idProvided-parentBean" />
-
-  <bean id="ProposalPerson-idProvided-parentBean" abstract="true" parent="KcPersonExtendedAttributes-idProvided">
-  </bean>
+  <bean id="ProposalPerson-idProvided-parentBean" abstract="true" parent="KcPersonExtendedAttributes-idProvided"/>
   <bean id="ProposalPerson-idVerified" parent="ProposalPerson-idVerified-parentBean" />
-
-  <bean id="ProposalPerson-idVerified-parentBean" abstract="true" parent="KcPersonExtendedAttributes-idVerified">
-  </bean>
+  <bean id="ProposalPerson-idVerified-parentBean" abstract="true" parent="KcPersonExtendedAttributes-idVerified"/>
   <bean id="ProposalPerson-addressLine1" parent="ProposalPerson-addressLine1-parentBean" />
-
-  <bean id="ProposalPerson-addressLine1-parentBean" abstract="true" parent="KcPerson-addressLine1">
-  </bean>
+  <bean id="ProposalPerson-addressLine1-parentBean" abstract="true" parent="KcPerson-addressLine1"/>
   <bean id="ProposalPerson-addressLine2" parent="ProposalPerson-addressLine2-parentBean" />
-
-  <bean id="ProposalPerson-addressLine2-parentBean" abstract="true" parent="KcPerson-addressLine2">
-  </bean>
+  <bean id="ProposalPerson-addressLine2-parentBean" abstract="true" parent="KcPerson-addressLine2"/>
   <bean id="ProposalPerson-addressLine3" parent="ProposalPerson-addressLine3-parentBean" />
-
-  <bean id="ProposalPerson-addressLine3-parentBean" abstract="true" parent="KcPerson-addressLine3">
-  </bean>
+  <bean id="ProposalPerson-addressLine3-parentBean" abstract="true" parent="KcPerson-addressLine3"/>
   <bean id="ProposalPerson-postalCode" parent="ProposalPerson-postalCode-parentBean" />
-
-  <bean id="ProposalPerson-postalCode-parentBean" abstract="true" parent="KcPerson-postalCode">
-  </bean>
+  <bean id="ProposalPerson-postalCode-parentBean" abstract="true" parent="KcPerson-postalCode"/>
   <bean id="ProposalPerson-countryCode" parent="ProposalPerson-countryCode-parentBean" />
-
   <bean id="ProposalPerson-countryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="countryCode" />
     <property name="forceUppercase" value="false" />
@@ -375,34 +281,33 @@
     <property name="shortLabel" value="Country" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.rice.location.impl.country.CountryBo"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder"
-            p:includeKeyInLabel="false"
-            p:keyAttribute="alternateCode"
-            p:labelAttribute="name" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.rice.location.impl.country.CountryBo" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="alternateCode" p:labelAttribute="name"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Country Code" />
     <property name="description" value="Country Code" />
   </bean>
-  <bean id="ProposalPerson-faxNumber" parent="ProposalPerson-faxNumber-parentBean" />
 
-  <bean id="ProposalPerson-faxNumber-parentBean" abstract="true" parent="KcPerson-faxNumber">
-  </bean>
+  <bean id="ProposalPerson-faxNumber" parent="ProposalPerson-faxNumber-parentBean"/>
+  <bean id="ProposalPerson-faxNumber-parentBean" abstract="true" parent="KcPerson-faxNumber"/>
   <bean id="ProposalPerson-pagerNumber" parent="ProposalPerson-pagerNumber-parentBean" />
-
-  <bean id="ProposalPerson-pagerNumber-parentBean" abstract="true" parent="KcPerson-pagerNumber">
-  </bean>
+  <bean id="ProposalPerson-pagerNumber-parentBean" abstract="true" parent="KcPerson-pagerNumber"/>
   <bean id="ProposalPerson-mobilePhoneNumber" parent="ProposalPerson-mobilePhoneNumber-parentBean" />
-
-  <bean id="ProposalPerson-mobilePhoneNumber-parentBean" abstract="true" parent="KcPerson-mobilePhoneNumber">
-  </bean>
+  <bean id="ProposalPerson-mobilePhoneNumber-parentBean" abstract="true" parent="KcPerson-mobilePhoneNumber"/>
   <bean id="ProposalPerson-conflictOfInterestFlag" parent="ProposalPerson-conflictOfInterestFlag-parentBean" />
-
   <bean id="ProposalPerson-conflictOfInterestFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="conflictOfInterestFlag" />
     <property name="label" value="Conflict of Interest" />
@@ -410,8 +315,8 @@
     <property name="summary" value="Conflict of interest" />
     <property name="description" value="Conflict of interest" />
   </bean>
-  <bean id="ProposalPerson-percentageEffort" parent="ProposalPerson-percentageEffort-parentBean" />
 
+  <bean id="ProposalPerson-percentageEffort" parent="ProposalPerson-percentageEffort-parentBean"/>
   <bean id="ProposalPerson-percentageEffort-parentBean" abstract="true" parent="AttributeReferenceDummy-percent">
     <property name="name" value="percentageEffort" />
     <property name="label" value="Percentage Effort" />
@@ -419,8 +324,8 @@
     <property name="summary" value="Percentage Effort" />
     <property name="description" value="Percentage Effort" />
   </bean>
-  <bean id="ProposalPerson-fedrDebrFlag" parent="ProposalPerson-fedrDebrFlag-parentBean" />
 
+  <bean id="ProposalPerson-fedrDebrFlag" parent="ProposalPerson-fedrDebrFlag-parentBean"/>
   <bean id="ProposalPerson-fedrDebrFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="fedrDebrFlag" />
     <property name="label" value="FedrDebr" />
@@ -428,8 +333,8 @@
     <property name="summary" value="FedrDebr" />
     <property name="description" value="FedrDebr" />
   </bean>
-  <bean id="ProposalPerson-fedrDelqFlag" parent="ProposalPerson-fedrDelqFlag-parentBean" />
 
+  <bean id="ProposalPerson-fedrDelqFlag" parent="ProposalPerson-fedrDelqFlag-parentBean"/>
   <bean id="ProposalPerson-fedrDelqFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="fedrDelqFlag" />
     <property name="label" value="FedrDelq" />
@@ -437,8 +342,8 @@
     <property name="summary" value="FedrDelq" />
     <property name="description" value="FedrDelq" />
   </bean>
-  <bean id="ProposalPerson-projectRole" parent="ProposalPerson-projectRole-parentBean" />
 
+  <bean id="ProposalPerson-projectRole" parent="ProposalPerson-projectRole-parentBean"/>
   <bean id="ProposalPerson-projectRole-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="projectRole" />
     <property name="forceUppercase" value="false" />
@@ -446,14 +351,16 @@
     <property name="shortLabel" value="Key Person Role" />
     <property name="maxLength" value="60" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+      <bean parent="TextControlDefinition" p:size="16"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="16" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Key Person Role" />
     <property name="description" value="Key Person Role" />
   </bean>
-  <bean id="ProposalPerson-multiplePi" parent="ProposalPerson-multiplePi-parentBean" />
 
+  <bean id="ProposalPerson-multiplePi" parent="ProposalPerson-multiplePi-parentBean"/>
   <bean id="ProposalPerson-multiplePi-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="multiplePi" />
     <property name="label" value="Multiple PI" />
@@ -461,25 +368,23 @@
     <property name="summary" value="Multiple PI" />
     <property name="description" value="Multiple PI" />
   </bean>  
-  <bean id="ProposalPerson-eraCommonsUserName" parent="ProposalPerson-eraCommonsUserName-parentBean" />
 
-  <bean id="ProposalPerson-eraCommonsUserName-parentBean" abstract="true" parent="KcPerson-eraCommonsUserName">
-  </bean>
+  <bean id="ProposalPerson-eraCommonsUserName" parent="ProposalPerson-eraCommonsUserName-parentBean"/>
+  <bean id="ProposalPerson-eraCommonsUserName-parentBean" abstract="true" parent="KcPerson-eraCommonsUserName"/>
   <bean id="ProposalPerson-city" parent="ProposalPerson-city-parentBean" />
-
-  <bean id="ProposalPerson-city-parentBean" abstract="true" parent="KraAttributeReferenceDummy-city">
-  </bean>
+  <bean id="ProposalPerson-city-parentBean" abstract="true" parent="KraAttributeReferenceDummy-city"/>
   <bean id="ProposalPerson-county" parent="ProposalPerson-county-parentBean" />
-
-  <bean id="ProposalPerson-county-parentBean" abstract="true" parent="KcPersonExtendedAttributes-county">
-  </bean>
-  
+  <bean id="ProposalPerson-county-parentBean" abstract="true" parent="KcPersonExtendedAttributes-county"/>
   <bean id="ProposalPerson-state" parent="ProposalPerson-state-parentBean" />
   <bean id="ProposalPerson-state-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
   	<property name="control">
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.KcStateValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.KcStateValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.KcStateValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
   </bean>
   
@@ -488,17 +393,15 @@
   <bean id="ProposalPerson-countryOfCitizenship-parentBean" abstract="true" parent="KraAttributeReferenceDummy-countryCode">
     <property name="name" value="countryOfCitizenship" />
   </bean>
-  <bean id="ProposalPerson-versionNumber" parent="ProposalPerson-versionNumber-parentBean" />
 
-  <bean id="ProposalPerson-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
+  <bean id="ProposalPerson-versionNumber" parent="ProposalPerson-versionNumber-parentBean"/>
+  <bean id="ProposalPerson-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
   <bean id="ProposalPerson-delete" parent="ProposalPerson-delete-parentBean" />
-
   <bean id="ProposalPerson-delete-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="delete" />
   </bean>
-  <bean id="ProposalPerson-division" parent="ProposalPerson-division-parentBean" />
 
+  <bean id="ProposalPerson-division" parent="ProposalPerson-division-parentBean"/>
   <bean id="ProposalPerson-division-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="division" />
     <property name="forceUppercase" value="false" />
@@ -506,8 +409,10 @@
     <property name="shortLabel" value="Division" />
     <property name="maxLength" value="100" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Division" />
     <property name="description" value="Division" />

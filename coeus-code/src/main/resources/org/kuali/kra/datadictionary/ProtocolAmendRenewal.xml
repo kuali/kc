@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="ProtocolAmendRenewal" parent="ProtocolAmendRenewal-parentBean" />
     <bean id="ProtocolAmendRenewal-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal" />
@@ -45,7 +41,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="ProtocolAmendRenewal-id" parent="ProtocolAmendRenewal-id-parentBean" />
     <bean id="ProtocolAmendRenewal-id-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="id" />
@@ -56,9 +51,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Id" />
         <property name="description" value="Id" />
@@ -74,9 +74,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Proto Amend Ren Number" />
         <property name="description" value="Proto Amend Ren Number" />
@@ -99,9 +104,10 @@
         <property name="shortLabel" value="Summary" />
         <property name="maxLength" value="4000" />
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="3"
-                p:cols="20" />
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="20" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Summary" />
         <property name="description" value="Summary" />
@@ -117,9 +123,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Protocol Id" />
         <property name="description" value="Protocol Id" />
@@ -135,9 +146,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Protocol Number" />
         <property name="description" value="Protocol Number" />
@@ -153,20 +169,24 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Sequence Number" />
         <property name="description" value="Sequence Number" />
     </bean>
 
     <bean id="ProtocolAmendRenewal-versionNumber" parent="ProtocolAmendRenewal-versionNumber-parentBean" />
-    <bean id="ProtocolAmendRenewal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="ProtocolAmendRenewal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="ProtocolAmendRenewal-inquiryDefinition" parent="ProtocolAmendRenewal-inquiryDefinition-parentBean" />
+  <bean id="ProtocolAmendRenewal-InquiryView" parent="ProtocolAmendRenewal-InquiryView-parentBean"/>
     <bean id="ProtocolAmendRenewal-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Id" />
         <property name="inquirySections" >
@@ -176,21 +196,37 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="id" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="protoAmendRenNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="dateCreated" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="summary" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="protocolId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="protocolNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sequenceNumber" />
+              <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="protoAmendRenNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="dateCreated"/>
+              <bean parent="FieldDefinition" p:attributeName="summary"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolId"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolAmendRenewal-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
+              <bean p:propertyName="protoAmendRenNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="dateCreated" parent="Uif-DataField"/>
+              <bean p:propertyName="summary" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolId" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -200,50 +236,71 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="ProtocolAmendRenewal-lookupDefinition" parent="ProtocolAmendRenewal-lookupDefinition-parentBean" />
+  <bean id="ProtocolAmendRenewal-LookupView" parent="ProtocolAmendRenewal-LookupView-parentBean"/>
     <bean id="ProtocolAmendRenewal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proto Amend Renewal Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="id" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protoAmendRenNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="dateCreated" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="summary" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="protoAmendRenNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="dateCreated"/>
+        <bean parent="FieldDefinition" p:attributeName="summary"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolId"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="protoAmendRenNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="dateCreated"/>
+        <bean parent="FieldDefinition" p:attributeName="summary"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolId"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolAmendRenewal-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal"/>
+    <property name="headerText" value="Proto Amend Renewal Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protoAmendRenNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dateCreated" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="summary" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="id" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protoAmendRenNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="dateCreated" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="summary" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
+        <bean p:propertyName="id" parent="Uif-DataField"/>
+        <bean p:propertyName="protoAmendRenNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="dateCreated" parent="Uif-DataField"/>
+        <bean p:propertyName="summary" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolId" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

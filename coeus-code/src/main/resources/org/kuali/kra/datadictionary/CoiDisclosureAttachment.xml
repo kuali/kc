@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,17 +14,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="CoiDisclosureAttachment" parent="CoiDisclosureAttachment-parentBean" />
 	<bean id="CoiDisclosureAttachment-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment" />
 		<property name="objectLabel" value="Coi Disclosure Attachment" />
-	    	
 		<property name="inquiryDefinition" >
 			<ref bean="CoiDisclosureAttachment-inquiryDefinition" />
 		</property>
@@ -61,16 +56,23 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureFinancialEntitiesValuesFinder" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureFinancialEntitiesValuesFinder"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureFinancialEntitiesValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
 		<property name="summary" value="Financial Entity" />
 		<property name="description" value="Financial Entity" />
 	</bean>
 	
 	<bean id="CoiDisclosureAttachment-eventTypeCode" parent="CoiDisclosure-eventTypeCode-parentBean" />
-	
 	<bean id="CoiDisclosureAttachment-projectId" parent="CoiDisclosureAttachment-projectId-parentBean" />
 	<bean id="CoiDisclosureAttachment-projectId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="projectId" />
@@ -81,9 +83,14 @@
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Project" />
 		<property name="description" value="Project" />
@@ -99,9 +106,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Attachment Id" />
 		<property name="description" value="Attachment Id" />
@@ -116,9 +128,13 @@
 		<property name="maxLength" value="5" />
 		<property name="required" value="true" />
 		<property name="control" >	
-            <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureAttachmentTypeValuesFinder"
-                  p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureAttachmentTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureAttachmentTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 		</property>
 		<property name="summary" value="Submission Review Type" />
 		<property name="description" value="Submission Review Type" />
@@ -134,9 +150,16 @@
 	  <property name="validationPattern" >
 	    <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 	  </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
 	  <property name="control" >
-	    <bean parent="TextControlDefinition"
-	          p:size="35" />
+      <bean parent="TextControlDefinition" p:size="35"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="35" parent="Uif-TextControl"/>
 	  </property>
 	  <property name="summary" value="Contact Name" />
 	  <property name="description" value="Contact Name" />
@@ -159,6 +182,11 @@
       <property name="validationPattern" >
 	    <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
       </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
 	  <property name="summary" value="Phone" />
 	  <property name="description" value="Phone" />
 	</bean>
@@ -172,9 +200,10 @@
 	  <property name="maxLength" value="300" />
 	  <property name="description" value="Comments" />
 		<property name="control" >
-			<bean parent="TextareaControlDefinition"
-	            p:rows="3"
-	            p:cols="40"/>
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="40" parent="Uif-TextAreaControl"/>
         </property>
 	</bean>
 	
@@ -188,9 +217,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="5" />
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="5" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Document Id" />
 		<property name="description" value="Document Id" />
@@ -210,12 +244,12 @@
 	<bean id="CoiDisclosureAttachment-description" parent="CoiDisclosureAttachment-description-parentBean" />
 	<bean id="CoiDisclosureAttachment-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
 		<property name="control" >
-			<bean parent="TextareaControlDefinition"
-	            p:rows="3"
-	            p:cols="40"/> 
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="40" parent="Uif-TextAreaControl"/>
         </property>
      	<property name="required" value="true" />
-        
 	</bean>
 	
 	<bean id="CoiDisclosureAttachment-updateUser" parent="CoiDisclosureAttachment-updateUser-parentBean" />
@@ -236,6 +270,7 @@
 	
 	<!-- Business Object Inquiry Definition -->
 	<bean id="CoiDisclosureAttachment-inquiryDefinition" parent="CoiDisclosureAttachment-inquiryDefinition-parentBean" />
+  <bean id="CoiDisclosureAttachment-InquiryView" parent="CoiDisclosureAttachment-InquiryView-parentBean"/>
 	<bean id="CoiDisclosureAttachment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Id" />
 		<property name="inquirySections" >
@@ -245,8 +280,25 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list merge="true">
-							<bean parent="FieldDefinition"
-								p:attributeName="description" />
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CoiDisclosureAttachment-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -256,20 +308,44 @@
 	
 		<!-- Business Object Lookup Definition -->
 	<bean id="CoiDisclosureAttachment-lookupDefinition" parent="CoiDisclosureAttachment-lookupDefinition-parentBean" />
+  <bean id="CoiDisclosureAttachment-LookupView" parent="CoiDisclosureAttachment-LookupView-parentBean"/>
 	<bean id="CoiDisclosureAttachment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="CoiDisclosure Attachment Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="lookupFields" >
 			<list merge="true">
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="description"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list merge="true">
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CoiDisclosureAttachment-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment"/>
+    <property name="headerText" value="CoiDisclosure Attachment Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
 			</list>
 		</property>
 	</bean>

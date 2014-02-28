@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,13 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
-        
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
         <bean id="CommitteeScheduleAttachments" parent="CommitteeScheduleAttachments-parentBean"/>
         <bean id="CommitteeScheduleAttachments-parentBean" abstract="true" parent="BusinessObjectEntry" >
        		<property name="businessObjectClass" value="org.kuali.kra.meeting.CommitteeScheduleAttachments"	/>
@@ -44,7 +39,6 @@
         </bean>
         	 
         <!-- Attribute Definitions -->
-                        	
         <bean id="CommitteeScheduleAttachments-attachmentsTypeCode" parent="CommitteeScheduleAttachments-attachmentsTypeCode-parentBean" />
         <bean id="CommitteeScheduleAttachments-attachmentsTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
         	<property name="name" value="attachmentsTypeCode" />
@@ -55,11 +49,17 @@
 			<property name="validationPattern">
 				<bean parent="AnyCharacterValidationPattern" />
 			</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
         	<property name="control" >
-        		  <bean parent="SelectControlDefinition"
-            		p:valuesFinderClass="org.kuali.coeus.common.committee.impl.meeting.AttachmentsTypeValuesFinder"
-            		p:includeKeyInLabel="false" 
-            		p:script="updateProtocolContingencyDiv(this)"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.committee.impl.meeting.AttachmentsTypeValuesFinder" p:includeKeyInLabel="false" p:script="updateProtocolContingencyDiv(this)"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.common.committee.impl.meeting.AttachmentsTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     		</property>
         	<property name="summary" value="Attachment Type" />
         	<property name="description" value="Attachment Type" />
@@ -73,12 +73,19 @@
 			<property name="maxLength" value="4000" />
 			<property name="required" value="false" />
         	<property name="validationPattern">
-				<bean parent="AnyCharacterValidationPattern" 
-		    		  p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 			</property>
         	<property name="control">
 				<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
 			</property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="80" parent="Uif-TextAreaControl"/>
+    </property>
 			<property name="summary" value="Description"/>
         	<property name="description" value="Description" />		
         </bean>
@@ -91,21 +98,27 @@
     		<property name="shortLabel" value="File Name" />
     		<property name="maxLength" value="150" />
     		<property name="validationPattern" >
-      			<bean parent="AnyCharacterValidationPattern"
-            		p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     		</property>
     		<property name="required" value="true" />
     		<property name="control" >
-      			<bean parent="TextControlDefinition"
-            		p:size="80" />
+      <bean parent="TextControlDefinition" p:size="80"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="80" parent="Uif-TextControl"/>
     		</property>
     		<property name="summary" value="File Name" />
     		<property name="description" value="File Name" />
   		</bean>
   		
       	<!-- Business Object Inquiry Definition -->
-        
         <bean id="CommitteeScheduleAttachments-inquiryDefinition" parent="CommitteeScheduleAttachments-inquiryDefinition-parentBean" />
+  <bean id="CommitteeScheduleAttachments-InquiryView" parent="CommitteeScheduleAttachments-InquiryView-parentBean"/>
         <bean id="CommitteeScheduleAttachments-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         	<property name="title" value="attachmentsTypeCode" />
 			<property name="inquirySections" >
@@ -115,12 +128,29 @@
         				<property name="numberOfColumns" value="1" />
         				<property name="inquiryFields" >
         					<list>
-        						<bean parent="FieldDefinition"
-        							p:attributeName="attachmentsTypeCode" />
-        						<bean parent="FieldDefinition"
-        							p:attributeName="description"/>
-        						<bean parent="FieldDefinition"
-        							p:attributeName="fileName" />
+              <bean parent="FieldDefinition" p:attributeName="attachmentsTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="fileName"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CommitteeScheduleAttachments-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="attachmentsTypeCode"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.meeting.CommitteeScheduleAttachments"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="attachmentsTypeCode"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="attachmentsTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="fileName" parent="Uif-DataField"/>
         					</list>
         					</property>
         			</bean>
@@ -130,29 +160,54 @@
         	
         	<!-- Business Object Lookup Definition -->
         <bean id="CommitteeScheduleAttachments-lookupDefinition" parent="CommitteeScheduleAttachments-lookupDefinition-parentBean" />
+  <bean id="CommitteeScheduleAttachments-LookupView" parent="CommitteeScheduleAttachments-LookupView-parentBean"/>
         <bean id="CommitteeScheduleAttachments-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         	<property name="title" value="Committee Schedule Attachment Lookup" />
         	<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a$gt;" />
-        	
         	<property name="lookupFields" >
         		<list>
-        			<bean parent="FieldDefinition"
-        				p:attributeName="attachmentsTypeCode"/>
-					<bean parent="FieldDefinition"
-        				p:attributeName="description"/>
-        			<bean parent="FieldDefinition"
-        				p:attributeName="fileName" />
+        <bean parent="FieldDefinition" p:attributeName="attachmentsTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="fileName"/>
         		</list>
         	</property>
 			<property name="resultFields">
 				<list>
-					<bean parent="FieldDefinition"
-        				p:attributeName="attachmentsTypeCode"/>
-					<bean parent="FieldDefinition"
-        				p:attributeName="description"/>
-        			<bean parent="FieldDefinition"
-        				p:attributeName="fileName" />
+        <bean parent="FieldDefinition" p:attributeName="attachmentsTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="fileName"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CommitteeScheduleAttachments-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.meeting.CommitteeScheduleAttachments"/>
+    <property name="headerText" value="Committee Schedule Attachment Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a$gt;]"/>
+            </bean>
 				</list>
 			</property>
         </bean>	
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="attachmentsTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="fileName" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="attachmentsTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="fileName" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

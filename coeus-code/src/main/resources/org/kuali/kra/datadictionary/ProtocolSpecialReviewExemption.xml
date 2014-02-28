@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
@@ -15,12 +16,7 @@
  * limitations under the License.
  */
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="ProtocolSpecialReviewExemption" parent="ProtocolSpecialReviewExemption-parentBean" />
 	<bean id="ProtocolSpecialReviewExemption-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption" />
@@ -42,7 +38,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
 	<bean id="ProtocolSpecialReviewExemption-protocolSpecialReviewExemptionId" parent="ProtocolSpecialReviewExemption-protocolSpecialReviewExemptionId-parentBean" />
 	<bean id="ProtocolSpecialReviewExemption-protocolSpecialReviewExemptionId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolSpecialReviewExemptionId" />
@@ -53,9 +48,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Special Review Exemption Id" />
 		<property name="description" value="Protocol Special Review Exemption Id" />
@@ -63,13 +63,11 @@
 
     <bean id="ProtocolSpecialReviewExemption-exemptionTypeCode" parent="ProtocolSpecialReviewExemption-exemptionTypeCode-parentBean" />
     <bean id="ProtocolSpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="SpecialReviewExemption-exemptionTypeCode" />
-
 	<bean id="ProtocolSpecialReviewExemption-versionNumber" parent="ProtocolSpecialReviewExemption-versionNumber-parentBean" />
 	<bean id="ProtocolSpecialReviewExemption-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
-
 	<!-- Business Object Inquiry Definition -->
-	
 	<bean id="ProtocolSpecialReviewExemption-inquiryDefinition" parent="ProtocolSpecialReviewExemption-inquiryDefinition-parentBean" />
+  <bean id="ProtocolSpecialReviewExemption-InquiryView" parent="ProtocolSpecialReviewExemption-InquiryView-parentBean"/>
 	<bean id="ProtocolSpecialReviewExemption-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Protocol Special Review Exemption" />
 		<property name="inquirySections" >
@@ -79,11 +77,8 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								  p:attributeName="protocolSpecialReviewExemptionId" 
-								  p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								  p:attributeName="exemptionTypeCode" />
+              <bean parent="FieldDefinition" p:attributeName="protocolSpecialReviewExemptionId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="exemptionTypeCode"/>
 						</list>
 					</property>
 				</bean>
@@ -91,9 +86,28 @@
 		</property>
 	</bean>
 
-	<!-- Business Object Lookup Definition -->
+  <bean id="ProtocolSpecialReviewExemption-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Protocol Special Review Exemption"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Protocol Special Review Exemption"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="protocolSpecialReviewExemptionId" parent="Uif-DataField"/>
+              <bean p:propertyName="exemptionTypeCode" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 	
+  <!-- Business Object Lookup Definition -->
 	<bean id="ProtocolSpecialReviewExemption-lookupDefinition" parent="ProtocolSpecialReviewExemption-lookupDefinition-parentBean" />
+  <bean id="ProtocolSpecialReviewExemption-LookupView" parent="ProtocolSpecialReviewExemption-LookupView-parentBean"/>
 	<bean id="ProtocolSpecialReviewExemption-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Special Review Exemption Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
@@ -102,20 +116,42 @@
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					  p:attributeName="protocolSpecialReviewExemptionId" 
-					  p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					  p:attributeName="exemptionTypeCode" />
+        <bean parent="FieldDefinition" p:attributeName="protocolSpecialReviewExemptionId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="exemptionTypeCode"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="protocolSpecialReviewExemptionId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="exemptionTypeCode"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolSpecialReviewExemption-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption"/>
+    <property name="headerText" value="Protocol Special Review Exemption Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="protocolSpecialReviewExemptionId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="exemptionTypeCode" parent="Uif-LookupCriteriaInputField"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					  p:attributeName="protocolSpecialReviewExemptionId" 
-					  p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					  p:attributeName="exemptionTypeCode" />
+        <bean p:propertyName="protocolSpecialReviewExemptionId" parent="Uif-DataField"/>
+        <bean p:propertyName="exemptionTypeCode" parent="Uif-DataField"/>
 			</list>
 		</property>
 	</bean>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
  
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="FinEntitiesDataMatrix" parent="FinEntitiesDataMatrix-parentBean" />
     <bean id="FinEntitiesDataMatrix-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.coi.personfinancialentity.FinEntitiesDataMatrix" />
@@ -45,7 +41,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="FinEntitiesDataMatrix-columnName" parent="FinEntitiesDataMatrix-columnName-parentBean" />
     <bean id="FinEntitiesDataMatrix-columnName-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="columnName" />
@@ -56,9 +51,16 @@
         <property name="validationPattern">
             <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Column Name" />
         <property name="description" value="Column Name" />
@@ -74,9 +76,16 @@
         <property name="validationPattern">
             <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Column Label" />
         <property name="description" value="Column Label" />
@@ -92,10 +101,17 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.coi.personfinancialentity.DataMatrixGuiTypeValuesFinder"
-                p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.coi.personfinancialentity.DataMatrixGuiTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.coi.personfinancialentity.DataMatrixGuiTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Gui Type" />
         <property name="description" value="Gui Type" />
@@ -111,9 +127,16 @@
         <property name="validationPattern">
             <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="30" />
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="30" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Lookup Argument" />
         <property name="description" value="Lookup Argument" />
@@ -129,9 +152,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Data Group Id" />
         <property name="description" value="Data Group Id" />
@@ -156,20 +184,24 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Column Sort Id" />
         <property name="description" value="Column Sort Id" />
     </bean>
 
     <bean id="FinEntitiesDataMatrix-versionNumber" parent="FinEntitiesDataMatrix-versionNumber-parentBean" />
-    <bean id="FinEntitiesDataMatrix-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="FinEntitiesDataMatrix-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="FinEntitiesDataMatrix-inquiryDefinition" parent="FinEntitiesDataMatrix-inquiryDefinition-parentBean" />
+  <bean id="FinEntitiesDataMatrix-InquiryView" parent="FinEntitiesDataMatrix-InquiryView-parentBean"/>
     <bean id="FinEntitiesDataMatrix-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Column Name" />
         <property name="inquirySections" >
@@ -179,21 +211,37 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="columnName" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="columnLabel" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="guiType" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="lookupArgument" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="dataGroupId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="active" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="columnSortId" />
+              <bean parent="FieldDefinition" p:attributeName="columnName" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="columnLabel"/>
+              <bean parent="FieldDefinition" p:attributeName="guiType"/>
+              <bean parent="FieldDefinition" p:attributeName="lookupArgument"/>
+              <bean parent="FieldDefinition" p:attributeName="dataGroupId"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+              <bean parent="FieldDefinition" p:attributeName="columnSortId"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="FinEntitiesDataMatrix-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Column Name"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.personfinancialentity.FinEntitiesDataMatrix"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Column Name"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="columnName" parent="Uif-DataField"/>
+              <bean p:propertyName="columnLabel" parent="Uif-DataField"/>
+              <bean p:propertyName="guiType" parent="Uif-DataField"/>
+              <bean p:propertyName="lookupArgument" parent="Uif-DataField"/>
+              <bean p:propertyName="dataGroupId" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
+              <bean p:propertyName="columnSortId" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -203,49 +251,71 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="FinEntitiesDataMatrix-lookupDefinition" parent="FinEntitiesDataMatrix-lookupDefinition-parentBean" />
+  <bean id="FinEntitiesDataMatrix-LookupView" parent="FinEntitiesDataMatrix-LookupView-parentBean"/>
     <bean id="FinEntitiesDataMatrix-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Fin Entities Data Matrix Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="columnName" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="columnLabel" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="guiType" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="lookupArgument" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="dataGroupId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="active" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="columnSortId" />
+        <bean parent="FieldDefinition" p:attributeName="columnName" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="columnLabel"/>
+        <bean parent="FieldDefinition" p:attributeName="guiType"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupArgument"/>
+        <bean parent="FieldDefinition" p:attributeName="dataGroupId"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="columnSortId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="columnName" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="columnLabel"/>
+        <bean parent="FieldDefinition" p:attributeName="guiType"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupArgument"/>
+        <bean parent="FieldDefinition" p:attributeName="dataGroupId"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="columnSortId"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="FinEntitiesDataMatrix-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.personfinancialentity.FinEntitiesDataMatrix"/>
+    <property name="headerText" value="Fin Entities Data Matrix Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="columnName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="columnLabel" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="guiType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="lookupArgument" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dataGroupId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="columnSortId" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="columnName" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="columnLabel" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="guiType" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="lookupArgument" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="dataGroupId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="active" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="columnSortId" />
+        <bean p:propertyName="columnName" parent="Uif-DataField"/>
+        <bean p:propertyName="columnLabel" parent="Uif-DataField"/>
+        <bean p:propertyName="guiType" parent="Uif-DataField"/>
+        <bean p:propertyName="lookupArgument" parent="Uif-DataField"/>
+        <bean p:propertyName="dataGroupId" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
+        <bean p:propertyName="columnSortId" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

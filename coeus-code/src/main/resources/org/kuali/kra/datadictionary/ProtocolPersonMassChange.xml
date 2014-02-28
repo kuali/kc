@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,11 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="ProtocolPersonMassChange" parent="ProtocolPersonMassChange-parentBean" />
     <bean id="ProtocolPersonMassChange-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.personmasschange.bo.ProtocolPersonMassChange" />
@@ -36,7 +33,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="ProtocolPersonMassChange-protocolPersonMassChangeId" parent="ProtocolPersonMassChange-protocolPersonMassChangeId-parentBean" />
     <bean id="ProtocolPersonMassChange-protocolPersonMassChangeId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protocolPersonMassChangeId" />
@@ -47,9 +43,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Protocol Person Mass Change Id" />
         <property name="description" value="Protocol Person Mass Change Id" />
@@ -57,7 +58,6 @@
     
     <bean id="ProtocolPersonMassChange-personMassChangeId" parent="ProtocolPersonMassChange-personMassChangeId-parentBean" />
     <bean id="ProtocolPersonMassChange-personMassChangeId-parentBean" abstract="true" parent="PersonMassChange-personMassChangeId" />
-    
     <bean id="ProtocolPersonMassChange-investigator" parent="ProtocolPersonMassChange-investigator-parentBean" />
     <bean id="ProtocolPersonMassChange-investigator-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="investigator" />
@@ -68,6 +68,9 @@
         <property name="control" >
             <bean parent="CheckboxControlDefinition" />
         </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
         <property name="summary" value="Investigator" />
         <property name="description" value="Investigator" />
     </bean>
@@ -82,6 +85,9 @@
         <property name="control" >
             <bean parent="CheckboxControlDefinition" />
         </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
         <property name="summary" value="Key Study Person" />
         <property name="description" value="Key Study Person" />
     </bean>
@@ -96,6 +102,9 @@
         <property name="control" >
             <bean parent="CheckboxControlDefinition" />
         </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
         <property name="summary" value="Correspondents" />
         <property name="description" value="Correspondents" />
     </bean>
@@ -110,11 +119,13 @@
         <property name="control" >
             <bean parent="CheckboxControlDefinition" />
         </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
         <property name="summary" value="Reviewer" />
         <property name="description" value="Reviewer" />
     </bean>
     
     <bean id="ProtocolPersonMassChange-versionNumber" parent="ProtocolPersonMassChange-versionNumber-parentBean" />
     <bean id="ProtocolPersonMassChange-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
-    
 </beans>

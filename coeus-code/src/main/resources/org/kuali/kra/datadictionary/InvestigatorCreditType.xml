@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="InvestigatorCreditType" parent="InvestigatorCreditType-parentBean"/>
-
   <bean abstract="true" id="InvestigatorCreditType-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType"/>
 		<property name="objectLabel" value="Investigator Credit Type"/>
@@ -37,13 +36,15 @@
     <property name="shortLabel" value="Inv Cred Typ Cd"/>
     <property name="summary" value="Investigator Credit Type Code"/>
     <property name="description" value="Investigator Credit Type Code"/>
-  <property name="maxLength" value="3"/></bean>
+    <property name="maxLength" value="3"/>
+  </bean>
+
   <bean id="InvestigatorCreditType-description" parent="InvestigatorCreditType-description-parentBean"/>
-
   <bean abstract="true" id="InvestigatorCreditType-description-parentBean" parent="KraAttributeReferenceDummy-description">
-  <property name="maxLength" value="300"/></bean>
-  <bean id="InvestigatorCreditType-addsToHundred" parent="InvestigatorCreditType-addsToHundred-parentBean"/>
+    <property name="maxLength" value="300"/>
+  </bean>
 
+  <bean id="InvestigatorCreditType-addsToHundred" parent="InvestigatorCreditType-addsToHundred-parentBean"/>
   <bean abstract="true" id="InvestigatorCreditType-addsToHundred-parentBean" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="addsToHundred"/>
     <property name="label" value="Adds to Hundred"/>
@@ -51,8 +52,8 @@
     <property name="summary" value="Adds to Hundred"/>
     <property name="description" value="Adds to Hundred"/>
   </bean>
-  <bean id="InvestigatorCreditType-active" parent="InvestigatorCreditType-active-parentBean"/>
 
+  <bean id="InvestigatorCreditType-active" parent="InvestigatorCreditType-active-parentBean"/>
   <bean abstract="true" id="InvestigatorCreditType-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="active"/>
     <property name="label" value="Is Active"/>
@@ -60,16 +61,12 @@
     <property name="summary" value="Is Active"/>
     <property name="description" value="Is Active"/>
   </bean>
+
   <bean id="InvestigatorCreditType-versionNumber" parent="InvestigatorCreditType-versionNumber-parentBean"/>
-
-  <bean abstract="true" id="InvestigatorCreditType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean abstract="true" id="InvestigatorCreditType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="InvestigatorCreditType-inquiryDefinition" parent="InvestigatorCreditType-inquiryDefinition-parentBean"/>
-
+  <bean id="InvestigatorCreditType-InquiryView" parent="InvestigatorCreditType-InquiryView-parentBean"/>
   <bean abstract="true" id="InvestigatorCreditType-inquiryDefinition-parentBean" parent="InquiryDefinition">
     <property name="title" value="Investigator Credit Type"/>
     <property name="inquirySections">
@@ -90,18 +87,35 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="InvestigatorCreditType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Investigator Credit Type"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Investigator Credit Type"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="invCreditTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="addsToHundred" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="InvestigatorCreditType-lookupDefinition" parent="InvestigatorCreditType-lookupDefinition-parentBean"/>
-
+  <bean id="InvestigatorCreditType-LookupView" parent="InvestigatorCreditType-LookupView-parentBean"/>
   <bean abstract="true" id="InvestigatorCreditType-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Investigator Credit Type Lookup"/>
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
     <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields">
       <list>
@@ -118,4 +132,35 @@
       </list>
     </property>
   </bean>
+
+  <bean id="InvestigatorCreditType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType"/>
+    <property name="headerText" value="Investigator Credit Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="invCreditTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="invCreditTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

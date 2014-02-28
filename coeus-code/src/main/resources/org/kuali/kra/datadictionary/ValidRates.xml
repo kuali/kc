@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
@@ -15,12 +16,7 @@
  * limitations under the License.
  */
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="ValidRates" parent="ValidRates-parentBean" />
 	<bean id="ValidRates-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.home.ValidRates" />
@@ -57,9 +53,14 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="ICR Rate Code" />
 		<property name="description" value="ICR Rate Code" />
@@ -75,9 +76,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Valid Rates Id" />
 		<property name="description" value="Valid Rates Id" />
@@ -91,13 +97,19 @@
 		<property name="shortLabel" value="On Campus Rate" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
-            <bean parent="FixedPointValidationPattern"
-                p:precision="12"
-                p:scale="2" />
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="12"/>
+        <property name="scale" value="2"/>
+      </bean>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="On Campus Rate" />
 		<property name="description" value="On Campus Rate" />
@@ -111,13 +123,19 @@
 		<property name="shortLabel" value="Off Campus Rate" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
-	        <bean parent="FixedPointValidationPattern"
-	            p:precision="12"
-	            p:scale="2" />
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="12"/>
+        <property name="scale" value="2"/>
+      </bean>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Off CampusContractContract Rate" />
 		<property name="description" value="Off CampusContractContract Rate" />
@@ -130,13 +148,19 @@
 		<property name="shortLabel" value="Rate Class Type" />
 		<property name="maxLength" value="20" />
         <property name="control" >
-			<bean parent="SelectControlDefinition"
-			      p:businessObjectClass="org.kuali.kra.budget.rates.RateClassType"
-			      p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-			      p:includeKeyInLabel="true"
-			      p:includeBlankRow="false"
-			      p:keyAttribute="rateClassType"
-			      p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.budget.rates.RateClassType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="false" p:keyAttribute="rateClassType" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.budget.rates.RateClassType"/>
+        <property name="includeKeyInDescription" value="true"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="rateClassType"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
 		<property name="summary" value="Rate Class Type" />
 		<property name="description" value="Rate Class Type" />
@@ -152,20 +176,24 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Adjustment Key" />
 		<property name="description" value="Adjustment Key" />
 	</bean>
 
 	<bean id="ValidRates-versionNumber" parent="ValidRates-versionNumber-parentBean" />
-	<bean id="ValidRates-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+  <bean id="ValidRates-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 	<!-- Business Object Inquiry Definition -->
 	<bean id="ValidRates-inquiryDefinition" parent="ValidRates-inquiryDefinition-parentBean" />
+  <bean id="ValidRates-InquiryView" parent="ValidRates-InquiryView-parentBean"/>
 	<bean id="ValidRates-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Valid Rates Id" />
 		<property name="inquirySections" >
@@ -175,19 +203,35 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="validRatesId" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="onCampusRate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="offCampusRate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="rateClassType" />
-							<bean parent="FieldDefinition"
-								p:attributeName="adjustmentKey" />
-							<bean parent="FieldDefinition"
-							    p:attributeName="icrRateCode" />
+              <bean parent="FieldDefinition" p:attributeName="validRatesId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="onCampusRate"/>
+              <bean parent="FieldDefinition" p:attributeName="offCampusRate"/>
+              <bean parent="FieldDefinition" p:attributeName="rateClassType"/>
+              <bean parent="FieldDefinition" p:attributeName="adjustmentKey"/>
+              <bean parent="FieldDefinition" p:attributeName="icrRateCode"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ValidRates-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Valid Rates Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.award.home.ValidRates"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Valid Rates Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="validRatesId" parent="Uif-DataField"/>
+              <bean p:propertyName="onCampusRate" parent="Uif-DataField"/>
+              <bean p:propertyName="offCampusRate" parent="Uif-DataField"/>
+              <bean p:propertyName="rateClassType" parent="Uif-DataField"/>
+              <bean p:propertyName="adjustmentKey" parent="Uif-DataField"/>
+              <bean p:propertyName="icrRateCode" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -197,46 +241,67 @@
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="ValidRates-lookupDefinition" parent="ValidRates-lookupDefinition-parentBean" />
+  <bean id="ValidRates-LookupView" parent="ValidRates-LookupView-parentBean"/>
 	<bean id="ValidRates-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Valid Rates Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="validRatesId" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="onCampusRate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="offCampusRate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="rateClassType" />
-				<bean parent="FieldDefinition"
-					p:attributeName="adjustmentKey" />
-				<bean parent="FieldDefinition"
-				    p:attributeName="icrRateCode" />
+        <bean parent="FieldDefinition" p:attributeName="validRatesId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="onCampusRate"/>
+        <bean parent="FieldDefinition" p:attributeName="offCampusRate"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassType"/>
+        <bean parent="FieldDefinition" p:attributeName="adjustmentKey"/>
+        <bean parent="FieldDefinition" p:attributeName="icrRateCode"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="validRatesId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="onCampusRate"/>
+        <bean parent="FieldDefinition" p:attributeName="offCampusRate"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassType"/>
+        <bean parent="FieldDefinition" p:attributeName="adjustmentKey"/>
+        <bean parent="FieldDefinition" p:attributeName="icrRateCode"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ValidRates-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.award.home.ValidRates"/>
+    <property name="headerText" value="Valid Rates Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="validRatesId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="onCampusRate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="offCampusRate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateClassType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="adjustmentKey" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="icrRateCode" parent="Uif-LookupCriteriaInputField"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="validRatesId" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="onCampusRate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="offCampusRate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="rateClassType" />
-				<bean parent="FieldDefinition"
-					p:attributeName="adjustmentKey" />
-				<bean parent="FieldDefinition"
-					p:attributeName="icrRateCode" />
+        <bean p:propertyName="validRatesId" parent="Uif-DataField"/>
+        <bean p:propertyName="onCampusRate" parent="Uif-DataField"/>
+        <bean p:propertyName="offCampusRate" parent="Uif-DataField"/>
+        <bean p:propertyName="rateClassType" parent="Uif-DataField"/>
+        <bean p:propertyName="adjustmentKey" parent="Uif-DataField"/>
+        <bean p:propertyName="icrRateCode" parent="Uif-DataField"/>
 			</list>
 		</property>
 	</bean>
