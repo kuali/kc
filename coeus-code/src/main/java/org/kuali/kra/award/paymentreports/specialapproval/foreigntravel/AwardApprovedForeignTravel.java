@@ -229,7 +229,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate implements Compar
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.approvedForeignTravelId = null;

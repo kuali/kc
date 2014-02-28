@@ -17,8 +17,8 @@ package org.kuali.kra.institutionalproposal.ipreview;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.kra.institutionalproposal.ProposalComment;
@@ -427,21 +427,21 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     }
 
     /**
-     * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getOwnerSequenceNumber()
      */
     public Integer getOwnerSequenceNumber() {
         return null;
     }
 
     /**
-     * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#incrementSequenceNumber()
      */
     public void incrementSequenceNumber() {
         this.setSequenceNumber(this.getSequenceNumber() + 1);
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
      */
     public IntellectualPropertyReview getSequenceOwner() {
         return this;
@@ -451,14 +451,14 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.ipReviewId = null;
     }
 
     /**
-     * @see org.kuali.kra.SequenceOwner#getName()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getName()
      */
     public String getVersionNameField() {
         return "proposalNumber";

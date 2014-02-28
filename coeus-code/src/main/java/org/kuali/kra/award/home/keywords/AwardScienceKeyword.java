@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.home.keywords;
 
-import org.kuali.kra.SequenceAssociate;
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.AbstractScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
@@ -100,7 +100,7 @@ public class AwardScienceKeyword extends AbstractScienceKeyword implements Seque
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         awardScienceKeywordId = null;

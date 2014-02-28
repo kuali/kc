@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.SequenceAssociate;
 
 import java.io.Serializable;
 
@@ -134,14 +134,14 @@ public abstract class SubAwardAssociate extends KcPersistableBusinessObjectBase 
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
      */
     public SubAward getSequenceOwner() {
         return getSubAward();
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
     public void setSequenceOwner(SubAward newlyVersionedOwner) {
         setSubAward(newlyVersionedOwner);   

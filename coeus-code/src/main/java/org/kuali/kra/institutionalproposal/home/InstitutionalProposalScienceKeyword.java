@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.kra.bo.AbstractScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
 
@@ -129,21 +129,21 @@ public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword 
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
      */
     public SequenceOwner getSequenceOwner() {
         return getInstitutionalProposal();
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner)
      */
     public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
         setInstitutionalProposal((InstitutionalProposal) newlyVersionedOwner);
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.proposalScienceKeywordId = null;

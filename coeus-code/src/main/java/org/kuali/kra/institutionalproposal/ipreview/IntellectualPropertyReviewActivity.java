@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.SequenceAssociate;
 
 import java.sql.Date;
 
@@ -141,21 +141,21 @@ public class IntellectualPropertyReviewActivity extends KcPersistableBusinessObj
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
      */
     public IntellectualPropertyReview getSequenceOwner() {
         return getIntellectualPropertyReview();
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
     public void setSequenceOwner(IntellectualPropertyReview newlyVersionedOwner) {
         setIntellectualPropertyReview((IntellectualPropertyReview) newlyVersionedOwner);
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.proposalIpReviewActivityId = null;

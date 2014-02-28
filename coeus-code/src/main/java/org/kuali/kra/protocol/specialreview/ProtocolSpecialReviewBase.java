@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol.specialreview;
 
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
-import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.protocol.ProtocolBase;
 
 /**
@@ -62,7 +62,7 @@ public abstract class ProtocolSpecialReviewBase extends SpecialReview<ProtocolSp
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         protocolSpecialReviewId = null;
