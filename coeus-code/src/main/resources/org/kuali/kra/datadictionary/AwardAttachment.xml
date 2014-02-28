@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,21 +14,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="AwardAttachment" parent="AwardAttachment-parentBean" />
 	<bean id="AwardAttachment-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.notesandattachments.attachments.AwardAttachment" />
 		<property name="objectLabel" value="Award Attachment" />
 	    <property name="helpDefinition" >
-	      <bean parent="HelpDefinition"
-	            p:parameterNamespace="KC-AWARD"
-	            p:parameterName="awardAttachmentsHelpUrl"
-	            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardAttachmentsHelpUrl" p:parameterDetailType="Document"/>
 	    </property>		
 		<property name="inquiryDefinition" >
 			<ref bean="AwardAttachment-inquiryDefinition" />
@@ -49,6 +42,7 @@
 				<ref bean="AwardAttachment-updateTimestamp" />
 			</list>
 		</property>
+  <!-- <property name="required" value="true" />-->
 	</bean>
 	
 	<bean id="AwardAttachment-awardAttachmentId" parent="AwardAttachment-awardAttachmentId-parentBean" />
@@ -61,9 +55,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Attachment Id" />
 		<property name="description" value="Attachment Id" />
@@ -80,9 +79,14 @@
 	    <property name="validationPattern" >
 	      <bean parent="NumericValidationPattern" />
 	    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 	    <property name="control" >
-	      <bean parent="TextControlDefinition"
-	            p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
 	    </property>
 	    <property name="summary" value="Sequence Number" />
 	    <property name="description" value="Sequence Number" />
@@ -99,15 +103,24 @@
     	<property name="validationPattern" >
       		<bean parent="NumericValidationPattern" />
     	</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     	<property name="required" value="true" />
     	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentType"
-            	p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-           	 	p:includeKeyInLabel="false"
-           	 	p:includeBlankRow="false"
-            	p:keyAttribute="typeCode"
-            	p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="typeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="typeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
 	</bean>
 	
@@ -121,9 +134,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="5" />
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="5" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Document Id" />
 		<property name="description" value="Document Id" />
@@ -136,19 +154,17 @@
 		<property name="shortLabel" value="File Name" />
 		<property name="summary" value="File Name" />
 		<property name="description" value="File Name" />
-		<!-- <property name="required" value="true" />-->
 	</bean>
   	
-
 	<bean id="AwardAttachment-description" parent="AwardAttachment-description-parentBean" />
 	<bean id="AwardAttachment-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
 		<property name="control" >
-			<bean parent="TextareaControlDefinition"
-	            p:rows="3"
-	            p:cols="40"/> 
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="40" parent="Uif-TextAreaControl"/>
         </property>
 	</bean>
-	
 	
 	<bean id="AwardAttachment-updateUser" parent="AwardAttachment-updateUser-parentBean" />
 	<bean id="AwardAttachment-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
@@ -165,10 +181,10 @@
 	</bean>
 
     <bean id="AwardAttachment-versionNumber" parent="AwardAttachment-versionNumber-parentBean" />
-    <bean id="AwardAttachment-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
+  <bean id="AwardAttachment-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 	<!-- Business Object Inquiry Definition -->
 	<bean id="AwardAttachment-inquiryDefinition" parent="AwardAttachment-inquiryDefinition-parentBean" />
+  <bean id="AwardAttachment-InquiryView" parent="AwardAttachment-InquiryView-parentBean"/>
 	<bean id="AwardAttachment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Id" />
 		<property name="inquirySections" >
@@ -178,38 +194,81 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list merge="true">
-							<bean parent="FieldDefinition"
-								p:attributeName="typeCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="description" />
+              <bean parent="FieldDefinition" p:attributeName="typeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
 						</list>
 					</property>
 				</bean>
 			</list>
 		</property>
 	</bean>
+
+  <bean id="AwardAttachment-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.award.notesandattachments.attachments.AwardAttachment"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="typeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
 		<!-- Business Object Lookup Definition -->
 	<bean id="AwardAttachment-lookupDefinition" parent="AwardAttachment-lookupDefinition-parentBean" />
+  <bean id="AwardAttachment-LookupView" parent="AwardAttachment-LookupView-parentBean"/>
 	<bean id="AwardAttachment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Award Attachment Lookup" />
         <property name="lookupableID" value="AwardAttachmentLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="lookupFields" >
 			<list merge="true">
-				<bean parent="FieldDefinition"
-					p:attributeName="typeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="typeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list merge="true">
-				<bean parent="FieldDefinition"
-					p:attributeName="typeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="typeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AwardAttachment-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.award.notesandattachments.attachments.AwardAttachment"/>
+    <property name="headerText" value="Award Attachment Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
 			</list>
 		</property>
 	</bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="typeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="typeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

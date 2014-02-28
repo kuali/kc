@@ -1,9 +1,5 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="Negotiation" parent="Negotiation-parentBean" />
   <bean id="Negotiation-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.Negotiation" />
@@ -13,7 +9,6 @@
         <property name="lookupDefinition" >
       <ref bean="Negotiation-lookupDefinition" />
     </property>
-    
     <property name="attributes" >
       <list>
         <ref bean="Negotiation-negotiationId" />
@@ -63,9 +58,14 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Negotiation ID" />
     <property name="description" value="Negotiation ID" />
@@ -81,9 +81,14 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+      <bean parent="TextControlDefinition" p:size="25"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="25" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Document Number" />
     <property name="description" value="Document Number" />
@@ -100,14 +105,23 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>    
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.negotiations.bo.NegotiationStatus"
-            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="id"
-            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.negotiations.bo.NegotiationStatus" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="id" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.NegotiationStatus"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="id"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Negotiation Status" />
     <property name="description" value="Negotiation Status" />
@@ -128,14 +142,23 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.negotiations.bo.NegotiationAgreementType"
-            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="id"
-            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.negotiations.bo.NegotiationAgreementType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="id" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.NegotiationAgreementType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="id"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Agreement Type" />
     <property name="description" value="Agreement Type" />
@@ -152,10 +175,17 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.negotiations.keyvalue.NegotiationAssociationTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.negotiations.keyvalue.NegotiationAssociationTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.negotiations.keyvalue.NegotiationAssociationTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="summary" value="Negotiation Association Type" />
     <property name="description" value="Negotiation Association Type" />
@@ -246,8 +276,16 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control" >
 		<bean parent="TextControlDefinition" p:size="120" />
+    </property>
+    <property name="controlField">
+      <bean p:size="120" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Document Folder" />
     <property name="description" value="Document Folder" />
@@ -264,9 +302,14 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+      <bean parent="TextControlDefinition" p:size="25"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="25" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Negotiation Association ID" />
     <property name="description" value="Negotiation Association ID" />
@@ -307,9 +350,14 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+      <bean parent="TextControlDefinition" p:size="25"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="25" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Negotiation Age" />
     <property name="description" value="Negotiation Age" />
@@ -374,9 +422,9 @@
     <property name="name" value="activities.followupDate" />
   </bean>
       
-  
   <!-- Business Object Lookup Definition -->
 	<bean id="Negotiation-lookupDefinition" parent="Negotiation-lookupDefinition-parentBean" />
+  <bean id="Negotiation-LookupView" parent="Negotiation-LookupView-parentBean"/>
   	<bean id="Negotiation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Negotiation Lookup" />
 		<property name="lookupableID" value="negotiationLookupable" />
@@ -409,9 +457,7 @@
 		    <bean p:attributeName="associatedNegotiable.negotiableProposalTypeCode" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.leadUnitNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.leadUnitName" parent="FieldDefinition" />
-		    <!-- <bean p:attributeName="associatedNegotiable.subAwardRequisitionerUnitNumber" parent="FieldDefinition" /> -->
 		    <bean p:attributeName="activities.followupDate" parent="FieldDefinition" />
-		    
 		  </list>
 		</property>
 		<property name="resultFields" >
@@ -430,13 +476,71 @@
 		    <bean p:attributeName="negotiationStatus.description" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.negotiableProposalType.description" parent="FieldDefinition" />
 		    <bean p:attributeName="associatedNegotiable.leadUnitNumber" parent="FieldDefinition" />
-		    <!-- <bean p:attributeName="associatedNegotiable.subAwardRequisitionerUnitNumber" parent="FieldDefinition" /> -->
 		    <bean p:attributeName="associatedNegotiable.leadUnitName" parent="FieldDefinition" />
-
 		  </list>
 		</property>
 		<property name="resultSetLimit" value="500" />
 	</bean>
     
-</beans>
+  <bean id="Negotiation-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.negotiations.bo.Negotiation"/>
+    <property name="headerText" value="Negotiation Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="defaultSortAttributeNames">
+      <list>
+        <value>negotiationId</value>
+      </list>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="negotiationId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="negotiationAssociationTypeId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="associatedDocumentId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="negotiationAge" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="associatedNegotiable.piName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="associatedNegotiable.subAwardRequisitionerId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="associatedNegotiable.sponsorCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="associatedNegotiable.sponsorName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="associatedNegotiable.title" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="negotiatorName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="negotiatorPersonId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="negotiationStartDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="negotiationStatusId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="associatedNegotiable.negotiableProposalTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="associatedNegotiable.leadUnitNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="associatedNegotiable.leadUnitName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="activities.followupDate" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="negotiationId" parent="Uif-DataField"/>
+        <bean p:propertyName="negotiationAssociationType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="associatedNegotiable.associatedDocumentId" parent="Uif-DataField"/>
+        <bean p:propertyName="negotiationAge" parent="Uif-DataField"/>
+        <bean p:propertyName="associatedNegotiable.piName" parent="Uif-DataField"/>
+        <bean p:propertyName="associatedNegotiable.subAwardRequisitionerName" parent="Uif-DataField"/>
+        <bean p:propertyName="associatedNegotiable.sponsorCode" parent="Uif-DataField"/>
+        <bean p:propertyName="associatedNegotiable.sponsorName" parent="Uif-DataField"/>
+        <bean p:propertyName="associatedNegotiable.title" parent="Uif-DataField"/>
+        <bean p:propertyName="negotiatorName" parent="Uif-DataField"/>
+        <bean p:propertyName="negotiationStartDate" parent="Uif-DataField"/>
+        <bean p:propertyName="negotiationStatus.description" parent="Uif-DataField"/>
+        <bean p:propertyName="associatedNegotiable.negotiableProposalType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="associatedNegotiable.leadUnitNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="associatedNegotiable.leadUnitName" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
 
+</beans>

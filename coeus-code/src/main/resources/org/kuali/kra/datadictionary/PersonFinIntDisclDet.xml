@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
  
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="PersonFinIntDisclDet" parent="PersonFinIntDisclDet-parentBean" />
     <bean id="PersonFinIntDisclDet-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclDet" />
@@ -45,7 +41,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="PersonFinIntDisclDet-perFinIntDisclDetId" parent="PersonFinIntDisclDet-perFinIntDisclDetId-parentBean" />
     <bean id="PersonFinIntDisclDet-perFinIntDisclDetId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="perFinIntDisclDetId" />
@@ -56,9 +51,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Per Fin Int Discl Det Id" />
         <property name="description" value="Per Fin Int Discl Det Id" />
@@ -74,9 +74,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Entity Number" />
         <property name="description" value="Entity Number" />
@@ -92,9 +97,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Sequence Number" />
         <property name="description" value="Sequence Number" />
@@ -110,9 +120,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Column Name" />
         <property name="description" value="Column Name" />
@@ -128,9 +143,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Column Value" />
         <property name="description" value="Column Value" />
@@ -146,9 +166,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Relationship Type Code" />
         <property name="description" value="Relationship Type Code" />
@@ -164,21 +189,26 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="2"
-                p:cols="60" />
+      <bean parent="TextareaControlDefinition" p:rows="2" p:cols="60"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="2" p:cols="60" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
     </bean>
 
     <bean id="PersonFinIntDisclDet-versionNumber" parent="PersonFinIntDisclDet-versionNumber-parentBean" />
-    <bean id="PersonFinIntDisclDet-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="PersonFinIntDisclDet-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="PersonFinIntDisclDet-inquiryDefinition" parent="PersonFinIntDisclDet-inquiryDefinition-parentBean" />
+  <bean id="PersonFinIntDisclDet-InquiryView" parent="PersonFinIntDisclDet-InquiryView-parentBean"/>
     <bean id="PersonFinIntDisclDet-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Per Fin Int Discl Det Id" />
         <property name="inquirySections" >
@@ -188,21 +218,37 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="perFinIntDisclDetId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="entityNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sequenceNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="columnName" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="columnValue" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="relationshipTypeCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="comments" />
+              <bean parent="FieldDefinition" p:attributeName="perFinIntDisclDetId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="entityNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="columnName"/>
+              <bean parent="FieldDefinition" p:attributeName="columnValue"/>
+              <bean parent="FieldDefinition" p:attributeName="relationshipTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="comments"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PersonFinIntDisclDet-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Per Fin Int Discl Det Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclDet"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Per Fin Int Discl Det Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="perFinIntDisclDetId" parent="Uif-DataField"/>
+              <bean p:propertyName="entityNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="columnName" parent="Uif-DataField"/>
+              <bean p:propertyName="columnValue" parent="Uif-DataField"/>
+              <bean p:propertyName="relationshipTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -212,49 +258,71 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="PersonFinIntDisclDet-lookupDefinition" parent="PersonFinIntDisclDet-lookupDefinition-parentBean" />
+  <bean id="PersonFinIntDisclDet-LookupView" parent="PersonFinIntDisclDet-LookupView-parentBean"/>
     <bean id="PersonFinIntDisclDet-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Per Fin Int Discl Det Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="perFinIntDisclDetId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="entityNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="columnName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="columnValue" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="relationshipTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
+        <bean parent="FieldDefinition" p:attributeName="perFinIntDisclDetId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="entityNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="columnName"/>
+        <bean parent="FieldDefinition" p:attributeName="columnValue"/>
+        <bean parent="FieldDefinition" p:attributeName="relationshipTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="perFinIntDisclDetId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="entityNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="columnName"/>
+        <bean parent="FieldDefinition" p:attributeName="columnValue"/>
+        <bean parent="FieldDefinition" p:attributeName="relationshipTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PersonFinIntDisclDet-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclDet"/>
+    <property name="headerText" value="Per Fin Int Discl Det Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="perFinIntDisclDetId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="entityNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="columnName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="columnValue" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="relationshipTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="perFinIntDisclDetId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="entityNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="columnName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="columnValue" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="relationshipTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="comments" />
+        <bean p:propertyName="perFinIntDisclDetId" parent="Uif-DataField"/>
+        <bean p:propertyName="entityNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="columnName" parent="Uif-DataField"/>
+        <bean p:propertyName="columnValue" parent="Uif-DataField"/>
+        <bean p:propertyName="relationshipTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="comments" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

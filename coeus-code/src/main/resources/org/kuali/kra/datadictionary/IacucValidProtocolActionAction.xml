@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="IacucValidProtocolActionAction" parent="IacucValidProtocolActionAction-parentBean" />
     <bean id="IacucValidProtocolActionAction-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.submit.IacucValidProtocolActionAction" />
@@ -48,7 +44,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="IacucValidProtocolActionAction-validProtocolActionActionId" parent="IacucValidProtocolActionAction-validProtocolActionActionId-parentBean" />
     <bean id="IacucValidProtocolActionAction-validProtocolActionActionId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="validProtocolActionActionId" />
@@ -59,9 +54,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Valid Protocol Action Action Id" />
         <property name="description" value="Valid Protocol Action Action Id" />
@@ -77,15 +77,24 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="required" value="false" />
         <property name="control" >
-          <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType"
-                p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-                p:includeKeyInLabel="false"
-                p:includeBlankRow="false"
-                p:keyAttribute="motionTypeCode"
-                p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="motionTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="motionTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Committee Motion Type" />
         <property name="description" value="Committee Motion Type" />
@@ -101,15 +110,24 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="required" value="true" />
         <property name="control" >
-          <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.iacuc.actions.IacucProtocolActionType"
-                p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-                p:includeKeyInLabel="false"
-                p:includeBlankRow="false"
-                p:keyAttribute="protocolActionTypeCode"
-                p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.iacuc.actions.IacucProtocolActionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="protocolActionTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.IacucProtocolActionType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="protocolActionTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Protocol Action Type" />
         <property name="description" value="Protocol Action Type" />
@@ -147,9 +165,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Action Number" />
         <property name="description" value="Action Number" />
@@ -165,15 +188,24 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="required" value="true" />
         <property name="control" >
-          <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.iacuc.actions.IacucProtocolActionType"
-                p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-                p:includeKeyInLabel="false"
-                p:includeBlankRow="false"
-                p:keyAttribute="protocolActionTypeCode"
-                p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.iacuc.actions.IacucProtocolActionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="protocolActionTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.IacucProtocolActionType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="protocolActionTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="summary" value="Follow-up Action Type" />
         <property name="description" value="Follow-up Action Type" />
@@ -201,20 +233,26 @@
             	<property name="allowWhitespace" value="true" />
             </bean>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="3"
-                p:cols="40" />
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="40" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
     </bean>
 
     <bean id="IacucValidProtocolActionAction-versionNumber" parent="IacucValidProtocolActionAction-versionNumber-parentBean" />
-    <bean id="IacucValidProtocolActionAction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"></bean>
-
+  <bean id="IacucValidProtocolActionAction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucValidProtocolActionAction-inquiryDefinition" parent="IacucValidProtocolActionAction-inquiryDefinition-parentBean" />
+  <bean id="IacucValidProtocolActionAction-InquiryView" parent="IacucValidProtocolActionAction-InquiryView-parentBean"/>
     <bean id="IacucValidProtocolActionAction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Protocol Follow-up Actions" />
         <property name="inquirySections" >
@@ -224,18 +262,31 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="validProtocolActionActionId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="protocolActionTypeCode" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="actionNumber" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="followupActionCode" 
-                                p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="validProtocolActionActionId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolActionTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="actionNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="followupActionCode" p:forceInquiry="true"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IacucValidProtocolActionAction-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Protocol Follow-up Actions"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.actions.submit.IacucValidProtocolActionAction"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Protocol Follow-up Action Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="validProtocolActionActionId" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolActionTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="actionNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="followupActionCode" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -245,41 +296,65 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="IacucValidProtocolActionAction-lookupDefinition" parent="IacucValidProtocolActionAction-lookupDefinition-parentBean" />
+  <bean id="IacucValidProtocolActionAction-LookupView" parent="IacucValidProtocolActionAction-LookupView-parentBean"/>
     <bean id="IacucValidProtocolActionAction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Protocol Follow-up Actions Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-				<bean parent="FieldDefinition" p:attributeName="validProtocolActionActionId"
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="protocolActionTypeCode"
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="actionNumber"
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="followupActionCode"
-					p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="validProtocolActionActionId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolActionTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="actionNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="followupActionCode" p:forceInquiry="true"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="validProtocolActionActionId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolActionType.description" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeDecisionMotionType.description" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="actionNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="followupProtocolActionType.description" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="userPromptFlag" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="userPrompt" p:forceInquiry="true"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IacucValidProtocolActionAction-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.actions.submit.IacucValidProtocolActionAction"/>
+    <property name="headerText" value="Protocol Follow-up Actions Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="validProtocolActionActionId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolActionTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="actionNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="followupActionCode" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-				<bean parent="FieldDefinition" p:attributeName="validProtocolActionActionId"
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="protocolActionType.description"
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="committeeDecisionMotionType.description"
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="actionNumber"
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="followupProtocolActionType.description"
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="userPromptFlag"
-					p:forceInquiry="true" />					
-				<bean parent="FieldDefinition" p:attributeName="userPrompt"
-					p:forceInquiry="true" />					
+        <bean p:propertyName="validProtocolActionActionId" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolActionType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="committeeDecisionMotionType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="actionNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="followupProtocolActionType.description" parent="Uif-DataField"/>
+        <bean p:propertyName="userPromptFlag" parent="Uif-DataField"/>
+        <bean p:propertyName="userPrompt" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

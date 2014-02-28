@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="AccountType" parent="AccountType-parentBean" />
 	<bean id="AccountType-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.bo.AccountType" />
@@ -40,7 +36,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
 	<bean id="AccountType-accountTypeCode" parent="AccountType-accountTypeCode-parentBean" />
 	<bean id="AccountType-accountTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="accountTypeCode" />
@@ -51,9 +46,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Account Type Code" />
 		<property name="description" value="Account Type Code" />
@@ -65,11 +65,10 @@
     </bean>
 
 	<bean id="AccountType-versionNumber" parent="AccountType-versionNumber-parentBean" />
-	<bean id="AccountType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+  <bean id="AccountType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 	<!-- Business Object Inquiry Definition -->
 	<bean id="AccountType-inquiryDefinition" parent="AccountType-inquiryDefinition-parentBean" />
+  <bean id="AccountType-InquiryView" parent="AccountType-InquiryView-parentBean"/>
 	<bean id="AccountType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Account Type Code" />
 		<property name="inquirySections" >
@@ -79,11 +78,27 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="accountTypeCode" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="description" />
+              <bean parent="FieldDefinition" p:attributeName="accountTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AccountType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Account Type Code"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.AccountType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Account Type Code"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="accountTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -93,36 +108,54 @@
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="AccountType-lookupDefinition" parent="AccountType-lookupDefinition-parentBean" />
+  <bean id="AccountType-LookupView" parent="AccountType-LookupView-parentBean"/>
 	<bean id="AccountType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Account Type Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 	    <property name="helpDefinition" >
-            <bean parent="HelpDefinition"
-                p:parameterNamespace="KC-M"
-                p:parameterName="accountTypeMaintenanceHelp"
-                p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="accountTypeMaintenanceHelp" p:parameterDetailType="Document"/>
         </property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="accountTypeCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="accountTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="accountTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AccountType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.AccountType"/>
+    <property name="headerText" value="Account Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="accountTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="accountTypeCode" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
+        <bean p:propertyName="accountTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
 			</list>
 		</property>
 	</bean>

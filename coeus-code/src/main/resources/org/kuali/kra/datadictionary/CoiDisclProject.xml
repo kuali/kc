@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="CoiDisclProject" parent="CoiDisclProject-parentBean" />
     <bean id="CoiDisclProject-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.coi.CoiDisclProject" />
@@ -54,13 +50,11 @@
                 <ref bean="CoiDisclProject-versionNumber" />
                 <ref bean="CoiDisclProject-disclosureDispositionCode" />
                 <ref bean="CoiDisclProject-disclosureStatusCode" />
-                
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="CoiDisclProject-coiDisclProjectsId" parent="CoiDisclProject-coiDisclProjectsId-parentBean" />
     <bean id="CoiDisclProject-coiDisclProjectsId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="coiDisclProjectsId" />
@@ -71,9 +65,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Coi Discl Projects Id" />
         <property name="description" value="Coi Discl Projects Id" />
@@ -89,9 +88,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Coi Disclosure Id" />
         <property name="description" value="Coi Disclosure Id" />
@@ -107,9 +111,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Coi Disclosure Number" />
         <property name="description" value="Coi Disclosure Number" />
@@ -125,9 +134,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="6" />
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Sequence Number" />
         <property name="description" value="Sequence Number" />
@@ -143,9 +157,16 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="COI Project Id" />
         <property name="description" value="COI Project Id" />
@@ -161,9 +182,16 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="200" />
+      <bean parent="TextControlDefinition" p:size="200"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="200" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="COI Project Title" />
         <property name="description" value="COI Project Title" />
@@ -179,9 +207,16 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Module Item Key" />
         <property name="description" value="Module Item Key" />
@@ -197,9 +232,16 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Short Text Field 1" />
         <property name="description" value="Short Text Field 1" />
@@ -215,9 +257,16 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="60" />
+      <bean parent="TextControlDefinition" p:size="60"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="60" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Long Text Field 1" />
         <property name="description" value="Long Text Field 1" />
@@ -233,9 +282,14 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
         </property>        
         <property name="summary" value="Short Text Field 2" />
         <property name="description" value="Short Text Field 2" />
@@ -252,11 +306,17 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureManualEventTypesValuesFinder"
-            	p:includeKeyInLabel="false"
-	            p:script="updateTable(this)"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureManualEventTypesValuesFinder" p:includeKeyInLabel="false" p:script="updateTable(this)"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureManualEventTypesValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Coi Disclosure Event Type" />
         <property name="description" value="Coi Disclosure Event Type" />
@@ -273,9 +333,16 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="60" />
+      <bean parent="TextControlDefinition" p:size="60"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="60" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Long Text Field 2" />
         <property name="description" value="Long Text Field 2" />
@@ -327,9 +394,16 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Short Text Field 3" />
         <property name="description" value="Short Text Field 3" />
@@ -345,9 +419,16 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="60" />
+      <bean parent="TextControlDefinition" p:size="60"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="60" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Long Text Field 3" />
         <property name="description" value="Long Text Field 3" />
@@ -363,17 +444,23 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
         <property name="control" >
             <bean parent="HiddenControlDefinition"/>
         </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
+    </property>
         <property name="summary" value="Select Box 1" />
         <property name="description" value="Select Box 1" />
     </bean>
 
     <bean id="CoiDisclProject-versionNumber" parent="CoiDisclProject-versionNumber-parentBean" />
-    <bean id="CoiDisclProject-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-    
+  <bean id="CoiDisclProject-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <bean id="CoiDisclProject-disclosureDispositionCode" parent="CoiDisclProject-disclosureDispositionCode-parentBean" />
     <bean id="CoiDisclProject-disclosureDispositionCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="disclosureDispositionCode" />
@@ -384,9 +471,17 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.coi.disclosure.CoiDispositionStatusValuesFinder" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.coi.disclosure.CoiDispositionStatusValuesFinder"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.coi.disclosure.CoiDispositionStatusValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
     	</property>
         <property name="summary" value="Disclosure Disposition Code" />
         <property name="description" value="Disclosure Disposition Code" />
@@ -402,9 +497,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Disclosure Status Code" />
         <property name="description" value="Disclosure Status Code" />
@@ -412,6 +512,7 @@
     
     <!-- Business Object Inquiry Definition -->
     <bean id="CoiDisclProject-inquiryDefinition" parent="CoiDisclProject-inquiryDefinition-parentBean" />
+  <bean id="CoiDisclProject-InquiryView" parent="CoiDisclProject-InquiryView-parentBean"/>
     <bean id="CoiDisclProject-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Coi Discl Projects Id" />
         <property name="inquirySections" >
@@ -421,41 +522,57 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="coiDisclProjectsId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="coiDisclosureId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="coiDisclosureNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sequenceNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="shortTextField1" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="longTextField1" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="shortTextField2" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="longTextField2" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="dateField1" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="dateField2" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="numberField1" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="numberField2" />                                
-                            <bean parent="FieldDefinition"
-                                p:attributeName="shortTextField3" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="longTextField3" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="selectBox1" />      
-                            <bean parent="FieldDefinition"
-                                p:attributeName="disclosureDispositionCode" />    
-                            <bean parent="FieldDefinition"
-                                p:attributeName="disclosureStatusCode" />                                                                                        
+              <bean parent="FieldDefinition" p:attributeName="coiDisclProjectsId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="coiDisclosureId"/>
+              <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="shortTextField1"/>
+              <bean parent="FieldDefinition" p:attributeName="longTextField1"/>
+              <bean parent="FieldDefinition" p:attributeName="shortTextField2"/>
+              <bean parent="FieldDefinition" p:attributeName="longTextField2"/>
+              <bean parent="FieldDefinition" p:attributeName="dateField1"/>
+              <bean parent="FieldDefinition" p:attributeName="dateField2"/>
+              <bean parent="FieldDefinition" p:attributeName="numberField1"/>
+              <bean parent="FieldDefinition" p:attributeName="numberField2"/>
+              <bean parent="FieldDefinition" p:attributeName="shortTextField3"/>
+              <bean parent="FieldDefinition" p:attributeName="longTextField3"/>
+              <bean parent="FieldDefinition" p:attributeName="selectBox1"/>
+              <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode"/>
+              <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CoiDisclProject-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Coi Discl Projects Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.CoiDisclProject"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Coi Discl Projects Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="coiDisclProjectsId" parent="Uif-DataField"/>
+              <bean p:propertyName="coiDisclosureId" parent="Uif-DataField"/>
+              <bean p:propertyName="coiDisclosureNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="shortTextField1" parent="Uif-DataField"/>
+              <bean p:propertyName="longTextField1" parent="Uif-DataField"/>
+              <bean p:propertyName="shortTextField2" parent="Uif-DataField"/>
+              <bean p:propertyName="longTextField2" parent="Uif-DataField"/>
+              <bean p:propertyName="dateField1" parent="Uif-DataField"/>
+              <bean p:propertyName="dateField2" parent="Uif-DataField"/>
+              <bean p:propertyName="numberField1" parent="Uif-DataField"/>
+              <bean p:propertyName="numberField2" parent="Uif-DataField"/>
+              <bean p:propertyName="shortTextField3" parent="Uif-DataField"/>
+              <bean p:propertyName="longTextField3" parent="Uif-DataField"/>
+              <bean p:propertyName="selectBox1" parent="Uif-DataField"/>
+              <bean p:propertyName="disclosureDispositionCode" parent="Uif-DataField"/>
+              <bean p:propertyName="disclosureStatusCode" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -465,82 +582,105 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="CoiDisclProject-lookupDefinition" parent="CoiDisclProject-lookupDefinition-parentBean" />
+  <bean id="CoiDisclProject-LookupView" parent="CoiDisclProject-LookupView-parentBean"/>
     <bean id="CoiDisclProject-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Coi Discl Projects Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiDisclProjectsId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiDisclosureId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiDisclosureNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="shortTextField1" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="longTextField1" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="shortTextField2" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="longTextField2" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="dateField1" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="dateField2" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="numberField1" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="numberField2" />                    
-                <bean parent="FieldDefinition"
-                    p:attributeName="shortTextField3" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="longTextField3" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="selectBox1" />                     
+        <bean parent="FieldDefinition" p:attributeName="coiDisclProjectsId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="coiDisclosureId"/>
+        <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="shortTextField1"/>
+        <bean parent="FieldDefinition" p:attributeName="longTextField1"/>
+        <bean parent="FieldDefinition" p:attributeName="shortTextField2"/>
+        <bean parent="FieldDefinition" p:attributeName="longTextField2"/>
+        <bean parent="FieldDefinition" p:attributeName="dateField1"/>
+        <bean parent="FieldDefinition" p:attributeName="dateField2"/>
+        <bean parent="FieldDefinition" p:attributeName="numberField1"/>
+        <bean parent="FieldDefinition" p:attributeName="numberField2"/>
+        <bean parent="FieldDefinition" p:attributeName="shortTextField3"/>
+        <bean parent="FieldDefinition" p:attributeName="longTextField3"/>
+        <bean parent="FieldDefinition" p:attributeName="selectBox1"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiDisclProjectsId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiDisclosureId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiDisclosureNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="shortTextField1" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="longTextField1" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="shortTextField2" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="longTextField2" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="dateField1" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="dateField2" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="numberField1" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="numberField2" />                    
-                <bean parent="FieldDefinition"
-                    p:attributeName="shortTextField3" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="longTextField3" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="selectBox1" />                       
+        <bean parent="FieldDefinition" p:attributeName="coiDisclProjectsId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="coiDisclosureId"/>
+        <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="shortTextField1"/>
+        <bean parent="FieldDefinition" p:attributeName="longTextField1"/>
+        <bean parent="FieldDefinition" p:attributeName="shortTextField2"/>
+        <bean parent="FieldDefinition" p:attributeName="longTextField2"/>
+        <bean parent="FieldDefinition" p:attributeName="dateField1"/>
+        <bean parent="FieldDefinition" p:attributeName="dateField2"/>
+        <bean parent="FieldDefinition" p:attributeName="numberField1"/>
+        <bean parent="FieldDefinition" p:attributeName="numberField2"/>
+        <bean parent="FieldDefinition" p:attributeName="shortTextField3"/>
+        <bean parent="FieldDefinition" p:attributeName="longTextField3"/>
+        <bean parent="FieldDefinition" p:attributeName="selectBox1"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CoiDisclProject-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.CoiDisclProject"/>
+    <property name="headerText" value="Coi Discl Projects Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
             </list>
         </property>
     </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="coiDisclProjectsId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="coiDisclosureId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="coiDisclosureNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="shortTextField1" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="longTextField1" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="shortTextField2" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="longTextField2" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dateField1" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="dateField2" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="numberField1" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="numberField2" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="shortTextField3" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="longTextField3" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="selectBox1" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="coiDisclProjectsId" parent="Uif-DataField"/>
+        <bean p:propertyName="coiDisclosureId" parent="Uif-DataField"/>
+        <bean p:propertyName="coiDisclosureNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="shortTextField1" parent="Uif-DataField"/>
+        <bean p:propertyName="longTextField1" parent="Uif-DataField"/>
+        <bean p:propertyName="shortTextField2" parent="Uif-DataField"/>
+        <bean p:propertyName="longTextField2" parent="Uif-DataField"/>
+        <bean p:propertyName="dateField1" parent="Uif-DataField"/>
+        <bean p:propertyName="dateField2" parent="Uif-DataField"/>
+        <bean p:propertyName="numberField1" parent="Uif-DataField"/>
+        <bean p:propertyName="numberField2" parent="Uif-DataField"/>
+        <bean p:propertyName="shortTextField3" parent="Uif-DataField"/>
+        <bean p:propertyName="longTextField3" parent="Uif-DataField"/>
+        <bean p:propertyName="selectBox1" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

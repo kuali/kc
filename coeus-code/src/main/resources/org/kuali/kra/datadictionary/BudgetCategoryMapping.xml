@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="BudgetCategoryMapping" parent="BudgetCategoryMapping-parentBean" />
-
   <bean id="BudgetCategoryMapping-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.core.BudgetCategoryMapping" />
 		<property name="objectLabel" value="Budget Category Mapping" />
@@ -40,15 +35,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Budget Category Code" />
     <property name="description" value="Budget Category Code" />
   </bean>
-  <bean id="BudgetCategoryMapping-mappingName" parent="BudgetCategoryMapping-mappingName-parentBean" />
 
+  <bean id="BudgetCategoryMapping-mappingName" parent="BudgetCategoryMapping-mappingName-parentBean"/>
   <bean id="BudgetCategoryMapping-mappingName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="mappingName" />
     <property name="forceUppercase" value="false" />
@@ -56,18 +56,24 @@
     <property name="shortLabel" value="Mapping Name" />
     <property name="maxLength" value="100" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Mapping Name" />
     <property name="description" value="Mapping Name" />
   </bean>
-  <bean id="BudgetCategoryMapping-targetCategoryCode" parent="BudgetCategoryMapping-targetCategoryCode-parentBean" />
 
+  <bean id="BudgetCategoryMapping-targetCategoryCode" parent="BudgetCategoryMapping-targetCategoryCode-parentBean"/>
   <bean id="BudgetCategoryMapping-targetCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="targetCategoryCode" />
     <property name="forceUppercase" value="false" />
@@ -77,23 +83,24 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Target Category Code" />
     <property name="description" value="Target Category Code" />
   </bean>
-  <bean id="BudgetCategoryMapping-versionNumber" parent="BudgetCategoryMapping-versionNumber-parentBean" />
 
-  <bean id="BudgetCategoryMapping-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean id="BudgetCategoryMapping-versionNumber" parent="BudgetCategoryMapping-versionNumber-parentBean"/>
+  <bean id="BudgetCategoryMapping-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="BudgetCategoryMapping-inquiryDefinition" parent="BudgetCategoryMapping-inquiryDefinition-parentBean" />
-
+  <bean id="BudgetCategoryMapping-InquiryView" parent="BudgetCategoryMapping-InquiryView-parentBean"/>
   <bean id="BudgetCategoryMapping-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Budget Category Mapping" />
     <property name="inquirySections" >
@@ -103,15 +110,9 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="budgetCategoryCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="mappingName"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="targetCategoryCode"
-                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="budgetCategoryCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="mappingName" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="targetCategoryCode" p:forceInquiry="true"/>
             </list>
           </property>
         </bean>
@@ -119,41 +120,78 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="BudgetCategoryMapping-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Budget Category Mapping"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.core.BudgetCategoryMapping"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Budget Category Mapping"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="budgetCategoryCode" parent="Uif-DataField"/>
+              <bean p:propertyName="mappingName" parent="Uif-DataField"/>
+              <bean p:propertyName="targetCategoryCode" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="BudgetCategoryMapping-lookupDefinition" parent="BudgetCategoryMapping-lookupDefinition-parentBean" />
-
+  <bean id="BudgetCategoryMapping-LookupView" parent="BudgetCategoryMapping-LookupView-parentBean"/>
   <bean id="BudgetCategoryMapping-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Category Mapping Lookup" />
        <property name="lookupableID" value="noEditLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetCategoryCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="mappingName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="targetCategoryCode" />
+        <bean parent="FieldDefinition" p:attributeName="budgetCategoryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="mappingName"/>
+        <bean parent="FieldDefinition" p:attributeName="targetCategoryCode"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="budgetCategoryCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="mappingName" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="targetCategoryCode" p:forceInquiry="true"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="BudgetCategoryMapping-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.budget.core.BudgetCategoryMapping"/>
+    <property name="headerText" value="Budget Category Mapping Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="budgetCategoryCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="mappingName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="targetCategoryCode" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetCategoryCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="mappingName"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="targetCategoryCode"
-              p:forceInquiry="true" />
+        <bean p:propertyName="budgetCategoryCode" parent="Uif-DataField"/>
+        <bean p:propertyName="mappingName" parent="Uif-DataField"/>
+        <bean p:propertyName="targetCategoryCode" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

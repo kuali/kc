@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="S2sOppForms" parent="S2sOppForms-parentBean" />
-
   <bean id="S2sOppForms-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sOppForms" />
 		<property name="objectLabel" value="S2s Opp Forms" />
@@ -43,14 +38,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
     </property>
     <property name="summary" value="Proposal Number" />
     <property name="description" value="Proposal Number" />
   </bean>
-  <bean id="S2sOppForms-oppNameSpace" parent="S2sOppForms-oppNameSpace-parentBean" />
 
+  <bean id="S2sOppForms-oppNameSpace" parent="S2sOppForms-oppNameSpace-parentBean"/>
   <bean id="S2sOppForms-oppNameSpace-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="oppNameSpace" />
     <property name="forceUppercase" value="false" />
@@ -58,18 +59,24 @@
     <property name="shortLabel" value="Namespace" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="5" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Namespace" />
     <property name="description" value="Namespace" />
   </bean>
-  <bean id="S2sOppForms-available" parent="S2sOppForms-available-parentBean" />
 
+  <bean id="S2sOppForms-available" parent="S2sOppForms-available-parentBean"/>
   <bean id="S2sOppForms-available-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="available" />
     <property name="forceUppercase" value="false" />
@@ -77,17 +84,24 @@
     <property name="shortLabel" value="Desc" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
+    </property>
     <property name="summary" value="Available" />
     <property name="description" value="Available" />
   </bean>
-  <bean id="S2sOppForms-formName" parent="S2sOppForms-formName-parentBean" />
 
+  <bean id="S2sOppForms-formName" parent="S2sOppForms-formName-parentBean"/>
   <bean id="S2sOppForms-formName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="formName" />
     <property name="forceUppercase" value="false" />
@@ -95,18 +109,24 @@
     <property name="shortLabel" value="Form Name" />
     <property name="maxLength" value="100" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Form Name" />
     <property name="description" value="Form Name" />
   </bean>
-  <bean id="S2sOppForms-include" parent="S2sOppForms-include-parentBean" />
 
+  <bean id="S2sOppForms-include" parent="S2sOppForms-include-parentBean"/>
   <bean id="S2sOppForms-include-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="include" />
     <property name="forceUppercase" value="false" />
@@ -114,17 +134,24 @@
     <property name="shortLabel" value="Include" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
     <property name="summary" value="Include" />
     <property name="description" value="Include" />
   </bean>
-  <bean id="S2sOppForms-mandatory" parent="S2sOppForms-mandatory-parentBean" />
 
+  <bean id="S2sOppForms-mandatory" parent="S2sOppForms-mandatory-parentBean"/>
   <bean id="S2sOppForms-mandatory-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="mandatory" />
     <property name="forceUppercase" value="false" />
@@ -132,17 +159,24 @@
     <property name="shortLabel" value="Mandatory" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
     <property name="summary" value="Mandatory" />
     <property name="description" value="Mandatory" />
   </bean>
-  <bean id="S2sOppForms-selectToPrint" parent="S2sOppForms-selectToPrint-parentBean" />
 
+  <bean id="S2sOppForms-selectToPrint" parent="S2sOppForms-selectToPrint-parentBean"/>
   <bean id="S2sOppForms-selectToPrint-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="selectToPrint" />
     <property name="forceUppercase" value="false" />
@@ -150,25 +184,28 @@
     <property name="shortLabel" value="selectToPrint" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
     </property>
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
     <property name="summary" value="selectToPrint" />
     <property name="description" value="selectToPrint" />
   </bean>
-  <bean id="S2sOppForms-versionNumber" parent="S2sOppForms-versionNumber-parentBean" />
 
-  <bean id="S2sOppForms-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean id="S2sOppForms-versionNumber" parent="S2sOppForms-versionNumber-parentBean"/>
+  <bean id="S2sOppForms-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="S2sOppForms-inquiryDefinition" parent="S2sOppForms-inquiryDefinition-parentBean" />
-
+  <bean id="S2sOppForms-InquiryView" parent="S2sOppForms-InquiryView-parentBean"/>
   <bean id="S2sOppForms-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="S2s Opp Forms" />
     <property name="inquirySections" >
@@ -178,19 +215,12 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="oppNameSpace" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="available" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="formName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="include" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="mandatory" />
+              <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="oppNameSpace"/>
+              <bean parent="FieldDefinition" p:attributeName="available"/>
+              <bean parent="FieldDefinition" p:attributeName="formName"/>
+              <bean parent="FieldDefinition" p:attributeName="include"/>
+              <bean parent="FieldDefinition" p:attributeName="mandatory"/>
             </list>
           </property>
         </bean>
@@ -198,49 +228,92 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="S2sOppForms-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="S2s Opp Forms"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.s2s.bo.S2sOppForms"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="S2s Opp Forms"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="oppNameSpace" parent="Uif-DataField"/>
+              <bean p:propertyName="available" parent="Uif-DataField"/>
+              <bean p:propertyName="formName" parent="Uif-DataField"/>
+              <bean p:propertyName="include" parent="Uif-DataField"/>
+              <bean p:propertyName="mandatory" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="S2sOppForms-lookupDefinition" parent="S2sOppForms-lookupDefinition-parentBean" />
-
+  <bean id="S2sOppForms-LookupView" parent="S2sOppForms-LookupView-parentBean"/>
   <bean id="S2sOppForms-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="S2s Opp Forms" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="oppNameSpace" />
-        <bean parent="FieldDefinition"
-              p:attributeName="available" />
-        <bean parent="FieldDefinition"
-              p:attributeName="formName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="include" />
-        <bean parent="FieldDefinition"
-              p:attributeName="mandatory" />
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="oppNameSpace"/>
+        <bean parent="FieldDefinition" p:attributeName="available"/>
+        <bean parent="FieldDefinition" p:attributeName="formName"/>
+        <bean parent="FieldDefinition" p:attributeName="include"/>
+        <bean parent="FieldDefinition" p:attributeName="mandatory"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="oppNameSpace"/>
+        <bean parent="FieldDefinition" p:attributeName="available"/>
+        <bean parent="FieldDefinition" p:attributeName="formName"/>
+        <bean parent="FieldDefinition" p:attributeName="include"/>
+        <bean parent="FieldDefinition" p:attributeName="mandatory"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="S2sOppForms-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.s2s.bo.S2sOppForms"/>
+    <property name="headerText" value="S2s Opp Forms"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="oppNameSpace" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="available" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="formName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="include" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="mandatory" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="oppNameSpace" />
-        <bean parent="FieldDefinition"
-              p:attributeName="available" />
-        <bean parent="FieldDefinition"
-              p:attributeName="formName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="include" />
-        <bean parent="FieldDefinition"
-              p:attributeName="mandatory" />
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="oppNameSpace" parent="Uif-DataField"/>
+        <bean p:propertyName="available" parent="Uif-DataField"/>
+        <bean p:propertyName="formName" parent="Uif-DataField"/>
+        <bean p:propertyName="include" parent="Uif-DataField"/>
+        <bean p:propertyName="mandatory" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

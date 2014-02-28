@@ -1,20 +1,12 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalBudgetStatus" parent="ProposalBudgetStatus-parentBean" />
-
   <bean id="ProposalBudgetStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus" />
 		<property name="objectLabel" value="Proposal Budget Status" />
     <property name="titleAttribute" value="budgetStatusCode" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-B"
-            p:parameterName="proposalBudgetStatusHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="proposalBudgetStatusHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -39,15 +31,21 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
+    <property name="controlField">
+      <bean parent="Uif-HiddenControl"/>
+    </property>
     <property name="summary" value="Proposal Number" />
     <property name="description" value="The unique proposal number identifying a proposal. This is a system generated, sequential number." />
   </bean>
-  <bean id="ProposalBudgetStatus-budgetStatusCode" parent="ProposalBudgetStatus-budgetStatusCode-parentBean" />
 
+  <bean id="ProposalBudgetStatus-budgetStatusCode" parent="ProposalBudgetStatus-budgetStatusCode-parentBean"/>
   <bean id="ProposalBudgetStatus-budgetStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetStatusCode" />
     <property name="forceUppercase" value="false" />
@@ -57,15 +55,19 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Budget Status Code" />
     <property name="description" value="Budget Status Code" />
   </bean>
-  <bean id="ProposalBudgetStatus-versionNumber" parent="ProposalBudgetStatus-versionNumber-parentBean" />
 
-  <bean id="ProposalBudgetStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
+  <bean id="ProposalBudgetStatus-versionNumber" parent="ProposalBudgetStatus-versionNumber-parentBean"/>
+  <bean id="ProposalBudgetStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 </beans>

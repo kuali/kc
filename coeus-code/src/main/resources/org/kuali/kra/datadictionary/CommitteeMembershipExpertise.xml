@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="CommitteeMembershipExpertise" parent="CommitteeMembershipExpertise-parentBean" />
     <bean id="CommitteeMembershipExpertise-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommitteeMembershipExpertise" />
@@ -41,7 +37,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="CommitteeMembershipExpertise-committeeMembershipExpertiseId" parent="CommitteeMembershipExpertise-committeeMembershipExpertiseId-parentBean" />
     <bean id="CommitteeMembershipExpertise-committeeMembershipExpertiseId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="committeeMembershipExpertiseId" />
@@ -52,9 +47,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Committee Membership Expertise Id" />
         <property name="description" value="Committee Membership Expertise Id" />
@@ -70,9 +70,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Committee Membership Id Fk" />
         <property name="description" value="Committee Membership Id Fk" />
@@ -89,20 +94,24 @@
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="8" />
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Research Area Code" />
         <property name="description" value="Research Area Code" />
     </bean>
 
     <bean id="CommitteeMembershipExpertise-versionNumber" parent="CommitteeMembershipExpertise-versionNumber-parentBean" />
-    <bean id="CommitteeMembershipExpertise-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="CommitteeMembershipExpertise-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="CommitteeMembershipExpertise-inquiryDefinition" parent="CommitteeMembershipExpertise-inquiryDefinition-parentBean" />
+  <bean id="CommitteeMembershipExpertise-InquiryView" parent="CommitteeMembershipExpertise-InquiryView-parentBean"/>
     <bean id="CommitteeMembershipExpertise-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Committee Membership Expertise Id Fk" />
         <property name="inquirySections" >
@@ -112,13 +121,29 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="committeeMembershipExpertiseId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="committeeMembershipIdFk" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="researchAreaCode" />
+              <bean parent="FieldDefinition" p:attributeName="committeeMembershipExpertiseId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="committeeMembershipIdFk"/>
+              <bean parent="FieldDefinition" p:attributeName="researchAreaCode"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CommitteeMembershipExpertise-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Committee Membership Expertise Id Fk"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.committee.bo.CommitteeMembershipExpertise"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Committee Membership Expertise Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="committeeMembershipExpertiseId" parent="Uif-DataField"/>
+              <bean p:propertyName="committeeMembershipIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="researchAreaCode" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -128,34 +153,55 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="CommitteeMembershipExpertise-lookupDefinition" parent="CommitteeMembershipExpertise-lookupDefinition-parentBean" />
+  <bean id="CommitteeMembershipExpertise-LookupView" parent="CommitteeMembershipExpertise-LookupView-parentBean"/>
     <bean id="CommitteeMembershipExpertise-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Committee Membership Expertise Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeMembershipExpertiseId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeMembershipIdFk" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="researchAreaCode" />
+        <bean parent="FieldDefinition" p:attributeName="committeeMembershipExpertiseId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeMembershipIdFk"/>
+        <bean parent="FieldDefinition" p:attributeName="researchAreaCode"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="committeeMembershipExpertiseId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeMembershipIdFk"/>
+        <bean parent="FieldDefinition" p:attributeName="researchAreaCode"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CommitteeMembershipExpertise-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.committee.bo.CommitteeMembershipExpertise"/>
+    <property name="headerText" value="Committee Membership Expertise Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="committeeMembershipExpertiseId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="committeeMembershipIdFk" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="researchAreaCode" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeMembershipExpertiseId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeMembershipIdFk" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="researchAreaCode" />
+        <bean p:propertyName="committeeMembershipExpertiseId" parent="Uif-DataField"/>
+        <bean p:propertyName="committeeMembershipIdFk" parent="Uif-DataField"/>
+        <bean p:propertyName="researchAreaCode" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

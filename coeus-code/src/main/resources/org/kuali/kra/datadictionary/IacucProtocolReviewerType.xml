@@ -1,9 +1,5 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="IacucIacucProtocolReviewerType" parent="IacucIacucProtocolReviewerType-parentBean" />
   <bean id="IacucIacucProtocolReviewerType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType" />
@@ -36,8 +32,14 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="3" />
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Reviewer Type" />
     <property name="description" value="Reviewer Type" />
@@ -49,12 +51,10 @@
   </bean>
   
   <bean id="IacucProtocolReviewerType-versionNumber" parent="IacucProtocolReviewerType-versionNumber-parentBean" />
-  <bean id="IacucProtocolReviewerType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean id="IacucProtocolReviewerType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
   <!-- Business Object Inquiry Definition -->
-
   <bean id="IacucProtocolReviewerType-inquiryDefinition" parent="IacucProtocolReviewerType-inquiryDefinition-parentBean" />
+  <bean id="IacucProtocolReviewerType-InquiryView" parent="IacucProtocolReviewerType-InquiryView-parentBean"/>
   <bean id="IacucProtocolReviewerType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="IACUC Reviewer Type" />
     <property name="inquirySections" >
@@ -64,11 +64,27 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="reviewerTypeCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+              <bean parent="FieldDefinition" p:attributeName="reviewerTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IacucProtocolReviewerType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="IACUC Reviewer Type"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Reviewer Type"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="reviewerTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
           </property>
         </bean>
@@ -77,31 +93,53 @@
   </bean>
 
   <!-- Business Object Lookup Definition -->
-
   <bean id="IacucProtocolReviewerType-lookupDefinition" parent="IacucProtocolReviewerType-lookupDefinition-parentBean" />
+  <bean id="IacucProtocolReviewerType-LookupView" parent="IacucProtocolReviewerType-LookupView-parentBean"/>
   <bean id="IacucProtocolReviewerType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="IACUC Reviewer Type" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
     <property name="lookupableID" value="iacucProtocolReviewerTypeLookupable" />
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="reviewerTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="reviewerTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="reviewerTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="IacucProtocolReviewerType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType"/>
+    <property name="headerText" value="IACUC Reviewer Type"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="reviewerTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="reviewerTypeCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+        <bean p:propertyName="reviewerTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

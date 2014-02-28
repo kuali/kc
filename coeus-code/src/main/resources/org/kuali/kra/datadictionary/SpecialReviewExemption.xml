@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
@@ -15,12 +16,7 @@
  * limitations under the License.
  */
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="SpecialReviewExemption" parent="SpecialReviewExemption-parentBean" />
 	<bean id="SpecialReviewExemption-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption" />
@@ -41,7 +37,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
 	<bean id="SpecialReviewExemption-exemptionTypeCode" parent="SpecialReviewExemption-exemptionTypeCode-parentBean" />
 	<bean id="SpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="exemptionTypeCode" />
@@ -52,11 +47,11 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="MultiselectControlDefinition"
-                  p:valuesFinderClass="org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewExemptionValuesFinder"
-                  p:includeKeyInLabel="false" 
-                  p:size="4"/>
+      <bean parent="MultiselectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewExemptionValuesFinder" p:includeKeyInLabel="false" p:size="4"/>
         </property>
 		<property name="summary" value="Exemption #" />
 		<property name="description" value="Exemption #" />
@@ -64,10 +59,9 @@
 
 	<bean id="SpecialReviewExemption-versionNumber" parent="SpecialReviewExemption-versionNumber-parentBean" />
 	<bean id="SpecialReviewExemption-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
-
 	<!-- Business Object Inquiry Definition -->
-	
 	<bean id="SpecialReviewExemption-inquiryDefinition" parent="SpecialReviewExemption-inquiryDefinition-parentBean" />
+  <bean id="SpecialReviewExemption-InquiryView" parent="SpecialReviewExemption-InquiryView-parentBean"/>
 	<bean id="SpecialReviewExemption-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Special Review Exemption" />
 		<property name="inquirySections" >
@@ -77,8 +71,7 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								  p:attributeName="exemptionTypeCode" />
+              <bean parent="FieldDefinition" p:attributeName="exemptionTypeCode"/>
 						</list>
 					</property>
 				</bean>
@@ -86,27 +79,69 @@
 		</property>
 	</bean>
 
-	<!-- Business Object Lookup Definition -->
+  <bean id="SpecialReviewExemption-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Special Review Exemption"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Special Review Exemption"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="exemptionTypeCode" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 	
+  <!-- Business Object Lookup Definition -->
 	<bean id="SpecialReviewExemption-lookupDefinition" parent="SpecialReviewExemption-lookupDefinition-parentBean" />
+  <bean id="SpecialReviewExemption-LookupView" parent="SpecialReviewExemption-LookupView-parentBean"/>
 	<bean id="SpecialReviewExemption-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Special Review Exemption Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					  p:attributeName="exemptionTypeCode" />
+        <bean parent="FieldDefinition" p:attributeName="exemptionTypeCode"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					  p:attributeName="exemptionTypeCode" />
+        <bean parent="FieldDefinition" p:attributeName="exemptionTypeCode"/>
 			</list>
 		</property>
 	</bean>
+
+  <bean id="SpecialReviewExemption-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption"/>
+    <property name="headerText" value="Special Review Exemption Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="exemptionTypeCode" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="exemptionTypeCode" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

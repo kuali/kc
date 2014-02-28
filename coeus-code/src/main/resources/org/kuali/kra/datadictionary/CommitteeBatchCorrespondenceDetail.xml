@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="CommitteeBatchCorrespondenceDetail" parent="CommitteeBatchCorrespondenceDetail-parentBean" />
     <bean id="CommitteeBatchCorrespondenceDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail" />
@@ -42,7 +38,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="CommitteeBatchCorrespondenceDetail-batchCorrespondenceDetailId" parent="CommitteeBatchCorrespondenceDetail-batchCorrespondenceDetailId-parentBean" />
     <bean id="CommitteeBatchCorrespondenceDetail-batchCorrespondenceDetailId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="committeeBatchCorrespondenceDetailId" />
@@ -53,9 +48,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Committee Batch Corresponcence Detail Id" />
         <property name="description" value="Committee Batch Corresponcence Detail Id" />
@@ -71,9 +71,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Committee Batch Correspondence Id" />
         <property name="description" value="Committee Batch Correspondence Id" />
@@ -89,9 +94,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Protocol Action Id" />
         <property name="description" value="Protocol Action Id" />
@@ -107,9 +117,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Protocol Correspondence Id" />
         <property name="description" value="Protocol Correspondence Id" />
@@ -126,19 +141,24 @@
         <property name="validationPattern" >
           <bean parent="AnyCharacterValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
         <property name="control" >
             <bean parent="CheckboxControlDefinition" />
         </property>
+    <property name="controlField">
+      <bean parent="Uif-CheckboxControl"/>
+    </property>
         <property name="summary" value="Select" />
         <property name="description" value="Select" />
     </bean>
 
     <bean id="CommitteeBatchCorrespondenceDetail-versionNumber" parent="CommitteeBatchCorrespondenceDetail-versionNumber-parentBean" />
-    <bean id="CommitteeBatchCorrespondenceDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="CommitteeBatchCorrespondenceDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="CommitteeBatchCorrespondenceDetail-inquiryDefinition" parent="CommitteeBatchCorrespondenceDetail-inquiryDefinition-parentBean" />
+  <bean id="CommitteeBatchCorrespondenceDetail-InquiryView" parent="CommitteeBatchCorrespondenceDetail-InquiryView-parentBean"/>
     <bean id="CommitteeBatchCorrespondenceDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Committee Batch Correspondence Detail Id" />
         <property name="inquirySections" >
@@ -148,15 +168,31 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="committeeBatchCorrespondenceDetailId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="committeeBatchCorrespondenceId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="protocolActionId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="protocolCorrespondenceId" />
+              <bean parent="FieldDefinition" p:attributeName="committeeBatchCorrespondenceDetailId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="committeeBatchCorrespondenceId"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolActionId"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolCorrespondenceId"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CommitteeBatchCorrespondenceDetail-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Committee Batch Correspondence Detail Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Committee Batch Correspondence Detail Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="committeeBatchCorrespondenceDetailId" parent="Uif-DataField"/>
+              <bean p:propertyName="committeeBatchCorrespondenceId" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolActionId" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolCorrespondenceId" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -166,38 +202,59 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="CommitteeBatchCorrespondenceDetail-lookupDefinition" parent="CommitteeBatchCorrespondenceDetail-lookupDefinition-parentBean" />
+  <bean id="CommitteeBatchCorrespondenceDetail-LookupView" parent="CommitteeBatchCorrespondenceDetail-LookupView-parentBean"/>
     <bean id="CommitteeBatchCorrespondenceDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Committee Batch Correspondence Detail Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeBatchCorrespondenceDetailId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeBatchCorrespondenceId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolActionId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolCorrespondenceId" />
+        <bean parent="FieldDefinition" p:attributeName="committeeBatchCorrespondenceDetailId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeBatchCorrespondenceId"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolActionId"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolCorrespondenceId"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="committeeBatchCorrespondenceDetailId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeBatchCorrespondenceId"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolActionId"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolCorrespondenceId"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CommitteeBatchCorrespondenceDetail-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail"/>
+    <property name="headerText" value="Committee Batch Correspondence Detail Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="committeeBatchCorrespondenceDetailId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="committeeBatchCorrespondenceId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolActionId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolCorrespondenceId" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeBatchCorrespondenceDetailId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="committeeBatchCorrespondenceId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolActionId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolCorrespondenceId" />
+        <bean p:propertyName="committeeBatchCorrespondenceDetailId" parent="Uif-DataField"/>
+        <bean p:propertyName="committeeBatchCorrespondenceId" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolActionId" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolCorrespondenceId" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

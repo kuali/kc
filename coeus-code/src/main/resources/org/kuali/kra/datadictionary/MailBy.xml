@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="MailBy" parent="MailBy-parentBean" />
-
   <bean id="MailBy-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.MailBy" />
 		<property name="objectLabel" value="Mail By" />
@@ -17,10 +12,7 @@
     </property>
     <property name="titleAttribute" value="mailByCode" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-PD"
-            p:parameterName="proposalDevelopmentMailByHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentMailByHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -45,27 +37,26 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Mail By" />
     <property name="description" value="Mail By" />
   </bean>
-  <bean id="MailBy-description" parent="MailBy-description-parentBean" />
 
-  <bean id="MailBy-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
-  </bean>
+  <bean id="MailBy-description" parent="MailBy-description-parentBean"/>
+  <bean id="MailBy-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
   <bean id="MailBy-versionNumber" parent="MailBy-versionNumber-parentBean" />
-
-  <bean id="MailBy-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean id="MailBy-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="MailBy-inquiryDefinition" parent="MailBy-inquiryDefinition-parentBean" />
-
+  <bean id="MailBy-InquiryView" parent="MailBy-InquiryView-parentBean"/>
   <bean id="MailBy-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Mail By" />
     <property name="inquirySections" >
@@ -75,11 +66,8 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="mailByCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+              <bean parent="FieldDefinition" p:attributeName="mailByCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
             </list>
           </property>
         </bean>
@@ -87,40 +75,75 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="MailBy-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Mail By"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.MailBy"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Mail By"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="mailByCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="MailBy-lookupDefinition" parent="MailBy-lookupDefinition-parentBean" />
-
+  <bean id="MailBy-LookupView" parent="MailBy-LookupView-parentBean"/>
   <bean id="MailBy-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Mail By Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
 	<property name="helpDefinition" >
-        <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-M"
-            p:parameterName="mailByMaintenanceHelp"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="mailByMaintenanceHelp" p:parameterDetailType="Document"/>
     </property>    
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="mailByCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="mailByCode"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="mailByCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="MailBy-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.MailBy"/>
+    <property name="headerText" value="Mail By Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="mailByCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="mailByCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+        <bean p:propertyName="mailByCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

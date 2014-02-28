@@ -1,20 +1,12 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="AwardApprovedEquipment" parent="AwardApprovedEquipment-parentBean" />
-
   <bean id="AwardApprovedEquipment-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment" />
 		<property name="objectLabel" value="Award Approved Equipment" />
     <property name="titleAttribute" value="awardApprovedEquipment" />
     <property name="helpDefinition" > 
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-AWARD"
-            p:parameterName="awardApprovedEquipmentHelpUrl"
-            p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardApprovedEquipmentHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
@@ -43,20 +35,22 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="8" />
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Approved Equipment ID" />
     <property name="description" value="Approved Equipment ID" />
   </bean>
   
   <bean id="AwardApprovedEquipment-awardNumber" parent="AwardApprovedEquipment-awardNumber-parentBean" />
-
-  <bean id="AwardApprovedEquipment-awardNumber-parentBean" abstract="true" parent="Award-awardNumber">
-  </bean>
-  
+  <bean id="AwardApprovedEquipment-awardNumber-parentBean" abstract="true" parent="Award-awardNumber"/>
   <bean id="AwardApprovedEquipment-sequenceNumber" parent="AwardApprovedEquipment-sequenceNumber-parentBean" />
-
   <bean id="AwardApprovedEquipment-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sequenceNumber" />
     <property name="forceUppercase" value="false" />
@@ -66,14 +60,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="4" />
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Sequence Number" />
     <property name="description" value="Sequence Number" />
   </bean>
-  <bean id="AwardApprovedEquipment-item" parent="AwardApprovedEquipment-item-parentBean" />
 
+  <bean id="AwardApprovedEquipment-item" parent="AwardApprovedEquipment-item-parentBean"/>
   <bean id="AwardApprovedEquipment-item-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="item" />
     <property name="forceUppercase" value="false" />
@@ -83,9 +83,17 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="40" />
+    </property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Item" />
     <property name="description" value="Item" />
@@ -102,17 +110,23 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="40" />
+    </property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Vendor" />
     <property name="description" value="Vendor" />
   </bean>
   
- 
   <bean id="AwardApprovedEquipment-model" parent="AwardApprovedEquipment-model-parentBean" />
-
   <bean id="AwardApprovedEquipment-model-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="model" />
     <property name="forceUppercase" value="false" />
@@ -122,9 +136,17 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="40" />
+    </property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Model" />
     <property name="description" value="Model" />
@@ -141,9 +163,18 @@
     <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern" p:precision="12"  p:scale="2" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+        <property name="precision" value="12"/>
+        <property name="scale" value="2"/>
+      </bean>
+    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="40" />
+    </property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Amount" />
     <property name="description" value="Amount" />

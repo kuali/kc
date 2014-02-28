@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="AttachmentFile" parent="AttachmentFile-parentBean" />
     <bean id="AttachmentFile-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.bo.AttachmentFile" />
@@ -51,9 +47,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="15" />
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="15" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Id" />
         <property name="description" value="Id" />
@@ -68,12 +69,18 @@
         <property name="maxLength" value="150" />
         <property name="required" value="true" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="150" />
+      <bean parent="TextControlDefinition" p:size="150"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="150" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="File Name" />
         <property name="description" value="File Name" />
@@ -87,12 +94,18 @@
         <property name="shortLabel" value="Type" />
         <property name="maxLength" value="250" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="250" />
+      <bean parent="TextControlDefinition" p:size="250"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="250" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Type" />
         <property name="description" value="Type" />
@@ -100,9 +113,9 @@
 
     <bean id="AttachmentFile-versionNumber" parent="AttachmentFile-versionNumber-parentBean" />
     <bean id="AttachmentFile-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
-
     <!-- Business Object Inquiry Definition -->
     <bean id="AttachmentFile-inquiryDefinition" parent="AttachmentFile-inquiryDefinition-parentBean" />
+  <bean id="AttachmentFile-InquiryView" parent="AttachmentFile-InquiryView-parentBean"/>
     <bean id="AttachmentFile-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Code" />
         <property name="inquirySections" >
@@ -112,13 +125,29 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="id" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="name" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="type" />
+              <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="type"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AttachmentFile-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Code"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.AttachmentFile"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Code"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
+              <bean p:propertyName="name" parent="Uif-DataField"/>
+              <bean p:propertyName="type" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -128,34 +157,55 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="AttachmentFile-lookupDefinition" parent="AttachmentFile-lookupDefinition-parentBean" />
+  <bean id="AttachmentFile-LookupView" parent="AttachmentFile-LookupView-parentBean"/>
     <bean id="AttachmentFile-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Attachment File Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="id" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="name" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="type" />
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="type"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="type"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AttachmentFile-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.AttachmentFile"/>
+    <property name="headerText" value="Attachment File Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="name" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="type" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-				<bean parent="FieldDefinition"
-				    p:attributeName="id" 
-				    p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-				    p:attributeName="name" />
-				<bean parent="FieldDefinition"
-				    p:attributeName="type" />
+        <bean p:propertyName="id" parent="Uif-DataField"/>
+        <bean p:propertyName="name" parent="Uif-DataField"/>
+        <bean p:propertyName="type" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

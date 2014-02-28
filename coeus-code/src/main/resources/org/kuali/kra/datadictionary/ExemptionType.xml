@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ExemptionType" parent="ExemptionType-parentBean"/>
-
   <bean abstract="true" id="ExemptionType-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.ExemptionType"/>
 		<property name="objectLabel" value="Exemption Type"/>
@@ -36,14 +35,22 @@
     <property name="validationPattern">
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:cols="40" p:rows="5" parent="TextareaControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:cols="40" p:rows="5" parent="Uif-TextAreaControl"/>
     </property>
     <property name="summary" value="Detailed Description"/>
     <property name="description" value="This is the detailed description of the exemption number.  Source is 45cfr46.101(b)."/>
   </bean>
-  <bean id="ExemptionType-exemptionTypeCode" parent="ExemptionType-exemptionTypeCode-parentBean"/>
 
+  <bean id="ExemptionType-exemptionTypeCode" parent="ExemptionType-exemptionTypeCode-parentBean"/>
   <bean abstract="true" id="ExemptionType-exemptionTypeCode-parentBean" parent="AttributeDefinition">
     <property name="name" value="exemptionTypeCode"/>
     <property name="forceUppercase" value="false"/>
@@ -53,37 +60,49 @@
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
     <property name="control">
       <bean p:size="4" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Exemption Type"/>
     <property name="description" value="Exemption Type"/>
   </bean>
-  <bean id="ExemptionType-description" parent="ExemptionType-description-parentBean"/>
 
+  <bean id="ExemptionType-description" parent="ExemptionType-description-parentBean"/>
   <bean abstract="true" id="ExemptionType-description-parentBean" parent="AttributeDefinition">
     <property name="name" value="description"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Exempt #"/>
     <property name="shortLabel" value="Exempt #"/>
     <property name="maxLength" value="200"/>
-    <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+    <property name="validationPattern">
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
     <property name="control">
       <bean p:size="40" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="40" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Description"/>
     <property name="description" value="This is the exemption number"/>
   </bean>
+
   <bean id="ExemptionType-versionNumber" parent="ExemptionType-versionNumber-parentBean"/>
-
-  <bean abstract="true" id="ExemptionType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean abstract="true" id="ExemptionType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="ExemptionType-inquiryDefinition" parent="ExemptionType-inquiryDefinition-parentBean"/>
-
+  <bean id="ExemptionType-InquiryView" parent="ExemptionType-InquiryView-parentBean"/>
   <bean abstract="true" id="ExemptionType-inquiryDefinition-parentBean" parent="InquiryDefinition">
     <property name="title" value="Exemption Type"/>
     <property name="inquirySections">
@@ -103,18 +122,34 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="ExemptionType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Exemption Type"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.ExemptionType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Exemption Type"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="exemptionTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="detailedDescription" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="ExemptionType-lookupDefinition" parent="ExemptionType-lookupDefinition-parentBean"/>
-
+  <bean id="ExemptionType-LookupView" parent="ExemptionType-LookupView-parentBean"/>
   <bean abstract="true" id="ExemptionType-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Exemption Type Lookup"/>
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
     <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields">
       <list>
@@ -131,4 +166,35 @@
       </list>
     </property>
   </bean>
+
+  <bean id="ExemptionType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.ExemptionType"/>
+    <property name="headerText" value="Exemption Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="exemptionTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="detailedDescription" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="exemptionTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="detailedDescription" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

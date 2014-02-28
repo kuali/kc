@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
@@ -15,12 +16,7 @@
  * limitations under the License.
  */
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans                            http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="KcNotification" parent="KcNotification-parentBean" />
     <bean id="KcNotification-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.coeus.common.notification.impl.bo.KcNotification" />
@@ -55,9 +51,14 @@
         <property name="validationPattern">
             <bean parent="NumericValidationPattern"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control">
-            <bean parent="TextControlDefinition" 
-                  p:size="20"/>
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="20" parent="Uif-TextControl"/>
         </property>
     </bean>
     
@@ -70,9 +71,14 @@
         <property name="validationPattern">
             <bean parent="NumericValidationPattern"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control">
-            <bean parent="TextControlDefinition" 
-                  p:size="6"/>
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
         </property>
     </bean>
 
@@ -86,9 +92,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
     </bean>
 
@@ -100,12 +111,18 @@
         <property name="shortLabel" value="Subject" />
         <property name="maxLength" value="1000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                  p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition" 
-                p:size="200"/>
+      <bean parent="TextControlDefinition" p:size="200"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="200" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Subject" />
         <property name="description" value="Subject" />
@@ -120,21 +137,26 @@
         <property name="shortLabel" value="Message" />
         <property name="maxLength" value="4000" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                  p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
         </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                  p:rows="5"
-                  p:cols="40" />
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="40"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="5" p:cols="40" parent="Uif-TextAreaControl"/>
         </property>
         <property name="summary" value="Message" />
         <property name="description" value="Message" />
     </bean>
 
     <!-- Business Object Inquiry Definition -->
-    
     <bean id="KcNotification-inquiryDefinition" parent="KcNotification-inquiryDefinition-parentBean" />
+  <bean id="KcNotification-InquiryView" parent="KcNotification-InquiryView-parentBean"/>
     <bean id="KcNotification-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Notification Type" />
         <property name="inquirySections" >
@@ -156,9 +178,31 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <bean id="KcNotification-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Notification Type"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.notification.impl.bo.KcNotification"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Notification"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="notificationId" parent="Uif-DataField"/>
+              <bean p:propertyName="notificationTypeId" parent="Uif-DataField"/>
+              <bean p:propertyName="documentNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="subject" parent="Uif-DataField"/>
+              <bean p:propertyName="message" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Business Object Lookup Definition -->
     <bean id="KcNotification-lookupDefinition" parent="KcNotification-lookupDefinition-parentBean" />
+  <bean id="KcNotification-LookupView" parent="KcNotification-LookupView-parentBean"/>
     <bean id="KcNotification-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Notification Lookup" />
         <property name="lookupableID" value="notificationLookupable" />
@@ -186,5 +230,38 @@
         </property>
     </bean>
     
-</beans>
+  <bean id="KcNotification-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.notification.impl.bo.KcNotification"/>
+    <property name="headerText" value="Notification Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="notificationId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="notificationTypeId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="documentNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="subject" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="message" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="notificationId" parent="Uif-DataField"/>
+        <bean p:propertyName="notificationTypeId" parent="Uif-DataField"/>
+        <bean p:propertyName="documentNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="subject" parent="Uif-DataField"/>
+        <bean p:propertyName="message" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
 
+</beans>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -18,12 +19,7 @@
 This class holds the PersonFinIntDisclosureAssociate information.  All BOs that extend PersonFinIntDisclosureAssociate should
 reference this file within their spring beans definition.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="PersonFinIntDisclosureAssociate" abstract="true" parent="PersonFinIntDisclosureAssociate-parentBean" />
 	<bean id="PersonFinIntDisclosureAssociate-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.coi.PersonFinIntDisclosureAssociate" />
@@ -48,21 +44,17 @@ reference this file within their spring beans definition.
 	
 	<bean id="PersonFinIntDisclosureAssociate-entityNumber" parent="PersonFinIntDisclosureAssociate-entityNumber-parentBean" />
 	<bean id="PersonFinIntDisclosureAssociate-entityNumber-parentBean" abstract="true" parent="FinancialEntity-entityNumber"/>
-
 	<bean id="PersonFinIntDisclosureAssociate-sequenceNumber" parent="PersonFinIntDisclosureAssociate-sequenceNumber-parentBean" />
 	<bean id="PersonFinIntDisclosureAssociate-sequenceNumber-parentBean" abstract="true" parent="FinancialEntity-sequenceNumber"/>
-	
 	<bean id="PersonFinIntDisclosureAssociate-versionNumber" parent="PersonFinIntDisclosureAssociate-versionNumber-parentBean" />
 	<bean id="PersonFinIntDisclosureAssociate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
-	
 	<bean id="PersonFinIntDisclosureAssociate-updateUser" parent="PersonFinIntDisclosureAssociate-updateUser-parentBean" />
 	<bean id="PersonFinIntDisclosureAssociate-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser"/>
-	
 	<bean id="PersonFinIntDisclosureAssociate-updateTimestamp" parent="PersonFinIntDisclosureAssociate-updateTimestamp-parentBean" />
 	<bean id="PersonFinIntDisclosureAssociate-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp"/>
-  
 	<!-- Business Object Inquiry Definition -->
 	<bean id="PersonFinIntDisclosureAssociate-inquiryDefinition" parent="PersonFinIntDisclosureAssociate-inquiryDefinition-parentBean" />
+  <bean id="PersonFinIntDisclosureAssociate-InquiryView" parent="PersonFinIntDisclosureAssociate-InquiryView-parentBean"/>
 	<bean id="PersonFinIntDisclosureAssociate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="protocolNumber" />
 		<property name="inquirySections" >
@@ -72,16 +64,33 @@ reference this file within their spring beans definition.
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="entityNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="sequenceNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="versionNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="updateUser" />
-							<bean parent="FieldDefinition"
-								p:attributeName="updateTimestamp" />
+              <bean parent="FieldDefinition" p:attributeName="entityNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="versionNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="updateUser"/>
+              <bean parent="FieldDefinition" p:attributeName="updateTimestamp"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PersonFinIntDisclosureAssociate-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="protocolNumber"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.PersonFinIntDisclosureAssociate"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="entityNumber"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="entityNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="updateUser" parent="Uif-DataField"/>
+              <bean p:propertyName="updateTimestamp" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -91,41 +100,64 @@ reference this file within their spring beans definition.
 	
 		<!-- Business Object Lookup Definition -->
 	<bean id="PersonFinIntDisclosureAssociate-lookupDefinition" parent="PersonFinIntDisclosureAssociate-lookupDefinition-parentBean" />
+  <bean id="PersonFinIntDisclosureAssociate-LookupView" parent="PersonFinIntDisclosureAssociate-LookupView-parentBean"/>
 	<bean id="PersonFinIntDisclosureAssociate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Coi Disclosure Associate Lookup" />
         <property name="lookupableID" value="PersonFinIntDisclosureAssociateLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="entityNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="versionNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="updateUser" />
-				<bean parent="FieldDefinition"
-					p:attributeName="updateTimestamp" />
+        <bean parent="FieldDefinition" p:attributeName="entityNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="versionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="updateUser"/>
+        <bean parent="FieldDefinition" p:attributeName="updateTimestamp"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="entityNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="versionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="updateUser"/>
+        <bean parent="FieldDefinition" p:attributeName="updateTimestamp"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PersonFinIntDisclosureAssociate-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.PersonFinIntDisclosureAssociate"/>
+    <property name="headerText" value="Coi Disclosure Associate Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="entityNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="versionNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="updateUser" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="updateTimestamp" parent="Uif-LookupCriteriaInputField"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="entityNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="versionNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="updateUser" />
-				<bean parent="FieldDefinition"
-					p:attributeName="updateTimestamp" />
+        <bean p:propertyName="entityNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="updateUser" parent="Uif-DataField"/>
+        <bean p:propertyName="updateTimestamp" parent="Uif-DataField"/>
 			</list>
 		</property>
 	</bean>

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
  Copyright 2005-2014 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -13,8 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="CoiAttachmentType" parent="CoiAttachmentType-parentBean"/>
     <bean abstract="true" id="CoiAttachmentType-parentBean" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.coi.CoiAttachmentType"/>
@@ -47,9 +47,15 @@
         <property name="validationPattern">
             <bean parent="NumericValidationPattern"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control">
             <bean p:size="5" parent="TextControlDefinition"/>
         </property>
+    <property name="controlField">
+      <bean p:size="5" parent="Uif-TextControl"/>
+    </property>
         <property name="summary" value="Code"/>
         <property name="description" value="Code"/>
     </bean>
@@ -65,9 +71,9 @@
 
     <bean id="CoiAttachmentType-versionNumber" parent="CoiAttachmentType-versionNumber-parentBean"/>
     <bean abstract="true" id="CoiAttachmentType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>
-
     <!-- Business Object Inquiry Definition -->
     <bean id="CoiAttachmentType-inquiryDefinition" parent="CoiAttachmentType-inquiryDefinition-parentBean"/>
+  <bean id="CoiAttachmentType-InquiryView" parent="CoiAttachmentType-InquiryView-parentBean"/>
     <bean abstract="true" id="CoiAttachmentType-inquiryDefinition-parentBean" parent="InquiryDefinition">
         <property name="title" value="Code"/>
         <property name="inquirySections">
@@ -86,15 +92,33 @@
         </property>
     </bean>
 
+  <bean id="CoiAttachmentType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Code"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.CoiAttachmentType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Code"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
     <!-- Business Object Lookup Definition -->
     <bean id="CoiAttachmentType-lookupDefinition" parent="CoiAttachmentType-lookupDefinition-parentBean"/>
+  <bean id="CoiAttachmentType-LookupView" parent="CoiAttachmentType-LookupView-parentBean"/>
     <bean abstract="true" id="CoiAttachmentType-lookupDefinition-parentBean" parent="LookupDefinition">
         <property name="title" value="Coi Attachment Type Lookup"/>
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
         <property name="defaultSort">
-            <bean parent="SortDefinition">
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields">
             <list>
@@ -109,4 +133,33 @@
             </list>
         </property>
     </bean>
+
+  <bean id="CoiAttachmentType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.coi.CoiAttachmentType"/>
+    <property name="headerText" value="Coi Attachment Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

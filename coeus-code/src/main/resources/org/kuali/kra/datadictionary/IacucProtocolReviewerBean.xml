@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="IacucProtocolReviewerBean" parent="IacucProtocolReviewerBean-parentBean" />
 	<bean id="IacucProtocolReviewerBean-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean" />
@@ -42,20 +38,27 @@
 	    <property name="validationPattern" >
 	      <bean parent="AlphaNumericValidationPattern" />
 	    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 	    <property name="required" value="false" />
 	       <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType"
-	            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-            	p:includeBlankRow="false"
-	            p:keyAttribute="reviewerTypeCode"
-	            p:labelAttribute="description" />
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="reviewerTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="reviewerTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
 	    </property>
 	    <property name="summary" value="Reviewer Type" />
 	    <property name="description" value="Reviewer Type" />
     </bean>
 	
-    
-
 </beans>

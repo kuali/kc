@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
@@ -15,12 +16,7 @@
  * limitations under the License.
  */
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans                            http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="SpecialReviewType" parent="SpecialReviewType-parentBean" />
     <bean id="SpecialReviewType-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.bo.SpecialReviewType" />
@@ -33,10 +29,7 @@
         </property>
         <property name="titleAttribute" value="SpecialReviewTypeCode" />
         <property name="helpDefinition" >
-            <bean parent="HelpDefinition" 
-                  p:parameterNamespace="KC-PD" 
-                  p:parameterName="proposalDevelopmentSpecialReviewHelpUrl" 
-                  p:parameterDetailType="Document" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentSpecialReviewHelpUrl" p:parameterDetailType="Document"/>
         </property>
         <property name="attributes" >
             <list>
@@ -60,9 +53,14 @@
         <property name="validationPattern">
             <bean parent="AlphaNumericValidationPattern"/>
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control">
-            <bean parent="TextControlDefinition" 
-                  p:size="4"/>
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="4" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Special Review Type Code" />
         <property name="description" value="Special Review Type Code" />
@@ -70,16 +68,13 @@
 
     <bean id="SpecialReviewType-description" parent="SpecialReviewType-description-parentBean" />
     <bean id="SpecialReviewType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
-
     <bean id="SpecialReviewType-sortId" parent="SpecialReviewType-sortId-parentBean" />
     <bean id="SpecialReviewType-sortId-parentBean" abstract="true" parent="KraAttributeReferenceDummy-sortId" />
-    
     <bean id="SpecialReviewType-versionNumber" parent="SpecialReviewType-versionNumber-parentBean" />
     <bean id="SpecialReviewType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
-
     <!-- Business Object Inquiry Definition -->
-    
     <bean id="SpecialReviewType-inquiryDefinition" parent="SpecialReviewType-inquiryDefinition-parentBean" />
+  <bean id="SpecialReviewType-InquiryView" parent="SpecialReviewType-InquiryView-parentBean"/>
     <bean id="SpecialReviewType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Special Review Type" />
         <property name="inquirySections" >
@@ -89,11 +84,8 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition" 
-                                  p:attributeName="specialReviewTypeCode" 
-                                  p:forceInquiry="true" />
-                            <bean parent="FieldDefinition" 
-                                  p:attributeName="description" />
+              <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
                         </list>
                     </property>
                 </bean>
@@ -101,9 +93,28 @@
         </property>
     </bean>
 
-    <!-- Business Object Lookup Definition -->
+  <bean id="SpecialReviewType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Special Review Type"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.SpecialReviewType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Special Review Type"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="specialReviewTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+  <!-- Business Object Lookup Definition -->
     <bean id="SpecialReviewType-lookupDefinition" parent="SpecialReviewType-lookupDefinition-parentBean" />
+  <bean id="SpecialReviewType-LookupView" parent="SpecialReviewType-LookupView-parentBean"/>
     <bean id="SpecialReviewType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Special Review Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
@@ -112,19 +123,42 @@
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition" 
-                      p:attributeName="specialReviewTypeCode" />
-                <bean parent="FieldDefinition" 
-                      p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="SpecialReviewType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.SpecialReviewType"/>
+    <property name="headerText" value="Special Review Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="specialReviewTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition" 
-                      p:attributeName="specialReviewTypeCode" 
-                      p:forceInquiry="true" />
-                <bean parent="FieldDefinition" 
-                      p:attributeName="description" />
+        <bean p:propertyName="specialReviewTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

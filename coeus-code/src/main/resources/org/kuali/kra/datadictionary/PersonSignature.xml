@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="PersonSignature" parent="PersonSignature-parentBean" />
-
   <bean id="PersonSignature-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.PersonSignature" />
 		<property name="objectLabel" value="PersonSignature" />
@@ -43,22 +38,23 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Person Signature Code" />
     <property name="description" value="Person Signature Code" />
   </bean>
   
- 
   <!-- This FileControlDefinition should be removed once a bug in Rice is fixed.
         In other words, the Rice Team forgot to add the FileControlDefinition to
         their XML configuration. -->
-   <bean id="FileControlDefinition"
-        class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition"
-        abstract="true"
-    />
+<bean id="FileControlDefinition" class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition" abstract="true"/>
   <bean id="PersonSignature-templateFile" parent="PersonSignature-templateFile-parentBean" />
   <bean id="PersonSignature-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="templateFile" />
@@ -68,8 +64,10 @@
     <property name="maxLength" value="150" />
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="FileControlDefinition"
-            p:size="100" />
+      <bean parent="FileControlDefinition" p:size="100"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="100" parent="Uif-FileControl"/>
     </property>
     <property name="summary" value="Signature" />
     <property name="description" value="PersonSignature Image File" />
@@ -83,7 +81,6 @@
 	    <property name="summary" value="Signature Active" />
 	    <property name="description" value="Indicate if this signature is active" />
   </bean>
-  
   
     <bean id="PersonSignature-personId" parent="PersonSignature-personId-parentBean" />
     <bean id="PersonSignature-personId-parentBean" abstract="true" parent="PersonImpl-principalId" >
@@ -113,20 +110,15 @@
             <bean parent="AnyCharacterValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="KualiUserControlDefinition"
-                p:personNameAttributeName="person.fullName"
-                p:universalIdAttributeName="personId"
-                p:userIdAttributeName="person.userName" />
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="person.fullName" p:universalIdAttributeName="personId" p:userIdAttributeName="person.userName"/>
         </property>
     </bean>
   
   <bean id="PersonSignature-versionNumber" parent="PersonSignature-versionNumber-parentBean" />
-  <bean id="PersonSignature-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean id="PersonSignature-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
   <bean id="PersonSignature-inquiryDefinition" parent="PersonSignature-inquiryDefinition-parentBean" />
+  <bean id="PersonSignature-InquiryView" parent="PersonSignature-InquiryView-parentBean"/>
   <bean id="PersonSignature-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="PersonSignature" />
     <property name="inquirySections" >
@@ -136,11 +128,8 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="personSignatureId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="person.fullName"
-              		p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="personSignatureId"/>
+              <bean parent="FieldDefinition" p:attributeName="person.fullName" p:forceInquiry="true"/>
             </list>
           </property>
         </bean>
@@ -148,39 +137,79 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
-       	
+  <bean id="PersonSignature-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="PersonSignature"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.PersonSignature"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Person Signature"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="personSignatureId" parent="Uif-DataField"/>
+              <bean p:propertyName="person.fullName" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
         	
+  <!-- Business Object Lookup Definition -->
   <bean id="PersonSignature-lookupDefinition" parent="PersonSignature-lookupDefinition-parentBean" />
-
+  <bean id="PersonSignature-LookupView" parent="PersonSignature-LookupView-parentBean"/>
   <bean id="PersonSignature-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Person Signature Lookup" />
     <property name="lookupableID" value="personSignatureLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-									
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="personSignatureId" />
-		<bean parent="FieldDefinition"
-              p:attributeName="person.userName" />
-		<bean parent="FieldDefinition"
-    	      p:attributeName="signatureActive" />
+        <bean parent="FieldDefinition" p:attributeName="personSignatureId"/>
+        <bean parent="FieldDefinition" p:attributeName="person.userName"/>
+        <bean parent="FieldDefinition" p:attributeName="signatureActive"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="personSignatureId" />
-		<bean parent="FieldDefinition"
-    	      p:attributeName="person.fullName" />
-		<bean parent="FieldDefinition"
-    	      p:attributeName="signatureActive" />
+        <bean parent="FieldDefinition" p:attributeName="personSignatureId"/>
+        <bean parent="FieldDefinition" p:attributeName="person.fullName"/>
+        <bean parent="FieldDefinition" p:attributeName="signatureActive"/>
       </list>
     </property>
   </bean>
+
+  <bean id="PersonSignature-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.PersonSignature"/>
+    <property name="headerText" value="Person Signature Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+      </list>
+    </property>
+  </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="personSignatureId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="person.userName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="signatureActive" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="personSignatureId" parent="Uif-DataField"/>
+        <bean p:propertyName="person.fullName" parent="Uif-DataField"/>
+        <bean p:propertyName="signatureActive" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

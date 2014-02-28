@@ -1,11 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="OrganizationType" parent="OrganizationType-parentBean" />
-
   <bean id="OrganizationType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationType" />
 		<property name="objectLabel" value="Organization Type" />
@@ -30,17 +25,12 @@
           <property name="objectAttributeName" value="organizationTypeList" />
           <property name="primitiveAttributes" >
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="organizationTypeCode"
-                    p:targetName="organizationTypeCode" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationTypeCode" p:targetName="organizationTypeCode"/>
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="organizationTypeList.description"
-                    p:targetName="description" />
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="organizationTypeList.description" p:targetName="description"/>
             </list>
           </property>
         </bean>
@@ -62,15 +52,20 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="8" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Organization Id" />
     <property name="description" value="Organization Id" />
   </bean>
-  <bean id="OrganizationType-organizationTypeCode" parent="OrganizationType-organizationTypeCode-parentBean" />
 
+  <bean id="OrganizationType-organizationTypeCode" parent="OrganizationType-organizationTypeCode-parentBean"/>
   <bean id="OrganizationType-organizationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationTypeCode" />
     <property name="forceUppercase" value="false" />
@@ -80,30 +75,31 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Organization Type Code" />
     <property name="description" value="Organization Type Code" />
   </bean>
-  <bean id="OrganizationType-organizationTypeList.description" parent="OrganizationType-organizationTypeList.description-parentBean" />
 
+  <bean id="OrganizationType-organizationTypeList.description" parent="OrganizationType-organizationTypeList.description-parentBean"/>
   <bean id="OrganizationType-organizationTypeList.description-parentBean" abstract="true" parent="OrganizationTypeList-description">
     <property name="name" value="organizationTypeList.description" />
     <property name="label" value="Organization Type" />
     <property name="shortLabel" value="Organization Type" />
   </bean>
-  <bean id="OrganizationType-versionNumber" parent="OrganizationType-versionNumber-parentBean" />
 
-  <bean id="OrganizationType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-  </bean>
-
+  <bean id="OrganizationType-versionNumber" parent="OrganizationType-versionNumber-parentBean"/>
+  <bean id="OrganizationType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="OrganizationType-inquiryDefinition" parent="OrganizationType-inquiryDefinition-parentBean" />
-
+  <bean id="OrganizationType-InquiryView" parent="OrganizationType-InquiryView-parentBean"/>
   <bean id="OrganizationType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Organization Type" />
     <property name="inquirySections" >
@@ -113,12 +109,8 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationId"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationTypeList.description"
-                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="organizationId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationTypeList.description" p:forceInquiry="true"/>
             </list>
           </property>
         </bean>
@@ -126,35 +118,72 @@
     </property>
   </bean>
 
-<!-- Business Object Lookup Definition -->
+  <bean id="OrganizationType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Organization Type"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.OrganizationType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Organization Type"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="organizationId" parent="Uif-DataField"/>
+              <bean p:propertyName="organizationTypeList.description" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-
+  <!-- Business Object Lookup Definition -->
   <bean id="OrganizationType-lookupDefinition" parent="OrganizationType-lookupDefinition-parentBean" />
-
+  <bean id="OrganizationType-LookupView" parent="OrganizationType-LookupView-parentBean"/>
   <bean id="OrganizationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Organization Type Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
     <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
+      <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationTypeCode" />
+        <bean parent="FieldDefinition" p:attributeName="organizationId"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationTypeCode"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="organizationId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationTypeList.description" p:forceInquiry="true"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="OrganizationType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.bo.OrganizationType"/>
+    <property name="headerText" value="Organization Type Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="organizationId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="organizationTypeCode" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationId"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationTypeList.description"
-              p:forceInquiry="true" />
+        <bean p:propertyName="organizationId" parent="Uif-DataField"/>
+        <bean p:propertyName="organizationTypeList.description" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

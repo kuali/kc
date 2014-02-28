@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
  
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="KcKrmsTermFunParamSpec" parent="KcKrmsTermFunParamSpec-parentBean" />
     <bean id="KcKrmsTermFunParamSpec-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.krms.KcKrmsTermFunctionParam" />
@@ -43,7 +39,6 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    
     <bean id="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamId" parent="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamId-parentBean" />
     <bean id="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="kcKrmsTermFunctionParamId" />
@@ -54,9 +49,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Kc Krms Term Fun Param Spec Id" />
         <property name="description" value="Kc Krms Term Fun Param Spec Id" />
@@ -72,9 +72,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Kc Krms Term Function Id" />
         <property name="description" value="Kc Krms Term Function Id" />
@@ -90,9 +95,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Param Name" />
         <property name="description" value="Param Name" />
@@ -108,9 +118,14 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Param Type" />
         <property name="description" value="Param Type" />
@@ -126,20 +141,24 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Param Order" />
         <property name="description" value="Param Order" />
     </bean>
 
     <bean id="KcKrmsTermFunParamSpec-versionNumber" parent="KcKrmsTermFunParamSpec-versionNumber-parentBean" />
-    <bean id="KcKrmsTermFunParamSpec-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
-
+  <bean id="KcKrmsTermFunParamSpec-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="KcKrmsTermFunParamSpec-inquiryDefinition" parent="KcKrmsTermFunParamSpec-inquiryDefinition-parentBean" />
+  <bean id="KcKrmsTermFunParamSpec-InquiryView" parent="KcKrmsTermFunParamSpec-InquiryView-parentBean"/>
     <bean id="KcKrmsTermFunParamSpec-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Kc Krms Term Fun Param Spec Id" />
         <property name="inquirySections" >
@@ -149,17 +168,33 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="kcKrmsTermFunctionParamId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="kcKrmsTermFunctionId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="paramName" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="paramType" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="paramOrder" />
+              <bean parent="FieldDefinition" p:attributeName="kcKrmsTermFunctionParamId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="kcKrmsTermFunctionId"/>
+              <bean parent="FieldDefinition" p:attributeName="paramName"/>
+              <bean parent="FieldDefinition" p:attributeName="paramType"/>
+              <bean parent="FieldDefinition" p:attributeName="paramOrder"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KcKrmsTermFunParamSpec-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Kc Krms Term Fun Param Spec Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.krms.KcKrmsTermFunctionParam"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Kc Krms Term Fun Param Spec Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="kcKrmsTermFunctionParamId" parent="Uif-DataField"/>
+              <bean p:propertyName="kcKrmsTermFunctionId" parent="Uif-DataField"/>
+              <bean p:propertyName="paramName" parent="Uif-DataField"/>
+              <bean p:propertyName="paramType" parent="Uif-DataField"/>
+              <bean p:propertyName="paramOrder" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -169,42 +204,65 @@
 
     <!-- Business Object Lookup Definition -->
     <bean id="KcKrmsTermFunParamSpec-lookupDefinition" parent="KcKrmsTermFunParamSpec-lookupDefinition-parentBean" />
+  <bean id="KcKrmsTermFunParamSpec-LookupView" parent="KcKrmsTermFunParamSpec-LookupView-parentBean"/>
     <bean id="KcKrmsTermFunParamSpec-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Kc Krms Term Fun Param Spec Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
+      <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="kcKrmsTermFunctionParamId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="kcKrmsTermFunctionId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="paramName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="paramType" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="paramOrder" />
+        <bean parent="FieldDefinition" p:attributeName="kcKrmsTermFunctionParamId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="kcKrmsTermFunctionId"/>
+        <bean parent="FieldDefinition" p:attributeName="paramName"/>
+        <bean parent="FieldDefinition" p:attributeName="paramType"/>
+        <bean parent="FieldDefinition" p:attributeName="paramOrder"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="kcKrmsTermFunctionParamId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="kcKrmsTermFunctionId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="paramName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="paramType" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="paramOrder" />
+        <bean parent="FieldDefinition" p:attributeName="kcKrmsTermFunctionParamId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="kcKrmsTermFunctionId"/>
+        <bean parent="FieldDefinition" p:attributeName="paramName"/>
+        <bean parent="FieldDefinition" p:attributeName="paramType"/>
+        <bean parent="FieldDefinition" p:attributeName="paramOrder"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="KcKrmsTermFunParamSpec-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.krms.KcKrmsTermFunctionParam"/>
+    <property name="headerText" value="Kc Krms Term Fun Param Spec Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
             </list>
         </property>
     </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="kcKrmsTermFunctionParamId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="kcKrmsTermFunctionId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="paramName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="paramType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="paramOrder" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="kcKrmsTermFunctionParamId" parent="Uif-DataField"/>
+        <bean p:propertyName="kcKrmsTermFunctionId" parent="Uif-DataField"/>
+        <bean p:propertyName="paramName" parent="Uif-DataField"/>
+        <bean p:propertyName="paramType" parent="Uif-DataField"/>
+        <bean p:propertyName="paramOrder" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

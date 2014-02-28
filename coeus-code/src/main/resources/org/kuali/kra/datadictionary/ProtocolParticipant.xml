@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
  * Copyright 2005-2014 The Kuali Foundation
@@ -15,12 +16,7 @@
  * limitations under the License.
  */
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="ProtocolParticipant" parent="ProtocolParticipant-parentBean" />
 	<bean id="ProtocolParticipant-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.participant.ProtocolParticipant" />
@@ -47,7 +43,6 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
     <bean id="ProtocolParticipant-protocolParticipantId" parent="ProtocolParticipant-protocolParticipantId-parentBean" />
     <bean id="ProtocolParticipant-protocolParticipantId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protocolParticipantId" />
@@ -58,9 +53,14 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Protocol Participant Id" />
         <property name="description" value="Protocol Participant Id" />
@@ -76,9 +76,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Id" />
 		<property name="description" value="Protocol Id" />
@@ -91,9 +96,13 @@
         <property name="shortLabel" value="Type" />
 		<property name="required" value="true" />
 		<property name="control" >
-            <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.irb.protocol.participant.ParticipantTypeValuesFinder" 
-                p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.irb.protocol.participant.ParticipantTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.irb.protocol.participant.ParticipantTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
         </property>
 	</bean>
 
@@ -107,24 +116,24 @@
 		<property name="validationPattern" >
         <bean parent="NumericValidationPattern" />
 		</property>
-		<!--
 		<property name="validCharactersConstraint">
       	<bean parent="NumericPatternConstraint"/>
-    	</property>-->
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Partrticipant Count" />
 		<property name="description" value="Participant Count" />
 	</bean>
 
 	<bean id="ProtocolParticipant-versionNumber" parent="ProtocolParticipant-versionNumber-parentBean" />
-	<bean id="ProtocolParticipant-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+  <bean id="ProtocolParticipant-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 	<!-- Business Object Inquiry Definition -->
 	<bean id="ProtocolParticipant-inquiryDefinition" parent="ProtocolParticipant-inquiryDefinition-parentBean" />
+  <bean id="ProtocolParticipant-InquiryView" parent="ProtocolParticipant-InquiryView-parentBean"/>
 	<bean id="ProtocolParticipant-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Protocol Participant" />
 		<property name="inquirySections" >
@@ -134,15 +143,31 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="protocolParticipantId" 
-								p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="protocolId" />
-							<bean parent="FieldDefinition"
-								p:attributeName="participantTypeCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="participantCount" />
+              <bean parent="FieldDefinition" p:attributeName="protocolParticipantId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolId"/>
+              <bean parent="FieldDefinition" p:attributeName="participantTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="participantCount"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolParticipant-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Protocol Participant"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.protocol.participant.ProtocolParticipant"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Protocol Participant"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="protocolParticipantId" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolId" parent="Uif-DataField"/>
+              <bean p:propertyName="participantTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="participantCount" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -152,39 +177,61 @@
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="ProtocolParticipant-lookupDefinition" parent="ProtocolParticipant-lookupDefinition-parentBean" />
+  <bean id="ProtocolParticipant-LookupView" parent="ProtocolParticipant-LookupView-parentBean"/>
 	<bean id="ProtocolParticipant-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Participant Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolParticipantId" 
-					p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="participantTypeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="participantCount" />
+        <bean parent="FieldDefinition" p:attributeName="protocolParticipantId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolId"/>
+        <bean parent="FieldDefinition" p:attributeName="participantTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="participantCount"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolParticipantId"
-					p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="participantTypeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="participantCount" />
+        <bean parent="FieldDefinition" p:attributeName="protocolParticipantId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolId"/>
+        <bean parent="FieldDefinition" p:attributeName="participantTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="participantCount"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolParticipant-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.protocol.participant.ProtocolParticipant"/>
+    <property name="headerText" value="Protocol Participant Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
 			</list>
 		</property>
 	</bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="protocolParticipantId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="participantTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="participantCount" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="protocolParticipantId" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolId" parent="Uif-DataField"/>
+        <bean p:propertyName="participantTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="participantCount" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

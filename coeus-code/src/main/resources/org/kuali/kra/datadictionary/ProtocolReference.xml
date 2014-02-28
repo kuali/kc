@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2014 The Kuali Foundation
 
@@ -13,12 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="ProtocolReference" parent="ProtocolReference-parentBean" />
 	<bean id="ProtocolReference-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.reference.ProtocolReference" />
@@ -62,15 +58,19 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Reference Id" />
 		<property name="description" value="Protocol Reference Id" />
 	</bean>
 
-	
 	<bean id="ProtocolReference-protocolId" parent="ProtocolReference-protocolId-parentBean" />
 	<bean id="ProtocolReference-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolId" />
@@ -81,9 +81,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Id" />
 		<property name="description" value="Protocol Id" />
@@ -99,9 +104,14 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Number" />
 		<property name="description" value="Protocol Number" />
@@ -117,9 +127,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Sequence Number" />
 		<property name="description" value="Sequence Number" />
@@ -135,9 +150,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
 		</property>
 		<property name="summary" value="Protocol Reference Number" />
 		<property name="description" value="Protocol Reference Number" />
@@ -153,10 +173,17 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
 		<property name="control" >
-       			<bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kra.irb.protocol.ProtocolReferenceTypeValuesFinder"
-                  p:includeKeyInLabel="false" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.irb.protocol.ProtocolReferenceTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.kra.irb.protocol.ProtocolReferenceTypeValuesFinder"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
  </property>	
         <property name="required" value="true" />	 
 		<property name="summary" value="Protocol Reference Type Code" />
@@ -171,12 +198,18 @@
 		<property name="shortLabel" value="Other Identifier" />
 		<property name="maxLength" value="50" />
 		<property name="validationPattern" >
-			<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="50" />
+      <bean parent="TextControlDefinition" p:size="50"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="50" parent="Uif-TextControl"/>
 		</property>
 		<property name="required" value="true" />
 		<property name="summary" value="Reference Key" />
@@ -209,24 +242,28 @@
 		<property name="shortLabel" value="Comments" />
 		<property name="maxLength" value="400" />
 		<property name="validationPattern" >
-			<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
 		</property>
 		<property name="control" >
-		      <bean parent="TextareaControlDefinition"
-		            p:rows="3"
-		            p:cols="100" />
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="100"/>
+    </property>
+    <property name="controlField">
+      <bean p:rows="3" p:cols="100" parent="Uif-TextAreaControl"/>
 		</property>
 		<property name="summary" value="Comments" />
 		<property name="description" value="Comments" />
 	</bean>
 
 	<bean id="ProtocolReference-versionNumber" parent="ProtocolReference-versionNumber-parentBean" />
-	<bean id="ProtocolReference-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-	</bean>
-
+  <bean id="ProtocolReference-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 	<!-- Business Object Inquiry Definition -->
 	<bean id="ProtocolReference-inquiryDefinition" parent="ProtocolReference-inquiryDefinition-parentBean" />
+  <bean id="ProtocolReference-InquiryView" parent="ProtocolReference-InquiryView-parentBean"/>
 	<bean id="ProtocolReference-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Protocol Id" />
 		<property name="inquirySections" >
@@ -236,25 +273,41 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="protocolId" 
-								p:forceInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="protocolNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="sequenceNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="protocolReferenceNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="protocolReferenceTypeCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="referenceKey" />
-							<bean parent="FieldDefinition"
-								p:attributeName="applicationDate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="approvalDate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="comments" />
+              <bean parent="FieldDefinition" p:attributeName="protocolId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolReferenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolReferenceTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="referenceKey"/>
+              <bean parent="FieldDefinition" p:attributeName="applicationDate"/>
+              <bean parent="FieldDefinition" p:attributeName="approvalDate"/>
+              <bean parent="FieldDefinition" p:attributeName="comments"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ProtocolReference-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="Protocol Id"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.protocol.reference.ProtocolReference"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Protocol Id"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="protocolId" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolReferenceNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolReferenceTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="referenceKey" parent="Uif-DataField"/>
+              <bean p:propertyName="applicationDate" parent="Uif-DataField"/>
+              <bean p:propertyName="approvalDate" parent="Uif-DataField"/>
+              <bean p:propertyName="comments" parent="Uif-DataField"/>
 						</list>
 					</property>
 				</bean>
@@ -264,59 +317,81 @@
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="ProtocolReference-lookupDefinition" parent="ProtocolReference-lookupDefinition-parentBean" />
+  <bean id="ProtocolReference-LookupView" parent="ProtocolReference-LookupView-parentBean"/>
 	<bean id="ProtocolReference-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol References Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
 		<property name="defaultSort" >
-			<bean parent="SortDefinition" >
-		</bean>
+      <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolReferenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolReferenceTypeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="referenceKey" />
-				<bean parent="FieldDefinition"
-					p:attributeName="applicationDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="approvalDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="comments" />
+        <bean parent="FieldDefinition" p:attributeName="protocolId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolReferenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolReferenceTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceKey"/>
+        <bean parent="FieldDefinition" p:attributeName="applicationDate"/>
+        <bean parent="FieldDefinition" p:attributeName="approvalDate"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" 
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolReferenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolReferenceTypeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="referenceKey" />
-				<bean parent="FieldDefinition"
-					p:attributeName="applicationDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="approvalDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="comments" />
+        <bean parent="FieldDefinition" p:attributeName="protocolId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolReferenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolReferenceTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceKey"/>
+        <bean parent="FieldDefinition" p:attributeName="applicationDate"/>
+        <bean parent="FieldDefinition" p:attributeName="approvalDate"/>
+        <bean parent="FieldDefinition" p:attributeName="comments"/>
 			</list>
 		</property>
 	</bean>
+
+  <bean id="ProtocolReference-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.protocol.reference.ProtocolReference"/>
+    <property name="headerText" value="Protocol References Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="protocolId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolReferenceNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolReferenceTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="referenceKey" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="applicationDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="approvalDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="protocolId" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolReferenceNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolReferenceTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="referenceKey" parent="Uif-DataField"/>
+        <bean p:propertyName="applicationDate" parent="Uif-DataField"/>
+        <bean p:propertyName="approvalDate" parent="Uif-DataField"/>
+        <bean p:propertyName="comments" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>
