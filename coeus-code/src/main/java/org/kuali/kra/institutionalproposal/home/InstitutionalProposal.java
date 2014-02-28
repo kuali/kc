@@ -20,9 +20,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
@@ -1408,28 +1408,28 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     /**
-     * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getOwnerSequenceNumber()
      */
     public Integer getOwnerSequenceNumber() {
         return null;
     }
 
     /**
-     * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#incrementSequenceNumber()
      */
     public void incrementSequenceNumber() {
         this.sequenceNumber++;
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
      */
     public InstitutionalProposal getSequenceOwner() {
         return this;
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner)
      */
     public void setSequenceOwner(InstitutionalProposal newOwner) {
         // no-op
@@ -1448,14 +1448,14 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.proposalId = null;
     }
 
     /**
-     * @see org.kuali.kra.SequenceOwner#getName()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getName()
      */
     public String getVersionNameField() {
         return "proposalNumber";

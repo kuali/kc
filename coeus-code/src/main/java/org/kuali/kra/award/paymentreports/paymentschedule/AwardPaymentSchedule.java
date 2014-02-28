@@ -97,7 +97,7 @@ public class AwardPaymentSchedule extends AwardAssociate {
     }
     
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardPaymentScheduleId = null;

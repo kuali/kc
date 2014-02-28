@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.specialreview;
 
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
-import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
 
 /**
@@ -62,7 +62,7 @@ public class AwardSpecialReview extends SpecialReview<AwardSpecialReviewExemptio
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         awardSpecialReviewId = null;
