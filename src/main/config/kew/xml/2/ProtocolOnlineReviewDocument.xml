@@ -14,6 +14,9 @@
 			<defaultExceptionWorkgroupName>KC-WKFLW:IRBAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/protocolOnlineReviewRedirect.do?methodToCall=redirectToProtocolFromReview</docHandler>
 			<active>true</active>
+			<security>
+			 <securityAttribute name="ProtocolOnlineReviewSecurityAttribute"/>
+			</security>
 			<policies>
 				<policy>
 					<name>DEFAULT_APPROVE</name>
@@ -64,6 +67,15 @@
 
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
 		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+
+        <ruleAttribute>
+            <name>ProtocolOnlineReviewSecurityAttribute</name>
+            <className>org.kuali.kra.authorization.ProtocolOnlineReviewSecurityAttribute</className>
+            <label>Protocol Online Review Security Attribute</label>
+            <description>Protocol Online Review Security Attribute</description>
+            <type>DocumentSecurityAttribute</type>
+            <applicationId>KC</applicationId>
+        </ruleAttribute>
 
 		<ruleAttribute>
 			<name>ProtocolOnlineReviewReviewer-XPathQualifierResolver</name>

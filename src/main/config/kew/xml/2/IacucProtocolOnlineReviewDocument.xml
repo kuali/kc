@@ -24,6 +24,11 @@
             <defaultExceptionGroupName namespace="KC-WKFLW">IACUCAdmin</defaultExceptionGroupName>
             <docHandler>${kuali.docHandler.url.prefix}/iacucProtocolOnlineReviewRedirect.do?methodToCall=redirectToProtocolFromReview</docHandler>
             <active>true</active>
+            <!-- Using the same security attribute as in IRB Protocol since the logic for blocking
+            both is / should be the same. -->
+            <security>
+             <securityAttribute name="ProtocolOnlineReviewSecurityAttribute"/>
+            </security>
 			<policies>
 				<policy>
 					<name>DEFAULT_APPROVE</name>
@@ -75,6 +80,14 @@
     <ruleAttributes xmlns="ns:workflow/RuleAttribute"
         xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 
+        <ruleAttribute>
+            <name>ProtocolOnlineReviewSecurityAttribute</name>
+            <className>org.kuali.kra.authorization.ProtocolOnlineReviewSecurityAttribute</className>
+            <label>Protocol Online Review Security Attribute</label>
+            <description>Protocol Online Review Security Attribute</description>
+            <type>DocumentSecurityAttribute</type>
+            <applicationId>KC</applicationId>
+        </ruleAttribute>
         <ruleAttribute>
             <name>IacucProtocolOnlineReviewReviewer-XPathQualifierResolver</name>
             <className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
