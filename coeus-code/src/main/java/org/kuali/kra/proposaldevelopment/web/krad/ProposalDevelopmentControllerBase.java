@@ -111,7 +111,7 @@ public abstract class ProposalDevelopmentControllerBase {
                  proposalDevelopmentDocument);
      }
      
-     public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+     public ModelAndView save(DocumentFormBase form, BindingResult result,
              HttpServletRequest request, HttpServletResponse response) throws Exception {
          ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
          ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
