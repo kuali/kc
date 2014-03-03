@@ -1,4 +1,4 @@
-package org.kuali.coeus.sys.framework.controller;
+package org.kuali.coeus.sys.framework.controller.interceptor;
 
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -21,6 +21,7 @@ public class KcUifHandlerExceptionResolver implements org.springframework.web.se
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        //Avoids NPE in rice incident handler
         if (handler == null) {
             return innerHandler.resolveException(request, response, NullHandler.INSTANCE, ex);
         }

@@ -90,7 +90,7 @@
         <property name="kualiModuleService" ref="kualiModuleService"/>
     </bean>
 
-    <bean class="org.kuali.coeus.sys.framework.controller.KcUifHandlerExceptionResolver">
+    <bean class="org.kuali.coeus.sys.framework.controller.interceptor.KcUifHandlerExceptionResolver">
         <property name="innerHandler">
             <bean class="org.kuali.rice.krad.web.controller.UifHandlerExceptionResolver"/>
         </property>
