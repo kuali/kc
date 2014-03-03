@@ -17,12 +17,12 @@ package org.kuali.kra.coi.actions;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AddCoiReviewerRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<AddCoiReviewerEvent> {

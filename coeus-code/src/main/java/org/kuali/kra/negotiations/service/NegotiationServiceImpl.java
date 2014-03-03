@@ -16,6 +16,7 @@
 package org.kuali.kra.negotiations.service;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
@@ -26,7 +27,6 @@ import org.kuali.kra.kim.service.impl.UnitAdministratorDerivedRoleTypeServiceImp
 import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

@@ -20,6 +20,7 @@ import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Sponsor;
@@ -41,7 +42,6 @@ import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
-import org.kuali.kra.service.KcPersonService;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

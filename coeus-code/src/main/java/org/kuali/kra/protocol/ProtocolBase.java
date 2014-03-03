@@ -18,11 +18,11 @@ package org.kuali.kra.protocol;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -1063,7 +1063,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     }
     
     /**
-     * @see org.kuali.kra.SequenceOwner#getVersionNameField()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getVersionNameField()
      */
     public String getVersionNameField() {
         return "protocolNumber";

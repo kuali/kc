@@ -13,44 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.mail;
 
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.mail.EmailAttachment;
+import org.kuali.coeus.common.framework.mail.KcEmailService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.KcEmailService;
-import org.kuali.kra.util.EmailAttachment;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Set;
 
+@Component("kcEmailService")
 public class KcEmailServiceImpl implements KcEmailService {
     private static final Log LOG = LogFactory.getLog(KcEmailServiceImpl.class);
     
     public static final String DEFAULT_ENCODING = "UTF-8";
 
-    private JavaMailSenderImpl mailSender;    
-    private ParameterService parameterService;
+    @Autowired
+    @Qualifier("mailSender")
+    private JavaMailSenderImpl mailSender;
     
-    /**
-     * @param mailSender The injected Mail Sender.
-     */
-    public void setMailSender(JavaMailSenderImpl mailSender) {
-        this.mailSender = mailSender;
-    }
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     public void sendEmail(String from, Set<String> toAddresses, String subject, Set<String> ccAddresses,
                           Set<String> bccAddresses, String body, boolean htmlMessage) {

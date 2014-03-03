@@ -15,6 +15,8 @@
  */
 package org.kuali.kra;
 
+import org.kuali.coeus.common.framework.sequence.Sequenceable;
+
 
 
 /**

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import org.kuali.kra.SequenceOwner;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -200,14 +200,14 @@ public class OwnerAssociate implements SequenceOwner<SequenceOwnerImpl> {
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner)
      */
     public void setSequenceOwner(SequenceOwnerImpl newOwnerReference) {
         setOwner(newOwnerReference);
     }
 
     /**
-     * @see org.kuali.kra.SequenceOwner#getVersionNameField()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getVersionNameField()
      */
     public String getVersionNameField() {
         return "name";

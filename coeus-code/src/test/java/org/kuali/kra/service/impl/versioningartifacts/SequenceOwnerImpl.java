@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import org.kuali.kra.SequenceOwner;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.kra.SkipVersioning;
 
 import java.util.ArrayList;
@@ -147,21 +147,21 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
     }
     
     /**
-     * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getOwnerSequenceNumber()
      */
     public Integer getOwnerSequenceNumber() {
         return null;
     }
     
     /**
-     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#getSequenceNumber()
      */
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
      */
     public SequenceOwnerImpl getSequenceOwner() {
        return this;
@@ -188,7 +188,7 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
     }
 
     /**
-     * @see org.kuali.kra.SequenceOwner#getVersionNameField()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getVersionNameField()
      */
     public String getVersionNameField() {
         return "name";
@@ -207,14 +207,14 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
     }
 
     /**
-     * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#incrementSequenceNumber()
      */
     public void incrementSequenceNumber() {
         sequenceNumber++;
     }
     
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
        setSequenceOwnerId(null); 
@@ -264,7 +264,7 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner)
      */
     public void setSequenceOwner(SequenceOwnerImpl newOwner) {
        // do nothing - this is root sequence association

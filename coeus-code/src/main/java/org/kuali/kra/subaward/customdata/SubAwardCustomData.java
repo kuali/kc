@@ -79,7 +79,7 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.subAwardCustomDataId = null;
