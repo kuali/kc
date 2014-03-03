@@ -136,12 +136,28 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         newProtocolDocument.setProtocol(newProtocol);
         newProtocol.setProtocolDocument(newProtocolDocument);
         protocolDocument.getProtocol().setActive(false);
-        finalizeAttachmentProtocol(protocolDocument.getProtocol());
+        
+        if (! (
+                (protocolDocument.getProtocol().isAmendment() && newProtocol.isAmendment()) ||
+                (protocolDocument.getProtocol().isRenewal() && newProtocol.isRenewal()) || 
+                (protocolDocument.getProtocol().isRenewalWithoutAmendment() && newProtocol.isRenewalWithoutAmendment())
+           )) {
+            finalizeAttachmentProtocol(protocolDocument.getProtocol());
+        }
+        
         newProtocol.resetPersistenceStateForNotifications();
         businessObjectService.save(protocolDocument.getProtocol());        
         documentService.saveDocument(newProtocolDocument);
         newProtocol.resetForeignKeys();
-        finalizeAttachmentProtocol(newProtocol);
+        
+        if (! (
+                (protocolDocument.getProtocol().isAmendment() && newProtocol.isAmendment()) ||
+                (protocolDocument.getProtocol().isRenewal() && newProtocol.isRenewal()) || 
+                (protocolDocument.getProtocol().isRenewalWithoutAmendment() && newProtocol.isRenewalWithoutAmendment())
+           )) {                
+            finalizeAttachmentProtocol(newProtocol);
+        }
+        
         businessObjectService.save(newProtocol);
         // versioning questionnaire answer
         List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(getNewInstanceProtocolModuleQuestionnaireBeanHook(protocolDocument.getProtocol())
