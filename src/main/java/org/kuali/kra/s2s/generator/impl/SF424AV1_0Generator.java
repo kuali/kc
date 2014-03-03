@@ -422,19 +422,13 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
 
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_2) {
-                firstYearCost = firstYearCost.add(budgetPeriod.getTotalCost());
-                firstYearCostSharing = firstYearCostSharing.add(budgetPeriod.getCostSharingAmount());
-                firstYearNetCost = firstYearCost.subtract(firstYearCostSharing);
+                firstYearNetCost = firstYearNetCost.add(budgetPeriod.getTotalCost());
             }
             if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_3) {
-                secondYearCost = secondYearCost.add(budgetPeriod.getTotalCost());
-                secondYearCostSharing = secondYearCostSharing.add(budgetPeriod.getCostSharingAmount());
-                secondYearNetCost = secondYearCost.subtract(secondYearCostSharing);
+                secondYearNetCost = secondYearNetCost.add(budgetPeriod.getTotalCost());
             }
             if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_4) {
-                thirdYearCost = thirdYearCost.add(budgetPeriod.getTotalCost());
-                thirdYearCostSharing = thirdYearCostSharing.add(budgetPeriod.getCostSharingAmount());
-                thirdYearNetCost = thirdYearCost.subtract(thirdYearCostSharing);
+                thirdYearNetCost = thirdYearNetCost.add(budgetPeriod.getTotalCost());
             }
             if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_5) {
                 fourthYearCost = fourthYearCost.add(budgetPeriod.getTotalCost());
