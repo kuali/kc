@@ -81,7 +81,6 @@ public abstract class ProposalDevelopmentControllerBase {
     @ModelAttribute(value = "KualiForm")
     public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
         UifFormBase form =  getTransactionalDocumentControllerService().initForm(this.createInitialForm(request), request, response);
-        getTransactionalDocumentControllerService().createDocument((DocumentFormBase) form);
         return form;
     }
     

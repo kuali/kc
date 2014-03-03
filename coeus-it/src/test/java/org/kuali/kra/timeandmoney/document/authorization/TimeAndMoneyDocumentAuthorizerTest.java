@@ -42,7 +42,7 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-@Ignore("KCINFR-982")
+
 public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
     
     private TimeAndMoneyDocument timeAndMoneyDocument;
@@ -168,7 +168,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         dataObjectService.save(attrDataTwo);
     }
     
-    @Test
+    @Test @Ignore("KCINFR-982")
     public void verifyRoleStuff() {
         RoleService rs = KcServiceLocator.getService(RoleService.class);
         Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
@@ -195,7 +195,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         assertTrue(foundHierarchFlag);
     }
 
-    @Test
+    @Test  @Ignore("KCINFR-982")
     public void testAddRoleQualificationObjectMapOfStringString() {
         Map<String, String> roleQual = new HashMap<String, String>();
         authorizer.addRoleQualification(timeAndMoneyDocument, roleQual);
@@ -203,7 +203,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
     }
 
 
-    @Test
+    @Test  @Ignore("KCINFR-982")
     public void testCanAnnotate() {
         boolean canQuickstart = authorizer.canAnnotate(timeAndMoneyDocument, quickstart);
         boolean canBorst = authorizer.canAnnotate(timeAndMoneyDocument, borst);
@@ -215,7 +215,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         assertTrue(canQuickstart);
     }
 
-    @Test
+    @Test  @Ignore("KCINFR-982")
     public void testCanReload() {
         boolean canQuickstart = authorizer.canReload(timeAndMoneyDocument, quickstart);
         //boolean canBorst = authorizer.canReload(timeAndMoneyDocument, borst);
@@ -223,7 +223,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         //assertFalse(canBorst);
     }
 
-    @Test
+    @Test @Ignore("KCINFR-982")
     public void testCanClose() {
         boolean canQuickstart = authorizer.canClose(timeAndMoneyDocument, quickstart);
         //boolean canBorst = authorizer.canClose(timeAndMoneyDocument, borst);
@@ -231,7 +231,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         //assertFalse(canBorst);
     }
     
-    @Test
+    @Test  @Ignore("KCINFR-982")
     public void testQuickStartPerm() {
         RoleService rs = KcServiceLocator.getService(RoleService.class);
         Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
