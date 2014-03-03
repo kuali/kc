@@ -45,6 +45,7 @@ public class KraAttributeReferenceDummy extends AttributeReference {
     private Timestamp createTimestamp;
     private String committeeId;
     private String committeeName;
+    private String sponsorS2S;
 
     /**
      * Gets the value of city
@@ -247,6 +248,14 @@ public class KraAttributeReferenceDummy extends AttributeReference {
 
     public void setCommitteeName(String committeeName) {
         this.committeeName = committeeName;
+    }
+
+    public String getSponsorS2S() {
+        return sponsorS2S;
+    }
+
+    public void setSponsorS2S(String sponsorS2S) {
+        this.sponsorS2S = sponsorS2S;
     }
 
 }
