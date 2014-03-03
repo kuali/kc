@@ -16,4 +16,6 @@
 **/.DS_Store
 **/Thumbs.db
 /bin
-
+.project
+.classpath
+**/bin
