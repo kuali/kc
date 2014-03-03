@@ -59,6 +59,10 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        initialSave(proposalDevelopmentDocument);
        save(form, result, request, response);
        initializeProposalUsers(proposalDevelopmentDocument);
+
+       //hack for rice upgrade m5
+       form.setPageId("PropDev-DetailsPage");
+
        return getTransactionalDocumentControllerService().getUIFModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
    
