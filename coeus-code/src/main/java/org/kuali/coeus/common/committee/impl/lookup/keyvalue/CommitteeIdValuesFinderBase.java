@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.committee.impl.lookup.keyvalue;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueComparator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

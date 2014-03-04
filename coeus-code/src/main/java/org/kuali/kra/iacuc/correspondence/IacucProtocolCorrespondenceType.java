@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.protocol.correspondence.CorrespondenceTypeModuleIdConstants;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.noteattachment;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.service.DictionaryValidationService;

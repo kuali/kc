@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

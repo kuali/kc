@@ -56,7 +56,7 @@ public final class DateUtils {
             same = true;
         }
         else if ((date1 != null) && (date2 != null)) {
-            return org.apache.commons.lang.time.DateUtils.isSameDay(date1, date2);
+            return org.apache.commons.lang3.time.DateUtils.isSameDay(date1, date2);
         }
         else {
             same = false;

@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.permissions.impl.rules;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsRoleState;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;

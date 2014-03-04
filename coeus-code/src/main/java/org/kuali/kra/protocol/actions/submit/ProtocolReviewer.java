@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.protocol.ProtocolReviewerBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;

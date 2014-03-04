@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.questionnaire;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.questionnaire.question.Question;

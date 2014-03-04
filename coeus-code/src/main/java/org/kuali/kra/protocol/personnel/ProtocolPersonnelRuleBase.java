@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.summary;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
 
 import java.io.Serializable;

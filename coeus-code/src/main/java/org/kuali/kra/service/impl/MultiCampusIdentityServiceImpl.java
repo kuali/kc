@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.service.MultiCampusIdentityService;
 import org.kuali.rice.kim.api.identity.IdentityService;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;

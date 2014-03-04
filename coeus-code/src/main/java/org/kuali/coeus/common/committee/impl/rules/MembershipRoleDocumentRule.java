@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.committee.impl.rules;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeType;
 import org.kuali.coeus.common.committee.impl.bo.MembershipRole;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;

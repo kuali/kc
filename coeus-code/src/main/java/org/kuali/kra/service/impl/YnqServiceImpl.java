@@ -30,7 +30,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class YnqServiceImpl implements YnqService {
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.followup;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ValidProtocolActionActionBase;

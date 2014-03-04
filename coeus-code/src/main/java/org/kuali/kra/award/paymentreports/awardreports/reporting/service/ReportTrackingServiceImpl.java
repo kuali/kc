@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.paymentreports.ReportRegenerationType;

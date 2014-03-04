@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.committee.impl.web.struts.form;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.kuali.coeus.common.committee.impl.bo.*;
 import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeScheduleTaskBase;
 import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;

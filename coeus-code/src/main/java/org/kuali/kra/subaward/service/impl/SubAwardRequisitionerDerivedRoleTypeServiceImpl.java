@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.subaward.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.core.api.membership.MemberType;

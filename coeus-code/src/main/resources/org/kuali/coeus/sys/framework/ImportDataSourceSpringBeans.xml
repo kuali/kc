@@ -59,7 +59,7 @@
 	</bean>
 
   <bean id="ds-random-string" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-    <property name="staticMethod" value="org.apache.commons.lang.RandomStringUtils.randomAlphanumeric"/>
+    <property name="staticMethod" value="org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric"/>
     <property name="arguments"><list><value>20</value></list></property>
   </bean>
 

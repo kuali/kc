@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.notesandattachments.notes;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;

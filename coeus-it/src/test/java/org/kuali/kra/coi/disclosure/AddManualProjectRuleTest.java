@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.infrastructure.Constants;

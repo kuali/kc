@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Unit;
 import org.kuali.rice.krad.util.GlobalVariables;
