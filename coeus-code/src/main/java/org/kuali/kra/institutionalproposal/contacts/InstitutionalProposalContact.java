@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import org.kuali.coeus.common.framework.contactable.Contactable;
+import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;

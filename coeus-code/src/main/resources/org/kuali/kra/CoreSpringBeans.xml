@@ -1333,14 +1333,6 @@
         <property name="serviceName" value="documentHeaderService" />
     </bean>
 
-    <!-- Autowired -->
-    <!--
-    <bean id="kcEmailService" class="org.kuali.coeus.common.impl.mail.KcEmailServiceImpl" >
-    	<property name="mailSender" ref="mailSender" />
-    	<property name="parameterService" ref="parameterService" />
-    </bean>
-    -->
-
     <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dbPlatform" />
     </bean>
@@ -1439,15 +1431,7 @@
     <bean id="kraPersistenceStructureService" class="org.kuali.coeus.sys.impl.persistence.KcPersistenceStructureServiceImpl" >
         <property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
     </bean>
-    
-    <!-- Autowired -->
-    <!--
-     <bean id="kcPersonService" class="org.kuali.coeus.common.impl.person.KcPersonServiceImpl">
-       <property name="identityService" ref="identityService" />
-       <property name="parameterService" ref="parameterService" />
-       <property name="multiCampusIdentityService" ref="multiCampusIdentityService" /> 
-    </bean> -->
-    
+
     <bean id="kcPersonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="kcPersonLookupableHelperService" />      
     </bean> 
@@ -1549,13 +1533,7 @@
     <bean id="researchDocumentService" class="org.kuali.coeus.sys.impl.controller.DocHandlerServiceImpl">
         <property name="routeHeaderService" ref="routeHeaderService" />
     </bean>
-    
-    <!-- Autowired -->
-    <!--
-     <bean id="rolodexService" class="org.kuali.coeus.common.impl.rolodex.RolodexServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean> -->
-    
+
     <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.coeus.common.impl.rolodex.RolodexDaoOjb" />
     
     <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

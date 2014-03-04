@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.contactable;
+package org.kuali.coeus.common.framework.contact;
 
 import java.io.Serializable;
 

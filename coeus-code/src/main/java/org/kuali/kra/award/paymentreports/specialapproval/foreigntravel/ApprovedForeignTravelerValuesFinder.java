@@ -1,6 +1,6 @@
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
-import org.kuali.coeus.common.framework.contactable.Contactable;
+import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.document.AwardDocument;

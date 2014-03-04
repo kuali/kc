@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.person.editable;
+package org.kuali.coeus.common.framework.editable;
 
 import java.sql.Date;
 
-public interface PersonEditableInterface {
+public interface PersonEditable {
 
     String getPersonId();
 

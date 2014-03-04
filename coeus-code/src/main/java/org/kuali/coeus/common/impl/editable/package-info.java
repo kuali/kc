@@ -5,4 +5,4 @@
  * @author Kuali Coeus Development Team
  *
  */
-package org.kuali.coeus.common.impl.person.editable;
+package org.kuali.coeus.common.impl.editable;

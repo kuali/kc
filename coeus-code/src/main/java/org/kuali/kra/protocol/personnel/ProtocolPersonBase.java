@@ -17,9 +17,9 @@ package org.kuali.kra.protocol.personnel;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.person.editable.PersonEditableInterface;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
@@ -30,7 +30,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ProtocolPersonBase extends ProtocolAssociateBase implements PersonEditableInterface, AbstractProjectPerson {
+public abstract class ProtocolPersonBase extends ProtocolAssociateBase implements PersonEditable, AbstractProjectPerson {
 
     private static final long serialVersionUID = -1140730616386093202L;
 

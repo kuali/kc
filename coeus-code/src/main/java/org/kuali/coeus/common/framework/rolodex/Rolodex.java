@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.framework.rolodex;
 
-import org.kuali.coeus.common.framework.contactable.Contactable;
+import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Sponsor;

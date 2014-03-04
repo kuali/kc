@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.impl.person.editable;
+package org.kuali.coeus.common.impl.editable;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.coeus.common.framework.editable.PersonEditable;
+import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.person.editable.PersonEditableInterface;
-import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -46,7 +46,7 @@ public class PersonEditableServiceImpl implements PersonEditableService {
 	@Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
 
-    public void populateContactFieldsFromPersonId(PersonEditableInterface protocolPerson) {
+    public void populateContactFieldsFromPersonId(PersonEditable protocolPerson) {
         
         DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
 
@@ -127,7 +127,7 @@ public class PersonEditableServiceImpl implements PersonEditableService {
 
     }
 
-    public void populateContactFieldsFromRolodexId(PersonEditableInterface protocolPerson) {
+    public void populateContactFieldsFromRolodexId(PersonEditable protocolPerson) {
         Map valueMap = new HashMap();
         valueMap.put("rolodexId", protocolPerson.getRolodexId());
         Collection<Rolodex> rolodexes = businessObjectService.findMatching(Rolodex.class, valueMap);

@@ -16,7 +16,7 @@
 package org.kuali.kra.award.paymentreports.awardreports.reporting;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.common.framework.contactable.Contactable;
+import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
