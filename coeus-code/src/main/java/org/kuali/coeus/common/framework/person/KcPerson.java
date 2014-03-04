@@ -18,7 +18,7 @@ package org.kuali.coeus.common.framework.person;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
-import org.kuali.coeus.common.framework.contactable.Contactable;
+import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.bo.Unit;

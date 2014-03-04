@@ -20,9 +20,9 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.coeus.common.framework.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.person.editable.PersonEditableInterface;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
@@ -53,7 +53,7 @@ import java.util.List;
 @Entity
 @Table(name = "EPS_PROP_PERSON")
 @IdClass(ProposalPerson.ProposalPersonId.class)
-public class ProposalPerson extends KcPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex, PersonEditableInterface, AbstractProjectPerson {
+public class ProposalPerson extends KcPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex, PersonEditable, AbstractProjectPerson {
 
     private static final long serialVersionUID = -4110005875629288373L;
 
@@ -1784,7 +1784,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     }
 
     /**
-     * @see org.kuali.coeus.common.framework.contactable.Contactable#getOrganization()
+     * @see org.kuali.coeus.common.framework.contact.Contactable#getOrganization()
      */
     public String getOrganization() {
         return getUnit().getUnitName();
@@ -2154,49 +2154,49 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     }
 
     /**
-     * @see org.kuali.coeus.common.framework.contactable.Contactable#getIdentifier()
+     * @see org.kuali.coeus.common.framework.contact.Contactable#getIdentifier()
      */
     public Serializable getIdentifier() {
         return personId;
     }
 
     /**
-     * @see org.kuali.coeus.common.framework.contactable.Contactable#getUnit()
+     * @see org.kuali.coeus.common.framework.contact.Contactable#getUnit()
      */
     public Unit getUnit() {
         return homeUnitRef;
     }
 
     /**
-     * @see org.kuali.coeus.common.framework.contactable.Contactable#setIdentifier(java.io.Serializable)
+     * @see org.kuali.coeus.common.framework.contact.Contactable#setIdentifier(java.io.Serializable)
      */
     public void setIdentifier(Serializable identifier) {
         setPersonId((String) identifier);
     }
 
     /**
-     * @see org.kuali.coeus.common.framework.contactable.Contactable#setUnit(org.kuali.kra.bo.Unit)
+     * @see org.kuali.coeus.common.framework.contact.Contactable#setUnit(org.kuali.kra.bo.Unit)
      */
     public void setUnit(Unit unit) {
         setHomeUnitRef(unit);
     }
 
     /**
-     * @see org.kuali.coeus.common.framework.contactable.Contactable#getPhoneNumber()
+     * @see org.kuali.coeus.common.framework.contact.Contactable#getPhoneNumber()
      */
     public String getPhoneNumber() {
         return officePhone;
     }
 
     /**
-     * @see org.kuali.coeus.common.framework.contactable.Contactable#getContactOrganizationName()
+     * @see org.kuali.coeus.common.framework.contact.Contactable#getContactOrganizationName()
      */
     public String getContactOrganizationName() {
         return getUnit().getUnitName();
     }
 
     /**
-     * @see org.kuali.coeus.common.framework.contactable.Contactable#getOrganizationIdentifier()
+     * @see org.kuali.coeus.common.framework.contact.Contactable#getOrganizationIdentifier()
      */
     public String getOrganizationIdentifier() {
         return homeUnit;

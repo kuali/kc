@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.protocol;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.coeus.common.framework.contactable.Contactable;
+import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;

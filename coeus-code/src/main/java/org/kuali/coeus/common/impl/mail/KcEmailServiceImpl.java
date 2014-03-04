@@ -176,5 +176,19 @@ public class KcEmailServiceImpl implements KcEmailService {
         return fromAddress!=null?fromAddress:ConfigContext.getCurrentContextConfig().getProperties().getProperty("mail.from");
     }
 
+    public void setMailSender(JavaMailSenderImpl mailSender) {
+    	this.mailSender = mailSender;
+    }
     
+    public JavaMailSenderImpl getMailSender() {
+    	return mailSender;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+    	this.parameterService = parameterService;
+    }
+    
+    public ParameterService getParameterService() {
+    	return parameterService;
+    }
 }
