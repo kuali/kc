@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol;
 
-import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;

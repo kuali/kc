@@ -133,7 +133,7 @@
 
 <!--  Questionnaire maint related -->
 
-    <class-descriptor class="org.kuali.kra.bo.CoeusSubModule" table="COEUS_SUB_MODULE">
+    <class-descriptor class="org.kuali.coeus.common.framework.module.CoeusSubModule" table="COEUS_SUB_MODULE">
         <field-descriptor name="coeusSubModuleId" column="COEUS_SUB_MODULE_ID" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="subModuleCode" column="SUB_MODULE_CODE" jdbc-type="VARCHAR" />
@@ -158,7 +158,7 @@
         <collection-descriptor name="questionnaireUsage" proxy="true" element-class-ref="org.kuali.kra.questionnaire.QuestionnaireUsage" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="moduleItemCode"/>
         </collection-descriptor>
-        <collection-descriptor name="coeusSubModule" proxy="true" element-class-ref="org.kuali.kra.bo.CoeusSubModule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+        <collection-descriptor name="coeusSubModule" proxy="true" element-class-ref="org.kuali.coeus.common.framework.module.CoeusSubModule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="moduleCode"/>
         </collection-descriptor>
         <collection-descriptor name="protocolRelatedProjects" proxy="true" element-class-ref="org.kuali.kra.bo.ProtocolRelatedProjects" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
