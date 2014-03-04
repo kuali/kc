@@ -19,7 +19,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
 import java.util.Comparator;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 /**

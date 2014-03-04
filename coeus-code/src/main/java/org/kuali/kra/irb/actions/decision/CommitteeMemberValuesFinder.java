@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.kra.committee.bo.Committee;

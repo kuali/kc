@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.subaward.service;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

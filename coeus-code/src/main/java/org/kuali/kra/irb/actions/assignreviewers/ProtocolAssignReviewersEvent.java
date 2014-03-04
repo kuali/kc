@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.assignreviewers;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;

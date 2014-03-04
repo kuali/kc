@@ -1,6 +1,6 @@
 package org.kuali.coeus.sys.framework.controller;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.springframework.web.servlet.DispatcherServlet;
 

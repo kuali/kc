@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.sys.framework.scheduling.seq;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.text.ParseException;
 import java.util.ArrayList;

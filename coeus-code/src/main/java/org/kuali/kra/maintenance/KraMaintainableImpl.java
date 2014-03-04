@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.maintenance;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.infrastructure.Constants;

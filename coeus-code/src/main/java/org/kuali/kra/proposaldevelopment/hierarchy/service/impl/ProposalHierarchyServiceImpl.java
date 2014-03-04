@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
@@ -83,7 +83,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.*;
 
-import static org.apache.commons.lang.StringUtils.replace;
+import static org.apache.commons.lang3.StringUtils.replace;
 import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
 
 /**
@@ -1076,7 +1076,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     protected boolean isSynchronized(DevelopmentProposal childProposal) throws ProposalHierarchyException {
         Integer hc1 = computeHierarchyHashCode(childProposal);
         Integer hc2 = childProposal.getHierarchyLastSyncHashCode();
-        return org.apache.commons.lang.ObjectUtils.equals(hc1, hc2);
+        return org.apache.commons.lang3.ObjectUtils.equals(hc1, hc2);
     }
     
     protected boolean isBudgetSynchronized(DevelopmentProposal childProposal, ProposalDevelopmentBudgetExt childBudget) throws ProposalHierarchyException {
@@ -1084,7 +1084,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             ObjectUtils.materializeAllSubObjects(childBudget);
             Integer hc1 = computeHierarchyHashCode(childBudget);
             Integer hc2 = childBudget.getHierarchyLastSyncHashCode();
-            return org.apache.commons.lang.ObjectUtils.equals(hc1, hc2);
+            return org.apache.commons.lang3.ObjectUtils.equals(hc1, hc2);
         } else {
             return false;
         }

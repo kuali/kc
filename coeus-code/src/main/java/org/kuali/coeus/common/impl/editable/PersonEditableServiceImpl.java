@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.impl.editable;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.editable.PersonEditable;
 import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -33,7 +33,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Component("personEditableService")
 public class PersonEditableServiceImpl implements PersonEditableService {

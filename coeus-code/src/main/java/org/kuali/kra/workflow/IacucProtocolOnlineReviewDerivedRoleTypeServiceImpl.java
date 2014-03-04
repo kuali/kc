@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.workflow;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;

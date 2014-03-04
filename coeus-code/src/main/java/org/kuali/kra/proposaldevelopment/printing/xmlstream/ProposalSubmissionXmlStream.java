@@ -20,7 +20,7 @@ import edu.mit.coeus.utils.xml.v2.rolodex.NAMEDocument.NAME;
 import edu.mit.coeus.utils.xml.v2.rolodex.ROLODEXDocument.ROLODEX;
 import edu.mit.coeus.utils.xml.v2.sponsor.SPONSORDocument.SPONSOR;
 import edu.mit.coeus.utils.xml.v2.userUnit.UNITDocument.UNIT;
-import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;

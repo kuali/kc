@@ -16,7 +16,7 @@
 package org.kuali.kra.award;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;

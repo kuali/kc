@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.medusa.service;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

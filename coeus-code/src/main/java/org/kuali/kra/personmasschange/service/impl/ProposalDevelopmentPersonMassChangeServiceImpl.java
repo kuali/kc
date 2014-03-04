@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;

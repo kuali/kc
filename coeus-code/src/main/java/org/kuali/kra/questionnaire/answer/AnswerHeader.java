@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.question.QuestionDTO;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.workflow;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kim.bo.KcKimAttributes;

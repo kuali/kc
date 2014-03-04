@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.committee.impl.bo;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.sql.Date;
 

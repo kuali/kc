@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.web.krad;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.rice.krad.uif.component.BindingInfo;
 
 public class KcBindingInfo extends BindingInfo {

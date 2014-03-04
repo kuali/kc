@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.closeout;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
 
 import java.sql.Date;

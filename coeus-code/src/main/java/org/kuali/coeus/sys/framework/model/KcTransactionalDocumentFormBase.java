@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.sys.framework.model;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.SoftError;
 import org.kuali.kra.authorization.KraAuthorizationConstants;

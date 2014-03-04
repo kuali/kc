@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.assignagenda;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.ProtocolBase;

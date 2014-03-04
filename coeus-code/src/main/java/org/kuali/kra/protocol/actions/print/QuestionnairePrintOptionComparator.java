@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.print;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Comparator;
 

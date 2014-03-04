@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.questionnaire.question;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

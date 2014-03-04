@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.web.krad;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.rice.krad.uif.control.Control;
 import org.kuali.rice.krad.uif.field.InputFieldBase;

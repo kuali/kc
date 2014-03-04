@@ -44,7 +44,7 @@ import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.SalariesAndWagesTy
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.*;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType.KeyPersonFlag;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectCostsDocument.OtherDirectCosts;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;

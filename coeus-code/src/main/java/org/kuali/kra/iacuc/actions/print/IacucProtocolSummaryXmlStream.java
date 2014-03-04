@@ -17,7 +17,7 @@ package org.kuali.kra.iacuc.actions.print;
 
 import edu.mit.coeus.xml.iacuc.*;
 import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;

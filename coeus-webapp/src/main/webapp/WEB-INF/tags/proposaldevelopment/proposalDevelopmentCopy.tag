@@ -23,7 +23,7 @@
 		boolean openFlag = false;
         java.lang.String command = request.getParameter("command");
 
-        if(org.apache.commons.lang.StringUtils.isNotEmpty(command) && command.equals("displayDocSearchView")) {
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(command) && command.equals("displayDocSearchView")) {
             //This means that the user has come thru the Document Search Page - Copy Action
             openFlag = true;
         } 

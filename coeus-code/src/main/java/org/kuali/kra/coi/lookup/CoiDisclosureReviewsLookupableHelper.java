@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.lookup;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiReviewer;
 import org.kuali.kra.coi.CoiUserRole;
