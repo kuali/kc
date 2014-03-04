@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.specialreview;
 
-import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.kuali.coeus.common.specialreview.impl.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.bo.FundingSourceType;

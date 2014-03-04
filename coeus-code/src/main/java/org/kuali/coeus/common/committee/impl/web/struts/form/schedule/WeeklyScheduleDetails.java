@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.committee.impl.web.struts.form.schedule;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;

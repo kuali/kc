@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceDetailBase;
 import org.kuali.coeus.common.committee.impl.print.service.CommitteePrintingServiceBase;

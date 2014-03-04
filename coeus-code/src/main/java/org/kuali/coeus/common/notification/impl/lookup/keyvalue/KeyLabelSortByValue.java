@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.notification.impl.lookup.keyvalue;
 
-import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.kuali.rice.core.api.util.AbstractKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 

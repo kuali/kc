@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
 import org.kuali.coeus.common.permissions.impl.web.bean.User;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;

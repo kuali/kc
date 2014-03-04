@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 

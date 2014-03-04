@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.lookup;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;

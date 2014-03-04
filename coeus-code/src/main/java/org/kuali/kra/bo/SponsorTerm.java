@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.bo;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
@@ -113,7 +113,7 @@ public class SponsorTerm extends KcPersistableBusinessObjectBase {
      * @return Returns the description.
      */
     public String getEscapedDescription() {
-        return StringEscapeUtils.escapeHtml(description);
+        return StringEscapeUtils.escapeHtml4(description);
     }
 
     /**

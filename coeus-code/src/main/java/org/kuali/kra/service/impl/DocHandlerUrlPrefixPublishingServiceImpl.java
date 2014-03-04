@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.service.DocHandlerUrlPrefixPublishingService;
 import org.kuali.rice.core.api.config.ConfigurationException;
 import org.kuali.rice.core.api.config.module.RunMode;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.bo;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt.MERIDIEM;

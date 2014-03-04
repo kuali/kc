@@ -19,7 +19,7 @@ package org.kuali.kra.s2s.generator;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType.FileLocation;
 import gov.grants.apply.system.globalV10.HashValueDocument.HashValue;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xml.security.exceptions.Base64DecodingException;

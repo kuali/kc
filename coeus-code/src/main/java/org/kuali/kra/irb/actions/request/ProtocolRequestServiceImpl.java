@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.request;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.module.CoeusModule;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.service.ObjectCodeToBudgetCategoryCodeService;
 import org.kuali.rice.krad.service.BusinessObjectService;

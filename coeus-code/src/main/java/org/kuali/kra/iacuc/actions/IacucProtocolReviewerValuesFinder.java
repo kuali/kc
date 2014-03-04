@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.service;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.rice.core.api.membership.MemberType;

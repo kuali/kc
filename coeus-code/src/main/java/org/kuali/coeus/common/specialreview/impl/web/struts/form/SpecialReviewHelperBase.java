@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.specialreview.impl.web.struts.form;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;

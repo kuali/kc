@@ -32,7 +32,7 @@ public class SaveDisclosureReporterUnitRule extends KcTransactionalDocumentRuleB
         
 //        String errorPathKey = event.getPropertyName() + ".financialEntityReporter";
         GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
-        if (org.apache.commons.collections.CollectionUtils.isEmpty(event.getDisclosureReporterUnits())) {
+        if (org.apache.commons.collections4.CollectionUtils.isEmpty(event.getDisclosureReporterUnits())) {
             GlobalVariables.getMessageMap().putError("unitNumber",
             KeyConstants.ERROR_ONE_UNIT, "Reporter");
             

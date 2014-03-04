@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.committee.impl.rules;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.rule.event.CommitteeScheduleDayEvent;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.MonthlyScheduleDetails;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.ScheduleData;

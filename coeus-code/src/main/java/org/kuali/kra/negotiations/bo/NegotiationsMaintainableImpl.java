@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.bo;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
