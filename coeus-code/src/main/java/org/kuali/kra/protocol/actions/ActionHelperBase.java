@@ -37,6 +37,7 @@ import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase
 import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteAbstaineeBase;
 import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteRecusedBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
@@ -87,7 +88,6 @@ import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

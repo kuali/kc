@@ -23,7 +23,6 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -86,7 +85,6 @@ public class ProtocolRouteTest extends KcIntegrationTestBase {
      * should be set to approved.
      */
     @Test
-    @Ignore // KCINFR-983
     public void runApprovedTest() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
     
@@ -112,7 +110,6 @@ public class ProtocolRouteTest extends KcIntegrationTestBase {
      * should be set to disapproved.
      */
     @Test
-    @Ignore // KCINFR-983
     public void runDisapprovedTest() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument("0906000002");
     

@@ -27,6 +27,7 @@ import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -43,7 +44,6 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
-import org.kuali.kra.service.KcPersonService;
 
 import java.math.BigInteger;
 import java.text.ParseException;

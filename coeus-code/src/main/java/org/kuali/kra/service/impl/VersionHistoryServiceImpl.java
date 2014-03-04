@@ -16,7 +16,7 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.SequenceOwner;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.VersionHistoryService;
@@ -36,7 +36,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
     private BusinessObjectService bos;
     
     /**
-     * @see org.kuali.kra.service.VersionHistoryService#createVersionHistory(org.kuali.kra.SequenceOwner, org.kuali.kra.bo.versioning.VersionStatus, java.lang.String)
+     * @see org.kuali.kra.service.VersionHistoryService#createVersionHistory(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner, org.kuali.kra.bo.versioning.VersionStatus, java.lang.String)
      */
     protected VersionHistory createVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId) {
         VersionHistory versionHistory = new VersionHistory(sequenceOwner, versionStatus, userId, new Date(new java.util.Date().getTime()));

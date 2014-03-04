@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import org.kuali.kra.SequenceAssociate;
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.DisclosureReporterUnit;
 

@@ -17,6 +17,7 @@ package org.kuali.kra.subawardReporting.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -36,7 +37,6 @@ import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractRepor
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ContractorType;
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ReportingPeriod;
 import org.kuali.kra.printing.xmlstream.XmlStream;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;

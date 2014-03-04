@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.editable;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.coeus.common.framework.editable.PersonEditable;
+import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.kra.bo.PersonEditableInterface;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,12 +35,18 @@ import java.util.Map;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 
+@Component("personEditableService")
 public class PersonEditableServiceImpl implements PersonEditableService {
     
+	@Autowired
+	@Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+	
+	@Autowired
+	@Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
 
-    public void populateContactFieldsFromPersonId(PersonEditableInterface protocolPerson) {
+    public void populateContactFieldsFromPersonId(PersonEditable protocolPerson) {
         
         DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
 
@@ -118,7 +127,7 @@ public class PersonEditableServiceImpl implements PersonEditableService {
 
     }
 
-    public void populateContactFieldsFromRolodexId(PersonEditableInterface protocolPerson) {
+    public void populateContactFieldsFromRolodexId(PersonEditable protocolPerson) {
         Map valueMap = new HashMap();
         valueMap.put("rolodexId", protocolPerson.getRolodexId());
         Collection<Rolodex> rolodexes = businessObjectService.findMatching(Rolodex.class, valueMap);

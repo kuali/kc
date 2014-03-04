@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.specialreview;
 
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
-import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 /**
@@ -62,7 +62,7 @@ public class InstitutionalProposalSpecialReview extends SpecialReview<Institutio
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         proposalSpecialReviewId = null;

@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra;
+package org.kuali.coeus.common.framework.sequence.associate;
+
+import org.kuali.coeus.common.framework.sequence.Sequenceable;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 
 /**
  * This interface applies to classes that are associated 

@@ -79,10 +79,14 @@
 	<context:annotation-config />
 	<context:component-scan base-package="org.kuali.kra.proposaldevelopment.web.krad"/> 
     
-  <bean id="transactionalDocumentControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-  	<property name="serviceName" value="transactionalDocumentControllerService"/>
-  </bean>    
-   
+    <bean id="transactionalDocumentControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="transactionalDocumentControllerService"/>
+    </bean>
+
+    <bean id="uifExportControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="uifExportControllerService" />
+    </bean>
+
     <bean id="legacyDataAdapter" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="legacyDataAdapter" />
     </bean>
@@ -677,6 +681,7 @@
 				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyBudgetPermission" parent="parentProposalAuthorizer">
 					<property name="taskName" value="modifyBudget" />
 					<property name="requiresWritableDoc" value="true" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
 				</bean>
 				
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.CreateProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">

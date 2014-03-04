@@ -18,11 +18,11 @@ package org.kuali.kra.award.notesandattachments.notes;
 //import java.sql.Date;  
 
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.infrastructure.KraNotepadInterface;
-import org.kuali.kra.service.KcPersonService;
 
 import java.sql.Timestamp;
 
@@ -147,7 +147,7 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
     }
 
 
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardNotepadId = null;

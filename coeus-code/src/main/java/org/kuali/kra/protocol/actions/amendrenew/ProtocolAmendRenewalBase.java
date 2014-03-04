@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol.actions.amendrenew;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.protocol.ProtocolBase;
 
 import java.sql.Date;

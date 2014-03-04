@@ -90,7 +90,11 @@
         <property name="kualiModuleService" ref="kualiModuleService"/>
     </bean>
 
-    <bean id="exceptionResolver" class="org.kuali.rice.krad.web.controller.UifHandlerExceptionResolver"/>
+    <bean class="org.kuali.coeus.sys.framework.controller.interceptor.KcUifHandlerExceptionResolver">
+        <property name="innerHandler">
+            <bean class="org.kuali.rice.krad.web.controller.UifHandlerExceptionResolver"/>
+        </property>
+    </bean>
 
     <bean class="org.kuali.rice.krad.web.controller.UifRequestMappingHandlerAdapter">
         <property name="webBindingInitializer" ref="kradConfigurableWebBindingInitializer" />

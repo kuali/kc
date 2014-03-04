@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import org.kuali.kra.SequenceAssociate;
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 
 import java.util.Random;
 
@@ -42,21 +42,21 @@ public class SimpleAssociate implements SequenceAssociate<SequenceOwnerImpl> {
     }
     
     /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
      */
     public SequenceOwnerImpl getSequenceOwner() {
         return owner;
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
     public void setSequenceOwner(SequenceOwnerImpl newOwner) {
         setOwner(newOwner);        
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#getSequenceNumber()
      */
     public Integer getSequenceNumber() {
         return sequenceNumber;
@@ -137,7 +137,7 @@ public class SimpleAssociate implements SequenceAssociate<SequenceOwnerImpl> {
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
        setSimpleAssociateId(null); 

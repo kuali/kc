@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.test.fixtures;
 
+import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;

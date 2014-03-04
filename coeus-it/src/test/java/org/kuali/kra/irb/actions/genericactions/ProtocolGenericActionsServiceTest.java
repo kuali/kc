@@ -22,7 +22,6 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -256,7 +255,6 @@ public class ProtocolGenericActionsServiceTest extends KcIntegrationTestBase {
     }
     
     @Test
-    @Ignore // KCINFR-983
     public void testDisapprove() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         

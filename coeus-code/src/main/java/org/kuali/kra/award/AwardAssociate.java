@@ -16,8 +16,8 @@
 package org.kuali.kra.award;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
 
 import java.io.Serializable;
@@ -143,14 +143,14 @@ public abstract class AwardAssociate extends KcPersistableBusinessObjectBase imp
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
      */
     public Award getSequenceOwner() {
         return getAward();
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
     public void setSequenceOwner(Award newlyVersionedOwner) {
         setAward(newlyVersionedOwner);

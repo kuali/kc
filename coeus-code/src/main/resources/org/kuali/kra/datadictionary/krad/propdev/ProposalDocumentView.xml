@@ -271,12 +271,12 @@
 							p:fieldLabel.renderColon="false" p:label="PI" p:order="40" />
 						<bean parent="Uif-MessageField" p:messageText="@{documentCreateDate}"
 							p:fieldLabel.renderColon="false" p:label="Created" p:order="50" />
-						<bean parent="Uif-MessageField" p:messageText="@{document.updateTimestamp.toString()}"
+						<bean parent="Uif-MessageField" p:messageText="@{document.updateTimestamp?.toString()}"
 							p:fieldLabel.renderColon="false" p:label="Updated" p:order="60" />
 						<bean parent="Uif-MessageField" p:messageText="@{document.developmentProposal.proposalNumber}"
 							p:fieldLabel.renderColon="false" p:label="Proposal Nbr" p:order="70" />
 						<bean parent="Uif-MessageField"
-							p:messageText="@{document.developmentProposal.sponsor.sponsorName}"
+							p:messageText="@{document.developmentProposal.sponsor?.sponsorName}"
 							p:fieldLabel.renderColon="false" p:label="Sponsor Name" p:order="80" />
 					</list>
 				</property>

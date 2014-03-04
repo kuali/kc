@@ -16,6 +16,7 @@
 package org.kuali.kra.service.impl;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -56,7 +57,7 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
     /**
      * Test the getUsernames() service method.
      */
-    @Test
+    @Test @Ignore("KCINFR-982")
     public void testGetUsernames() throws Exception {
         ProposalDevelopmentDocument doc = createProposal("Proposal-1", "000001");
         List<String> usernames = kraAuthService.getUserNames(doc, RoleConstants.AGGREGATOR);
@@ -66,7 +67,7 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
     /**
      * Test the addRole() service method.
      */
-    @Test
+    @Test @Ignore("KCINFR-982")
     public void testAddRole() throws Exception {
         ProposalDevelopmentDocument doc = createProposal("Proposal-2", "000001");
         PrincipalContract userMajors = identityManagementService.getPrincipalByPrincipalName("majors");
@@ -153,7 +154,7 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
     /**
      * Test the getPersonsInRole() service method.
      */
-    @Test
+    @Test @Ignore("KCINFR-982")
     public void testGetPersonsInRole() throws Exception {
         ProposalDevelopmentDocument doc = createProposal("Proposal-7", "000001");
         PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");

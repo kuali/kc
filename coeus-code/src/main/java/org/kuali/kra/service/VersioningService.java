@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.service;
 
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.kra.SeparatelySequenceableAssociate;
-import org.kuali.kra.SequenceOwner;
 
 import java.util.List;
 

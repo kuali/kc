@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.SequenceOwner;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.impl.VersionHistoryServiceImpl;

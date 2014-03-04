@@ -16,10 +16,10 @@
 package org.kuali.kra.award.paymentreports.paymentschedule;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.paymentreports.ReportStatus;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.sql.Date;
@@ -97,7 +97,7 @@ public class AwardPaymentSchedule extends AwardAssociate {
     }
     
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardPaymentScheduleId = null;
