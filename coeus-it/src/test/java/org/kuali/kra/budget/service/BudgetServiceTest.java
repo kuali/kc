@@ -66,7 +66,6 @@ public class BudgetServiceTest extends KcIntegrationTestBase {
      * @throws Exception
      */
     @Test
-    @Ignore // KCINFR-983
     public void testGetNewBudgetVersion() throws Exception {
  
         ProposalDevelopmentDocument pdDocument = getPersistedProposalDevelopmentDocument();
@@ -100,8 +99,7 @@ public class BudgetServiceTest extends KcIntegrationTestBase {
      * 
      * @throws Exception
      */
-    @Test
-    @Ignore //KCINFR-982
+    @Test @Ignore("KCINFR-983")
     public void testCopyBudgetVersion() throws Exception {
         
         ProposalDevelopmentDocument pdDocument = getPersistedProposalDevelopmentDocument();

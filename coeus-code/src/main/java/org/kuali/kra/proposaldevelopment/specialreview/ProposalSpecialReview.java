@@ -15,17 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.specialreview;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
-import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
+
+import javax.persistence.*;
 
 /**
  * Defines a Special Review for a Development Proposal.
@@ -152,7 +147,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         proposalSpecialReviewId = null;

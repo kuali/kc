@@ -183,7 +183,7 @@ public class AwardApprovedSubaward extends AwardAssociate implements ValuableIte
 
     //CSON  
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardApprovedSubawardId = null;

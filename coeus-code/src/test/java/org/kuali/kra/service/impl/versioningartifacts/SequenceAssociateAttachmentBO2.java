@@ -45,14 +45,14 @@ public class SequenceAssociateAttachmentBO2 implements SeparatelySequenceableAss
     }
     
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         setAttachmentId(null);
     }
     
     /**
-     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#getSequenceNumber()
      */
     public Integer getSequenceNumber() {
         return sequenceNumber;

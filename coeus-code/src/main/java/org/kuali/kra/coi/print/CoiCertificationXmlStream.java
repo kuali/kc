@@ -17,6 +17,7 @@ package org.kuali.kra.coi.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDiscDetail;
@@ -33,7 +34,6 @@ import org.kuali.kra.printing.schema.DisclosureNotesDocument.DisclosureNotes;
 import org.kuali.kra.printing.schema.DisclosureProjectsDocument.DisclosureProjects;
 import org.kuali.kra.printing.schema.PersonDocument;
 import org.kuali.kra.printing.xmlstream.XmlStream;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;

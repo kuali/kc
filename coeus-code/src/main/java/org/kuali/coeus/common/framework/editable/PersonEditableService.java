@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service;
+package org.kuali.coeus.common.framework.editable;
 
-import org.kuali.kra.bo.PersonEditableInterface;
 
 public interface PersonEditableService {
-    void populateContactFieldsFromPersonId(PersonEditableInterface personEditable);
-    void populateContactFieldsFromRolodexId(PersonEditableInterface personEditable);
+    void populateContactFieldsFromPersonId(PersonEditable personEditable);
+    void populateContactFieldsFromRolodexId(PersonEditable personEditable);
 
 }

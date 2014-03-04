@@ -16,8 +16,8 @@
 package org.kuali.kra.coi;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 
 public class PersonFinIntDisclosureAssociate extends KcPersistableBusinessObjectBase implements SequenceAssociate<PersonFinIntDisclosure> {

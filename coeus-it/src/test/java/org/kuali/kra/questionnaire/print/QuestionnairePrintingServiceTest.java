@@ -50,8 +50,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
     /**
      * This method tests QuestionnairePrintingService. It generates Questionnaire report.
      */
-    @Test
-    @Ignore //KCINFR-981
+    @Test @Ignore("KCINFR-981")
     public void testQuestionnairePrinting() {
         try {
             String docNumber = createQuestionnaireMaintDocument();
@@ -121,8 +120,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
     /**
      * This method tests QuestionnairePrintingService. It generates Questionnaire Answer report.
      */
-    @Test
-    @Ignore //KCINFR-981
+    @Test @Ignore("KCINFR-981")
     public void testQuestionnaireAnswerPrinting() {
         try {
             Map<String, Object> reportParameters = new HashMap<String, Object>();

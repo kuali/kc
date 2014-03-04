@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.protocol;
 
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -29,7 +30,6 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
-import org.kuali.kra.service.KcPersonService;
 
 import java.util.List;
 

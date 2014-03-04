@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import org.kuali.kra.SequenceAssociate;
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 
 import java.util.ArrayList;
 import java.util.Collection;

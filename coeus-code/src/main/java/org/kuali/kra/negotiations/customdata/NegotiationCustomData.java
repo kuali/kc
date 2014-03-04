@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.customdata;
 
-import org.kuali.kra.SequenceOwner;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.negotiations.NegotiationAssociate;
@@ -107,21 +107,21 @@ public class NegotiationCustomData extends NegotiationAssociate implements Docum
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
      */
     public SequenceOwner getSequenceOwner() {
         return (SequenceOwner) getNegotiation();
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner)
      */
     public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
         setNegotiation((Negotiation) newlyVersionedOwner);
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.negotiationCustomDataId = null;
