@@ -22,7 +22,7 @@
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
 		p:breadcrumbs.render="false" p:cssClasses="uif-formView"
 		p:unifiedHeader="false" p:defaultBindingObjectPath=""
-		p:additionalScriptFiles="scripts/proposaldevelopment.js"
+		p:additionalScriptFiles="scripts/kradQuestionnaireAnswer.js,scripts/proposaldevelopment.js"
 		p:additionalCssFiles="css/proposaldevelopment.css">
 		<property name="header" ref="PropDev-DocumentHeader" />
 		<property name="footer" ref="PropDev-DocumentFooter" />
