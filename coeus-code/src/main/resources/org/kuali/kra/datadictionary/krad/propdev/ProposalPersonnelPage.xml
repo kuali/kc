@@ -106,6 +106,7 @@
 	<bean id="PropDev-PersonnelPage-WizardPage1-TypeSelection-parentBean"
 		abstract="true" parent="Uif-InputField"
 		p:fieldLabel.renderColon="true" p:propertyName="personType" p:label="Search for"
+		p:labelPlacement="TOP"
 		p:defaultValue="E">
 		<property name="control">
 			<bean parent="Uif-VerticalRadioControl">
@@ -229,6 +230,7 @@
 			<list>
 				<bean parent="Uif-InputField"
 					p:fieldLabel.renderColon="true" p:propertyName="personRole"
+					p:labelPlacement="TOP"
 					p:label="Assign a role" p:order="10">
 					<property name="control">
 						<bean parent="Uif-VerticalRadioControl" />

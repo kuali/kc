@@ -147,6 +147,7 @@
 		<property name="instructionalMessage">
 			<bean parent="Uif-Message"
 				p:messageText="@{document.developmentProposal.sponsor?.sponsorName?:'&amp;nbsp;'}"
+				p:additionalCssClasses="informationalText,belowInputField,form-control,input-sm,uif-textControl,has-helper"
 				 />
 		</property>
 		<property name="control">
