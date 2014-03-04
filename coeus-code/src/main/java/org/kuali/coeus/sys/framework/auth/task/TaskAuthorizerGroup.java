@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.sys.framework.auth.task;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 

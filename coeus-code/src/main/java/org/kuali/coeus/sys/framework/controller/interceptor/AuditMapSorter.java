@@ -15,8 +15,8 @@
  */
 package org.kuali.coeus.sys.framework.controller.interceptor;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 

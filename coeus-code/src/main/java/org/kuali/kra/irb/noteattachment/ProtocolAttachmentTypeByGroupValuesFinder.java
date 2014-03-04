@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.keyvalue.ConditionValuesFinder;
 import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.coeus.sys.framework.keyvalue.SortedValuesFinder;

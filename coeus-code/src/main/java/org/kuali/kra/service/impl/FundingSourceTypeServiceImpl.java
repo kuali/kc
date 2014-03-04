@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.rice.krad.service.BusinessObjectService;

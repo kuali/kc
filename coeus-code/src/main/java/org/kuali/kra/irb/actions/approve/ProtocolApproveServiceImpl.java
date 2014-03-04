@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;

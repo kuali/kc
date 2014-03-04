@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.assignreviewers;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;

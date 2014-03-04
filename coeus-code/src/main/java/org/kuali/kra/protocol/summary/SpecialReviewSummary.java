@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.summary;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewExemption;
 
 import java.io.Serializable;

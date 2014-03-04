@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.personmasschange.web.struts.form;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 
 public class PersonMassChangeHomeHelper extends PersonMassChangeHelperBase {

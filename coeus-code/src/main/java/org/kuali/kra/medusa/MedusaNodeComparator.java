@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.medusa;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.negotiations.bo.Negotiation;

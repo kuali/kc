@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.sys.framework.rule;
 
-import org.apache.commons.collections.keyvalue.DefaultMapEntry;
+import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.sys.framework.validation.SoftError;

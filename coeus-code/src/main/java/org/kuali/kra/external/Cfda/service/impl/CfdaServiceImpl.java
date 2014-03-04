@@ -16,7 +16,7 @@
 package org.kuali.kra.external.Cfda.service.impl;
 
 import au.com.bytecode.opencsv.CSVReader;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPClient;

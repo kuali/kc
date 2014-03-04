@@ -17,8 +17,8 @@ package org.kuali.kra.coi.notesandattachments;
 
 
 import edu.mit.irb.irbnamespace.ProtocolDocument;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;

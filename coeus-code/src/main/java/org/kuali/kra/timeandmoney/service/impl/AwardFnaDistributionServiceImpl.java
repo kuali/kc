@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.timeandmoney.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.timeandmoney.service.AwardFnaDistributionService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;

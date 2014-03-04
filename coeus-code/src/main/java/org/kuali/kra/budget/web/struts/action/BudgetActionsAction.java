@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -246,7 +246,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             Iterator<BudgetLineItem> iter = period.getBudgetLineItems().iterator();
             while (iter.hasNext()) {
                 BudgetLineItem item = iter.next();
-                if (org.apache.commons.lang.ObjectUtils.equals(subAward.getSubAwardNumber(), item.getSubAwardNumber())) {
+                if (org.apache.commons.lang3.ObjectUtils.equals(subAward.getSubAwardNumber(), item.getSubAwardNumber())) {
                     iter.remove();
                 }
             }
@@ -474,7 +474,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         
         for (AwardBudgetLimit limit : awardLimits) {
             AwardBudgetLimit budgetLimit = getBudgetLimit(limit.getLimitType(), budgetLimits);
-            if (!org.apache.commons.lang.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
+            if (!org.apache.commons.lang3.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
                 return false;
             }
         }

@@ -404,13 +404,16 @@
                                             <exclude>javax.servlet:servlet-api</exclude>
                                             <exclude>javax.servlet.jsp.jstl:jstl-api</exclude>
                                             <exclude>javax.servlet.jsp:jsp-api</exclude>
-                                            <include>org.glassfish.web:jstl-impl</include>
+                                            <exclude>org.glassfish.web:jstl-impl</exclude>
+
+                                            <exclude>commons-collections:commons-collections</exclude>
                                         </excludes>
 
                                         <includes>
                                             <include>org.slf4j:*:${slf4j.version}</include>
                                             <include>net.sf.ehcache:*:${ehcache.version}:jar:runtime</include>
                                             <include>com.sun.xml.bind:jaxb-impl:${jaxb-impl.version}</include>
+                                            <exclude>commons-collections:commons-collections:${commons-collections.version}:jar:runtime</exclude>
                                         </includes>
                                     </bannedDependencies>
                                 </rules>
@@ -717,6 +720,7 @@
                 <groupId>commons-collections</groupId>
                 <artifactId>commons-collections</artifactId>
                 <version>${commons-collections.version}</version>
+                <scope>runtime</scope>
             </dependency>
 
             <dependency>

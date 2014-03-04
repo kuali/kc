@@ -16,7 +16,7 @@
 package org.kuali.kra.coi.auth;
 
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.role.RoleService;

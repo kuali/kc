@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.timeandmoney;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.budget;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 

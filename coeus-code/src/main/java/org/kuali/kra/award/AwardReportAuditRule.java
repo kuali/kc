@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;

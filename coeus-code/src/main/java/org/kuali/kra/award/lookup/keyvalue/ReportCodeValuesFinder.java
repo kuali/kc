@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;

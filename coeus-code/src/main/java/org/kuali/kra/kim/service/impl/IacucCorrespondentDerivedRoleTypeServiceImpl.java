@@ -15,7 +15,7 @@ un * Copyright 2005-2014 The Kuali Foundation
  */
 package org.kuali.kra.kim.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.IacucOrganizationCorrespondent;
 import org.kuali.kra.bo.IacucUnitCorrespondent;

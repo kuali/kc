@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.print;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;

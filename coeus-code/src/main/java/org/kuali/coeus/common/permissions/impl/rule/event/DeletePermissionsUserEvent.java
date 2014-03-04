@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.permissions.impl.rule.event;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.permissions.impl.rule.PermissionsRule;
 import org.kuali.coeus.common.permissions.impl.web.bean.User;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;

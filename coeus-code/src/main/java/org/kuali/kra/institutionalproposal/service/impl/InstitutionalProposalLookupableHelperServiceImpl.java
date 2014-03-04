@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;

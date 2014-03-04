@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;

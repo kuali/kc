@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 
 import java.io.Serializable;

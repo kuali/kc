@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;

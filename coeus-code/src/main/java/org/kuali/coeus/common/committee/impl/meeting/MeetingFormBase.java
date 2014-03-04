@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.committee.impl.meeting;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;

@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.permissions.impl.web.bean;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 
 import java.io.Serializable;

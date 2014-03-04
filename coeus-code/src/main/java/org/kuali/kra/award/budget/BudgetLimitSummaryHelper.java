@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.budget;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.budget.core.CostElement;

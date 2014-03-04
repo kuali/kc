@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Enum with the types of logs that award sync can generate.

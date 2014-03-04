@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;

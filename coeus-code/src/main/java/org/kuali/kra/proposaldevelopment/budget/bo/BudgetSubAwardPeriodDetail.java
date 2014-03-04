@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.parameters.BudgetPeriod;

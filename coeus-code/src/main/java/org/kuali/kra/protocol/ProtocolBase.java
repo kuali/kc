@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;

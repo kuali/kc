@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.commitments.FandaRateType;
 import org.kuali.kra.budget.BudgetDecimal;
