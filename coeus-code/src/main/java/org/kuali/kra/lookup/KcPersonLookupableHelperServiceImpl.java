@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.lookup;
 
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.kra.infrastructure.Constants;
@@ -24,7 +23,6 @@ import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
 import java.util.Map;
@@ -45,10 +43,7 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
     @Override
     public List<Row> getRows() {
         List<Row> rows = super.getRows();
-        
-        boolean multiCampusEnabled = getParameterService().getParameterValueAsBoolean(
-            Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
-        
+
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals(PERSON_CAMPUS_CODE_FIELD)) {
@@ -57,13 +52,6 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
                     field.setInquiryParameters(field.getPropertyName() + Constants.COLON + CAMPUS_CODE_FIELD);
                     field.setQuickFinderClassNameImpl(CAMPUS_LOOKUPABLE_CLASS_NAME);
                     field.setFieldDirectInquiryEnabled(true);
-                    if (multiCampusEnabled) {
-                        if (StringUtils.isBlank(field.getDefaultValue())) {
-                            String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
-                            field.setDefaultValue(campusCode);
-                            field.setPropertyValue(field.getDefaultValue());
-                        }
-                    }
                 }
             }
         }

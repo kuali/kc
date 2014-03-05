@@ -25,56 +25,18 @@
 
     <context:annotation-config />
 
-    
-    <bean id="businessObjectDictionaryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="businessObjectDictionaryService" />
-    </bean>
-    
-    <bean id="businessObjectMetaDataService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="businessObjectMetaDataService" />
-    </bean>
-    
-    <bean id="businessObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="businessObjectService" />
-    </bean>
-    
-    <bean id="dataDictionaryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="dataDictionaryService" />
-    </bean>
-    
-    <bean id="encryptionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="encryptionService" />
-    </bean>
-    
-    <bean id="identityService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kimIdentityService" />
-    </bean>
-    
-    <bean id="kimRoleDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kimRoleDao" />
-    </bean>
-    
-    <bean id="lookupResultsService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="lookupResultsService" />
-    </bean>
-    
-    <bean id="lookupService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="lookupService" />
-    </bean>
-    
-    <bean id="persistenceStructureService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="persistenceStructureService" />
-    </bean>
-    
-    <bean id="sequenceAccessorService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="sequenceAccessorService" />
-    </bean>
-    
-    <bean id="multiCampusIdentityService" class="org.kuali.kra.service.impl.MultiCampusIdentityServiceImpl">
-       <property name="businessObjectService" ref="businessObjectService" />
-       <property name="identityService" ref="identityService" />
-    </bean>
-    
+    <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+
+    <bean id="businessObjectDictionaryService" parent="grlImporter" p:serviceName="businessObjectDictionaryService" />
+    <bean id="businessObjectMetaDataService" parent="grlImporter" p:serviceName="businessObjectMetaDataService" />
+    <bean id="businessObjectService" parent="grlImporter" p:serviceName="businessObjectService" />
+    <bean id="dataDictionaryService" parent="grlImporter" p:serviceName="dataDictionaryService" />
+    <bean id="encryptionService" parent="grlImporter" p:serviceName="encryptionService" />
+    <bean id="lookupResultsService" parent="grlImporter" p:serviceName="lookupResultsService" />
+    <bean id="lookupService" parent="grlImporter" p:serviceName="lookupService" />
+    <bean id="persistenceStructureService" parent="grlImporter" p:serviceName="persistenceStructureService" />
+    <bean id="sequenceAccessorService" parent="grlImporter" p:serviceName="sequenceAccessorService" />
+
     <!--
         If we want to inject the local bean into the Rice context (and override the identically-named Rice bean if it exists) we need to add it to the beanNames
         list.  If it's purely a KC service, or we want to use a different implementation of a Rice service in the KC context but not override the Rice 
@@ -86,67 +48,11 @@
         <property name="serviceNameSpaceURI" value="KC" />
         <property name="beanNames">
             <set>
-                <!--
-                <value>docSearchCriteriaDTOLookupable</value>
-                -->
-                <value>groupLookupable</value>
-                <value>kimPersonLookupable</value>
-                <value>permissionLookupable</value>
                 <value>pessimisticLockLookupable</value>
-                <value>responsibilityLookupable</value>
-                <value>roleLookupable</value>
-                <value>multiCampusIdentityService</value>
             </set>
         </property>
     </bean>
-    
-    <bean id="parentLookupableHelperService" abstract="true">
-        <property name="persistenceStructureService" ref="persistenceStructureService" />
-        <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
-        <property name="dataDictionaryService" ref="dataDictionaryService" />
-        <property name="encryptionService" ref="encryptionService" />
-        <property name="lookupService" ref="lookupService" />
-        <property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
-        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="lookupResultsService" ref="lookupResultsService" />
-    </bean>
-    
-    <!-- try override docsearchlookupable to handle extra 'copyDocument' link result column -->
-    <!--
-    <bean id="docSearchCriteriaDTOLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService">
-            <ref local="kraDocSearchCriteriaDTOLookupHelperService" />
-        </property>
-    </bean>
-    
-    <bean id="kraDocSearchCriteriaDTOLookupHelperService" class="org.kuali.kra.lookup.KraDocSearchCriteriaDTOLookupableHelperServiceImpl" scope="prototype" />
-    -->
-    
-    <bean id="groupLookupable" class="org.kuali.rice.kim.lookup.GroupLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kra.lookup.GroupLookupableHelperServiceImpl" parent="parentLookupableHelperService">
-                <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
-            </bean>
-        </property>
-    </bean>
-    
-    <bean id="kimPersonLookupable" class="org.kuali.rice.kim.lookup.PersonLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kra.lookup.PersonLookupableHelperServiceImpl" parent="parentLookupableHelperService">
-                <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
-            </bean>
-        </property>
-    </bean>
-    
-    <bean id="permissionLookupable" class="org.kuali.rice.kim.lookup.PermissionLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kra.lookup.PermissionLookupableHelperServiceImpl" parent="parentLookupableHelperService">
-                <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
-            </bean>
-        </property>
-    </bean>
-    
+
     <bean id="pessimisticLockLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="kraPessimisticLockLookupableHelperService" />
     </bean>
@@ -161,23 +67,6 @@
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="lookupResultsService" ref="lookupResultsService" />
-        <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
-    </bean>
-    
-    <bean id="responsibilityLookupable" class="org.kuali.rice.kim.impl.responsibility.ResponsibilityLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kra.lookup.ResponsibilityLookupableHelperServiceImpl" parent="parentLookupableHelperService">
-                <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
-            </bean>
-        </property>
-    </bean>
-    
-    <bean id="roleLookupable" class="org.kuali.rice.kim.lookup.RoleLookupableImpl" scope="prototype">         
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kra.lookup.RoleLookupableHelperServiceImpl" parent="parentLookupableHelperService" p:roleDao-ref="kimRoleDao">
-                <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
-            </bean>
-        </property>
     </bean>
     
 </beans>

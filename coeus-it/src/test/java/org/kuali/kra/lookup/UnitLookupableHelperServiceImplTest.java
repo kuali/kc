@@ -16,40 +16,31 @@
 package org.kuali.kra.lookup;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.web.ui.Field;
-import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 public class UnitLookupableHelperServiceImplTest extends KcIntegrationTestBase {
     
-    private static final int LOOKUP_CRITERIA_FIELD_COUNT = 6;
     private static final int SEARCH_RESULTS_NO_CAMPUS_CODE_COUNT = 13;
     private static final int SEARCH_RESULTS_CAMPUS_CODE_COUNT = 4;
     private static final String CAMPUS_CODE_FIELD = "code";
-    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
-    
+
     private static final String CAMPUS_CODE = "BL";
     
     private UnitLookupableHelperServiceImpl service;
     
-    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
-    
+
     @Before
     public void setUp() throws Exception {
 
@@ -60,42 +51,6 @@ public class UnitLookupableHelperServiceImplTest extends KcIntegrationTestBase {
     public void tearDown() throws Exception {
 
         service = null;
-    }
-    
-    @Test
-    public void testNonMultiCampusRows() {
-        service.setBusinessObjectClass(Unit.class);
-        service.setParameterService(getMockParameterService(false));
-        GlobalVariables.getUserSession().addObject(Constants.USER_CAMPUS_CODE_KEY, (Object) CAMPUS_CODE);
-        
-        List<Row> rows = service.getRows();
-        assertEquals(LOOKUP_CRITERIA_FIELD_COUNT, rows.size());
-        for (Row row : rows) {
-            for (Field field : row.getFields()) {
-                if (field.getPropertyName().equals(CAMPUS_CODE_FIELD)) {
-                    assertFieldProperties(field, CAMPUS_CODE_FIELD, CAMPUS_LOOKUPABLE_CLASS_NAME);
-                    assertEquals(Constants.EMPTY_STRING, field.getPropertyValue());
-                }
-            }
-        }
-    }
-    
-    @Test
-    public void testMultiCampusRows() {
-        service.setBusinessObjectClass(Unit.class);
-        service.setParameterService(getMockParameterService(true));
-        GlobalVariables.getUserSession().addObject(Constants.USER_CAMPUS_CODE_KEY, (Object) CAMPUS_CODE);
-        
-        List<Row> rows = service.getRows();
-        assertEquals(LOOKUP_CRITERIA_FIELD_COUNT, rows.size());
-        for (Row row : rows) {
-            for (Field field : row.getFields()) {
-                if (field.getPropertyName().equals(CAMPUS_CODE_FIELD)) {
-                    assertFieldProperties(field, CAMPUS_CODE_FIELD, CAMPUS_LOOKUPABLE_CLASS_NAME);
-                    assertEquals(CAMPUS_CODE, field.getPropertyValue());
-                }
-            }
-        }
     }
     
     @Test
@@ -122,25 +77,4 @@ public class UnitLookupableHelperServiceImplTest extends KcIntegrationTestBase {
             assertTrue(StringUtils.startsWith(unit.getUnitNumber(), CAMPUS_CODE));
         }
     }
-    
-    private void assertFieldProperties(Field field, String keyName, String className) {
-        assertEquals(field.getFieldConversions(), keyName + Constants.COLON + field.getPropertyName());
-        assertTrue(field.isFieldDirectInquiryEnabled());
-        assertEquals(field.getLookupParameters(), field.getPropertyName() + Constants.COLON + keyName);
-        assertEquals(field.getInquiryParameters(), field.getPropertyName() + Constants.COLON + keyName);
-        assertEquals(field.getQuickFinderClassNameImpl(), className);
-    }
-    
-    private ParameterService getMockParameterService(final boolean multiCampusEnabled) {
-        final ParameterService service = context.mock(ParameterService.class);
-        
-        context.checking(new Expectations() {{
-            allowing(service).getParameterValueAsBoolean(
-                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
-            will(returnValue(multiCampusEnabled));
-        }});
-        
-        return service;
-    }
-
 }

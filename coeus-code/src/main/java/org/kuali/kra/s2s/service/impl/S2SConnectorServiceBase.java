@@ -15,18 +15,19 @@ kc * Copyright 2005-2014 The Kuali Foundation.
  */
 package org.kuali.kra.s2s.service.impl;
 
+import gov.grants.apply.services.applicantwebservices_v2.*;
+import gov.grants.apply.services.applicantwebservices_v2_0.ApplicantWebServicesPortType;
+import gov.grants.apply.services.applicantwebservices_v2_0.ErrorMessage;
+import gov.grants.apply.system.grantscommonelements_v1.ApplicationFilter;
+import gov.grants.apply.system.grantscommonelements_v1.Attachment;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.cxf.attachment.AttachmentImpl;
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
 import org.apache.cxf.configuration.security.FiltersType;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
-import org.apache.cxf.interceptor.AttachmentOutInterceptor;
-import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.apache.cxf.message.Message;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.kuali.kra.infrastructure.Constants;
@@ -37,30 +38,20 @@ import org.kuali.kra.s2s.service.S2SConnectorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListRequest;
-import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
-import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailRequest;
-import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailResponse;
-import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesRequest;
-import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesResponse;
-import gov.grants.apply.services.applicantwebservices_v2.SubmitApplicationRequest;
-import gov.grants.apply.services.applicantwebservices_v2.SubmitApplicationResponse;
-import gov.grants.apply.services.applicantwebservices_v2_0.ApplicantWebServicesPortType;
-import gov.grants.apply.services.applicantwebservices_v2_0.ErrorMessage;
-import gov.grants.apply.system.grantscommonelements_v1.ApplicationFilter;
-import gov.grants.apply.system.grantscommonelements_v1.Attachment;
-
 import javax.activation.DataHandler;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.security.*;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.util.*;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -71,8 +62,6 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
     private S2SUtilService s2SUtilService;
     private BusinessObjectService businessObjectService;
     private static final String KEY_PROPOSAL_NUMBER = "proposalNumber";
-    private static final String MULTI_CAMPUS_ENABLED = "MULTI_CAMPUS_ENABLED";
-    private static final String MULTI_CAMPUS_ENABLED_VALUE = "1";
     private static final String KEY_OPPORTUNITY_ID = "OpportunityID";
     private static final String KEY_CFDA_NUMBER = "CFDANumber";
     private static final String KEY_SUBMISSION_TITLE = "SubmissionTitle";
@@ -83,7 +72,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
     
     /**
      * This method is to get Opportunity List for the given cfda number,opportunity Id and competition Id from the grants guv. It
-     * sets the given parameters on {@link GetOpportunityListRequest} object and passes it to the web service.
+     * sets the given parameters on {@link GetOpportunitiesRequest} object and passes it to the web service.
      * 
      * @param cfdaNumber of the opportunity.
      * @param opportunityId parameter for the opportunity.
@@ -109,7 +98,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      */
     public GetOpportunitiesResponse getOpportunityList(String cfdaNumber, String opportunityId, String competitionId)
             throws S2SException {
-        ApplicantWebServicesPortType port = configureApplicantIntegrationSoapPort(null,false);
+        ApplicantWebServicesPortType port = configureApplicantIntegrationSoapPort(null);
         GetOpportunitiesRequest getOpportunityListRequest = new GetOpportunitiesRequest();
         
         getOpportunityListRequest.setCFDANumber(cfdaNumber);
@@ -233,7 +222,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
 
     /**
      * 
-     * This method is to get Soap Port in case of multicampus
+     * This method is to get Soap Port
      * 
      * @param proposalNumber Proposal number.
      * @return ApplicantIntegrationPortType Soap port used for applicant integration.
@@ -244,10 +233,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         proposalMap.put(KEY_PROPOSAL_NUMBER, proposalNumber);
         DevelopmentProposal pdDoc = (DevelopmentProposal) businessObjectService.findByPrimaryKey(
                 DevelopmentProposal.class, proposalMap);
-        String multiCampusEnabledStr = s2SUtilService.getParameterValue(MULTI_CAMPUS_ENABLED);
-        boolean mulitCampusEnabled = multiCampusEnabledStr.equals(MULTI_CAMPUS_ENABLED_VALUE) ? true : false;
-        return configureApplicantIntegrationSoapPort(pdDoc.getApplicantOrganization().getOrganization().getDunsNumber(),
-                mulitCampusEnabled);
+        return configureApplicantIntegrationSoapPort(pdDoc.getApplicantOrganization().getOrganization().getDunsNumber());
     }
     
 
@@ -258,7 +244,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @return ApplicantIntegrationPortType Soap port used for applicant integration.
      * @throws S2SException
      */
-    protected ApplicantWebServicesPortType configureApplicantIntegrationSoapPort(String alias,boolean mulitCampusEnabled)
+    protected ApplicantWebServicesPortType configureApplicantIntegrationSoapPort(String alias)
                                                                                 throws S2SException {
         System.clearProperty("java.protocol.handler.pkgs");
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
@@ -285,7 +271,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         conduit.setClient(httpClientPolicy);
         TLSClientParameters tlsConfig = new TLSClientParameters();
         setPossibleCypherSuites(tlsConfig);
-        configureKeyStoreAndTrustStore(tlsConfig, alias, mulitCampusEnabled);
+        configureKeyStoreAndTrustStore(tlsConfig, alias);
         conduit.setTlsClientParameters(tlsConfig);
         return applicantWebService;
     }
@@ -315,28 +301,15 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * This method is to confgiure KeyStore and Truststore for Grants.Gov webservice client
      * @param tlsConfig
      * @param alias
-     * @param mulitCampusEnabled
      * @throws S2SException
      */
-    protected void configureKeyStoreAndTrustStore(TLSClientParameters tlsConfig, String alias, boolean mulitCampusEnabled)
+    protected void configureKeyStoreAndTrustStore(TLSClientParameters tlsConfig, String alias)
             throws S2SException {
         KeyStore keyStore = s2sCertificateReader.getKeyStore();
         KeyManagerFactory keyManagerFactory;
         try {
             keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            if (alias != null && mulitCampusEnabled) {
-                KeyStore keyStoreAlias;
-                keyStoreAlias = KeyStore.getInstance(s2sCertificateReader.getJksType());
-                Certificate[] certificates = keyStore.getCertificateChain(alias);
-                Key key = keyStore.getKey(alias, s2SUtilService.getProperty(s2sCertificateReader.getKeyStorePassword()).toCharArray());
-                keyStoreAlias.load(null, null);
-                keyStoreAlias.setKeyEntry(alias, key, 
-                        s2SUtilService.getProperty(s2sCertificateReader.getKeyStorePassword()).toCharArray(), certificates);
-                keyManagerFactory.init(keyStoreAlias, 
-                        s2SUtilService.getProperty(s2sCertificateReader.getKeyStorePassword()).toCharArray());
-            }else {
-                keyManagerFactory.init(keyStore, s2SUtilService.getProperty(s2sCertificateReader.getKeyStorePassword()).toCharArray());
-            }
+            keyManagerFactory.init(keyStore, s2SUtilService.getProperty(s2sCertificateReader.getKeyStorePassword()).toCharArray());
             KeyManager[] km = keyManagerFactory.getKeyManagers();
             tlsConfig.setKeyManagers(km);
             KeyStore trustStore = s2sCertificateReader.getTrustStore();
@@ -344,21 +317,8 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
             trustManagerFactory.init(trustStore);
             TrustManager[] tm = trustManagerFactory.getTrustManagers();
             tlsConfig.setTrustManagers(tm);
-        }catch (NoSuchAlgorithmException e){
-            LOG.error(e);
-            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
-        }catch (KeyStoreException e) {
-            LOG.error(e);
-            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
-        }catch (UnrecoverableKeyException e) {
-            LOG.error(e);
-            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
-        }catch (CertificateException e) {
-            LOG.error(e);
-            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
-        }catch (IOException e) {
-            LOG.error(e);
-            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
+        }catch (NoSuchAlgorithmException|KeyStoreException|UnrecoverableKeyException e){
+            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e);
         }
     }
 
@@ -381,28 +341,14 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         return host.toString();
     }
 
-    /**
-     * Sets the s2sUtilService attribute value.
-     * 
-     * @param generatorUtilService The s2sUtilService to set.
-     */
     public void setS2SUtilService(S2SUtilService s2SUtilService) {
         this.s2SUtilService = s2SUtilService;
     }
 
-    /**
-     * This method is to set businessObjectService
-     * 
-     * @param businessObjectService(BusinessObjectService)
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
-    /**
-     * Gets the s2SUtilService attribute. 
-     * @return Returns the s2SUtilService.
-     */
     public S2SUtilService getS2SUtilService() {
         return s2SUtilService;
     }
