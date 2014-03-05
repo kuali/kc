@@ -1290,7 +1290,7 @@
         </property>
     </bean>
 
-    <bean id="kcAttachmentService" class="org.kuali.kra.service.impl.KcAttachmentServiceImpl">
+    <bean id="kcAttachmentService" class="org.kuali.coeus.common.impl.attachment.KcAttachmentServiceImpl">
         <property name="mimeTypeIcons">
             <map>
                 <entry key="application/msword" value="static/images/word.gif" />

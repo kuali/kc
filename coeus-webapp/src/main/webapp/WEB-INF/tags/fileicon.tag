@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%@ attribute name="attachment" required="true" type="org.kuali.kra.bo.KcAttachment"%>
+<%@ attribute name="attachment" required="true" type="org.kuali.coeus.common.framework.attachment.KcAttachment"%>
 
 <c:set var="height" value="16"/>
 <c:set var="width" value="16"/>

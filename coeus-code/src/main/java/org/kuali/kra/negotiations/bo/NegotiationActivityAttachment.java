@@ -16,8 +16,8 @@
 package org.kuali.kra.negotiations.bo;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.AttachmentFile;
 
 /**
  * Negotiation Activity Attachment BO.

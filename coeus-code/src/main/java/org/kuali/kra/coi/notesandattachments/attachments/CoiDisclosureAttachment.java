@@ -18,9 +18,9 @@ package org.kuali.kra.coi.notesandattachments.attachments;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.coi.CoiAttachmentType;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
