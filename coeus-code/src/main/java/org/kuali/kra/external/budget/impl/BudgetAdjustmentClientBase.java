@@ -40,6 +40,7 @@ import org.kuali.kra.external.budget.RateClassRateType;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -71,6 +72,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     private BusinessObjectService businessObjectService;
     private InstitutionalUnitService institutionalUnitService;
     private BudgetAdjustmentServiceHelper budgetAdjustmentServiceHelper;
+    private ConfigurationService configurationService;
 
     /**
      * This method gets either the SOAP handle or the KSB handle depending on the configuration. 
@@ -619,6 +621,14 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }
 
