@@ -17,6 +17,7 @@ package org.kuali.kra.external.award;
 
 import org.kuali.kra.external.award.impl.AccountCreationClientImpl;
 import org.kuali.kra.external.award.impl.AccountCreationKSBClientImpl;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -28,6 +29,7 @@ public class AccountCreationClientFactoryBean implements FactoryBean {
 	private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
+    private ConfigurationService configurationService;
 
 	public Object getObject() throws Exception {
 	    AccountCreationClient object = null; 
@@ -39,6 +41,7 @@ public class AccountCreationClientFactoryBean implements FactoryBean {
 		object.setDocumentService(documentService);
 		object.setBusinessObjectService(businessObjectService);
         object.setParameterService(parameterService);
+        object.setConfigurationService(configurationService);
 
 		return object;
 	}
@@ -69,5 +72,9 @@ public class AccountCreationClientFactoryBean implements FactoryBean {
     
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }

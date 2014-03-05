@@ -17,6 +17,6 @@ package org.kuali.coeus.sys.framework.controller;
 
 public interface DocHandlerService {
     
-    public String getDocHandlerUrl(String routeHeaderId);
-
+    String getDocHandlerUrl(String routeHeaderId);
+    void publishDocHandlerUrlPrefix();
 }
