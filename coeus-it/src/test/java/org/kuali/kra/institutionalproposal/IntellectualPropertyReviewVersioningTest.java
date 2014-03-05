@@ -17,11 +17,11 @@ package org.kuali.kra.institutionalproposal;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.version.VersionException;
+import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity;
-import org.kuali.kra.service.VersionException;
-import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 

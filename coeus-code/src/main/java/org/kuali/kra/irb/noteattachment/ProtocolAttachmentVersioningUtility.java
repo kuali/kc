@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentVersioningUtilityBase;
-import org.kuali.kra.service.VersioningService;
 
 /**
  * Class used for versioning protocol attachments.
