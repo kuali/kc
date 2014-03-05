@@ -23,8 +23,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
-import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;

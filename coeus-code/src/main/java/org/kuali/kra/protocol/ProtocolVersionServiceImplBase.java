@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol;
 
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
+import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
@@ -24,7 +25,6 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.SessionDocumentService;

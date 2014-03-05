@@ -17,6 +17,8 @@ package org.kuali.kra.institutionalproposal.service.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.version.VersionException;
+import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -45,8 +47,6 @@ import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSp
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
-import org.kuali.kra.service.VersionException;
-import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;

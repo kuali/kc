@@ -1630,7 +1630,7 @@
           p:localServiceName="unitRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />  
     
-    <bean id="versioningService" class="org.kuali.kra.service.impl.VersioningServiceImpl" />
+    <bean id="versioningService" class="org.kuali.coeus.common.impl.version.VersioningServiceImpl" />
     
     <bean id="versionHistoryService" class="org.kuali.kra.service.impl.VersionHistoryServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
