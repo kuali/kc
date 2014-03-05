@@ -23,6 +23,7 @@ import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.service.impl.SequenceUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.List;
 /**
  * This service implements generic versioning.
  */
+@Component("versioningService")
 public class VersioningServiceImpl implements VersioningService {
     
     private static final double NANOS_PER_SECOND = 1000000000.0;
