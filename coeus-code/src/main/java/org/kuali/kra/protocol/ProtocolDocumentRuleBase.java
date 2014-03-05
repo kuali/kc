@@ -17,6 +17,7 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.audit.ResearchDocumentBaseAuditRule;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
 import org.kuali.coeus.common.permissions.impl.web.bean.User;
@@ -42,7 +43,6 @@ import org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceRuleBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRuleBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
-import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 

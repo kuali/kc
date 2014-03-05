@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.coi;
 
+import org.kuali.coeus.common.framework.audit.ResearchDocumentBaseAuditRule;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.coi.disclosure.DisclosureFinancialEntityAuditRule;
 import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitEvent;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireAuditRule;
-import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 

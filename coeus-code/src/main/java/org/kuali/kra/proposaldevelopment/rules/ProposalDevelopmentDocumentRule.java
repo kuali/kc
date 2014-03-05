@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.audit.ResearchDocumentBaseAuditRule;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -31,7 +32,6 @@ import org.kuali.kra.proposaldevelopment.rule.*;
 import org.kuali.kra.proposaldevelopment.rule.event.*;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
-import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
