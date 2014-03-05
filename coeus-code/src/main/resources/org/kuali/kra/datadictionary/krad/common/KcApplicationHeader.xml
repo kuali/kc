@@ -46,22 +46,12 @@
 		parent="Uif-ListGroup" p:layoutManager.additionalCssClasses="nav,pull-right">
 		<property name="items">
 			<list>
-				<bean parent="Kc-Header-Actionlist" p:toggleText="Action list">
-					<property name="wrapperCssClasses">
-						<list merge="true">
-							<value>pull-right</value>
-						</list>
-					</property>
-				</bean>
-				<bean parent="Uif-Link" p:linkText="Doc Search"
-					p:href="@{#ConfigProperties['application.url']}/kew/DocumentSearch.do?docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/kc-krad/landingPage&amp;hideReturnLink=true">
-					<property name="wrapperCssClasses">
-						<list merge="true">
-							<value>dropdown</value>
-							<value>pull-right</value>
-						</list>
-					</property>
-				</bean>
+              <bean parent="Kc-Header-IframeMenuAction"
+                    p:actionUrl.viewId="Kc-Header-ActionListView" p:wrapperCssClasses="pull-right"
+                    p:actionLabel="Action List"/>			
+              <bean parent="Kc-Header-IframeMenuAction"
+                    p:actionUrl.viewId="Kc-Header-DocSearchView" p:wrapperCssClasses="pull-right"
+                    p:actionLabel="Doc Search"/>	
 				<bean parent="Kc-Header-User" p:toggleText="User: quickstart">
 					<property name="wrapperCssClasses">
 						<list merge="true">
@@ -72,6 +62,21 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="Kc-Header-IframeMenuAction" parent="Kc-Header-IframeMenuAction-parentBean"/>
+	<bean id="Kc-Header-IframeMenuAction-parentBean" abstract="true" parent="Uif-MenuAction"
+			p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kc-krad"
+			p:actionUrl.controllerMapping="/landingPage"/>
+			
+	<bean id="Kc-Header-IframeView" parent="Kc-Header-IframeView-parentBean"/>
+	<bean id="Kc-Header-IframeView-parentBean" abstract="true" parent="Uif-IframeView"
+		p:location.baseUrl="@{#ConfigProperties['application.url']}"/>
+	<bean id="Kc-Header-ActionListView" parent="Kc-Header-ActionListView-parentBean"/>
+  <bean id="Kc-Header-ActionListView-parentBean" abstract="true" parent="Kc-Header-IframeView"
+        p:location.controllerMapping="/kew/ActionList.do"/>
+     <bean id="Kc-Header-DocSearchView" parent="Kc-Header-DocSearchView-parentBean"/>  
+  <bean id="Kc-Header-DocSearchView-parentBean" abstract="true" parent="Kc-Header-IframeView"
+        p:location.controllerMapping="/kew/DocumentSearch.do"/>
 
 	<bean id="Kc-Header-ApplicationLogo" parent="Kc-Header-ApplicationLogo-parentBean" />
 	<bean id="Kc-Header-ApplicationLogo-parentBean" parent="Uif-Image"
@@ -147,7 +152,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-MenuAction" p:actionLabel="Create Proposal"
-					p:actionUrl.baseUrl="../kc-pd-krad" p:actionUrl.viewId="PropDev-InitiateView"
+					p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kc-pd-krad" p:actionUrl.viewId="PropDev-InitiateView"
 					p:actionUrl.controllerMapping="/proposalDevelopment"
 					p:actionUrl.methodToCall="docHandler"
 					p:actionUrl.requestParameters="command:initiate" p:order="10" />
