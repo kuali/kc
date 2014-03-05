@@ -22,7 +22,6 @@ import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 import org.kuali.kfs.module.external.kc.service.AccountCreationServiceSOAP;
 import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import javax.xml.ws.WebServiceClient;
 import java.net.MalformedURLException;
@@ -73,7 +72,7 @@ public final class AccountCreationClientImpl extends AccountCreationClientBase {
         if (getFinSystemURLFromWSDL) {
             wsdlURL = WSDL_LOCATION;
         } else {
-            String serviceEndPointUrl = ConfigContext.getCurrentContextConfig().getProperty(Constants.FIN_SYSTEM_INTEGRATION_SERVICE_URL);
+            String serviceEndPointUrl = getConfigurationService().getPropertyValueAsString(Constants.FIN_SYSTEM_INTEGRATION_SERVICE_URL);
             try {
                 wsdlURL = new URL(serviceEndPointUrl + SOAP_SERVICE_NAME + "?wsdl");
             } catch (MalformedURLException mue) {

@@ -24,5 +24,6 @@
     <bean id="workflowDocumentActionsService" parent="grlImporter" p:serviceName="rice.kew.workflowDocumentActionsService" />
     <bean id="actionListService" parent="grlImporter" p:serviceName="rice.kew.actionListService" />
     <bean id="identityService" parent="grlImporter" p:serviceName="kimIdentityService" />
+    <bean id="kualiConfigurationService" parent="grlImporter" p:serviceName="kualiConfigurationService" />
 
 </beans>

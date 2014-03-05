@@ -359,6 +359,7 @@
               <property name="budgetCalculationService" ref= "budgetCalculationService" />
               <property name="institutionalUnitService" ref="institutionalUnitService" />
               <property name="budgetAdjustmentServiceHelper" ref="budgetAdjustmentServiceHelper" />
+              <property name="configurationService" ref="kualiConfigurationService" />
               
     </bean>
     

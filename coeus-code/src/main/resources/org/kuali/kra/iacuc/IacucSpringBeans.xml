@@ -605,19 +605,6 @@
             <ref bean="documentService" />
         </property>
     </bean>
-
-<!-- 
-    <bean id="protocolNotificationService" class="org.kuali.kra.protocol.notification.service.impl.ProtocolNotificationServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="roleManagementService" ref="roleService" />
-        <property name="kcPersonService" ref="kcPersonService" />
-        <property name="rolodexService" ref="rolodexService" />
-        <property name="parameterService" ref="parameterService" />
-        <property name="identityService" ref="identityService" />
-        <property name="kcEmailService" ref="kcEmailService" />
-        <property name="sendNotificationService" ref="sendNotificationService" />
-    </bean>
--->    
     
     <bean id="iacucProtocolOnlineReviewLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">

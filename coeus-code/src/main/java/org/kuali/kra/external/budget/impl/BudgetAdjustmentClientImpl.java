@@ -20,7 +20,6 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentServiceSOAP;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import javax.xml.ws.WebServiceClient;
 import java.net.MalformedURLException;
@@ -71,7 +70,7 @@ public class BudgetAdjustmentClientImpl extends BudgetAdjustmentClientBase {
         if (getFinSystemURLFromWSDL) {
             wsdlURL = WSDL_LOCATION;
         } else {
-            String serviceEndPointUrl = ConfigContext.getCurrentContextConfig().getProperty(Constants.FIN_SYSTEM_INTEGRATION_SERVICE_URL);
+            String serviceEndPointUrl = getConfigurationService().getPropertyValueAsString(Constants.FIN_SYSTEM_INTEGRATION_SERVICE_URL);
             try {
                 wsdlURL = new URL(serviceEndPointUrl + SOAP_SERVICE_NAME + "?wsdl");
             } catch (MalformedURLException mue) {
