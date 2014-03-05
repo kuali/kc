@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.document;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.audit.ResearchDocumentBaseAuditRule;
 import org.kuali.kra.award.budget.AwardBudgeCostTotalAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetCostLimitAuditRule;
@@ -39,7 +40,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.budget.modular.SyncModularBudgetRule;
 import org.kuali.kra.rules.ActivityTypeAuditRule;
-import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
