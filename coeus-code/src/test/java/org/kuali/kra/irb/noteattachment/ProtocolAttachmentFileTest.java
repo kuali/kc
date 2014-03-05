@@ -22,8 +22,8 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.AttachmentFile.CreateException;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile.CreateException;
 
 import java.io.IOException;
 

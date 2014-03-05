@@ -17,6 +17,7 @@ package org.kuali.kra.irb.protocol.summary;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
