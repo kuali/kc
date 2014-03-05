@@ -16,6 +16,7 @@
 package org.kuali.kra.external.award;
 
 import org.kuali.kra.award.home.Award;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -53,4 +54,6 @@ public interface AccountCreationClient {
     void setBusinessObjectService(BusinessObjectService businessObjectService);
     
     void setParameterService(ParameterService parameterService);
+
+    void setConfigurationService(ConfigurationService configurationService);
 }

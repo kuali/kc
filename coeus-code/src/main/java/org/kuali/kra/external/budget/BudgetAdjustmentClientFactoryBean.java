@@ -19,6 +19,7 @@ import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.external.budget.impl.BudgetAdjustmentClientImpl;
 import org.kuali.kra.external.budget.impl.BudgetAdjustmentKSBClientImpl;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -33,6 +34,7 @@ public class BudgetAdjustmentClientFactoryBean implements FactoryBean {
     private BusinessObjectService businessObjectService;
     private BudgetCalculationService budgetCalculationService;
     private BudgetAdjustmentServiceHelper budgetAdjustmentServiceHelper;
+    private ConfigurationService configurationService;
 
     public Object getObject() throws Exception {
         BudgetAdjustmentClient object = null; 
@@ -47,6 +49,7 @@ public class BudgetAdjustmentClientFactoryBean implements FactoryBean {
         object.setInstitutionalUnitService(institutionalUnitService);
         object.setBudgetCalculationService(budgetCalculationService);
         object.setBudgetAdjustmentServiceHelper(budgetAdjustmentServiceHelper);
+        object.setConfigurationService(configurationService);
         return object;
     }
     
@@ -87,6 +90,8 @@ public class BudgetAdjustmentClientFactoryBean implements FactoryBean {
     public void setSharedRice(boolean sharedRice) {
         this.sharedRice = sharedRice;
     }
-    
-    
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
 }
