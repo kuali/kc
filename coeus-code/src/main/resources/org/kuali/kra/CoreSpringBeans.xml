@@ -1139,11 +1139,6 @@
     <bean id="xmlObjectSerializerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="xmlObjectSerializerService" />
     </bean>
-
-    <bean id="multiCampusIdentityService" class="org.kuali.kra.service.impl.MultiCampusIdentityServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="identityService" ref="identityService" />
-    </bean>
     
     <bean id="functionRepositoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="functionRepositoryService" />

@@ -18,13 +18,9 @@ package org.kuali.coeus.common.impl.person;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.MultiCampusIdentityService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.entity.EntityContract;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -43,30 +39,14 @@ public class KcPersonServiceImpl implements KcPersonService {
 	@Qualifier("identityService")
     private IdentityService identityService;
     
-	@Autowired
-	@Qualifier("parameterService")
-    private ParameterService parameterService;
-    
-    @Autowired
-    @Qualifier("multiCampusIdentityService")
-    private MultiCampusIdentityService multiCampusIdentityService;
-
-    
     /**
      * Modifies field values so that different field keys can be used for a lookup.
      * @param fieldValues the field values to modify
      */
     public void modifyFieldValues(final Map<String, String> fieldValues) {
-        boolean multiCampusEnabled = parameterService.getParameterValueAsBoolean(
-                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
-        
         //convert username and kcpersonid to proper naming such the person service can use them
         if (StringUtils.isNotBlank(fieldValues.get("userName"))){
             String userNameSearchValue = fieldValues.get("userName");
-            if (multiCampusEnabled) {
-                String campusCode = fieldValues.get("campusCode");
-                userNameSearchValue = this.multiCampusIdentityService.getMultiCampusPrincipalName(userNameSearchValue, campusCode);
-            }
             fieldValues.put("principalName", userNameSearchValue);  
         }
         
@@ -93,22 +73,10 @@ public class KcPersonServiceImpl implements KcPersonService {
         if (StringUtils.isEmpty(userName)) {
             throw new IllegalArgumentException("the userName is null or empty");
         }
-        
-        boolean multiCampusEnabled = parameterService.getParameterValueAsBoolean(
-                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
-        
-        if (multiCampusEnabled) {
-            String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
-            String multiCampusUserName = this.multiCampusIdentityService.getMultiCampusPrincipalName(userName, campusCode);
-            EntityContract entity = this.identityService.getEntityByPrincipalName(multiCampusUserName);
-            if (entity != null) {
-                person = KcPerson.fromEntityAndUserName(entity, multiCampusUserName);
-            }
-        } else {
-            EntityContract entity = this.identityService.getEntityByPrincipalName(userName);
-            if (entity != null) {
-                person = KcPerson.fromEntityAndUserName(entity, userName);
-            }
+
+        EntityContract entity = this.identityService.getEntityByPrincipalName(userName);
+        if (entity != null) {
+            person = KcPerson.fromEntityAndUserName(entity, userName);
         }
 
         return person;
@@ -128,28 +96,8 @@ public class KcPersonServiceImpl implements KcPersonService {
         
         for (Person person : people) {
             persons.add(KcPerson.fromPersonId(person.getPrincipalId()));
-            /*for (PrincipalContract principal : person.getPrincipals()) {
-                persons.add(KcPerson.fromEntityAndPersonId(entity, principal.getPrincipalId()));
-            }*/
         }
         
         return persons;
     }
-
-    /**
-     * Sets the Identity Service.
-     * @param identityService the Identity Service.
-     */
-    public void setIdentityService(IdentityService identityService) {
-        this.identityService = identityService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-    
-    public void setMultiCampusIdentityService(MultiCampusIdentityService multiCampusIdentityService) {
-        this.multiCampusIdentityService = multiCampusIdentityService;
-    }
-    
 }

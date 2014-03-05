@@ -1,0 +1,4 @@
+delete from KRCR_PARM_T WHERE NMSPC_CD = 'KC-GEN' and CMPNT_CD = 'All' and PARM_NM = 'MULTI_CAMPUS_ENABLED' and APPL_ID = 'KC'
+/
+delete from KRCR_PARM_T WHERE NMSPC_CD = 'KC-PD' and CMPNT_CD = 'Document' and PARM_NM = 'MULTI_CAMPUS_ENABLED' and APPL_ID = 'KC'
+/
