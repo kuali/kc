@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.controller.SysFrameworkControllerConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.coi.*;
@@ -49,7 +50,6 @@ import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -458,7 +458,7 @@ public class CoiDisclosureAction extends CoiAction {
         if (GlobalVariables.getMessageMap().hasNoErrors()) {
             CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
             CoiDisclosure coiDisclosure = ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure();
-            String forward = ConfigContext.getCurrentContextConfig().getProperty("kuali.docHandler.url.prefix")
+            String forward = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(SysFrameworkControllerConstants.CONFIG_KUALI_DOCHANDLER_URL_PREFIX)
                     + "/financialEntityEditNew.do?methodToCall=addNewCoiDiscFinancialEntity&coiDocId="
                     + ((CoiDisclosureForm) form).getDocument().getDocumentNumber() + "&financialEntityHelper.reporterId="
                     + coiDisclosure.getPersonId();
@@ -474,7 +474,7 @@ public class CoiDisclosureAction extends CoiAction {
         if (GlobalVariables.getMessageMap().hasNoErrors()) {
             CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
             CoiDisclosure coiDisclosure = ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure();
-            String forward = ConfigContext.getCurrentContextConfig().getProperty("kuali.docHandler.url.prefix")
+            String forward = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(SysFrameworkControllerConstants.CONFIG_KUALI_DOCHANDLER_URL_PREFIX)
                     + "/financialEntityEditList.do?methodToCall=editActiveFinancialEntity&coiDocId="
                     + ((CoiDisclosureForm) form).getDocument().getDocumentNumber() + "&financialEntityHelper.editCoiEntityId="
                     + coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails().get(getSelectedLine(request)).getPersonFinIntDisclosureId();
