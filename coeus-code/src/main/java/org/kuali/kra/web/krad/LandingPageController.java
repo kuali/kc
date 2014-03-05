@@ -33,7 +33,7 @@ public class LandingPageController {
     private UifControllerService uifControllerService;
     
     @RequestMapping(value = "/landingPage")
-    public ModelAndView createProposal(@ModelAttribute("KualiForm") LandingPageForm form, BindingResult result,
+    public ModelAndView defaultRequest(@ModelAttribute("KualiForm") LandingPageForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         return getUifControllerService().getUIFModelAndView(form); 
     }
