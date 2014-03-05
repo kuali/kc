@@ -32,6 +32,7 @@ import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -68,6 +69,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
+    private ConfigurationService configurationService;
     
     protected abstract AccountCreationService getServiceHandle();
     
@@ -389,5 +391,13 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }

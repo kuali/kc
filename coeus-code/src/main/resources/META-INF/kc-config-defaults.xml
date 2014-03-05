@@ -146,8 +146,6 @@
 	<!-- User the kc batch jobs run as -->
 	<param name="batchJobUserName">kc</param>
 	
-	<param name="documentSearch.resultProcessor.class.name">org.kuali.kra.proposaldevelopment.document.search.ProposalDocumentSearchResultProcessor</param>
-
 	<!-- Notification mail properties-->
 	<param name="mail.from">mail.from@kuali.org</param>
 	<param name="mail.transport.protocol">smtp</param>

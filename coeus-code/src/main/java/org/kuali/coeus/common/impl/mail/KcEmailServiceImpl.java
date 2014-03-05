@@ -23,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.mail.EmailAttachment;
 import org.kuali.coeus.common.framework.mail.KcEmailService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,6 +50,10 @@ public class KcEmailServiceImpl implements KcEmailService {
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("kualiConfigurationService")
+    private ConfigurationService configurationService;
 
     public void sendEmail(String from, Set<String> toAddresses, String subject, Set<String> ccAddresses,
                           Set<String> bccAddresses, String body, boolean htmlMessage) {
@@ -173,13 +177,15 @@ public class KcEmailServiceImpl implements KcEmailService {
     public String getDefaultFromAddress() {
         String fromAddress = parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATION_FROM_ADDRESS");
-        return fromAddress!=null?fromAddress:ConfigContext.getCurrentContextConfig().getProperties().getProperty("mail.from");
+        return fromAddress!=null?fromAddress:configurationService.getPropertyValueAsString("mail.from");
     }
 
     public void setMailSender(JavaMailSenderImpl mailSender) {
     	this.mailSender = mailSender;
     }
-    
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
     public JavaMailSenderImpl getMailSender() {
     	return mailSender;
     }
