@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.framework.controller.interceptor;
+package org.kuali.kra.multicampus;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.MultiCampusIdentityService;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.location.api.campus.CampusContract;
-import org.kuali.rice.location.impl.campus.CampusBo;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.api.services.LocationApiServiceLocator;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -42,18 +40,19 @@ public class MultiCampusDummyLoginFilter implements Filter {
     
     private String loginPath;
     private boolean showPassword = false;
-    private List<CampusContract> campuses;
+    private List<Campus> campuses;
+
+    @Override
     public void init(FilterConfig config) throws ServletException {
-        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        
         loginPath = config.getInitParameter("loginPath");
-        showPassword = new Boolean(config.getInitParameter("showPassword"));
-        campuses = new ArrayList<CampusContract>(businessObjectService.findAll(CampusBo.class));
+        showPassword = Boolean.valueOf(config.getInitParameter("showPassword"));
+        campuses = new ArrayList<Campus>(getCampusService().findAllCampuses());
         if (loginPath == null) {
             loginPath = "/WEB-INF/jsp/multicampus_dummy_login.jsp";
         }
     }
 
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (request instanceof HttpServletRequest) {
             HttpServletRequest hsreq = (HttpServletRequest) request;
@@ -62,18 +61,17 @@ public class MultiCampusDummyLoginFilter implements Filter {
                 session = (UserSession) hsreq.getSession().getAttribute(KRADConstants.USER_SESSION_KEY);
             }
             if (session == null) {
-                IdentityService auth = KimApiServiceLocator.getIdentityService();
-                MultiCampusIdentityService multiCampusAuth = KcServiceLocator.getService(MultiCampusIdentityService.class);
+                IdentityService auth = getIdentityService();
                 request.setAttribute("showPasswordField", showPassword);
                 request.setAttribute("campuses", campuses);
                 final String user = request.getParameter("__login_user");
                 final String password = request.getParameter("__login_pw");
                 final String campusCode = request.getParameter("__login_campusCode");
                 
-                final String multiCampusUser = multiCampusAuth.getMultiCampusPrincipalName(user, campusCode);
+                final String multiCampusUser = getMultiCampusIdentityService().getMultiCampusPrincipalName(user, campusCode);
                 if (user != null) {
                     // Very simple password checking. Nothing hashed or encrypted. This is strictly for demonstration purposes only.
-                    final PrincipalContract principal = showPassword ? auth.getPrincipalByPrincipalNameAndPassword(multiCampusUser, password) 
+                    final Principal principal = showPassword ? auth.getPrincipalByPrincipalNameAndPassword(multiCampusUser, password)
                                                                 : auth.getPrincipalByPrincipalName(multiCampusUser);
                     if (principal == null) {
                         handleInvalidLogin(request, response);  
@@ -86,7 +84,7 @@ public class MultiCampusDummyLoginFilter implements Filter {
                                 return multiCampusUser;
                             } 
                         };
-                        hsreq.getSession().setAttribute(Constants.USER_CAMPUS_CODE_KEY, campusCode);
+                        hsreq.getSession().setAttribute(MultiCampusConstants.USER_CAMPUS_CODE_KEY, campusCode);
                     }
                 } else {
                     // no session has been established and this is not a login form submission, so forward to login page
@@ -111,6 +109,19 @@ public class MultiCampusDummyLoginFilter implements Filter {
         request.getRequestDispatcher(loginPath).forward(request, response);
     }
 
+    @Override
     public void destroy() {
+    }
+
+    protected CampusService getCampusService() {
+        return LocationApiServiceLocator.getCampusService();
+    }
+
+    protected MultiCampusIdentityService getMultiCampusIdentityService() {
+        return KcServiceLocator.getService(MultiCampusIdentityService.class);
+    }
+
+    protected IdentityService getIdentityService() {
+        return KimApiServiceLocator.getIdentityService();
     }
 }
