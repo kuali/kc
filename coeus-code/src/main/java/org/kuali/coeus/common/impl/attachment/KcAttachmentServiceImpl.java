@@ -18,19 +18,28 @@ package org.kuali.coeus.common.impl.attachment;
 import org.kuali.coeus.common.framework.attachment.KcAttachment;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Resource;
+
 /**
  * KC Attachment Service Implementation.
  */
+@Component("kcAttachmentService")
 public class KcAttachmentServiceImpl implements KcAttachmentService {
     
-    private Map<String, String> mimeTypeIcons;
-    private String defaultIcon;
-   
+	private static final String DEFAULT_ICON = "default";
+
+	@Resource(name="kcAttachmentMimeTypeIcons")
+    private Map<String, String> kcAttachmentMimeTypeIcons;
+
     private static final String REPLACEMENT_CHARACTER = "_";
     //Exclude everything but numbers, alphabets, dots, hyphens and underscores
     private static final String REGEX_TITLE_FILENAME_PATTERN = "([^0-9a-zA-Z\\.\\-_])";
@@ -45,28 +54,23 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
     public String getFileTypeIcon(KcAttachment attachment) {
         String iconPath = getMimeTypeIcons().get(attachment.getType());
         if (iconPath == null) {
-            return getDefaultIcon();
+            return kcAttachmentMimeTypeIcons.get(DEFAULT_ICON);
         } else {
             return iconPath;
         }
     }
 
     protected Map<String, String> getMimeTypeIcons() {
-        return mimeTypeIcons;
+        return kcAttachmentMimeTypeIcons;
     }
 
     public void setMimeTypeIcons(Map<String, String> mimeTypeIcons) {
-        this.mimeTypeIcons = mimeTypeIcons;
+        this.kcAttachmentMimeTypeIcons = mimeTypeIcons;
     }
 
     protected String getDefaultIcon() {
-        return defaultIcon;
+        return kcAttachmentMimeTypeIcons.get(DEFAULT_ICON);
     }
-
-    public void setDefaultIcon(String defaultIcon) {
-        this.defaultIcon = defaultIcon;
-    }
-    
     
     public String getInvalidCharacters(String text) {
         if (ObjectUtils.isNotNull(text)) {
