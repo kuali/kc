@@ -19,7 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.MultiCampusIdentityService;
+import org.kuali.kra.multicampus.MultiCampusConstants;
+import org.kuali.kra.multicampus.MultiCampusIdentityService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -58,7 +59,7 @@ public class KcPersonServiceImpl implements KcPersonService {
      */
     public void modifyFieldValues(final Map<String, String> fieldValues) {
         boolean multiCampusEnabled = parameterService.getParameterValueAsBoolean(
-                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, MultiCampusConstants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         //convert username and kcpersonid to proper naming such the person service can use them
         if (StringUtils.isNotBlank(fieldValues.get("userName"))){
@@ -95,10 +96,10 @@ public class KcPersonServiceImpl implements KcPersonService {
         }
         
         boolean multiCampusEnabled = parameterService.getParameterValueAsBoolean(
-                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, MultiCampusConstants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         if (multiCampusEnabled) {
-            String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
+            String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(MultiCampusConstants.USER_CAMPUS_CODE_KEY);
             String multiCampusUserName = this.multiCampusIdentityService.getMultiCampusPrincipalName(userName, campusCode);
             EntityContract entity = this.identityService.getEntityByPrincipalName(multiCampusUserName);
             if (entity != null) {

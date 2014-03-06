@@ -13,32 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.kra.multicampus;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
-import org.kuali.kra.service.MultiCampusIdentityService;
+import org.kuali.kra.multicampus.MultiCampusIdentityService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliationContract;
 import org.kuali.rice.kim.api.identity.entity.EntityContract;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component("multiCampusIdentityService")
 public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityService {
-    
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("identityService")
     private IdentityService identityService;
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.service.MultiCampusIdentityService#getMultiCampusPrincipalName(java.lang.String, java.lang.String)
-     */
+
+    @Override
     public String getMultiCampusPrincipalName(String principalName, String campusCode) {
         String result = principalName;
         
@@ -71,9 +76,6 @@ public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityServic
     }
 
     public BusinessObjectService getBusinessObjectService() {
-        if (businessObjectService == null) {
-            businessObjectService = KNSServiceLocator.getBusinessObjectService();
-        }
         return businessObjectService;
     }
 
@@ -82,9 +84,6 @@ public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityServic
     }
 
     public IdentityService getIdentityService() {
-        if (identityService == null) {
-            identityService = KimApiServiceLocator.getIdentityService();
-        }
         return identityService;
     }
 

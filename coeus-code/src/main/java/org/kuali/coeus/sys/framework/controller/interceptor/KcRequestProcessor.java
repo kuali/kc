@@ -16,8 +16,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.multicampus.MultiCampusConstants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
@@ -49,8 +49,8 @@ public class KcRequestProcessor extends KualiRequestProcessor {
     protected boolean processPreprocess(HttpServletRequest request, HttpServletResponse response) {
         super.processPreprocess(request, response);
         
-        Object campusCode = request.getSession().getAttribute(Constants.USER_CAMPUS_CODE_KEY);
-        GlobalVariables.getUserSession().addObject(Constants.USER_CAMPUS_CODE_KEY, campusCode);
+        Object campusCode = request.getSession().getAttribute(MultiCampusConstants.USER_CAMPUS_CODE_KEY);
+        GlobalVariables.getUserSession().addObject(MultiCampusConstants.USER_CAMPUS_CODE_KEY, campusCode);
         
         return true;
     }

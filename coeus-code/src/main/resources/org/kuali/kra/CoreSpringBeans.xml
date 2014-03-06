@@ -33,7 +33,8 @@
     <context:component-scan base-package="org.kuali.coeus.common.impl.rolodex"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl.person"/>
 	<context:component-scan base-package="org.kuali.kra.service.impl"/>
-	
+    <context:component-scan base-package="org.kuali.kra.multicampus"/>
+
 	<context:component-scan base-package="org.kuali.coeus.common.notification.impl.service.impl"/>
 	
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -69,6 +70,7 @@
             <list>
                 <!--<value>classpath:org/kuali/kra/datadictionary</value>-->
                 <!--<value>classpath:org/kuali/kra/datadictionary/docs</value>-->
+                <value>classpath:org/kuali/coeus/sys/impl/lock/PessimisticLockOverride.xml</value>
 
                 <value>classpath:org/kuali/kra/datadictionary/AbstractType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AccountType.xml</value>
@@ -1139,11 +1141,6 @@
     <bean id="xmlObjectSerializerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="xmlObjectSerializerService" />
     </bean>
-
-    <bean id="multiCampusIdentityService" class="org.kuali.kra.service.impl.MultiCampusIdentityServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="identityService" ref="identityService" />
-    </bean>
     
     <bean id="functionRepositoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="functionRepositoryService" />
@@ -1841,5 +1838,21 @@
     <bean id="sponsorCodeIncrementer" class="org.kuali.rice.krad.data.platform.MaxValueIncrementerFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="incrementerName" value="SEQ_SPONSOR_CODE" />
+    </bean>
+
+    <bean id="multiCampusAwarePessimisticLockLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.coeus.sys.impl.lock.KcPessimisticLockLookupableHelperServiceImpl">
+                <property name="persistenceStructureService" ref="persistenceStructureService" />
+                <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
+                <property name="dataDictionaryService" ref="dataDictionaryService" />
+                <property name="encryptionService" ref="encryptionService" />
+                <property name="lookupService" ref="lookupService" />
+                <property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
+                <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+                <property name="businessObjectService" ref="businessObjectService" />
+                <property name="lookupResultsService" ref="lookupResultsService" />
+            </bean>
+        </property>
     </bean>
 </beans>
