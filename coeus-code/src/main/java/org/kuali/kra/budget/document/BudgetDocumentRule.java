@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.document;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.audit.ResearchDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
 import org.kuali.kra.award.budget.AwardBudgeCostTotalAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetCostLimitAuditRule;
@@ -416,7 +416,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         
-        retval &= new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
+        retval &= new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
 
         retval &= new BudgetPeriodAuditRule().processRunAuditBusinessRules(document);
         

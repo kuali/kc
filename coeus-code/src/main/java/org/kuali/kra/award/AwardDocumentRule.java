@@ -16,7 +16,7 @@
 package org.kuali.kra.award;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.audit.ResearchDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles;
 import org.kuali.coeus.common.permissions.impl.rule.PermissionsRule;
@@ -477,7 +477,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         
-        retval &= new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
+        retval &= new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardReportAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardTermsAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardPaymentAndInvoicesAuditRule().processRunAuditBusinessRules(document);

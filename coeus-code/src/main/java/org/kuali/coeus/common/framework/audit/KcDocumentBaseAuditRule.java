@@ -24,7 +24,7 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 /**
  * This class processes audit rules (warnings) for various KcTransactionalDocument extensions
  */
-public class ResearchDocumentBaseAuditRule implements DocumentAuditRule {
+public class KcDocumentBaseAuditRule implements DocumentAuditRule {
 
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;

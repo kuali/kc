@@ -16,7 +16,7 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.audit.ResearchDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -384,7 +384,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         }
         boolean retval = true;
         
-        retval &= new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
+        retval &= new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
         
         retval &= new ProposalDevelopmentProposalRequiredFieldsAuditRule().processRunAuditBusinessRules(document);
         

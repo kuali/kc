@@ -26,7 +26,7 @@ import org.kuali.coeus.common.committee.impl.rule.AddCommitteeMembershipRoleRule
 import org.kuali.coeus.common.committee.impl.rule.AddCommitteeMembershipRule;
 import org.kuali.coeus.common.committee.impl.rule.event.*;
 import org.kuali.coeus.common.committee.impl.rule.event.CommitteeScheduleEventBase.ErrorType;
-import org.kuali.coeus.common.framework.audit.ResearchDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
@@ -621,7 +621,7 @@ public abstract class CommitteeDocumentRuleBase extends KcTransactionalDocumentR
 
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
-        return new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
+        return new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
     }
     
     /**
