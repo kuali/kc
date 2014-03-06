@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.multicampus.MultiCampusConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -47,7 +48,7 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
         List<Row> rows = super.getRows();
         
         boolean multiCampusEnabled = getParameterService().getParameterValueAsBoolean(
-            Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+            Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, MultiCampusConstants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         for (Row row : rows) {
             for (Field field : row.getFields()) {
@@ -59,7 +60,7 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
                     field.setFieldDirectInquiryEnabled(true);
                     if (multiCampusEnabled) {
                         if (StringUtils.isBlank(field.getDefaultValue())) {
-                            String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
+                            String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(MultiCampusConstants.USER_CAMPUS_CODE_KEY);
                             field.setDefaultValue(campusCode);
                             field.setPropertyValue(field.getDefaultValue());
                         }

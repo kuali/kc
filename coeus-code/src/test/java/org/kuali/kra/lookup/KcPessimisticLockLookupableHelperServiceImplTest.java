@@ -18,22 +18,23 @@ package org.kuali.kra.lookup;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.impl.lock.KcPessimisticLockLookupableHelperServiceImpl;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Tests the {@link KraPessimisticLockLookupableHelperServiceImpl KraPessimisticLockLookupableHelperServiceImpl} class.
+ * Tests the {@link org.kuali.coeus.sys.impl.lock.KcPessimisticLockLookupableHelperServiceImpl KcPessimisticLockLookupableHelperServiceImpl} class.
  */
-public class KraPessimisticLockLookupableHelperServiceImplTest {
+public class KcPessimisticLockLookupableHelperServiceImplTest {
     
-    private KraPessimisticLockLookupableHelperServiceImpl lockService;
+    private KcPessimisticLockLookupableHelperServiceImpl lockService;
     private Method addSingleDayDateRange;
     
     @Before
     public void setupService() throws Exception {
-        this.lockService = new KraPessimisticLockLookupableHelperServiceImpl();
+        this.lockService = new KcPessimisticLockLookupableHelperServiceImpl();
         this.addSingleDayDateRange = this.lockService.getClass().getDeclaredMethod("addSingleDayDateRange", Map.class);
         this.addSingleDayDateRange.setAccessible(true);
     }
