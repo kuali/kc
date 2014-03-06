@@ -102,10 +102,4 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         return personDivisionName;
     }
 
-    @Override
-    public String getNewStateList(String countryCode) {
-        List<KeyValue> values = KcStateValuesFinder.getKeyValues(countryCode.trim());
-        return ValuesFinderUtils.processKeyValueList(values);
-    }
-
 }
