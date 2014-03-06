@@ -296,4 +296,23 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor> 
+	
+	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardCostType" table="SUBCONTRACT_COST_TYPE">
+		<field-descriptor name="costTypeCode" column="COST_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="costTypeDescription" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor> 
+	
+	 
+     <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardCopyRightsType" table="SUBCONTRACT_COPYRIGHT_TYPE">
+		<field-descriptor name="copyRightTypeCode" column="COPYRIGHT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="copyRightTypeDescription" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor> 
 </descriptor-repository>
