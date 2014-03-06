@@ -1840,7 +1840,7 @@
         <property name="incrementerName" value="SEQ_SPONSOR_CODE" />
     </bean>
 
-    <bean id="multiCampusAwarePessimisticLockLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="kcPessimisticLockLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <bean class="org.kuali.coeus.sys.impl.lock.KcPessimisticLockLookupableHelperServiceImpl">
                 <property name="persistenceStructureService" ref="persistenceStructureService" />
