@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.framework.audit.ResearchDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocValue;
@@ -44,9 +44,9 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 /**
- * This class tests the ResearchDocumentBaseAuditRule class
+ * This class tests the KcDocumentBaseAuditRule class
  */
-public class ResearchDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
+public class KcDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
 
     private static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "123456";
     private static final String DEFAULT_PROPOSAL_TITLE = "Project title";
@@ -55,7 +55,7 @@ public class ResearchDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
     private static final String PROPOSAL_TYPE_NEW = "1";
 
     private DocumentService documentService = null;
-    private ResearchDocumentBaseAuditRule auditRule = null;
+    private KcDocumentBaseAuditRule auditRule = null;
 
     private Date defaultProposalRequestedStartDate = null;
     private Date defaultProposalRequestedEndDate = null;
@@ -66,7 +66,7 @@ public class ResearchDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         KNSGlobalVariables.setAuditErrorMap(new HashMap());
         documentService = KRADServiceLocatorWeb.getDocumentService();
-        auditRule = new ResearchDocumentBaseAuditRule();
+        auditRule = new KcDocumentBaseAuditRule();
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         defaultProposalRequestedStartDate = new Date(dateFormat.parse("08/14/2007").getTime());
         defaultProposalRequestedEndDate = new Date(dateFormat.parse("08/21/2007").getTime());

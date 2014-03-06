@@ -17,7 +17,7 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.audit.ResearchDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
 import org.kuali.coeus.common.permissions.impl.web.bean.User;
@@ -146,7 +146,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     @Override
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;  
-        retval &= new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
+        retval &= new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
         retval &= getNewProtocolFundingSourceAuditRuleInstanceHook().processRunAuditBusinessRules((ProtocolDocumentBase) document);         
         retval &= getNewProtocolResearchAreaAuditRuleInstanceHook().processRunAuditBusinessRules((ProtocolDocumentBase) document);
         retval &= getNewProtocolPersonnelAuditRuleInstanceHook().processRunAuditBusinessRules(document);
