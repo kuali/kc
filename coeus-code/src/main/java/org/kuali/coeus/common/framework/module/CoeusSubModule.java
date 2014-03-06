@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.module;
 
 
-import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public class CoeusSubModule extends KcPersistableBusinessObjectBase {

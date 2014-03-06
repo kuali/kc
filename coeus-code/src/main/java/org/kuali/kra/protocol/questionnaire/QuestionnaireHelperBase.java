@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol.questionnaire;
 
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
