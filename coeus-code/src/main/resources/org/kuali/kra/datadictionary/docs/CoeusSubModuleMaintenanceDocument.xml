@@ -2,7 +2,7 @@
 
     <bean id="CoeusSubModuleMaintenanceDocument" parent="CoeusSubModuleMaintenanceDocument-parentBean" />
     <bean id="CoeusSubModuleMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.CoeusSubModule" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.module.CoeusSubModule" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>

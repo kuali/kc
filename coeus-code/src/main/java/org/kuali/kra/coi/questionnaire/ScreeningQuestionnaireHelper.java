@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.questionnaire;
 
-import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 

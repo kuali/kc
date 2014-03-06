@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.common.printing;
 
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;

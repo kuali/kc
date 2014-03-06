@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
+import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
-import org.kuali.kra.service.VersionException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;

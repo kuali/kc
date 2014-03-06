@@ -21,11 +21,11 @@ import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeResearchAreaBase;
+import org.kuali.coeus.common.framework.version.VersioningService;
+import org.kuali.coeus.common.impl.version.VersioningServiceImpl;
 import org.kuali.kra.committee.bo.*;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.service.VersioningService;
-import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;

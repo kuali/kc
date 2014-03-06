@@ -29,9 +29,12 @@
     <context:annotation-config />
     <!--<context:component-scan base-package="org.kuali.coeus.sys" />-->
 
+    <!-- TODO: Consolidate these... i.e. <context:component-scan base-package="org.kuali.coeus.common.impl"/>  -->
+    <!-- Currently adding only fully annotated services -->
     <context:component-scan base-package="org.kuali.coeus.common.impl.mail"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl.rolodex"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl.person"/>
+    <context:component-scan base-package="org.kuali.coeus.common.impl.version"/>
 	<context:component-scan base-package="org.kuali.kra.service.impl"/>
 	
 	<context:component-scan base-package="org.kuali.coeus.common.notification.impl.service.impl"/>
@@ -1630,8 +1633,6 @@
           p:callbackService-ref="unitRoleTypeService"
           p:localServiceName="unitRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />  
-    
-    <bean id="versioningService" class="org.kuali.kra.service.impl.VersioningServiceImpl" />
     
     <bean id="versionHistoryService" class="org.kuali.kra.service.impl.VersionHistoryServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />

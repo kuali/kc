@@ -16,8 +16,8 @@
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
