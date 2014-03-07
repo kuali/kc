@@ -761,7 +761,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.AttachmentFile" table="ATTACHMENT_FILE">
+	<class-descriptor class="org.kuali.coeus.common.framework.attachment.AttachmentFile" table="ATTACHMENT_FILE">
 		<field-descriptor name="id" column="FILE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_ATTACHMENT_ID" autoincrement="true"/>
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="name" column="FILE_NAME" jdbc-type="VARCHAR" />

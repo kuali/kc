@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.rules;
+package org.kuali.coeus.common.framework.audit;
 
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.rule.event.AuditCustomDataEvent;
+import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 /**
- * This class processes audit rules (warnings) for the Sponsor & Program Information related
- * data of the ProposalDevelopmenDocument.
+ * This class processes audit rules (warnings) for various KcTransactionalDocument extensions
  */
-public class ResearchDocumentBaseAuditRule implements DocumentAuditRule {
+public class KcDocumentBaseAuditRule implements DocumentAuditRule {
 
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;

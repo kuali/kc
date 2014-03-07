@@ -16,6 +16,7 @@
 package org.kuali.kra.award;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.home.Award;
@@ -24,7 +25,6 @@ import org.kuali.kra.bo.AbstractUnitAdministrator;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.kim.service.impl.AbstractUnitAdministratorDerivedRoleTypeService;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
 
 import java.util.ArrayList;

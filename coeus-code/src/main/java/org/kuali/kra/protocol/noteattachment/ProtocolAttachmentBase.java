@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol.noteattachment;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.ProtocolBase;
 

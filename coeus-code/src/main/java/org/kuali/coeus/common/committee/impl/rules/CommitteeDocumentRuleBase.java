@@ -26,6 +26,8 @@ import org.kuali.coeus.common.committee.impl.rule.AddCommitteeMembershipRoleRule
 import org.kuali.coeus.common.committee.impl.rule.AddCommitteeMembershipRule;
 import org.kuali.coeus.common.committee.impl.rule.event.*;
 import org.kuali.coeus.common.committee.impl.rule.event.CommitteeScheduleEventBase.ErrorType;
+import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -34,8 +36,6 @@ import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -621,7 +621,7 @@ public abstract class CommitteeDocumentRuleBase extends KcTransactionalDocumentR
 
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
-        return new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
+        return new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
     }
     
     /**
