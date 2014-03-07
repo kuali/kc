@@ -1718,7 +1718,7 @@
                 <bean class="org.kuali.kra.award.authorizer.CreateAwardAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createAward" />
                 </bean>
-                <bean class="org.kuali.kra.authorizer.CreateTimeAndMoneyAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.timeandmoney.authorizer.CreateTimeAndMoneyAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createTimeAndMoney" />
                 </bean>
                 <bean class="org.kuali.kra.subaward.authorizer.CreateSubAwardAuthorizer" parent="parentAuthorizer">
