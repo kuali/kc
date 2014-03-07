@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.kim.service.impl;
+package org.kuali.kra.iacuc.kim.service.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.personnel.IacucProtocolAffiliationType;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class IacucProtocolPersonnelDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
+public class IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
     protected List<String> requiredAttributes = new ArrayList<String>();
     {
@@ -46,14 +46,13 @@ public class IacucProtocolPersonnelDerivedRoleTypeServiceImpl extends DerivedRol
         List<RoleMembership> members = new ArrayList<RoleMembership>();
 
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);       
-        ProtocolBase protocol = getProtocol(protocolNumber);
+        IacucProtocol protocol = getProtocol(protocolNumber);
         
         if (protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons())) {
             for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
-                if (StringUtils.equals(person.getProtocolPersonRoleId(), roleName) &&
+                if (StringUtils.equals(getAffiliationType(person.getAffiliationType().getAffiliationTypeCode()), roleName) &&
                     StringUtils.isNotBlank(person.getPerson().getPersonId())) {
                     members.add(RoleMembership.Builder.create(null, null, person.getPerson().getPersonId(), MemberType.PRINCIPAL, null).build());
-    
                 }
             }
         }
@@ -68,13 +67,13 @@ public class IacucProtocolPersonnelDerivedRoleTypeServiceImpl extends DerivedRol
         
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
         
-        ProtocolBase protocol = getProtocol(protocolNumber);
+        IacucProtocol protocol = getProtocol(protocolNumber);
 
         if (protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons())) {
             for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
                 //Find protocol person that matches the principal id
                 if (StringUtils.equals(principalId, person.getPersonId())) {
-                    if (StringUtils.equals(roleName, person.getProtocolPersonRoleId())) {
+                    if (StringUtils.equals(roleName, getAffiliationType(person.getAffiliationType().getAffiliationTypeCode()))) {
                         return true;
                     }
                 }
@@ -84,10 +83,25 @@ public class IacucProtocolPersonnelDerivedRoleTypeServiceImpl extends DerivedRol
         return false;
     }
     
-    private ProtocolBase getProtocol(String protocolNumber) {
+    private IacucProtocol getProtocol(String protocolNumber) {
         Map<String,Object> keymap = new HashMap<String,Object>();
         keymap.put("protocolNumber", protocolNumber);
-        return (ProtocolBase) getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, keymap);
+        return (IacucProtocol) getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, keymap);
+    }
+
+    private String getAffiliationType(Integer affiliationTypeCode) {
+        String result = null;
+        
+        if (affiliationTypeCode != null) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("affiliationTypeCode", affiliationTypeCode.toString());
+            List<IacucProtocolAffiliationType> affiliationTypes = 
+                (List<IacucProtocolAffiliationType>) getBusinessObjectService().findMatching(IacucProtocolAffiliationType.class, fieldValues);
+            if (CollectionUtils.isNotEmpty(affiliationTypes)) {
+                result = affiliationTypes.get(0).getDescription();
+            }
+        }
+        return result;        
     }
     
     /*

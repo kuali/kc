@@ -17,7 +17,7 @@ package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.IacucOrganizationCorrespondent;
+import org.kuali.kra.iacuc.bo.IacucOrganizationCorrespondent;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationCorrespondent;
 import org.kuali.kra.service.OrganizationService;

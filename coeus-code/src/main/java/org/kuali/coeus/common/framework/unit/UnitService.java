@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.framework.unit;
 
-import org.kuali.kra.bo.IacucUnitCorrespondent;
+import org.kuali.kra.iacuc.bo.IacucUnitCorrespondent;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitCorrespondent;

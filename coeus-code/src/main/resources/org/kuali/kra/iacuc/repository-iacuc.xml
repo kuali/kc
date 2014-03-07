@@ -1659,7 +1659,7 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.IacucOrganizationCorrespondent" table="IACUC_ORG_CORRESPONDENT">
+	<class-descriptor class="org.kuali.kra.iacuc.bo.IacucOrganizationCorrespondent" table="IACUC_ORG_CORRESPONDENT">
 		<field-descriptor name="correspondentId" column="CORRESPONDENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_ORG_CORRESP_ID" autoincrement="true" />
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="correspondentTypeCode" column="CORRESPONDENT_TYPE_CODE" jdbc-type="INTEGER" />
@@ -1678,7 +1678,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.IacucUnitCorrespondent" table="IACUC_UNIT_CORRESPONDENT">
+	<class-descriptor class="org.kuali.kra.iacuc.bo.IacucUnitCorrespondent" table="IACUC_UNIT_CORRESPONDENT">
 		<field-descriptor name="correspondentId" column="CORRESPONDENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_UNIT_CORRESP_ID" autoincrement="true" />
 		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="correspondentTypeCode" column="CORRESPONDENT_TYPE_CODE" jdbc-type="INTEGER" />

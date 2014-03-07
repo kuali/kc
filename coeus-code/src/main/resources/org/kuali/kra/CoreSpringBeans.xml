@@ -1712,7 +1712,7 @@
                 <bean class="org.kuali.kra.authorizer.CreateCommitteeAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="addCommittee" />
                 </bean>
-                <bean class="org.kuali.kra.authorizer.CreateIacucCommitteeAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.iacuc.authorizer.CreateIacucCommitteeAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="addIacucCommittee" />
                 </bean>
                 <bean class="org.kuali.kra.authorizer.CreateAwardAuthorizer" parent="parentAuthorizer">
@@ -1728,7 +1728,7 @@
                     <property name="taskName" value="createCoiDisclosure" />
                     <property name="coiDisclosureService" ref="coiDisclosureService" />
                 </bean>
-                <bean class="org.kuali.kra.authorizer.CreateIacucProtocolAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.iacuc.authorizer.CreateIacucProtocolAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createIacucProtocol" />
                 </bean>
                 <bean class="org.kuali.kra.authorizer.CreateNegotiationAuthorizer" parent="parentAuthorizer">
@@ -1737,7 +1737,7 @@
                 <bean class="org.kuali.kra.authorizer.CreateResearchAreaAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="maintainResearchAreas" />
                 </bean>                
-                <bean class="org.kuali.kra.authorizer.CreateIacucResearchAreaAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.iacuc.authorizer.CreateIacucResearchAreaAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="maintainIacucResearchAreas" />
                 </bean>                
                 <bean class="org.kuali.kra.authorizer.ViewCoiUndisclosedEventsAuthorizer" parent="parentAuthorizer">
