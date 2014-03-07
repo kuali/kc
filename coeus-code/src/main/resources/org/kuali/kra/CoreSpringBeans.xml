@@ -1724,7 +1724,7 @@
                 <bean class="org.kuali.kra.authorizer.CreateSubAwardAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createSubaward" />
                 </bean>
-                <bean class="org.kuali.kra.authorizer.CreateCoiDisclosureAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.coi.authorizer.CreateCoiDisclosureAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createCoiDisclosure" />
                     <property name="coiDisclosureService" ref="coiDisclosureService" />
                 </bean>
@@ -1740,10 +1740,10 @@
                 <bean class="org.kuali.kra.authorizer.CreateIacucResearchAreaAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="maintainIacucResearchAreas" />
                 </bean>                
-                <bean class="org.kuali.kra.authorizer.ViewCoiUndisclosedEventsAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.coi.authorizer.ViewCoiUndisclosedEventsAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="viewCoiUndisclosedEvents" />
                 </bean>
-                <bean class="org.kuali.kra.authorizer.LookupCoiDisclosuresAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.coi.authorizer.LookupCoiDisclosuresAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="lookupCoiDisclosures" />
                 </bean>                                
             </list>
