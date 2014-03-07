@@ -16,7 +16,6 @@
 package org.kuali.kra.s2s.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.S2sRevisionType;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
