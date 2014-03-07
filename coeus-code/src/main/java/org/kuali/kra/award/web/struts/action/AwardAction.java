@@ -71,6 +71,7 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.history.TransactionDetailType;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
+import org.kuali.kra.timeandmoney.service.TimeAndMoneyExistenceService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;

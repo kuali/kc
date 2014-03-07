@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.kra.timeandmoney.service.impl;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.service.TimeAndMoneyExistenceService;
+import org.kuali.kra.timeandmoney.service.TimeAndMoneyExistenceService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
