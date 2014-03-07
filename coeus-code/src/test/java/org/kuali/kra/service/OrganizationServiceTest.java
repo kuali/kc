@@ -22,7 +22,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.kra.bo.Organization;
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.kra.service.impl.OrganizationServiceImpl;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

@@ -80,9 +80,9 @@
                   				onblur="loadOrganizationName('document.subAwardList[0].organizationId', 'sub.organizationName');" 
                   				attributeEntry="${subAwardAttributes.organizationId}" />
                   <c:if test="${!readOnly}">
-                  	<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationId:document.subAwardList[0].organizationId,organizationName:document.subAwardList[0].organization.organizationName" anchor="${tabKey}" />
+                  	<kul:lookup boClassName="org.kuali.coeus.common.framework.org.Organization" fieldConversions="organizationId:document.subAwardList[0].organizationId,organizationName:document.subAwardList[0].organization.organizationName" anchor="${tabKey}" />
             	  </c:if>	
-            	  	<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.subAwardList[0].organizationId:organizationId" anchor="${tabKey}" /> 
+            	  	<kul:directInquiry boClassName="org.kuali.coeus.common.framework.org.Organization" inquiryParameters="document.subAwardList[0].organizationId:organizationId" anchor="${tabKey}" /> 
                  
                 <div id="sub.organizationName.div">${KualiForm.document.subAwardList[0].organization.organizationName}&nbsp;</div>
                  <c:if test="${readOnly}"><html:hidden styleId ="sub.organizationName" property="document.subAwardList[0].organizationId" /></c:if>            		

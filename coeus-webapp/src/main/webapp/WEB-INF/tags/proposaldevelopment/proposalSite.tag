@@ -143,7 +143,7 @@
                     <%-- The lookup control --%>
                     <kra:section permission="modifyProposal">
                         <c:if test="${addressSelectable}">
-                            <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
+                            <kul:lookup boClassName="org.kuali.coeus.common.framework.org.Organization" 
                                 fieldConversions="organizationId:${proposalSiteBoName}.organizationId,organizationName:${proposalSiteBoName}.locationName,address:${proposalSiteBoName}.organization.address,congressionalDistrict:${proposalSiteBoName}.defaultCongressionalDistrictIdentifier"
                                 anchor="${currentTabIndex}" />
                         </c:if>
@@ -151,7 +151,7 @@
                             type="hidden" name="${proposalSiteBoName}_organizationId"
                             value="${proposalSiteBo.organizationId}" />
                         <kul:directInquiry
-                            boClassName="org.kuali.kra.bo.Organization"
+                            boClassName="org.kuali.coeus.common.framework.org.Organization"
                             inquiryParameters="${proposalSiteBoName}_organizationId:organizationId"
                             anchor="${currentTabIndex}" />
                     </kra:section>

@@ -693,7 +693,7 @@
         <reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
-        <reference-descriptor name="organization" proxy="false" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="false">
+        <reference-descriptor name="organization" proxy="false" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="false">
             <foreignkey field-ref="organizationId"/>
         </reference-descriptor>
         

@@ -1040,7 +1040,7 @@
 			<inverse-foreignkey field-ref="budgetId"/>
 			<inverse-foreignkey field-ref="subAwardNumber"/>
 		</collection-descriptor>
-        <reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="organizationId" />
         </reference-descriptor>	
 		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
