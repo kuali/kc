@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.web.struts.form;
 
-import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;

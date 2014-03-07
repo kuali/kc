@@ -17,13 +17,13 @@ package org.kuali.kra.service.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.IacucUnitCorrespondent;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitCorrespondent;
 import org.kuali.kra.dao.UnitLookupDao;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -47,7 +47,7 @@ public class UnitServiceImpl implements UnitService {
     
     
     /**
-     * @see org.kuali.kra.service.UnitService#getUnitCaseInsensitive(java.lang.String)
+     * @see org.kuali.coeus.common.framework.unit.UnitService#getUnitCaseInsensitive(java.lang.String)
      */
     public Unit getUnitCaseInsensitive(String unitNumber){
         Unit unit = null;
@@ -60,7 +60,7 @@ public class UnitServiceImpl implements UnitService {
     
 
     /**
-     * @see org.kuali.kra.service.UnitService#getUnitName(java.lang.String)
+     * @see org.kuali.coeus.common.framework.unit.UnitService#getUnitName(java.lang.String)
      */
     public String getUnitName(String unitNumber) {
         String unitName = null;
@@ -77,14 +77,14 @@ public class UnitServiceImpl implements UnitService {
     }
 
     /**
-     * @see org.kuali.kra.service.UnitService#getUnits()
+     * @see org.kuali.coeus.common.framework.unit.UnitService#getUnits()
      */
     public Collection<Unit> getUnits() {
         return businessObjectService.findAll(Unit.class);
     }
 
     /**
-     * @see org.kuali.kra.service.UnitService#getUnit(java.lang.String)
+     * @see org.kuali.coeus.common.framework.unit.UnitService#getUnit(java.lang.String)
      */
     public Unit getUnit(String unitNumber) {
         Unit unit = null;
@@ -99,7 +99,7 @@ public class UnitServiceImpl implements UnitService {
     }
     
     /**
-     * @see org.kuali.kra.service.UnitService#getSubUnits(java.lang.String)
+     * @see org.kuali.coeus.common.framework.unit.UnitService#getSubUnits(java.lang.String)
      */
     public List<Unit> getSubUnits(String unitNumber) {
         List<Unit> units = new ArrayList<Unit>();
@@ -110,7 +110,7 @@ public class UnitServiceImpl implements UnitService {
     }
     
     /**
-     * @see org.kuali.kra.service.UnitService#getAllSubUnits(java.lang.String)
+     * @see org.kuali.coeus.common.framework.unit.UnitService#getAllSubUnits(java.lang.String)
      */
     public List<Unit> getAllSubUnits(String unitNumber) {
         List<Unit> units = new ArrayList<Unit>();
@@ -125,7 +125,7 @@ public class UnitServiceImpl implements UnitService {
     
     /**
      * 
-     * @see org.kuali.kra.service.UnitService#getUnitHierarchyForUnit(java.lang.String)
+     * @see org.kuali.coeus.common.framework.unit.UnitService#getUnitHierarchyForUnit(java.lang.String)
      */
     public List<Unit> getUnitHierarchyForUnit(String unitNumber) {
         List<Unit> units = new ArrayList<Unit>();
@@ -172,7 +172,7 @@ public class UnitServiceImpl implements UnitService {
     
     /**
      * 
-     * @see org.kuali.kra.service.UnitService#getSubUnitsForTreeView(java.lang.String)
+     * @see org.kuali.coeus.common.framework.unit.UnitService#getSubUnitsForTreeView(java.lang.String)
      */
     public String getSubUnitsForTreeView(String unitNumber) {
         // unitNumber will be like "<table width="600"><tr><td width="70%">BL-BL : BLOOMINGTON CAMPUS"
@@ -191,7 +191,7 @@ public class UnitServiceImpl implements UnitService {
     }
     
     /**
-     * @see org.kuali.kra.service.UnitService#getTopUnit()
+     * @see org.kuali.coeus.common.framework.unit.UnitService#getTopUnit()
      */
     public Unit getTopUnit() {
         Unit topUnit = null;
@@ -211,7 +211,7 @@ public class UnitServiceImpl implements UnitService {
     
     /**
      * TODO : still WIP.  cleanup b4 move to prod
-     * @see org.kuali.kra.service.UnitService#getInitialUnitsForUnitHierarchy()
+     * @see org.kuali.coeus.common.framework.unit.UnitService#getInitialUnitsForUnitHierarchy()
      * Basic data structure : Get the Top node to display.
      * The node data is like following : 'parentidx-unitNumber : unitName' and separated by ';1;'
      */
@@ -279,7 +279,7 @@ public class UnitServiceImpl implements UnitService {
     
     /**
      * 
-     * @see org.kuali.kra.service.UnitService#getMaxUnitTreeDepth()
+     * @see org.kuali.coeus.common.framework.unit.UnitService#getMaxUnitTreeDepth()
      */
     public int getMaxUnitTreeDepth() {
         /**
@@ -301,7 +301,7 @@ public class UnitServiceImpl implements UnitService {
     }
     
     /**
-     * @see org.kuali.kra.service.UnitService#retrieveUnitCorrespondentByUnitNumber(java.lang.String)
+     * @see org.kuali.coeus.common.framework.unit.UnitService#retrieveUnitCorrespondentByUnitNumber(java.lang.String)
      */
     @SuppressWarnings("unchecked")
     public List<UnitCorrespondent> retrieveUnitCorrespondentsByUnitNumber(String unitNumber) {
@@ -314,7 +314,7 @@ public class UnitServiceImpl implements UnitService {
     }
     
     /**
-     * @see org.kuali.kra.service.UnitService#retrieveIacucUnitCorrespondentByUnitNumber(java.lang.String)
+     * @see org.kuali.coeus.common.framework.unit.UnitService#retrieveIacucUnitCorrespondentByUnitNumber(java.lang.String)
      */
     @SuppressWarnings("unchecked")
     public List<IacucUnitCorrespondent> retrieveIacucUnitCorrespondentsByUnitNumber(String unitNumber) {

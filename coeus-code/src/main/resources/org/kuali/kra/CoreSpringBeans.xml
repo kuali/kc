@@ -35,11 +35,12 @@
     <context:component-scan base-package="org.kuali.coeus.common.impl.rolodex"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl.person"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl.version"/>
+    <context:component-scan base-package="org.kuali.coeus.common.impl.attachment"/>
 	<context:component-scan base-package="org.kuali.kra.service.impl"/>
     <context:component-scan base-package="org.kuali.kra.multicampus"/>
 
 	<context:component-scan base-package="org.kuali.coeus.common.notification.impl.service.impl"/>
-	
+
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
     </bean>
@@ -1287,22 +1288,18 @@
         </property>
     </bean>
 
-    <bean id="kcAttachmentService" class="org.kuali.kra.service.impl.KcAttachmentServiceImpl">
-        <property name="mimeTypeIcons">
-            <map>
-                <entry key="application/msword" value="static/images/word.gif" />
-                <entry key="application/vnd.openxmlformats-officedocument.wordprocessingml.document" value="static/images/word.gif" />
-                <entry key="application/vnd.ms-excel" value="static/images/xls.gif" />
-                <entry key="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" value="static/images/xls.gif" />
-                <entry key="application/pdf" value="static/images/epdf.gif" />
-                <entry key="text/xml" value="static/images/xml.gif" />
-                <entry key="application/xml" value="static/images/xml.gif" />
-            </map>
-        </property>
-        <property name="defaultIcon" value="static/images/ebinary_attachment.gif" />
-    </bean>
+    <!-- KcAttachmentServiceImpl's kcAttachmentMimeTypeIcons mapping -->
+    <util:map id="kcAttachmentMimeTypeIcons" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="application/msword" value="static/images/word.gif" />
+        <entry key="application/vnd.openxmlformats-officedocument.wordprocessingml.document" value="static/images/word.gif" />
+        <entry key="application/vnd.ms-excel" value="static/images/xls.gif" />
+        <entry key="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" value="static/images/xls.gif" />
+        <entry key="application/pdf" value="static/images/epdf.gif" />
+        <entry key="text/xml" value="static/images/xml.gif" />
+        <entry key="application/xml" value="static/images/xml.gif" />
+        <entry key="default" value="static/images/ebinary_attachment.gif"/>
+    </util:map>
 
-    
     <bean id="kraDocumentService" class="org.kuali.kra.service.impl.KraDocumentServiceImpl">
     	<property name="delegateDocumentService" ref="documentService"/>
     	<property name="legacyDataAdapter" ref="legacyDataAdapter"/>

@@ -17,12 +17,12 @@ package org.kuali.kra.external.unit.service.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.external.unit.UnitDTO;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -35,7 +35,7 @@ import java.util.List;
  * {@link org.kuali.kra.external.unit.service.InstitutionalUnitService InstitutionalUnitService}.
  *
  * The implementation is primarily achieved via delegation to KC's internal
- * {@link org.kuali.kra.service.UnitService UnitService}.
+ * {@link org.kuali.coeus.common.framework.unit.UnitService UnitService}.
  *
  * @author Kuali Coeus Development Team
  */

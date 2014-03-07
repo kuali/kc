@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.attachment;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SeparateAssociate;
-import org.kuali.kra.service.KcAttachmentService;
 
 import java.io.IOException;
 import java.util.Arrays;

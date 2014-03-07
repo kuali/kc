@@ -13,24 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.attachment;
 
-import org.kuali.kra.bo.KcAttachment;
-import org.kuali.kra.service.KcAttachmentService;
+import org.kuali.coeus.common.framework.attachment.KcAttachment;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Resource;
+
 /**
  * KC Attachment Service Implementation.
  */
+@Component("kcAttachmentService")
 public class KcAttachmentServiceImpl implements KcAttachmentService {
     
-    private Map<String, String> mimeTypeIcons;
-    private String defaultIcon;
-   
+	private static final String DEFAULT_ICON = "default";
+
+	@Resource(name="kcAttachmentMimeTypeIcons")
+    private Map<String, String> kcAttachmentMimeTypeIcons;
+
     private static final String REPLACEMENT_CHARACTER = "_";
     //Exclude everything but numbers, alphabets, dots, hyphens and underscores
     private static final String REGEX_TITLE_FILENAME_PATTERN = "([^0-9a-zA-Z\\.\\-_])";
@@ -40,33 +49,28 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
      * Currently determining the icon based only on the mime type and using the default icon
      * if a mime type is not mapped in mimeTypeIcons. The full attachment is being passed here
      * so more advanced file type detection can be implemented if necessary.
-     * @see org.kuali.kra.service.KcAttachmentService#getFileTypeIcon(org.kuali.kra.bo.KcAttachment)
+     * @see org.kuali.coeus.common.framework.attachment.KcAttachmentService#getFileTypeIcon(org.kuali.coeus.common.framework.attachment.KcAttachment)
      */
     public String getFileTypeIcon(KcAttachment attachment) {
         String iconPath = getMimeTypeIcons().get(attachment.getType());
         if (iconPath == null) {
-            return getDefaultIcon();
+            return kcAttachmentMimeTypeIcons.get(DEFAULT_ICON);
         } else {
             return iconPath;
         }
     }
 
     protected Map<String, String> getMimeTypeIcons() {
-        return mimeTypeIcons;
+        return kcAttachmentMimeTypeIcons;
     }
 
     public void setMimeTypeIcons(Map<String, String> mimeTypeIcons) {
-        this.mimeTypeIcons = mimeTypeIcons;
+        this.kcAttachmentMimeTypeIcons = mimeTypeIcons;
     }
 
     protected String getDefaultIcon() {
-        return defaultIcon;
+        return kcAttachmentMimeTypeIcons.get(DEFAULT_ICON);
     }
-
-    public void setDefaultIcon(String defaultIcon) {
-        this.defaultIcon = defaultIcon;
-    }
-    
     
     public String getInvalidCharacters(String text) {
         if (ObjectUtils.isNotNull(text)) {
@@ -86,7 +90,7 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
 
     /**
      * This method checks string for invalid characters and replaces with underscores.
-     * @see org.kuali.kra.service.KcAttachmentService#checkAndReplaceInvalidCharacters(java.lang.String)
+     * @see org.kuali.coeus.common.framework.attachment.KcAttachmentService#checkAndReplaceInvalidCharacters(java.lang.String)
      */
     public String checkAndReplaceInvalidCharacters(String text) {     
         String cleanText = text;

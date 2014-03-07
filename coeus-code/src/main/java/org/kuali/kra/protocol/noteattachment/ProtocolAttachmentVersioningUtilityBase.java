@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.noteattachment;
 
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersioningService;
-import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.rice.krad.util.ObjectUtils;
