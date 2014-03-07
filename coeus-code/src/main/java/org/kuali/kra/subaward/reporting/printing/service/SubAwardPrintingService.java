@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.subawardReporting.printing.service;
+package org.kuali.kra.subaward.reporting.printing.service;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
+import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 
 import java.util.Map;
 

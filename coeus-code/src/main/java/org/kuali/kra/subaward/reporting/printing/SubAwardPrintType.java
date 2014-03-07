@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.subawardReporting.printing;
+package org.kuali.kra.subaward.reporting.printing;
 
 /**
  * This class represents different types of reports for Negotiation Activity

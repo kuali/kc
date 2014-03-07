@@ -30,7 +30,7 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
-import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
+import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
