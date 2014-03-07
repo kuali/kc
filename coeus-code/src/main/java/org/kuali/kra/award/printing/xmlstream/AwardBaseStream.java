@@ -20,6 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.commitments.AwardCostShare;
@@ -1974,18 +1975,18 @@ public abstract class AwardBaseStream implements XmlStream {
 					.setUnitAdministratorArray(getUnitAdministratorList(
 							awardPersonUnit)
 							.toArray(
-									new org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator[0]));
+									new org.org.kuali.coeus.common.framework.unit.admin.InvestigatorUnitsType.UnitAdministrator[0]));
 			investigatorUnitsTypes.add(investigatorUnitsType);
 		}
 		return investigatorUnitsTypes;
 	}
 
-	private List<org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator> getUnitAdministratorList(
+	private List<org.org.kuali.coeus.common.framework.unit.admin.InvestigatorUnitsType.UnitAdministrator> getUnitAdministratorList(
 			AwardPersonUnit awardPersonUnit) {
-		List<org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator> unitAdministratorList = new ArrayList<org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator>();
+		List<org.org.kuali.coeus.common.framework.unit.admin.InvestigatorUnitsType.UnitAdministrator> unitAdministratorList = new ArrayList<org.org.kuali.coeus.common.framework.unit.admin.InvestigatorUnitsType.UnitAdministrator>();
 		for (UnitAdministrator unitAdministrator : awardPersonUnit.getUnit()
 				.getUnitAdministrators()) {
-			org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator unitAdministratorElement = org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator.Factory
+			org.org.kuali.coeus.common.framework.unit.admin.InvestigatorUnitsType.UnitAdministrator unitAdministratorElement = org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator.Factory
 					.newInstance();
 			if (unitAdministrator.getUnitAdministratorTypeCode() != null) {
 				unitAdministratorElement.setUnitAdministratorTypeCode(Integer
