@@ -25,7 +25,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.dao.AwardLookupDao;
+import org.kuali.kra.award.dao.AwardLookupDao;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;

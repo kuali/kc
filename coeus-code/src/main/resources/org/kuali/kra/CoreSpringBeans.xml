@@ -1209,7 +1209,7 @@
     
     <!-- Core Services -->
 
-    <bean id="accountCreationClient" class="org.kuali.kra.external.award.AccountCreationClientFactoryBean">
+    <bean id="accountCreationClient" class="org.kuali.kra.award.external.award.AccountCreationClientFactoryBean">
         <property name="sharedRice" value="${shared.rice}" />
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
@@ -1217,11 +1217,11 @@
         <property name="configurationService" ref="kualiConfigurationService" />
     </bean>
 
-    <bean id="awardAccountValidationService" class="org.kuali.kra.external.award.impl.AwardAccountValidationServiceImpl">
+    <bean id="awardAccountValidationService" class="org.kuali.kra.award.external.award.impl.AwardAccountValidationServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-    <bean id="awardTemplateReportTermService" class="org.kuali.kra.service.impl.AwardTemplateReportTermServiceImpl" />
+    <bean id="awardTemplateReportTermService" class="org.kuali.kra.award.service.impl.AwardTemplateReportTermServiceImpl" />
     
     <bean id="citizenshipTypeService" class="org.kuali.kra.service.impl.CitizenshipTypeServiceImpl" />
 
@@ -1715,7 +1715,7 @@
                 <bean class="org.kuali.kra.authorizer.CreateIacucCommitteeAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="addIacucCommittee" />
                 </bean>
-                <bean class="org.kuali.kra.authorizer.CreateAwardAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.award.authorizer.CreateAwardAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createAward" />
                 </bean>
                 <bean class="org.kuali.kra.authorizer.CreateTimeAndMoneyAuthorizer" parent="parentAuthorizer">

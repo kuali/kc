@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.timeandmoney.document.authorizer;
 
-import org.kuali.kra.infrastructure.AwardPermissionConstants;
+import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.timeandmoney.document.authorization.TimeAndMoneyTask;
 
 /**

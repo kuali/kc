@@ -25,7 +25,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.AwardHierarchyUIService;
+import org.kuali.kra.award.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.TransactionBean;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
