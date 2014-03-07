@@ -16,9 +16,9 @@
 package org.kuali.kra.service.impl.versioningartifacts;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.framework.sequence.associate.SeparatelySequenceableAssociate;
 import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
-import org.kuali.kra.SeparatelySequenceableAssociate;
 
 import java.util.ArrayList;
 import java.util.Collection;
