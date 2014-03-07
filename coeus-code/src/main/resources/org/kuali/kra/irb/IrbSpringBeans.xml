@@ -929,7 +929,7 @@
     </bean>
 
 	<bean id="protocolOnlineReviewRoleTypeService"
-			  class="org.kuali.kra.workflow.ProtocolOnlineReviewDerivedRoleTypeServiceImpl">
+			  class="org.kuali.kra.protocol.workflow.ProtocolOnlineReviewDerivedRoleTypeServiceImpl">
 		<property name="protocolOnlineReviewService" ref="protocolOnlineReviewService" />		
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="roleManagementService" ref="roleService" />
@@ -1025,7 +1025,7 @@
     </bean>
  
  	<bean id="protocolApproverRoleTypeService"
-			  class="org.kuali.kra.kim.service.impl.IRBApproverRoleTypeServiceImpl">
+			  class="org.kuali.kra.irb.kim.service.impl.IRBApproverRoleTypeServiceImpl">
 	</bean>
 
 	<bean id="protocolApproverRoleTypeServiceCallback" parent="kcCoreCallbackService"
@@ -1059,7 +1059,7 @@
     </bean>
     
     <bean id="protocolPersonnelDerivedRoleTypeService"
-          class="org.kuali.kra.kim.service.impl.ProtocolPersonnelDerivedRoleTypeServiceImpl">
+          class="org.kuali.kra.protocol.kim.service.impl.ProtocolPersonnelDerivedRoleTypeServiceImpl">
     </bean>
    
    <bean id="protocolPersonnelDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
@@ -1068,7 +1068,7 @@
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
    
     <bean id="protocolAffiliateTypeDerivedRoleTypeService"
-          class="org.kuali.kra.kim.service.impl.ProtocolAffiliateTypeDerivedRoleTypeServiceImpl">
+          class="org.kuali.kra.protocol.kim.service.impl.ProtocolAffiliateTypeDerivedRoleTypeServiceImpl">
     </bean>
   
 	<bean id="protocolAffiliateTypeDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
@@ -1086,7 +1086,7 @@
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 
     <bean id="irbCorrespondentDerivedRoleTypeService"
-          class="org.kuali.kra.kim.service.impl.IrbCorrespondentDerivedRoleTypeServiceImpl">
+          class="org.kuali.kra.irb.kim.service.impl.IrbCorrespondentDerivedRoleTypeServiceImpl">
     </bean>
 	
 	<bean id="irbCorrespondentDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"

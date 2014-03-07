@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import org.kuali.kra.drools.brms.FactBean;
+import org.kuali.kra.protocol.drools.brms.FactBean;
 import org.kuali.kra.protocol.ProtocolBase;
 
 public class IacucProtocolActionMapping implements FactBean {
