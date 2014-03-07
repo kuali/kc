@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.external.budget.service;
+package org.kuali.kra.budget.external.budget.service;
 
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.infrastructure.Constants;

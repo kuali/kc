@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.web.struts.action;
+package org.kuali.kra.budget.web.struts.action;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -32,7 +32,7 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
-import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
+import org.kuali.kra.budget.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;

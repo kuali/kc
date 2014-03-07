@@ -14,14 +14,16 @@
       <list>
         <value>budgetCategoryCode</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
+	
     
     
     
     
     
     <property name="documentTypeName" value="BudgetCategoryMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.rules.BudgetCategoryTypeExistenceRule"/>
+    <property name="businessRulesClass" value="org.kuali.kra.budget.rules.BudgetCategoryTypeExistenceRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     

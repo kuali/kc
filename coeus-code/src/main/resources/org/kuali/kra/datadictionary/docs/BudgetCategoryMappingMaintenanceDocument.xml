@@ -23,7 +23,7 @@
     
     
     <property name="documentTypeName" value="BudgetCategoryMappingMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.rules.BudgetCategoryExistenceRule"/>
+    <property name="businessRulesClass" value="org.kuali.kra.budget.rules.BudgetCategoryExistenceRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     

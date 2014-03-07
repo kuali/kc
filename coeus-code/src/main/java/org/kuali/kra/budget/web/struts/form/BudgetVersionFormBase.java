@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.web.struts.form;
+package org.kuali.kra.budget.web.struts.form;
 
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.model.AuditableForm;

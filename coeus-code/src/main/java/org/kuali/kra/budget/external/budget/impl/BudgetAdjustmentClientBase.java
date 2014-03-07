@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.external.budget.impl;
+package org.kuali.kra.budget.external.budget.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,10 +33,10 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.external.budget.BudgetAdjustmentClient;
-import org.kuali.kra.external.budget.BudgetAdjustmentServiceHelper;
-import org.kuali.kra.external.budget.FinancialObjectCodeMapping;
-import org.kuali.kra.external.budget.RateClassRateType;
+import org.kuali.kra.budget.external.budget.BudgetAdjustmentClient;
+import org.kuali.kra.budget.external.budget.BudgetAdjustmentServiceHelper;
+import org.kuali.kra.budget.external.budget.FinancialObjectCodeMapping;
+import org.kuali.kra.budget.external.budget.RateClassRateType;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -82,7 +82,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     
 
     /**
-     * @see org.kuali.kra.external.budget.BudgetAdjustmentClient#createBudgetAdjustmentDocument()
+     * @see org.kuali.kra.budget.external.budget.BudgetAdjustmentClient#createBudgetAdjustmentDocument()
      */
     public void createBudgetAdjustmentDocument(AwardBudgetDocument awardBudgetDocument) throws Exception {
         BudgetAdjustmentParametersDTO parametersDTO = new BudgetAdjustmentParametersDTO();
