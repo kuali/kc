@@ -16,8 +16,8 @@
 package org.kuali.coeus.common.framework.unit;
 
 import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 

@@ -19,7 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.external.unit.UnitDTO;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;

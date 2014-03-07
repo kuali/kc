@@ -247,7 +247,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="unitAdministrators"/>
-                <property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministrator"/>
+                <property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministrator"/>
                 <property name="numberOfColumns" value="1"/>
                 <property name="inquiryFields">
                   <list>
@@ -286,7 +286,7 @@
           <property name="headerText" value="Unit Unit Administrators"/>
           <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="2"/>
           <property name="propertyName" value="unitAdministrators"/>
-          <property name="collectionObjectClass" value="org.kuali.kra.bo.UnitAdministrator"/>
+          <property name="collectionObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministrator"/>
           <property name="items">
             <list>
               <bean p:propertyName="person.fullName" parent="Uif-DataField"/>
