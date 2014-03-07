@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.subawardReporting.printing.print;
+package org.kuali.kra.subaward.reporting.printing.print;
 
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
+import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;

@@ -61,7 +61,7 @@
         <form-bean name="IacucProtocolOnlineReviewForm" type="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewForm"/> 
         <form-bean name="IacucProtocolCorrespondenceTemplateForm" type="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateForm" />
 		<form-bean name="IacucResearchAreasForm" type="org.kuali.kra.iacuc.IacucResearchAreasForm" />
-		<form-bean name="IsrSsrReportGenerationForm" type="org.kuali.kra.subawardReporting.web.struts.form.IsrSsrReportGenerationForm" />
+		<form-bean name="IsrSsrReportGenerationForm" type="org.kuali.kra.subaward.reporting.web.struts.form.IsrSsrReportGenerationForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -135,7 +135,7 @@
         </action>
         
         
-        <action path="/isrSsrReporting" name="IsrSsrReportGenerationForm" type="org.kuali.kra.subawardReporting.web.struts.action.IsrSsrReportGenerationAction" scope="request">
+        <action path="/isrSsrReporting" name="IsrSsrReportGenerationForm" type="org.kuali.kra.subaward.reporting.web.struts.action.IsrSsrReportGenerationAction" scope="request">
             <forward name="basic" path="/WEB-INF/jsp/subawardReporting/isrSsrReporting.jsp" />
         </action>
         

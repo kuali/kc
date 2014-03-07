@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.subawardReporting.web.struts.form;
+package org.kuali.kra.subaward.reporting.web.struts.form;
 
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
