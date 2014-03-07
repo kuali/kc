@@ -17,7 +17,7 @@ package org.kuali.kra.questionnaire;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
-import org.kuali.kra.infrastructure.AwardPermissionConstants;
+import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

@@ -233,7 +233,7 @@
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
 
-    <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.AwardLookupDaoOjb">
+    <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardLookupDaoOjb">
     	<property name="versionHistoryLookupDao" ref="versionHistoryLookupDao" /> 
     </bean>
     
@@ -260,7 +260,7 @@
           parent="parentLookupableHelperService" scope="prototype" />
           
    <!-- Exposing the award account service as a SOAP service and as a java service -->
-    <bean id="awardAccountService" class="org.kuali.kra.external.award.impl.AwardAccountServiceImpl">
+    <bean id="awardAccountService" class="org.kuali.kra.award.external.award.impl.AwardAccountServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService" />
     </bean>
@@ -270,7 +270,7 @@
                 p:service-ref="awardAccountService"
                 p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
                 p:localServiceName="awardAccountService"
-                p:serviceInterface="org.kuali.kra.external.award.AwardAccountService"
+                p:serviceInterface="org.kuali.kra.award.external.award.AwardAccountService"
                 p:busSecurity="${fin.system.integration.bus.security.on}"
                 p:retryAttempts="1" />
         </property>
@@ -317,11 +317,11 @@
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
     
-    <bean id="awardCommentService" class="org.kuali.kra.service.impl.AwardCommentServiceImpl">
+    <bean id="awardCommentService" class="org.kuali.kra.award.service.impl.AwardCommentServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
         
-    <bean id="awardDirectFandADistributionService" class="org.kuali.kra.service.impl.AwardDirectFandADistributionServiceImpl" />
+    <bean id="awardDirectFandADistributionService" class="org.kuali.kra.award.service.impl.AwardDirectFandADistributionServiceImpl" />
     
     <bean id="awardFandaRateService" class="org.kuali.kra.award.commitments.AwardFandaRateServiceImpl">
        <property name="businessObjectService" ref="businessObjectService" />  
@@ -342,7 +342,7 @@
         <property name="awardVersionService" ref="awardVersionService" />
     </bean>
     
-    <bean id="awardHierarchyUIService" class="org.kuali.kra.service.impl.AwardHierarchyUIServiceImpl" scope="prototype">
+    <bean id="awardHierarchyUIService" class="org.kuali.kra.award.service.impl.AwardHierarchyUIServiceImpl" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="awardHierarchyService" ref="awardHierarchyService" />
     </bean>
@@ -381,23 +381,23 @@
         <property name="dataDictionaryService" ref="dataDictionaryService" />
     </bean>
     
-    <bean id="awardPaymentAndInvoicesService" class = "org.kuali.kra.service.AwardPaymentAndInvoicesServiceImpl">
+    <bean id="awardPaymentAndInvoicesService" class = "org.kuali.kra.award.service.AwardPaymentAndInvoicesServiceImpl">
         <property name = "businessObjectService" ref = "businessObjectService"/>
     </bean>
     
-    <bean id="awardReportsService" class="org.kuali.kra.service.impl.AwardReportsServiceImpl">
+    <bean id="awardReportsService" class="org.kuali.kra.award.service.impl.AwardReportsServiceImpl">
         <property name="parameterService" ref="parameterService" />
         <property name="businessObjectService" ref="businessObjectService" />       
     </bean>
     
-    <bean id="awardScheduleGenerationService" class="org.kuali.kra.service.impl.AwardScheduleGenerationServiceImpl">
+    <bean id="awardScheduleGenerationService" class="org.kuali.kra.award.service.impl.AwardScheduleGenerationServiceImpl">
         <property name="scheduleService" ref="scheduleService" />
         <property name="persistenceService" ref="persistenceService" />
         <property name="parameterService" ref="parameterService" />
         <property name="awardAmountInfoService" ref="awardAmountInfoService" />
     </bean>
     
-    <bean id="awardSponsorTermService" class="org.kuali.kra.service.impl.AwardSponsorTermServiceImpl" />
+    <bean id="awardSponsorTermService" class="org.kuali.kra.award.service.impl.AwardSponsorTermServiceImpl" />
     
     <bean id="awardTemplateSyncService" class="org.kuali.kra.award.AwardTemplateSyncServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />

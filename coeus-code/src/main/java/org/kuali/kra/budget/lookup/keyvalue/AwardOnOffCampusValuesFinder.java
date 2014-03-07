@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.lookup.keyvalue;
 
-import org.kuali.kra.infrastructure.AwardOnOffCampusFlagConstants;
+import org.kuali.kra.award.infrastructure.AwardOnOffCampusFlagConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;

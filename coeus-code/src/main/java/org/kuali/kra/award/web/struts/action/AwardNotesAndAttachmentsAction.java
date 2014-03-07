@@ -33,7 +33,7 @@ import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
 import org.kuali.kra.award.rule.event.AddAwardAttachmentEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.service.impl.AwardCommentServiceImpl;
+import org.kuali.kra.award.service.impl.AwardCommentServiceImpl;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;

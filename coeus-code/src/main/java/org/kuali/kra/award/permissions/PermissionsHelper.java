@@ -25,8 +25,8 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.infrastructure.AwardRoleConstants;
-import org.kuali.kra.infrastructure.AwardTaskNames;
+import org.kuali.kra.award.infrastructure.AwardRoleConstants;
+import org.kuali.kra.award.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.RoleConstants;
 
 import java.util.ArrayList;
