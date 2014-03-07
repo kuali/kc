@@ -30,7 +30,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.kuali.kra.bo.KcPersonExtendedAttributes;
+import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
 import org.kuali.kra.bo.PersonAppointment;
 import org.kuali.kra.bo.PersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -165,7 +165,7 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
 
     /**
      * 
-     * @see org.kuali.kra.bo.KcPersonExtendedAttributes#setPersonDegrees(java.util.List)
+     * @see org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes#setPersonDegrees(java.util.List)
      */
     @Override
     public void setPersonDegrees(List<PersonDegree> personDegrees) {
@@ -174,7 +174,7 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
 
     /**
      * 
-     * @see org.kuali.kra.bo.KcPersonExtendedAttributes#getPersonDegrees()
+     * @see org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes#getPersonDegrees()
      */
     @Override
     public List<PersonDegree> getPersonDegrees() {
@@ -183,7 +183,7 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
 
     /**
      * 
-     * @see org.kuali.kra.bo.KcPersonExtendedAttributes#getPersonAppointments()
+     * @see org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes#getPersonAppointments()
      */
     @Override
     public List<PersonAppointment> getPersonAppointments() {
@@ -192,7 +192,7 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
 
     /**
      * 
-     * @see org.kuali.kra.bo.KcPersonExtendedAttributes#setPersonAppointments(java.util.List)
+     * @see org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes#setPersonAppointments(java.util.List)
      */
     @Override
     public void setPersonAppointments(List<PersonAppointment> personAppointments) {

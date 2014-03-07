@@ -143,7 +143,7 @@
         </reference-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.bo.KcPersonExtendedAttributes" table="PERSON_EXT_T">
+    <class-descriptor class="org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes" table="PERSON_EXT_T">
 		<field-descriptor id="1" name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="ageByFiscalYear" column="AGE_BY_FISCAL_YEAR" jdbc-type="INTEGER" />
 		<field-descriptor name="race" column="RACE" jdbc-type="VARCHAR" />
