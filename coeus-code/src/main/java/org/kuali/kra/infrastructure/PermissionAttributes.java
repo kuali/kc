@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.infrastructure;
 
+import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

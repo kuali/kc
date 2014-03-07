@@ -32,7 +32,7 @@ import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportT
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.infrastructure.AwardPermissionConstants;
+import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.service.VersionHistoryService;
