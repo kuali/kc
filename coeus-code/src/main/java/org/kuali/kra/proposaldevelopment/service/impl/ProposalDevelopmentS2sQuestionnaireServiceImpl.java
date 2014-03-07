@@ -17,7 +17,7 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
-import org.kuali.kra.bo.S2sOppFormQuestionnaire;
+import org.kuali.kra.s2s.bo.S2sOppFormQuestionnaire;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sModuleQuestionnaireBean;

@@ -288,7 +288,7 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.S2sRevisionType" table="S2S_REVISION_TYPE">
+	<class-descriptor class="org.kuali.kra.s2s.bo.S2sRevisionType" table="S2S_REVISION_TYPE">
 		<field-descriptor name="s2sRevisionTypeCode" column="S2S_REVISION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
@@ -969,7 +969,7 @@
 		<collection-descriptor name="s2sOppForms" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sOppForms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>		
-		<reference-descriptor name="s2sRevisionType" class-ref="org.kuali.kra.bo.S2sRevisionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="s2sRevisionType" class-ref="org.kuali.kra.s2s.bo.S2sRevisionType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="revisionCode"/> 
 		</reference-descriptor>
 		<reference-descriptor name="s2sProvider" class-ref="org.kuali.kra.s2s.bo.S2sProvider" auto-retrieve="true" auto-update="none" auto-delete="none"> 
