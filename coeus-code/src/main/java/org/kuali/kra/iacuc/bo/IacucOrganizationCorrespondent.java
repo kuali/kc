@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.bo;
 
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.kra.bo.Correspondent;
-import org.kuali.kra.bo.Organization;
 import org.kuali.kra.iacuc.correspondence.IacucCorrespondentType;
 import org.kuali.kra.protocol.correspondence.CorrespondentType;
 

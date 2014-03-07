@@ -323,10 +323,10 @@
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.subAwardOrganizationId}" readOnly="${readOnly}"/>
                 		<c:if test="${!readOnly}">
 	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId")}
-	                		<kul:lookup boClassName="org.kuali.kra.bo.Organization" 
+	                		<kul:lookup boClassName="org.kuali.coeus.common.framework.org.Organization" 
 						        		fieldConversions="organizationId:document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId" />
 					    </c:if> 
-					    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId:organizationId" anchor="${tabKey}" />
+					    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.org.Organization" inquiryParameters="document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId:organizationId" anchor="${tabKey}" />
 					    <Br/>
 					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.subAwardOrganization.organizationName}"/>
                 	</td>

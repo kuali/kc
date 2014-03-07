@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.service;
 
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.kra.iacuc.bo.IacucOrganizationCorrespondent;
-import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationCorrespondent;
 
 import java.util.List;

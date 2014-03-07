@@ -262,7 +262,7 @@
                     ${organization.id}
                     <input type="hidden" name="${prefix}.organizations[${status.index}].organizationId"
                            value="${organization.organizationId}" />
-                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization"
+                    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.org.Organization"
                                        inquiryParameters="${prefix}.organizations[${status.index}].organizationId:organizationId" 
                                        anchor="${currentTabIndex}" />
                     <br /><span class="fineprint">${organization.name}</span>

@@ -39,7 +39,7 @@
 		<convert converter="bean" match="org.kuali.coeus.common.framework.rolodex.Rolodex">
 			<param name="include" value="fullName,rolodexId,unit,emailAddress,phoneNumber,organization,addressLine1,addressLine2,addressLine3,city,state,countryCode,postalCode" />
 		</convert>
-        <convert converter="bean" match="org.kuali.kra.bo.Organization">
+        <convert converter="bean" match="org.kuali.coeus.common.framework.org.Organization">
             <param name="include" value="organizationId,organizationName" />
         </convert>
         <convert converter="bean" match="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource">
