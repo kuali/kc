@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.kra.bo.Sponsor;
 
 /**
  * AwardTransferringSponsor business object

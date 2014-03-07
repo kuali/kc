@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.web.krad;
 
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.rice.krad.exception.AuthorizationException;
