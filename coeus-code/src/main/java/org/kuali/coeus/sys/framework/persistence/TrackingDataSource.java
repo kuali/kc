@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.diag;
+package org.kuali.coeus.sys.framework.persistence;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
