@@ -467,7 +467,7 @@
 			<null />
 		</property>
 		<property name="collectionLookup">
-			<bean parent="Uif-CollectionQuickFinder" p:dataObjectClassName="org.kuali.kra.bo.Unit"
+			<bean parent="Uif-CollectionQuickFinder" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
 				p:fieldConversions="unitNumber:unitNumber" />
 		</property>
 		<property name="items">

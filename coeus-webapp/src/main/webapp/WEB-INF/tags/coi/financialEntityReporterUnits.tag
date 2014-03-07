@@ -60,7 +60,7 @@
                         </kul:htmlControlAttribute>
                     </div>
                     &nbsp;
-                    <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:financialEntityHelper.newFinancialEntityReporterUnit.unitNumber,unitName:financialEntityHelper.newFinancialEntityReporterUnit.unitName" />
+                    <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit" fieldConversions="unitNumber:financialEntityHelper.newFinancialEntityReporterUnit.unitNumber,unitName:financialEntityHelper.newFinancialEntityReporterUnit.unitName" />
                     <span class="fineprint"></span> 
                 </td>
                 <td align="left" valign="middle" class="infoline">

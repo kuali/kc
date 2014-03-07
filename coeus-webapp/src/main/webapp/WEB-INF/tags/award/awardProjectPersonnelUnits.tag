@@ -83,7 +83,7 @@
 							${KualiForm.projectPersonnelBean.newAwardPersonUnits[awardPersonIndex].unitName}
 						</c:otherwise>
 					</c:choose>
-					&nbsp; <kul:lookup boClassName="org.kuali.kra.bo.Unit" 
+					&nbsp; <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit" 
 							fieldConversions="unitNumber:projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitNumber,unitName:projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitName" />
 								
 				</div>
@@ -129,7 +129,7 @@
                 <td valign="middle">
                 	<div align="center">
                 		${awardPersonUnit.unit.unitName}&nbsp;
-                		<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="award_person_unit.identifier_${awardPersonIndex}_${awardPersonUnitRowStatus.index}:unitNumber" anchor="${tabKey}" />
+                		<kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="award_person_unit.identifier_${awardPersonIndex}_${awardPersonUnitRowStatus.index}:unitNumber" anchor="${tabKey}" />
                 	</div> 
 				</td>
 				<td valign="middle">
@@ -173,7 +173,7 @@
                 		<td valign="middle">
                 			<div align="center">
                 				${awardPersonUnit.unit.unitName}&nbsp;
-                				<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="award_person_unit.identifier_${awardPersonIndex}_${awardPersonUnitRowStatus.index}:unitNumber" anchor="${tabKey}" />
+                				<kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="award_person_unit.identifier_${awardPersonIndex}_${awardPersonUnitRowStatus.index}:unitNumber" anchor="${tabKey}" />
                 			</div> 
 						</td>
 						<td valign="middle">

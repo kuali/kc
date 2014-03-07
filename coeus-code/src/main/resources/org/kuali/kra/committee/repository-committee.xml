@@ -143,7 +143,7 @@
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
     	
-    	 <reference-descriptor name="homeUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+    	 <reference-descriptor name="homeUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="homeUnitNumber" />
          </reference-descriptor>
          

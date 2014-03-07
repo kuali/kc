@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.bo;
 
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.bo.Correspondent;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.iacuc.correspondence.IacucCorrespondentType;
 
 public class IacucUnitCorrespondent extends Correspondent {

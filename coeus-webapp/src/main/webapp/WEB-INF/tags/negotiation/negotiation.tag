@@ -183,10 +183,10 @@
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.leadUnitNumber}" readOnly="${readOnly}"/>
                 		<c:if test="${!readOnly}">
 	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.leadUnitNumber")}
-	                		<kul:lookup boClassName="org.kuali.kra.bo.Unit" 
+	                		<kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit" 
 						        		fieldConversions="unitNumber:document.negotiationList[0].unAssociatedDetail.leadUnitNumber" />
 					    </c:if> 
-					    <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.negotiationList[0].unAssociatedDetail.leadUnitNumber:unitNumber" anchor="${tabKey}" /> 
+					    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="document.negotiationList[0].unAssociatedDetail.leadUnitNumber:unitNumber" anchor="${tabKey}" /> 
                 	</td>
             	</tr>
             	
@@ -353,7 +353,7 @@
                 	<td>
                 		<c:out value="${KualiForm.negotiationAssociatedDetailBean.leadUnit}"/> 
                 		<html:hidden property="negotiationAssociatedDetailBean.leadUnitNumber"/>
-                		<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="negotiationAssociatedDetailBean.leadUnitNumber:unitNumber" anchor="${tabKey}" />
+                		<kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="negotiationAssociatedDetailBean.leadUnitNumber:unitNumber" anchor="${tabKey}" />
                 	</td>
             	</tr>
             	

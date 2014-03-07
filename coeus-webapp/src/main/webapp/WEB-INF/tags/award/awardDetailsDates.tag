@@ -80,7 +80,7 @@
             <kul:htmlControlAttribute property="document.awardList[0].unitNumber" attributeEntry="${awardAttributes.unitNumber}" readOnly="${readOnly or docInSavedState}" /> <%-- need AJAX lookup of unit name onblur --%>
             <c:if test="${!docInSavedState}">
                 <c:if test="${!readOnly}">
-                    <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.awardList[0].unitNumber"
+                    <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit" fieldConversions="unitNumber:document.awardList[0].unitNumber"
   			                anchor="${tabKey}" lookupParameters="document.awardList[0].unitNumber:unitNumber"/>
   			    </c:if>
             </c:if>
@@ -89,7 +89,7 @@
                 -
                 <kul:htmlControlAttribute property="document.awardList[0].unitName" attributeEntry="${awardAttributes['leadUnit.unitName']}" readOnly="true" />
             </c:if>
-            <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.awardList[0].unitNumber:unitNumber" anchor="${tabKey}" />
+            <kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="document.awardList[0].unitNumber:unitNumber" anchor="${tabKey}" />
     	</td>
   	</tr>
   	<tr>

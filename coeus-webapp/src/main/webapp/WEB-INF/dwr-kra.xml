@@ -33,7 +33,7 @@
 		<convert converter="bean" match="org.kuali.coeus.common.framework.person.KcPerson">
 			<param name="include" value="fullName,unit,phoneNumber,emailAddress,personId" />			
 		</convert>	
-		<convert converter="bean" match="org.kuali.kra.bo.Unit">
+		<convert converter="bean" match="org.kuali.coeus.common.framework.unit.Unit">
 			<param name="include" value="unitNumber,unitName" />			
 		</convert>	
 		<convert converter="bean" match="org.kuali.coeus.common.framework.rolodex.Rolodex">
