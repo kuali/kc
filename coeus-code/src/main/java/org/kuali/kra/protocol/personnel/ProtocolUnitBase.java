@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol.personnel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 
 public abstract class ProtocolUnitBase extends ProtocolAssociateBase {

@@ -87,7 +87,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 
-        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit"  auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit"  auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="unitNumber" />
         </reference-descriptor>
         <reference-descriptor name="appointmentType" class-ref="org.kuali.kra.budget.personnel.AppointmentType"  auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -431,7 +431,7 @@
 		</reference-descriptor>
 		-->
 
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
     	
@@ -502,7 +502,7 @@
 			<foreignkey field-ref="countryCode"/>
 		</reference-descriptor>
 		-->
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
 		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -689,7 +689,7 @@
         	<foreignkey field-ref="sponsorTypeCode" />
     	</reference-descriptor>
 
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
     	<reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -722,7 +722,7 @@
 		<reference-descriptor name="sponsorType" class-ref="org.kuali.kra.bo.SponsorType" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="sponsorTypeCode" />
     	</reference-descriptor>
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
     	<reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -792,7 +792,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.Unit" table="UNIT">
+	<class-descriptor class="org.kuali.coeus.common.framework.unit.Unit" table="UNIT">
 		<field-descriptor id="1" name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="parentUnitNumber" column="PARENT_UNIT_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR"/>
@@ -811,7 +811,7 @@
       <foreignkey field-ref="organizationId"/>
     </reference-descriptor>
     
-    <reference-descriptor name="parentUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="parentUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
       <foreignkey field-ref="parentUnitNumber"/>
     </reference-descriptor>
     
@@ -826,7 +826,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		
-	<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none">
+	<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="false" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="unitNumber"/>
 	</reference-descriptor>
     
@@ -854,7 +854,7 @@
     <field-descriptor name="parentUnitNumber" column="PARENT_UNIT_NUMBER" jdbc-type="VARCHAR"/>
     <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="parentUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+    <reference-descriptor name="parentUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
       <foreignkey field-ref="parentUnitNumber"/> 
     </reference-descriptor>
   </class-descriptor>
@@ -1059,7 +1059,7 @@
         <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-         <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+         <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="unitNumber"/>
         </reference-descriptor>
     </class-descriptor>

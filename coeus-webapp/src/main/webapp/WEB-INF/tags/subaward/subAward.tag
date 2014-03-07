@@ -160,9 +160,9 @@
                       onblur="ajaxLoad('getUnitName','document.subAwardList[0].requisitionerUnit', 'sub.unitName');"/>
                      
                      <c:if test="${!readOnly}"> 	
-                      	<kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.subAwardList[0].requisitionerUnit,unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
+                      	<kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit" fieldConversions="unitNumber:document.subAwardList[0].requisitionerUnit,unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
             	  	 </c:if>     
-            	  	    <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.subAwardList[0].requisitionerUnit:unitNumber" anchor="${tabKey}" /> 
+            	  	    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="document.subAwardList[0].requisitionerUnit:unitNumber" anchor="${tabKey}" /> 
             	  	 
             	  	    <div id="sub.unitName.div">${KualiForm.document.subAwardList[0].unit.unitName}&nbsp;</div>
             	  	    <c:if test="${readOnly}"> <html:hidden styleId ="sub.unitName" property="document.subAwardList[0].requisitionerUnit" /></c:if>

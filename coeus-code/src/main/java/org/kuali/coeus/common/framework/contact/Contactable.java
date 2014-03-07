@@ -17,7 +17,7 @@ package org.kuali.coeus.common.framework.contact;
 
 import java.io.Serializable;
 
-import org.kuali.kra.bo.Unit;
+import org.kuali.coeus.common.framework.unit.Unit;
 
 /**
  * This interface defines behaviors for identifying an associated contact 

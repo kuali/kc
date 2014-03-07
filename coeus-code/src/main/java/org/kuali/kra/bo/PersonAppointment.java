@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.personnel.AppointmentType;

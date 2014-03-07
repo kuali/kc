@@ -17,8 +17,8 @@ package org.kuali.kra.external.unit.service.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.external.unit.UnitDTO;
