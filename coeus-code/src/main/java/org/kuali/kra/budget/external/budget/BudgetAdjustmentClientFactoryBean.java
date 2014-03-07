@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.external.budget;
+package org.kuali.kra.budget.external.budget;
 
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
-import org.kuali.kra.external.budget.impl.BudgetAdjustmentClientImpl;
-import org.kuali.kra.external.budget.impl.BudgetAdjustmentKSBClientImpl;
+import org.kuali.kra.budget.external.budget.impl.BudgetAdjustmentClientImpl;
+import org.kuali.kra.budget.external.budget.impl.BudgetAdjustmentKSBClientImpl;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

@@ -43,7 +43,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.kra.external.budget.BudgetAdjustmentClient;
+import org.kuali.kra.budget.external.budget.BudgetAdjustmentClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;

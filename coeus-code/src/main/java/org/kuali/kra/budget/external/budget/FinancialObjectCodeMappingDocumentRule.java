@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.external.budget;
+package org.kuali.kra.budget.external.budget;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
