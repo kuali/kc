@@ -149,20 +149,20 @@
     </bean>
     
     <!-- SubAward Services -->
-    <bean id="subAwardPrintingService" class="org.kuali.kra.subawardReporting.printing.service.impl.SubAwardPrintingServiceImpl">
+    <bean id="subAwardPrintingService" class="org.kuali.kra.subaward.reporting.printing.service.impl.SubAwardPrintingServiceImpl">
     	<property name="subAwardSF294Print" ref="subAwardSF294Print" />
     	<property name="subAwardSF295Print" ref="subAwardSF295Print" />
     	<property name="printingService" ref="printingService" />    	
     </bean>
     
-    <bean id="subAwardSF294Print" class="org.kuali.kra.subawardReporting.printing.print.SubAwardSF294Print">
+    <bean id="subAwardSF294Print" class="org.kuali.kra.subaward.reporting.printing.print.SubAwardSF294Print">
         <property name="xmlStream" ref="subawardXmlStream" />
     </bean>
-    <bean id="subAwardSF295Print" class="org.kuali.kra.subawardReporting.printing.print.SubAwardSF295Print">
+    <bean id="subAwardSF295Print" class="org.kuali.kra.subaward.reporting.printing.print.SubAwardSF295Print">
         <property name="xmlStream" ref="subawardXmlStream" />
     </bean>
     
-    <bean id="subawardXmlStream" class="org.kuali.kra.subawardReporting.printing.xmlstream.SubawardXmlStream">
+    <bean id="subawardXmlStream" class="org.kuali.kra.subaward.reporting.printing.xmlstream.SubawardXmlStream">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     

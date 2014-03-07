@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.subawardReporting.web.struts.action;
+package org.kuali.kra.subaward.reporting.web.struts.action;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -25,9 +25,9 @@ import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
-import org.kuali.kra.subawardReporting.printing.service.SubAwardPrintingService;
-import org.kuali.kra.subawardReporting.web.struts.form.IsrSsrReportGenerationForm;
+import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
+import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
+import org.kuali.kra.subaward.reporting.web.struts.form.IsrSsrReportGenerationForm;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
