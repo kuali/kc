@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.drools.util;
+package org.kuali.kra.protocol.drools.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,7 +28,7 @@ import org.drools.compiler.compiler.PackageBuilder;
 import org.drools.compiler.compiler.PackageBuilderConfiguration;
 import org.drools.core.rule.Package;
 
-import org.kuali.kra.drools.brms.FactBean;
+import org.kuali.kra.protocol.drools.brms.FactBean;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;

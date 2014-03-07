@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import org.kuali.kra.drools.brms.FactBean;
+import org.kuali.kra.protocol.drools.brms.FactBean;
 
 /*
  * This is the condition attributes to decide whether user has permission to perform an action

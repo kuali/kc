@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import org.kuali.kra.drools.brms.FactBean;
+import org.kuali.kra.protocol.drools.brms.FactBean;
 
 /**
  * Defines the Drools mapping for determining whether a certain action should be opened as a followup action to a previously submitted action.
