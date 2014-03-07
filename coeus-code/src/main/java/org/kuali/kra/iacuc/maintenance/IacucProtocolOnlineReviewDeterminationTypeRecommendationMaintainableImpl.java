@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.maintenance;
+package org.kuali.kra.iacuc.maintenance;
 
 
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationTypeRecommendation;
+import org.kuali.kra.maintenance.KraMaintainableImpl;
 
 
-public class IacucProtocolOnlineReviewDeterminationTypeRecommendationMaintainableImpl extends KraMaintainableImpl {   
+public class IacucProtocolOnlineReviewDeterminationTypeRecommendationMaintainableImpl extends KraMaintainableImpl {
     /**
      * Comment for <code>serialVersionUID</code>
      */
