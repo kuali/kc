@@ -1706,7 +1706,7 @@
                 <bean class="org.kuali.kra.authorizer.CreateProposalAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createProposal" />
                 </bean>
-                <bean class="org.kuali.kra.authorizer.CreateProtocolAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.irb.authorizer.CreateProtocolAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createProtocol" />
                 </bean>
                 <bean class="org.kuali.kra.authorizer.CreateCommitteeAuthorizer" parent="parentAuthorizer">

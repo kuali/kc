@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.drools.brms;
+package org.kuali.kra.protocol.drools.brms;
 
 /*
  * This is used for "bean" which basically defines the attributes of the rule conditions
