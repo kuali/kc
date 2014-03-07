@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.external.budget.impl;
+package org.kuali.kra.budget.external.budget.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,8 +30,8 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.RateType;
-import org.kuali.kra.external.budget.BudgetAdjustmentServiceHelper;
-import org.kuali.kra.external.budget.RateClassRateType;
+import org.kuali.kra.budget.external.budget.BudgetAdjustmentServiceHelper;
+import org.kuali.kra.budget.external.budget.RateClassRateType;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;

@@ -81,7 +81,7 @@
         <field-descriptor name="jobTitle" column="JOB_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="preferedJobTitle" column="PREFERED_JOB_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="jobCode" column="JOB_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="salary" column="SALARY" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+        <field-descriptor name="salary" column="SALARY" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
