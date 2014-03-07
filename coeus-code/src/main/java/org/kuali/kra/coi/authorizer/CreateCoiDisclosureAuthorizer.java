@@ -13,18 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.authorizer;
+package org.kuali.kra.coi.authorizer;
 
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
+import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class ViewCoiUndisclosedEventsAuthorizer extends TaskAuthorizerBase {
+public class CreateCoiDisclosureAuthorizer extends TaskAuthorizerBase {
 
-    @Override
+    private CoiDisclosureService coiDisclosureService;
+    /**
+     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
+     */
     public boolean isAuthorized(String userId, Task task) {
-        boolean retVal = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.VIEW_COI_UNDISCLOSED_EVENTS);
-        return retVal;
+        // TODO : do we let coi admin create coi disclosure if admin is not a reporter ?
+        return coiDisclosureService.isReporter() || hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.REPORT_COI_DISCLOSURE)
+               || hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.MAINTAIN_COI_DISCLOSURE);
     }
+
+    public void setCoiDisclosureService(CoiDisclosureService coiDisclosureService) {
+        this.coiDisclosureService = coiDisclosureService;
+    }
+
 }
