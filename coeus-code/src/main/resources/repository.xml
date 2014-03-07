@@ -414,7 +414,7 @@
 		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
-		<collection-descriptor name="Sponsor" proxy="true" element-class-ref="org.kuali.kra.bo.Sponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="Sponsor" proxy="true" element-class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
 		<collection-descriptor name="SubcontractContact" proxy="true" element-class-ref="org.kuali.kra.bo.SubcontractContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -439,7 +439,7 @@
         	<foreignkey field-ref="organization" />
     	</reference-descriptor>
     	
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="sponsorCode" />
     	</reference-descriptor>
 	</class-descriptor>
@@ -486,7 +486,7 @@
 		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
-		<collection-descriptor name="Sponsor" proxy="true" element-class-ref="org.kuali.kra.bo.Sponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="Sponsor" proxy="true" element-class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
 		<collection-descriptor name="SubcontractContact" proxy="true" element-class-ref="org.kuali.kra.bo.SubcontractContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -505,7 +505,7 @@
 		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="sponsorCode" />
     	</reference-descriptor>
 	</class-descriptor>
@@ -633,7 +633,7 @@
 
 
 
-	<class-descriptor class="org.kuali.kra.bo.Sponsor" table="SPONSOR">
+	<class-descriptor class="org.kuali.coeus.common.framework.sponsor.Sponsor" table="SPONSOR">
 		<field-descriptor id="1" name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR" primarykey="true" sequence-name="SEQ_SPONSOR_CODE" autoincrement="true" />
 		<field-descriptor name="acronym" column="ACRONYM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="auditReportSentForFy" column="AUDIT_REPORT_SENT_FOR_FY" jdbc-type="CHAR"/>
@@ -756,7 +756,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorCode"/> 
 		</reference-descriptor>
 	</class-descriptor>
@@ -1225,7 +1225,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorCode"/> 
 		</reference-descriptor>
         <collection-descriptor name="sponsorFormTemplates" proxy="true" element-class-ref="org.kuali.kra.bo.SponsorFormTemplateList" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">

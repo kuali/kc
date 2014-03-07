@@ -277,10 +277,10 @@
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.sponsorCode}" readOnly="${readOnly}"/>
                 		<c:if test="${!readOnly}">
 	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.sponsorCode")}
-	                		<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" 
+	                		<kul:lookup boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" 
 						        		fieldConversions="sponsorCode:document.negotiationList[0].unAssociatedDetail.sponsorCode" />
 					    </c:if>
-					    <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.negotiationList[0].unAssociatedDetail.sponsorCode:sponsorCode" anchor="${tabKey}" />
+					    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="document.negotiationList[0].unAssociatedDetail.sponsorCode:sponsorCode" anchor="${tabKey}" />
 					    <Br/>
 					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.sponsor.sponsorName}"/>
                 	</td>
@@ -294,10 +294,10 @@
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.primeSponsorCode}" readOnly="${readOnly}"/>
                 		<c:if test="${!readOnly}">
 	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.primeSponsorCode")}
-	                		<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" 
+	                		<kul:lookup boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" 
 						        		fieldConversions="sponsorCode:document.negotiationList[0].unAssociatedDetail.primeSponsorCode" />
 					    </c:if> 
-					    <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.negotiationList[0].unAssociatedDetail.primeSponsorCode:sponsorCode" anchor="${tabKey}" />
+					    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="document.negotiationList[0].unAssociatedDetail.primeSponsorCode:sponsorCode" anchor="${tabKey}" />
 					    <Br/>
 					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.primeSponsor.sponsorName}"/>
                 	</td>

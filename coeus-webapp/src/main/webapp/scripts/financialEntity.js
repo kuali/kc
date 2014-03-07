@@ -43,7 +43,7 @@
               } 
         }
       
-        $j('input[name^="methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!)"]').click(function() {
+        $j('input[name^="methodToCall.performLookup.(!!org.kuali.coeus.common.framework.sponsor.Sponsor!!)"]').click(function() {
             if(!confirm('The entity address fields will be overridden when a valid sponsor is selected.  Do you want to continue ?')) {
                 return false;
             }

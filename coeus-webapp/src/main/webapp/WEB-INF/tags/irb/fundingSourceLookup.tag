@@ -38,7 +38,7 @@
 </c:choose>
 
 
-<c:set var="lookupAFundingSourceSponsor" value="methodToCall.performFundingSourceLookup.(!!org.kuali.kra.bo.Sponsor!!).(((sponsorCode:protocolHelper.newFundingSource.fundingSourceNumber,sponsorName:protocolHelper.newFundingSource.fundingSourceName))).((`${lookupParameters}`)).((<${hideReturnLink}>)).(([${extraButtonSource}])).((*${extraButtonParams}*)).((^${suppressActions}^)).((&${readOnlyFields}&)).((/${referencesToRefresh}/)).((~${autoSearch}~)).anchor${anchor}"/>
+<c:set var="lookupAFundingSourceSponsor" value="methodToCall.performFundingSourceLookup.(!!org.kuali.coeus.common.framework.sponsor.Sponsor!!).(((sponsorCode:protocolHelper.newFundingSource.fundingSourceNumber,sponsorName:protocolHelper.newFundingSource.fundingSourceName))).((`${lookupParameters}`)).((<${hideReturnLink}>)).(([${extraButtonSource}])).((*${extraButtonParams}*)).((^${suppressActions}^)).((&${readOnlyFields}&)).((/${referencesToRefresh}/)).((~${autoSearch}~)).anchor${anchor}"/>
 ${kfunc:registerEditableProperty(KualiForm, lookupAFundingSourceSponsor)}
 
 <c:set var="lookupAFundingSourceUnit" value="methodToCall.performFundingSourceLookup.(!!org.kuali.kra.bo.Unit!!).(((unitNumber:protocolHelper.newFundingSource.fundingSourceNumber,unitName:protocolHelper.newFundingSource.fundingSourceName))).((`${lookupParameters}`)).((<${hideReturnLink}>)).(([${extraButtonSource}])).((*${extraButtonParams}*)).((^${suppressActions}^)).((&${readOnlyFields}&)).((/${referencesToRefresh}/)).((~${autoSearch}~)).anchor${anchor}"/>

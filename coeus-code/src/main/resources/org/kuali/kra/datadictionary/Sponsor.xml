@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="Sponsor" parent="Sponsor-parentBean" />
   <bean id="Sponsor-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.Sponsor" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.Sponsor" />
 		<property name="objectLabel" value="Sponsor" />
     <property name="inquiryDefinition" >
       <ref bean="Sponsor-inquiryDefinition" />
@@ -456,7 +456,7 @@
 
   <bean id="Sponsor-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Sponsor"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.Sponsor"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.sponsor.Sponsor"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -541,7 +541,7 @@
   </bean>
     
   <bean id="Sponsor-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.Sponsor"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.sponsor.Sponsor"/>
     <property name="headerText" value="Sponsor Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

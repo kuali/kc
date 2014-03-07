@@ -24,7 +24,7 @@
 	<allow>
 		<filter class="org.kuali.coeus.sys.framework.view.KcDWRFilter"/>
 		
-		<convert converter="bean" match="org.kuali.kra.bo.Sponsor">
+		<convert converter="bean" match="org.kuali.coeus.common.framework.sponsor.Sponsor">
 			<param name="include" value="sponsorCode,sponsorName,rolodexId" />
 		</convert>
 		<convert converter="bean" match="org.kuali.kra.budget.personnel.JobCode">

@@ -184,12 +184,12 @@
         	<kul:htmlControlAttribute property="document.awardList[0].sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" 
         	                          onblur="loadSponsorName('document.awardList[0].sponsorCode', 'sponsorName');" readOnly="${readOnly}" />
         	<c:if test="${!readOnly}">
-                <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].sponsorCode,sponsorName:document.awardList[0].sponsor.sponsorName" anchor="${tabKey}" />
+                <kul:lookup boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" fieldConversions="sponsorCode:document.awardList[0].sponsorCode,sponsorName:document.awardList[0].sponsor.sponsorName" anchor="${tabKey}" />
             </c:if>
 	        <c:if test="${readOnly}">
 	           <html:hidden property="document.awardList[0].sponsorCode" />
 	        </c:if>
-            <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.awardList[0].sponsorCode:sponsorCode" anchor="${tabKey}" />
+            <kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="document.awardList[0].sponsorCode:sponsorCode" anchor="${tabKey}" />
             <div id="sponsorName.div" >
             	<c:if test="${!empty KualiForm.document.awardList[0].sponsorCode}">
             		<c:choose>
@@ -210,13 +210,13 @@
         	<kul:htmlControlAttribute property="document.awardList[0].primeSponsorCode" attributeEntry="${awardAttributes.primeSponsorCode}" 
         	                          onblur="loadSponsorName('document.awardList[0].primeSponsorCode', 'primeSponsorName');" readOnly="${readOnly}" />
         	<c:if test="${!readOnly}">
-                <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].primeSponsorCode,sponsorName:document.awardList[0].primeSponsor.sponsorName" anchor="${tabKey}" />
+                <kul:lookup boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" fieldConversions="sponsorCode:document.awardList[0].primeSponsorCode,sponsorName:document.awardList[0].primeSponsor.sponsorName" anchor="${tabKey}" />
             </c:if>
             <c:if test="${readOnly}">
                <html:hidden property="document.awardList[0].primeSponsorCode" />
             </c:if>
             <c:if test="${!readOnly or !empty KualiForm.document.awardList[0].primeSponsorCode}">
-                <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.awardList[0].primeSponsorCode:sponsorCode" anchor="${tabKey}" />
+                <kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="document.awardList[0].primeSponsorCode:sponsorCode" anchor="${tabKey}" />
             </c:if>
             <div id="primeSponsorName.div">
             	<c:if test="${!empty KualiForm.document.awardList[0].primeSponsorCode}">
@@ -295,8 +295,8 @@
         </th>
         <td class="infoline">
         	<kul:htmlControlAttribute property="detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" onblur="loadSponsorName('detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorCode', 'newAwardTransferringSponsorName');" />
-            <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorCode,sponsorName:detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsor.sponsorName" anchor="${tabKey}" />
-            <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorCode:sponsorCode" anchor="${tabKey}" />
+            <kul:lookup boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" fieldConversions="sponsorCode:detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorCode,sponsorName:detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsor.sponsorName" anchor="${tabKey}" />
+            <kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorCode:sponsorCode" anchor="${tabKey}" />
             <div id="newAwardTransferringSponsorName.div">
             	<c:if test="${!empty KualiForm.detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorCode}">
             		<c:choose>
