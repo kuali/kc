@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.kra.iacuc.bo;
 
+import org.kuali.kra.bo.Correspondent;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.iacuc.correspondence.IacucCorrespondentType;
 
 public class IacucUnitCorrespondent extends Correspondent {

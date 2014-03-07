@@ -622,7 +622,7 @@
   		</property>  		
 	</bean>	
 	
-	<bean id="iacucProtocolReviewerTypeLookupableHelperServiceImpl" class="org.kuali.kra.lookup.IacucProtocolReviewerTypeLookupableHelperServiceImpl" 
+	<bean id="iacucProtocolReviewerTypeLookupableHelperServiceImpl" class="org.kuali.kra.iacuc.lookup.IacucProtocolReviewerTypeLookupableHelperServiceImpl"
  		scope="prototype" parent="parentLookupableHelperService">
   	</bean>
   	
@@ -662,7 +662,7 @@
     </bean>
             
     <bean id="iacucAlternateSearchService" class="org.kuali.kra.iacuc.threers.IacucAlternateSearchServiceImpl">
-    </bean>        
+    </bean>
     
     <bean id="iacucProtocolActionService" class="org.kuali.kra.iacuc.actions.submit.IacucProtocolActionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -782,7 +782,7 @@
     </bean>
     
     <bean id="iacucProtocolPersonnelDerivedRoleTypeService" 
-          class="org.kuali.kra.kim.service.impl.IacucProtocolPersonnelDerivedRoleTypeServiceImpl">
+          class="org.kuali.kra.iacuc.kim.service.impl.IacucProtocolPersonnelDerivedRoleTypeServiceImpl">
     </bean>
 
     <bean id="kc.import.serviceBus" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -802,7 +802,7 @@
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />  
     
     <bean id="iacucProtocolAffiliateTypeDerivedRoleTypeService"
-          class="org.kuali.kra.kim.service.impl.IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl">
+          class="org.kuali.kra.iacuc.kim.service.impl.IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl">
     </bean>
   
 	<bean id="iacucProtocolAffiliateTypeDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
@@ -894,7 +894,7 @@
     </bean>
     
  	<bean id="iacucProtocolOnlineReviewRoleTypeService"
-			  class="org.kuali.kra.workflow.IacucProtocolOnlineReviewDerivedRoleTypeServiceImpl">
+			  class="org.kuali.kra.iacuc.workflow.IacucProtocolOnlineReviewDerivedRoleTypeServiceImpl">
 		<property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService" />		
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="roleManagementService" ref="roleService" />

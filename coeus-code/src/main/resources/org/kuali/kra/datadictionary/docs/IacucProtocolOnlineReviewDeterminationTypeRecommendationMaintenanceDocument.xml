@@ -17,7 +17,7 @@
     <bean id="IacucProtocolOnlineReviewDeterminationTypeRecommendationMaintenanceDocument" parent="IacucProtocolOnlineReviewDeterminationTypeRecommendationMaintenanceDocument-parentBean"/>
     <bean id="IacucProtocolOnlineReviewDeterminationTypeRecommendationMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationTypeRecommendation"/>
-        <property name="maintainableClass" value="org.kuali.kra.maintenance.IacucProtocolOnlineReviewDeterminationTypeRecommendationMaintainableImpl"/>
+        <property name="maintainableClass" value="org.kuali.kra.iacuc.maintenance.IacucProtocolOnlineReviewDeterminationTypeRecommendationMaintainableImpl"/>
         <property name="maintainableSections">
             <list>
                 <ref bean="IacucProtocolOnlineReviewDeterminationTypeRecommendationMaintenanceDocument-EditProtocolOnlineReviewDeterminationTypeRecommendation"/>

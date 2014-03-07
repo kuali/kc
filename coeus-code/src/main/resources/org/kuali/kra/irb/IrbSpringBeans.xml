@@ -1077,7 +1077,7 @@
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 	
     <bean id="iacucCorrespondentDerivedRoleTypeService"
-          class="org.kuali.kra.kim.service.impl.IacucCorrespondentDerivedRoleTypeServiceImpl">
+          class="org.kuali.kra.iacuc.kim.service.impl.IacucCorrespondentDerivedRoleTypeServiceImpl">
     </bean>
 	
 	<bean id="iacucCorrespondentDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
