@@ -23,7 +23,7 @@ import org.kuali.kra.award.home.ValidAwardBasisPayment;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.service.AwardPaymentAndInvoicesService;
+import org.kuali.kra.award.service.AwardPaymentAndInvoicesService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
