@@ -56,7 +56,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.kra.web.struts.action.BudgetActionBase;
+import org.kuali.kra.budget.web.struts.action.BudgetActionBase;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -718,7 +718,7 @@ public class BudgetAction extends BudgetActionBase {
 
     
     /**
-     * @see org.kuali.kra.web.struts.action.BudgetActionBase#getPessimisticLockService()
+     * @see BudgetActionBase#getPessimisticLockService()
      */
     @Override
     protected PessimisticLockService getPessimisticLockService() {

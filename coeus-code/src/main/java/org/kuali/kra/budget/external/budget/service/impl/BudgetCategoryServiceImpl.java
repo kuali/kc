@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.external.budget.service.impl;
+package org.kuali.kra.budget.external.budget.service.impl;
 
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.external.HashMapElement;
-import org.kuali.kra.external.budget.service.BudgetCategoryDTO;
-import org.kuali.kra.external.budget.service.BudgetCategoryService;
+import org.kuali.kra.budget.external.budget.service.BudgetCategoryDTO;
+import org.kuali.kra.budget.external.budget.service.BudgetCategoryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -35,7 +35,7 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
 
     /**
      * This method looks up the BudgetCategories bo.
-     * @see org.kuali.kra.external.budget.service.BudgetCategoryService#lookupBudgetCategories(java.util.List)
+     * @see org.kuali.kra.budget.external.budget.service.BudgetCategoryService#lookupBudgetCategories(java.util.List)
      */
     public List<BudgetCategoryDTO> lookupBudgetCategories(List<HashMapElement> criteria) {
         // TODO Auto-generated method stub

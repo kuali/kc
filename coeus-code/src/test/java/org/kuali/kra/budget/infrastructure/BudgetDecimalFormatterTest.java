@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.infrastructure;
+package org.kuali.kra.budget.infrastructure;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.infrastructure.BudgetDecimalFormatter;
 import org.kuali.rice.core.web.format.FormatException;
 
 import java.math.BigDecimal;
