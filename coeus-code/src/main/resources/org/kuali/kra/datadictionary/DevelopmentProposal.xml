@@ -120,7 +120,8 @@
 		<property name="shortLabel" value="Grants.gov Opportunity" />
 		<property name="maxLength" value="50" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="RegexValidationPattern"
+            p:pattern="[0-9A-Za-z\-]" p:validationErrorMessageKey="error.s2sopportunity.opportunityId.wrong.format"/>
 		</property>
     <property name="validCharactersConstraint">
       <bean parent="NumericPatternConstraint"/>

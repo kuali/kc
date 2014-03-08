@@ -40,6 +40,8 @@ public final class ProposalDevelopmentUtils {
     public static final String AUDIT_INCOMPLETE_PROPOSAL_ATTATCHMENTS_PARM = "AUDIT_INCOMPLETE_PROPOSAL_ATTACHMENTS";
     public static String KEY_PERSON_CERTIFICATION_DEFERRAL_PARM = "KEY_PERSON_CERTIFICATION_DEFERRAL";
     
+    public static final String PROPOSAL_PI_CITIZENSHIP_TYPE_PARM = "PROPOSAL_PI_CITIZENSHIP_TYPE";
+    
     private ProposalDevelopmentUtils() {
         
     }
