@@ -22,6 +22,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
+import org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubTypeQual;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus;
 import org.kuali.kra.infrastructure.Constants;
@@ -29,6 +30,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
+import org.kuali.kra.protocol.actions.submit.ValidProtoSubTypeQual;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -205,11 +207,10 @@ public class IacucProtocolModifySubmissionRuleImpl extends KcTransactionalDocume
              */
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("submissionTypeCode", submitAction.getSubmissionTypeCode());
-            List<IacucValidProtoSubTypeQual> validProtoSubTypeQuals = (List<IacucValidProtoSubTypeQual>) getBusinessObjectService()
-                    .findMatching(IacucValidProtoSubTypeQual.class, fieldValues);
+            List<IacucValidProtoSubTypeQual> validProtoSubTypeQuals = (List<IacucValidProtoSubTypeQual>) getBusinessObjectService().findMatching(IacucValidProtoSubTypeQual.class, fieldValues);
             if (!validProtoSubTypeQuals.isEmpty()) {
                 List<String> typeQuals = new ArrayList<String>();
-                for (IacucValidProtoSubTypeQual validProtoSubTypeQual : validProtoSubTypeQuals) {
+                for (ValidProtoSubTypeQual validProtoSubTypeQual : validProtoSubTypeQuals) {
                     typeQuals.add(validProtoSubTypeQual.getSubmissionTypeQualCode());
                 }
                 if (StringUtils.isBlank(submitAction.getSubmissionQualifierTypeCode()) || !typeQuals.contains(submitAction.getSubmissionQualifierTypeCode())) {
