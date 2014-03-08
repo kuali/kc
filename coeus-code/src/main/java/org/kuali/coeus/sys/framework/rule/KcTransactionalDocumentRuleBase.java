@@ -19,9 +19,19 @@ import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.sys.framework.validation.SoftError;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.TransactionalDocument;
 import org.kuali.rice.krad.rules.DocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
@@ -40,6 +50,10 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
     private final ErrorReporter errorReporter = new ErrorReporter();
 
     private BusinessObjectService businessObjectService;
+    private ParameterService parameterService;
+    private DictionaryValidationService knsDictionaryValidationService;
+    public static final boolean VALIDATION_REQUIRED = true;
+    public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
 
     /**
      * Delegates to {@link ErrorReporter#reportError(String, String, String...) ErrorReporter#reportError(String, String, String...)}
@@ -167,4 +181,60 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
         return this.errorReporter;
     }
 
+    /*
+     * Overriding the rice method since we need to use the knsDD validation service instead of the KRAd one.
+     * We use KNS DD components like validation patterns that the Krad validator does not even check
+     * because KRAD only checks for constraints and all validation patterns are constraints in KRAD.
+     */
+    @Override
+    public boolean processSaveDocument(Document document) {
+        boolean isValid = true;
+
+        isValid = isDocumentOverviewValid(document);
+
+        GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
+        // Using the KNS DD validation service here instead of KRAD
+        getKnsDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(),
+                VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
+        // leaving this in because there is no DocumentDictionaryService in KNS to check for existence. This might just be
+        //handled by the call above.
+        getDictionaryValidationService().validateDefaultExistenceChecksForTransDoc((TransactionalDocument) document);
+
+        GlobalVariables.getMessageMap().removeFromErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
+
+        isValid &= GlobalVariables.getMessageMap().hasNoErrors();
+        isValid &= processCustomSaveDocumentBusinessRules(document);
+
+        return isValid;
+    }
+    
+    /*
+     * Overriding the rice method and removing the docHeader description check here since 
+     * it is already being done in the kns DD validation step above to avoid dual error messages.
+     */
+    @Override
+    public boolean isDocumentOverviewValid(Document document) {
+        // add in the documentHeader path
+        GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.DOCUMENT_HEADER_PROPERTY_NAME);
+
+        validateSensitiveDataValue(KRADPropertyConstants.EXPLANATION, document.getDocumentHeader().getExplanation(),
+                getDataDictionaryService().getAttributeLabel(DocumentHeader.class, KRADPropertyConstants.EXPLANATION));
+        validateSensitiveDataValue(KRADPropertyConstants.DOCUMENT_DESCRIPTION,
+                document.getDocumentHeader().getDocumentDescription(), getDataDictionaryService().getAttributeLabel(
+                DocumentHeader.class, KRADPropertyConstants.DOCUMENT_DESCRIPTION));
+
+        // drop the error path keys off now
+        GlobalVariables.getMessageMap().removeFromErrorPath(KRADConstants.DOCUMENT_HEADER_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
+
+        return GlobalVariables.getMessageMap().hasNoErrors();
+    }
+
+    protected DictionaryValidationService getKnsDictionaryValidationService() {
+        if (this.knsDictionaryValidationService == null) {
+            this.knsDictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();       
+        }
+        return this.knsDictionaryValidationService;
+    }
 }

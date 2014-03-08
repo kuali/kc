@@ -62,19 +62,25 @@
 			</th>
 			<td>
 			
-				<kul:htmlControlAttribute property="reportTrackingBeans[${index}].preparerName" 
-							attributeEntry="${reportTrackingBeanAttributes.preparerName}" readOnly="${reportTrackingReadOnly }"  />
+				<kul:htmlControlAttribute property="reportTrackingBeans[${index}].preparerName" readOnly="${reportTrackingReadOnly}" 
+				onblur="loadContactPersonName('reportTrackingBeans[${index}].preparerName',
+										'reportTrackingBeans.fullName',
+										'na',
+										'na',
+										'na',
+										'sub.reportTrackingBeans.div');"
+				attributeEntry="${reportTrackingBeanAttributes.preparerName}"/>
+				
 						<c:if test="${!reportTrackingReadOnly}">
 	                	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
-	                                fieldConversions="userName:reportTrackingBeans[${index}].preparerName,personId:reportTrackingBeans[${index}].preparerId" />
+	                                fieldConversions="personId:reportTrackingBeans[${index}].preparerId,userName:reportTrackingBeans[${index}].preparerName" />
                     </c:if>				
-					<kul:htmlControlAttribute property="reportTrackingBeans[${index}].preparerId" 
-							attributeEntry="${reportTrackingBeanAttributes.preparerId}" readOnly="${reportTrackingReadOnly }"  />
+				<kul:htmlControlAttribute property="reportTrackingBeans[${index}].preparerId" readOnly="${reportTrackingReadOnly }"
+						attributeEntry="${reportTrackingBeanAttributes.preparerId}"   />
+                <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="reportTrackingBeans[${index}].preparerId:personId" /> 
 					<br/>
-					<span id="multiUpdatePreparerNames[${index}]">
-						<c:out value="${reportTrackingBeans[index].preparerFullname}"/>&nbsp;
-					</span>
-			
+                	<span id="reportTrackingBeans.fullName"> <c:out value="${reportTrackingBeans[$index].preparerFullname}"/>&nbsp;</span>  
+                <html:hidden styleId ="sub.reportTrackingBeans.div" property="reportTrackingBeans[${index}].preparerId" />
 			</td>
 			<td>
 				<kul:htmlControlAttribute property="reportTrackingBeans[${index}].statusCode" 
@@ -149,6 +155,8 @@
                     </c:if>				
 					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" 
 						attributeEntry="${reportTrackingAttributes.preparerId}" readOnly="${reportTrackingReadOnly }"  />
+                    <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId:personId" />
+                    <html:hidden styleId ="sub.reportTrackingBeans.div" property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" />
 					<br/>
 					<span id="preparer[${status.index}]">
 						<c:out value="${reportTracking.preparerFullname}"/>&nbsp;

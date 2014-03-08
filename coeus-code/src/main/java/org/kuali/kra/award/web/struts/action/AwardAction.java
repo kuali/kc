@@ -58,6 +58,7 @@ import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinde
 import org.kuali.kra.award.service.AwardDirectFandADistributionService;
 import org.kuali.kra.award.service.AwardReportsService;
 import org.kuali.kra.award.service.AwardSponsorTermService;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -745,11 +746,11 @@ public class AwardAction extends BudgetParentActionBase {
     }
 
 
-    protected void generateDirectFandADistribution(AwardForm awardForm) {
-        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
-        Award award = awardDocument.getAward();
-        // set awardDirectFandADistributions on award
-        if(isNewAward(awardForm) && !(award.getAwardEffectiveDate() == null)){
+    protected void generateDirectFandADistribution(Award award) {
+        if(!(award.getAwardEffectiveDate() == null)) {
+            // delete entries that were added during previous T&M initiations but the doc cancelled.
+            getBusinessObjectService().delete(award.getAwardDirectFandADistributions());
+            
             Boolean autoGenerate = getParameterService().getParameterValueAsBoolean(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, 
                                                                                     KeyConstants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS); 
             if (autoGenerate) {
@@ -802,10 +803,11 @@ public class AwardAction extends BudgetParentActionBase {
                 firstTimeAndMoneyDocCreation = Boolean.FALSE;
             }
     
+            if (timeAndMoneyDocument == null) {
+                generateDirectFandADistribution(currentAward);
+            }
+                
             if(firstTimeAndMoneyDocCreation){
-                
-                generateDirectFandADistribution(awardForm);
-                
                 timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
                 timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
                 timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);
