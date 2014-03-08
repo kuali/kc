@@ -32,7 +32,10 @@ import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.bo.*;
+import org.kuali.kra.bo.CitizenshipType;
+import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.SponsorFormTemplateList;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
@@ -42,7 +45,24 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.medusa.MedusaBean;
-import org.kuali.kra.proposaldevelopment.bo.*;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
+import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAssignedRole;
+import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
+import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
+import org.kuali.kra.proposaldevelopment.bo.ProposalDevelopmentApproverViewDO;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
+import org.kuali.kra.proposaldevelopment.bo.ProposalState;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -202,6 +222,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
    
     private String[] selectedBudgetPrint;
     private static final String PROPOSAL_SUMMARY_TAB_INDICATOR = "enableProposalSummaryTab";   
+    private static final String NONE = "None";
     
     private transient String currentPersonCountryCode = "";
     private ProposalDevelopmentCustomDataHelper customDataHelper;
@@ -365,9 +386,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             getDocInfo().set(1, docStatus);
             
             if (pd.getDevelopmentProposal().getSponsor() == null) {
-                getDocInfo().add(new HeaderField("DataDictionary.Sponsor.attributes.sponsorName", ""));
+                getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.sponsorS2S", ""));
             } else {
-                getDocInfo().add(new HeaderField("DataDictionary.Sponsor.attributes.sponsorName", pd.getDevelopmentProposal().getSponsor().getSponsorName()));
+                S2sOpportunity opportunity = pd.getDevelopmentProposal().getS2sOpportunity();
+                String provider = (opportunity == null || opportunity.getS2sProvider() == null || opportunity.getS2sProvider().getDescription() == null) ? NONE : opportunity.getS2sProvider().getDescription();
+                getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.sponsorS2S", 
+                        pd.getDevelopmentProposal().getSponsor().getSponsorName() + "/" + provider));
             }
             
             if (getKeyPersonnelService().hasPrincipalInvestigator(pd)) {

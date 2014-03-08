@@ -41,7 +41,14 @@
 				</div>
                 <div align="left" style="border:1px solid #999; padding:10px; margin-top:10px; margin-bottom:10px; margin-right:10px; margin-left:20px; background-image:url('../BFN/images/black05.png');">
                     <strong>Custom Data</strong><br />
+					<c:set var="customStudyGroupId" value="0" />
 					<c:forEach items="${studyProcedure.iacucProtocolStudyCustomDataList}" var="procedureCustomData" varStatus="customDataIndex">
+                 		<c:if test="${customStudyGroupId ne procedureCustomData.iacucProtocolStudyGroupId}">
+							<c:set var="customStudyGroupId" value="${procedureCustomData.iacucProtocolStudyGroupId}" />
+	                 		<c:if test="${!customDataIndex.first}">
+								</br>
+	                 		</c:if>
+						</c:if>
                  		<c:out value="${procedureCustomData.iacucProcedureCategoryCustomData.label}"/> :  
                  		<c:out value="${procedureCustomData.value}"/> <br/> 
                     </c:forEach>
