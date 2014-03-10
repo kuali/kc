@@ -35,6 +35,8 @@
 			<xs:element name="activityDate" type="xs:string" minOccurs="0"/>
 			<xs:element name="comments" type="xs:string" minOccurs="0"/>
 			<xs:element name="personName" type="xs:string" minOccurs="0"/>
+			<xs:element name="recipientName" type="xs:string" minOccurs="0"/>
+			<xs:element name="recipientOrganization" type="xs:string" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>
