@@ -456,6 +456,29 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>truezip-maven-plugin</artifactId>
+                <version>${truezip-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>unpack-help</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <fileset>
+                                <directory>${basedir}/src/main/config/help.zip</directory>
+                                <includes>
+                                    <include>**/*</include>
+                                </includes>
+                                <outputDirectory>${basedir}/src/main/webapp/static/</outputDirectory>
+                            </fileset>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>${jetty-maven-plugin.groupId}</groupId>
                 <artifactId>${jetty-maven-plugin.artifactId}</artifactId>
                 <version>${jetty-maven-plugin.version}</version>
@@ -1525,6 +1548,27 @@ module of int tests -->
 									</filesets>
 								</configuration>
 							</execution>
+							<execution>
+                                <id>delete-help</id>
+                                <phase>clean</phase>
+                                <goals>
+                                    <goal>clean</goal>
+                                </goals>
+                                <configuration>
+                                    <filesets>
+                                        <fileset>
+                                            <directory>src/main/webapp/static</directory>
+                                            <includes>
+                                                <include>help/</include>
+                                            </includes>
+                                            <excludes>
+                                                <exclude>**/.svn</exclude>
+                                                <exclude>**/.svn/**</exclude>
+                                            </excludes>
+                                        </fileset>
+                                    </filesets>
+                                </configuration>
+                            </execution>
 						</executions>
 		    		</plugin>
 				</plugins>
@@ -1544,7 +1588,7 @@ module of int tests -->
             1) have a new child module called kc-rice-standalone.  It will be an empty overlay of rice-standalone.
             2) configure all the jetty/tomcat stuff in a central place under pluginManagement
             3) to run kc you go to the kc web module and invoke jetty or tomcat
-            4) to run rice you go to the kc-rice-standalone and invoke jetty or tomcat!
+            4) to run rice you go to the kc-rice-standalone and invoke jetty or tomcat
          -->
         <profile>
             <id>rice-server</id>
@@ -2046,7 +2090,7 @@ module of int tests -->
         <jsp-api.version>2.1</jsp-api.version>
         <jstl.version>1.2</jstl.version>
         <junit.version>4.11</junit.version>
-        <kc-printing-xsds.version>1.8.0</kc-printing-xsds.version>
+        <kc-printing-xsds.version>1.9.0</kc-printing-xsds.version>
         <kc-s2s-generated.version>1.0</kc-s2s-generated.version>
         <keycontacts-1.0-gg.version>1.0</keycontacts-1.0-gg.version>
         <phs398researchplan-2.0-gg.version>1.1</phs398researchplan-2.0-gg.version>
@@ -2105,6 +2149,7 @@ module of int tests -->
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
         <maven-war-plugin.version>2.4</maven-war-plugin.version>
+        <truezip-maven-plugin.version>1.1</truezip-maven-plugin.version>
         <tomcat-maven-plugin.version>2.1</tomcat-maven-plugin.version>
         <tomcat6-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat6-maven-plugin.version>
         <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
