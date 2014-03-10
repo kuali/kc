@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.person.attr;
+package org.kuali.coeus.common.impl.person.attr;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.bo.CustomDataHelper;
 import org.kuali.kra.infrastructure.KeyConstants;
