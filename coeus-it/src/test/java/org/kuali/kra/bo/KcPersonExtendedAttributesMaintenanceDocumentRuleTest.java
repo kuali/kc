@@ -18,6 +18,8 @@ package org.kuali.kra.bo;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
+import org.kuali.coeus.common.impl.person.attr.KcPersonExtendedAttributesMaintainableImpl;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.kra.rules.KcPersonExtendedAttributesMaintenanceDocumentRule;
 import org.kuali.rice.core.api.util.RiceKeyConstants;

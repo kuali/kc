@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.home.approvedsubawards;
 
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
-import org.kuali.kra.bo.Organization;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**

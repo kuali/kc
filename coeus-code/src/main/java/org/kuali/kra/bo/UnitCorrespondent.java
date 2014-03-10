@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.common.framework.unit.Unit;
+
 public class UnitCorrespondent extends Correspondent {
 
     private static final long serialVersionUID = 1L;

@@ -15,8 +15,8 @@
  */
 package org.kuali.coeus.common.framework.version;
 
+import org.kuali.coeus.common.framework.sequence.associate.SeparatelySequenceableAssociate;
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
-import org.kuali.kra.SeparatelySequenceableAssociate;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="Organization" parent="Organization-parentBean"/>
   <bean abstract="true" id="Organization-parentBean" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.Organization"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.Organization"/>
 		<property name="objectLabel" value="Organization"/>
     <property name="inquiryDefinition">
       <ref bean="Organization-inquiryDefinition"/>
@@ -997,7 +997,7 @@
 
   <bean id="Organization-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Organization"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.Organization"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.org.Organization"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -1138,7 +1138,7 @@
   </bean>
 
   <bean id="Organization-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.Organization"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.org.Organization"/>
     <property name="headerText" value="Organization Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

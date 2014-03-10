@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.krms;
 
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Unit;
 import org.kuali.rice.core.api.data.DataType;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.uif.RemotableAttributeField;

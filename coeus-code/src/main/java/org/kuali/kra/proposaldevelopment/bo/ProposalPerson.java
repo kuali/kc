@@ -23,11 +23,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -2175,7 +2175,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     }
 
     /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#setUnit(org.kuali.kra.bo.Unit)
+     * @see org.kuali.coeus.common.framework.contact.Contactable#setUnit(org.kuali.coeus.common.framework.unit.Unit)
      */
     public void setUnit(Unit unit) {
         setHomeUnitRef(unit);

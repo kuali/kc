@@ -18,6 +18,7 @@ package org.kuali.kra.bo;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.bo.PersistableAttachment;

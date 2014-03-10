@@ -57,7 +57,7 @@
                     	<%--   onblur="loadUnitNameTo('document.committeeList[0].homeUnitNumber','document.committee.homeUnitName');" /> --%>
                     <c:choose>
                     <c:when test="${!readOnly}">
-                        <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.committeeList[0].homeUnitNumber" />
+                        <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit" fieldConversions="unitNumber:document.committeeList[0].homeUnitNumber" />
                     </c:when>
                     <c:otherwise>
                         <html:hidden property="document.committeeList[0].homeUnitNumber"/>

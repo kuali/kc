@@ -16,8 +16,8 @@
 package org.kuali.kra.coi;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Unit;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public abstract class DisclosureReporterUnit extends KcPersistableBusinessObjectBase {

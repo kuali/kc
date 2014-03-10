@@ -21,8 +21,8 @@ import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Docume
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
-import org.kuali.kra.bo.Organization;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;

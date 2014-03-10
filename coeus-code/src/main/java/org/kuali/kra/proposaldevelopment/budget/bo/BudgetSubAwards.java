@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.budget.bo;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.bo.Organization;
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 

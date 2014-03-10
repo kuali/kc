@@ -17,10 +17,10 @@
 package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ArgValueLookup;
-import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
@@ -354,7 +354,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	 * sponsorTypeCode and finally returns sponsor XML Object
 	 */
 	private Sponsor getSponsor(String sponsorCode, String primeSponsorCode,
-			String sponsorName, org.kuali.kra.bo.Sponsor sponsorBO) {
+			String sponsorName, org.kuali.coeus.common.framework.sponsor.Sponsor sponsorBO) {
 		Sponsor sponsor = Sponsor.Factory.newInstance();
 		sponsor.setSponsorName(sponsorName);
 		sponsor.setSponsorCode(sponsorCode);
@@ -376,8 +376,8 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 		Map<String, String> sponsorCodeMap = new HashMap<String, String>();
 		sponsorCodeMap.put(Constants.SPONSOR_CODE, sponsorCode);
 		String sponsorTypeCode = EMPTY_STRING;
-		org.kuali.kra.bo.Sponsor sponsor = (org.kuali.kra.bo.Sponsor) getBusinessObjectService()
-		            .findByPrimaryKey(org.kuali.kra.bo.Sponsor.class,sponsorCodeMap);
+		org.kuali.coeus.common.framework.sponsor.Sponsor sponsor = (org.kuali.coeus.common.framework.sponsor.Sponsor) getBusinessObjectService()
+		            .findByPrimaryKey(org.kuali.coeus.common.framework.sponsor.Sponsor.class,sponsorCodeMap);
 		if (sponsor != null) {
 			sponsorTypeCode = sponsor.getSponsorTypeCode();
 		}

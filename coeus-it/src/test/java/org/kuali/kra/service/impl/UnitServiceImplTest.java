@@ -18,10 +18,10 @@ package org.kuali.kra.service.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.Collection;

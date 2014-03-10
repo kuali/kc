@@ -54,7 +54,7 @@
                       </c:otherwise>
                      </c:choose> 
                       </div>
-                     &nbsp; <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:newProposalPersonUnit[${personIndex}].unitNumber,unitName:newProposalPersonUnit[${personIndex}].unitName" />
+                     &nbsp; <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit" fieldConversions="unitNumber:newProposalPersonUnit[${personIndex}].unitNumber,unitName:newProposalPersonUnit[${personIndex}].unitName" />
                         <span class="fineprint"></span> </td>
 
                     <td class="infoline"><div align=left>

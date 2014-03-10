@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.kim.bo;
 
-import org.kuali.kra.bo.Unit;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 
 public class KcKimAttributes extends KimAttributes {

@@ -32,7 +32,7 @@
 
  		<!--  <label>Sponsor Code Search</label> -->
    		<label>
-   			<html:image styleId="lookupBtn" tabindex="1000000" property="methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!).(:;newSponsors[0];:).((%true%)).anchor"
+   			<html:image styleId="lookupBtn" tabindex="1000000" property="methodToCall.performLookup.(!!org.kuali.coeus.common.framework.sponsor.Sponsor!!).(:;newSponsors[0];:).((%true%)).anchor"
 	           src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" border="0" alt="Multiple Value Search on " title="Multiple Value Search on " />
    		
          	</label><br>
