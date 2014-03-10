@@ -1072,7 +1072,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      */
     public String usesRolodex(DevelopmentProposal developmentProposal, Integer rolodexId) {
         for (ProposalPerson person : developmentProposal.getProposalPersons()) {
-            if(person.getRolodexId().equals(rolodexId)) {
+            if(ObjectUtils.isNotNull(person.getRolodexId()) && person.getRolodexId().equals(rolodexId)) {
                 return TRUE;
             }
         }
