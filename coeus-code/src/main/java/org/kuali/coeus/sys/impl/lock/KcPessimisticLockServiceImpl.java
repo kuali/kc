@@ -18,10 +18,11 @@ package org.kuali.coeus.sys.impl.lock;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -52,36 +53,13 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
     private ParameterService parameterService;
 
     @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
-    
-    /**
-     * Sets the ParameterService.
-     * @param parameterService the parameter service. 
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-    
-    /**
-     * Set the Date Time Service.  Injected by Spring.
-     * @param dateTimeService the date time service
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-    
-    /**
-     * Set the Business Object Service.  Injected by Spring.
-     * @param businessObjectService the business object service
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
+
 
     /**
      * Retrieve all of the locks from the database.  Delete those that
@@ -92,11 +70,11 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
     public void clearExpiredLocks() {
         long now = getCurrentTime();
         long expirationAgeMillis = getExpirationAgeMillis();
-        Collection<PessimisticLock> locks = getAllLocks();
+        final Collection<PessimisticLock> locks = getAllLocks();
         for (PessimisticLock lock : locks) {
             long lockTime = lock.getGeneratedTimestamp().getTime();
             if (now - lockTime >= expirationAgeMillis) {
-                businessObjectService.delete(lock);
+                dataObjectService.delete(lock);
             }
         }
     }
@@ -105,9 +83,8 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      * Get all of the Pessimistic Locks from the database.
      * @return all of the pessimistic locks
      */
-    @SuppressWarnings("unchecked")
     protected Collection<PessimisticLock> getAllLocks() {
-        return businessObjectService.findAll(PessimisticLock.class);
+        return dataObjectService.findMatching(PessimisticLock.class, QueryByCriteria.Builder.create().build()).getResults();
     }
     
     /**
@@ -140,5 +117,29 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
 
         LOG.warn("Parameter: " + Constants.PESSIMISTIC_LOCKING_EXPIRATION_AGE + " not found. Using Default value: " + DEFAULT_EXPIRATION_AGE);
         return DEFAULT_EXPIRATION_AGE;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
     }
 }
