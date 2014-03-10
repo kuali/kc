@@ -408,7 +408,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/IrbCorrespondentType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/JobCode.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/KcKimAttributes.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/KcKrmsRule.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/KcKrmsTermFunction.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/KcKrmsTermFunParam.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/KcNotification.xml</value>
@@ -1428,17 +1427,7 @@
           scope="prototype" >
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
-    
-    <bean id="krmsRuleDao" parent="platformAwareDao" class="org.kuali.kra.krms.dao.KrmsRuleDaoOjb">
-    </bean>
-    
-    <bean id="kcKrmsRuleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService" ref="kcKrmsRuleLookupableHelperService" />      
-    </bean> 
-    <bean id="kcKrmsRuleLookupableHelperService" class="org.kuali.kra.krms.lookup.KcKrmsRuleLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
-          scope="prototype" >
-        <property name="krmsRuleDao" ref="krmsRuleDao" />      
-    </bean>
+
     <bean id="kcPersonExtendedAttributesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="kcPersonExtendedAttributesLookupableHelperService" /> 
     </bean> 
