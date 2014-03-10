@@ -24,8 +24,8 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;

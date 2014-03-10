@@ -19,6 +19,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.commitments.AwardCostShare;
@@ -28,8 +30,6 @@ import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.*;
-import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
@@ -41,8 +41,6 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Awar
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.bo.CommentType;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.printing.schema.*;
@@ -1977,18 +1975,18 @@ public abstract class AwardBaseStream implements XmlStream {
 					.setUnitAdministratorArray(getUnitAdministratorList(
 							awardPersonUnit)
 							.toArray(
-									new org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator[0]));
+									new org.org.kuali.coeus.common.framework.unit.admin.InvestigatorUnitsType.UnitAdministrator[0]));
 			investigatorUnitsTypes.add(investigatorUnitsType);
 		}
 		return investigatorUnitsTypes;
 	}
 
-	private List<org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator> getUnitAdministratorList(
+	private List<org.org.kuali.coeus.common.framework.unit.admin.InvestigatorUnitsType.UnitAdministrator> getUnitAdministratorList(
 			AwardPersonUnit awardPersonUnit) {
-		List<org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator> unitAdministratorList = new ArrayList<org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator>();
+		List<org.org.kuali.coeus.common.framework.unit.admin.InvestigatorUnitsType.UnitAdministrator> unitAdministratorList = new ArrayList<org.org.kuali.coeus.common.framework.unit.admin.InvestigatorUnitsType.UnitAdministrator>();
 		for (UnitAdministrator unitAdministrator : awardPersonUnit.getUnit()
 				.getUnitAdministrators()) {
-			org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator unitAdministratorElement = org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator.Factory
+			org.org.kuali.coeus.common.framework.unit.admin.InvestigatorUnitsType.UnitAdministrator unitAdministratorElement = org.kuali.kra.printing.schema.InvestigatorUnitsType.UnitAdministrator.Factory
 					.newInstance();
 			if (unitAdministrator.getUnitAdministratorTypeCode() != null) {
 				unitAdministratorElement.setUnitAdministratorTypeCode(Integer

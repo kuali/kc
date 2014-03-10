@@ -131,10 +131,10 @@
    		<collection-descriptor name="specialReviews" proxy="true" element-class-ref="org.kuali.kra.award.specialreview.AwardSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="awardId" />
 		</collection-descriptor>
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="sponsorCode" />
         </reference-descriptor>
-        <reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="primeSponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="primeSponsorCode" />
         </reference-descriptor>
         <collection-descriptor name="awardSponsorTerms" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardSponsorTerm" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -182,7 +182,7 @@
         <reference-descriptor name="awardTemplate" class-ref="org.kuali.kra.award.home.AwardTemplate" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="templateCode" />
         </reference-descriptor>
-        		<reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+        		<reference-descriptor name="primeSponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="primeSponsorCode"/>
 		</reference-descriptor>
  		<reference-descriptor name="awardMethodOfPayment" class-ref="org.kuali.kra.award.home.AwardMethodOfPayment" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -200,7 +200,7 @@
 		<!--<reference-descriptor name="cfdaNumber" class-ref="org.kuali.kra.award.home.CFDA" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="cfdaNumber" />
     	</reference-descriptor>-->
-        <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="leadUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
 		<reference-descriptor name="awardType" class-ref="org.kuali.kra.award.home.AwardType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -306,7 +306,7 @@
 		<reference-descriptor name="awardPerson" class-ref="org.kuali.kra.award.contacts.AwardPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardContactId"/> 
 		</reference-descriptor>
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/> 
 		</reference-descriptor>
 		<collection-descriptor name="creditSplits" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -444,7 +444,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="organizationId"/> 
 		</reference-descriptor>
 	</class-descriptor>
@@ -879,7 +879,7 @@
  		<reference-descriptor name="awardTemplateStatus" class-ref="org.kuali.kra.award.home.AwardStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="statusCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="primeSponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="primeSponsorCode"/>
 		</reference-descriptor>
  		<reference-descriptor name="awardMethodOfPayment" class-ref="org.kuali.kra.award.home.AwardMethodOfPayment" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -1112,7 +1112,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -1529,10 +1529,10 @@
 		<reference-descriptor name="reportStatus" class-ref="org.kuali.kra.award.paymentreports.ReportStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="statusCode"/>
 		</reference-descriptor>    
-        <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="leadUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="leadUnitNumber"/>
 		</reference-descriptor>
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="sponsorCode" />
         </reference-descriptor>			
     </class-descriptor>	

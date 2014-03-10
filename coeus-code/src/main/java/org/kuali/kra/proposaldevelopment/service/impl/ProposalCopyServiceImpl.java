@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

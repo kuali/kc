@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.rates;
 
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.BudgetDecimal;
 
 public class UnitFormulatedCost extends KcPersistableBusinessObjectBase {

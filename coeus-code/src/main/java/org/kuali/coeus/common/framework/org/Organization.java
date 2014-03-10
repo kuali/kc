@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.org;
 
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.OrganizationAudit;
+import org.kuali.kra.bo.OrganizationIndirectcost;
+import org.kuali.kra.bo.OrganizationType;
+import org.kuali.kra.bo.OrganizationYnq;
 import org.springframework.util.AutoPopulatingList;
 
 import javax.persistence.*;

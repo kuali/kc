@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.util.ArrayList;

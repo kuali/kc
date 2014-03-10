@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.CoPiInfoDO;

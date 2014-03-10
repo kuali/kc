@@ -3,7 +3,7 @@
   <bean id="OrganizationMaintenanceDocument" parent="OrganizationMaintenanceDocument-parentBean"/>
 
   <bean id="OrganizationMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.Organization"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.Organization"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.OrganizationMaintenableImpl"/>
     <property name="maintainableSections">
       <list>

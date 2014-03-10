@@ -16,6 +16,7 @@
 package org.kuali.kra.award.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
@@ -26,7 +27,6 @@ import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.printing.schema.AwardNoticeDocument;
 import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;

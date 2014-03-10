@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.personmasschange.service;
 
-import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 
 import java.util.List;

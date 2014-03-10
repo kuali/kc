@@ -19,6 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
+import org.kuali.coeus.common.impl.person.attr.KcPersonExtendedAttributesMaintainableImpl;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.web.ui.Field;

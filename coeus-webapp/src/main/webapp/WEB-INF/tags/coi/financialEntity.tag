@@ -104,8 +104,8 @@
 	                                                </th>
 	                                                 <td align="left" valign="middle" >
 	                                                    <kul:htmlControlAttribute property="${prop}[${status.index}].sponsorCode" attributeEntry="${personFinIntDisclAttribute.sponsorCode}" onblur="loadSponsor('${prop}[${status.index}].sponsorCode', 'sponsorName${status.index}', '${prop}[${status.index}].entityName', 'financialEntityHelper.prevSponsorCode');false" />
-	                                                    <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:${prop}[${status.index}].sponsorCode,sponsorName:${prop}[${status.index}].sponsor.sponsorName" anchor="${tabKey}" />
-	                                                    <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="${prop}[${status.index}].sponsorCode:sponsorCode" anchor="${tabKey}" />
+	                                                    <kul:lookup boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" fieldConversions="sponsorCode:${prop}[${status.index}].sponsorCode,sponsorName:${prop}[${status.index}].sponsor.sponsorName" anchor="${tabKey}" />
+	                                                    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="${prop}[${status.index}].sponsorCode:sponsorCode" anchor="${tabKey}" />
 	                                                    <div id="messageBox${status.index}" style="display:none;">
 	                                                     </div>
 	                                                    <input type="hidden" name="financialEntityHelper.editRolodexId" value="${KualiForm.financialEntityHelper.editRolodexId}" />

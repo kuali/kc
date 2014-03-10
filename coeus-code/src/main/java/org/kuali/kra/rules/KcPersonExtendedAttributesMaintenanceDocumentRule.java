@@ -1,9 +1,9 @@
 package org.kuali.kra.rules;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
+import org.kuali.coeus.common.impl.person.attr.KcPersonExtendedAttributesMaintainableImpl;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
-import org.kuali.kra.bo.KcPersonExtendedAttributes;
-import org.kuali.kra.bo.KcPersonExtendedAttributesMaintainableImpl;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.rice.core.api.util.RiceKeyConstants;

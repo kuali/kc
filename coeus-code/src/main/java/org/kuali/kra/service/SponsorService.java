@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.bo.Sponsor;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 
 import java.util.Collection;

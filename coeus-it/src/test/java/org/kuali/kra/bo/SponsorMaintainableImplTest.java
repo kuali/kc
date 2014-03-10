@@ -18,6 +18,7 @@ package org.kuali.kra.bo;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.impl.parameter.ParameterServiceImpl;

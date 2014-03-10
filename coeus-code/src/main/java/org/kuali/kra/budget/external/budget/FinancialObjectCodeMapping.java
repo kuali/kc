@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.external.budget;
 
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;

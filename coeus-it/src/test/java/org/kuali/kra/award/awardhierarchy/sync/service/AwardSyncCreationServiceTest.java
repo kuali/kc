@@ -19,6 +19,7 @@ package org.kuali.kra.award.awardhierarchy.sync.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
@@ -27,7 +28,6 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import static org.junit.Assert.*;

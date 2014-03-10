@@ -139,7 +139,7 @@
 					name="unit_contact.orgNumber_${awardContactRowStatus.index}"
 					value="${awardContact.organizationIdentifier}" />
 				${awardContact.unitNumberForDisplay}&nbsp; <kul:directInquiry
-					boClassName="org.kuali.kra.bo.Unit"
+					boClassName="org.kuali.coeus.common.framework.unit.Unit"
 					inquiryParameters="unit_contact.orgNumber_${awardContactRowStatus.index}:unitNumber"
 					anchor="${tabKey}" /></div>
 				</td>

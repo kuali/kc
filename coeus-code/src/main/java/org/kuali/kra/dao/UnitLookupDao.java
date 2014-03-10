@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.dao;
 
-import org.kuali.kra.bo.Unit;
+import org.kuali.coeus.common.framework.unit.Unit;
 
 /**
  * This class...

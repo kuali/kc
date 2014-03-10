@@ -16,7 +16,7 @@
 package org.kuali.kra.multicampus;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.bo.KcPersonExtendedAttributes;
+import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
 import org.kuali.kra.multicampus.MultiCampusIdentityService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliationContract;
