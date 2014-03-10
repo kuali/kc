@@ -57,8 +57,8 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     private static final long serialVersionUID = -4110005875629288373L;
 
-    @ManyToOne(targetEntity = DevelopmentProposal.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private DevelopmentProposal developmentProposal;
 
     @Column(name = "CONFLICT_OF_INTEREST_FLAG")
@@ -360,8 +360,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     @Transient
     private Unit homeUnitRef;
 
-    @OneToOne(targetEntity = ProposalPersonExtendedAttributes.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE })
-    @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
+    @OneToOne(mappedBy="proposalPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
     private ProposalPersonExtendedAttributes proposalPersonExtendedAttributes;
 
     @Transient

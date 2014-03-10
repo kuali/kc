@@ -98,7 +98,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     private static final long serialVersionUID = 2958631745964610527L;
 
-    @OneToOne(mappedBy = "proposalDocument")
+    @OneToOne(mappedBy = "proposalDocument", cascade = CascadeType.ALL)
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
     private DevelopmentProposal developmentProposal;
 

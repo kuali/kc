@@ -215,8 +215,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<PropScienceKeyword> propScienceKeywords;
 
-    @OneToMany(mappedBy = "developmentProposal")
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
     @OrderBy("ordinalPosition")
     private List<ProposalPerson> proposalPersons;
 
@@ -1423,6 +1422,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
             p.getProposalPersonExtendedAttributes().setProposalPersonNumber(p.getProposalPersonNumber());
         }
         p.setDevelopmentProposal(this);
+        p.setProposalNumber(getProposalNumber());
         getProposalPersons().add(p);
     }
 
