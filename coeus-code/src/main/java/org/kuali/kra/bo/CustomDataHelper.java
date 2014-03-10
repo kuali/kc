@@ -16,7 +16,7 @@
 package org.kuali.kra.bo;
 
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
-import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributesMaintainableImpl;
+import org.kuali.coeus.common.impl.person.attr.KcPersonExtendedAttributesMaintainableImpl;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
