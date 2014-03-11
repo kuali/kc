@@ -155,8 +155,8 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
         proposalPerson.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
         proposalPerson.setProposalPersonNumber(new Integer(1));
 
-        proposalPerson.setOptInUnitStatus("Y");
-        proposalPerson.setOptInCertificationStatus("Y");
+        proposalPerson.setOptInUnitStatus(true);
+        proposalPerson.setOptInCertificationStatus(true);
         proposalDocument.getDevelopmentProposal().getProposalPersons().add(proposalPerson);
 
         KeyPersonnelService keyPersonnelService = (KeyPersonnelServiceImpl) KcServiceLocator.getService(KeyPersonnelService.class);

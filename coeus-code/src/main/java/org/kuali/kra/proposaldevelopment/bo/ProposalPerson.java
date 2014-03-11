@@ -134,10 +134,12 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     private String simpleName;
 
     @Column(name = "OPT_IN_UNIT_STATUS")
-    private String optInUnitStatus;
+    @Convert(converter = BooleanYNConverter.class)
+    private boolean optInUnitStatus;
 
     @Column(name = "OPT_IN_CERTIFICATION_STATUS")
-    private String optInCertificationStatus;
+    @Convert(converter = BooleanYNConverter.class)
+    private boolean optInCertificationStatus;
 
     @Transient
     private boolean unitdelete;
@@ -995,19 +997,19 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         this.otherSignificantContributorFlag = otherSignificantContributorFlag;
     }
 
-    public String getOptInUnitStatus() {
+    public boolean getOptInUnitStatus() {
         return optInUnitStatus;
     }
 
-    public void setOptInUnitStatus(String optInUnitStatus) {
+    public void setOptInUnitStatus(boolean optInUnitStatus) {
         this.optInUnitStatus = optInUnitStatus;
     }
 
-    public String getOptInCertificationStatus() {
+    public boolean getOptInCertificationStatus() {
         return optInCertificationStatus;
     }
 
-    public void setOptInCertificationStatus(String optInCertificationStatus) {
+    public void setOptInCertificationStatus(boolean optInCertificationStatus) {
         this.optInCertificationStatus = optInCertificationStatus;
     }
 
