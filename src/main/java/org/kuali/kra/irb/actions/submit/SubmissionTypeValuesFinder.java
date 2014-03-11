@@ -140,7 +140,7 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     
-    private boolean displayNotifyIrb(String currentStatus, Protocol protocol) {
+    protected boolean displayNotifyIrb(String currentStatus, Protocol protocol) {
         String validStatuses[] = { ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT };
         String validSumissionStatuses[] = { ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE};        
         String currentSubmissionStatus = protocol.getProtocolSubmission().getSubmissionStatusCode();
@@ -156,7 +156,7 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
         return false;
     }
 
-    private boolean validateCurrentSubmissionStatus(String currentSubmissionStatus, String[] validSubmissionStatuses) {
+    protected boolean validateCurrentSubmissionStatus(String currentSubmissionStatus, String[] validSubmissionStatuses) {
         for (String status : validSubmissionStatuses) {
             if (StringUtils.equals(currentSubmissionStatus, status)) {
                 return true;
