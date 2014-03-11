@@ -1802,7 +1802,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     }
         
                     if (performAssignment) {
-                        getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule((Protocol) protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                        getProtocolAssignCmtSchedService().assignToCommitteeAndSchedulePostAgendaAssignment((Protocol) protocolForm.getProtocolDocument().getProtocol(), actionBean);
                     }
                         
                 }
