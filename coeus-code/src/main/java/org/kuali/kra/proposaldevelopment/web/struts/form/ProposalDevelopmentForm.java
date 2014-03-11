@@ -36,7 +36,6 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CitizenshipType;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.SponsorFormTemplateList;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;

@@ -53,7 +53,10 @@
         <value>org.kuali.kra.s2s.bo</value>
         <value>org.kuali.coeus.common.specialreview.impl.bo</value>
         <value>org.kuali.coeus.common.framework.rolodex</value>
-
+        <value>org.kuali.coeus.common.framework.sponsor</value>
+        <value>org.kuali.coeus.common.framework.org</value>
+        <value>org.kuali.coeus.common.framework.person</value>
+        <value>org.kuali.coeus.common.framework.unit</value>
         <!--converters -->
         <value>org.kuali.kra.budget</value>
         <value>org.kuali.rice.krad.data.jpa.converters</value>
