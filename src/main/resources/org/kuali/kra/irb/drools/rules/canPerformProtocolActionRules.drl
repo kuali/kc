@@ -325,7 +325,7 @@ salience 100
 when
     // based on ProtocolAssignCmtSchedAuthorizer.isPendingOrSubmittedToCommittee
 	//protocolAction : ProtocolActionMapping(actionTypeCode == "109", protocolSubmissionScheduleId == null, submissionStatusCode not in ("100","102"))
-	protocolAction : ProtocolActionMapping(actionTypeCode == "109", submissionStatusCode in ("100","102"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "109", submissionStatusCode in ("100","101","102"))
 then	
 	setAction(protocolAction, true);
 end
