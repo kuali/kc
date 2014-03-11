@@ -288,7 +288,7 @@
         </reference-descriptor>
      </class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.subaward.bo.SubawardTemplateType" table="SUBAWARD_TEMPLATE_TYPE ">
+	<class-descriptor class="org.kuali.kra.subaward.bo.SubawardTemplateType" table="SUBAWARD_TEMPLATE_TYPE">
 		<field-descriptor name="templateTypeCode" column="SUBAWARD_TEMPLATE_TYPE_CODE " jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
