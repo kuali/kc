@@ -30,6 +30,7 @@ import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.printing.schema.*;
+import org.kuali.kra.printing.schema.ContactType;
 import org.kuali.kra.printing.schema.ReportTermDetailsType.MailCopies;
 import org.kuali.kra.printing.schema.TemplateDocument.Template;
 import org.kuali.kra.printing.util.PrintingUtils;
