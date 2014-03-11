@@ -121,11 +121,19 @@ then
 	setAction(protocolAction, true);
 end
 
-rule "Manage Review Comments"
+rule "Manage Review Comments 1"
 when
 	protocolAction : ProtocolActionMapping(actionTypeCode == "310", protocolStatusCode in ("101", "102", "104", "105", "106", "304", "103"))
 then	
 	setAction(protocolAction, true);
+end
+
+rule "Manage Review Comments 2"
+salience 100
+when
+    protocolAction : ProtocolActionMapping(actionTypeCode == "310", submissionStatusCode in ("100"))
+then    
+    setAction(protocolAction, true);
 end
 
 rule "Suspend Protocol 1"
@@ -408,6 +416,14 @@ salience 100
 when
 	protocolAction : ProtocolActionMapping(actionTypeCode == '309',  protocolStatusCode == '101')
 then	
+    setAction(protocolAction, true);
+end
+
+rule "Rule 2 -  Modify Protocol Submission"
+salience 100
+when
+    protocolAction : ProtocolActionMapping(actionTypeCode == "309", submissionStatusCode in ("100"))
+then    
     setAction(protocolAction, true);
 end
 

@@ -64,6 +64,7 @@ import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionEvent;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
+import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredEvent;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService;
@@ -1155,8 +1156,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         protocolForm.getActionHelper().preSaveSubmissionQuestionnaires();
         List<AnswerHeader> answerHeaders = protocolForm.getActionHelper().getProtocolNotifyIrbBean().getQuestionnaireHelper().getAnswerHeaders();
         if (isMandatoryQuestionnaireComplete(answerHeaders, "actionHelper.protocolNotifyIrbBean.datavalidation")) {
-            getProtocolNotifyIrbService().submitIrbNotification(protocolForm.getProtocolDocument().getProtocol(),
-                    protocolForm.getActionHelper().getProtocolNotifyIrbBean());
+            getProtocolNotifyIrbService().submitIrbNotification(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolNotifyIrbBean());
             protocolForm.getQuestionnaireHelper().setAnswerHeaders(new ArrayList<AnswerHeader>());
             LOG.info("notifyIrbProtocol " + protocolForm.getProtocolDocument().getDocumentNumber());
             generateActionCorrespondence(ProtocolActionType.NOTIFY_IRB, protocolForm.getProtocolDocument().getProtocol());
@@ -1164,6 +1164,20 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
             ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.NOTIFY_IRB, "Notify IRB");
             returnPath = getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IrbConstants.PROTOCOL_ACTIONS_TAB);
         }
+        
+        //We need to update the modify submission bean with the new submission data
+        protocolForm.getProtocolDocument().getProtocol().refreshReferenceObject("protocolSubmissions");
+        ProtocolModifySubmissionBean modifySubmissionBean = protocolForm.getActionHelper().getProtocolModifySubmissionBean();
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();        
+        modifySubmissionBean.setSubmissionTypeCode(protocol.getProtocolSubmission().getSubmissionTypeCode());
+        modifySubmissionBean.setSubmissionQualifierTypeCode(protocol.getProtocolSubmission().getSubmissionTypeQualifierCode());
+        modifySubmissionBean.setProtocolReviewTypeCode(protocol.getProtocolSubmission().getProtocolReviewTypeCode());
+        
+        //Assign to Committee and Schedule sub-panel Committee drop down needs to reflect the Committee value just selected
+        ProtocolAssignCmtSchedBean cmtAssignBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
+        cmtAssignBean.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
+        cmtAssignBean.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
+        
         return returnPath;
     }
     
