@@ -119,10 +119,6 @@
 			<include method="getFrequencyCodes" />
 			<include method="getFrequencyBaseCodes" />
 		</create>
-		<create creator="spring" javascript="ProposalPersonService">
-            <param name="beanName" value="proposalPersonService" />
-            <include method="getNewStateList" />
-        </create>
 		<create creator="spring" javascript="AwardPaymentAndInvoicesService">
 			<param name="beanName" value="awardPaymentAndInvoicesService" />			
 			<include method="getEncodedValidAwardBasisPaymentsByAwardTypeCode" />

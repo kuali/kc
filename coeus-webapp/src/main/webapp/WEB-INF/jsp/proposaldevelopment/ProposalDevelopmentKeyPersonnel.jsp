@@ -183,53 +183,5 @@ var kualiElements = kualiForm.elements;
 <script language="javascript" src="dwr/interface/UnitService.js"></script>
 <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
 
-<script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/dwr/util.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/dwr/interface/ProposalPersonService.js"></script>
-
-<script language="javascript" type="text/javascript">
-	<!--
-		function loadStates(newCountryCode, stateFieldName) {    
-			if (newCountryCode=='' || newCountryCode == "") {
-				//clearRecipients( frequencyCodeFieldName, "" );
-			} else {
-				var dwrReply = {
-					callback:function(data) {
-						if ( data != null ) {
-							for (var i = 0; i < document.KualiForm.elements.length; i++) {
-			  					var e = document.KualiForm.elements[i];
-			  					if(e.type == 'select-one' && e.name == stateFieldName) {
-			  						e.options.length=0;
-									if ( stateFieldName != null && stateFieldName != "" ) {
-										var option_array=data.split(",");
-										var optionNum=0;
-										var nameLabelPair;
-										while (optionNum < option_array.length)
-										{
-										   nameLabelPair = option_array[optionNum].split(";");
-										   e.options[optionNum]=new Option(nameLabelPair[1], nameLabelPair[0]);
-										   optionNum+=1;
-										}
-									}
-								}
-							}		
-						} else {
-							//if ( frequencyCodeFieldName != null && frequencyCodeFieldName != "" ) {
-								//setRecipientValue(  frequencyCodeFieldName, wrapError( "not found" ), true );
-							//}
-						}
-					},
-					errorHandler:function( errorMessage ) {
-						window.status = errorMessage;
-						setRecipientValue( stateFieldName, wrapError( "not found" ), true );
-					}
-				};
-				ProposalPersonService.getNewStateList(newCountryCode, dwrReply);
-			}
-		
-		}
-	
-		
-	-->
-</script>
 </div>
 </kul:documentPage>
