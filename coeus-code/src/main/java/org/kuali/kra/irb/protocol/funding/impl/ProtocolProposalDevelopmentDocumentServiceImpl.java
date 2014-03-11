@@ -157,8 +157,8 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
         proposalPerson.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
         proposalPerson.setProposalPersonNumber(new Integer(1));
 
-        proposalPerson.setOptInUnitStatus("Y");
-        proposalPerson.setOptInCertificationStatus("Y");
+        proposalPerson.setOptInUnitStatus(false);
+        proposalPerson.setOptInCertificationStatus(false);
         proposalDocument.getDevelopmentProposal().getProposalPersons().add(proposalPerson);
 
         KeyPersonnelService keyPersonnelService = (KeyPersonnelServiceImpl) KcServiceLocator.getService(KeyPersonnelService.class);

@@ -99,22 +99,13 @@ public class YnqServiceImpl implements YnqService {
         /* get YNQ for person */
         boolean certificationRequired = false;
         
-        if(proposalPerson.getRole() != null && proposalPerson.getRole().getCertificationRequired().equals("Y"))
-        {
+        if(proposalPerson.getRole() != null && proposalPerson.getRole().getCertificationRequired().equals("Y")) {
             certificationRequired = true;
-        }
-        else if( (isNotBlank(proposalPerson.getOptInCertificationStatus())) && (proposalPerson.getOptInCertificationStatus().equals("Y")))
-        {
+        } else if (proposalPerson.getOptInCertificationStatus()) {
             certificationRequired = true;
-        }
-        else
-        {
+        } else {
             certificationRequired = false;
         }
-        
-        /*if(proposalPerson.getRole() !=  null) {
-            certificationRequired = proposalPerson.getRole().getCertificationRequired();
-        }*/
         
         if(certificationRequired) {
             String questionType = Constants.QUESTION_TYPE_INDIVIDUAL;

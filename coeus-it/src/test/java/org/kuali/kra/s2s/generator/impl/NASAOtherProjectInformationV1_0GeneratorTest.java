@@ -67,8 +67,8 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         person.setLastName("MARITZA");
         person.setMiddleName("D");
         person.setPersonId("000000077 ");
-        person.setOptInCertificationStatus("Y");
-        person.setOptInUnitStatus("Y");
+        person.setOptInCertificationStatus(true);
+        person.setOptInUnitStatus(true);
         person.setProposalPersonNumber(1000);
         person.setDevelopmentProposal(document.getDevelopmentProposal());
         person.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());

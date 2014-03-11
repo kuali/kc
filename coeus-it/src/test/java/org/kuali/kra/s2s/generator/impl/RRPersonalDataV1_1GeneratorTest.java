@@ -45,8 +45,8 @@ public class RRPersonalDataV1_1GeneratorTest extends S2STestBase<RRPersonalDataV
         proposalPerson.setRace("Asian");
         proposalPerson.setHandicapType("Hearing");
         proposalPerson.setCountryOfCitizenship("USA");
-        proposalPerson.setOptInCertificationStatus("Y");
-        proposalPerson.setOptInUnitStatus("Y");
+        proposalPerson.setOptInCertificationStatus(true);
+        proposalPerson.setOptInUnitStatus(true);
         proposalPerson.setProposalPersonNumber(1001);
         proposalPerson.setRace("English");
 
@@ -63,8 +63,8 @@ public class RRPersonalDataV1_1GeneratorTest extends S2STestBase<RRPersonalDataV
         keyPerson.setRace("American Indian or Alaska Native");
         keyPerson.setHandicapType("Visual");
         keyPerson.setCountryOfCitizenship("USA");
-        keyPerson.setOptInCertificationStatus("Y");
-        keyPerson.setOptInUnitStatus("Y");
+        keyPerson.setOptInCertificationStatus(true);
+        keyPerson.setOptInUnitStatus(true);
         keyPerson.setProposalPersonNumber(1002);
         keyPerson.setRace("English");
 
