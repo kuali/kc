@@ -20,7 +20,7 @@
 	-->
 
 	<!-- globally used properties -->
-	<property name="db.version" value="500"/>
+	<property name="db.version" value="600"/>
 	<property name="bun.username" value="KCBND"/>
 	<property name="bun.password" value="bnd174kc"/>
 	<property name="tst.username" value="KCUNT"/>
