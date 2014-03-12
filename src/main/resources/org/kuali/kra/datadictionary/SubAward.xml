@@ -47,6 +47,9 @@
         <ref bean="SubAward-lastUpdate" />
         <ref bean="SubAward-subAwardCode" />    
         <ref bean="SubAward-awardNumber" /> 
+        <ref bean="SubAward-costType" />
+        <ref bean="SubAward-executionDate" />
+        <ref bean="SubAward-requisitionId" />
       </list>
     </property>
   </bean>
@@ -590,6 +593,63 @@
 		<property name="summary" value="Label for Subaward header fields" />
 		<property name="description" value="Label for Subaward header fields" />
 	</bean>
+	
+  <bean id="SubAward-costType" parent="SubAward-costType-parentBean" />
+  
+  <bean id="SubAward-costType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="costType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Cost Type" />
+    <property name="shortLabel" value="Cost Type" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.subaward.bo.SubAwardCostType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="costTypeCode"
+            p:labelAttribute="costTypeDescription" />
+    </property>
+    <property name="summary" value="Cost Type" />
+    <property name="description" value="Cost Type" />    
+  </bean>
+  
+  <bean id="SubAward-executionDate" parent="SubAward-executionDate-parentBean" />
+  
+  <bean id="SubAward-executionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+    <property name="name" value="executionDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Execution Date" />
+    <property name="shortLabel" value="Execution Date" />
+    <property name="required" value="false" />
+    <property name="summary" value="Execution Date" />
+    <property name="description" value="Execution Date" />    
+  </bean>
+  
+  <bean id="SubAward-requisitionId" parent="SubAward-requisitionId-parentBean" />
+  
+  <bean id="SubAward-requisitionId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requisitionId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Requisition ID" />
+    <property name="shortLabel" value="Requisition ID" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Requisition ID" />
+    <property name="description" value="Requisition ID" />    
+  </bean>
 	
   <!-- Business Object Inquiry Definition -->
   <bean id="SubAward-inquiryDefinition" parent="SubAward-inquiryDefinition-parentBean" />

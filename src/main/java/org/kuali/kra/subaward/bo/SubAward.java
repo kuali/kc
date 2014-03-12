@@ -125,6 +125,14 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     private String awardNumber;
     private transient boolean editSubAward = false;
     private transient boolean defaultOpen = true;
+    
+    private Integer costType;
+    
+    private Date executionDate;
+    
+    private String requisitionId;
+    
+    private SubAwardCostType subAwardCostType;
 
 
     /**.
@@ -1308,6 +1316,70 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     public void setDefaultOpen(boolean defaultOpen) {
         this.defaultOpen = defaultOpen;
+    }
+
+    /**
+     * Gets the costType attribute. 
+     * @return Returns the costType.
+     */
+    public Integer getCostType() {
+        return costType;
+    }
+
+    /**
+     * Sets the costType attribute value.
+     * @param costType The costType to set.
+     */
+    public void setCostType(Integer costType) {
+        this.costType = costType;
+    }
+
+    /**
+     * Gets the executionDate attribute. 
+     * @return Returns the executionDate.
+     */
+    public Date getExecutionDate() {
+        return executionDate;
+    }
+
+    /**
+     * Sets the executionDate attribute value.
+     * @param executionDate The executionDate to set.
+     */
+    public void setExecutionDate(Date executionDate) {
+        this.executionDate = executionDate;
+    }
+
+    /**
+     * Gets the requisitionId attribute. 
+     * @return Returns the requisitionId.
+     */
+    public String getRequisitionId() {
+        return requisitionId;
+    }
+
+    /**
+     * Sets the requisitionId attribute value.
+     * @param requisitionId The requisitionId to set.
+     */
+    public void setRequisitionId(String requisitionId) {
+        this.requisitionId = requisitionId;
+    }
+
+    /**
+     * Gets the subAwardCostType attribute. 
+     * @return Returns the subAwardCostType.
+     */
+    public SubAwardCostType getSubAwardCostType() {
+        return subAwardCostType;
+    }
+
+    /**
+     * Sets the subAwardCostType attribute value.
+     * @param subAwardCostType The subAwardCostType to set.
+     */
+    public void setSubAwardCostType(SubAwardCostType subAwardCostType) {
+        this.subAwardCostType = subAwardCostType;
     }
 
 }
