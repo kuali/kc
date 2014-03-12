@@ -1415,6 +1415,7 @@ module of int tests -->
                 <rice.web.excludes>
                     <!-- Exclude for the time being to use local file -->
                     rice-portal/scripts/easyXDM/resize_intermediate.html,
+                    kr/WEB-INF/jsp/KualiLookup.jsp,
                     META-INF/,
                     WEB-INF/classes/,
                     WEB-INF/lib/,
@@ -1543,6 +1544,7 @@ module of int tests -->
 												<exclude>**/.svn</exclude>
 												<exclude>**/.svn/**</exclude>
                                                 <exclude>rice-portal/scripts/easyXDM/resize_intermediate.html</exclude>
+                                                <exclude>kr/WEB-INF/jsp/KualiLookup.jsp</exclude>
 		          							</excludes>
 										</fileset>
 									</filesets>

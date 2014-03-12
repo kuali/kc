@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.bo;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -27,9 +30,6 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
-import java.util.List;
-import java.util.Map;
-
 public class RolodexMaintainableImpl extends KraMaintainableImpl {
 
     /**
@@ -41,8 +41,7 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public static final String AUTO_GEN_ROLODEX_ID_PARM = "AUTO_GENERATE_NON_EMPLOYEE_ID";
     public static final String SECTION_ID = "Edit Address Book";
     public static final String ROLODEX_ID_NAME = "rolodexId";
-    private static final String YES = "Y";
-    private static final String NO = "N";
+    
     
     private transient ParameterService parameterService;
     private transient SequenceAccessorService sequenceAccessorService;
@@ -74,7 +73,6 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     }
     
     protected void disableRolodexId(List<Section> sections) {
-        Rolodex rolodex = (Rolodex) getBusinessObject();
         for (Section section : sections) {
             if (StringUtils.equals(section.getSectionId(), SECTION_ID)) {
                 for (Row row : section.getRows()) {
@@ -120,18 +118,5 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }
-    
-    @Override
-    public void prepareForSave() {
-        super.prepareForSave();
-        Rolodex rolodex = (Rolodex) getBusinessObject();
-        if(rolodex != null) {
-            if(rolodex.getIsSponsorAddress() != null && rolodex.getIsSponsorAddress().equalsIgnoreCase(YES)) {
-                rolodex.setSponsorAddressFlag(true);
-            }else if(rolodex.getIsSponsorAddress() != null && rolodex.getIsSponsorAddress().equalsIgnoreCase(NO)) {
-                rolodex.setSponsorAddressFlag(false);
-            }
-        }
-    }
-    
+
 }
