@@ -57,6 +57,7 @@ public class OtherV1_0GeneratorTest extends S2STestBase<OtherV1_0Generator> {
         narrativeAttachment.setNarrativeData(narrativePdf);
         narrativeAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrativeAttachment.setModuleNumber(1);
+        narrativeAttachment.setFileName("exercise7");
         saveBO(narrativeAttachment);
 
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();

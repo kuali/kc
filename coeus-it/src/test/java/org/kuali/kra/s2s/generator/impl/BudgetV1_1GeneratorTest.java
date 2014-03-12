@@ -55,6 +55,7 @@ public class BudgetV1_1GeneratorTest extends S2STestBase<BudgetV1_1Generator> {
         narrativeAttachment.setNarrativeData(narrativePdf);
         narrativeAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrativeAttachment.setModuleNumber(1);
+        narrativeAttachment.setFileName("exercise1");
         saveBO(narrativeAttachment);
 
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();

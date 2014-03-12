@@ -255,9 +255,6 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         return "";
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
-     */
     @Override
     protected void prePersist() {
         super.prePersist();
@@ -267,9 +264,6 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         getBusinessObjectService().save(this.getComments());
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
-     */
     @Override
     protected void preUpdate() {
         super.preUpdate();
@@ -277,9 +271,6 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         getBusinessObjectService().save(this.getComments());
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup()
-     */
     @Override
     protected void postLoad() {
         super.postLoad();
@@ -287,9 +278,6 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         transformDataAfterLookup();
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
-     */
     @Override
     protected void postPersist() {
         super.postPersist();

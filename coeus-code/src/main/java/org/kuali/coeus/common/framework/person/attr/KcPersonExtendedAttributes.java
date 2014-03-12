@@ -24,10 +24,10 @@ import org.kuali.kra.bo.PersonDegree;
 import org.kuali.rice.krad.bo.PersistableAttachmentList;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
-import org.springframework.util.AutoPopulatingList;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -138,16 +138,16 @@ public class KcPersonExtendedAttributes extends KcPersistableBusinessObjectBase 
     private Date salaryAnniversaryDate;
 
     @Transient
-    private List<PersonBiosketch> attachments = new AutoPopulatingList<PersonBiosketch>(PersonBiosketch.class);
+    private List<PersonBiosketch> attachments = new ArrayList<PersonBiosketch>();
 
     @Transient
-    private List<PersonDegree> personDegrees = new AutoPopulatingList<PersonDegree>(PersonDegree.class);
+    private List<PersonDegree> personDegrees = new ArrayList<PersonDegree>();
 
     @Transient
-    private List<PersonAppointment> personAppointments = new AutoPopulatingList<PersonAppointment>(PersonAppointment.class);
+    private List<PersonAppointment> personAppointments = new ArrayList<PersonAppointment>();
 
     @Transient
-    private List<PersonCustomData> personCustomDataList = new AutoPopulatingList<PersonCustomData>(PersonCustomData.class);
+    private List<PersonCustomData> personCustomDataList = new ArrayList<PersonCustomData>();
 
     @ManyToOne(targetEntity = CitizenshipType.class, cascade = { CascadeType.REFRESH, CascadeType.PERSIST })
     @JoinColumn(name = "CITIZENSHIP_TYPE_CODE", referencedColumnName = "CITIZENSHIP_TYPE_CODE", insertable = false, updatable = false)
