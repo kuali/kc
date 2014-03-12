@@ -3,8 +3,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>SubAwardCopyRightsTypeMaintenanceDocument</name>
-			<description>Create a New SubAwardCopyRights Type</description>
-			<label>SubAwardCopyRightsType</label>
+			<description>Create a New Subaward Copyrights Type</description>
+			<label>Subaward Copyrights Type Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/subawardcopyrightstype.htm</helpDefinitionURL>
 		</documentType>
