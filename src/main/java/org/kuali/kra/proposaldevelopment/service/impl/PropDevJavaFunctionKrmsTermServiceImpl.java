@@ -59,6 +59,8 @@ import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -1034,7 +1036,9 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      * @param developmentProposal
      * @return
      */
-    public String isUserProposalPI(DevelopmentProposal developmentProposal, String principalId) {
+    public String isUserProposalPI(DevelopmentProposal developmentProposal) {
+        Person loggedInUser = GlobalVariables.getUserSession().getPerson();
+        String principalId = loggedInUser.getPrincipalId();
         return checkProposalPiRule(developmentProposal, principalId);
     }
 
