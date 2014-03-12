@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.person.attr;
 
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.DegreeType;
 
 /**
  * Business Object representation of a PersonDegree. A <code>{@link Person}</code> may have many degrees. This represents the relationship

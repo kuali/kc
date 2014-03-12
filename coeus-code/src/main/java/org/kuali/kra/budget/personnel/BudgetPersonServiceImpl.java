@@ -18,7 +18,7 @@ package org.kuali.kra.budget.personnel;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.kra.bo.PersonAppointment;
+import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;

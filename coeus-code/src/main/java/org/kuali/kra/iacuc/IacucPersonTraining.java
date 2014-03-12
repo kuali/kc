@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.person.attr.PersonTraining;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.PersonTraining;
 import org.kuali.kra.iacuc.procedures.IacucProcedure;
 
 public class IacucPersonTraining extends KcPersistableBusinessObjectBase {

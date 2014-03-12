@@ -3,7 +3,7 @@
   <bean id="PersonBiosketchMaintenanceDocument" parent="PersonBiosketchMaintenanceDocument-parentBean"/>
 
   <bean id="PersonBiosketchMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.PersonBiosketch"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.attr.PersonBiosketch"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -52,9 +52,9 @@
     <property name="maintainableItems">
             <list>
                 <bean parent="MaintainableCollectionDefinition">
-                    <property name="businessObjectClass" value="org.kuali.kra.bo.PersonBiosketch"/>
+                    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.attr.PersonBiosketch"/>
                     <property name="name" value="attachments"/>
-                    <property name="sourceClassName" value="org.kuali.kra.bo.PersonBiosketch"/>
+                    <property name="sourceClassName" value="org.kuali.coeus.common.framework.person.attr.PersonBiosketch"/>
                     <property name="alwaysAllowCollectionDeletion" value="true"/>
                     <property name="includeAddLine" value="true"/>
                     <property name="includeMultipleLookupLine" value="false"/>
