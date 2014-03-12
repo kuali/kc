@@ -86,8 +86,8 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="proposalTypeCode"
-					p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="ownedByUnitNumberRestricted"
+					p:order="50" />
+ 				<bean parent="Uif-InputField" p:propertyName="ownedByUnitNumberRestricted"
 					p:order="20" />
 				<bean parent="Uif-InputField" p:propertyName="activityTypeCode"
 					p:order="30">
@@ -96,7 +96,7 @@
 							p:hideCriteriaOnSearch="true" p:viewName="popup" />
 					</property>
 				</bean>
-				<!-- <bean parent="PropDev-DetailsPage-ProjectDatesField"/> -->
+				<bean parent="PropDev-DetailsPage-ProjectDatesField"/>
 				<bean parent="Uif-InputField" p:propertyName="title"
 					p:helperText="Give this proposal a title. Be detailed but concise."
 					p:order="40" />
@@ -152,7 +152,7 @@
 		</property>
 		<property name="control">
 			<bean parent="Uif-TextControl"
-				p:onBlurScript="ProposalDevelopmentMethods.updateSponsorName(jQuery(this).val(), jQuery(this).parent().find('span.informationalText'));" />
+				p:onBlurScript="ProposalDevelopmentMethods.updateSponsorName(jQuery(this).val(), jQuery(this).parent().find('.informationalText'));" />
 		</property>
 	</bean>
 
