@@ -41,7 +41,6 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.AutoPopulatingList;
 
 import java.util.ArrayList;
 import java.util.HashMap;

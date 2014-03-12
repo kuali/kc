@@ -56,7 +56,6 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.AutoPopulatingList;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -539,9 +538,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     public DevelopmentProposal() {
         super();
         setProposalStateTypeCode(ProposalState.IN_PROGRESS);
-        propScienceKeywords = new AutoPopulatingList<PropScienceKeyword>(PropScienceKeyword.class);
+        propScienceKeywords = new ArrayList<PropScienceKeyword>();
         newDescription = getDefaultNewDescription();
-        propSpecialReviews = new AutoPopulatingList<ProposalSpecialReview>(ProposalSpecialReview.class);
+        propSpecialReviews = new ArrayList<ProposalSpecialReview>();
         proposalPersons = new ArrayList<ProposalPerson>();
         nextProposalPersonNumber = Integer.valueOf(1);
         narratives = new ArrayList<Narrative>();
@@ -553,9 +552,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         investigators = new ArrayList<ProposalPerson>();
         s2sOppForms = new ArrayList<S2sOppForms>();
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
-        proposalChangedDataList = new AutoPopulatingList<ProposalChangedData>(ProposalChangedData.class);
+        proposalChangedDataList = new ArrayList<ProposalChangedData>();
         proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
-        budgetChangedDataList = new AutoPopulatingList<BudgetChangedData>(BudgetChangedData.class);
+        budgetChangedDataList = new ArrayList<BudgetChangedData>();
         budgetChangeHistory = new TreeMap<String, List<BudgetChangedData>>();
         hierarchyStatus = HierarchyStatusConstants.None.code();
         hierarchyStatusName = HierarchyStatusConstants.None.description();

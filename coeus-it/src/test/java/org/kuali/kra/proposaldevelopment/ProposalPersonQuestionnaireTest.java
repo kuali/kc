@@ -122,7 +122,6 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
             pp.setLastName(person.getLastName());
             pp.setFullName(person.getFullName());
 
-            this.dataObjectService.save(pp);
             document.getDevelopmentProposal().getProposalPersons().add(pp);
         }
 

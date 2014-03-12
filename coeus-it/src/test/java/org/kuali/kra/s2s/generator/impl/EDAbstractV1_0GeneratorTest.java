@@ -56,6 +56,7 @@ public class EDAbstractV1_0GeneratorTest extends S2STestBase<EDAbstractV1_0Gener
         narrativeAttachment.setNarrativeData(narrativePdf);
         narrativeAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrativeAttachment.setModuleNumber(1);
+        narrativeAttachment.setFileName("exercise2");
         saveBO(narrativeAttachment);
 
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();

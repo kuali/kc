@@ -72,7 +72,6 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         person.setProposalPersonNumber(1000);
         person.setDevelopmentProposal(document.getDevelopmentProposal());
         person.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-        saveBO(person);
 
         List<ProposalPerson> perList = new ArrayList<ProposalPerson>();
         perList.add(person);
@@ -90,6 +89,7 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         narrativeAttachment.setNarrativeData(narrativePdf);
         narrativeAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrativeAttachment.setModuleNumber(1);
+        narrativeAttachment.setFileName("exercise5");
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
         narrativeList.add(narrativeAttachment);
         narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());

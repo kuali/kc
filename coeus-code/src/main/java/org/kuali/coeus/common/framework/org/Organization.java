@@ -21,10 +21,10 @@ import org.kuali.kra.bo.OrganizationAudit;
 import org.kuali.kra.bo.OrganizationIndirectcost;
 import org.kuali.kra.bo.OrganizationType;
 import org.kuali.kra.bo.OrganizationYnq;
-import org.springframework.util.AutoPopulatingList;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -155,10 +155,10 @@ public class Organization extends KcPersistableBusinessObjectBase {
     @SuppressWarnings("unchecked")
     public Organization() {
         super();
-        organizationYnqs = new AutoPopulatingList<OrganizationYnq>(OrganizationYnq.class);
-        organizationTypes = new AutoPopulatingList<OrganizationType>(OrganizationType.class);
-        organizationIdcs = new AutoPopulatingList<OrganizationIndirectcost>(OrganizationIndirectcost.class);
-        organizationAudits = new AutoPopulatingList<OrganizationAudit>(OrganizationAudit.class);
+        organizationYnqs = new ArrayList<OrganizationYnq>();
+        organizationTypes = new ArrayList<OrganizationType>();
+        organizationIdcs = new ArrayList<OrganizationIndirectcost>();
+        organizationAudits = new ArrayList<OrganizationAudit>();
     }
 
     public String getOrganizationId() {

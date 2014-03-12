@@ -136,10 +136,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
  
     private String leadUnitName;
     private List<ProtocolPersonBase> protocolPersons;
-    
-   
-//TODO: This should be refactored when IRB and IACUC are merged. For now, demote into IACUC
-//    private List<ProtocolCustomData> personCustomDataList = new AutoPopulatingList<PersonCustomData>(PersonCustomData.class);
 
     private List<ProtocolSpecialReviewBase> specialReviews;
     
