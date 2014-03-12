@@ -30,6 +30,7 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,10 +78,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         List<Sponsor> allSponsors = new ArrayList<Sponsor>();
         Map<String, String> values = new HashMap<String, String>();
         values.put("sponsorCode", sponsorCode + "*");
-        allSponsors.addAll(getLookupService().findCollectionBySearchUnbounded(Sponsor.class, values));
+        allSponsors.addAll(getLookupService().findCollectionBySearchHelper(Sponsor.class, values, Collections.EMPTY_LIST, false, 10));
         values.clear();
         values.put("acronym", sponsorCode + "*");
-        allSponsors.addAll(getLookupService().findCollectionBySearchUnbounded(Sponsor.class, values));
+        allSponsors.addAll(getLookupService().findCollectionBySearchHelper(Sponsor.class, values, Collections.EMPTY_LIST, false, 10));
         
         for (Sponsor sponsor : allSponsors) {
             result.add(new SponsorSuggestResult(sponsor));
