@@ -106,7 +106,6 @@ import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.springframework.util.AutoPopulatingList;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -269,8 +268,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setNewOtherOrganization(new ProposalSite());
         setApplicantOrganizationHelper(new CongressionalDistrictHelper());
         setPerformingOrganizationHelper(new CongressionalDistrictHelper());
-        setPerformanceSiteHelpers(new AutoPopulatingList<CongressionalDistrictHelper>(CongressionalDistrictHelper.class));
-        setOtherOrganizationHelpers(new AutoPopulatingList<CongressionalDistrictHelper>(CongressionalDistrictHelper.class));
+        setPerformanceSiteHelpers(new ArrayList<CongressionalDistrictHelper>());
+        setOtherOrganizationHelpers(new ArrayList<CongressionalDistrictHelper>());
         setSpecialReviewHelper(new SpecialReviewHelper(this));
         customAttributeValues = new HashMap<String, String[]>();
         setCopyCriteria(new ProposalCopyCriteria(getProposalDevelopmentDocument()));

@@ -24,12 +24,10 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
 import static org.junit.Assert.*;
-import static org.junit.Assert.*;
-import static org.junit.Assert.*;
+
 /**
  * Test the business rules for Proposal Abstracts.
  * 
