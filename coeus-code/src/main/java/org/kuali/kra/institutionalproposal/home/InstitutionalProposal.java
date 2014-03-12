@@ -1464,9 +1464,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         return "proposalNumber";
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
-     */
     @Override
     protected void postPersist() {
         super.postPersist();
@@ -1478,9 +1475,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         }
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup()
-     */
     @Override
     protected void postLoad() {
         super.postLoad();

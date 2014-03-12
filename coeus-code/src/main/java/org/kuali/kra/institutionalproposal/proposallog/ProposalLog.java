@@ -364,19 +364,13 @@ public class ProposalLog extends KcPersistableBusinessObjectBase implements Nego
     
     /* These methods are for manipulating data before object persistence. */
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
-     */
     @Override 
     protected void prePersist() {
         super.prePersist();
         setSponsorName();
         mergeTemporaryLog();
     }    
-    
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
-     */
+
     @Override
     protected void preUpdate() {
         super.preUpdate();

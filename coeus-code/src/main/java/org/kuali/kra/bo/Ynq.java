@@ -16,6 +16,7 @@
 package org.kuali.kra.bo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,8 +25,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.kuali.kra.bo.YnqExplanation;
-import org.springframework.util.AutoPopulatingList;
 
 @Entity
 @Table(name = "YNQ")
@@ -65,7 +64,7 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
 
     public Ynq() {
         super();
-        ynqExplanations = new AutoPopulatingList<YnqExplanation>(YnqExplanation.class);
+        ynqExplanations = new ArrayList<YnqExplanation>();
     }
 
     public String getQuestionId() {
