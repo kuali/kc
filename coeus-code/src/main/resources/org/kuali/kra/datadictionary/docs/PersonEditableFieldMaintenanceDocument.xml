@@ -3,7 +3,7 @@
   <bean id="PersonEditableFieldMaintenanceDocument" parent="PersonEditableFieldMaintenanceDocument-parentBean"/>
 
   <bean id="PersonEditableFieldMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.PersonEditableField"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.attr.PersonEditableField"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

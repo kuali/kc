@@ -3,7 +3,7 @@
   <bean id="PersonAppointmentMaintenanceDocument" parent="PersonAppointmentMaintenanceDocument-parentBean"/>
 
   <bean id="PersonAppointmentMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.PersonAppointment"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.attr.PersonAppointment"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -56,9 +56,9 @@
  	<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
-					<property name="businessObjectClass" value="org.kuali.kra.bo.PersonAppointment"/>
+					<property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.attr.PersonAppointment"/>
 					<property name="name" value="personAppointments"/>
-					<property name="sourceClassName" value="org.kuali.kra.bo.PersonAppointment"/>
+					<property name="sourceClassName" value="org.kuali.coeus.common.framework.person.attr.PersonAppointment"/>
 					<property name="alwaysAllowCollectionDeletion" value="true"/>
 					<property name="includeAddLine" value="true"/>
 					<property name="includeMultipleLookupLine" value="false"/>

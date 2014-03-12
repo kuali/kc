@@ -16,10 +16,10 @@
 package org.kuali.coeus.sys.framework.model;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.SoftError;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;

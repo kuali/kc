@@ -31,8 +31,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
-import org.kuali.kra.bo.PersonAppointment;
-import org.kuali.kra.bo.PersonDegree;
+import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
+import org.kuali.coeus.common.framework.person.attr.PersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 /**

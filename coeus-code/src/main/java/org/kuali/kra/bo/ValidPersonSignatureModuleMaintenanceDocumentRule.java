@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.common.framework.person.attr.PersonSignature;
+import org.kuali.coeus.common.framework.person.attr.PersonSignatureModule;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.document.MaintenanceDocument;
