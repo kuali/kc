@@ -61,9 +61,6 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.*;
 
-/**
- * This class...
- */
 @Entity
 @Table(name = "EPS_PROPOSAL")
 @Customizer(DevelopmentProposal.DevelopmentProposalCustomizer.class)
@@ -328,7 +325,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Transient
     private Boolean grantsGovSelectFlag = Boolean.FALSE;
 
-    @OneToOne(targetEntity = ProposalDevelopmentDocument.class, cascade = { CascadeType.REFRESH })
+    @OneToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
     private ProposalDevelopmentDocument proposalDocument;
 
