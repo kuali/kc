@@ -22,6 +22,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 /**
@@ -34,9 +35,9 @@ public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthor
      */
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
-        return (!kraWorkflowService.isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) ||
+        return (!kraWorkflowService.isCurrentNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) ||
                 !isPendingOrSubmittedToCommittee(protocol) ||
-                !(isInSchedule(protocol) || isExpeditedSubmission(protocol))) &&
+                !(isInSchedule(protocol) || isExpeditedSubmission(protocol) || isNotifyIrbSubmission(protocol))) &&
                hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 
@@ -85,6 +86,16 @@ public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthor
     private boolean isExpeditedSubmission(Protocol protocol) {
         ProtocolSubmission submission = findSubmission(protocol);
         return submission != null && ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode());
+    }
+    
+    /**
+     * Is the submission Notify IRB?
+     * @param protocol
+     * @return
+     */
+    private boolean isNotifyIrbSubmission(Protocol protocol) {
+        ProtocolSubmission submission = findSubmission(protocol);
+        return submission != null && ProtocolSubmissionType.NOTIFY_IRB.equals(submission.getProtocolSubmissionType().getSubmissionTypeCode());
     }
 
 }

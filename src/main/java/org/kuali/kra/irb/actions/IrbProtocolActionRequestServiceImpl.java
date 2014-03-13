@@ -1174,10 +1174,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         modifySubmissionBean.setProtocolReviewTypeCode(protocol.getProtocolSubmission().getProtocolReviewTypeCode());
         
         //Assign to Committee and Schedule sub-panel Committee drop down needs to reflect the Committee value just selected
-        ProtocolAssignCmtSchedBean cmtAssignBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
-        cmtAssignBean.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
-        cmtAssignBean.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
-        
+        protocolForm.getActionHelper().getAssignCmtSchedBean().init();       
         return returnPath;
     }
     
