@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.person.attr;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.bo.DocumentCustomData;
 
 public class PersonCustomData extends KcPersistableBusinessObjectBase implements DocumentCustomData {
 

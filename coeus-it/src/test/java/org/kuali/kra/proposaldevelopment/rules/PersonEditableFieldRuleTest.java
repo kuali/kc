@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.bo.PersonEditableField;
+import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;

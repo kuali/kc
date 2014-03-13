@@ -3,7 +3,7 @@
   <bean id="PersonDegreeMaintenanceDocument" parent="PersonDegreeMaintenanceDocument-parentBean"/>
 
   <bean id="PersonDegreeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.PersonDegree"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.attr.PersonDegree"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -56,9 +56,9 @@
  	<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
-					<property name="businessObjectClass" value="org.kuali.kra.bo.PersonDegree"/>
+					<property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.attr.PersonDegree"/>
 					<property name="name" value="personDegrees"/>
-					<property name="sourceClassName" value="org.kuali.kra.bo.PersonDegree"/>
+					<property name="sourceClassName" value="org.kuali.coeus.common.framework.person.attr.PersonDegree"/>
 					<property name="alwaysAllowCollectionDeletion" value="true"/>
 					<property name="includeAddLine" value="true"/>
 					<property name="includeMultipleLookupLine" value="false"/>
