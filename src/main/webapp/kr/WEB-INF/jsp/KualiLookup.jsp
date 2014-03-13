@@ -16,6 +16,7 @@
 
 --%>
 <%@ include file="tldHeader.jsp"%>
+<%@ page import="org.kuali.rice.krad.util.KRADConstants"%>
 
 <%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
 <c:set var="headerMenu" value="" />
@@ -196,31 +197,14 @@ Suppresses the Create New button on the top right corner-->
 			<br>
 			
 			<!-- KCIU Customization Starts -->
-			<c:if test="${!empty reqSearchResultsActualSize}" >
+			<c:if test="${!empty reqSearchResultsActualSize}" >			
     			<c:choose>
-						<c:when test="${fn:contains(boClassName,'org.kuali.kra.bo.Rolodex')}">
-								<c:set var="idx" value="${fn:indexOf(KualiForm.lookupable.createNewUrl,'img src')}"/>
-    			    			<!--  kc4.0 with rice 2.0 has bean resolver issue with createnewurlnohtml.  so use this alternative for now. -->			
-    			    				
-    				  			Can't find what you are looking for? Click <a href="${fn:substring(KualiForm.lookupable.createNewUrl,37,idx-3)}" target="_blank">here</a> to add a new Rolodex entry.
+						<c:when test="${fn:contains(boClassName,'org.kuali.kra.bo.Rolodex') or fn:contains(boClassName,'org.kuali.kra.bo.NonOrganizationalRolodex')}">
+    			    			<!--  Cannot create this by parsing the createNewUrl because NonOrganizationalRolodex is not a maint doc and does not have one-->
+    				  			Can't find what you are looking for? Click <a href="${KRADConstants.MAINTENANCE_ACTION}?businessObjectClassName=org.kuali.kra.bo.Rolodex&methodToCall=start" target="_blank">here</a> to add a new Rolodex entry.
     				  			<br>
     				  			<br>
 						</c:when>
-						<c:when test="${fn:contains(boClassName,'org.kuali.kra.bo.NonOrganizationalRolodex')}">
-								<c:set var="idx" value="${fn:indexOf(KualiForm.lookupable.createNewUrl,'img src')}"/>			
-    			    				
-    				  			Can't find what you are looking for? Click <a href="${fn:replace(fn:substring(KualiForm.lookupable.createNewUrl,37,idx-3),'NonOrganizationalRolodex','Rolodex')}" target="_blank">here</a> to add a new Rolodex entry, 
-    				  			or contact the <a href="mailto:kc-admin-l@indiana.edu">System Administrator</a> to add one.
-    				  			<br>
-    				  			<br>
-						</c:when>
-						<c:otherwise>
-								<c:if test="${fn:contains(boClassName,'org.kuali.kra.bo')}">
-										Can't find what you are looking for? Contact the <a href="mailto:kc-admin-l@indiana.edu">System Administrator</a> to add a new entry. 
-    									<br>
-    									<br>  
-    							</c:if>
-						</c:otherwise>
 				</c:choose>
 			</c:if>
 				
