@@ -45,9 +45,6 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
 
     private static final String UNSUPPORTED_OPPERATION_ERROR_MESSAGE = "ProposalPersonExtendedAttributes intentionally not supporting this method.";
 
-    @Column(name = "PROP_PERSON_ROLE_ID")
-    private String proposalPersonRoleId;
-
     @Id
     @OneToOne
     @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
@@ -70,7 +67,6 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
         if (person == null) {
             throw new IllegalArgumentException("ProposalPerson must not be null!");
         }
-        this.setProposalPersonRoleId(person.getProposalPersonRoleId());
         this.setProposalPerson(person);
         this.setCitizenshipTypeCode(1);
     }
@@ -114,14 +110,6 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
         this.setCounty(personExtendedAttributes.getCounty());
         this.setCitizenshipTypeCode(personExtendedAttributes.getCitizenshipTypeCode());
         this.setCitizenshipType(personExtendedAttributes.getCitizenshipType());
-    }
-
-    public String getProposalPersonRoleId() {
-        return proposalPersonRoleId;
-    }
-
-    public void setProposalPersonRoleId(String proposalPersonRoleId) {
-        this.proposalPersonRoleId = proposalPersonRoleId;
     }
 
     public ProposalPerson getProposalPerson() {

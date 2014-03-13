@@ -150,7 +150,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     @Column(name = "MULTIPLE_PI")
     @Convert(converter = BooleanYNConverter.class)
-    private Boolean multiplePi;
+    private Boolean multiplePi = Boolean.FALSE;
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
@@ -2193,7 +2193,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
-    public Boolean isHiddenInHierarchy() {
+    public Boolean getHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
 
@@ -2207,7 +2207,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     //Return value here is boolean instead of Boolean due to PersonRolodex definition affecting numerous classes
     public boolean isMultiplePi() {
-        return multiplePi;
+        return multiplePi == null ? false : multiplePi.booleanValue();
     }
 
     public void setMultiplePi(Boolean multiplePi) {
