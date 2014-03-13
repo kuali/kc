@@ -1371,14 +1371,14 @@
     			</entry>
     			<entry key="KC-WKFLW:Unit Administrator">
     				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-    					<property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType" />
+    					<property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" />
     					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>
     			</entry>  
     			<entry key="KC-PD:All Unit Administrators">
     				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-    					<property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType" />
+    					<property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" />
     					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>
@@ -1392,7 +1392,7 @@
     			</entry>
     			<entry key="KC-IP:All Unit Administrators">
     				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-    					<property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType" />
+    					<property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" />
     					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>    				
@@ -1406,7 +1406,7 @@
     			</entry>
     			<entry key="KC-AWARD:All Unit Administrators">
     				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-    					<property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType" />
+    					<property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" />
     					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>    				
@@ -1546,12 +1546,12 @@
 
     <bean id="sponsorHierarchyDao" class="org.kuali.kra.dao.ojb.SponsorHierarchyDaoOjb" parent="platformAwareDao" />
     
-    <bean id="unitService" class="org.kuali.kra.service.impl.UnitServiceImpl">
+    <bean id="unitService" class="org.kuali.coeus.common.impl.unit.UnitServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="unitLookupDao" ref="unitLookupDao" />
     </bean>
     
-    <bean id="unitLookupDao" class="org.kuali.kra.dao.ojb.UnitLookupDaoOjb" parent="platformAwareDao" />
+    <bean id="unitLookupDao" class="org.kuali.coeus.common.impl.unit.UnitLookupDaoOjb" parent="platformAwareDao" />
     
     <bean id="unitLookupable" class="org.kuali.kra.lookup.UnitLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="unitLookupableHelperService" />
@@ -1568,7 +1568,7 @@
         <property name="lookupableHelperService" ref="unitAdministratorLookupableHelperService" />
     </bean>
 
-    <bean id="unitAdministratorLookupableHelperService" class="org.kuali.kra.service.impl.UnitAdministratorLookupableHelperServiceImpl" 
+    <bean id="unitAdministratorLookupableHelperService" class="org.kuali.coeus.common.impl.unit.admin.UnitAdministratorLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" />
     
     <bean id="unitAdministratorDerivedRoleTypeService" class="org.kuali.kra.kim.service.impl.UnitAdministratorDerivedRoleTypeServiceImpl">
@@ -1583,7 +1583,7 @@
         <property name="lookupableHelperService" ref="unitCorrespondentLookupableHelperService" />
     </bean>
 
-    <bean id="unitCorrespondentLookupableHelperService" class="org.kuali.kra.service.impl.UnitCorrespondentLookupableHelperServiceImpl" 
+    <bean id="unitCorrespondentLookupableHelperService" class="org.kuali.coeus.common.impl.unit.crrspndnt.UnitCorrespondentLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" />
 
 	<bean id="iacucUnitCorrespondentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

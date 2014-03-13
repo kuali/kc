@@ -13,18 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.impl.unit;
 
-import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.unit.Unit;
 
-public interface AbstractUnitAdministrator {
-
-    String getPersonId();
-    String getUnitAdministratorTypeCode();
-    String getUnitNumber();
+/**
+ * This class...
+ */
+public interface UnitLookupDao {
     
-    KcPerson getPerson();
-    UnitAdministratorType getUnitAdministratorType();
-    Unit getUnit();
+    /**
+     * This method finds the unit object whose number matches the argument <code>unitNumber</code>. The lookup logic is 
+     * case insensitive i.e. the return value is the same irrespective of the case of the characters in the argument. 
+     * @param unitNumber
+     * @return the matching unit object or null if no match was found.
+     */
+    public Unit findUnitbyNumberCaseInsensitive(String unitNumber);
+
 }

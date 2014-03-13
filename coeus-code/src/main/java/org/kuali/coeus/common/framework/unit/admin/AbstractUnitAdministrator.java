@@ -13,11 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.unit.admin;
 
-/**
- * This type defines the kinds of Unit Contact
- */
-public enum UnitContactType {
-    ADMINISTRATOR, CONTACT
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.unit.Unit;
+
+public interface AbstractUnitAdministrator {
+
+    String getPersonId();
+    String getUnitAdministratorTypeCode();
+    String getUnitNumber();
+    
+    KcPerson getPerson();
+    UnitAdministratorType getUnitAdministratorType();
+    Unit getUnit();
 }

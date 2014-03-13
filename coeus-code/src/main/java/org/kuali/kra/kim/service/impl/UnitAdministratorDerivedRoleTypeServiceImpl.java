@@ -17,8 +17,8 @@ package org.kuali.kra.kim.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministrator;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
-import org.kuali.kra.bo.AbstractUnitAdministrator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
 
