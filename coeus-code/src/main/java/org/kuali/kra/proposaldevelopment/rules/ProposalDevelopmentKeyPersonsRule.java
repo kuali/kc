@@ -117,7 +117,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
                             ERROR_ONE_UNIT, person.getFullName());            
                 retval = false;
             }
-            if(isKeyPerson(person) && (person.getOptInUnitStatus().equals("Y")) && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
+            if(isKeyPerson(person) && person.getOptInUnitStatus() && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
                 reportError("newProposalPersonUnit[" + personIndex + "].unitNumber",
                             ERROR_ONE_UNIT, person.getFullName());  
                 retval = false;
