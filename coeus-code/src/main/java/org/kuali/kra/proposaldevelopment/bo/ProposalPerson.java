@@ -112,9 +112,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     @Transient
     private boolean roleChanged;
 
-    @OneToMany(targetEntity = ProposalPersonYnq.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-
-    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false) })
+    @OneToMany(mappedBy="proposalPerson", fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
     @OrderBy("questionId")
     private List<ProposalPersonYnq> proposalPersonYnqs;
 

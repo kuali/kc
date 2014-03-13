@@ -143,6 +143,7 @@ public class YnqServiceImpl implements YnqService {
             ProposalPersonYnq proposalPersonYnq = new ProposalPersonYnq();
             proposalPersonYnq.setQuestionId(type.getQuestionId());
             proposalPersonYnq.setYnq(type); 
+            proposalPersonYnq.setProposalPerson(proposalPerson);
             proposalPerson.getProposalPersonYnqs().add(proposalPersonYnq);
         }
     }

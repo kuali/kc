@@ -16,36 +16,27 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.kuali.kra.bo.KraSortablePersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
 
 @Entity
 @Table(name = "EPS_PROP_PERS_YNQ")
 @IdClass(ProposalPersonYnq.ProposalPersonYnqId.class)
-public class ProposalPersonYnq extends KraSortablePersistableBusinessObjectBase {
+public class ProposalPersonYnq extends KcPersistableBusinessObjectBase{
+
+	private static final long serialVersionUID = 5035080261199085203L;
 
     @Id
-    @Column(name = "PROP_PERSON_NUMBER")
-    private Integer proposalPersonNumber;
+    @OneToOne
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
+    private ProposalPerson proposalPerson;
 
-    @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
-
-    @Id
+	@Id
     @Column(name = "QUESTION_ID")
     private String questionId;
 
@@ -62,22 +53,14 @@ public class ProposalPersonYnq extends KraSortablePersistableBusinessObjectBase 
     public ProposalPersonYnq() {
         super();
     }
+    
+    public ProposalPerson getProposalPerson() {
+		return proposalPerson;
+	}
 
-    public Integer getProposalPersonNumber() {
-        return proposalPersonNumber;
-    }
-
-    public void setProposalPersonNumber(Integer proposalPersonNumber) {
-        this.proposalPersonNumber = proposalPersonNumber;
-    }
-
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
+	public void setProposalPerson(ProposalPerson proposalPerson) {
+		this.proposalPerson = proposalPerson;
+	}
 
     public String getQuestionId() {
         return questionId;
@@ -113,27 +96,17 @@ public class ProposalPersonYnq extends KraSortablePersistableBusinessObjectBase 
 
     public static final class ProposalPersonYnqId implements Serializable, Comparable<ProposalPersonYnqId> {
 
-        private String proposalNumber;
+        private ProposalPerson.ProposalPersonId proposalPerson;
 
-        private Integer proposalPersonNumber;
+        public ProposalPerson.ProposalPersonId getProposalPerson() {
+			return proposalPerson;
+		}
 
-        private String questionId;
+		public void setProposalPerson(ProposalPerson.ProposalPersonId proposalPerson) {
+			this.proposalPerson = proposalPerson;
+		}
 
-        public String getProposalNumber() {
-            return this.proposalNumber;
-        }
-
-        public void setProposalNumber(String proposalNumber) {
-            this.proposalNumber = proposalNumber;
-        }
-
-        public Integer getProposalPersonNumber() {
-            return this.proposalPersonNumber;
-        }
-
-        public void setProposalPersonNumber(Integer proposalPersonNumber) {
-            this.proposalPersonNumber = proposalPersonNumber;
-        }
+		private String questionId;
 
         public String getQuestionId() {
             return this.questionId;
@@ -145,7 +118,7 @@ public class ProposalPersonYnq extends KraSortablePersistableBusinessObjectBase 
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("proposalPersonNumber", this.proposalPersonNumber).append("questionId", this.questionId).toString();
+            return new ToStringBuilder(this).append("proposalPerson", proposalPerson.toString()).append("questionId", this.questionId).toString();
         }
 
         @Override
@@ -157,17 +130,17 @@ public class ProposalPersonYnq extends KraSortablePersistableBusinessObjectBase 
             if (other.getClass() != this.getClass())
                 return false;
             final ProposalPersonYnqId rhs = (ProposalPersonYnqId) other;
-            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.questionId, rhs.questionId).isEquals();
+            return new EqualsBuilder().append(this.proposalPerson, rhs.proposalPerson).append(this.questionId, rhs.questionId).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.proposalPersonNumber).append(this.questionId).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.proposalPerson).append(this.questionId).toHashCode();
         }
 
         @Override
         public int compareTo(ProposalPersonYnqId other) {
-            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.questionId, other.questionId).toComparison();
+            return new CompareToBuilder().append(this.proposalPerson, other.proposalPerson).append(this.questionId, other.questionId).toComparison();
         }
     }
 }
