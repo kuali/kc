@@ -3,7 +3,7 @@
   <bean id="UnitAdministratorTypeMaintenanceDocument" parent="UnitAdministratorTypeMaintenanceDocument-parentBean"/>
 
   <bean id="UnitAdministratorTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

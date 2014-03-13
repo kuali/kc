@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.dao.ojb;
+package org.kuali.coeus.common.impl.unit;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.coeus.common.framework.unit.Unit;
-import org.kuali.kra.dao.UnitLookupDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class UnitLookupDaoOjb extends PlatformAwareDaoBaseOjb implements UnitLookupDao {
 
     /**
-     * @see org.kuali.kra.dao.UnitLookupDao#findUnitbyNumberCaseInsensitive(java.lang.String)
+     * @see org.kuali.coeus.common.impl.unit.UnitLookupDao#findUnitbyNumberCaseInsensitive(java.lang.String)
      */
     public Unit findUnitbyNumberCaseInsensitive(String unitNumber) {
         Criteria crit = new Criteria();

@@ -17,8 +17,8 @@ package org.kuali.kra.institutionalproposal.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministrator;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
-import org.kuali.kra.bo.AbstractUnitAdministrator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;

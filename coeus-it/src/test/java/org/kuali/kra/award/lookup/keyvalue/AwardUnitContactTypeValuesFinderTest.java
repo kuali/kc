@@ -18,7 +18,7 @@ package org.kuali.kra.award.lookup.keyvalue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.bo.UnitAdministratorType;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.KNSServiceLocator;
