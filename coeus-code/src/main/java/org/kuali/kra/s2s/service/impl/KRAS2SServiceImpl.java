@@ -214,8 +214,6 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * 
 	 * @param pdDoc
 	 *            {@link ProposalDevelopmentDocument}
-	 * @param appSubmission
-	 *            {@link S2sAppSubmission}
 	 * @param applicationListResponse
 	 *            {@link GetApplicationListResponse} response from Grants Gov
 	 * @throws S2SException
@@ -485,19 +483,15 @@ public class KRAS2SServiceImpl implements S2SService {
 		grantSubmissionHeader.setSubmissionTitle(s2sOpportunity.getProposalNumber());
 		
         // set closing date unless null
-        Date closingDate = s2sOpportunity.getClosingDate();
+        Calendar closingDate = s2sOpportunity.getClosingDate();
         if (closingDate != null) {
-            Calendar calClosingDate = Calendar.getInstance();
-            calClosingDate.setTime(closingDate);
-            grantSubmissionHeader.setClosingDate(calClosingDate);
+            grantSubmissionHeader.setClosingDate(closingDate);
         }
         
 		// set opening date unless null
-		Date openingDate = s2sOpportunity.getOpeningDate();
+		Calendar openingDate = s2sOpportunity.getOpeningDate();
 		if (openingDate != null) {
-	        Calendar calOpeningDate = Calendar.getInstance();
-		    calOpeningDate.setTime(openingDate);
-	        grantSubmissionHeader.setOpeningDate(calOpeningDate);
+	        grantSubmissionHeader.setOpeningDate(openingDate);
 		}
         String applicationXml = getXmlFromDocument(grantApplication);
         String hashVal = GrantApplicationHash.computeGrantFormsHash(applicationXml);
@@ -656,7 +650,7 @@ public class KRAS2SServiceImpl implements S2SService {
 			FormMappingInfo info = null;
 			S2SBaseFormGenerator s2sFormGenerator = null;
 			try {
-				info = new FormMappingLoader().getFormInfo(opportunityForm.getOppNameSpace());
+				info = new FormMappingLoader().getFormInfo(opportunityForm.getS2sOppFormsId().getOppNameSpace());
 				s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(info.getNameSpace());
 			} catch (S2SGeneratorNotFoundException e) {
 				continue;
@@ -773,15 +767,15 @@ public class KRAS2SServiceImpl implements S2SService {
 		s2Opportunity.setCfdaNumber(oppInfo.getCFDANumber());
 		s2Opportunity
 				.setClosingDate(oppInfo.getClosingDate() == null ? null
-						: new java.sql.Timestamp(oppInfo.getClosingDate()
-								.toGregorianCalendar().getTimeInMillis()));
+						: oppInfo.getClosingDate()
+								.toGregorianCalendar());
 		
 		s2Opportunity.setCompetetionId(oppInfo.getCompetitionID());
 		s2Opportunity.setInstructionUrl(oppInfo.getInstructionsURL());
 		s2Opportunity
 				.setOpeningDate(oppInfo.getOpeningDate() == null ? null
-						: new java.sql.Timestamp(oppInfo.getOpeningDate()
-								.toGregorianCalendar().getTimeInMillis()));
+						: oppInfo.getOpeningDate()
+								.toGregorianCalendar());
 		
 		s2Opportunity.setOpportunityId(oppInfo.getFundingOpportunityNumber());
 		s2Opportunity.setOpportunityTitle(oppInfo.getFundingOpportunityTitle());
@@ -831,7 +825,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	/**
 	 * Sets the s2sUtilService attribute value.
 	 * 
-	 * @param generatorUtilService
+	 * @param s2SUtilService
 	 *            The s2sUtilService to set.
 	 */
 	public void setS2SUtilService(S2SUtilService s2SUtilService) {

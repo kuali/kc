@@ -1080,8 +1080,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 	        FormMappingInfo info1 = null;
 	        FormMappingInfo info2 = null;
 	        try {
-	            info1 = new FormMappingLoader().getFormInfo(s2sOppForms1.getOppNameSpace()); 
-	            info2 = new FormMappingLoader().getFormInfo(s2sOppForms2.getOppNameSpace());
+	            info1 = new FormMappingLoader().getFormInfo(s2sOppForms1.getS2sOppFormsId().getOppNameSpace());
+	            info2 = new FormMappingLoader().getFormInfo(s2sOppForms2.getS2sOppFormsId().getOppNameSpace());
 	        }
 	        catch (S2SGeneratorNotFoundException e) {
 	        }

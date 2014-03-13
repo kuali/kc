@@ -16,13 +16,14 @@
 package org.kuali.kra.s2s.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "S2S_PROVIDERS")
-public class S2sProvider extends KcPersistableBusinessObjectBase {
+public class S2sProvider extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 7014451402458842899L;
 

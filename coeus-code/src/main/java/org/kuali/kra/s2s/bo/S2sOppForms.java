@@ -27,16 +27,10 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "S2S_OPP_FORMS")
-@IdClass(S2sOppForms.S2sOppFormsId.class)
 public class S2sOppForms extends KcPersistableBusinessObjectBase {
 
-    @Id
-    @Column(name = "OPP_NAME_SPACE")
-    private String oppNameSpace;
-
-    @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
+    @EmbeddedId
+    private S2sOppFormsId s2sOppFormsId;
 
     @Column(name = "AVAILABLE")
     @Convert(converter = BooleanYNConverter.class)
@@ -59,20 +53,12 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase {
     @Transient
     private Boolean selectToPrint;
 
-    public String getOppNameSpace() {
-        return oppNameSpace;
+    public S2sOppFormsId getS2sOppFormsId() {
+        return s2sOppFormsId;
     }
 
-    public void setOppNameSpace(String oppNameSpace) {
-        this.oppNameSpace = oppNameSpace;
-    }
-
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
+    public void setS2sOppFormsId(S2sOppFormsId s2sOppFormsId) {
+        this.s2sOppFormsId = s2sOppFormsId;
     }
 
     public void setAvailable(Boolean available) {
@@ -123,10 +109,13 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase {
         this.selectToPrint = selectToPrint;
     }
 
+    @Embeddable
     public static final class S2sOppFormsId implements Serializable, Comparable<S2sOppFormsId> {
 
+        @Column(name = "OPP_NAME_SPACE")
         private String oppNameSpace;
 
+        @Column(name = "PROPOSAL_NUMBER")
         private String proposalNumber;
 
         public String getOppNameSpace() {
