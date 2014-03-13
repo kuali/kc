@@ -116,8 +116,8 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
             ProposalPersonRole role = (ProposalPersonRole)this.dataObjectService.findMatching(ProposalPersonRole.class, org.kuali.rice.core.api.criteria.QueryByCriteria.Builder.create().build()).getResults().iterator().next();
             pp.setRole(role);
             pp.setProposalPersonRoleId(role.getRoleCode());
-            pp.setOptInUnitStatus("Y");
-            pp.setOptInCertificationStatus("Y");
+            pp.setOptInUnitStatus(true);
+            pp.setOptInCertificationStatus(true);
             pp.setUserName(person.getUserName());
             pp.setLastName(person.getLastName());
             pp.setFullName(person.getFullName());

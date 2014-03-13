@@ -1417,9 +1417,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      */
     public void addProposalPerson(ProposalPerson p) {
         p.setProposalPersonNumber(this.getProposalDocument().getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER));
-        if (p.getProposalPersonExtendedAttributes() != null && p.getProposalPersonExtendedAttributes().getProposalPersonNumber() == null) {
-            p.getProposalPersonExtendedAttributes().setProposalPersonNumber(p.getProposalPersonNumber());
-        }
         p.setDevelopmentProposal(this);
         p.setProposalNumber(getProposalNumber());
         getProposalPersons().add(p);

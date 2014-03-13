@@ -660,9 +660,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 
                 if (person.getProposalPersonExtendedAttributes() != null) {
                     ProposalPersonExtendedAttributes newPersonEA = (ProposalPersonExtendedAttributes) ObjectUtils.deepCopy(person.getProposalPersonExtendedAttributes());
-                    newPersonEA.setProposalNumber(hierarchyProposal.getProposalNumber());
-                    newPersonEA.setProposalPersonNumber(newPerson.getProposalPersonNumber());
                     newPerson.setProposalPersonExtendedAttributes(newPersonEA);
+                    newPersonEA.setProposalPerson(newPerson);
                 }
                 
                 hierarchyProposal.addProposalPerson(newPerson);
