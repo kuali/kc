@@ -61,9 +61,6 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.*;
 
-/**
- * This class...
- */
 @Entity
 @Table(name = "EPS_PROPOSAL")
 @Customizer(DevelopmentProposal.DevelopmentProposalCustomizer.class)
