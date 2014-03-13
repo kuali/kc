@@ -17,10 +17,6 @@ package org.kuali.coeus.common.framework.person.attr;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.CitizenshipType;
-import org.kuali.kra.bo.PersonAppointment;
-import org.kuali.kra.bo.PersonBiosketch;
-import org.kuali.kra.bo.PersonCustomData;
-import org.kuali.kra.bo.PersonDegree;
 import org.kuali.rice.krad.bo.PersistableAttachmentList;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
