@@ -58,11 +58,6 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
     private DateTimeService dateTimeService;
     private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupableHelperServiceImpl.class);
 
-    /**
-     * 
-     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map) It calls the
-     *      S2sService#searchOpportunity service to look up the opportunity
-     */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         LookupUtils.removeHiddenCriteriaFields(getBusinessObjectClass(), fieldValues);
         setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
@@ -163,8 +158,8 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
         parameters.put("newS2sOpportunity.cfdaNumber", opp.getCfdaNumber() != null ? opp.getCfdaNumber() : "");
         parameters.put("newS2sOpportunity.opportunityId", opp.getOpportunityId() != null ? opp.getOpportunityId() : "");
         parameters.put("newS2sOpportunity.opportunityTitle", opp.getOpportunityTitle() != null ? opp.getOpportunityTitle() : "");
-        parameters.put("newS2sOpportunity.closingDate", opp.getClosingDate() != null ? getDateTimeService().toDateTimeString(opp.getClosingDate()) : "");
-        parameters.put("newS2sOpportunity.openingDate", opp.getOpeningDate() != null ? getDateTimeService().toDateTimeString(opp.getOpeningDate()) : "");
+        parameters.put("newS2sOpportunity.closingDate", opp.getClosingDate() != null ? getDateTimeService().toDateTimeString(opp.getClosingDate().getTime()) : "");
+        parameters.put("newS2sOpportunity.openingDate", opp.getOpeningDate() != null ? getDateTimeService().toDateTimeString(opp.getOpeningDate().getTime()) : "");
         parameters.put("newS2sOpportunity.instructionUrl", opp.getInstructionUrl() != null ? opp.getInstructionUrl() : "");
         parameters.put("newS2sOpportunity.competetionId", opp.getCompetetionId() != null ? opp.getCompetetionId() : "");
         parameters.put("newS2sOpportunity.schemaUrl", opp.getSchemaUrl() != null ? opp.getSchemaUrl() : "");

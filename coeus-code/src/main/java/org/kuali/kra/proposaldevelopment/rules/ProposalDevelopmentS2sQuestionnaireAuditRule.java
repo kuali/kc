@@ -53,10 +53,10 @@ public class ProposalDevelopmentS2sQuestionnaireAuditRule extends KcTransactiona
         
         if (opp!=null && opp.getS2sOppForms()!=null) {
             for (S2sOppForms oppforms : opp.getS2sOppForms()) {
-                List<QuestionnaireUsage> usages = getProposalDevelopmentS2sQuestionnaireService().getQuestionnaireUsages(oppforms.getOppNameSpace(), oppforms.getFormName(), developmentProposal);
+                List<QuestionnaireUsage> usages = getProposalDevelopmentS2sQuestionnaireService().getQuestionnaireUsages(oppforms.getS2sOppFormsId().getOppNameSpace(), oppforms.getFormName(), developmentProposal);
                 // if the returned usages list is empty, there are no Questionnaires for that opp form.
                 if (usages.size()>0) {
-                    List<AnswerHeader> headers = proposalDevelopmentS2sQuestionnaireService.getProposalAnswerHeaderForForm(developmentProposal,oppforms.getOppNameSpace(),oppforms.getFormName());
+                    List<AnswerHeader> headers = proposalDevelopmentS2sQuestionnaireService.getProposalAnswerHeaderForForm(developmentProposal,oppforms.getS2sOppFormsId().getOppNameSpace(),oppforms.getFormName());
                     for (int i=0;i<headers.size();i++) {
                         AnswerHeader header = headers.get(i);
                         if (!header.getCompleted()) {
