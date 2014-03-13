@@ -47,17 +47,14 @@ public class UnitServiceImpl implements UnitService {
     @Autowired
     @Qualifier("unitLookupDao")
     private UnitLookupDao unitLookupDao;
-    
-    private int numberOfUnits;
 	
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;   
     
+    private int numberOfUnits;
     
-    /**
-     * @see org.kuali.coeus.common.framework.unit.UnitService#getUnitCaseInsensitive(java.lang.String)
-     */
+    @Override
     public Unit getUnitCaseInsensitive(String unitNumber){
         Unit unit = null;
         if (StringUtils.isNotEmpty(unitNumber)) {
@@ -66,11 +63,7 @@ public class UnitServiceImpl implements UnitService {
         return unit;
     }
     
-    
-
-    /**
-     * @see org.kuali.coeus.common.framework.unit.UnitService#getUnitName(java.lang.String)
-     */
+    @Override
     public String getUnitName(String unitNumber) {
         String unitName = null;
         Map<String, String> primaryKeys = new HashMap<String, String>();
@@ -85,16 +78,12 @@ public class UnitServiceImpl implements UnitService {
         return unitName;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.unit.UnitService#getUnits()
-     */
+    @Override
     public Collection<Unit> getUnits() {
         return businessObjectService.findAll(Unit.class);
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.unit.UnitService#getUnit(java.lang.String)
-     */
+    @Override
     public Unit getUnit(String unitNumber) {
         Unit unit = null;
 
@@ -107,9 +96,7 @@ public class UnitServiceImpl implements UnitService {
         return unit;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.unit.UnitService#getSubUnits(java.lang.String)
-     */
+    @Override
     public List<Unit> getSubUnits(String unitNumber) {
         List<Unit> units = new ArrayList<Unit>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -118,9 +105,7 @@ public class UnitServiceImpl implements UnitService {
         return units;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.unit.UnitService#getAllSubUnits(java.lang.String)
-     */
+    @Override
     public List<Unit> getAllSubUnits(String unitNumber) {
         List<Unit> units = new ArrayList<Unit>();
         List<Unit> subUnits = getSubUnits(unitNumber);
@@ -132,10 +117,7 @@ public class UnitServiceImpl implements UnitService {
         return units;
     }
     
-    /**
-     * 
-     * @see org.kuali.coeus.common.framework.unit.UnitService#getUnitHierarchyForUnit(java.lang.String)
-     */
+    @Override
     public List<Unit> getUnitHierarchyForUnit(String unitNumber) {
         List<Unit> units = new ArrayList<Unit>();
         Unit thisUnit = this.getUnit(unitNumber);
@@ -162,10 +144,7 @@ public class UnitServiceImpl implements UnitService {
     }
 
     
-    /**
-     * 
-     * @see org.kuali.coeus.common.framework.unit.UnitService#getSubUnitsForTreeView(java.lang.String)
-     */
+    @Override
     public String getSubUnitsForTreeView(String unitNumber) {
         // unitNumber will be like "<table width="600"><tr><td width="70%">BL-BL : BLOOMINGTON CAMPUS"
         String subUnits = null;
@@ -182,9 +161,7 @@ public class UnitServiceImpl implements UnitService {
         
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.unit.UnitService#getTopUnit()
-     */
+    @Override
     public Unit getTopUnit() {
         Unit topUnit = null;
 
@@ -269,10 +246,7 @@ public class UnitServiceImpl implements UnitService {
         return unitAdministrators;
     }
     
-    /**
-     * 
-     * @see org.kuali.coeus.common.framework.unit.UnitService#getMaxUnitTreeDepth()
-     */
+    @Override
     public int getMaxUnitTreeDepth() {
         /**
          * This function returns a higher number than the actual depth of the hirearchy tree.  This does not cause any problem as of yet.
@@ -284,9 +258,7 @@ public class UnitServiceImpl implements UnitService {
         return getBusinessObjectService().findAll(Unit.class).size();
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.unit.UnitService#retrieveUnitCorrespondentByUnitNumber(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<UnitCorrespondent> retrieveUnitCorrespondentsByUnitNumber(String unitNumber) {
         this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
@@ -297,9 +269,7 @@ public class UnitServiceImpl implements UnitService {
         return unitCorrespondents;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.unit.UnitService#retrieveIacucUnitCorrespondentByUnitNumber(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<IacucUnitCorrespondent> retrieveIacucUnitCorrespondentsByUnitNumber(String unitNumber) {
         this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
