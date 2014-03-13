@@ -32,12 +32,16 @@ public class ProposalPersonYnq extends KcPersistableBusinessObjectBase{
 	private static final long serialVersionUID = 5035080261199085203L;
 
     @Id
-    @OneToOne
+    @ManyToOne
     @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
     private ProposalPerson proposalPerson;
 
-	@Id
-    @Column(name = "QUESTION_ID")
+    @Id
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID")
+    private Ynq ynq;    
+
+    @Column(name = "QUESTION_ID", insertable = false, updatable = false)
     private String questionId;
 
     @Column(name = "ANSWER")
@@ -45,10 +49,6 @@ public class ProposalPersonYnq extends KcPersistableBusinessObjectBase{
 
     @Transient
     private String dummyAnswer;
-
-    @ManyToOne(targetEntity = Ynq.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", insertable = false, updatable = false)
-    private Ynq ynq;
 
     public ProposalPersonYnq() {
         super();
@@ -106,19 +106,19 @@ public class ProposalPersonYnq extends KcPersistableBusinessObjectBase{
 			this.proposalPerson = proposalPerson;
 		}
 
-		private String questionId;
+		private String ynq;
 
-        public String getQuestionId() {
-            return this.questionId;
+        public String getYnq() {
+            return this.ynq;
         }
 
-        public void setQuestionId(String questionId) {
-            this.questionId = questionId;
+        public void setYnq(String ynq) {
+            this.ynq = ynq;
         }
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("proposalPerson", proposalPerson.toString()).append("questionId", this.questionId).toString();
+            return new ToStringBuilder(this).append("proposalPerson", proposalPerson.toString()).append("ynq", this.ynq).toString();
         }
 
         @Override
@@ -130,17 +130,17 @@ public class ProposalPersonYnq extends KcPersistableBusinessObjectBase{
             if (other.getClass() != this.getClass())
                 return false;
             final ProposalPersonYnqId rhs = (ProposalPersonYnqId) other;
-            return new EqualsBuilder().append(this.proposalPerson, rhs.proposalPerson).append(this.questionId, rhs.questionId).isEquals();
+            return new EqualsBuilder().append(this.proposalPerson, rhs.proposalPerson).append(this.ynq, rhs.ynq).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.proposalPerson).append(this.questionId).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.proposalPerson).append(this.ynq).toHashCode();
         }
 
         @Override
         public int compareTo(ProposalPersonYnqId other) {
-            return new CompareToBuilder().append(this.proposalPerson, other.proposalPerson).append(this.questionId, other.questionId).toComparison();
+            return new CompareToBuilder().append(this.proposalPerson, other.proposalPerson).append(this.ynq, other.ynq).toComparison();
         }
     }
 }

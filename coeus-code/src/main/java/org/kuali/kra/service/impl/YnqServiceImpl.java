@@ -141,7 +141,6 @@ public class YnqServiceImpl implements YnqService {
     protected void addCertificationQuestions(List<Ynq> ynqs, ProposalPerson proposalPerson) {
         for (Ynq type : ynqs) {
             ProposalPersonYnq proposalPersonYnq = new ProposalPersonYnq();
-            proposalPersonYnq.setQuestionId(type.getQuestionId());
             proposalPersonYnq.setYnq(type); 
             proposalPersonYnq.setProposalPerson(proposalPerson);
             proposalPerson.getProposalPersonYnqs().add(proposalPersonYnq);
