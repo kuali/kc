@@ -3,7 +3,7 @@
 	<import resource="classpath*:Correspondent.xml"/>
     <bean id="OrganizationCorrespondent" parent="OrganizationCorrespondent-parentBean" />
     <bean id="OrganizationCorrespondent-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationCorrespondent" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent" />
 		<property name="objectLabel" value="Organization Correspondent" />
         <property name="inquiryDefinition" >
             <ref bean="OrganizationCorrespondent-inquiryDefinition" />
@@ -91,7 +91,7 @@
 
   <bean id="OrganizationCorrespondent-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Organization Correspondent"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.OrganizationCorrespondent"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -139,7 +139,7 @@
     </bean>
 
   <bean id="OrganizationCorrespondent-LookupView-parentBean" abstract="true" parent="Correspondent-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.OrganizationCorrespondent"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent"/>
     <property name="headerText" value="Organization Correspondent Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

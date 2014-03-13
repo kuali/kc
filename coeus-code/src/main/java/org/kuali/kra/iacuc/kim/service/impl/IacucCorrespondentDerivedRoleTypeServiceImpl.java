@@ -16,6 +16,7 @@ un * Copyright 2005-2014 The Kuali Foundation
 package org.kuali.kra.iacuc.kim.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.org.OrganizationService;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.bo.IacucOrganizationCorrespondent;
@@ -23,7 +24,6 @@ import org.kuali.kra.iacuc.bo.IacucUnitCorrespondent;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.summary.IacucProtocolSummary;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.service.OrganizationService;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
