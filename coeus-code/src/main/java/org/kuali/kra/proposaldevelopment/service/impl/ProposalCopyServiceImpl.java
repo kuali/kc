@@ -517,7 +517,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                         ProposalPersonExtendedAttributes ppea = 
                             (ProposalPersonExtendedAttributes) ObjectUtils.deepCopy(srcProposalperson.getProposalPersonExtendedAttributes());
                         ppea.setProposalPerson(proposalperson);
-                        ppea.setProposalPersonRoleId(proposalperson.getProposalPersonRoleId());
                         proposalperson.setProposalPersonExtendedAttributes(ppea);
                     }
                 }
