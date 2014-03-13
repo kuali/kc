@@ -13,21 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.dao;
-
-import org.kuali.coeus.common.framework.unit.Unit;
+package org.kuali.coeus.common.framework.unit;
 
 /**
- * This class...
+ * This type defines the kinds of Unit Contact
  */
-public interface UnitLookupDao {
-    
-    /**
-     * This method finds the unit object whose number matches the argument <code>unitNumber</code>. The lookup logic is 
-     * case insensitive i.e. the return value is the same irrespective of the case of the characters in the argument. 
-     * @param unitNumber
-     * @return the matching unit object or null if no match was found.
-     */
-    public Unit findUnitbyNumberCaseInsensitive(String unitNumber);
-
+public enum UnitContactType {
+    ADMINISTRATOR, CONTACT
 }

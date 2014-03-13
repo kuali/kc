@@ -25,8 +25,6 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.AbstractUnitAdministrator;
-import org.kuali.kra.bo.UnitAdministratorType;
 
 import javax.persistence.*;
 import java.io.Serializable;

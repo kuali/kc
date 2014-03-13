@@ -17,9 +17,9 @@ package org.kuali.kra.irb.kim.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.common.framework.unit.crrspndnt.UnitCorrespondent;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.OrganizationCorrespondent;
-import org.kuali.kra.bo.UnitCorrespondent;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.kim.bo.KcKimAttributes;

@@ -17,8 +17,8 @@ package org.kuali.kra.award.contacts;
 
 import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
 import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
-import org.kuali.kra.bo.UnitAdministratorType;
-import org.kuali.kra.bo.UnitContactType;
+import org.kuali.coeus.common.framework.unit.UnitContactType;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 
 /**
  * This class converts the UnitType type
