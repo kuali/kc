@@ -124,7 +124,7 @@ public class OpportunitySchemaParser {
                     String schemaUrl = ((Element) importNode).getAttribute(SCHEMA_LOCATION);
                     S2sOppForms oppForm = new S2sOppForms();
                     oppForm.setFormName(displayFormName);
-                    oppForm.setOppNameSpace(nameSpace);
+                    oppForm.getS2sOppFormsId().setOppNameSpace(nameSpace);
                     oppForm.setSchemaUrl(schemaUrl);
                     mandatory = (minOccurs == null || minOccurs.trim().equals("") || Integer.parseInt(minOccurs) > 0);
                     oppForm.setMandatory(mandatory);

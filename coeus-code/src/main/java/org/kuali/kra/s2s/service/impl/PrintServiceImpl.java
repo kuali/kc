@@ -358,7 +358,6 @@ public class PrintServiceImpl implements PrintService {
 	 * 
 	 * @param pdDoc
 	 *            ProposalDevelopmentDocument
-	 * @param bookmarksList
 	 * @return ByteArrayOutputStream[] PDF byte Array
 	 * @throws S2SException
 	 */
@@ -606,7 +605,7 @@ public class PrintServiceImpl implements PrintService {
             for (S2sOppForms oppForm : s2sOppForms) {
                 namespaces = sortedNamespaces.get(sortedIndex);
                 for (String namespace : namespaces) {
-					if (namespace.equals(oppForm.getOppNameSpace())) {
+					if (namespace.equals(oppForm.getS2sOppFormsId().getOppNameSpace())) {
 						if (Boolean.TRUE.equals(oppForm.getSelectToPrint())) {
 							orderedNamespaces.add(index++, namespace);
 						}
