@@ -651,7 +651,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         
-        <reference-descriptor name="unitAdministratorType" class-ref="org.kuali.kra.bo.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="unitAdministratorType" class-ref="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="unitAdministratorTypeCode"/> 
         </reference-descriptor>
         <reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 

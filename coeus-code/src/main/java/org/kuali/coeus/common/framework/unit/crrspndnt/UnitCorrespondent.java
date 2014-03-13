@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.unit.crrspndnt;
 
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.kra.bo.Correspondent;
 
 public class UnitCorrespondent extends Correspondent {
 

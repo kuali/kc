@@ -13,19 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.unit;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
+import org.kuali.coeus.common.framework.unit.crrspndnt.UnitCorrespondent;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.bo.IacucUnitCorrespondent;
-import org.kuali.kra.bo.UnitCorrespondent;
-import org.kuali.kra.dao.UnitLookupDao;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -34,16 +36,23 @@ import java.util.*;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@Component("unitService")
 public class UnitServiceImpl implements UnitService {
-    
-    private BusinessObjectService businessObjectService;
+
     private static final String COLUMN = ":";
     private static final String SEPARATOR = ";1;";
     private static final String DASH = "-";
     private static final String UNIT_NUMBER = "unitNumber";
-    private int numberOfUnits;
+    
+    @Autowired
+    @Qualifier("unitLookupDao")
     private UnitLookupDao unitLookupDao;
-   
+    
+    private int numberOfUnits;
+	
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;   
     
     
     /**
@@ -152,23 +161,6 @@ public class UnitServiceImpl implements UnitService {
         return units;
     }
 
-    /**
-     * Sets the businessObjectService attribute value. Injected by Spring.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-    
-    /**
-     * Accessor for <code>{@link BusinessObjectService}</code>
-     *
-     * @return BusinessObjectService
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return this.businessObjectService;
-    }
     
     /**
      * 
@@ -291,15 +283,7 @@ public class UnitServiceImpl implements UnitService {
          */
         return getBusinessObjectService().findAll(Unit.class).size();
     }
-    
-    public UnitLookupDao getUnitLookupDao() {
-        return unitLookupDao;
-    }
 
-    public void setUnitLookupDao(UnitLookupDao unitLookupDao) {
-        this.unitLookupDao = unitLookupDao;
-    }
-    
     /**
      * @see org.kuali.coeus.common.framework.unit.UnitService#retrieveUnitCorrespondentByUnitNumber(java.lang.String)
      */
@@ -324,6 +308,32 @@ public class UnitServiceImpl implements UnitService {
         List<IacucUnitCorrespondent> unitCorrespondents = 
             (List<IacucUnitCorrespondent>) getBusinessObjectService().findMatching(IacucUnitCorrespondent.class, queryMap);
         return unitCorrespondents;
+    }
+    
+    public UnitLookupDao getUnitLookupDao() {
+        return unitLookupDao;
+    }
+
+    public void setUnitLookupDao(UnitLookupDao unitLookupDao) {
+        this.unitLookupDao = unitLookupDao;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value. Injected by Spring.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * Accessor for <code>{@link BusinessObjectService}</code>
+     *
+     * @return BusinessObjectService
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return this.businessObjectService;
     }
     
 }

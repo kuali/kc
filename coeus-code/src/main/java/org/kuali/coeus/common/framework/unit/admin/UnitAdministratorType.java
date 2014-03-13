@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.unit.admin;
 
+import org.kuali.coeus.common.framework.unit.UnitContactType;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
