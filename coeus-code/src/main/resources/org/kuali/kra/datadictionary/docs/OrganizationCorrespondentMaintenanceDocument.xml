@@ -2,8 +2,8 @@
 
     <bean id="OrganizationCorrespondentMaintenanceDocument" parent="OrganizationCorrespondentMaintenanceDocument-parentBean" />
     <bean id="OrganizationCorrespondentMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationCorrespondent" />
-	    <property name="maintainableClass" value="org.kuali.kra.bo.OrganizationCorrespondentMaintainableImpl"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent" />
+	    <property name="maintainableClass" value="org.kuali.coeus.common.impl.org.crrspndnt.OrganizationCorrespondentMaintainableImpl"/>
 	    <property name="maintainableSections" >
             <list>
                 <ref bean="OrganizationCorrespondentMaintenanceDocument-EditOrganizationCorrespondent" />

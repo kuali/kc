@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.org;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.org.OrganizationService;
+import org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.bo.IacucOrganizationCorrespondent;
-import org.kuali.kra.bo.OrganizationCorrespondent;
-import org.kuali.kra.service.OrganizationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private static final String ORGANIZATION_ID = "organizationId";
 
     /**
-     * @see org.kuali.kra.service.OrganizationService#getOrganizationName(java.lang.String)
+     * @see org.kuali.coeus.common.framework.org.OrganizationService#getOrganizationName(java.lang.String)
      */
     public String getOrganizationName(String organizationId) {
         String organizationName = null;
@@ -48,7 +48,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     * @see org.kuali.kra.service.OrganizationService#getOrganization(java.lang.String)
+     * @see org.kuali.coeus.common.framework.org.OrganizationService#getOrganization(java.lang.String)
      */
     public Organization getOrganization(String organizationId) {
         Organization organization = null;
@@ -62,7 +62,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     * @see org.kuali.kra.service.OrganizationService#retrieveOrganizationCorrespondentByOrganizationId(java.lang.String)
+     * @see org.kuali.coeus.common.framework.org.OrganizationService#retrieveOrganizationCorrespondentByOrganizationId(java.lang.String)
      */
     @SuppressWarnings("unchecked")
     public List<OrganizationCorrespondent> retrieveOrganizationCorrespondentsByOrganizationId(String organizationId) {
@@ -75,7 +75,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
     
     /**
-     * @see org.kuali.kra.service.OrganizationService#retrieveIacucOrganizationCorrespondentByOrganizationId(java.lang.String)
+     * @see org.kuali.coeus.common.framework.org.OrganizationService#retrieveIacucOrganizationCorrespondentByOrganizationId(java.lang.String)
      */
     @SuppressWarnings("unchecked")
     public List<IacucOrganizationCorrespondent> retrieveIacucOrganizationCorrespondentsByOrganizationId(String organizationId) {
