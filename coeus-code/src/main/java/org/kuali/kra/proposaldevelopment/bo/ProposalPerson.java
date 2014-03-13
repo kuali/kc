@@ -133,11 +133,11 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     @Column(name = "OPT_IN_UNIT_STATUS")
     @Convert(converter = BooleanYNConverter.class)
-    private boolean optInUnitStatus;
+    private Boolean optInUnitStatus = Boolean.TRUE;
 
     @Column(name = "OPT_IN_CERTIFICATION_STATUS")
     @Convert(converter = BooleanYNConverter.class)
-    private boolean optInCertificationStatus;
+    private Boolean optInCertificationStatus = Boolean.TRUE;
 
     @Transient
     private boolean unitdelete;
@@ -150,14 +150,14 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     @Column(name = "MULTIPLE_PI")
     @Convert(converter = BooleanYNConverter.class)
-    private boolean multiplePi;
+    private Boolean multiplePi;
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
 
     @Column(name = "HIDE_IN_HIERARCHY")
     @Convert(converter = BooleanYNConverter.class)
-    private boolean hiddenInHierarchy;
+    private Boolean hiddenInHierarchy;
 
     @Column(name = "PERSON_ID")
     private String personId;
@@ -377,12 +377,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     
     @Transient
     private ProposalPersonQuestionnaireHelper questionnaireHelper;
-
-    /**
-     * This list is not automatically populated by the ORM by design.
-     * Call ProposalDevelopmentPersonQuestionnaireService.setAnswerHeaders() to set this list.
-     */
-    //private List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();  
+ 
     public boolean isMoveDownAllowed() {
         return moveDownAllowed;
     }
@@ -399,10 +394,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         this.moveUpAllowed = moveUpAllowed;
     }
 
-    /**
-     *
-     * new ProposalPerson
-     */
     public ProposalPerson() {
         proposalPersonDegrees = new ArrayList<ProposalPersonDegree>();
         setUnits(new ArrayList<ProposalPersonUnit>());
@@ -426,9 +417,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         setSimpleName(StringUtils.remove(getSimpleName(), '.'));
     }
 
-    /**
-     * gets the full name.
-     */
     @CreditSplitNameInfo
     public String getFullName() {
         return this.fullName;
@@ -995,19 +983,19 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         this.otherSignificantContributorFlag = otherSignificantContributorFlag;
     }
 
-    public boolean getOptInUnitStatus() {
+    public Boolean getOptInUnitStatus() {
         return optInUnitStatus;
     }
 
-    public void setOptInUnitStatus(boolean optInUnitStatus) {
+    public void setOptInUnitStatus(Boolean optInUnitStatus) {
         this.optInUnitStatus = optInUnitStatus;
     }
 
-    public boolean getOptInCertificationStatus() {
+    public Boolean getOptInCertificationStatus() {
         return optInCertificationStatus;
     }
 
-    public void setOptInCertificationStatus(boolean optInCertificationStatus) {
+    public void setOptInCertificationStatus(Boolean optInCertificationStatus) {
         this.optInCertificationStatus = optInCertificationStatus;
     }
 
@@ -2201,27 +2189,15 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return homeUnit;
     }
 
-    /**
-     * Sets the hierarchyProposalNumber attribute value.
-     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
-     */
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
-    /**
-     * Gets the hiddenInHierarchy attribute. 
-     * @return Returns the hiddenInHierarchy.
-     */
-    public boolean isHiddenInHierarchy() {
+    public Boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
 
-    /**
-     * Sets the hiddenInHierarchy attribute value.
-     * @param hiddenInHierarchy The hiddenInHierarchy to set.
-     */
-    public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
+    public void setHiddenInHierarchy(Boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
 
@@ -2229,11 +2205,12 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return getRole();
     }
 
+    //Return value here is boolean instead of Boolean due to PersonRolodex definition affecting numerous classes
     public boolean isMultiplePi() {
         return multiplePi;
     }
 
-    public void setMultiplePi(boolean multiplePi) {
+    public void setMultiplePi(Boolean multiplePi) {
         this.multiplePi = multiplePi;
     }
 
