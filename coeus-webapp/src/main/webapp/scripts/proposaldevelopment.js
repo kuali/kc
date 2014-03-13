@@ -20,5 +20,5 @@ ProposalDevelopmentMethods.updateSponsorName = function(sponsorCode, nameSelecto
 }
 ProposalDevelopmentMethods.sponsorSuggestSelect = function(event, ui) {
 	jQuery(event.target).val(ui.item.value);
-	jQuery(event.target).parent().find('span.informationalText').html(ui.item.sponsorName);
+	jQuery(event.target).parent().find('.informationalText').html(ui.item.sponsorName);
 }
