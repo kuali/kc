@@ -45,7 +45,7 @@ public class KcStateValuesFinder extends UifKeyValuesFinderBase {
         if (person == null || StringUtils.isEmpty(person.getCountryCode())) {
             baseCodes = LocationApiServiceLocator.getStateService().findAllStatesInCountry("US");
         } else { 
-            baseCodes = LocationApiServiceLocator.getStateService().findAllStatesInCountry(person.getCountryCode());
+            baseCodes = LocationApiServiceLocator.getStateService().findAllStatesInCountryByAltCode(person.getCountryCode());
         }
         
         List<State> codes = new ArrayList<State>( baseCodes );
