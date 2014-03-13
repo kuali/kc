@@ -53,7 +53,7 @@
   <li>Investigators Credit Type</li>
   <li>Negotiation Activity Type</li>
   <li>Negotiation Status</li>
-  <li><portal:portalLink displayTitle="true" title="Organization Type" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.OrganizationTypeList&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
+  <li><portal:portalLink displayTitle="true" title="Organization Type" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.coeus.common.framework.org.type.OrganizationTypeList&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   <li>Rule Functions</li>
   <li>Rule Functions Argument</li>
   <li>Rule Variables</li>

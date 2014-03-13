@@ -15,12 +15,10 @@
  */
 package org.kuali.coeus.common.framework.org;
 
+import org.kuali.coeus.common.framework.org.audit.OrganizationAudit;
+import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.OrganizationAudit;
-import org.kuali.kra.bo.OrganizationIndirectcost;
-import org.kuali.kra.bo.OrganizationType;
-import org.kuali.kra.bo.OrganizationYnq;
 
 import javax.persistence.*;
 import java.sql.Date;

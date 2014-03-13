@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.org.crrspndnt;
 
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.kra.bo.Correspondent;
 import org.kuali.kra.irb.correspondence.CorrespondentType;
 
 public class OrganizationCorrespondent extends Correspondent {

@@ -915,7 +915,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="organizationTypes"/>
-                <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationType"/>
+                <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.type.OrganizationType"/>
                 <property name="numberOfColumns" value="1"/>
                 <property name="inquiryFields">
                   <list>
@@ -933,7 +933,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="organizationAudits"/>
-                <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationAudit"/>
+                <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.audit.OrganizationAudit"/>
                 <property name="numberOfColumns" value="1"/>
                 <property name="inquiryFields">
                   <list>
@@ -953,7 +953,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="organizationIdcs"/>
-                <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationIndirectcost"/>
+                <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.OrganizationIndirectcost"/>
                 <property name="numberOfColumns" value="1"/>
                 <property name="inquiryFields">
                   <list>
@@ -977,7 +977,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="organizationYnqs"/>
-                <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationYnq"/>
+                <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.OrganizationYnq"/>
                 <property name="numberOfColumns" value="1"/>
                 <property name="inquiryFields">
                   <list>
@@ -1043,7 +1043,7 @@
           <property name="headerText" value="Organization Types"/>
           <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="2"/>
           <property name="propertyName" value="organizationTypes"/>
-          <property name="collectionObjectClass" value="org.kuali.kra.bo.OrganizationType"/>
+          <property name="collectionObjectClass" value="org.kuali.coeus.common.framework.org.type.OrganizationType"/>
           <property name="items">
             <list>
               <bean p:propertyName="organizationTypeList.description" parent="Uif-DataField"/>
@@ -1054,7 +1054,7 @@
           <property name="headerText" value="Organization Audits"/>
           <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="2"/>
           <property name="propertyName" value="organizationAudits"/>
-          <property name="collectionObjectClass" value="org.kuali.kra.bo.OrganizationAudit"/>
+          <property name="collectionObjectClass" value="org.kuali.coeus.common.framework.org.audit.OrganizationAudit"/>
           <property name="items">
             <list>
               <bean p:propertyName="fiscalYear" parent="Uif-DataField"/>
@@ -1067,7 +1067,7 @@
           <property name="headerText" value="Organization Indirectcosts"/>
           <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="2"/>
           <property name="propertyName" value="organizationIdcs"/>
-          <property name="collectionObjectClass" value="org.kuali.kra.bo.OrganizationIndirectcost"/>
+          <property name="collectionObjectClass" value="org.kuali.coeus.common.framework.org.OrganizationIndirectcost"/>
           <property name="items">
             <list>
               <bean p:propertyName="idcNumber" parent="Uif-DataField"/>
@@ -1084,7 +1084,7 @@
           <property name="headerText" value="Organization Ynqs"/>
           <property name="layoutManager.lineGroupPrototype.layoutManager.numberOfColumns" value="2"/>
           <property name="propertyName" value="organizationYnqs"/>
-          <property name="collectionObjectClass" value="org.kuali.kra.bo.OrganizationYnq"/>
+          <property name="collectionObjectClass" value="org.kuali.coeus.common.framework.org.OrganizationYnq"/>
           <property name="items">
             <list>
               <bean p:propertyName="questionId" parent="Uif-DataField"/>

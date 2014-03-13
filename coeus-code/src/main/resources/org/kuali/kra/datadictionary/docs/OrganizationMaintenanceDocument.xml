@@ -4,7 +4,7 @@
 
   <bean id="OrganizationMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.Organization"/>
-    <property name="maintainableClass" value="org.kuali.kra.maintenance.OrganizationMaintenableImpl"/>
+    <property name="maintainableClass" value="org.kuali.coeus.common.impl.org.OrganizationMaintenableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="OrganizationMaintenanceDocument-EditOrganization"/>
@@ -21,7 +21,7 @@
     </property>	<property name="allowsRecordDeletion" value="true" />	
     <property name="documentTypeName" value="OrganizationMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.authorizer.OrganizationMaintenanceDocumentAuthorizer"/>
-    <property name="businessRulesClass" value="org.kuali.kra.rules.OrganizationMaintenanceDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.impl.org.OrganizationMaintenanceDocumentRule"/>
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -76,8 +76,8 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="organizationTypes"/>
-          <property name="sourceClassName" value="org.kuali.kra.bo.OrganizationType"/>
-          <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationType"/>
+          <property name="sourceClassName" value="org.kuali.coeus.common.framework.org.type.OrganizationType"/>
+          <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.type.OrganizationType"/>
           <property name="alwaysAllowCollectionDeletion" value="true"/>
 		  <property name="includeAddLine" value="true"/>
 		  <property name="includeMultipleLookupLine" value="false"/>
@@ -99,7 +99,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="organizationAudits"/>
-          <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationAudit"/>
+          <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.audit.OrganizationAudit"/>
           <property name="maintainableFields">
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="fiscalYear" p:required="true"/>
@@ -120,7 +120,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="organizationIdcs"/>
-          <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationIndirectcost"/>
+          <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.OrganizationIndirectcost"/>
           <property name="maintainableFields">
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="idcNumber" p:required="true"/>
@@ -145,7 +145,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="organizationYnqs"/>
-          <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationYnq"/>
+          <property name="businessObjectClass" value="org.kuali.coeus.common.framework.org.OrganizationYnq"/>
           <property name="includeAddLine" value="false"/>
           <property name="summaryFields">
             <list>
