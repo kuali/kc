@@ -65,6 +65,7 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements o
                 currentCommitteeId = committeeId;
                 currentScheduleId = scheduleId;
                 reviewers.clear();
+                //scheduleID present in this conditional so submit for review action will dynamically show/hide reviewers on that action panel
                 if (!StringUtils.isBlank(committeeId) && (!StringUtils.isBlank(scheduleId) || isExpeditedSubmission(submission))) {
                     List<CommitteeMembershipBase> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
                     for (CommitteeMembershipBase member : members) {
@@ -77,6 +78,26 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements o
                                 if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
                                     reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
                                     break;
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    //get reviewers based solely on committeeId for the other submission types 
+                    if (!StringUtils.isBlank(committeeId)) {
+                        List<CommitteeMembershipBase> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
+                        for (CommitteeMembershipBase member : members) {
+                            reviewers.add(new ProtocolReviewerBean((CommitteeMembership) member));
+                        }
+                        
+                        for (ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
+                            if (review.isActive()) {
+                                for (ProtocolReviewerBean reviewerBean : reviewers) {
+                                    if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
+                                        reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -127,4 +148,5 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements o
     private boolean isExpeditedSubmission(ProtocolSubmission submission) {
         return submission != null && ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode());
     }
+    
 }
