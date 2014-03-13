@@ -329,7 +329,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Transient
     private Boolean grantsGovSelectFlag = Boolean.FALSE;
 
-    @ManyToOne(targetEntity = ProposalDevelopmentDocument.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER")
     private ProposalDevelopmentDocument proposalDocument;
 
