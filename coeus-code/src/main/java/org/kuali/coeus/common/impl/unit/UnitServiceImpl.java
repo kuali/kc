@@ -21,7 +21,6 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.common.framework.unit.crrspndnt.UnitCorrespondent;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.bo.IacucUnitCorrespondent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -52,13 +51,11 @@ public class UnitServiceImpl implements UnitService {
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;   
     
-    private int numberOfUnits;
-    
     @Override
     public Unit getUnitCaseInsensitive(String unitNumber){
         Unit unit = null;
         if (StringUtils.isNotEmpty(unitNumber)) {
-            unit = this.getUnitLookupDao().findUnitbyNumberCaseInsensitive(unitNumber);
+            unit = getUnitLookupDao().findUnitbyNumberCaseInsensitive(unitNumber);
         }
         return unit;
     }
@@ -69,7 +66,7 @@ public class UnitServiceImpl implements UnitService {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(unitNumber)) {
             primaryKeys.put("unitNumber", unitNumber);
-            Unit unit = (Unit)businessObjectService.findByPrimaryKey(Unit.class, primaryKeys);
+            Unit unit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, primaryKeys);
             if (unit != null) {
                 unitName = unit.getUnitName();
             }
@@ -80,7 +77,7 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public Collection<Unit> getUnits() {
-        return businessObjectService.findAll(Unit.class);
+        return getBusinessObjectService().findAll(Unit.class);
     }
 
     @Override
@@ -90,7 +87,7 @@ public class UnitServiceImpl implements UnitService {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(unitNumber)) {
             primaryKeys.put("unitNumber", unitNumber);
-            unit = (Unit)businessObjectService.findByPrimaryKey(Unit.class, primaryKeys);
+            unit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, primaryKeys);
         }
 
         return unit;
@@ -101,7 +98,7 @@ public class UnitServiceImpl implements UnitService {
         List<Unit> units = new ArrayList<Unit>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("parentUnitNumber", unitNumber);
-        units.addAll(businessObjectService.findMatching(Unit.class, fieldValues));
+        units.addAll(getBusinessObjectService().findMatching(Unit.class, fieldValues));
         return units;
     }
     
@@ -188,7 +185,7 @@ public class UnitServiceImpl implements UnitService {
         Unit instituteUnit = getTopUnit();
         int parentIdx = 0;
         String subUnits = instituteUnit.getUnitNumber() +KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
-        numberOfUnits = 0;
+        int numberOfUnits = 0;
         for (Unit unit : getSubUnits(instituteUnit.getUnitNumber())) {
             subUnits = subUnits + parentIdx + DASH + unit.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit.getUnitName()+SEPARATOR;
             // we can make it more flexible, to add a while loop and with a 'depth' argument.
@@ -207,13 +204,13 @@ public class UnitServiceImpl implements UnitService {
         Unit instituteUnit = getTopUnit();
         int parentIdx = 0;
         String subUnits = instituteUnit.getUnitNumber() +KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
-        numberOfUnits = 0;
+        int numberOfUnits = 0;
         for (Unit unit : getSubUnits(instituteUnit.getUnitNumber())) {
             subUnits = subUnits + parentIdx + DASH + unit.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit.getUnitName()+SEPARATOR;
             // we can make it more flexible, to add a while loop and with a 'depth' argument.
             numberOfUnits++;
             if (depth - 2 > 0) {
-                subUnits = subUnits +  getSubUnits(unit, depth - 2);
+                subUnits = subUnits +  getSubUnits(numberOfUnits, unit, depth - 2);
             }
         }
         subUnits = subUnits.substring(0, subUnits.length() - 3);
@@ -222,7 +219,7 @@ public class UnitServiceImpl implements UnitService {
         
     }
 
-    protected String getSubUnits (Unit unit, int level) {
+    protected String getSubUnits (int numberOfUnits, Unit unit, int level) {
         String subUnits="";
         int parentNum = numberOfUnits;
         level--;
@@ -230,7 +227,7 @@ public class UnitServiceImpl implements UnitService {
             subUnits = subUnits + parentNum + DASH + unit1.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit1.getUnitName()+SEPARATOR;
             numberOfUnits++;
             if (level > 0) {
-                subUnits = subUnits +  getSubUnits(unit1, level);
+                subUnits = subUnits +  getSubUnits(numberOfUnits, unit1, level);
             }
         }
         return subUnits;        
@@ -238,7 +235,6 @@ public class UnitServiceImpl implements UnitService {
     
     @SuppressWarnings("unchecked")
     public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumber(String unitNumber) {
-        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(UNIT_NUMBER, unitNumber);
         List<UnitAdministrator> unitAdministrators = 
@@ -261,7 +257,6 @@ public class UnitServiceImpl implements UnitService {
     @Override
     @SuppressWarnings("unchecked")
     public List<UnitCorrespondent> retrieveUnitCorrespondentsByUnitNumber(String unitNumber) {
-        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(UNIT_NUMBER, unitNumber);
         List<UnitCorrespondent> unitCorrespondents = 
@@ -272,7 +267,6 @@ public class UnitServiceImpl implements UnitService {
     @Override
     @SuppressWarnings("unchecked")
     public List<IacucUnitCorrespondent> retrieveIacucUnitCorrespondentsByUnitNumber(String unitNumber) {
-        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(UNIT_NUMBER, unitNumber);
         List<IacucUnitCorrespondent> unitCorrespondents = 
