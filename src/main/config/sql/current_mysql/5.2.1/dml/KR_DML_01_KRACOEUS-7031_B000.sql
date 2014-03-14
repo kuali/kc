@@ -64,4 +64,10 @@ UPDATE KRCR_PARM_T SET VAL = 'FDP_ATT_3B' WHERE PARM_NM = 'Subaward_FDP_Attachme
 UPDATE KRCR_PARM_T SET VAL = 'FDP_ATT_4' WHERE PARM_NM = 'Subaward_FDP_Attachment_4_Form_ID'
 /
 
+UPDATE KRCR_PARM_T SET VAL = 0 WHERE PARM_NM = 'Subaward_FDP_Attachment_5_Form_ID'
+/
+
+UPDATE KRCR_PARM_T SET VAL = '1,2,3,5,6,7' WHERE PARM_NM = 'Subaward_Print_Attachment_Type_Inclusion'
+/
+
 DELIMITER ;
