@@ -225,6 +225,11 @@
                 <td>
                       <kul:htmlControlAttribute property="document.subAwardList[0].requisitionId" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.requisitionId}" />
                 </td>
+                 <th>&nbsp;</th>
+                <td>
+                      &nbsp;
+                </td>
+            </tr>
             </tr>
         </table>
     </div>
