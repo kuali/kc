@@ -219,8 +219,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<S2sOppForms> s2sOppForms;
 
-    @OneToOne(targetEntity = S2sOpportunity.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
+    @OneToOne(mappedBy = "developmentProposal", cascade = CascadeType.ALL)
     private S2sOpportunity s2sOpportunity;
 
     @OneToMany(targetEntity = S2sAppSubmission.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
@@ -326,8 +325,8 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Transient
     private Boolean grantsGovSelectFlag = Boolean.FALSE;
 
-    @ManyToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER")
+    @OneToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
     private ProposalDevelopmentDocument proposalDocument;
 
     @Column(name = "IS_HIERARCHY")
@@ -1414,9 +1413,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      */
     public void addProposalPerson(ProposalPerson p) {
         p.setProposalPersonNumber(this.getProposalDocument().getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER));
-        if (p.getProposalPersonExtendedAttributes() != null && p.getProposalPersonExtendedAttributes().getProposalPersonNumber() == null) {
-            p.getProposalPersonExtendedAttributes().setProposalPersonNumber(p.getProposalPersonNumber());
-        }
         p.setDevelopmentProposal(this);
         p.setProposalNumber(getProposalNumber());
         getProposalPersons().add(p);

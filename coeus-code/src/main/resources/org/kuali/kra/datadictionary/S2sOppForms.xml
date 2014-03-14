@@ -30,7 +30,7 @@
   <bean id="S2sOppForms-proposalNumber" parent="S2sOppForms-proposalNumber-parentBean" />
 
   <bean id="S2sOppForms-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalNumber" />
+    <property name="name" value="s2sOppFormsId.proposalNumber" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Proposal Number" />
     <property name="shortLabel" value="Proposal Number" />
@@ -53,7 +53,7 @@
 
   <bean id="S2sOppForms-oppNameSpace" parent="S2sOppForms-oppNameSpace-parentBean"/>
   <bean id="S2sOppForms-oppNameSpace-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="oppNameSpace" />
+    <property name="name" value="s2sOppFormsId.oppNameSpace" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Namespace" />
     <property name="shortLabel" value="Namespace" />
@@ -215,8 +215,8 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="oppNameSpace"/>
+              <bean parent="FieldDefinition" p:attributeName="s2sOppFormsId.proposalNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="s2sOppFormsId.oppNameSpace"/>
               <bean parent="FieldDefinition" p:attributeName="available"/>
               <bean parent="FieldDefinition" p:attributeName="formName"/>
               <bean parent="FieldDefinition" p:attributeName="include"/>
@@ -238,8 +238,8 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
-              <bean p:propertyName="oppNameSpace" parent="Uif-DataField"/>
+              <bean p:propertyName="s2sOppFormsId.proposalNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="s2sOppFormsId.oppNameSpace" parent="Uif-DataField"/>
               <bean p:propertyName="available" parent="Uif-DataField"/>
               <bean p:propertyName="formName" parent="Uif-DataField"/>
               <bean p:propertyName="include" parent="Uif-DataField"/>
@@ -262,8 +262,8 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="oppNameSpace"/>
+        <bean parent="FieldDefinition" p:attributeName="s2sOppFormsId.proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="s2sOppFormsId.oppNameSpace"/>
         <bean parent="FieldDefinition" p:attributeName="available"/>
         <bean parent="FieldDefinition" p:attributeName="formName"/>
         <bean parent="FieldDefinition" p:attributeName="include"/>
@@ -272,8 +272,8 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="oppNameSpace"/>
+        <bean parent="FieldDefinition" p:attributeName="s2sOppFormsId.proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="s2sOppFormsId.oppNameSpace"/>
         <bean parent="FieldDefinition" p:attributeName="available"/>
         <bean parent="FieldDefinition" p:attributeName="formName"/>
         <bean parent="FieldDefinition" p:attributeName="include"/>
@@ -298,8 +298,8 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="oppNameSpace" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="s2sOppFormsId.proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="s2sOppFormsId.oppNameSpace" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="available" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="formName" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="include" parent="Uif-LookupCriteriaInputField"/>
@@ -308,8 +308,8 @@
     </property>
     <property name="resultFields" >
       <list>
-        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="oppNameSpace" parent="Uif-DataField"/>
+        <bean p:propertyName="s2sOppFormsId.proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="s2sOppFormsId.oppNameSpace" parent="Uif-DataField"/>
         <bean p:propertyName="available" parent="Uif-DataField"/>
         <bean p:propertyName="formName" parent="Uif-DataField"/>
         <bean p:propertyName="include" parent="Uif-DataField"/>
