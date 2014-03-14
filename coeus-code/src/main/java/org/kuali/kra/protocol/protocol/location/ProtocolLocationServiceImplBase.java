@@ -16,9 +16,9 @@
 package org.kuali.kra.protocol.protocol.location;
 
 import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.org.OrganizationService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.service.OrganizationService;
 
 
 public abstract class ProtocolLocationServiceImplBase implements ProtocolLocationService {

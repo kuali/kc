@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.org;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.org.OrganizationService;
+import org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.bo.IacucOrganizationCorrespondent;
-import org.kuali.kra.bo.OrganizationCorrespondent;
-import org.kuali.kra.service.OrganizationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,13 +34,16 @@ import java.util.Map;
  * This class provides the implementation of the OrganizationService.
  * It provides service methods related to organization object.
  */
+@Component("organizationService")
 public class OrganizationServiceImpl implements OrganizationService {
-    private BusinessObjectService businessObjectService;
+
     private static final String ORGANIZATION_ID = "organizationId";
 
-    /**
-     * @see org.kuali.kra.service.OrganizationService#getOrganizationName(java.lang.String)
-     */
+	@Autowired
+	@Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
+
+    @Override
     public String getOrganizationName(String organizationId) {
         String organizationName = null;
         Organization organization = getOrganization(organizationId);
@@ -47,26 +53,21 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationName;
     }
 
-    /**
-     * @see org.kuali.kra.service.OrganizationService#getOrganization(java.lang.String)
-     */
+    @Override
     public Organization getOrganization(String organizationId) {
         Organization organization = null;
         if (StringUtils.isNotEmpty(organizationId)) {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
             primaryKeys.put(ORGANIZATION_ID, organizationId);
-            organization = (Organization) businessObjectService.findByPrimaryKey(Organization.class, primaryKeys);
+            organization = (Organization) getBusinessObjectService().findByPrimaryKey(Organization.class, primaryKeys);
         }
 
         return organization;
     }
 
-    /**
-     * @see org.kuali.kra.service.OrganizationService#retrieveOrganizationCorrespondentByOrganizationId(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<OrganizationCorrespondent> retrieveOrganizationCorrespondentsByOrganizationId(String organizationId) {
-        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(ORGANIZATION_ID, organizationId);
         List<OrganizationCorrespondent> organizationCorrespondents = 
@@ -74,12 +75,9 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationCorrespondents;
     }
     
-    /**
-     * @see org.kuali.kra.service.OrganizationService#retrieveIacucOrganizationCorrespondentByOrganizationId(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<IacucOrganizationCorrespondent> retrieveIacucOrganizationCorrespondentsByOrganizationId(String organizationId) {
-        this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(ORGANIZATION_ID, organizationId);
         List<IacucOrganizationCorrespondent> organizationCorrespondents = 

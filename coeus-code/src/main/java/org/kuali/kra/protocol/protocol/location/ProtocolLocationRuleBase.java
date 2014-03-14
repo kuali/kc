@@ -17,11 +17,11 @@ package org.kuali.kra.protocol.protocol.location;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.org.OrganizationService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.service.OrganizationService;
 
 public abstract class ProtocolLocationRuleBase extends KcTransactionalDocumentRuleBase implements AddProtocolLocationRule {
 
