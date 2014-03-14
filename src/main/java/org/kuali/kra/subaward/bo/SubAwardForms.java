@@ -28,14 +28,50 @@ public class SubAwardForms extends KraPersistableBusinessObjectBase implements P
     private byte[] attachmentContent;
     private String fileName;
     private String contentType;
-    private transient FormFile templateFile;    
+    private transient FormFile templateFile;   
+    private Integer templateTypeCode;
+    private SubawardTemplateType subAwardTemplateType;
 
+    
     /**
      * Constructs a SubAwardForms.java.
      */
-public SubAwardForms() {
+    public SubAwardForms() {
 
-}
+    }
+    
+
+    /**.
+     * This is the Getter Method for SubAwardTemplateType
+     * @return Returns the SubAwardTemplateType.
+       */
+    public SubawardTemplateType getSubAwardTemplateType() {
+        return subAwardTemplateType;
+    }
+
+    /**.
+     * This is the Setter Method for subAwardTemplateType
+     * @param subAwardTemplateType The subAwardTemplateType to set.
+     */
+    public void setSubAwardTemplateType(SubawardTemplateType subAwardTemplateType) {
+        this.subAwardTemplateType = subAwardTemplateType;
+    }
+    
+    /**.
+     * This is the Getter Method for templateTypeCode
+     * @return Returns the templateTypeCode.
+       */
+    public Integer getTemplateTypeCode() {
+        return templateTypeCode;
+    }
+
+    /**.
+     * This is the Setter Method for templateTypeCode
+     * @param templateTypeCode The templateTypeCode to set.
+     */
+    public void setTemplateTypeCode(Integer templateTypeCode) {
+        this.templateTypeCode = templateTypeCode;
+    }
 
 
   /**.

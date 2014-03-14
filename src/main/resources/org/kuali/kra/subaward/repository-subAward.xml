@@ -224,11 +224,17 @@
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="attachmentContent" column="FORM" jdbc-type="BINARY" />
+        <field-descriptor name="attachmentContent" column="FORM" jdbc-type="CLOB"  conversion="org.kuali.kra.infrastructure.OjbBlobClobFieldConersion"/>
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="templateTypeCode" column="TEMPLATE_TYPE_CODE" jdbc-type="INTEGER" />
+          
+        <reference-descriptor name="subAwardTemplateType" class-ref="org.kuali.kra.subaward.bo.SubawardTemplateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+          <foreignkey field-ref="templateTypeCode"/>
+        </reference-descriptor>
+        
     </class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardFundingSource" table="SUBAWARD_FUNDING_SOURCE">
