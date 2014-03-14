@@ -474,11 +474,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
     public boolean isInvestigator(ProposalPerson person) {
-        if(isNotBlank(person.getOptInUnitStatus()) && (person.getOptInUnitStatus().equals("Y")))
-        {
+        if (person.getOptInUnitStatus()) {
             return isPrincipalInvestigator(person) || isCoInvestigator(person) || isKeyPerson(person);
-        }else
-        {
+        } else {
             return isPrincipalInvestigator(person) || isCoInvestigator(person);
         }
     }

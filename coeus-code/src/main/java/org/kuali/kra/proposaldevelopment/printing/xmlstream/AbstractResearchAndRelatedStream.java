@@ -903,8 +903,8 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
             CoreFederalAgencyReceiptQualifiersType coreFederalAgencyReceiptQualifiersType) {
         coreFederalAgencyReceiptQualifiersType.setAgencyName(developmentProposal.getSponsor().getAcronym());
         if (developmentProposal.getS2sOpportunity() != null && developmentProposal.getS2sOpportunity().getOpeningDate() != null) {
-            coreFederalAgencyReceiptQualifiersType.setAgencyReceiptDate(getDateTimeService().getCalendar(developmentProposal
-                    .getS2sOpportunity().getOpeningDate()));
+            coreFederalAgencyReceiptQualifiersType.setAgencyReceiptDate(developmentProposal
+                    .getS2sOpportunity().getOpeningDate());
         }
     }
 

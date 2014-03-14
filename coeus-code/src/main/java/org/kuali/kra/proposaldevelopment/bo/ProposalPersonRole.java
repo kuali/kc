@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
 
@@ -48,13 +49,15 @@ public class ProposalPersonRole extends KcPersistableBusinessObjectBase implemen
     private String description;
 
     @Column(name = "CERTIFICATION_REQUIRED")
-    private String certificationRequired;
+    @Convert(converter = BooleanYNConverter.class)
+    private Boolean certificationRequired = Boolean.TRUE;
 
     @Transient
     private Boolean readOnly;
 
     @Column(name = "UNIT_DETAILS_REQUIRED")
-    private String unitDetailsRequired;
+    @Convert(converter = BooleanYNConverter.class)
+    private Boolean unitDetailsRequired = Boolean.TRUE;
 
     /**
      * Gets the value of proposalPersonRoleId
@@ -108,19 +111,19 @@ public class ProposalPersonRole extends KcPersistableBusinessObjectBase implemen
         this.readOnly = readOnly;
     }
 
-    public String getUnitDetailsRequired() {
+    public Boolean getUnitDetailsRequired() {
         return unitDetailsRequired;
     }
 
-    public void setUnitDetailsRequired(String unitDetailsRequired) {
+    public void setUnitDetailsRequired(Boolean unitDetailsRequired) {
         this.unitDetailsRequired = unitDetailsRequired;
     }
 
-    public String getCertificationRequired() {
+    public Boolean getCertificationRequired() {
         return certificationRequired;
     }
 
-    public void setCertificationRequired(String certificationRequired) {
+    public void setCertificationRequired(Boolean certificationRequired) {
         this.certificationRequired = certificationRequired;
     }
 

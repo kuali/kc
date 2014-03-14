@@ -16,9 +16,7 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.service.ProposalCountryService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -27,6 +25,7 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
 import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +35,8 @@ import java.util.List;
 public class KcStateValuesFinder extends UifKeyValuesFinderBase {
 
 	private static final long serialVersionUID = 3624265421997217342L;
+	
+	private StateService stateService;
 
 	@Override
     public List<KeyValue> getKeyValues(ViewModel model, InputField field) {
@@ -43,9 +44,9 @@ public class KcStateValuesFinder extends UifKeyValuesFinderBase {
         List<State> baseCodes;
         ProposalPerson person = ObjectPropertyUtils.getPropertyValue(model, field.getBindingInfo().getBindByNamePrefix());
         if (person == null || StringUtils.isEmpty(person.getCountryCode())) {
-            baseCodes = LocationApiServiceLocator.getStateService().findAllStatesInCountry("US");
+            baseCodes = getStateService().findAllStatesInCountry("US");
         } else { 
-            baseCodes = LocationApiServiceLocator.getStateService().findAllStatesInCountry(person.getCountryCode());
+            baseCodes = getStateService().findAllStatesInCountryByAltCode(person.getCountryCode());
         }
         
         List<State> codes = new ArrayList<State>( baseCodes );
@@ -74,4 +75,15 @@ public class KcStateValuesFinder extends UifKeyValuesFinderBase {
         clearInternalCache();
         return labels;
     }
+
+	protected StateService getStateService() {
+		if (stateService == null) {
+			stateService = LocationApiServiceLocator.getStateService();
+		}
+		return stateService;
+	}
+
+	public void setStateService(StateService stateService) {
+		this.stateService = stateService;
+	}
 }
