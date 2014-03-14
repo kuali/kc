@@ -134,6 +134,10 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     
     private SubAwardCostType subAwardCostType;
 
+    private Date modificationEffectiveDate;
+    private String modificationId;
+    private Date performanceStartDate;
+    private Date performanceEnddate;
 
     /**.
 	 * This is the Getter Method for rolodex
@@ -1381,5 +1385,68 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     public void setSubAwardCostType(SubAwardCostType subAwardCostType) {
         this.subAwardCostType = subAwardCostType;
     }
+    
+    /**.
+     * This is the Getter Method for modificationEffectiveDate
+     * @return Returns the modificationEffectiveDate.
+     */
+    public Date getModificationEffectiveDate() {
+        return modificationEffectiveDate;
+    }
 
+    /**.
+     * This is the Setter Method for modificationEffectiveDate
+     * @param modificationEffectiveDate The modificationEffectiveDate to set.
+     */
+    public void setModificationEffectiveDate(Date modificationEffectiveDate) {
+        this.modificationEffectiveDate = modificationEffectiveDate;
+    }
+    
+    /**.
+     * This is the Getter Method for modificationId
+     * @return Returns the modificationId.
+     */
+    public String getModificationId() {
+        return modificationId;
+    }
+
+    /**.
+     * This is the Setter Method for modificationId
+     * @param modificationId The modificationId to set.
+     */
+    public void setModificationId(String modificationId) {
+        this.modificationId = modificationId;
+    }
+
+    /**.
+     * This is the Getter Method for performanceStartDate
+     * @return Returns the performanceStartDate.
+     */
+    public Date getPerformanceStartDate() {
+        return performanceStartDate;
+    }
+
+    /**.
+     * This is the Setter Method for performanceStartDate
+     * @param performanceStartDate The performanceStartDate to set.
+     */
+    public void setPerformanceStartDate(Date performanceStartDate) {
+        this.performanceStartDate = performanceStartDate;
+    }
+
+    /**.
+     * This is the Getter Method for performanceEnddate
+     * @return Returns the performanceEnddate.
+     */
+    public Date getPerformanceEnddate() {
+        return performanceEnddate;
+    }
+
+    /**.
+     * This is the Setter Method for performanceEnddate
+     * @param performanceEnddate The performanceEnddate to set.
+     */
+    public void setPerformanceEnddate(Date performanceEnddate) {
+        this.performanceEnddate = performanceEnddate;
+    }
 }

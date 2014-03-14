@@ -207,6 +207,18 @@ public class SubAwardServiceImpl implements SubAwardService {
                     subAward.setTotalAnticipatedAmount(totalAnticipatedAmount.add(subAwardAmountInfo.getAnticipatedChange()));
                     totalAnticipatedAmount = subAward.getTotalAnticipatedAmount();
                 }
+                if (subAwardAmountInfo.getModificationEffectiveDate() != null) {
+                    subAward.setModificationEffectiveDate(subAwardAmountInfo.getModificationEffectiveDate());
+                }
+                if (subAwardAmountInfo.getModificationID() != null) {
+                    subAward.setModificationId(subAwardAmountInfo.getModificationID());
+                }
+                if (subAwardAmountInfo.getPeriodofPerformanceStartDate() != null) {
+                    subAward.setPerformanceStartDate(subAwardAmountInfo.getPeriodofPerformanceStartDate());
+                }
+                if (subAwardAmountInfo.getPeriodofPerformanceEndDate() != null) {
+                    subAward.setPerformanceEnddate(subAwardAmountInfo.getPeriodofPerformanceEndDate());
+                }
             }
             for (SubAwardAmountReleased subAwardAmountReleased: subAwardAmountReleasedList) {
 

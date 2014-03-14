@@ -51,6 +51,31 @@
                       <kul:htmlControlAttribute property="document.subAwardList[0].totalAvailableAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAvailableAmount}" />           
                 </td>
             </tr>
+            
+            <tr>
+				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.modificationEffectiveDate}" /></th>
+                <td colspan="2">
+                
+                     <kul:htmlControlAttribute property="document.subAwardList[0].modificationEffectiveDate" disabled="true" attributeEntry="${subAwardAttributes.modificationEffectiveDate}" datePicker="false"/>           
+                </td>
+				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.modificationId}" /></th>
+                <td colspan="2">
+                      <kul:htmlControlAttribute property="document.subAwardList[0].modificationId" disabled="true" attributeEntry="${subAwardAttributes.modificationId}" />           
+                </td>
+            </tr>    
+            
+            <tr>
+				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.performanceStartDate}" /></th>
+                <td colspan="2">
+                
+                     <kul:htmlControlAttribute property="document.subAwardList[0].performanceStartDate" disabled="true" attributeEntry="${subAwardAttributes.performanceStartDate}" datePicker="false"/>           
+                </td>
+				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.performanceEnddate}" /></th>
+                <td colspan="2">
+                      <kul:htmlControlAttribute property="document.subAwardList[0].performanceEnddate" disabled="true" attributeEntry="${subAwardAttributes.performanceEnddate}" datePicker="false"/>           
+                </td>
+            </tr> 
+            
             </table>
     	<h3>
     		<span class="subhead-left">History of Changes</span>
@@ -72,7 +97,7 @@
               <c:if test="${readOnly!='true'}">
             <tr>
     
-    				<th class="infoline" rowspan="2">
+    				<th class="infoline" rowspan="4">
 						Add:
 					</th>
 					
@@ -96,7 +121,7 @@
                 	</c:if>
                 </td>
    				 				
-   				<td class="infoline" rowspan="2"><div align="center">
+   				<td class="infoline" rowspan="4"><div align="center">
    					<c:if test="${readOnly!='true'}">
 						<html:image property="methodToCall.addAmountInfo.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
@@ -106,6 +131,35 @@
 	            </td>   				
    			</tr> 
    			
+   			<tr>
+            <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.modificationEffectiveDate}" /></div></th>
+            <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.modificationID}" /></div></th>
+            <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceStartDate}" /></div></th>
+            <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceEndDate}" /></div></th>                          
+            </tr>
+            
+            <tr>
+            <td><div align="center">
+     					<kul:htmlControlAttribute property="newSubAwardAmountInfo.modificationEffectiveDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.modificationEffectiveDate}" datePicker="true"/>           
+   					</div> 
+   				</td>
+   				
+   				<td><div align="center">
+     					<kul:htmlControlAttribute property="newSubAwardAmountInfo.modificationID" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.modificationID}" />           
+   					</div> 
+   				</td>
+   				
+   				<td><div align="center">
+     					<kul:htmlControlAttribute property="newSubAwardAmountInfo.periodofPerformanceStartDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceStartDate}" datePicker="true"/>           
+   					</div> 
+   				</td>
+   				
+   				<td><div align="center">
+     					<kul:htmlControlAttribute property="newSubAwardAmountInfo.periodofPerformanceEndDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceEndDate}" datePicker="true"/>           
+   					</div> 
+   				</td> 
+   				</tr>
+   				
         	<tr>				
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.comments}" /></div></th>
                 <td colspan="3">
@@ -116,7 +170,7 @@
    			</tbody>
    			<c:forEach var="newSubAwardAmountInfo" items="${KualiForm.document.subAwardList[0].subAwardAmountInfoList}" varStatus="status">
 		             <tr>
-						<th width="9%" class="infoline" rowspan="2">
+						<th width="9%" class="infoline" rowspan="3">
 							<c:out value="${status.index+1}" />
 						</th>	                
 		                <td width="9%" valign="middle">
@@ -155,7 +209,7 @@
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif'
 								styleClass="tinybutton" />
 						</div></td>
-					<td width="10%" valign="middle" rowspan="2">
+					<td width="10%" valign="middle" rowspan="3">
 					<div align="center">Attachment Actions :
 					</div><br></br>
 						<div align="center">
@@ -184,7 +238,28 @@
 							<c:if test="${readOnly}">&nbsp;</c:if>
 						</div></td>	
 		            </tr>
-		            
+		            <tr>
+		            <td width="9%" valign="middle">
+						<div align="center">
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountInfoList[${status.index}].modificationEffectiveDate" attributeEntry="${subAwardAmountInfoAttributes.modificationEffectiveDate}"  datePicker="true" />
+						</div>
+						</td>
+						<td width="9%" valign="middle">
+						<div align="center">
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountInfoList[${status.index}].modificationID" attributeEntry="${subAwardAmountInfoAttributes.modificationID}"/>
+						</div>
+						</td>
+						<td width="9%" valign="middle">
+						<div align="center">
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountInfoList[${status.index}].periodofPerformanceStartDate" attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceStartDate}"  datePicker="true" />
+						</div>
+						</td>
+						<td width="9%" valign="middle">
+						<div align="center">
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountInfoList[${status.index}].periodofPerformanceEndDate" attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceEndDate}"  datePicker="true" />
+						</div>
+						</td>
+		            </tr>
 		            <tr>		            			
 						<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.comments}" /></div></th>
                 			<td colspan="3">

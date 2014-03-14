@@ -980,6 +980,7 @@ public final class KeyConstants {
     public static final String ERROR_INVALID_SITEINVESTIGATOR_ID = "error.invalid.siteinvestigator.id";
     public static final String ERROR_INVALID_REQUISITIONER = "error.invalid.requisitioner";
     public static final String ERROR_SUBAWARD_INVOICE_AMOUNT_RELEASED_ZERO = "subaward.error.amount.released.zero";
+    public static final String ERROR_PERIOD_OF_PERFORMANCE_START_DATE_SHOULD_BE_GREATER_THAN_ERROR_PERIOD_OF_PERFORMANCE_END_DATE = "period.of.performance.startdate.should.greater.than.period.of.performance.enddate";
     //negotiations
     public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";
     public static final String NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE="negotiation.message.changeAssociationType";
