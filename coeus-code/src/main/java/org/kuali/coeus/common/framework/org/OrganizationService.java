@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service;
+package org.kuali.coeus.common.framework.org;
 
-import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent;
 import org.kuali.kra.iacuc.bo.IacucOrganizationCorrespondent;
-import org.kuali.kra.bo.OrganizationCorrespondent;
 
 import java.util.List;
 
