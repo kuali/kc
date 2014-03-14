@@ -23,6 +23,8 @@
 		        <ref bean="SubcontractForms-templateFile" />
 		        <ref bean="SubcontractForms-fileName" />
 		        <ref bean="SubcontractForms-contentType" />
+		        <ref bean="SubcontractForms-templateTypeCode" />
+		        <ref bean="SubcontractForms-subAwardTemplateType.templateTypeCode" />
 		      </list>
 		    </property>
 		   
@@ -91,7 +93,7 @@
     <property name="summary" value="File Name" />
     <property name="description" value="File Name" />
   </bean>
-  
+ 
   <bean id="SubcontractForms-contentType" parent="SubcontractForms-contentType-parentBean" />
   <bean id="SubcontractForms-contentType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contentType" />
@@ -108,7 +110,54 @@
     <property name="description" value="Content Type" />
   </bean>
 
+ <bean id="SubcontractForms-templateTypeCode" parent="SubcontractForms-templateTypeCode-parentBean" />
+  <bean id="SubcontractForms-templateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="templateTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="TemplateTypeCode" />
+    <property name="shortLabel" value="TemplateTypeCode" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="templateTypeCode" />
+    <property name="description" value="templateTypeCode" />    
+  </bean>
+	<!-- <bean id="SubcontractForms-templateTypeCode" parent="SubcontractForms-templateTypeCode-parentBean" />
+  	<bean id="SubcontractForms-templateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="templateTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="TemplateType" />
+    <property name="shortLabel" value="TemplateType" />
+    <property name="maxLength" value="4000" />
+    <property name="validationPattern" >
+    	<bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="TemplateTypeCode" />
+    <property name="description" value="TemplateTypeCode" />    
+  </bean> -->
+  
+  
+	
+	<bean id="SubcontractForms-subAwardTemplateType.templateTypeCode" parent="SubcontractForms-subAwardTemplateType.templateTypeCode-parentBean" />
+	<bean id="SubcontractForms-subAwardTemplateType.templateTypeCode-parentBean" abstract="true" 
+	parent="SubawardTemplateType-templateTypeCode">
+		<property name="name" value="subAwardTemplateType.templateTypeCode" />
+		<property name="label" value="TemplateTypeCode" />
 
+	</bean>
+  
+  
       <!-- Business Object Inquiry Definition -->
  <bean id="SubcontractForms-inquiryDefinition" parent="SubcontractForms-inquiryDefinition-parentBean" />
 
@@ -118,12 +167,16 @@
       <list>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Subcontract Form" />
-          <property name="numberOfColumns" value="1" />
+         <!--  <property name="numberOfColumns" value="1" /> -->
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
                     p:attributeName="formId"
-                    p:forceInquiry="true" />             
+                    p:forceInquiry="true" />     
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAwardTemplateType.templateTypeCode"/> 
+              <bean parent="FieldDefinition"
+                    p:attributeName="templateTypeCode"/>       
             </list>
           </property>
         </bean>
@@ -156,14 +209,20 @@
         <bean parent="FieldDefinition"
                     p:attributeName="description"
                     p:forceInquiry="true" />
-                   
+         <bean parent="FieldDefinition"
+                    p:attributeName="templateTypeCode"
+                    p:forceInquiry="true" />      
                
       </list>
     </property>
     <property name="resultFields" >
       <list>       
                 <bean parent="FieldDefinition" p:attributeName="formId" p:forceInquiry="true" />   
-                <bean p:attributeName="description"   parent="FieldDefinition"/></list>
+                <bean p:attributeName="description"   parent="FieldDefinition"/>
+                <bean parent="FieldDefinition"
+                    p:attributeName="templateTypeCode"
+                    p:forceInquiry="true" /> 
+      </list>              
     </property>
   </bean>
  
