@@ -110,7 +110,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private List<BudgetDocumentVersion> budgetDocumentVersions;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
     private List<CustomAttributeDocValue> customDataList;
 
     /* Currently this property is just used for UI display.
