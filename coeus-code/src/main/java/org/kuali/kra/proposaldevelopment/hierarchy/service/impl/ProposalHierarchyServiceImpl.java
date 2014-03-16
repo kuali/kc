@@ -86,9 +86,6 @@ import java.util.*;
 import static org.apache.commons.lang3.StringUtils.replace;
 import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
 
-/**
- * This class...
- */
 @Transactional
 public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
@@ -142,9 +139,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         this.configurationService = configurationService;
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#createHierarchy(java.lang.String)
-     */
     public String createHierarchy(DevelopmentProposal initialChild) throws ProposalHierarchyException {
         LOG.info(String.format("***Create Hierarchy using Proposal #%s", initialChild.getProposalNumber()));
         if (initialChild.isInHierarchy()) {
@@ -231,9 +225,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         LOG.info(String.format("***Linking Child (#%s) linked to Parent (#%s) complete", newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#removeFromHierarchy(java.lang.String)
-     */
     public void removeFromHierarchy(DevelopmentProposal childProposal) throws ProposalHierarchyException {
         String hierarchyProposalNumber = childProposal.getHierarchyParentProposalNumber();
         DevelopmentProposal hierarchyProposal = getHierarchy(hierarchyProposalNumber);
@@ -287,9 +278,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         LOG.info(String.format("***Removing Child (#%s) from Parent (#%s) complete", childProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchySyncService#synchronizeAllChildren(java.lang.String)
-     */
     public void synchronizeAllChildren(ProposalDevelopmentDocument pdDoc) throws ProposalHierarchyException {
         prepareHierarchySync(pdDoc);
         synchronizeAll(pdDoc.getDevelopmentProposal());
@@ -316,9 +304,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         LOG.info(String.format("***Synchronizing all Children of Parent (#%s) complete", hierarchyProposal.getProposalNumber()));
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchySyncService#synchronizeChild(java.lang.String)
-     */
     public void synchronizeChild(DevelopmentProposal childProposal) throws ProposalHierarchyException {
         DevelopmentProposal hierarchy = getHierarchy(childProposal.getHierarchyParentProposalNumber());
         LOG.info(String.format("***Synchronizing Child (#%s) of Parent (#%s)", childProposal.getProposalNumber(), hierarchy.getProposalNumber()));
@@ -1512,10 +1497,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         return children;
     }
-    
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getParentWorkflowStatus(org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal)
-     */
+
     public WorkflowDocument getParentWorkflowDocument(ProposalDevelopmentDocument child) throws ProposalHierarchyException {
             return getParentDocument( child ).getDocumentHeader().getWorkflowDocument();
     }
@@ -1553,7 +1535,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * Reject an entire proposal hierarchy.  This works by first rejecting each child, and then rejecting the parent.
      * @param hierarchyParent The hierarchy to reject
      * @param reason the reason to be applied to the annotation field.  The reason will be pre-pended with static text indicating if it was a child or the parent.
-     * @param principalName the name of the principal that is rejecting the document.  
+     * @param principalId the id of the principal that is rejecting the document.
      * @throws ProposalHierarchyException If hierarchyParent is not a hierarchy, or there was a problem rejecting one of the documents.
      */
     protected void rejectProposalHierarchy(ProposalDevelopmentDocument hierarchyParent, String reason, String principalId ) throws ProposalHierarchyException {
@@ -1576,11 +1558,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
      
     }
-    
-    
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#rejectProposalDevelopmentDocument(java.lang.String, java.lang.String)
-     */
+
     public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalName, FormFile rejectFile ) 
     throws WorkflowException, ProposalHierarchyException, IOException {
         DevelopmentProposal pbo = getDevelopmentProposal(proposalNumber);
@@ -1683,9 +1661,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return newChildStatusTarget;
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#routeHierarchyChildren(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange, java.lang.String)
-     */
     public void routeHierarchyChildren(ProposalDevelopmentDocument proposalDevelopmentDocument, DocumentRouteStatusChange dto ) throws ProposalHierarchyException {
         
         String childStatusTarget = calculateChildRouteStatus(proposalDevelopmentDocument, dto );

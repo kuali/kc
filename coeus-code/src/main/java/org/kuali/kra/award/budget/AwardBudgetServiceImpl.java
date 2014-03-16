@@ -162,9 +162,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return budgetStatus.getDescription();
     }
 
-    /**
-     * @see org.kuali.kra.award.budget.AwardBudgetService#rebudget(org.kuali.kra.award.budget.document.AwardBudgetDocument)
-     */
     public AwardBudgetDocument rebudget(AwardDocument awardDocument,String documentDescription) throws WorkflowException{
         AwardBudgetDocument rebudgetDocument = createNewBudgetDocument(documentDescription, awardDocument, true);
         return rebudgetDocument;
@@ -235,8 +232,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * Sets the documentService attribute value.
      * @param documentService The documentService to set.
      */
-    public void setDocumentService(DocumentService documentservice) {
-        this.documentService = documentservice;
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
 
@@ -503,14 +500,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return budgetVersionOverview;
     }
 
-    /**
-     * This method...
-     * @param budgetDocument
-     * @param isProposalBudget
-     * @param budget
-     * @param budgetParent
-     * @throws WorkflowException
-     */
     protected void saveBudgetDocument(BudgetDocument<Award> budgetDocument,boolean rebudget) throws WorkflowException {
         AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) budgetDocument;
         AwardBudgetExt budgetExt = awardBudgetDocument.getAwardBudget();
@@ -936,9 +925,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     }
 
     /**
-     * This method returns the query list after filtering all eb rates
-     * @param AwardBudgetPeriodSummaryCalculatedAmounts
-     * @return
+     * This method returns the query list after filtering all eb rates.
      */
     private QueryList<AwardBudgetPeriodSummaryCalculatedAmount> filterEBRates(AwardBudgetPeriodExt budgetPeriod) {
         QueryList<AwardBudgetPeriodSummaryCalculatedAmount> qlAwardBudgetPeriodSummaryCalculatedAmounts = 

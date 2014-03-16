@@ -38,10 +38,6 @@ public class RateClassType extends KcPersistableBusinessObjectBase {
     @Convert(converter = BooleanYNConverter.class)
     private Boolean prefixActivityType;
 
-    public RateClassType() {
-        super();
-    }
-
     public String getRateClassType() {
         return rateClassType;
     }

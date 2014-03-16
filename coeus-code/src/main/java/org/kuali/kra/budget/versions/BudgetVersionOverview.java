@@ -41,11 +41,6 @@ import java.util.Map;
 @Table(name = "BUDGET")
 public class BudgetVersionOverview extends KcPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = -4997453399414404715L;
-
     @Column(name = "VERSION_NUMBER")
     private Integer budgetVersionNumber;
 
@@ -59,9 +54,6 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
     @Column(name = "DOCUMENT_NUMBER")
     private String documentNumber;
 
-    @Transient
-    private String documentDescription;
-
     @Column(name = "COST_SHARING_AMOUNT")
     @Convert(converter = BudgetDecimalConverter.class)
     private BudgetDecimal costSharingAmount;
@@ -74,7 +66,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
 
     @Column(name = "FINAL_VERSION_FLAG")
     @Convert(converter = BooleanYNConverter.class)
-    private boolean finalVersionFlag;
+    private Boolean finalVersionFlag = Boolean.FALSE;
 
     @Column(name = "OH_RATE_TYPE_CODE")
     private String ohRateTypeCode;
@@ -114,19 +106,6 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
     @Lob
     private String comments;
 
-    @Transient
-    private boolean descriptionUpdatable;
-
-    @ManyToOne(targetEntity = RateClass.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "OH_RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
-    private RateClass rateClass;
-
-    @Transient
-    private String name;
-
-    @Transient
-    private String budgetStatus;
-
     @Column(name = "MODULAR_BUDGET_FLAG")
     @Convert(converter = BooleanYNConverter.class)
     private Boolean modularBudgetFlag;
@@ -137,16 +116,36 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
     @Column(name = "ON_OFF_CAMPUS_FLAG")
     private String onOffCampusFlag;
 
-    @Transient
-    private String printBudgetCommentFlag;
-
     @Column(name = "SUBMIT_COST_SHARING")
     @Convert(converter = BooleanYNConverter.class)
     private Boolean submitCostSharingFlag = Boolean.TRUE;
 
-    @ManyToOne(targetEntity = RateClass.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "UR_RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass urRateClass;
+
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "OH_RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
+    private RateClass rateClass;
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
+    private BudgetDocumentVersion budgetDocumentVersion;
+
+    @Transient
+    private boolean descriptionUpdatable;
+
+    @Transient
+    private String name;
+
+    @Transient
+    private String budgetStatus;
+
+    @Transient
+    private String printBudgetCommentFlag;
+
+    @Transient
+    private String documentDescription;
 
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
@@ -164,11 +163,11 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.costSharingAmount = costSharingAmount;
     }
 
-    public boolean isFinalVersionFlag() {
+    public Boolean isFinalVersionFlag() {
         return finalVersionFlag;
     }
 
-    public void setFinalVersionFlag(boolean finalVersionFlag) {
+    public void setFinalVersionFlag(Boolean finalVersionFlag) {
         this.finalVersionFlag = finalVersionFlag;
     }
 
@@ -196,13 +195,6 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.rateClass = rateClass;
     }
 
-    //    public String getProposalNumber() {  
-    //        return proposalNumber;  
-    //    }  
-    //      
-    //    public void setProposalNumber(String proposalNumber) {  
-    //        this.proposalNumber = proposalNumber;  
-    //    }  
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -319,9 +311,6 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.descriptionUpdatable = descriptionUpdatable;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#afterLookup()
-     */
     @Override
     protected void postLoad() {
         // The purpose of this lookup is to get the document description from the doc header,  
@@ -630,5 +619,13 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
      */
     public void setUrRateClass(RateClass urRateClass) {
         this.urRateClass = urRateClass;
+    }
+
+    public BudgetDocumentVersion getBudgetDocumentVersion() {
+        return budgetDocumentVersion;
+    }
+
+    public void setBudgetDocumentVersion(BudgetDocumentVersion budgetDocumentVersion) {
+        this.budgetDocumentVersion = budgetDocumentVersion;
     }
 }
