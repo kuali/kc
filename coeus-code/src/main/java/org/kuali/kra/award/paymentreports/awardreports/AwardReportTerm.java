@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
@@ -214,7 +214,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardReportTermId = null;

@@ -19,12 +19,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.PersonAppointment;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;

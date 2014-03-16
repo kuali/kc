@@ -43,7 +43,7 @@
 					<td valign="middle" class="infoline">
 	                	<div align="center">
 	                	<kul:htmlControlAttribute property="newSubAward.organizationId" attributeEntry="${budgetSubAwardsAttributes.organizationId}" onblur="loadOrganizationName('newSubAward.organizationId', 'newSubAward.organizationName')" readOnly="${readOnly}"/>
-	                		<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationId:newSubAward.organizationId,organizationName:newSubAward.organizationName" anchor="${tabKey}" lookupParameters="newSubAward.organizationId:organizationId"/>
+	                		<kul:lookup boClassName="org.kuali.coeus.common.framework.org.Organization" fieldConversions="organizationId:newSubAward.organizationId,organizationName:newSubAward.organizationName" anchor="${tabKey}" lookupParameters="newSubAward.organizationId:organizationId"/>
 	                	${kfunc:registerEditableProperty(KualiForm, 'newSubAward.organizationName')}
 	                	<html:hidden styleId="newSubAward.organizationName" property="newSubAward.organizationName"/><div class="changedClearOnReset" id="newSubAward.organizationName.div"></div>	                	                	
 	                	</div>
@@ -80,8 +80,8 @@
 					<td valign="middle" class="infoline">
 	                	<div align="center">
 	                		<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].organizationId" attributeEntry="${budgetSubAwardsAttributes.organizationId}" onblur="loadOrganizationName('document.budget.budgetSubAwards[${status.index}].organizationId', 'document.budget.budgetSubAwards[${status.index}].organizationName')"/>
-	                		<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationId:document.budget.budgetSubAwards[${status.index}].organizationId,organizationName:document.budget.budgetSubAwards[${status.index}].organizationName" anchor="${tabKey}" lookupParameters="document.budget.budgetSubAwards[${status.index}].organizationId:organizationId"/>
-		                	<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.budget.budgetSubAwards[${status.index}].organizationId:organizationId" anchor="${tabKey}"/>
+	                		<kul:lookup boClassName="org.kuali.coeus.common.framework.org.Organization" fieldConversions="organizationId:document.budget.budgetSubAwards[${status.index}].organizationId,organizationName:document.budget.budgetSubAwards[${status.index}].organizationName" anchor="${tabKey}" lookupParameters="document.budget.budgetSubAwards[${status.index}].organizationId:organizationId"/>
+		                	<kul:directInquiry boClassName="org.kuali.coeus.common.framework.org.Organization" inquiryParameters="document.budget.budgetSubAwards[${status.index}].organizationId:organizationId" anchor="${tabKey}"/>
 		                	<c:set var="organizationName" value="document.budget.budgetSubAwards[${status.index}].organizationName"/>
 		                	${kfunc:registerEditableProperty(KualiForm, organizationName)}
 		                	<html:hidden styleId="document.budget.budgetSubAwards[${status.index}].organizationName" property="document.budget.budgetSubAwards[${status.index}].organizationName"/><div id="document.budget.budgetSubAwards[${status.index}].organizationName.div"><c:out value="${budgetSubAwards.organizationName}"/></div>

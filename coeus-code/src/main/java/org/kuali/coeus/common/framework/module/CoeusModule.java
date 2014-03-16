@@ -16,7 +16,6 @@
 package org.kuali.coeus.common.framework.module;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 
 public class CoeusModule extends KcPersistableBusinessObjectBase {

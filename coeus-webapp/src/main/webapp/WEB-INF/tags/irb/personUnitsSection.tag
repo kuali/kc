@@ -73,7 +73,7 @@
                                         </kul:htmlControlAttribute>
 			                    	</div>
 			                    	&nbsp;
-			                    	<kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber,unitName:personnelHelper.newProtocolPersonUnits[${personIndex}].unitName" />
+			                    	<kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit" fieldConversions="unitNumber:personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber,unitName:personnelHelper.newProtocolPersonUnits[${personIndex}].unitName" />
 			                    	<span class="fineprint"></span> 
 								</td>
 				                <td align="left" valign="middle" class="infoline">

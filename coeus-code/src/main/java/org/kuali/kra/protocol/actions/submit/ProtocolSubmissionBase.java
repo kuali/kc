@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
@@ -448,7 +448,7 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
 
     /**
      * 
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         submissionId = null;

@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.kra.bo.PersonAppointment;
+import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;

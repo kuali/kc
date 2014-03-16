@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.lookup.keyvalue.KcStateValuesFinder;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -100,12 +100,6 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
             }
         }
         return personDivisionName;
-    }
-
-    @Override
-    public String getNewStateList(String countryCode) {
-        List<KeyValue> values = KcStateValuesFinder.getKeyValues(countryCode.trim());
-        return ValuesFinderUtils.processKeyValueList(values);
     }
 
 }

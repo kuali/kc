@@ -20,13 +20,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.protocol.ProtocolLookupHelperServiceTestBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -45,7 +45,7 @@ public class ProtocolLookupHelperServiceTest extends ProtocolLookupHelperService
 	private static final String EDIT_URL ="../protocolProtocol.do?viewDocument=false&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String VIEW_URL ="../protocolProtocol.do?viewDocument=true&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String COPY_URL = "../DocCopyHandler.do?docId=101&command=displayDocSearchView&documentTypeName=ProtocolDocument";
-    private static final String UNIT_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber=000001&methodToCall=start";
+    private static final String UNIT_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.coeus.common.framework.unit.Unit&unitNumber=000001&methodToCall=start";
     /**
      * Count of all lookup rows, including one row for all hidden non-lookup fields
      */

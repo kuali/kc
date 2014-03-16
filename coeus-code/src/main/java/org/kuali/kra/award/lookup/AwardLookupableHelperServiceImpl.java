@@ -15,18 +15,18 @@
  */
 package org.kuali.kra.award.lookup;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.dao.AwardLookupDao;
+import org.kuali.kra.award.dao.AwardLookupDao;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;

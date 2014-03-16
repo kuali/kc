@@ -15,18 +15,23 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.web.krad.ProposalDevelopmentDocumentForm;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.view.ViewModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,56 +39,70 @@ import java.util.List;
 
 import static org.kuali.kra.infrastructure.Constants.*;
 
-public class ProposalPersonRoleValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
+public class ProposalPersonRoleValuesFinder extends UifKeyValuesFinderBase {
 
     private static final Log LOG = LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
-
-    private String forAddedPerson;
     private ParameterService parameterService;
+    private DataObjectService dataObjectService;
+    private KeyPersonnelService keyPersonnelService;
     
-    /**
-     * Looks up and returns the ParameterService.
-     * @return the parameter service. 
-     */
-    protected ParameterService getParameterService() {
-        if (this.parameterService == null) {
-            this.parameterService = KcServiceLocator.getService(ParameterService.class);
-        }
-        return this.parameterService;
+    public ProposalPersonRoleValuesFinder() {
+    	super();
+    	setAddBlankOption(false);
     }
     
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesBase#getKeyValues()
-     */
-    public List getKeyValues() {
-        final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
-        final ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) getDocument();
+    @Override
+    public List<KeyValue> getKeyValues(ViewModel model, InputField field){
+        return getKeyValues(((ProposalDevelopmentDocumentForm) model).getProposalDevelopmentDocument(),
+                !StringUtils.contains(field.getBindingInfo().getBindingPath(), "addKeyPersonHelper"));
+    }
+    
+    public List<KeyValue> getKeyValues(ProposalDevelopmentDocument document, boolean alreadyAddedPerson) {
+        Collection<ProposalPersonRole> roles = new ArrayList<ProposalPersonRole>();
+        roles.addAll(getDataObjectService().findMatching(ProposalPersonRole.class, QueryByCriteria.Builder.create().build()).getResults());
         final DevelopmentProposal developmentProposal = document.getDevelopmentProposal();
 
-        final boolean hasPrincipalInvestigator = getKeyPersonnelService().hasPrincipalInvestigator(document);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
-         for (ProposalPersonRole role : roles) {
-             LOG.info("Adding role " + role.getProposalPersonRoleId());
-             LOG.info("With description " + findRoleDescription(role, developmentProposal));
-
-            boolean showRole = true;
-
-            // If the person has already been added, then exclude Key Person
-            if (isPersonAdded()) {
-                showRole = !KEY_PERSON_ROLE.equals(role.getProposalPersonRoleId());
-            }
-
-             LOG.info("showRole = " + showRole);
-
-            if (showRole) {
-                keyValues.add(new ConcreteKeyValue(role.getProposalPersonRoleId(), findRoleDescription(role, developmentProposal)));
-            }
-
-             LOG.info("Returning " + keyValues);
+        addKeyValue(keyValues, roles, ProposalPersonRole.PRINCIPAL_INVESTIGATOR, developmentProposal, alreadyAddedPerson);
+        addKeyValue(keyValues, roles, ProposalPersonRole.CO_INVESTIGATOR, developmentProposal, alreadyAddedPerson);
+        addKeyValue(keyValues, roles, ProposalPersonRole.KEY_PERSON, developmentProposal, alreadyAddedPerson);
+        for (ProposalPersonRole role : roles) {
+            addKeyValue(keyValues, role, developmentProposal, alreadyAddedPerson);
         }
         return keyValues;
     }
+    
+    protected void addKeyValue(List<KeyValue> keyValues, Collection<ProposalPersonRole> roles, String roleId, DevelopmentProposal developmentProposal, boolean alreadyAddedPerson) {
+        ProposalPersonRole curRole = getRoleById(roles, roleId);
+        if (curRole != null) {
+            addKeyValue(keyValues, curRole, developmentProposal, alreadyAddedPerson);
+            roles.remove(curRole);
+        }
+    }
+    
+    protected void addKeyValue(List<KeyValue> keyValues, ProposalPersonRole role, DevelopmentProposal developmentProposal, boolean alreadyAddedPerson) {
+        if (role != null) {
+            LOG.debug("Adding role " + role.getProposalPersonRoleId());
+            LOG.debug("With description " + findRoleDescription(role, developmentProposal));
+    
+            // If the person has already been added, then exclude Key Person
+            if (!(alreadyAddedPerson && ProposalPersonRole.KEY_PERSON.equals(role.getProposalPersonRoleId()))) {  
+                keyValues.add(new ConcreteKeyValue(role.getProposalPersonRoleId(), findRoleDescription(role, developmentProposal)));
+            }
+    
+            LOG.debug("Returning " + keyValues);
+        }
+    }
+    
+    protected ProposalPersonRole getRoleById(Collection<ProposalPersonRole> roles, String roleId) {
+        for (ProposalPersonRole role : roles) {
+            if (StringUtils.equals(role.getProposalPersonRoleId(), roleId)) {
+                return role;
+            }
+        }
+        return null;
+    }
+    
     protected String getRoleIdPrefix(DevelopmentProposal proposal) {
         return proposal.isSponsorNihMultiplePi() ? "nih." : "";
     }
@@ -98,28 +117,36 @@ public class ProposalPersonRoleValuesFinder extends FormViewAwareUifKeyValuesFin
      * 
      * @return KeyPersonnelService
      */
-    private KeyPersonnelService getKeyPersonnelService() {
-        return KcServiceLocator.getService(KeyPersonnelService.class);
+    protected KeyPersonnelService getKeyPersonnelService() {
+    	if (keyPersonnelService == null) {
+    		keyPersonnelService = KcServiceLocator.getService(KeyPersonnelService.class);
+    	}
+    	return keyPersonnelService;
     }
+    
+	public void setKeyPersonnelService(KeyPersonnelService keyPersonnelService) {
+		this.keyPersonnelService = keyPersonnelService;
+	}
+    
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return this.parameterService;
+    }
+    
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
 
-    /**
-     * Locate from Spring a singleton instance of the <code>{@link KeyValuesService}</code>.
-     * 
-     * @return KeyValuesService
-     */
-    private KeyValuesService getKeyValuesService() {
-        return KcServiceLocator.getService(KeyValuesService.class);
-    }
+	protected DataObjectService getDataObjectService() {
+		if (dataObjectService == null) {
+			dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+		}
+		return dataObjectService;
+	}
 
-    private Boolean isPersonAdded() {
-        return new Boolean(getForAddedPerson());
-    }
-
-    public String getForAddedPerson() {
-        return forAddedPerson;
-    }
-
-    public void setForAddedPerson(String forAddedPerson) {
-        this.forAddedPerson = forAddedPerson;
-    }
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 }

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;

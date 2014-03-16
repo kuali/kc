@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.protocol;
 
-import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
+import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
@@ -24,7 +25,6 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.SessionDocumentService;
@@ -136,12 +136,28 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         newProtocolDocument.setProtocol(newProtocol);
         newProtocol.setProtocolDocument(newProtocolDocument);
         protocolDocument.getProtocol().setActive(false);
+        
+        if (! (
+                (protocolDocument.getProtocol().isAmendment() && newProtocol.isAmendment()) ||
+                (protocolDocument.getProtocol().isRenewal() && newProtocol.isRenewal()) || 
+                (protocolDocument.getProtocol().isRenewalWithoutAmendment() && newProtocol.isRenewalWithoutAmendment())
+           )) {
         finalizeAttachmentProtocol(protocolDocument.getProtocol());
+        }
+        
         newProtocol.resetPersistenceStateForNotifications();
         businessObjectService.save(protocolDocument.getProtocol());        
         documentService.saveDocument(newProtocolDocument);
         newProtocol.resetForeignKeys();
+        
+        if (! (
+                (protocolDocument.getProtocol().isAmendment() && newProtocol.isAmendment()) ||
+                (protocolDocument.getProtocol().isRenewal() && newProtocol.isRenewal()) || 
+                (protocolDocument.getProtocol().isRenewalWithoutAmendment() && newProtocol.isRenewalWithoutAmendment())
+           )) {                
         finalizeAttachmentProtocol(newProtocol);
+        }
+        
         businessObjectService.save(newProtocol);
         // versioning questionnaire answer
         List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(getNewInstanceProtocolModuleQuestionnaireBeanHook(protocolDocument.getProtocol())

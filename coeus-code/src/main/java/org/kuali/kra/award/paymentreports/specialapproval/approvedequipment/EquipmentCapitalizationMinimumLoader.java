@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.rice.core.api.config.ConfigurationException;

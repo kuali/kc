@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.authorization;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase;

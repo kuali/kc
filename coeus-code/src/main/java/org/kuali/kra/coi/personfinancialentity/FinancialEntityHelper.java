@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.service.BusinessObjectService;

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kra.SeparatelySequenceableAssociate;
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.framework.sequence.associate.SeparatelySequenceableAssociate;
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 
 import java.util.ArrayList;
 import java.util.Collection;

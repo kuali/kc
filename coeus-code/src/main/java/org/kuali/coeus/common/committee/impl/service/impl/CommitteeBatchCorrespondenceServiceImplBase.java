@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.committee.impl.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceBase;
@@ -23,6 +23,7 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceDeta
 import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
 import org.kuali.coeus.common.committee.impl.print.service.CommitteePrintingServiceBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeBatchCorrespondenceServiceBase;
+import org.kuali.coeus.common.framework.mail.EmailAttachment;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
@@ -35,7 +36,6 @@ import org.kuali.kra.protocol.ProtocolDao;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.protocol.correspondence.*;
-import org.kuali.kra.util.EmailAttachment;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;

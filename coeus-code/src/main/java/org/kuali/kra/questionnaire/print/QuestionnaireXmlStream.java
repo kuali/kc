@@ -15,15 +15,16 @@
  */
 package org.kuali.kra.questionnaire.print;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.irb.Protocol;
@@ -42,7 +43,6 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.question.QuestionService;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;

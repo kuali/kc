@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.specialreview;
 
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.specialreview.impl.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

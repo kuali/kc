@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.KeyValue;

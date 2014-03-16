@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.undo;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolBase;

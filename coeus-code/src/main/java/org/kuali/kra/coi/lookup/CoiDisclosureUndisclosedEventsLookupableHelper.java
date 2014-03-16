@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.coi.lookup;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -26,7 +27,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.struts.form.LookupForm;

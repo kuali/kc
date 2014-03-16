@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.PropPerDocType;
@@ -30,7 +31,6 @@ import org.kuali.kra.proposaldevelopment.rule.SavePersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ReplacePersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
-import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;

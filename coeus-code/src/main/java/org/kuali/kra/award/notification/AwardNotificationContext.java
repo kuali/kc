@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.notification;
 
+import org.kuali.coeus.common.framework.mail.EmailAttachment;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.notification.impl.NotificationContextBase;
 import org.kuali.coeus.common.notification.impl.NotificationRenderer;
@@ -23,7 +24,6 @@ import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.util.EmailAttachment;
 
 import java.util.List;
 

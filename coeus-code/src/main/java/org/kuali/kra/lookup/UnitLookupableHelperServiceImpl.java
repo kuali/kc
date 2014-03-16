@@ -15,12 +15,13 @@
  */
 package org.kuali.kra.lookup;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.multicampus.MultiCampusConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -70,7 +71,7 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
         List<Row> rows = super.getRows();
         
         boolean multiCampusEnabled = getParameterService().getParameterValueAsBoolean(
-            Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+            Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, MultiCampusConstants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         for (Row row : rows) {
             for (Field field : row.getFields()) {
@@ -82,7 +83,7 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
                     field.setFieldDirectInquiryEnabled(true);
                     if (multiCampusEnabled) {
                         if (StringUtils.isBlank(field.getDefaultValue())) {
-                            String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(Constants.USER_CAMPUS_CODE_KEY);
+                            String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(MultiCampusConstants.USER_CAMPUS_CODE_KEY);
                             field.setDefaultValue(campusCode);
                             field.setPropertyValue(field.getDefaultValue());
                         }

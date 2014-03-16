@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.subaward.lookup;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;

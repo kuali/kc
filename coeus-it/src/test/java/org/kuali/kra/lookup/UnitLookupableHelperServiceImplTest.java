@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.lookup;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -23,8 +23,9 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.bo.Unit;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.multicampus.MultiCampusConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.Field;
@@ -66,7 +67,7 @@ public class UnitLookupableHelperServiceImplTest extends KcIntegrationTestBase {
     public void testNonMultiCampusRows() {
         service.setBusinessObjectClass(Unit.class);
         service.setParameterService(getMockParameterService(false));
-        GlobalVariables.getUserSession().addObject(Constants.USER_CAMPUS_CODE_KEY, (Object) CAMPUS_CODE);
+        GlobalVariables.getUserSession().addObject(MultiCampusConstants.USER_CAMPUS_CODE_KEY, (Object) CAMPUS_CODE);
         
         List<Row> rows = service.getRows();
         assertEquals(LOOKUP_CRITERIA_FIELD_COUNT, rows.size());
@@ -84,7 +85,7 @@ public class UnitLookupableHelperServiceImplTest extends KcIntegrationTestBase {
     public void testMultiCampusRows() {
         service.setBusinessObjectClass(Unit.class);
         service.setParameterService(getMockParameterService(true));
-        GlobalVariables.getUserSession().addObject(Constants.USER_CAMPUS_CODE_KEY, (Object) CAMPUS_CODE);
+        GlobalVariables.getUserSession().addObject(MultiCampusConstants.USER_CAMPUS_CODE_KEY, (Object) CAMPUS_CODE);
         
         List<Row> rows = service.getRows();
         assertEquals(LOOKUP_CRITERIA_FIELD_COUNT, rows.size());
@@ -136,7 +137,7 @@ public class UnitLookupableHelperServiceImplTest extends KcIntegrationTestBase {
         
         context.checking(new Expectations() {{
             allowing(service).getParameterValueAsBoolean(
-                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, MultiCampusConstants.PARAMETER_MULTI_CAMPUS_ENABLED);
             will(returnValue(multiCampusEnabled));
         }});
         

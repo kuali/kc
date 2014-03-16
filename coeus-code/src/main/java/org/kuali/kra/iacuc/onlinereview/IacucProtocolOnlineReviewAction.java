@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -24,10 +24,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.coeus.common.committee.impl.meeting.MinuteEntryType;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
-import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolForm;

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.UnitAdministrator;
-import org.kuali.kra.bo.UnitAdministratorType;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.UnitAdministratorPersonMassChangeService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;

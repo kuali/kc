@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 
 import java.util.HashMap;

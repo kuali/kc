@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.lookup.keyvalue;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.rates.RateClass;

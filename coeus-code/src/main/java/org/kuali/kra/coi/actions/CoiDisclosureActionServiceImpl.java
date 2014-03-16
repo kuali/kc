@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.coi.actions;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -638,7 +638,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
                 }
                 for (CoiDisclProject project: disclosure.getCoiDisclProjects()) {
                     for (CoiDiscDetail detail: project.getCoiDiscDetails()) {
-                        if (org.apache.commons.lang.ObjectUtils.equals(detail.getOldEntityDispositionCode(), detail.getEntityDispositionCode())) {
+                        if (org.apache.commons.lang3.ObjectUtils.equals(detail.getOldEntityDispositionCode(), detail.getEntityDispositionCode())) {
                             detail.setUpdateUser(GlobalVariables.getUserSession().getPerson().getPrincipalName());
                             businessObjectService.save(detail);
                             detail.setOldEntityDispositionCode();

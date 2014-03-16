@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
-import org.kuali.kra.service.VersionException;
 
 import java.util.List;
 

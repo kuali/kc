@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.home.approvedsubawards;
 
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
-import org.kuali.kra.bo.Organization;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
@@ -183,7 +183,7 @@ public class AwardApprovedSubaward extends AwardAssociate implements ValuableIte
 
     //CSON  
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardApprovedSubawardId = null;

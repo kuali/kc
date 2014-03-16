@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
-import org.kuali.kra.bo.Sponsor;
 import org.springframework.util.AutoPopulatingList;
 
 import java.util.ArrayList;

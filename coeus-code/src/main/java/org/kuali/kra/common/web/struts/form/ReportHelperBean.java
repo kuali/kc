@@ -1,6 +1,7 @@
 package org.kuali.kra.common.web.struts.form;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
@@ -9,7 +10,6 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.service.BusinessObjectService;

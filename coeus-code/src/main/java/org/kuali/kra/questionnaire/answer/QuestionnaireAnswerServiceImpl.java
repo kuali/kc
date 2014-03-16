@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.module.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;

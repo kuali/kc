@@ -82,7 +82,7 @@ body {
 		<kul:help parameterNamespace="KC-UNT" parameterDetailType="Document" parameterName="unitHierarchyHelp" altText="help"/>
 	</h1>
 	<div class="lookupcreatenew" title="Create a new record">
-	<a href="kr/maintenance.do?businessObjectClassName=org.kuali.kra.bo.Unit&methodToCall=start">
+	<a href="kr/maintenance.do?businessObjectClassName=org.kuali.coeus.common.framework.unit.Unit&methodToCall=start">
 	<img src="kr/images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>   
 	<a href="index.jsp">Main</a></div>
 </div>
@@ -116,11 +116,11 @@ body {
     function setupMaintenanceButtons(unit) {
     // if included in a js file, the reference to image can't be resolved.
        var unitNumber=getUnitNumber(unit);
-		return  "<a href=\"kr/maintenance.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber="+unitNumber+"&methodToCall=edit\" id=\"edit"+unitNumber+"\"> <img  src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif\" styleClass=\"tinybutton\" title=\"edit\" alt=\"edit\" /> </a>"+
+		return  "<a href=\"kr/maintenance.do?businessObjectClassName=org.kuali.coeus.common.framework.unit.Unit&unitNumber="+unitNumber+"&methodToCall=edit\" id=\"edit"+unitNumber+"\"> <img  src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif\" styleClass=\"tinybutton\" title=\"edit\" alt=\"edit\" /> </a>"+
 		        "<a href=\"kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.rice.kim.api.identity.Person&primaryDepartmentCode="+unitNumber+"&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888\"> <img  src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-usermaint.gif\" styleClass=\"tinybutton\" title=\"User Maintenance\" alt=\"User Maintenance\" /> </a>"+
 		        "<a href=\"kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.bo.InstituteLaRate&unitNumber="+unitNumber+"&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888\"> <img  src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-larates.gif\" styleClass=\"tinybutton\" title=\"La rate\" alt=\"La Rate\" /> </a>"+
 		        "<a href=\"kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.bo.InstituteRate&unitNumber="+unitNumber+"&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888\"> <img  src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-rates.gif\" styleClass=\"tinybutton\" title=\"rate\" alt=\"Rate\" /> </a>"+
-				          "<a href=\"kr/maintenance.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber="+unitNumber+"&methodToCall=copy\"> <img  src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-copy2.gif\" styleClass=\"tinybutton\" title=\"copy\" alt=\"copy\" /> </a>";
+				          "<a href=\"kr/maintenance.do?businessObjectClassName=org.kuali.coeus.common.framework.unit.Unit&unitNumber="+unitNumber+"&methodToCall=copy\"> <img  src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-copy2.gif\" styleClass=\"tinybutton\" title=\"copy\" alt=\"copy\" /> </a>";
     }
 
 </script>

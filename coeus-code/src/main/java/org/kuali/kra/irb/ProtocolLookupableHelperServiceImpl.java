@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb;
 
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.auth.ProtocolTask;

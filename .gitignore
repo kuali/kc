@@ -15,5 +15,11 @@
 **/coeus.iml
 **/.DS_Store
 **/Thumbs.db
-/bin
-
+bin
+.project
+.classpath
+.settings
+target
+.idea
+coeus.iml
+**/bin

@@ -15,18 +15,19 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.coeus.common.committee.impl.meeting.MinuteEntryType;
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -38,7 +39,6 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;

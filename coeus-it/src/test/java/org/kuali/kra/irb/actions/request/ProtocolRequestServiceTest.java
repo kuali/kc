@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.request;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.jmock.Expectations;
 import org.jmock.Mockery;

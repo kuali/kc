@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.*;
@@ -47,7 +50,6 @@ import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.*;
@@ -515,9 +517,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                         ProposalPersonExtendedAttributes ppea = 
                             (ProposalPersonExtendedAttributes) ObjectUtils.deepCopy(srcProposalperson.getProposalPersonExtendedAttributes());
                         ppea.setProposalPerson(proposalperson);
-                        ppea.setProposalNumber(proposalperson.getProposalNumber());
-                        ppea.setProposalPersonNumber(proposalperson.getProposalPersonNumber());
-                        ppea.setProposalPersonRoleId(proposalperson.getProposalPersonRoleId());
                         proposalperson.setProposalPersonExtendedAttributes(ppea);
                     }
                 }

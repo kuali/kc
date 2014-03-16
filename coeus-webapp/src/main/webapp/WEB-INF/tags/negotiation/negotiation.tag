@@ -183,10 +183,10 @@
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.leadUnitNumber}" readOnly="${readOnly}"/>
                 		<c:if test="${!readOnly}">
 	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.leadUnitNumber")}
-	                		<kul:lookup boClassName="org.kuali.kra.bo.Unit" 
+	                		<kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit" 
 						        		fieldConversions="unitNumber:document.negotiationList[0].unAssociatedDetail.leadUnitNumber" />
 					    </c:if> 
-					    <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.negotiationList[0].unAssociatedDetail.leadUnitNumber:unitNumber" anchor="${tabKey}" /> 
+					    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="document.negotiationList[0].unAssociatedDetail.leadUnitNumber:unitNumber" anchor="${tabKey}" /> 
                 	</td>
             	</tr>
             	
@@ -277,10 +277,10 @@
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.sponsorCode}" readOnly="${readOnly}"/>
                 		<c:if test="${!readOnly}">
 	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.sponsorCode")}
-	                		<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" 
+	                		<kul:lookup boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" 
 						        		fieldConversions="sponsorCode:document.negotiationList[0].unAssociatedDetail.sponsorCode" />
 					    </c:if>
-					    <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.negotiationList[0].unAssociatedDetail.sponsorCode:sponsorCode" anchor="${tabKey}" />
+					    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="document.negotiationList[0].unAssociatedDetail.sponsorCode:sponsorCode" anchor="${tabKey}" />
 					    <Br/>
 					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.sponsor.sponsorName}"/>
                 	</td>
@@ -294,10 +294,10 @@
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.primeSponsorCode}" readOnly="${readOnly}"/>
                 		<c:if test="${!readOnly}">
 	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.primeSponsorCode")}
-	                		<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" 
+	                		<kul:lookup boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" 
 						        		fieldConversions="sponsorCode:document.negotiationList[0].unAssociatedDetail.primeSponsorCode" />
 					    </c:if> 
-					    <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.negotiationList[0].unAssociatedDetail.primeSponsorCode:sponsorCode" anchor="${tabKey}" />
+					    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="document.negotiationList[0].unAssociatedDetail.primeSponsorCode:sponsorCode" anchor="${tabKey}" />
 					    <Br/>
 					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.primeSponsor.sponsorName}"/>
                 	</td>
@@ -323,10 +323,10 @@
                 			attributeEntry="${negotiationUnassociatedDetailAttributes.subAwardOrganizationId}" readOnly="${readOnly}"/>
                 		<c:if test="${!readOnly}">
 	                		${kfunc:registerEditableProperty(KualiForm, "document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId")}
-	                		<kul:lookup boClassName="org.kuali.kra.bo.Organization" 
+	                		<kul:lookup boClassName="org.kuali.coeus.common.framework.org.Organization" 
 						        		fieldConversions="organizationId:document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId" />
 					    </c:if> 
-					    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId:organizationId" anchor="${tabKey}" />
+					    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.org.Organization" inquiryParameters="document.negotiationList[0].unAssociatedDetail.subAwardOrganizationId:organizationId" anchor="${tabKey}" />
 					    <Br/>
 					    <c:out value="${KualiForm.document.negotiationList[0].unAssociatedDetail.subAwardOrganization.organizationName}"/>
                 	</td>
@@ -353,7 +353,7 @@
                 	<td>
                 		<c:out value="${KualiForm.negotiationAssociatedDetailBean.leadUnit}"/> 
                 		<html:hidden property="negotiationAssociatedDetailBean.leadUnitNumber"/>
-                		<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="negotiationAssociatedDetailBean.leadUnitNumber:unitNumber" anchor="${tabKey}" />
+                		<kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="negotiationAssociatedDetailBean.leadUnitNumber:unitNumber" anchor="${tabKey}" />
                 	</td>
             	</tr>
             	

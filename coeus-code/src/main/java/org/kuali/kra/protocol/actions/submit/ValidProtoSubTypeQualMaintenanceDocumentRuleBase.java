@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -56,7 +56,7 @@ public abstract class ValidProtoSubTypeQualMaintenanceDocumentRuleBase extends K
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         setOldTYpeId(document);
-        ValidProtoSubTypeQual validProtoSubTypeQual = (ValidProtoSubTypeQual) document.getNoteTarget();
+        ValidProtoSubTypeQual validProtoSubTypeQual = (ValidProtoSubTypeQual) document.getDocumentBusinessObject();
         return validate(validProtoSubTypeQual);
     }
 

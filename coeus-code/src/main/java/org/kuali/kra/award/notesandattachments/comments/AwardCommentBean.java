@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.award.notesandattachments.comments;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.bo.CommentType;
-import org.kuali.kra.service.AwardCommentService;
+import org.kuali.kra.award.service.AwardCommentService;
 
 import java.io.Serializable;
 import java.util.ArrayList;

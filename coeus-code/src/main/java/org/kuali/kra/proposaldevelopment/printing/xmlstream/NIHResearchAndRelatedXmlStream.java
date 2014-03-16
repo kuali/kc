@@ -30,9 +30,9 @@ import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.SalarySubtotals;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.IndirectCostRateDetails;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.IndirectCostRateDetails.NoDHHSAgreement;
+import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.*;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.FundingOpportunityDetailsType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.HumanSubjectsType;
-import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.*;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.KeyPersonType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.OrgAssurancesType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ProgramDirectorPrincipalInvestigatorDocument.ProgramDirectorPrincipalInvestigator;
@@ -44,13 +44,18 @@ import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.SalariesAndWagesTy
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.*;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType.KeyPersonFlag;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectCostsDocument.OtherDirectCosts;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlToken;
+import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.org.OrganizationYnq;
+import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
@@ -80,7 +85,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 

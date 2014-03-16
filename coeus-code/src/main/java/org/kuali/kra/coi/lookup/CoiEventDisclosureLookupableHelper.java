@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.lookup;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.rice.krad.bo.BusinessObject;

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;

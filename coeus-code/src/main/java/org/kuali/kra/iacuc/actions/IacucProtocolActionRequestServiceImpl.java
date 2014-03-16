@@ -24,12 +24,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;

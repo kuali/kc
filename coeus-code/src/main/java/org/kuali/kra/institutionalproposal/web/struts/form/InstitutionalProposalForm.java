@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.form;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;

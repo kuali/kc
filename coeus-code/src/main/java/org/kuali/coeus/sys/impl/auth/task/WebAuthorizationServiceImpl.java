@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.sys.impl.auth.task;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.kuali.coeus.sys.framework.auth.task.*;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;

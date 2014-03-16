@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;

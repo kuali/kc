@@ -16,11 +16,16 @@
 package org.kuali.kra.s2s.service.impl;
 
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
@@ -55,9 +60,7 @@ import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.CitizenshipTypeService;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;

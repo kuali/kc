@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.committee.impl.service.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommScheduleMinuteDocBase;
 import org.kuali.coeus.common.committee.impl.meeting.ScheduleAgendaBase;

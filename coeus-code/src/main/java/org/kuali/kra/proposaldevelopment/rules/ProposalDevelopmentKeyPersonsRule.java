@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.bo.DegreeType;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -29,7 +30,6 @@ import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -39,8 +39,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.util.List;
 
 import static java.util.Collections.sort;
-import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
@@ -117,7 +117,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
                             ERROR_ONE_UNIT, person.getFullName());            
                 retval = false;
             }
-            if(isKeyPerson(person) && (person.getOptInUnitStatus().equals("Y")) && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
+            if(isKeyPerson(person) && person.getOptInUnitStatus() && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
                 reportError("newProposalPersonUnit[" + personIndex + "].unitNumber",
                             ERROR_ONE_UNIT, person.getFullName());  
                 retval = false;

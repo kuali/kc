@@ -16,7 +16,7 @@
 package org.kuali.kra.lookup;
 
 import org.junit.Test;
-import org.kuali.kra.bo.Sponsor;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LookupService;

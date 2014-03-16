@@ -17,7 +17,7 @@ package org.kuali.kra.award.budget.document.authorizer;
 
 
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;

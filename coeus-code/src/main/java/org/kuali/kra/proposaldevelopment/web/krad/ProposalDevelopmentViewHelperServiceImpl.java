@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.web.krad;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
@@ -30,6 +30,7 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,10 +78,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         List<Sponsor> allSponsors = new ArrayList<Sponsor>();
         Map<String, String> values = new HashMap<String, String>();
         values.put("sponsorCode", sponsorCode + "*");
-        allSponsors.addAll(getLookupService().findCollectionBySearchUnbounded(Sponsor.class, values));
+        allSponsors.addAll(getLookupService().findCollectionBySearchHelper(Sponsor.class, values, Collections.EMPTY_LIST, false, 10));
         values.clear();
         values.put("acronym", sponsorCode + "*");
-        allSponsors.addAll(getLookupService().findCollectionBySearchUnbounded(Sponsor.class, values));
+        allSponsors.addAll(getLookupService().findCollectionBySearchHelper(Sponsor.class, values, Collections.EMPTY_LIST, false, 10));
         
         for (Sponsor sponsor : allSponsors) {
             result.add(new SponsorSuggestResult(sponsor));

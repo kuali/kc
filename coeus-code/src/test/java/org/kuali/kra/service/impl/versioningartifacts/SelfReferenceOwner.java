@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import org.kuali.kra.SequenceOwner;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 
 import java.util.ArrayList;
 import java.util.Collection;

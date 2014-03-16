@@ -46,13 +46,13 @@
         <reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="proposalTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="leadUnit"/>
         </reference-descriptor>
         <reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
-        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="sponsorCode" />
         </reference-descriptor>
         <reference-descriptor name="proposalLogStatus" class-ref="org.kuali.kra.institutionalproposal.proposallog.ProposalLogStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -93,11 +93,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    	
-        <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
-            <foreignkey field-ref="documentNumber" />
-        </reference-descriptor>
-    	
+
     	<collection-descriptor name="institutionalProposalList" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
@@ -176,13 +172,13 @@
         <reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
-        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="sponsorCode" />
         </reference-descriptor>
-        <reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="primeSponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="primeSponsorCode" />
         </reference-descriptor>
-        <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="leadUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="unitNumber"/>
         </reference-descriptor>
         <reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -272,10 +268,10 @@
         <reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="proposalTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="sponsorCode" />
         </reference-descriptor>
-        <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="leadUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="unitNumber"/>
         </reference-descriptor>
         <reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -469,7 +465,7 @@
 		<reference-descriptor name="institutionalProposalPerson" class-ref="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="institutionalProposalContactId"/> 
 		</reference-descriptor>
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/> 
 		</reference-descriptor>
 		
@@ -635,7 +631,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -655,7 +651,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         
-        <reference-descriptor name="unitAdministratorType" class-ref="org.kuali.kra.bo.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="unitAdministratorType" class-ref="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="unitAdministratorTypeCode"/> 
         </reference-descriptor>
         <reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.bo;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.infrastructure.Constants;

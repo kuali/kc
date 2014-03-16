@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Enum for determining the ways a proposal can be merged or added to an award.

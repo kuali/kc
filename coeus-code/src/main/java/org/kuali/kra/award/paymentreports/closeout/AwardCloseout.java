@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.closeout;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
 
 import java.sql.Date;
@@ -204,7 +204,7 @@ public class AwardCloseout extends AwardAssociate {
 
     /**
      * 
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         awardCloseoutId = null;

@@ -1522,10 +1522,10 @@ function refreshAddressBookLookup() {
 			sponsorFlagValue = document.getElementById('document.newMaintainableObject.isSponsorAddress').value;	
 			if(sponsorFlagValue == 'Y') {
 				jQuery("input[id='document.newMaintainableObject.organization']").parent().children('input:image').remove();
-				jQuery("input[id='document.newMaintainableObject.organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!).(((sponsorCode:document.newMaintainableObject.sponsorCode,))).((`document.newMaintainableObject.sponsorCode:sponsorCode,`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor4' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
+				jQuery("input[id='document.newMaintainableObject.organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.coeus.common.framework.sponsor.Sponsor!!).(((sponsorCode:document.newMaintainableObject.sponsorCode,))).((`document.newMaintainableObject.sponsorCode:sponsorCode,`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor4' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
 			} else if(sponsorFlagValue == 'N') {
 				jQuery("input[id='document.newMaintainableObject.organization']").parent().children('input:image').remove();
-				jQuery("input[id='document.newMaintainableObject.organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).(((organizationId:document.newMaintainableObject.organization,))).((`document.newMaintainableObject.organization:organizationId,`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor4' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
+				jQuery("input[id='document.newMaintainableObject.organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.coeus.common.framework.org.Organization!!).(((organizationId:document.newMaintainableObject.organization,))).((`document.newMaintainableObject.organization:organizationId,`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor4' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
 			}
 		}
 
@@ -1533,10 +1533,10 @@ function refreshAddressBookLookup() {
 			issponsorAddressValue = document.getElementById('isSponsorAddress').value;
 			if(issponsorAddressValue == 'Y') {
 				jQuery("input[id='organization']").parent().children('input:image').remove();
-				jQuery("input[id='organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!).(((sponsorName:organization))).((`organization:sponsorName`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
+				jQuery("input[id='organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.coeus.common.framework.sponsor.Sponsor!!).(((sponsorName:organization))).((`organization:sponsorName`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
 			} else if(issponsorAddressValue == 'N') {
 				jQuery("input[id='organization']").parent().children('input:image').remove();
-				jQuery("input[id='organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).(((organizationName:organization))).((`organization:organizationName`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
+				jQuery("input[id='organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.coeus.common.framework.org.Organization!!).(((organizationName:organization))).((`organization:organizationName`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
 			}
 		}
 			
@@ -1551,20 +1551,20 @@ function refreshAddressBookLookup() {
 	 
 	function lookupOrganization(){
 		jQuery("input[id='organization']").parent().children('input:image').remove();
-		jQuery("input[id='organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).(((organizationName:organization))).((`organization:organizationName`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
+		jQuery("input[id='organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.coeus.common.framework.org.Organization!!).(((organizationName:organization))).((`organization:organizationName`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
 		
 		
 		jQuery("input[id='document.newMaintainableObject.organization']").parent().children('input:image').remove();
-		jQuery("input[id='document.newMaintainableObject.organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).(((organizationId:document.newMaintainableObject.organization,))).((`document.newMaintainableObject.organization:organizationId,`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor4' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
+		jQuery("input[id='document.newMaintainableObject.organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.coeus.common.framework.org.Organization!!).(((organizationId:document.newMaintainableObject.organization,))).((`document.newMaintainableObject.organization:organizationId,`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor4' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
 	}
 
 	function lookupSponsor() {
 		jQuery("input[id='organization']").parent().children('input:image').remove();
-		jQuery("input[id='organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!).(((sponsorName:organization))).((`organization:sponsorName`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
+		jQuery("input[id='organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.coeus.common.framework.sponsor.Sponsor!!).(((sponsorName:organization))).((`organization:sponsorName`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
 		
 		
 		jQuery("input[id='document.newMaintainableObject.organization']").parent().children('input:image').remove();
-		jQuery("input[id='document.newMaintainableObject.organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!).(((sponsorCode:document.newMaintainableObject.sponsorCode,))).((`document.newMaintainableObject.sponsorCode:sponsorCode,`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor4' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
+		jQuery("input[id='document.newMaintainableObject.organization']").parent().append("<input type='image' tabindex='1000000' name='methodToCall.performLookup.(!!org.kuali.coeus.common.framework.sponsor.Sponsor!!).(((sponsorCode:document.newMaintainableObject.sponsorCode,))).((`document.newMaintainableObject.sponsorCode:sponsorCode,`)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;"+lookupUrl()+";::::).anchor4' src='../kr/static/images/searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search Organization' title='Search Organization'>");
 	}
 
 var oldDisplayValue;

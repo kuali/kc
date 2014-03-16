@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -55,12 +55,16 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
+import org.kuali.kra.award.service.AwardDirectFandADistributionService;
+import org.kuali.kra.award.service.AwardReportsService;
+import org.kuali.kra.award.service.AwardSponsorTermService;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
-import org.kuali.kra.infrastructure.AwardPermissionConstants;
-import org.kuali.kra.infrastructure.AwardRoleConstants;
+import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
+import org.kuali.kra.award.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
@@ -71,6 +75,7 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.history.TransactionDetailType;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
+import org.kuali.kra.timeandmoney.service.TimeAndMoneyExistenceService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -96,7 +101,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
-import static org.apache.commons.lang.StringUtils.replace;
+import static org.apache.commons.lang3.StringUtils.replace;
 import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
 
 /**
@@ -741,11 +746,11 @@ public class AwardAction extends BudgetParentActionBase {
     }
 
 
-    protected void generateDirectFandADistribution(AwardForm awardForm) {
-        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
-        Award award = awardDocument.getAward();
-        // set awardDirectFandADistributions on award
-        if(isNewAward(awardForm) && !(award.getAwardEffectiveDate() == null)){
+    protected void generateDirectFandADistribution(Award award) {
+        if(!(award.getAwardEffectiveDate() == null)) {
+            // delete entries that were added during previous T&M initiations but the doc cancelled.
+            getBusinessObjectService().delete(award.getAwardDirectFandADistributions());
+            
             Boolean autoGenerate = getParameterService().getParameterValueAsBoolean(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, 
                                                                                     KeyConstants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS); 
             if (autoGenerate) {
@@ -798,10 +803,11 @@ public class AwardAction extends BudgetParentActionBase {
                 firstTimeAndMoneyDocCreation = Boolean.FALSE;
             }
     
+            if (timeAndMoneyDocument == null) {
+                generateDirectFandADistribution(currentAward);
+            }
+                
             if(firstTimeAndMoneyDocCreation){
-                
-                generateDirectFandADistribution(awardForm);
-                
                 timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
                 timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
                 timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);

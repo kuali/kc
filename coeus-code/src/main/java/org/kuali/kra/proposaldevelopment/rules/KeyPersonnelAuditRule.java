@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import org.apache.commons.collections.keyvalue.DefaultMapEntry;
+import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
@@ -36,8 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.*;
 import static org.kuali.kra.infrastructure.KeyConstants.*;

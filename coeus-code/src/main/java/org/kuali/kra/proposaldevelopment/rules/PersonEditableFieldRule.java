@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.PersonEditableField;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;

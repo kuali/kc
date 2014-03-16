@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
+import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
-import org.kuali.kra.bo.Contactable;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -229,7 +229,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate implements Compar
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.approvedForeignTravelId = null;

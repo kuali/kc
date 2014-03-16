@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**

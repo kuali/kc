@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.rules;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;

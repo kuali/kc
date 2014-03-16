@@ -75,7 +75,7 @@ function sponsorHierarchy() {
     
     function setSponsorCode(sponsorCode) {   
     	document.getElementById("sponsorCode").value=sponsorCode;
-    	//inquiryPop('org.kuali.kra.bo.Sponsor','sponsorCode:sponsorCode');
+    	//inquiryPop('org.kuali.coeus.common.framework.sponsor.Sponsor','sponsorCode:sponsorCode');
     }
     
     function addNode(mapKey) {

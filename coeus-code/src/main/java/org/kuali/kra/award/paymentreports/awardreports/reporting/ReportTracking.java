@@ -15,17 +15,20 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.Distribution;
 import org.kuali.kra.award.paymentreports.*;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;

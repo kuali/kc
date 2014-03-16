@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.specialreview.impl.rule.event;
 
-import org.apache.commons.collections.ListUtils;
+import org.apache.commons.collections4.ListUtils;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.common.specialreview.impl.rule.SaveSpecialReviewRule;

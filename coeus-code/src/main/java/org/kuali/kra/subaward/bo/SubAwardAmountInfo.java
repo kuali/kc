@@ -16,10 +16,10 @@
 package org.kuali.kra.subaward.bo;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachment;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.KcAttachment;
-import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.io.FileNotFoundException;
@@ -325,7 +325,7 @@ public class SubAwardAmountInfo extends
         this.fileId = fileId;
     }
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.subAwardAmountInfoId = null;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -36,8 +36,8 @@ import org.kuali.kra.award.notification.AwardNotificationContext;
 import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
-import org.kuali.kra.external.award.AccountCreationClient;
-import org.kuali.kra.external.award.AwardAccountValidationService;
+import org.kuali.kra.award.external.award.AccountCreationClient;
+import org.kuali.kra.award.external.award.AwardAccountValidationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;

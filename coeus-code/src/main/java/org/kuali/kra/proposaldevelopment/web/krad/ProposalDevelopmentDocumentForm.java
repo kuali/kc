@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web.krad;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentQuestionnaireHelper;
@@ -27,8 +24,10 @@ import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase {
 
@@ -137,5 +136,19 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setNewS2sOpportunity(S2sOpportunity newOpportunity) {
         this.newS2sOpportunity = newOpportunity;
     }
+
+    //overriding because the superclass version is broken
+    /*@Override
+    protected void instantiateDocument() {
+        if (document == null && StringUtils.isNotBlank(getDefaultDocumentTypeName())) {
+            try {
+                Document newDocument = KRADServiceLocatorWeb.getDocumentService().getNewDocument(getDefaultDocumentTypeName());
+                setDocument(newDocument);
+            } catch (WorkflowException e) {
+                throw new RuntimeException("Unable to instantiate document type "
+                        + getDefaultDocumentTypeName(),e);
+            }
+        }
+    }*/
 
 }

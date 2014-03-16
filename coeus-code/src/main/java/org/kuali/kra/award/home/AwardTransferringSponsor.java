@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.kra.bo.Sponsor;
 
 /**
  * AwardTransferringSponsor business object
@@ -46,7 +46,7 @@ public class AwardTransferringSponsor extends AwardAssociate {
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardTransferringSponsorId = null;

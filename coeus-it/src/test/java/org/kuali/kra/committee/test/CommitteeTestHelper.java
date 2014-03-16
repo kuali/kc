@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.test;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.correspondence.BatchCorrespondence;
 import org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail;

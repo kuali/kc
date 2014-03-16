@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
@@ -34,7 +34,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.infrastructure.AwardPermissionConstants;
+import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;

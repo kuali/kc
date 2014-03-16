@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.coi.service.impl;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CoeusSubModule;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;

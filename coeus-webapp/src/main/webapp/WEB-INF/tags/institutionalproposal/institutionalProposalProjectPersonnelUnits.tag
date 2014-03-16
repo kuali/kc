@@ -70,7 +70,7 @@
                               <kul:htmlControlAttribute property="projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].unitNumber"
     	  	 								attributeEntry="${institutionalProposalPersonUnitAttributes.unitNumber}"
     	  	 								readOnly="false" />
-						<kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].unitNumber" 
+						<kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit" fieldConversions="unitNumber:projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].unitNumber" 
 											anchor="${tabKey}" lookupParameters="projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].unitNumber:unitNumber"/>
   	 				</div>
   	 				<c:choose>                  
@@ -136,7 +136,7 @@
                 <td valign="middle">
                 	<div align="center">
                 		${institutionalProposalPersonUnit.unit.unitName}&nbsp;
-      	                <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="institutional_proposal_person_unit.identifier_${institutionalProposalPersonIndex}_${institutionalProposalPersonUnitRowStatus.index}:unitNumber" anchor="${tabKey}" />
+      	                <kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="institutional_proposal_person_unit.identifier_${institutionalProposalPersonIndex}_${institutionalProposalPersonUnitRowStatus.index}:unitNumber" anchor="${tabKey}" />
                 	</div> 
 				</td>
 				<td valign="middle">
@@ -176,7 +176,7 @@
                 		<td valign="middle">
                 			<div align="center">
                 				${institutionalProposalPersonUnit.unit.unitName}&nbsp;
-        	                <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="institutional_proposal_person_unit.identifier_${institutionalProposalPersonIndex}_${institutionalProposalPersonUnitRowStatus.index}:unitNumber" anchor="${tabKey}" />
+        	                <kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="institutional_proposal_person_unit.identifier_${institutionalProposalPersonIndex}_${institutionalProposalPersonUnitRowStatus.index}:unitNumber" anchor="${tabKey}" />
                 			</div> 
 						</td>
 						<td valign="middle">

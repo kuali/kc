@@ -141,7 +141,7 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
         for (AwardBudgetLimit limit : awardLimits) {
             AwardBudgetLimit budgetLimit = getBudgetLimit(limit.getLimitType(), budgetLimits);
             if (budgetLimit == null 
-                    || !org.apache.commons.lang.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
+                    || !org.apache.commons.lang3.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
                getAuditWarnings().add(new AuditError("document.budget.awardBudgetLimits",
                         KeyConstants.AUDIT_ERROR_SPECIFIC_COST_LIMITS_CHANGED,
                         Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals",

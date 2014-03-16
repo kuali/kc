@@ -22,8 +22,8 @@ import org.kuali.kra.budget.BudgetDecimalConverter;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
-import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 
 import javax.persistence.*;

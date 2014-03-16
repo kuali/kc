@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.negotiations.bo;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -27,7 +28,6 @@ import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.negotiations.service.NegotiationService;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.bo.BusinessObject;
 

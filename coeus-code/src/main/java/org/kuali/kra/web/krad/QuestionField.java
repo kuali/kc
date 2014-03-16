@@ -15,26 +15,18 @@
  */
 package org.kuali.kra.web.krad;
 
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.rice.krad.uif.control.Control;
+import org.kuali.rice.krad.uif.field.InputFieldBase;
+import org.kuali.rice.krad.uif.util.ComponentFactory;
+import org.kuali.rice.krad.uif.util.LifecycleElement;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.question.Question;
-import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.component.DataBinding;
-import org.kuali.rice.krad.uif.control.Control;
-import org.kuali.rice.krad.uif.control.TextControl;
-import org.kuali.rice.krad.uif.field.FieldGroup;
-import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.uif.util.ComponentFactory;
-import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.widget.QuickFinder;
-import org.kuali.rice.krad.uif.widget.Suggest;
-
-public class QuestionField extends InputField {
+public class QuestionField extends InputFieldBase {
 
     private static final long serialVersionUID = -940684402907403282L;
     private Map<String, String> controlMappings;
@@ -46,7 +38,7 @@ public class QuestionField extends InputField {
     }
     
     @Override
-    public void performApplyModel(Object model, Component parent) {
+    public void performApplyModel(Object model, LifecycleElement parent) {
         Object myBo = ObjectPropertyUtils.getPropertyValue(model, KcBindingInfo.getParentBindingInfo(getBindingInfo()));
         Answer answer = (Answer) myBo;
         setControl((Control) ComponentFactory.getNewComponentInstance(getControlMappings().get(answer.getQuestion().getQuestionTypeId().toString())));
@@ -64,12 +56,13 @@ public class QuestionField extends InputField {
         }
         super.performApplyModel(model, parent);
     }
-    
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
-        QuestionField question = (QuestionField) component;
-        question.setControlMappings(controlMappings);
-        question.setUseSuggest(useSuggest);
+
+    @Override
+    public QuestionField copy() {
+        final QuestionField copy =  super.copy();
+        copy.setControlMappings(new HashMap<>(controlMappings));
+        copy.setUseSuggest(useSuggest);
+        return copy;
     }
     
     public Map<String, String> getControlMappings() {

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.actions.print;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.service.KcPersonService;
 
 import java.util.ArrayList;
 import java.util.List;

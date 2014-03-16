@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.protocol;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
@@ -38,7 +39,6 @@ import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBeanBase;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelperBase;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;

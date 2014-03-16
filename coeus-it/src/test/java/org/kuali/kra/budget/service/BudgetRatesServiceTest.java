@@ -20,7 +20,6 @@ import org.junit.*;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -32,6 +31,7 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 
 import java.sql.Date;

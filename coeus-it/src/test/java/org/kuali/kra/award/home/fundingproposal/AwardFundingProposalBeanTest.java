@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.AwardServiceImpl;
 import org.kuali.kra.bo.NsfCode;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;

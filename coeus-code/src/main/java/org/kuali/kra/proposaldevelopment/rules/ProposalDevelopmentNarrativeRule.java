@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -36,8 +38,6 @@ import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ReplaceNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
-import org.kuali.kra.service.KcAttachmentService;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DictionaryValidationService;

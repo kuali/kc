@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierTypeBase;
 import org.kuali.kra.protocol.actions.submit.ValidProtoSubTypeQual;
-
 
 public class IacucValidProtoSubTypeQual  extends ValidProtoSubTypeQual {
 
@@ -25,17 +23,5 @@ public class IacucValidProtoSubTypeQual  extends ValidProtoSubTypeQual {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 6546751709369749190L;
-
-
-    public IacucValidProtoSubTypeQual() {
-    }
-
-    public String getIacucSubmissionTypeQualCode() {
-        return super.getSubmissionTypeQualCode();
-    }
-
-    public ProtocolSubmissionQualifierTypeBase getIacucSubmissionTypeQualifier() {
-        return super.getSubmissionTypeQualifier();
-    }
 
 }

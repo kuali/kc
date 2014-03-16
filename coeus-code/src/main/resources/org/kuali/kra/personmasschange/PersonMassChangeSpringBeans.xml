@@ -26,11 +26,11 @@
     
     <!-- Bring in annotated rolodex and person to autowire on person mass change services -->
     <context:component-scan base-package="org.kuali.coeus.common.impl.rolodex" />
+    <context:component-scan base-package="org.kuali.coeus.common.impl.person" />
+    <context:component-scan base-package="org.kuali.coeus.common.impl.editable" />
     <context:component-scan base-package="org.kuali.kra.service.impl" />
     <!-- Need to scan this package to pick up on Autowired and Qualifier once configured with @Component-->
     <context:component-scan base-package="org.kuali.kra.personmasschange.service.impl" />
-
-    <!--  -->
 
     <bean id="personMassChangeModuleConfiguration" parent="personMassChangeModuleConfiguration-parentBean" />
     <bean id="personMassChangeModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
@@ -41,34 +41,7 @@
         </property>
     </bean>
     
-    <!-- Autowired -->
-    <!-- 
-    <bean id="awardPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.AwardPersonMassChangeServiceImpl">
-        <property name="kcPersonService" ref="kcPersonService" />
-    </bean>
-    
-    <bean id="institutionalProposalPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.InstitutionalProposalPersonMassChangeServiceImpl">
-        <property name="kcPersonService" ref="kcPersonService" />
-    </bean>
-    
-    <bean id="proposalLogPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProposalLogPersonMassChangeServiceImpl">
-        <property name="kcPersonService" ref="kcPersonService" />
-    </bean>
-    
-    <bean id="subawardPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.SubawardPersonMassChangeServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
-    <bean id="negotiationPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.NegotiationPersonMassChangeServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="kcPersonService" ref="kcPersonService" />
-    </bean>
-    
-    <bean id="unitAdministratorPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.UnitAdministratorPersonMassChangeServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    -->
-    
+    <!-- Ready for Component annotation, person editable autowiring -->
     <bean id="iacucProtocolPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.IacucProtocolPersonMassChangeServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="personEditableService" ref="personEditableService" />
@@ -85,7 +58,7 @@
         <property name="personEditableService" ref="personEditableService" />
     </bean>
     
-    <!-- TODO: Annotate and Autowire protocolPersonTrainingService, personEditableService -->
+    <!-- TODO: Annotate and Autowire protocolPersonTrainingService -->
     <bean id="protocolPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProtocolPersonMassChangeServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="personEditableService" ref="personEditableService" />

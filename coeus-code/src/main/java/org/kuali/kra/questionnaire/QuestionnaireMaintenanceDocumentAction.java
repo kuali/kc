@@ -15,13 +15,15 @@
  */
 package org.kuali.kra.questionnaire;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
+import org.kuali.coeus.common.framework.version.VersioningService;
+import org.kuali.coeus.common.impl.version.VersioningServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -29,8 +31,6 @@ import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.questionnaire.question.Question;
-import org.kuali.kra.service.VersioningService;
-import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;

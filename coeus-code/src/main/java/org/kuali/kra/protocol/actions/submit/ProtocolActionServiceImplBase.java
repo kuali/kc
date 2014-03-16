@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.kra.drools.util.DroolsRuleHandler;
+import org.kuali.kra.protocol.drools.util.DroolsRuleHandler;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDao;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;

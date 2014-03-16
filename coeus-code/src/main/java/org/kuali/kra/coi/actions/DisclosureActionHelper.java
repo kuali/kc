@@ -15,9 +15,10 @@
  */
 package org.kuali.kra.coi.actions;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.*;
@@ -25,7 +26,6 @@ import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol.questionnaire;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CoeusSubModule;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;

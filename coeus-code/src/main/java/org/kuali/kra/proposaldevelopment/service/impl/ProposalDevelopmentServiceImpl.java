@@ -15,11 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
@@ -29,8 +32,6 @@ import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
@@ -56,7 +57,6 @@ import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.kra.service.UnitService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;

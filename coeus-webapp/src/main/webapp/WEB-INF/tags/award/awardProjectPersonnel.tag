@@ -237,7 +237,7 @@
     	                		<c:out value="${awardContact.contactOrganizationName}" />&nbsp;
     	                		<c:choose>
     		                		<c:when test="${awardContact.employee}">
-    		                			<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="award_person.orgNumber_${awardContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
+    		                			<kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="award_person.orgNumber_${awardContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
     		                		</c:when>
     		                		<c:otherwise>
     		                			<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />

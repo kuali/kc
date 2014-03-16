@@ -16,9 +16,9 @@
 package org.kuali.kra.subaward.bo;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachment;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.KcAttachment;
-import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;

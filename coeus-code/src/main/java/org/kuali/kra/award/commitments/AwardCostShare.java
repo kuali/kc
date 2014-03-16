@@ -307,7 +307,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardCostShareId = null;

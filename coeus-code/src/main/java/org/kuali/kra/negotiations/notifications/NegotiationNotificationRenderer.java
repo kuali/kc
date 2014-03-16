@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.notifications;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.negotiations.bo.Negotiation;

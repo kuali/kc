@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Unit;
 
 public class InstitutionalProposalUnit extends KcPersistableBusinessObjectBase {
 

@@ -23,7 +23,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-import static org.apache.commons.lang.StringUtils.substringAfterLast;
+import static org.apache.commons.lang3.StringUtils.substringAfterLast;
 import static org.kuali.kra.infrastructure.Constants.EMPTY_STRING;
 
 public class AddBudgetVersionEvent extends KcDocumentEventBase {

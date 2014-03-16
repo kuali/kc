@@ -16,10 +16,10 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.service.KcPersonService;
 
 public class ProposalRoleTemplate extends KcPersistableBusinessObjectBase {
 

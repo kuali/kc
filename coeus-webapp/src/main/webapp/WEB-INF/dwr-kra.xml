@@ -24,7 +24,7 @@
 	<allow>
 		<filter class="org.kuali.coeus.sys.framework.view.KcDWRFilter"/>
 		
-		<convert converter="bean" match="org.kuali.kra.bo.Sponsor">
+		<convert converter="bean" match="org.kuali.coeus.common.framework.sponsor.Sponsor">
 			<param name="include" value="sponsorCode,sponsorName,rolodexId" />
 		</convert>
 		<convert converter="bean" match="org.kuali.kra.budget.personnel.JobCode">
@@ -33,13 +33,13 @@
 		<convert converter="bean" match="org.kuali.coeus.common.framework.person.KcPerson">
 			<param name="include" value="fullName,unit,phoneNumber,emailAddress,personId" />			
 		</convert>	
-		<convert converter="bean" match="org.kuali.kra.bo.Unit">
+		<convert converter="bean" match="org.kuali.coeus.common.framework.unit.Unit">
 			<param name="include" value="unitNumber,unitName" />			
 		</convert>	
 		<convert converter="bean" match="org.kuali.coeus.common.framework.rolodex.Rolodex">
 			<param name="include" value="fullName,rolodexId,unit,emailAddress,phoneNumber,organization,addressLine1,addressLine2,addressLine3,city,state,countryCode,postalCode" />
 		</convert>
-        <convert converter="bean" match="org.kuali.kra.bo.Organization">
+        <convert converter="bean" match="org.kuali.coeus.common.framework.org.Organization">
             <param name="include" value="organizationId,organizationName" />
         </convert>
         <convert converter="bean" match="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource">
@@ -119,10 +119,6 @@
 			<include method="getFrequencyCodes" />
 			<include method="getFrequencyBaseCodes" />
 		</create>
-		<create creator="spring" javascript="ProposalPersonService">
-            <param name="beanName" value="proposalPersonService" />
-            <include method="getNewStateList" />
-        </create>
 		<create creator="spring" javascript="AwardPaymentAndInvoicesService">
 			<param name="beanName" value="awardPaymentAndInvoicesService" />			
 			<include method="getEncodedValidAwardBasisPaymentsByAwardTypeCode" />

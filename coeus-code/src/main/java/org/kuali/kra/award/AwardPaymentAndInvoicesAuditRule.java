@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -23,7 +23,7 @@ import org.kuali.kra.award.home.ValidAwardBasisPayment;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.service.AwardPaymentAndInvoicesService;
+import org.kuali.kra.award.service.AwardPaymentAndInvoicesService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;

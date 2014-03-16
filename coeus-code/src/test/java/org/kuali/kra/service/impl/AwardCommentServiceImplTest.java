@@ -25,6 +25,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.kra.award.service.impl.AwardCommentServiceImpl;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

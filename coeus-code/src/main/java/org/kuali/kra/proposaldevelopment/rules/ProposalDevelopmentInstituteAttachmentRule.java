@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -27,7 +28,6 @@ import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.ReplaceInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ReplaceInstituteAttachmentEvent;
-import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;

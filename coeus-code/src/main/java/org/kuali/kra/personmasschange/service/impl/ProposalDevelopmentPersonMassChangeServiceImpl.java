@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.ProposalDevelopmentPersonMassChangeService;
@@ -23,7 +24,6 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
-import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.springframework.stereotype.Component;
 

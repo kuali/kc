@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.coi.maintenance;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CoeusSubModule;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

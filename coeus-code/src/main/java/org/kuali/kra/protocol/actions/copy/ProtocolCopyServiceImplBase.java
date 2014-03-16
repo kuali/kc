@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.protocol.actions.copy;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -34,7 +35,6 @@ import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;

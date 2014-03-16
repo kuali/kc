@@ -2,8 +2,8 @@
 
   <bean id="UnitAdministratorMaintenanceDocument" parent="UnitAdministratorMaintenanceDocument-parentBean"/>
   <bean id="UnitAdministratorMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministrator"/>
-    <property name="maintainableClass" value="org.kuali.kra.bo.UnitAdministratorMaintainableImpl"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministrator"/>
+    <property name="maintainableClass" value="org.kuali.coeus.common.impl.unit.admin.UnitAdministratorMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="UnitAdministratorMaintenanceDocument-EditUnitAdministrator"/>

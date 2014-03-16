@@ -16,12 +16,13 @@
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
@@ -56,7 +57,6 @@ import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -1080,8 +1080,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 	        FormMappingInfo info1 = null;
 	        FormMappingInfo info2 = null;
 	        try {
-	            info1 = new FormMappingLoader().getFormInfo(s2sOppForms1.getOppNameSpace()); 
-	            info2 = new FormMappingLoader().getFormInfo(s2sOppForms2.getOppNameSpace());
+	            info1 = new FormMappingLoader().getFormInfo(s2sOppForms1.getS2sOppFormsId().getOppNameSpace());
+	            info2 = new FormMappingLoader().getFormInfo(s2sOppForms2.getS2sOppFormsId().getOppNameSpace());
 	        }
 	        catch (S2SGeneratorNotFoundException e) {
 	        }

@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.sys.impl.scheduling;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.kuali.coeus.sys.framework.scheduling.ScheduleService;
 import org.kuali.coeus.sys.framework.scheduling.expr.*;
 import org.kuali.coeus.sys.framework.scheduling.seq.DefaultScheduleSequence;

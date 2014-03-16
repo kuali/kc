@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.protocol.protocol.funding.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
@@ -34,7 +35,6 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.protocol.protocol.ProtocolNumberServiceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.bo.DocumentHeader;

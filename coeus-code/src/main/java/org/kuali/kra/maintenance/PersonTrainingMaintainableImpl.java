@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.maintenance;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.PersonTraining;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.attr.PersonTraining;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.KNSServiceLocator;

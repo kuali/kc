@@ -15,9 +15,9 @@
  */
 package org.kuali.coeus.common.notification.impl;
 
+import org.kuali.coeus.common.framework.mail.EmailAttachment;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.exception.UnknownRoleException;
-import org.kuali.kra.util.EmailAttachment;
 
 import java.util.List;
 

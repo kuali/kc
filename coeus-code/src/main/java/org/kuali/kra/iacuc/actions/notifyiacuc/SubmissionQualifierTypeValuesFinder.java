@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.notifyiacuc;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType;
@@ -57,7 +57,7 @@ public class SubmissionQualifierTypeValuesFinder extends IacucActionsKeyValuesBa
             }
         } else {
             for (IacucValidProtoSubTypeQual typeQual : validProtoSubTypeQuals) {
-                keyValues.add(new ConcreteKeyValue(typeQual.getIacucSubmissionTypeQualCode(), typeQual.getIacucSubmissionTypeQualifier()
+                keyValues.add(new ConcreteKeyValue(typeQual.getSubmissionTypeQualCode(), typeQual.getSubmissionTypeQualifier()
                         .getDescription()));
             }
         }

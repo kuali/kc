@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.lookup;
 
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.award.home.ContactType;
 

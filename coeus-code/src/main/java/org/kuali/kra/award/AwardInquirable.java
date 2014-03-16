@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.award;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.AwardHierarchyUIService;
+import org.kuali.kra.award.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.kns.web.ui.Field;

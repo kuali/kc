@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.Budget.FiscalYearSummary;

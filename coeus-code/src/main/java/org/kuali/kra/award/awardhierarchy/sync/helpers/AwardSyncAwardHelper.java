@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.helpers;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.home.Award;

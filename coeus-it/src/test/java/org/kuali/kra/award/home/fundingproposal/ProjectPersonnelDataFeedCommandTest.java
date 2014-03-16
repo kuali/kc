@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.CreditType;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.workflow;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.org.OrganizationService;
+import org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.OrganizationCorrespondent;
-import org.kuali.kra.service.OrganizationService;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
 import org.kuali.rice.kew.api.rule.RoleName;

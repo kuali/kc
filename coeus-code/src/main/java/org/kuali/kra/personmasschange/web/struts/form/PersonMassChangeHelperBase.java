@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.personmasschange.web.struts.form;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
-import org.kuali.kra.service.KcPersonService;
 
 import java.io.Serializable;
 

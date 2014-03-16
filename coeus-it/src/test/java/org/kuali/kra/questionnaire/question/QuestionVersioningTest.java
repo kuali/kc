@@ -18,8 +18,8 @@ package org.kuali.kra.questionnaire.question;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.service.VersioningService;
-import org.kuali.kra.service.impl.VersioningServiceImpl;
+import org.kuali.coeus.common.framework.version.VersioningService;
+import org.kuali.coeus.common.impl.version.VersioningServiceImpl;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import static org.junit.Assert.assertEquals;

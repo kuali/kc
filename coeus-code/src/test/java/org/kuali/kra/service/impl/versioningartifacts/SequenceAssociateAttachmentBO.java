@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import org.kuali.kra.SeparatelySequenceableAssociate;
+import org.kuali.coeus.common.framework.sequence.associate.SeparatelySequenceableAssociate;
 
 import java.util.Random;
 
@@ -45,14 +45,14 @@ public class SequenceAssociateAttachmentBO implements SeparatelySequenceableAsso
     }
     
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         setAttachmentId(null);
     }
     
     /**
-     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#getSequenceNumber()
      */
     public Integer getSequenceNumber() {
         return sequenceNumber;

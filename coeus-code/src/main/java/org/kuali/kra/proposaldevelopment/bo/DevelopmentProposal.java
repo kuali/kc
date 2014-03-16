@@ -15,12 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.config.DescriptorCustomizer;
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.CompositeDescriptorCustomizer;
 import org.kuali.coeus.sys.framework.persistence.FilterByMapDescriptorCustomizer;
@@ -49,19 +52,15 @@ import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
-import org.kuali.rice.krad.data.jpa.eclipselink.PortableSequenceGenerator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.AutoPopulatingList;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.*;
 
-/**
- * This class...
- */
 @Entity
 @Table(name = "EPS_PROPOSAL")
 @Customizer(DevelopmentProposal.DevelopmentProposalCustomizer.class)
@@ -212,8 +211,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<PropScienceKeyword> propScienceKeywords;
 
-    @OneToMany(mappedBy = "developmentProposal")
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
     @OrderBy("ordinalPosition")
     private List<ProposalPerson> proposalPersons;
 
@@ -221,8 +219,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<S2sOppForms> s2sOppForms;
 
-    @OneToOne(targetEntity = S2sOpportunity.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
+    @OneToOne(mappedBy = "developmentProposal", cascade = CascadeType.ALL)
     private S2sOpportunity s2sOpportunity;
 
     @OneToMany(targetEntity = S2sAppSubmission.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
@@ -328,8 +325,8 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Transient
     private Boolean grantsGovSelectFlag = Boolean.FALSE;
 
-    @ManyToOne(targetEntity = ProposalDevelopmentDocument.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER")
+    @OneToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
     private ProposalDevelopmentDocument proposalDocument;
 
     @Column(name = "IS_HIERARCHY")
@@ -537,9 +534,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     public DevelopmentProposal() {
         super();
         setProposalStateTypeCode(ProposalState.IN_PROGRESS);
-        propScienceKeywords = new AutoPopulatingList<PropScienceKeyword>(PropScienceKeyword.class);
+        propScienceKeywords = new ArrayList<PropScienceKeyword>();
         newDescription = getDefaultNewDescription();
-        propSpecialReviews = new AutoPopulatingList<ProposalSpecialReview>(ProposalSpecialReview.class);
+        propSpecialReviews = new ArrayList<ProposalSpecialReview>();
         proposalPersons = new ArrayList<ProposalPerson>();
         nextProposalPersonNumber = Integer.valueOf(1);
         narratives = new ArrayList<Narrative>();
@@ -551,9 +548,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         investigators = new ArrayList<ProposalPerson>();
         s2sOppForms = new ArrayList<S2sOppForms>();
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
-        proposalChangedDataList = new AutoPopulatingList<ProposalChangedData>(ProposalChangedData.class);
+        proposalChangedDataList = new ArrayList<ProposalChangedData>();
         proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
-        budgetChangedDataList = new AutoPopulatingList<BudgetChangedData>(BudgetChangedData.class);
+        budgetChangedDataList = new ArrayList<BudgetChangedData>();
         budgetChangeHistory = new TreeMap<String, List<BudgetChangedData>>();
         hierarchyStatus = HierarchyStatusConstants.None.code();
         hierarchyStatusName = HierarchyStatusConstants.None.description();
@@ -1416,10 +1413,8 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      */
     public void addProposalPerson(ProposalPerson p) {
         p.setProposalPersonNumber(this.getProposalDocument().getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER));
-        if (p.getProposalPersonExtendedAttributes() != null && p.getProposalPersonExtendedAttributes().getProposalPersonNumber() == null) {
-            p.getProposalPersonExtendedAttributes().setProposalPersonNumber(p.getProposalPersonNumber());
-        }
         p.setDevelopmentProposal(this);
+        p.setProposalNumber(getProposalNumber());
         getProposalPersons().add(p);
     }
 

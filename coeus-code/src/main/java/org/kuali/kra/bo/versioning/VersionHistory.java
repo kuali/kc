@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.bo.versioning;
 
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.krad.util.ObjectUtils;
 

@@ -16,10 +16,12 @@
 package org.kuali.kra.award.awardhierarchy;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.core.proxy.ProxyHelper;
+import org.kuali.coeus.common.framework.version.VersionException;
+import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.AwardAmountInfoService;
@@ -42,9 +44,7 @@ import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;

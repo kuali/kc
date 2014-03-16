@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.service.impl;
 
+import org.kuali.coeus.common.framework.version.VersionException;
+import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
-import org.kuali.kra.service.VersionException;
-import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 

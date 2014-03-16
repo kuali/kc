@@ -22,6 +22,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -52,12 +53,17 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
     @Column(name = "DOCUMENT_NUMBER")
     private String documentNumber;
 
-    @OneToOne(targetEntity = DocumentHeader.class, orphanRemoval = true)
-    @PrimaryKeyJoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOC_HDR_ID")
+    @Transient
     private DocumentHeader documentHeader;
 
     public BudgetDocumentVersion() {
         budgetVersionOverviews = new ArrayList<BudgetVersionOverview>();
+    }
+
+    @Override
+    protected void postLoad() {
+        super.postLoad();
+        documentHeader = KRADServiceLocatorWeb.getDocumentHeaderService().getDocumentHeaderById(documentNumber);
     }
 
     /**
@@ -70,7 +76,7 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
 
     /**
      * Sets the budgetVersionOverviews attribute value.
-     * @param budgetVersionOverviews The budgetVersionOverviews to set.
+     * @param budgets The budgetVersionOverviews to set.
      */
     public void setBudgetVersionOverviews(List<BudgetVersionOverview> budgets) {
         this.budgetVersionOverviews = budgets;
@@ -98,7 +104,7 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
 
     /**
      * Sets the parentDocumentKey attribute value.
-     * @param parentDocumentKey The parentDocumentKey to set.
+     * @param parentDocumentNumber The parentDocumentKey to set.
      */
     public void setParentDocumentKey(String parentDocumentNumber) {
         this.parentDocumentKey = parentDocumentNumber;
@@ -123,11 +129,6 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
         return false;
     }
 
-    /**
-     * This method...
-     * @param budgetVersionOverview
-     * @return
-     */
     public Budget findBudget() {
         DocumentService docService = KcServiceLocator.getService(DocumentService.class);
         try {

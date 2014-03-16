@@ -15,14 +15,19 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.org.OrganizationService;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
+import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -30,9 +35,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.OrganizationService;
-import org.kuali.kra.service.UnitService;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -991,27 +993,27 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     }
     /**
-     * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#incrementSequenceNumber()
      */
     public void incrementSequenceNumber() {
         this.sequenceNumber++;
     }
     /**
-     * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
+     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getOwnerSequenceNumber()
      */
     @Override
     public void setSequenceOwner(SubAward newlyVersionedOwner) {
         // TODO Auto-generated method stub
     }
     /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
      */
     @Override
     public SubAward getSequenceOwner() {
         return this;
     }
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
      */
     @Override
     public void resetPersistenceState() {

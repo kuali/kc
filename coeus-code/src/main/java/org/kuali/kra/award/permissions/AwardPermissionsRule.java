@@ -16,7 +16,7 @@
 package org.kuali.kra.award.permissions;
 
 import org.kuali.coeus.common.permissions.impl.rules.PermissionsRuleBase;
-import org.kuali.kra.infrastructure.AwardRoleConstants;
+import org.kuali.kra.award.infrastructure.AwardRoleConstants;
 
 /**
  * Business Rule to determine the legality of modifying the access

@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
@@ -42,7 +43,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.kra.external.budget.BudgetAdjustmentClient;
+import org.kuali.kra.budget.external.budget.BudgetAdjustmentClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -51,7 +52,6 @@ import org.kuali.kra.proposaldevelopment.budget.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants;
-import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -246,7 +246,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             Iterator<BudgetLineItem> iter = period.getBudgetLineItems().iterator();
             while (iter.hasNext()) {
                 BudgetLineItem item = iter.next();
-                if (org.apache.commons.lang.ObjectUtils.equals(subAward.getSubAwardNumber(), item.getSubAwardNumber())) {
+                if (org.apache.commons.lang3.ObjectUtils.equals(subAward.getSubAwardNumber(), item.getSubAwardNumber())) {
                     iter.remove();
                 }
             }
@@ -474,7 +474,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         
         for (AwardBudgetLimit limit : awardLimits) {
             AwardBudgetLimit budgetLimit = getBudgetLimit(limit.getLimitType(), budgetLimits);
-            if (!org.apache.commons.lang.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
+            if (!org.apache.commons.lang3.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
                 return false;
             }
         }

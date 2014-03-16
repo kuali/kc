@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.auth.task.Task;
@@ -98,12 +98,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     private static final long serialVersionUID = 2958631745964610527L;
 
-    @OneToOne(mappedBy = "proposalDocument")
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
+    @OneToOne(mappedBy = "proposalDocument", cascade = CascadeType.ALL)
     private DevelopmentProposal developmentProposal;
 
     @OneToMany(targetEntity = BudgetDocumentVersion.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "PARENT_DOCUMENT_KEY", insertable = false, updatable = false)
+    @JoinColumn(name = "PARENT_DOCUMENT_KEY", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
     private List<BudgetDocumentVersion> budgetDocumentVersions;
 
     @Transient

@@ -16,8 +16,8 @@
 package org.kuali.kra.irb.questionnaire;
 
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;

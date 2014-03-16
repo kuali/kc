@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.rates;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;

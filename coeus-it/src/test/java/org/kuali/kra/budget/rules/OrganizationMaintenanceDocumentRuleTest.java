@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.budget.rules;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.org.OrganizationYnq;
+import org.kuali.coeus.common.impl.org.OrganizationMaintenanceDocumentRule;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
-import org.kuali.kra.rules.OrganizationMaintenanceDocumentRule;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;

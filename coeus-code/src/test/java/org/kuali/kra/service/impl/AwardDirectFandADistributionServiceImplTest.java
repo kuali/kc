@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.service.impl.AwardDirectFandADistributionServiceImpl;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 
 import java.sql.Date;

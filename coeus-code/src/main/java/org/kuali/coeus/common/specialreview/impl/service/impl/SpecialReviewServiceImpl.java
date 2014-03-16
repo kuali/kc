@@ -15,8 +15,8 @@
  */
 package org.kuali.coeus.common.specialreview.impl.service.impl;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
 import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;
 import org.kuali.kra.award.home.Award;
