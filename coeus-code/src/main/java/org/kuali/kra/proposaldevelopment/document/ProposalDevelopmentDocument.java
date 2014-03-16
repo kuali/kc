@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.document;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.auth.task.Task;
@@ -84,7 +86,7 @@ import java.util.Map;
 @Table(name = "EPS_PROPOSAL_DOCUMENT")
 public class ProposalDevelopmentDocument extends BudgetParentDocument<DevelopmentProposal> implements Copyable, SessionDocument, Permissionable, KrmsRulesContext {
 
-    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocument.class);
+    private static Log LOG = LogFactory.getLog(ProposalDevelopmentDocument.class);
 
     public static final String DOCUMENT_TYPE_CODE = "PRDV";
 
@@ -96,35 +98,32 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     private static final String HIERARCHY_CHILD_SPLITNODE_QUESTION = "isHierarchyChild";
 
-    private static final long serialVersionUID = 2958631745964610527L;
+    @Column(name = "PROPOSAL_DELETED")
+    @Convert(converter = BooleanYNConverter.class)
+    private Boolean proposalDeleted = Boolean.FALSE;
 
     @OneToOne(mappedBy = "proposalDocument", cascade = CascadeType.ALL)
     private DevelopmentProposal developmentProposal;
 
-    @OneToMany(targetEntity = BudgetDocumentVersion.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "PARENT_DOCUMENT_KEY", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
     private List<BudgetDocumentVersion> budgetDocumentVersions;
 
-    @Transient
-    private transient Boolean allowsNoteAttachments;
-
-    //used to indicate if the proposal has been deleted 
-    @Column(name = "PROPOSAL_DELETED")
-    @Convert(converter = BooleanYNConverter.class)
-    private boolean proposalDeleted;
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
+    private List<CustomAttributeDocValue> customDataList;
 
     /* Currently this property is just used for UI display.
-     * If it becomes part of the domain, it should probably move to DevelopmentProposal.java
-     */
+ * If it becomes part of the domain, it should probably move to DevelopmentProposal.java
+ */
     @Transient
     private String institutionalProposalNumber;
 
     @Transient
     private String saveXmlFolderName;
 
-    @OneToMany(targetEntity = CustomAttributeDocValue.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
-    private List<CustomAttributeDocValue> customDataList;
+    @Transient
+    private transient Boolean allowsNoteAttachments;
 
     public ProposalDevelopmentDocument() {
         super();

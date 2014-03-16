@@ -289,9 +289,9 @@ AbstractResearchAndRelatedStream {
     }
 
     /**
-     * @param Start
+     * @param pFrom
      *            Date
-     * @param End
+     * @param pTo
      *            Date
      * @return Difference of the Months of the Dates.
      */
@@ -861,7 +861,7 @@ AbstractResearchAndRelatedStream {
                             indcost.rate = budgetRateAndBase.getAppliedRate();
                             indcost.baseAmount = budgetRateAndBase.getBaseCost().add(budgetRateAndBase.getBaseCostSharing());
                             indcost.fund = budgetRateAndBase.getCalculatedCost().add(budgetRateAndBase.getCalculatedCostSharing());
-                            indcost.rateTypeDescription = budgetRateAndBase.getRateClass().getRateClassTypeDescription();
+                            indcost.rateTypeDescription = budgetRateAndBase.getRateClass().getRateClassTypeT().getDescription();
                             ohAmountsMap.put(key, indcost);
                         }else{
                             IndirectCostDetailsBean indcost = ohAmountsMap.get(key);
@@ -870,29 +870,6 @@ AbstractResearchAndRelatedStream {
                         }
                     }
                 }
-                //                }else{
-                    //                    for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelLineItems) {
-                //                        List<BudgetPersonnelRateAndBase> budgetRateAndBases = budgetPersonnelDetails.getBudgetPersonnelRateAndBaseList();
-                //                        for (BudgetPersonnelRateAndBase budgetRateAndBase : budgetRateAndBases) {
-                //                            String key = budgetRateAndBase.getRateClassCode()+budgetRateAndBase.getRateTypeCode();
-                //                            if(budgetRateAndBase.getRateClass().getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())){
-                //                                if(key==null){
-                //                                    IndirectCostDetailsBean indcost = new IndirectCostDetailsBean();
-                //                                    indcost.rate = budgetRateAndBase.getAppliedRate();
-                //                                    indcost.baseAmount = budgetRateAndBase.getSalaryRequested().add(budgetRateAndBase.getBaseCostSharing());
-                //                                    indcost.fund = budgetRateAndBase.getCalculatedCost().add(budgetRateAndBase.getCalculatedCostSharing());
-                //                                    indcost.rateTypeDescription = budgetRateAndBase.getRateClass().getRateClassTypeDescription();
-                //                                    ohAmountsMap.put(key, indcost);
-                //                                }else{
-                //                                    IndirectCostDetailsBean indcost = ohAmountsMap.get(key);
-                //                                    indcost.baseAmount = indcost.baseAmount.add(budgetRateAndBase.getSalaryRequested()).add(budgetRateAndBase.getBaseCostSharing());
-                //                                    indcost.fund = indcost.fund.add(budgetRateAndBase.getCalculatedCost()).add(budgetRateAndBase.getCalculatedCostSharing());
-                //                                }
-                //                            }
-                //                        }
-                //                        
-                //                    }
-                //                }
             }
         }
         for (Iterator<String> iterator = ohAmountsMap.keySet().iterator(); iterator.hasNext();) {
@@ -999,7 +976,7 @@ AbstractResearchAndRelatedStream {
         }
         /**
          * Sets the salary attribute value.
-         * @param salary The salary to set.
+         * @param fund The salary to set.
          */
         public void setFund(BudgetDecimal fund) {
             this.fund = fund;

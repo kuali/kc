@@ -715,13 +715,6 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
         protocolType.setSpeciesArray(speciesTypeList.toArray(new SpeciesType[0]));
     }
 
-    /**
-     * Sets the exceptions.
-     * 
-     * @param iacucProtocolExceptionList
-     * @param speciesType
-     * @return     
-     */
     private void setExceptions(IacucProtocol protocol, SpeciesType speciesType) {       
         List<ExceptionType> exceptionTypeList = new ArrayList<ExceptionType>();
         for (IacucProtocolException iacucProtocolException : protocol.getIacucProtocolExceptions()) {
@@ -851,7 +844,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
 
     /**
      * Sets the committeeXmlStream attribute value.
-     * @param committeeXmlStream The committeeXmlStream to set.
+     * @param comitteeXmlStream The committeeXmlStream to set.
      */
     public void setCommitteeXmlStream(IacucCommitteeXmlStream comitteeXmlStream) {
         this.committeeXmlStream = comitteeXmlStream;

@@ -484,9 +484,7 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * This method checks if any BudgetPeriod LineItem's have Justification
-     * @param budgetDocument
-     * @return
+     * This method checks if any BudgetPeriod LineItem's have Justification.
      */
     public boolean areLineItemJustificationsPresent() {
         boolean justificationFound = false;

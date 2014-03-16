@@ -38,7 +38,6 @@ import java.sql.Date;
 import java.util.*;
 
 /**
- * This test is broken and has been for some time.
  * 
  * Since the Budget object has been refactored out of the BudgetDocument, and the DevelopmentProposal has been refactored from the 
  * ProposalDevelopmentDocument, the BudgetRatesService should be refactored to use those objects instead of the xxxDocument objects. 

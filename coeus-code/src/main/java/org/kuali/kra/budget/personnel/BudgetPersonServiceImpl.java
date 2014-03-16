@@ -144,7 +144,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     /**
      * 
      * Determines if an appointment is applicable to the current budget, currently
-     * based soley on whether the budget period matches some part of the appointment
+     * based solely on whether the budget period matches some part of the appointment
      * period
      * @param budget
      * @param appointment
