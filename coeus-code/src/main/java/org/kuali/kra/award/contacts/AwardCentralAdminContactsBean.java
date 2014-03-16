@@ -18,10 +18,10 @@ package org.kuali.kra.award.contacts;
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.bo.UnitAdministrator;
-import org.kuali.kra.service.UnitService;
 
 import java.io.Serializable;
 import java.util.ArrayList;

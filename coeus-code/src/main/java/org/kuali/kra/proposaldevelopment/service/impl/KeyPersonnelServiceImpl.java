@@ -20,6 +20,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
+import org.kuali.coeus.common.framework.person.attr.PersonBiosketch;
+import org.kuali.coeus.common.framework.person.attr.PersonDegree;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
@@ -469,11 +474,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
     public boolean isInvestigator(ProposalPerson person) {
-        if(isNotBlank(person.getOptInUnitStatus()) && (person.getOptInUnitStatus().equals("Y")))
-        {
+        if (person.getOptInUnitStatus()) {
             return isPrincipalInvestigator(person) || isCoInvestigator(person) || isKeyPerson(person);
-        }else
-        {
+        } else {
             return isPrincipalInvestigator(person) || isCoInvestigator(person);
         }
     }

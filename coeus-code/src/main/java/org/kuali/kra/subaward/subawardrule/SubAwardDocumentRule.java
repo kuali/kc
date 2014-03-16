@@ -18,14 +18,14 @@ package org.kuali.kra.subaward.subawardrule;
 
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ResearchDocumentBaseAuditRule;
 import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -280,7 +280,7 @@ SubAwardFundingSourceRule,
 
     @Override
     public boolean processRunAuditBusinessRules(Document document){
-        boolean retval = new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
+        boolean retval = new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
         retval &= new SubAwardAuditRule().processRunAuditBusinessRules(document);
         retval &= new SubAwardFinancialAuditRule().processRunAuditBusinessRules(document);
         return retval;

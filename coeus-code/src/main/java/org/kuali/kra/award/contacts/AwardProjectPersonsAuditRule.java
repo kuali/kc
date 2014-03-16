@@ -187,7 +187,7 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
                             || (person.getRolodexId() != null && ObjectUtils.equals(person.getRolodexId(), propPerson.getRolodexId()))) {
                         if (StringUtils.equals(propPerson.getProposalPersonRoleId(), Constants.CO_INVESTIGATOR_ROLE)
                                 || StringUtils.equals(propPerson.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
-                                || StringUtils.equals(propPerson.getOptInCertificationStatus(), "Y")) {
+                                || propPerson.getOptInCertificationStatus()) {
                             personFoundCheck = true;
                             break;
                         } //otherwise they are not certified

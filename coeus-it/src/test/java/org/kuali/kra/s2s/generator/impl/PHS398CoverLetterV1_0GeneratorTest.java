@@ -57,6 +57,7 @@ public class PHS398CoverLetterV1_0GeneratorTest extends S2STestBase<PHS398CoverL
         narrativeAttachment.setNarrativeData(narrativePdf);
         narrativeAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrativeAttachment.setModuleNumber(1);
+        narrativeAttachment.setFileName("exercise1");
         saveBO(narrativeAttachment);
 
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();

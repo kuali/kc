@@ -16,11 +16,11 @@
 package org.kuali.kra.s2s.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.S2sRevisionType;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -35,7 +35,8 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase {
     private String cfdaNumber;
 
     @Column(name = "CLOSING_DATE")
-    private Timestamp closingDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar closingDate;
 
     @Column(name = "COMPETETION_ID")
     private String competetionId;
@@ -44,7 +45,8 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase {
     private String instructionUrl;
 
     @Column(name = "OPENING_DATE")
-    private Timestamp openingDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar openingDate;
 
     @Column(name = "OPPORTUNITY")
     @Lob
@@ -83,6 +85,9 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase {
     @Convert(converter = BooleanYNConverter.class)
     private boolean multiProject;
 
+    @Column(name = "PROVIDER")
+    private String providerCode;
+
     @OneToMany(targetEntity = S2sOppForms.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<S2sOppForms> s2sOppForms;
@@ -95,12 +100,13 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase {
     @JoinColumn(name = "REVISION_CODE", referencedColumnName = "S2S_REVISION_TYPE_CODE", insertable = false, updatable = false)
     private S2sRevisionType s2sRevisionType;
 
-    @Column(name = "PROVIDER")
-    private String providerCode;
-
     @ManyToOne(targetEntity = S2sProvider.class, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "PROVIDER", referencedColumnName = "CODE", insertable = false, updatable = false)
     private S2sProvider s2sProvider;
+
+    @OneToOne(targetEntity = DevelopmentProposal.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    private DevelopmentProposal developmentProposal;
 
     public String getProposalNumber() {
         return proposalNumber;
@@ -118,11 +124,11 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase {
         this.cfdaNumber = cfdaNumber;
     }
 
-    public Timestamp getClosingDate() {
+    public Calendar getClosingDate() {
         return closingDate;
     }
 
-    public void setClosingDate(Timestamp closingDate) {
+    public void setClosingDate(Calendar closingDate) {
         this.closingDate = closingDate;
     }
 
@@ -142,11 +148,11 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase {
         this.instructionUrl = instructionUrl;
     }
 
-    public Timestamp getOpeningDate() {
+    public Calendar getOpeningDate() {
         return openingDate;
     }
 
-    public void setOpeningDate(Timestamp openingDate) {
+    public void setOpeningDate(Calendar openingDate) {
         this.openingDate = openingDate;
     }
 
@@ -287,5 +293,13 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase {
 
     public void setMultiProject(boolean multiProject) {
         this.multiProject = multiProject;
+    }
+
+    public DevelopmentProposal getDevelopmentProposal() {
+        return developmentProposal;
+    }
+
+    public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+        this.developmentProposal = developmentProposal;
     }
 }

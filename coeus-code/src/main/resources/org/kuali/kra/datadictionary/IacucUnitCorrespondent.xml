@@ -3,7 +3,7 @@
 	<import resource="classpath*:Correspondent.xml"/>
     <bean id="IacucUnitCorrespondent" parent="IacucUnitCorrespondent-parentBean" />
     <bean id="IacucUnitCorrespondent-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.IacucUnitCorrespondent" />
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.bo.IacucUnitCorrespondent" />
 		<property name="objectLabel" value="IACUC Unit Correspondent" />
         <property name="inquiryDefinition" >
             <ref bean="IacucUnitCorrespondent-inquiryDefinition" />
@@ -91,7 +91,7 @@
 
   <bean id="IacucUnitCorrespondent-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="IACUC Unit Correspondent Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.IacucUnitCorrespondent"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.bo.IacucUnitCorrespondent"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -140,7 +140,7 @@
     </bean>
 
   <bean id="IacucUnitCorrespondent-LookupView-parentBean" abstract="true" parent="Correspondent-LookupView-parentBean">
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.IacucUnitCorrespondent"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.bo.IacucUnitCorrespondent"/>
     <property name="headerText" value="IACUC Unit Correspondent Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

@@ -13,12 +13,12 @@ import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.TravelCosts
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
@@ -903,8 +903,8 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
             CoreFederalAgencyReceiptQualifiersType coreFederalAgencyReceiptQualifiersType) {
         coreFederalAgencyReceiptQualifiersType.setAgencyName(developmentProposal.getSponsor().getAcronym());
         if (developmentProposal.getS2sOpportunity() != null && developmentProposal.getS2sOpportunity().getOpeningDate() != null) {
-            coreFederalAgencyReceiptQualifiersType.setAgencyReceiptDate(getDateTimeService().getCalendar(developmentProposal
-                    .getS2sOpportunity().getOpeningDate()));
+            coreFederalAgencyReceiptQualifiersType.setAgencyReceiptDate(developmentProposal
+                    .getS2sOpportunity().getOpeningDate());
         }
     }
 

@@ -141,7 +141,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="personTraining" class-ref="org.kuali.kra.bo.PersonTraining" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="personTraining" class-ref="org.kuali.coeus.common.framework.person.attr.PersonTraining" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="personTrainingId"/>
 		</reference-descriptor>
 		<reference-descriptor name="iacucSpecies" class-ref="org.kuali.kra.iacuc.IacucSpecies" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -821,7 +821,7 @@
         <reference-descriptor name="protocolPerson" class-ref="org.kuali.kra.iacuc.personnel.IacucProtocolPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolPersonId"/>
         </reference-descriptor>
-        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="unitNumber"/>
         </reference-descriptor>
     </class-descriptor>
@@ -856,10 +856,10 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="ownedByUnit" />
         </reference-descriptor>
-        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="sponsorCode" />
         </reference-descriptor>
     </class-descriptor>
@@ -1047,7 +1047,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         
-        <reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="organizationId"/>
         </reference-descriptor>
         
@@ -1331,7 +1331,7 @@
 	    <field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="privateFlag" column="PRIVATE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="protocolPersonCanView" column="PROTOCOL_PERSON_CAN_VIEW_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none">
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.coeus.common.framework.attachment.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none">
             <foreignkey field-ref="fileId"/>
          </reference-descriptor>
 		 <reference-descriptor name="protocolOnlineReview" class-ref="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -1375,7 +1375,7 @@
             <foreignkey field-ref="typeCode"/>
         </reference-descriptor>
         
-        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none">
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.coeus.common.framework.attachment.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none">
             <foreignkey field-ref="fileId"/>
         </reference-descriptor>
         
@@ -1429,7 +1429,7 @@
             <foreignkey field-ref="typeCode"/>
         </reference-descriptor>
         
-        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none">
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.coeus.common.framework.attachment.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none">
             <foreignkey field-ref="fileId"/>
         </reference-descriptor>
         
@@ -1659,7 +1659,7 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.IacucOrganizationCorrespondent" table="IACUC_ORG_CORRESPONDENT">
+	<class-descriptor class="org.kuali.kra.iacuc.bo.IacucOrganizationCorrespondent" table="IACUC_ORG_CORRESPONDENT">
 		<field-descriptor name="correspondentId" column="CORRESPONDENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_ORG_CORRESP_ID" autoincrement="true" />
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="correspondentTypeCode" column="CORRESPONDENT_TYPE_CODE" jdbc-type="INTEGER" />
@@ -1670,7 +1670,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="organizationId"/>
 		</reference-descriptor>
 		<reference-descriptor name="correspondentType" class-ref="org.kuali.kra.iacuc.correspondence.IacucCorrespondentType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -1678,7 +1678,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.IacucUnitCorrespondent" table="IACUC_UNIT_CORRESPONDENT">
+	<class-descriptor class="org.kuali.kra.iacuc.bo.IacucUnitCorrespondent" table="IACUC_UNIT_CORRESPONDENT">
 		<field-descriptor name="correspondentId" column="CORRESPONDENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_UNIT_CORRESP_ID" autoincrement="true" />
 		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="correspondentTypeCode" column="CORRESPONDENT_TYPE_CODE" jdbc-type="INTEGER" />
@@ -1689,7 +1689,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
 		<reference-descriptor name="correspondentType" class-ref="org.kuali.kra.iacuc.correspondence.IacucCorrespondentType" auto-retrieve="false" auto-update="none" auto-delete="none"> 

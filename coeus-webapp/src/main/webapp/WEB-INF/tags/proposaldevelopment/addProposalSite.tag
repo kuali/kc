@@ -124,11 +124,11 @@
                 <kul:fieldShowErrorIcon />
             </c:if>
             <kra:section permission="modifyProposal">
-                <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
+                <kul:lookup boClassName="org.kuali.coeus.common.framework.org.Organization" 
                     fieldConversions="organizationId:${newProposalSiteField}.organizationId,organizationName:${newProposalSiteField}.locationName,address:${newProposalSiteField}.organization.address"
                     anchor="${currentTabIndex}"/> 
                 <kul:directInquiry
-                    boClassName="org.kuali.kra.bo.Organization"
+                    boClassName="org.kuali.coeus.common.framework.org.Organization"
                     inquiryParameters="${newProposalSiteField}.organizationId:organizationId"
                     anchor="${currentTabIndex}"/>
             </kra:section>

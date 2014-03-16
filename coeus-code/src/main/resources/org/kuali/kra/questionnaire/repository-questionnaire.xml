@@ -133,7 +133,7 @@
 
 <!--  Questionnaire maint related -->
 
-    <class-descriptor class="org.kuali.kra.bo.CoeusSubModule" table="COEUS_SUB_MODULE">
+    <class-descriptor class="org.kuali.coeus.common.framework.module.CoeusSubModule" table="COEUS_SUB_MODULE">
         <field-descriptor name="coeusSubModuleId" column="COEUS_SUB_MODULE_ID" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="subModuleCode" column="SUB_MODULE_CODE" jdbc-type="VARCHAR" />
@@ -158,7 +158,7 @@
         <collection-descriptor name="questionnaireUsage" proxy="true" element-class-ref="org.kuali.kra.questionnaire.QuestionnaireUsage" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="moduleItemCode"/>
         </collection-descriptor>
-        <collection-descriptor name="coeusSubModule" proxy="true" element-class-ref="org.kuali.kra.bo.CoeusSubModule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+        <collection-descriptor name="coeusSubModule" proxy="true" element-class-ref="org.kuali.coeus.common.framework.module.CoeusSubModule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="moduleCode"/>
         </collection-descriptor>
         <collection-descriptor name="protocolRelatedProjects" proxy="true" element-class-ref="org.kuali.kra.bo.ProtocolRelatedProjects" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
@@ -264,7 +264,7 @@
      -->   
 <!--  end Questionnaire -->
 
-	 <class-descriptor class="org.kuali.kra.bo.S2sOppFormQuestionnaire" table="S2S_FORM_TO_QUESTIONNAIRE">
+	 <class-descriptor class="org.kuali.kra.s2s.bo.S2sOppFormQuestionnaire" table="S2S_FORM_TO_QUESTIONNAIRE">
         <field-descriptor name="s2sOppFormQuestionnaireId" column="S2S_FORM_TO_QUESTIONNAIRE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
         <field-descriptor name="oppNameSpace" column="OPP_NAME_SPACE" jdbc-type="VARCHAR" />
         <field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR" />

@@ -54,7 +54,7 @@
                                         </kul:htmlControlAttribute>
                                     </div>
                                     &nbsp;
-                                    <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:disclosureHelper.newDisclosurePersonUnit.unitNumber,unitName:disclosureHelper.newDisclosurePersonUnit.unitName" />
+                                    <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit" fieldConversions="unitNumber:disclosureHelper.newDisclosurePersonUnit.unitNumber,unitName:disclosureHelper.newDisclosurePersonUnit.unitName" />
                                     <span class="fineprint"></span> 
                                 </td>
                                 <td align="left" valign="middle" class="infoline">

@@ -66,20 +66,20 @@
 		<field-descriptor name="budgetVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB"/>
 		<field-descriptor name="budgetJustification" column="BUDGET_JUSTIFICATION" jdbc-type="CLOB"/>
-		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="finalVersionFlag" column="FINAL_VERSION_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="modularBudgetFlag" column="MODULAR_BUDGET_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="ohRateClassCode" column="OH_RATE_CLASS_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="ohRateTypeCode" column="OH_RATE_TYPE_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="residualFunds" column="RESIDUAL_FUNDS" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="residualFunds" column="RESIDUAL_FUNDS" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="totalCost" column="TOTAL_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalCostLimit" column="TOTAL_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalDirectCostLimit" column="TOTAL_DIRECT_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalDirectCost" column="TOTAL_DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalIndirectCost" column="TOTAL_INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalCost" column="TOTAL_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalCostLimit" column="TOTAL_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalDirectCostLimit" column="TOTAL_DIRECT_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalDirectCost" column="TOTAL_DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalIndirectCost" column="TOTAL_INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="urRateClassCode" column="UR_RATE_CLASS_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="VARCHAR"/>
 		<field-descriptor name="budgetAdjustmentDocumentNumber" column="BUDGET_ADJUSTMENT_DOC_NBR" jdbc-type="VARCHAR"/>
@@ -157,20 +157,20 @@
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_ID" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="budgetVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="finalVersionFlag" column="FINAL_VERSION_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="modularBudgetFlag" column="MODULAR_BUDGET_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="ohRateTypeCode" column="OH_RATE_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="ohRateClassCode" column="OH_RATE_CLASS_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="residualFunds" column="RESIDUAL_FUNDS" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="residualFunds" column="RESIDUAL_FUNDS" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="totalCost" column="TOTAL_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalCostLimit" column="TOTAL_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalDirectCostLimit" column="TOTAL_DIRECT_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalDirectCost" column="TOTAL_DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalIndirectCost" column="TOTAL_INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalCost" column="TOTAL_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalCostLimit" column="TOTAL_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalDirectCostLimit" column="TOTAL_DIRECT_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalDirectCost" column="TOTAL_DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalIndirectCost" column="TOTAL_INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
     	<field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB"/>
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="VARCHAR"/>
 		<field-descriptor name="urRateClassCode" column="UR_RATE_CLASS_CODE" jdbc-type="VARCHAR"/>
@@ -253,8 +253,8 @@
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
 				
 		<field-descriptor name="applyRateFlag" column="APPLY_RATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="calculatedCost" column="CALCULATED_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="calculatedCostSharing" column="CALCULATED_COST_SHARING" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculatedCost" column="CALCULATED_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculatedCostSharing" column="CALCULATED_COST_SHARING" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
@@ -289,15 +289,15 @@
 		<field-descriptor name="budgetJustification" column="BUDGET_JUSTIFICATION" jdbc-type="CLOB"/>
 		<field-descriptor name="costElement" column="COST_ELEMENT" jdbc-type="VARCHAR"/>
 		<field-descriptor name="groupName" column="GROUP_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="lineItemCost" column="LINE_ITEM_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="lineItemCost" column="LINE_ITEM_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="lineItemDescription" column="LINE_ITEM_DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="lineItemSequence" column="LINE_ITEM_SEQUENCE" jdbc-type="INTEGER"/>
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
 		<field-descriptor name="quantity" column="QUANTITY" jdbc-type="INTEGER"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -338,15 +338,15 @@
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" access="anonymous"/> 	
 
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB"/>
-		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="totalCost" column="TOTAL_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalCostLimit" column="TOTAL_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="directCostLimit" column="TOTAL_DIRECT_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalDirectCost" column="TOTAL_DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalIndirectCost" column="TOTAL_INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalCost" column="TOTAL_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalCostLimit" column="TOTAL_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="directCostLimit" column="TOTAL_DIRECT_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalDirectCost" column="TOTAL_DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalIndirectCost" column="TOTAL_INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="numberOfParticipants" column="NUM_PARTICIPANTS" jdbc-type="INTEGER" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -368,8 +368,8 @@
 		<field-descriptor name="documentComponentId" column="COST_SHARE_ID" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="projectPeriod" column="PROJECT_PERIOD" jdbc-type="INTEGER" />
 		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR"/>		
-		<field-descriptor name="shareAmount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="sharePercentage" column="COST_SHARING_PERCENTAGE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>		
+		<field-descriptor name="shareAmount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="sharePercentage" column="COST_SHARING_PERCENTAGE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -416,8 +416,8 @@
 		<field-descriptor name="documentComponentId" column="UNRECOVERED_FNA_ID" jdbc-type="INTEGER" primarykey="true"/>
 
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="INTEGER" />
-		<field-descriptor name="amount" column="UNDERRECOVERY_OF_IDC" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="applicableRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="amount" column="UNDERRECOVERY_OF_IDC" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="applicableRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="onCampusFlag" column="ON_CAMPUS_FLAG" jdbc-type="CHAR" />		
 		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR"/>		
 		
@@ -450,8 +450,8 @@
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
 
 		<field-descriptor name="applyRateFlag" column="APPLY_RATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="calculatedCost" column="CALCULATED_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="calculatedCostSharing" column="CALCULATED_COST_SHARING" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculatedCost" column="CALCULATED_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculatedCostSharing" column="CALCULATED_COST_SHARING" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
@@ -477,7 +477,7 @@
 		<field-descriptor name="appointmentTypeCode" column="APPOINTMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="tbnId" column="TBN_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="calculationBase" column="CALCULATION_BASE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculationBase" column="CALCULATION_BASE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="salaryAnniversaryDate" column="SALARY_ANNIVERSARY_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -533,11 +533,11 @@
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" /> 	
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
 
-		<field-descriptor name="appliedRate" column="APPLIED_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="baseCost" column="BASE_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="baseCostSharing" column="BASE_COST_SHARING" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="calculatedCost" column="CALCULATED_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="calculatedCostSharing" column="CALCULATED_COST_SHARING" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="appliedRate" column="APPLIED_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="baseCost" column="BASE_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="baseCostSharing" column="BASE_COST_SHARING" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculatedCost" column="CALCULATED_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculatedCostSharing" column="CALCULATED_COST_SHARING" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
@@ -571,11 +571,11 @@
 		<field-descriptor name="rateNumber" column="RATE_NUMBER" jdbc-type="INTEGER"/>
 
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR"/>
-		<field-descriptor name="appliedRate" column="APPLIED_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="salaryRequested" column="SALARY_REQUESTED" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="baseCostSharing" column="BASE_COST_SHARING" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="calculatedCost" column="CALCULATED_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="calculatedCostSharing" column="CALCULATED_COST_SHARING" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="appliedRate" column="APPLIED_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="salaryRequested" column="SALARY_REQUESTED" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="baseCostSharing" column="BASE_COST_SHARING" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculatedCost" column="CALCULATED_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculatedCostSharing" column="CALCULATED_COST_SHARING" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
@@ -630,8 +630,8 @@
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" primarykey="true"/>
 
 		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="applicableRate" column="APPLICABLE_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="instituteRate" column="INSTITUTE_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="applicableRate" column="APPLICABLE_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="instituteRate" column="INSTITUTE_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -656,7 +656,7 @@
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" primarykey="true"/>
 		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="instituteRate" column="RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="instituteRate" column="RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -669,7 +669,7 @@
 		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/> 
 		</reference-descriptor>
 		
@@ -682,7 +682,7 @@
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" primarykey="true"/>
 		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="instituteRate" column="RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="instituteRate" column="RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -695,7 +695,7 @@
 		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/> 
 		</reference-descriptor>
 		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -703,7 +703,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	<!-- Mapping table for the  -->
-	<class-descriptor class="org.kuali.kra.external.budget.FinancialObjectCodeMapping" table="FIN_OBJECT_CODE_MAPPING">
+	<class-descriptor class="org.kuali.kra.budget.external.budget.FinancialObjectCodeMapping" table="FIN_OBJECT_CODE_MAPPING">
 		<field-descriptor name="mappingId" column="MAPPING_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_FIN_OBJECT_CODE_MAPPING_ID"/>
 		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CODE" jdbc-type="VARCHAR"/>
@@ -720,7 +720,7 @@
 		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/> 
 		</reference-descriptor>
 		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -778,7 +778,7 @@
 		<field-descriptor name="rateId" column="TRAINING_STIPEND_RATES_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_TRAINING_STIPEND_RATES_ID" />
 		<field-descriptor name="careerLevel" column="CAREER_LEVEL" jdbc-type="VARCHAR" primarykey="false"/>
 		<field-descriptor name="experienceLevel" column="EXPERIENCE_LEVEL" jdbc-type="INTEGER" primarykey="false"/>
-		<field-descriptor name="stipendRate" column="STIPEND_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="stipendRate" column="STIPEND_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="effectiveDate" column="EFFECTIVE_DATE" jdbc-type="DATE" primarykey="false"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" primarykey="false"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -857,8 +857,8 @@
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" primarykey="true"/>
 
-		<field-descriptor name="applicableRate" column="APPLICABLE_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="instituteRate" column="INSTITUTE_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="applicableRate" column="APPLICABLE_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="instituteRate" column="INSTITUTE_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -900,15 +900,15 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="applyInRateFlag" column="APPLY_IN_RATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
  		<field-descriptor name="budgetJustification" column="BUDGET_JUSTIFICATION" jdbc-type="CLOB"/>
-		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="costSharingPercent" column="COST_SHARING_PERCENT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="costSharingPercent" column="COST_SHARING_PERCENT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="lineItemDescription" column="LINE_ITEM_DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="percentCharged" column="PERCENT_CHARGED" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="percentEffort" column="PERCENT_EFFORT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="percentCharged" column="PERCENT_CHARGED" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="percentEffort" column="PERCENT_EFFORT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="periodTypeCode" column="PERIOD_TYPE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="salaryRequested" column="SALARY_REQUESTED" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="salaryRequested" column="SALARY_REQUESTED" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
-		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
     	<field-descriptor name="submitCostSharingFlag" column="SUBMIT_COST_SHARING" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		 
 	 	<collection-descriptor name="budgetPersonnelCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
@@ -932,7 +932,7 @@
 		<field-descriptor name="personSequenceNumber" column="PERSON_SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" /> 	
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
-		<field-descriptor name="baseSalary" column="BASE_SALARY" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="baseSalary" column="BASE_SALARY" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -946,9 +946,9 @@
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" access="anonymous"/> 	
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
 
-		<field-descriptor name="directCostLessConsortiumFna" column="DIRECT_COST_LESS_CONSOR_FNA" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="consortiumFna" column="CONSORTIUM_FNA" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalDirectCost" column="TOTAL_DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>	
+		<field-descriptor name="directCostLessConsortiumFna" column="DIRECT_COST_LESS_CONSOR_FNA" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="consortiumFna" column="CONSORTIUM_FNA" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalDirectCost" column="TOTAL_DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -971,9 +971,9 @@
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
 
 		<field-descriptor id="1" name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="idcRate" column="IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="idcBase" column="IDC_BASE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="fundsRequested" column="FUNDS_REQUESTED" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>	
+		<field-descriptor name="idcRate" column="IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="idcBase" column="IDC_BASE" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="fundsRequested" column="FUNDS_REQUESTED" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -1040,7 +1040,7 @@
 			<inverse-foreignkey field-ref="budgetId"/>
 			<inverse-foreignkey field-ref="subAwardNumber"/>
 		</collection-descriptor>
-        <reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="organizationId" />
         </reference-descriptor>	
 		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
@@ -1138,7 +1138,7 @@
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />
 		<field-descriptor name="awardBudgetStatusCode" column="AWARD_BUDGET_STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="awardBudgetTypeCode" column="AWARD_BUDGET_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
+		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1170,7 +1170,7 @@
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" />
 		<field-descriptor name="awardBudgetStatusCode" column="AWARD_BUDGET_STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="awardBudgetTypeCode" column="AWARD_BUDGET_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
+		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1205,8 +1205,8 @@
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetPeriodExt" table="AWARD_BUDGET_PERIOD_EXT">
 		<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_NUMBER" jdbc-type="BIGINT" primarykey="true" />
-		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
-		<field-descriptor name="totalFringeAmount" column="TOTAL_FRINGE_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
+		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion" />
+		<field-descriptor name="totalFringeAmount" column="TOTAL_FRINGE_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1239,7 +1239,7 @@
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetLineItemExt" table="AWARD_BUDGET_DETAILS_EXT">
 		<field-descriptor name="budgetLineItemId" column="BUDGET_DETAILS_ID" jdbc-type="BIGINT" primarykey="true" />
-		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
+		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1256,7 +1256,7 @@
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt" table="AWD_BGT_DET_CAL_AMTS_EXT">
 		<field-descriptor name="budgetLineItemCalculatedAmountId" column="BUDGET_DETAILS_CAL_AMTS_ID" jdbc-type="BIGINT" primarykey="true" />
-		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
+		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1267,7 +1267,7 @@
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetPersonnelDetailsExt" table="AWD_BUDGET_PER_DET_EXT">
 		<field-descriptor name="budgetPersonnelLineItemId" column="BUDGET_PERSONNEL_DETAILS_ID" jdbc-type="BIGINT" primarykey="true" />
-		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
+		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1282,7 +1282,7 @@
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetPersonnelCalculatedAmountExt" table="AWD_BUDGET_PER_CAL_AMTS_EXT">
 		<field-descriptor name="budgetPersonnelCalculatedAmountId" column="BUDGET_PERSONNEL_CAL_AMTS_ID" jdbc-type="BIGINT" primarykey="true" />
-		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion" />
+		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1311,8 +1311,8 @@
 		<field-descriptor name="costElement" column="COST_ELEMENT" jdbc-type="VARCHAR" />
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
 		<field-descriptor name="rateClassType" column="RATE_CLASS_TYPE" jdbc-type="VARCHAR" />
-		<field-descriptor name="calculatedCost" column="CALCULATED_COST" jdbc-type="DECIMAL"  conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="calculatedCostSharing" column="CALCULATED_COST_SHARING" jdbc-type="DECIMAL"  conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculatedCost" column="CALCULATED_COST" jdbc-type="DECIMAL"  conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculatedCostSharing" column="CALCULATED_COST_SHARING" jdbc-type="DECIMAL"  conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -1374,12 +1374,12 @@
 		<field-descriptor name="unitFormulatedCostId" column="UNIT_FORMULATED_COST_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_UNIT_FORMULATED_COST_ID"/>
 		<field-descriptor name="formulatedTypeCode" column="FORMULATED_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="unitCost" column="UNIT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="unitCost" column="UNIT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
 		<reference-descriptor name="formulatedType" class-ref="org.kuali.kra.budget.rates.FormulatedType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -1391,10 +1391,10 @@
 		<field-descriptor name="budgetLineItemId" column="BUDGET_DETAILS_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="formulatedNumber" column="FORMULATED_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="formulatedTypeCode" column="FORMULATED_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="unitCost" column="UNIT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="unitCost" column="UNIT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="count" column="COUNT" jdbc-type="INTEGER" />
 		<field-descriptor name="frequency" column="FREQUENCY" jdbc-type="INTEGER" />
-		<field-descriptor name="calculatedExpenses" column="CALCULATED_EXPENSES" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="calculatedExpenses" column="CALCULATED_EXPENSES" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -1406,10 +1406,10 @@
 		<field-descriptor name="subAwardNumber" column="SUBAWARD_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
-		<field-descriptor name="directCost" column="DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="indirectCost" column="INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="costShare" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="totalCost" column="TOTAL_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="directCost" column="DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="indirectCost" column="INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="costShare" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalCost" column="TOTAL_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />

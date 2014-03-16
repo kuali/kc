@@ -22,8 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -277,11 +277,11 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         
         if (isNotBlank(pdform.getNewProposalPerson().getProposalPersonRoleId())) {
             if (pdform.getNewProposalPerson().getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || pdform.getNewProposalPerson().equals(CO_INVESTIGATOR_ROLE)) {
-                pdform.getNewProposalPerson().setOptInUnitStatus("Y");
-                pdform.getNewProposalPerson().setOptInCertificationStatus("Y");
+                pdform.getNewProposalPerson().setOptInUnitStatus(true);
+                pdform.getNewProposalPerson().setOptInCertificationStatus(true);
             } else {
-                pdform.getNewProposalPerson().setOptInUnitStatus("N");
-                pdform.getNewProposalPerson().setOptInCertificationStatus("N");
+                pdform.getNewProposalPerson().setOptInUnitStatus(false);
+                pdform.getNewProposalPerson().setOptInCertificationStatus(false);
             }
         }
         // check any business rules
@@ -587,7 +587,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         if (isNotBlank(person.getHomeUnit()) && getKeyPersonnelService().isValidHomeUnit(person,person.getHomeUnit())){
             getKeyPersonnelService().addUnitToPerson(person,getKeyPersonnelService().createProposalPersonUnit(person.getHomeUnit(), person));
         }
-        person.setOptInUnitStatus("Y");
+        person.setOptInUnitStatus(true);
         getKeyPersonnelService().populateProposalPerson(person, document);
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -606,7 +606,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
-        selectedPerson.setOptInUnitStatus("N");
+        selectedPerson.setOptInUnitStatus(false);
         selectedPerson.getUnits().clear();
         document.getDevelopmentProposal().getInvestigators().remove(selectedPerson);
         return mapping.findForward(MAPPING_BASIC);
@@ -625,7 +625,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
-        selectedPerson.setOptInCertificationStatus("Y");
+        selectedPerson.setOptInCertificationStatus(true);
         getKeyPersonnelService().populateProposalPerson(selectedPerson, document);
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -664,7 +664,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
-        selectedPerson.setOptInCertificationStatus("N");
+        selectedPerson.setOptInCertificationStatus(false);
         selectedPerson.getProposalPersonYnqs().clear();
         return mapping.findForward(MAPPING_BASIC);
     }

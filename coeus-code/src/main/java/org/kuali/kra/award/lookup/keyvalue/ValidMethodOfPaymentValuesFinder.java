@@ -18,7 +18,7 @@ package org.kuali.kra.award.lookup.keyvalue;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
-import org.kuali.kra.service.AwardPaymentAndInvoicesService;
+import org.kuali.kra.award.service.AwardPaymentAndInvoicesService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;

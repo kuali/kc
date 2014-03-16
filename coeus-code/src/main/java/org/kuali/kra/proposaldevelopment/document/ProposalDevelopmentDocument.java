@@ -98,12 +98,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     private static final long serialVersionUID = 2958631745964610527L;
 
-    @OneToOne(mappedBy = "proposalDocument")
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
+    @OneToOne(mappedBy = "proposalDocument", cascade = CascadeType.ALL)
     private DevelopmentProposal developmentProposal;
 
     @OneToMany(targetEntity = BudgetDocumentVersion.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "PARENT_DOCUMENT_KEY", insertable = false, updatable = false)
+    @JoinColumn(name = "PARENT_DOCUMENT_KEY", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
     private List<BudgetDocumentVersion> budgetDocumentVersions;
 
     @Transient

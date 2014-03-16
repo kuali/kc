@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;

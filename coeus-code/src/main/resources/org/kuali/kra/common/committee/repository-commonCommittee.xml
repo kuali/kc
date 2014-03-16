@@ -74,37 +74,6 @@
         </reference-descriptor>
     </class-descriptor>
     
-    <!--  
-    <class-descriptor class="org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipExpertiseBase" table="COMM_MEMBER_EXPERTISE">
-        <field-descriptor name="committeeMembershipExpertiseId" column="COMM_MEMBER_EXPERTISE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
-        <field-descriptor name="committeeMembershipIdFk" column="COMM_MEMBERSHIP_ID_FK" jdbc-type="BIGINT" />
-        <field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        
-        <reference-descriptor name="researchArea" class-ref="org.kuali.kra.irb.ResearchArea" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="researchAreaCode"/>
-        </reference-descriptor>
-    </class-descriptor>
-    
-    -->
-    
-
-<!--  shared meeting classes -->
-	
-		
-<!-- 	<class-descriptor class="org.kuali.coeus.common.committee.impl.meeting.ProtocolContingency" table="PROTOCOL_CONTINGENCY"> -->
-<!-- 		<field-descriptor name="protocolContingencyCode" column="PROTOCOL_CONTINGENCY_CODE" jdbc-type="VARCHAR" primarykey="true" /> -->
-<!-- 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" /> -->
-<!-- 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" /> -->
-<!-- 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" /> -->
-<!-- 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" /> -->
-<!-- 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" /> -->
-<!-- 	</class-descriptor>	 -->
-
-	
 	<class-descriptor class="org.kuali.coeus.common.committee.impl.meeting.MinuteEntryType" table="MINUTE_ENTRY_TYPE">
 		<field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />

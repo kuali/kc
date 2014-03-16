@@ -18,14 +18,13 @@ package org.kuali.kra.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.bo.Unit;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
 import static org.junit.Assert.*;

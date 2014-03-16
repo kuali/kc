@@ -40,9 +40,9 @@
             	<td class="infoline">
             	  	<div align="center">
             	  	 	<kul:htmlControlAttribute property="approvedSubawardFormHelper.newAwardApprovedSubaward.organizationName" attributeEntry="${awardApprovedSubawardAttributes.organizationName}"/>
-            	  	 	<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:approvedSubawardFormHelper.newAwardApprovedSubaward.organizationName,organizationId:approvedSubawardFormHelper.newAwardApprovedSubaward.organizationId" anchor="${tabKey}" />
+            	  	 	<kul:lookup boClassName="org.kuali.coeus.common.framework.org.Organization" fieldConversions="organizationName:approvedSubawardFormHelper.newAwardApprovedSubaward.organizationName,organizationId:approvedSubawardFormHelper.newAwardApprovedSubaward.organizationId" anchor="${tabKey}" />
             	  	 	<html:hidden property="approvedSubawardFormHelper.newAwardApprovedSubaward.organizationId"/>    	  	 	
-            	  	    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="approvedSubawardFormHelper.newAwardApprovedSubaward.organizationId:organizationId" anchor="${tabKey}" /> 
+            	  	    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.org.Organization" inquiryParameters="approvedSubawardFormHelper.newAwardApprovedSubaward.organizationId:organizationId" anchor="${tabKey}" /> 
             	 	</div>
             	</td>
 	            <td class="infoline">
@@ -67,7 +67,7 @@
 	                <td width="10%" valign="middle">
 						${awardApprovedSubawards.organizationName}
 						<input type="hidden" name="award_subaward.identifier_${status.index}" value="${awardApprovedSubawards.organizationId}"/>
-						<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="award_subaward.identifier_${status.index}:organizationId" anchor="${tabKey}" />      	  	 		
+						<kul:directInquiry boClassName="org.kuali.coeus.common.framework.org.Organization" inquiryParameters="award_subaward.identifier_${status.index}:organizationId" anchor="${tabKey}" />      	  	 		
 					</td>
 	                <td width="20%" valign="middle">
 					<div align="right">

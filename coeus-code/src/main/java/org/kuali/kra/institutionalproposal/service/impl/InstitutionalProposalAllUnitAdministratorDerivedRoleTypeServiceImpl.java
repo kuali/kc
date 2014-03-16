@@ -16,15 +16,15 @@
 package org.kuali.kra.institutionalproposal.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.bo.AbstractUnitAdministrator;
-import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministrator;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.kim.service.impl.AbstractUnitAdministratorDerivedRoleTypeService;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
 
 import java.util.ArrayList;

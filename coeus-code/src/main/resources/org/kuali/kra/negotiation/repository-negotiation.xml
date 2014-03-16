@@ -149,7 +149,7 @@
         <reference-descriptor name="activity" class-ref="org.kuali.kra.negotiations.bo.NegotiationActivity" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="activityId"/>
         </reference-descriptor>         
-        <reference-descriptor name="file" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+        <reference-descriptor name="file" class-ref="org.kuali.coeus.common.framework.attachment.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none"> 
             <foreignkey field-ref="fileId"/>
         </reference-descriptor>
     </class-descriptor>
@@ -212,16 +212,16 @@
         <reference-descriptor name="negotiation" class-ref="org.kuali.kra.negotiations.bo.Negotiation" auto-retrieve="true" auto-update="object" auto-delete="none"> 
             <foreignkey field-ref="negotiationId"/>
         </reference-descriptor>
-        <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="leadUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="leadUnitNumber"/>
         </reference-descriptor>
-        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="sponsorCode"/>
         </reference-descriptor>
-        <reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="primeSponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="primeSponsorCode"/>
         </reference-descriptor>
-        <reference-descriptor name="subAwardOrganization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="subAwardOrganization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="subAwardOrganizationId"/>
         </reference-descriptor>
     </class-descriptor>

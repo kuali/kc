@@ -20,10 +20,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -116,13 +116,12 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
             ProposalPersonRole role = (ProposalPersonRole)this.dataObjectService.findMatching(ProposalPersonRole.class, org.kuali.rice.core.api.criteria.QueryByCriteria.Builder.create().build()).getResults().iterator().next();
             pp.setRole(role);
             pp.setProposalPersonRoleId(role.getRoleCode());
-            pp.setOptInUnitStatus("Y");
-            pp.setOptInCertificationStatus("Y");
+            pp.setOptInUnitStatus(true);
+            pp.setOptInCertificationStatus(true);
             pp.setUserName(person.getUserName());
             pp.setLastName(person.getLastName());
             pp.setFullName(person.getFullName());
 
-            this.dataObjectService.save(pp);
             document.getDevelopmentProposal().getProposalPersons().add(pp);
         }
 

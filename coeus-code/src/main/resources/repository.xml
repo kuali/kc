@@ -71,7 +71,7 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 -->
-    <class-descriptor class="org.kuali.kra.bo.PersonAppointment" table="PERSON_APPOINTMENT">
+    <class-descriptor class="org.kuali.coeus.common.framework.person.attr.PersonAppointment" table="PERSON_APPOINTMENT">
         <field-descriptor name="appointmentId" column="APPOINTMENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PERSON_APPOINTMENT" autoincrement="true"/>
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR"/>
@@ -81,13 +81,13 @@
         <field-descriptor name="jobTitle" column="JOB_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="preferedJobTitle" column="PREFERED_JOB_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="jobCode" column="JOB_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="salary" column="SALARY" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+        <field-descriptor name="salary" column="SALARY" jdbc-type="DECIMAL" conversion="org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion"/>
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 
-        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit"  auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit"  auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="unitNumber" />
         </reference-descriptor>
         <reference-descriptor name="appointmentType" class-ref="org.kuali.kra.budget.personnel.AppointmentType"  auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -99,7 +99,7 @@
         
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.bo.PersonDegree" table="PERSON_DEGREE">
+    <class-descriptor class="org.kuali.coeus.common.framework.person.attr.PersonDegree" table="PERSON_DEGREE">
         <field-descriptor name="degreeId" column="DEGREE_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PERSON_DEGREE" autoincrement="true"/>
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="degreeCode" column="DEGREE_CODE" jdbc-type="VARCHAR"/>
@@ -129,7 +129,7 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.bo.PersonEditableField" table="PERSON_EDITABLE_FIELDS">
+    <class-descriptor class="org.kuali.coeus.common.framework.person.attr.PersonEditableField" table="PERSON_EDITABLE_FIELDS">
         <field-descriptor name="personEditableFieldId" column="PERSON_EDITABLE_FIELD_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PERSON_EDITABLE_FIELD" autoincrement="true"/>
         <field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="fieldName" column="FIELD_NAME" jdbc-type="VARCHAR" />
@@ -143,7 +143,7 @@
         </reference-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.bo.KcPersonExtendedAttributes" table="PERSON_EXT_T">
+    <class-descriptor class="org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes" table="PERSON_EXT_T">
 		<field-descriptor id="1" name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="ageByFiscalYear" column="AGE_BY_FISCAL_YEAR" jdbc-type="INTEGER" />
 		<field-descriptor name="race" column="RACE" jdbc-type="VARCHAR" />
@@ -180,16 +180,16 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         
-        <collection-descriptor name="attachments" proxy="true" element-class-ref="org.kuali.kra.bo.PersonBiosketch" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="attachments" proxy="true" element-class-ref="org.kuali.coeus.common.framework.person.attr.PersonBiosketch" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="personId"/>
         </collection-descriptor>
-		<collection-descriptor name="personDegrees" proxy="true" element-class-ref="org.kuali.kra.bo.PersonDegree" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="personDegrees" proxy="true" element-class-ref="org.kuali.coeus.common.framework.person.attr.PersonDegree" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="personId"/>
 		</collection-descriptor>
-		<collection-descriptor name="personAppointments" proxy="true" element-class-ref="org.kuali.kra.bo.PersonAppointment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="personAppointments" proxy="true" element-class-ref="org.kuali.coeus.common.framework.person.attr.PersonAppointment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="personId"/>
 		</collection-descriptor>
-		<collection-descriptor name="personCustomDataList" proxy="true" element-class-ref="org.kuali.kra.bo.PersonCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="personCustomDataList" proxy="true" element-class-ref="org.kuali.coeus.common.framework.person.attr.PersonCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="personId"/>
         </collection-descriptor>
 		
@@ -288,7 +288,7 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.S2sRevisionType" table="S2S_REVISION_TYPE">
+	<class-descriptor class="org.kuali.kra.s2s.bo.S2sRevisionType" table="S2S_REVISION_TYPE">
 		<field-descriptor name="s2sRevisionTypeCode" column="S2S_REVISION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
@@ -414,7 +414,7 @@
 		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
-		<collection-descriptor name="Sponsor" proxy="true" element-class-ref="org.kuali.kra.bo.Sponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="Sponsor" proxy="true" element-class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
 		<collection-descriptor name="SubcontractContact" proxy="true" element-class-ref="org.kuali.kra.bo.SubcontractContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -431,15 +431,15 @@
 		</reference-descriptor>
 		-->
 
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
     	
-    	<reference-descriptor name="organizations" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
+    	<reference-descriptor name="organizations" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="organization" />
     	</reference-descriptor>
     	
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="sponsorCode" />
     	</reference-descriptor>
 	</class-descriptor>
@@ -486,7 +486,7 @@
 		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
-		<collection-descriptor name="Sponsor" proxy="true" element-class-ref="org.kuali.kra.bo.Sponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="Sponsor" proxy="true" element-class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
 		<collection-descriptor name="SubcontractContact" proxy="true" element-class-ref="org.kuali.kra.bo.SubcontractContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -502,10 +502,10 @@
 			<foreignkey field-ref="countryCode"/>
 		</reference-descriptor>
 		-->
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="sponsorCode" />
     	</reference-descriptor>
 	</class-descriptor>
@@ -518,7 +518,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
         
-	<class-descriptor class="org.kuali.kra.bo.Organization" table="ORGANIZATION">
+	<class-descriptor class="org.kuali.coeus.common.framework.org.Organization" table="ORGANIZATION">
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="address" column="ADDRESS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="agencySymbol" column="AGENCY_SYMBOL" jdbc-type="VARCHAR"/>
@@ -569,16 +569,16 @@
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
 		-->
-		<collection-descriptor name="organizationAudits" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationAudit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="organizationAudits" proxy="true" element-class-ref="org.kuali.coeus.common.framework.org.audit.OrganizationAudit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
-		<collection-descriptor name="organizationIdcs" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationIndirectcost" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="organizationIdcs" proxy="true" element-class-ref="org.kuali.coeus.common.framework.org.OrganizationIndirectcost" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
-		<collection-descriptor name="organizationTypes" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="organizationTypes" proxy="true" element-class-ref="org.kuali.coeus.common.framework.org.type.OrganizationType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
-		<collection-descriptor name="organizationYnqs" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="organizationYnqs" proxy="true" element-class-ref="org.kuali.coeus.common.framework.org.OrganizationYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
 		<!--  
@@ -633,7 +633,7 @@
 
 
 
-	<class-descriptor class="org.kuali.kra.bo.Sponsor" table="SPONSOR">
+	<class-descriptor class="org.kuali.coeus.common.framework.sponsor.Sponsor" table="SPONSOR">
 		<field-descriptor id="1" name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR" primarykey="true" sequence-name="SEQ_SPONSOR_CODE" autoincrement="true" />
 		<field-descriptor name="acronym" column="ACRONYM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="auditReportSentForFy" column="AUDIT_REPORT_SENT_FOR_FY" jdbc-type="CHAR"/>
@@ -689,7 +689,7 @@
         	<foreignkey field-ref="sponsorTypeCode" />
     	</reference-descriptor>
 
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
     	<reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -722,7 +722,7 @@
 		<reference-descriptor name="sponsorType" class-ref="org.kuali.kra.bo.SponsorType" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="sponsorTypeCode" />
     	</reference-descriptor>
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
     	<reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -756,12 +756,12 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorCode"/> 
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.AttachmentFile" table="ATTACHMENT_FILE">
+	<class-descriptor class="org.kuali.coeus.common.framework.attachment.AttachmentFile" table="ATTACHMENT_FILE">
 		<field-descriptor name="id" column="FILE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_ATTACHMENT_ID" autoincrement="true"/>
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="name" column="FILE_NAME" jdbc-type="VARCHAR" />
@@ -792,7 +792,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.Unit" table="UNIT">
+	<class-descriptor class="org.kuali.coeus.common.framework.unit.Unit" table="UNIT">
 		<field-descriptor id="1" name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="parentUnitNumber" column="PARENT_UNIT_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR"/>
@@ -803,21 +803,21 @@
 		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     
-	<collection-descriptor name="unitAdministrators" proxy="true" element-class-ref="org.kuali.kra.bo.UnitAdministrator" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+	<collection-descriptor name="unitAdministrators" proxy="true" element-class-ref="org.kuali.coeus.common.framework.unit.admin.UnitAdministrator" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<inverse-foreignkey field-ref="unitNumber"/>
 	</collection-descriptor>
 
-    <reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
       <foreignkey field-ref="organizationId"/>
     </reference-descriptor>
     
-    <reference-descriptor name="parentUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="parentUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
       <foreignkey field-ref="parentUnitNumber"/>
     </reference-descriptor>
     
 	</class-descriptor>
 
-  <class-descriptor class="org.kuali.kra.bo.UnitAdministrator" table="UNIT_ADMINISTRATOR">
+  <class-descriptor class="org.kuali.coeus.common.framework.unit.admin.UnitAdministrator" table="UNIT_ADMINISTRATOR">
     <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 	<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true"/>
 	<field-descriptor name="unitAdministratorTypeCode" column="UNIT_ADMINISTRATOR_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
@@ -826,17 +826,17 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		
-	<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none">
+	<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="false" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="unitNumber"/>
 	</reference-descriptor>
     
-    <reference-descriptor name="unitAdministratorType" class-ref="org.kuali.kra.bo.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="unitAdministratorType" class-ref="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="unitAdministratorTypeCode"/>
 	</reference-descriptor>
     
     
   </class-descriptor>
-	<class-descriptor class="org.kuali.kra.bo.UnitAdministratorType" table="UNIT_ADMINISTRATOR_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" table="UNIT_ADMINISTRATOR_TYPE">
 		<field-descriptor name="unitAdministratorTypeCode" column="UNIT_ADMINISTRATOR_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -854,7 +854,7 @@
     <field-descriptor name="parentUnitNumber" column="PARENT_UNIT_NUMBER" jdbc-type="VARCHAR"/>
     <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="parentUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+    <reference-descriptor name="parentUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
       <foreignkey field-ref="parentUnitNumber"/> 
     </reference-descriptor>
   </class-descriptor>
@@ -969,7 +969,7 @@
 		<collection-descriptor name="s2sOppForms" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sOppForms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>		
-		<reference-descriptor name="s2sRevisionType" class-ref="org.kuali.kra.bo.S2sRevisionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="s2sRevisionType" class-ref="org.kuali.kra.s2s.bo.S2sRevisionType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="revisionCode"/> 
 		</reference-descriptor>
 		<reference-descriptor name="s2sProvider" class-ref="org.kuali.kra.s2s.bo.S2sProvider" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -1059,7 +1059,7 @@
         <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-         <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+         <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="unitNumber"/>
         </reference-descriptor>
     </class-descriptor>
@@ -1126,7 +1126,7 @@
 
 <!-- Custom Attributes:end -->
 	<!-- additional oraganization related tables -->
-	<class-descriptor class="org.kuali.kra.bo.OrganizationTypeList" table="ORGANIZATION_TYPE_LIST">
+	<class-descriptor class="org.kuali.coeus.common.framework.org.type.OrganizationTypeList" table="ORGANIZATION_TYPE_LIST">
 		<field-descriptor name="organizationTypeCode" column="ORGANIZATION_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -1138,7 +1138,7 @@
 		</collection-descriptor>
 		-->
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.bo.OrganizationIndirectcost" table="ORGANIZATION_IDC">
+	<class-descriptor class="org.kuali.coeus.common.framework.org.OrganizationIndirectcost" table="ORGANIZATION_IDC">
 		<field-descriptor name="idcNumber" column="IDC_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="applicableIndirectcostRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
@@ -1150,12 +1150,12 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" nullable="false" />
-		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="organizationId"/> 
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.OrganizationAudit" table="ORGANIZATION_AUDIT">
+	<class-descriptor class="org.kuali.coeus.common.framework.org.audit.OrganizationAudit" table="ORGANIZATION_AUDIT">
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="auditAccepted" column="AUDIT_ACCEPTED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -1163,12 +1163,12 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" nullable="false" />
-		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="organizationId"/> 
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.OrganizationYnq" table="ORGANIZATION_YNQ">
+	<class-descriptor class="org.kuali.coeus.common.framework.org.OrganizationYnq" table="ORGANIZATION_YNQ">
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="answer" column="ANSWER" jdbc-type="CHAR"/>
@@ -1177,7 +1177,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" nullable="false" />
-		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="organizationId"/> 
 		</reference-descriptor>
 		<reference-descriptor name="ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -1185,18 +1185,18 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.OrganizationType" table="ORGANIZATION_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.framework.org.type.OrganizationType" table="ORGANIZATION_TYPE">
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="organizationTypeCode" column="ORGANIZATION_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" nullable="false" />
 		<!-- 
-		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="organizationId"/> 
 		</reference-descriptor>
 		-->
-		<reference-descriptor name="organizationTypeList" class-ref="org.kuali.kra.bo.OrganizationTypeList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="organizationTypeList" class-ref="org.kuali.coeus.common.framework.org.type.OrganizationTypeList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="organizationTypeCode"/> 
 		</reference-descriptor>
 	</class-descriptor>
@@ -1225,7 +1225,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorCode"/> 
 		</reference-descriptor>
         <collection-descriptor name="sponsorFormTemplates" proxy="true" element-class-ref="org.kuali.kra.bo.SponsorFormTemplateList" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1320,7 +1320,7 @@
 	</class-descriptor>
 	
 	</class-descriptor>		
-		<class-descriptor class="org.kuali.kra.bo.PersonTraining" table="PERSON_TRAINING">
+		<class-descriptor class="org.kuali.coeus.common.framework.person.attr.PersonTraining" table="PERSON_TRAINING">
 		<field-descriptor name="personTrainingId" column="PERSON_TRAINING_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PERSON_TRAINING_ID" autoincrement="true"/>
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="trainingNumber" column="TRAINING_NUMBER" jdbc-type="INTEGER"/>
@@ -1557,7 +1557,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />                       
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.bo.PersonCustomData" table="PERSON_CUSTOM_DATA">
+    <class-descriptor class="org.kuali.coeus.common.framework.person.attr.PersonCustomData" table="PERSON_CUSTOM_DATA">
         <field-descriptor name="personCustomDataId" column="PERSON_CUSTOM_DATA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_CUSTOM_DATA_ID" />
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" access="anonymous" />
         <field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT" />
@@ -1571,7 +1571,7 @@
             <foreignkey field-ref="customAttributeId" />
         </reference-descriptor>
     </class-descriptor>
-    <class-descriptor class="org.kuali.kra.bo.PersonBiosketch" table="PERSON_BIOSKETCH">
+    <class-descriptor class="org.kuali.coeus.common.framework.person.attr.PersonBiosketch" table="PERSON_BIOSKETCH">
         <field-descriptor name="personBiosketchId" column="PERSON_BIOSKETCH_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_BIOSKETCH_ID" />
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -1611,7 +1611,7 @@
     </class-descriptor>
 
 
-	<class-descriptor class="org.kuali.kra.bo.PersonSignature" table="PERSON_SIGNATURE">
+	<class-descriptor class="org.kuali.coeus.common.framework.person.attr.PersonSignature" table="PERSON_SIGNATURE">
 		<field-descriptor name="personSignatureId" column="PERSON_SIGNATURE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PERSON_SIGNATURE_ID" autoincrement="true"/>
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="signatureActive" column="SIGNATURE_ACTIVE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -1622,12 +1622,12 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        <collection-descriptor name="personSignatureModules" proxy="true" element-class-ref="org.kuali.kra.bo.PersonSignatureModule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="personSignatureModules" proxy="true" element-class-ref="org.kuali.coeus.common.framework.person.attr.PersonSignatureModule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="personSignatureId"/>
 		</collection-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.PersonSignatureModule" table="PERSON_SIGNATURE_MODULE">
+	<class-descriptor class="org.kuali.coeus.common.framework.person.attr.PersonSignatureModule" table="PERSON_SIGNATURE_MODULE">
 		<field-descriptor name="personSignatureModuleId" column="PERSON_SIGN_MODULE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PERSON_SIGN_MOD_ID" autoincrement="true"/>
 		<field-descriptor name="personSignatureId" column="PERSON_SIGNATURE_ID" jdbc-type="BIGINT"/>
 		<field-descriptor name="defaultSignature" column="DEFAULT_SIGNATURE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -1637,7 +1637,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<reference-descriptor name="personSignature" class-ref="org.kuali.kra.bo.PersonSignature" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="personSignature" class-ref="org.kuali.coeus.common.framework.person.attr.PersonSignature" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="personSignatureId"/> 
 		</reference-descriptor>
         <reference-descriptor name="coeusModule" class-ref="org.kuali.coeus.common.framework.module.CoeusModule" auto-retrieve="true" auto-update="none" auto-delete="none"> 

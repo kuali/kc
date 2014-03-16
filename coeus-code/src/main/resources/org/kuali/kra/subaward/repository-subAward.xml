@@ -55,10 +55,10 @@
         <reference-descriptor name="subAwardDocument" class-ref="org.kuali.kra.subaward.document.SubAwardDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
-        <reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="organizationId"/> 
         </reference-descriptor>
-        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="requisitionerUnit"/> 
         </reference-descriptor>
         <reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -108,7 +108,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         
-        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true">
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.coeus.common.framework.attachment.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true">
             <foreignkey field-ref="fileId"/>
         </reference-descriptor>
     </class-descriptor>
@@ -243,6 +243,33 @@
 	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardStatus" table="SUBAWARD_STATUS">
 		<field-descriptor name="subAwardStatusCode" column="SUBAWARD_STATUS_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.subaward.bo.SubawardTemplateType" table="SUBAWARD_TEMPLATE_TYPE ">
+		<field-descriptor name="templateTypeCode" column="SUBAWARD_TEMPLATE_TYPE_CODE " jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor> 
+	
+	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardCostType" table="SUBCONTRACT_COST_TYPE">
+		<field-descriptor name="costTypeCode" column="COST_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="costTypeDescription" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor> 
+	
+     <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardCopyRightsType" table="SUBCONTRACT_COPYRIGHT_TYPE">
+		<field-descriptor name="copyRightTypeCode" column="COPYRIGHT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="copyRightTypeDescription" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

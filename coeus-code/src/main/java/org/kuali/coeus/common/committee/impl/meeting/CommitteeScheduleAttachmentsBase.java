@@ -21,11 +21,11 @@ package org.kuali.coeus.common.committee.impl.meeting;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachment;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.KcAttachment;
-import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.io.FileNotFoundException;

@@ -759,10 +759,7 @@ public interface Constants {
 
     public static final String PRINT_LOGGING_ENABLE = "print.logging.enable";
     public static final String PRINT_LOGGING_DIRECTORY = "print.logging.directory";
-    
-    // Multi-Campus
-    public static final String USER_CAMPUS_CODE_KEY = "userCampusCode";
-    public static final String PARAMETER_MULTI_CAMPUS_ENABLED = "MULTI_CAMPUS_ENABLED";
+
     public static final String ENABLE_COST_SHARE_SUBMIT = "ENABLE_COST_SHARE_SUBMIT";
     public static final String INSTITUTE_PROPOSAL_OTHER_GROUP = "INSTITUTE_PROPOSAL_OTHER_GROUP";
 

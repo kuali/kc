@@ -123,7 +123,7 @@
             <foreignkey field-ref="coiDisclosureId"/>
         </reference-descriptor>
         <!-- don't auto delete file as there may be other versions of COI attached to this file. -->
-        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="false">
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.coeus.common.framework.attachment.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="false">
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 		<reference-descriptor name="financialEntity" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="true" auto-update="none" auto-delete="false">
@@ -182,7 +182,7 @@
         <reference-descriptor name="disclosurePerson" class-ref="org.kuali.kra.coi.disclosure.DisclosurePerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="disclosurePersonId"/>
         </reference-descriptor>
-        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="unitNumber"/>
         </reference-descriptor>
         
@@ -250,10 +250,10 @@
 		<reference-descriptor name="finIntEntityStatus" class-ref="org.kuali.kra.coi.personfinancialentity.FinIntEntityStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="statusCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="organizationTypeList" class-ref="org.kuali.kra.bo.OrganizationTypeList" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="organizationTypeList" class-ref="org.kuali.coeus.common.framework.org.type.OrganizationTypeList" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="entityTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="sponsorCode"/>
 		</reference-descriptor>
         <reference-descriptor name="financialEntityReporter" class-ref="org.kuali.kra.coi.personfinancialentity.FinancialEntityReporter" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -416,7 +416,7 @@
         <reference-descriptor name="financialEntityReporter" class-ref="org.kuali.kra.coi.personfinancialentity.FinancialEntityReporter" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="financialEntityReporterId"/>
         </reference-descriptor>
-        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="unitNumber"/>
         </reference-descriptor>
         
@@ -726,7 +726,7 @@
             <foreignkey field-ref="financialEntityId"/>
         </reference-descriptor>
         
-        <reference-descriptor name="attachmentFile" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <reference-descriptor name="attachmentFile" proxy="true" class-ref="org.kuali.coeus.common.framework.attachment.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
         

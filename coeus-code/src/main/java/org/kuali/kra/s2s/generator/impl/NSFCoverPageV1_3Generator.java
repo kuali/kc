@@ -24,9 +24,9 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -75,9 +75,9 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 		if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null
 				&& pdDoc.getDevelopmentProposal().getS2sOpportunity()
 						.getClosingDate() != null) {
-			nsfCoverPage13.setDueDate(dateTimeService.getCalendar(pdDoc
+			nsfCoverPage13.setDueDate(pdDoc
 					.getDevelopmentProposal().getS2sOpportunity()
-					.getClosingDate()));
+					.getClosingDate());
 		}
 		nsfCoverPage13.setNSFUnitConsideration(getNSFUnitConsideration());
 		setOtherInfo(nsfCoverPage13);
@@ -333,7 +333,6 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 	 *            which needs to be converted to the document type of the
 	 *            required generator
 	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
 	 */
 	public XmlObject getFormObject(XmlObject xmlObject) {
 		NSFCoverPage13 nsfCoverPage13 = (NSFCoverPage13) xmlObject;

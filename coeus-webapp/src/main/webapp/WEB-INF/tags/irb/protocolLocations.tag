@@ -53,9 +53,9 @@
 	                <td align="left" valign="middle"  class="infoline">
                         <%-- readOnly is passed as true to fix scope issues in htmlControlAttribute --%>
 	                	<kul:htmlControlAttribute property="protocolHelper.newProtocolLocation.organizationId" attributeEntry="${protocolLocationAttributes.organizationId}" readOnly="false" onblur="loadOrganizationName('protocolHelper.newProtocolLocation.organizationId', 'protocolHelper.organizationName');" />
-	                    <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
+	                    <kul:lookup boClassName="org.kuali.coeus.common.framework.org.Organization" 
 	                    fieldConversions="organizationId:protocolHelper.newProtocolLocation.organizationId,contactAddressId:protocolHelper.newProtocolLocation.rolodexId,humanSubAssurance:protocolHelper.newProtocolLocation.organization.humanSubAssurance,organizationName:protocolHelper.newProtocolLocation.organization.organizationName,rolodex.firstName:protocolHelper.newProtocolLocation.organization.rolodex.firstName,rolodex.lastName:protocolHelper.newProtocolLocation.organization.rolodex.lastName,rolodex.addressLine1:protocolHelper.newProtocolLocation.organization.rolodex.addressLine1,rolodex.addressLine2:protocolHelper.newProtocolLocation.organization.rolodex.addressLine2,rolodex.addressLine3:protocolHelper.newProtocolLocation.organization.rolodex.addressLine3,rolodex.city:protocolHelper.newProtocolLocation.organization.rolodex.city,rolodex.state:protocolHelper.newProtocolLocation.organization.rolodex.state" anchor="${currentTabIndex}"/> 
-	                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="protocolHelper.newProtocolLocation.organizationId:organizationId" anchor="${currentTabIndex}"/>
+	                    <kul:directInquiry boClassName="org.kuali.coeus.common.framework.org.Organization" inquiryParameters="protocolHelper.newProtocolLocation.organizationId:organizationId" anchor="${currentTabIndex}"/>
                 		<br />
                 		<div id="protocolHelper.organizationName.div" class="fineprint">
 	                        <c:if test="${!empty KualiForm.protocolHelper.newProtocolLocation.organizationId}">
@@ -109,7 +109,7 @@
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.protocolList[0].protocolLocations[${status.index}].organizationId" readOnly="true" attributeEntry="${protocolLocationAttributes.organizationId}" /> 
                 		<html:hidden property="document.protocolList[0].protocolLocations[${status.index}].organizationId" /> 
-                    	<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.protocolList[0].protocolLocations[${status.index}].organizationId:organizationId" anchor="${currentTabIndex}"/> <br>
+                    	<kul:directInquiry boClassName="org.kuali.coeus.common.framework.org.Organization" inquiryParameters="document.protocolList[0].protocolLocations[${status.index}].organizationId:organizationId" anchor="${currentTabIndex}"/> <br>
                 		<kul:htmlControlAttribute property="document.protocolList[0].protocolLocations[${status.index}].organization.organizationName" readOnly="true" attributeEntry="${organizationAttributes.organizationName}" />
 					</div>
 				  </td>

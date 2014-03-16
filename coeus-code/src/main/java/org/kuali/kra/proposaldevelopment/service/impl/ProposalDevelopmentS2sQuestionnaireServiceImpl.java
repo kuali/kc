@@ -16,8 +16,8 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.bo.S2sOppFormQuestionnaire;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
+import org.kuali.kra.s2s.bo.S2sOppFormQuestionnaire;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sModuleQuestionnaireBean;
@@ -74,9 +74,9 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
         if (opp!=null) {
             for (AnswerHeader header : rawAnswerHeaders) {
                 for (S2sOppForms oppForms : opp.getS2sOppForms()) {
-                    if ((oppNameSpace == null || StringUtils.equals(oppForms.getOppNameSpace(), oppNameSpace))
+                    if ((oppNameSpace == null || StringUtils.equals(oppForms.getS2sOppFormsId().getOppNameSpace(), oppNameSpace))
                             && (formName==null||StringUtils.equals(oppForms.getFormName(), formName))) {
-                        List<QuestionnaireUsage> usages = getQuestionnaireUsages(oppForms.getOppNameSpace(),oppForms.getFormName(), developmentProposal); 
+                        List<QuestionnaireUsage> usages = getQuestionnaireUsages(oppForms.getS2sOppFormsId().getOppNameSpace(),oppForms.getFormName(), developmentProposal);
                         for (QuestionnaireUsage usage : usages) {
                             if (header.getQuestionnaire().getQuestionnaireId().equals(usage.getQuestionnaire().getQuestionnaireId())) {
                                 results.add(header);
@@ -91,9 +91,7 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
         return new ArrayList<AnswerHeader>(results);
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService#getQuestionnaireUsages(java.lang.String, java.lang.String)
-     */
+
     public List<QuestionnaireUsage> getQuestionnaireUsages(String oppNameSpace, String formName, DevelopmentProposal proposal) {
         Set<QuestionnaireUsage> result = new HashSet<QuestionnaireUsage>();
         ModuleQuestionnaireBean questionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(proposal);

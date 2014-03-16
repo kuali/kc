@@ -18,10 +18,10 @@ package org.kuali.kra.proposaldevelopment.budget.bo;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 

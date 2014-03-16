@@ -18,9 +18,9 @@ package org.kuali.kra.s2s.service;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Organization;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
@@ -94,21 +94,13 @@ public class PrintFormTest extends KcIntegrationTestBase {
         naList.add(narrative);
         document.getDevelopmentProposal().setNarratives(naList);
         S2sOppForms forms = new S2sOppForms();
-        forms.setOppNameSpace("http://apply.grants.gov/forms/RR_PerformanceSite-V1.0");
+        forms.setS2sOppFormsId(new S2sOppForms.S2sOppFormsId());
+        forms.getS2sOppFormsId().setOppNameSpace("http://apply.grants.gov/forms/RR_PerformanceSite-V1.0");
         List<S2sOppForms> oppForms = new ArrayList<S2sOppForms>();
         oppForms.add(forms);
         document.getDevelopmentProposal().setS2sOppForms(oppForms);
         PrintService printService = ((PrintService) KcServiceLocator.getService(PrintService.class));
-        try {
-            printService.printForm(document);
-        }
-        catch (S2SException e) {
-            LOG.error(e.getMessage(), e);
-        }catch(PrintingException pe){
-        	LOG.error(pe.getMessage());
-        }
-
-
+        printService.printForm(document);
     }
 
 

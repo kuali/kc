@@ -93,7 +93,7 @@
 	                	<div align="center">
 	                		<input type="hidden" name="unit_contact.orgNumber_${institutionalProposalContactRowStatus.index}" value="${institutionalProposalContact.organizationIdentifier}" />
 							${institutionalProposalContact.unitAdministratorUnitNumberByPersonId}&nbsp;
-							<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="unit_contact.orgNumber_${institutionalProposalContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
+							<kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="unit_contact.orgNumber_${institutionalProposalContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
 						</div>
 					</td>
 	                <td valign="middle">

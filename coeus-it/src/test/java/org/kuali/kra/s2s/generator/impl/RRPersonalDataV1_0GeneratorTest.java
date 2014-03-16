@@ -44,16 +44,15 @@ public class RRPersonalDataV1_0GeneratorTest extends S2STestBase<RRPersonalDataV
         proposalPerson.setGender("F");
         proposalPerson.setRace("Asian");
         proposalPerson.setHandicapType("Hearing");
-        proposalPerson.setCountryOfCitizenship("US Citizen");
-        proposalPerson.setOptInCertificationStatus("Y");
-        proposalPerson.setOptInUnitStatus("Y");
+        proposalPerson.setCountryOfCitizenship("USA");
+        proposalPerson.setOptInCertificationStatus(true);
+        proposalPerson.setOptInUnitStatus(true);
         proposalPerson.setProposalPersonNumber(1001);
         proposalPerson.setRace("English");
         ProposalPerson keyPerson = new ProposalPerson();
 
         proposalPerson.setDevelopmentProposal(document.getDevelopmentProposal());
         proposalPerson.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-        saveBO(proposalPerson);
 
         keyPerson.setProposalPersonRoleId("COI");
         keyPerson.setFirstName("Terry");
@@ -62,15 +61,14 @@ public class RRPersonalDataV1_0GeneratorTest extends S2STestBase<RRPersonalDataV
         keyPerson.setGender("M");
         keyPerson.setRace("American Indian or Alaska Native");
         keyPerson.setHandicapType("Visual");
-        keyPerson.setCountryOfCitizenship("Permanent Resident");
-        keyPerson.setOptInCertificationStatus("Y");
-        keyPerson.setOptInUnitStatus("Y");
+        keyPerson.setCountryOfCitizenship("USA");
+        keyPerson.setOptInCertificationStatus(true);
+        keyPerson.setOptInUnitStatus(true);
         keyPerson.setProposalPersonNumber(1002);
         keyPerson.setRace("English");
 
         keyPerson.setDevelopmentProposal(document.getDevelopmentProposal());
         keyPerson.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-        saveBO(keyPerson);
 
         List<ProposalPerson> proposalPersonList = new ArrayList<ProposalPerson>();
         proposalPersonList.add(proposalPerson);

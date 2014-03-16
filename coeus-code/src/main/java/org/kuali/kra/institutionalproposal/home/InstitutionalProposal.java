@@ -21,6 +21,11 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
@@ -51,7 +56,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.kra.service.Sponsorable;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -1461,9 +1465,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         return "proposalNumber";
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
-     */
     @Override
     protected void postPersist() {
         super.postPersist();
@@ -1475,9 +1476,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         }
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup()
-     */
     @Override
     protected void postLoad() {
         super.postLoad();

@@ -17,13 +17,13 @@ package org.kuali.kra.subaward.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.kuali.coeus.common.framework.version.VersionException;
+import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;

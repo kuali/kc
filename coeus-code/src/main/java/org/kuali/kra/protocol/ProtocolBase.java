@@ -18,13 +18,13 @@ package org.kuali.kra.protocol;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.UnitAclLoadable;
-import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
@@ -136,10 +136,6 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
  
     private String leadUnitName;
     private List<ProtocolPersonBase> protocolPersons;
-    
-   
-//TODO: This should be refactored when IRB and IACUC are merged. For now, demote into IACUC
-//    private List<ProtocolCustomData> personCustomDataList = new AutoPopulatingList<PersonCustomData>(PersonCustomData.class);
 
     private List<ProtocolSpecialReviewBase> specialReviews;
     

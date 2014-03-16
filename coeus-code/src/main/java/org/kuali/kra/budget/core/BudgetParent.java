@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.core;
 
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 

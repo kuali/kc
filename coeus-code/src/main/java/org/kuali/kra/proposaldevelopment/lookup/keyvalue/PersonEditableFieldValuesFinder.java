@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
+import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueComparator;
-import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;

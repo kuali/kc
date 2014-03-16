@@ -16,7 +16,7 @@
 package org.kuali.kra.award.document.authorizer;
 
 import org.kuali.kra.award.document.authorization.AwardTask;
-import org.kuali.kra.infrastructure.AwardPermissionConstants;
+import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 
 /**
  * The Modify Award Permissions Authorizer checks to see if the user has 

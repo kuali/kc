@@ -20,9 +20,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.bo.DegreeType;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -117,7 +117,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
                             ERROR_ONE_UNIT, person.getFullName());            
                 retval = false;
             }
-            if(isKeyPerson(person) && (person.getOptInUnitStatus().equals("Y")) && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
+            if(isKeyPerson(person) && person.getOptInUnitStatus() && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
                 reportError("newProposalPersonUnit[" + personIndex + "].unitNumber",
                             ERROR_ONE_UNIT, person.getFullName());  
                 retval = false;

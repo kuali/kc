@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.personmasschange.web.struts.form;
 
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;

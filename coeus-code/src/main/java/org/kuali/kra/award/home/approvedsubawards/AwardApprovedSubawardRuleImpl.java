@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.home.approvedsubawards;
 
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

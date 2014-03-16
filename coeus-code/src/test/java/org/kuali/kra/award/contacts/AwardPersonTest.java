@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.bo.Unit;
+import org.kuali.coeus.common.framework.unit.Unit;
 
 /**
  * This class tests AwardContact

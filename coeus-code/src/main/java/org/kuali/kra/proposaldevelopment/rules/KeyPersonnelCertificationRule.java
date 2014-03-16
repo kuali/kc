@@ -141,8 +141,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
         ProposalPersonRole personRole = person.getRole();
         if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
                 || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
-                || (personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE) && StringUtils.isNotBlank(person.getOptInCertificationStatus())
-                        && person.getOptInCertificationStatus().equals("Y"))) {
+                || (personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE) && person.getOptInCertificationStatus())) {
                 return true;
         }
         

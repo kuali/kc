@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.kuali.kra.bo.Unit;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**

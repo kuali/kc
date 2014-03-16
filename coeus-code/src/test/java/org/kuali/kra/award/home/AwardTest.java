@@ -21,12 +21,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.ContactRoleFixtureFactory;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
-import org.kuali.kra.bo.Unit;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.util.ArrayList;

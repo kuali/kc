@@ -25,11 +25,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.coeus.sys.impl.lock.KcPessimisticLockServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.core.api.criteria.GenericQueryResults.Builder;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -111,13 +112,15 @@ public class KcPessimisticLockServiceImplTest {
          * The business object service is used to retrieve all of the locks and
          * will then be used to delete the second and fourth only.
          */
-        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        final DataObjectService dataObjectService = context.mock(DataObjectService.class);
         context.checking(new Expectations() {{
-            one(businessObjectService).findAll(PessimisticLock.class); will(returnValue(locks));
-            one(businessObjectService).delete(locks.get(1));
-            one(businessObjectService).delete(locks.get(3));
+            final Builder<PessimisticLock> qr = Builder.<PessimisticLock>create();
+            qr.setResults(locks);
+            one(dataObjectService).findMatching(PessimisticLock.class, QueryByCriteria.Builder.create().build()); will(returnValue(qr.build()));
+            one(dataObjectService).delete(locks.get(1));
+            one(dataObjectService).delete(locks.get(3));
         }});
-        pessimisticLockService.setBusinessObjectService(businessObjectService);
+        pessimisticLockService.setDataObjectService(dataObjectService);
         
         /*
          * Let's clear the expired locks and see if things

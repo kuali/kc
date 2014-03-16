@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.service;
 
+import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
-import org.kuali.kra.service.VersionException;
 
 public interface InstitutionalProposalVersioningService {
     

@@ -57,6 +57,7 @@ public class PHSCoverLetterV1_2GeneratorTest extends S2STestBase<PHSCoverLetterV
         narrativeAttachment.setNarrativeData(narrativePdf);
         narrativeAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrativeAttachment.setModuleNumber(1);
+        narrativeAttachment.setFileName("exercise1");
         saveBO(narrativeAttachment);
 
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();

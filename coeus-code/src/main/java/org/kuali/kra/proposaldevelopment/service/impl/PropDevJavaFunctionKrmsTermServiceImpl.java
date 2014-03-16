@@ -20,6 +20,7 @@ import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDa
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +28,13 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.PersonAppointment;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.SponsorHierarchy;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -58,6 +59,7 @@ import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements PropDevJavaFunctionKrmsTermService {
@@ -947,6 +949,13 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
                 break;
             case 'P' :
                 if(citizenshipTypeCode.equals(INT_PERMANENT_RESIDENT_OF_U_S_PENDING)) {
+                    RETURN_VALUE = TRUE;
+                }
+                break;
+            default :
+                Collection<String> citizenshipTypeParams = getParameterService().getParameterValuesAsString(ProposalDevelopmentDocument.class, 
+                        ProposalDevelopmentUtils.PROPOSAL_PI_CITIZENSHIP_TYPE_PARM);
+                if(ObjectUtils.isNotNull(citizenshipTypeParams) && citizenshipTypeParams.contains(citizenshipTypeToCheck)) {
                     RETURN_VALUE = TRUE;
                 }
                 break;

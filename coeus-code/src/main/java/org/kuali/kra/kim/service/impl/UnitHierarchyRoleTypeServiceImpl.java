@@ -16,9 +16,9 @@
 package org.kuali.kra.kim.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.bo.Unit;
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.uif.RemotableAbstractWidget;
