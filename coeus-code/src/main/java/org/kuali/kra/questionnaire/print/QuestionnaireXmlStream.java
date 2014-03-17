@@ -28,7 +28,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.maintenance.KraMaintenanceDocument;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.QuestionnaireDocument.Questionnaire;
@@ -501,14 +500,13 @@ public class QuestionnaireXmlStream implements XmlStream {
      * object.
      */
     private PersistableBusinessObject getBusinessObjectFromXML(String xmlDocumentContents, String objectTagName) {
-        String beginTag = "<document class=\"org.kuali.kra.maintenance.KraMaintenanceDocument\">";
+        String beginTag = "<document class=\"org.kuali.rice.kns.document.MaintenanceDocumentBase\">";
         String endTag = "</document>";
         String objXml = StringUtils.substringBetween(xmlDocumentContents, beginTag, endTag);
         objXml = beginTag + objXml + endTag;
-//        KualiDocumentXmlMaterializer kualiDocumentXmlMaterializer = (KualiDocumentXmlMaterializer)KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
-        
-        KraMaintenanceDocument kraMaintenanceDocument = (KraMaintenanceDocument)KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
-        PersistableBusinessObject businessObject = (PersistableBusinessObject)kraMaintenanceDocument.getDocumentBusinessObject();
+
+        MaintenanceDocumentBase maintenanceDocument = (MaintenanceDocumentBase)KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
+        PersistableBusinessObject businessObject = (PersistableBusinessObject)maintenanceDocument.getDocumentBusinessObject();
         return businessObject;
     }
 

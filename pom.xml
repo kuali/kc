@@ -30,7 +30,7 @@
     </licenses>
 
     <prerequisites>
-        <maven>3.0</maven>
+        <maven>${require.maven.version}</maven>
     </prerequisites>
 
     <modules>
@@ -51,6 +51,8 @@
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
         <commons-collections.version>3.2.1</commons-collections.version>
         <commons-collections4.version>4.0</commons-collections4.version>
+        <commons-fileupload.version>1.3.1</commons-fileupload.version>
+        <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-lang3.version>3.2.1</commons-lang3.version>
         <commons-net.version>3.3</commons-net.version>
@@ -95,9 +97,9 @@
         <oracle.version>10.2.0.3.0</oracle.version>
         <org.eclipse.birt.runtime.version>4.3.1</org.eclipse.birt.runtime.version>
         <org.eclipse.persistence.version>2.5.1</org.eclipse.persistence.version>
-        <pdfbox.version>1.8.3</pdfbox.version>
+        <pdfbox.version>1.8.4</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.4.0-M5-r45020</rice.version>
+        <rice.version>2.4.0-M5-r45327</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.6.4</slf4j.version>
         <spring.version>3.2.3.RELEASE</spring.version>
@@ -125,14 +127,14 @@
         <maven-dependency-plugin.version>2.8</maven-dependency-plugin.version>
         <maven-deploy-plugin.version>2.8.1</maven-deploy-plugin.version>
         <maven-enforcer-plugin.version>1.3.1</maven-enforcer-plugin.version>
-        <maven-failsafe-plugin.version>2.16</maven-failsafe-plugin.version>
+        <maven-failsafe-plugin.version>2.17</maven-failsafe-plugin.version>
         <maven-install-plugin.version>2.5.1</maven-install-plugin.version>
         <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
         <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
         <maven-site-plugin.version>3.3</maven-site-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
-        <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
         <maven-war-plugin.version>2.4</maven-war-plugin.version>
         <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
         <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
@@ -170,7 +172,12 @@
 
         <enforcer.phase>validate</enforcer.phase>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <require.maven.version>3.0</require.maven.version>
+
+        <project.encoding>UTF-8</project.encoding>
+        <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
+
         <project.java.version>1.7</project.java.version>
         <!-- These are used by multiple plugins (compiler, javadoc, xref, etc) -->
         <project.compile.source>${project.java.version}</project.compile.source>
@@ -407,13 +414,16 @@
                                             <exclude>org.glassfish.web:jstl-impl</exclude>
 
                                             <exclude>commons-collections:commons-collections</exclude>
+                                            <exclude>commons-fileupload:commons-fileupload</exclude>
                                         </excludes>
 
                                         <includes>
                                             <include>org.slf4j:*:${slf4j.version}</include>
                                             <include>net.sf.ehcache:*:${ehcache.version}:jar:runtime</include>
                                             <include>com.sun.xml.bind:jaxb-impl:${jaxb-impl.version}</include>
-                                            <exclude>commons-collections:commons-collections:${commons-collections.version}:jar:runtime</exclude>
+                                            <include>commons-collections:commons-collections:${commons-collections.version}:jar:runtime</include>
+                                            <!-- some versions of commons-fileupload have security exploits... only allow a specific version -->
+                                            <include>commons-fileupload:commons-fileupload:${commons-fileupload.version}</include>
                                         </includes>
                                     </bannedDependencies>
                                 </rules>
@@ -727,6 +737,18 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
 
             <dependency>

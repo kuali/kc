@@ -18,6 +18,10 @@
         tools, launch scripts, implementation tools, config templates, etc.
     </description>
 
+    <prerequisites>
+        <maven>${require.maven.version}</maven>
+    </prerequisites>
+
     <properties>
         <maven.skip.packaging>true</maven.skip.packaging>
     </properties>

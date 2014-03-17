@@ -18,6 +18,10 @@
         This module should only contain artifacts that belong in the Kuali Coeus webapp.
     </description>
 
+    <prerequisites>
+        <maven>${require.maven.version}</maven>
+    </prerequisites>
+
     <properties>
         <copy.javaagent.off>true</copy.javaagent.off>
     </properties>
