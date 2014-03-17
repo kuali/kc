@@ -102,10 +102,7 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
     }
     
     
-    /**
-     * 
-     * @see org.kuali.kra.award.AwardAmountInfoService#fetchAwardAmountInfoWithHighestTransactionId(java.util.List)
-     */
+    @Override
 
     
 public AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos) {
@@ -113,10 +110,7 @@ public AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAm
         return awardAmountInfos.get(awardAmountInfos.size() -1);
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.award.AwardAmountInfoService#fetchIndexOfAwardAmountInfoWithHighestTransactionId(java.util.List)
-     */
+    @Override
     public int fetchIndexOfAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos) {
        
         return awardAmountInfos.size() - 1;

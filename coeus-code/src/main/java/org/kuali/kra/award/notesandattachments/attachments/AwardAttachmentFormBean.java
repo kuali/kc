@@ -30,14 +30,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class AwardAttachmentFormBean implements Serializable{
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4184903707661244083L;
     
     private final AwardForm form;

@@ -43,9 +43,7 @@ import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
-/**
- * This class...
- */
+
 public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedureService {
 
     private BusinessObjectService businessObjectService;
@@ -59,23 +57,17 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     private SequenceAccessorService sequenceAccessorService;
 
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#getAllProcedures()
-     */
+    @Override
     public List<IacucProcedure> getAllProcedures() {
         return (List<IacucProcedure>)getBusinessObjectService().findAllOrderBy(IacucProcedure.class, "procedureCategoryCode", true);
     }
 
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#getAllProcedureCategories()
-     */
+    @Override
     public List<IacucProcedureCategory> getAllProcedureCategories() {
         return (List<IacucProcedureCategory>)getBusinessObjectService().findAllOrderBy(IacucProcedureCategory.class, "procedureCategoryCode", true);
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#getProtocolSpecies()
-     */
+    @Override
     @SuppressWarnings("deprecation")
     public List<IacucProtocolSpecies> getProtocolSpecies() {
         Long protocolId = ((IacucProtocolForm) KNSGlobalVariables.getKualiForm()).getIacucProtocolDocument().getProtocol().getProtocolId();
@@ -84,9 +76,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         return (List<IacucProtocolSpecies>) getBusinessObjectService().findMatching(IacucProtocolSpecies.class, keyMap);
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#getRevisedStudyGroupBeans(java.util.List)
-     */
+    @Override
     public List<IacucProtocolStudyGroupBean> getRevisedStudyGroupBeans(IacucProtocol iacucProtocol, List<IacucProcedure> allProcedures) {
         List<IacucProtocolStudyGroupBean> studyGroupBeans = iacucProtocol.getIacucProtocolStudyGroupBeans();
         if(studyGroupBeans.isEmpty()) {
@@ -113,16 +103,12 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     }
     
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#getIacucPersonTrainingDetails(java.lang.String)
-     */
+    @Override
     public List<IacucPersonTraining> getIacucPersonTrainingDetails(String personId) {
         return getIacucProtocolPersonTrainingService().getIacucPersonTrainingDetails(personId);
     }
 
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#setTrainingDetails(org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void setTrainingDetails(IacucProtocol protocol) {
         for(ProtocolPersonBase protocolPerson : protocol.getProtocolPersons()) {
             IacucProtocolPerson iacucProtocolPerson = (IacucProtocolPerson)protocolPerson;
@@ -220,9 +206,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         this.iacucProtocolSpeciesService = iacucProtocolSpeciesService;
     }
 
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#addProtocolStudyGroup(org.kuali.kra.iacuc.IacucProtocolForm)
-     */
+    @Override
     public void addProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, IacucProtocol iacucProtocol) {
         boolean isNewCategoryBean = ObjectUtils.isNull(selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId());
         List<String> protocolSpeciesAndGroups =  selectedProtocolStudyGroupBean.getProtocolSpeciesAndGroups(); 
@@ -307,9 +291,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         return iacucProtocolSpeciesStudyGroups;
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#populateIacucSpeciesPersonProcedures(org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void populateIacucSpeciesPersonProcedures(IacucProtocol iacucProtocol) {
         List<IacucProtocolStudyGroup> iacucProtocolStudyGroups = getAllProcedureStudyGroups(iacucProtocol);
         if(isProcedureViewedBySpecies()) {
@@ -394,9 +376,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         return personProcedureDetails;
     }
 
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#populateIacucSpeciesLocationProcedures(org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void populateIacucSpeciesLocationProcedures(IacucProtocol iacucProtocol) {
         populateProcedureStudyGroupLocations(iacucProtocol);
         populateSpeciesLocationProcedures(iacucProtocol);
@@ -548,9 +528,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         return locationResponsibleForProcedure;
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#synchronizeProtocolStudyGroups(org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void synchronizeProtocolStudyGroups(IacucProtocol iacucProtocol) {
         if(isProcedureViewedBySpecies()) {
             List<IacucProtocolStudyGroupLocation> newProtocolStudyLocationList = iacucProtocol.getIacucProtocolStudyGroupLocations();
@@ -666,9 +644,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         selectedIacucProtocolStudyGroupBean.setSequenceNumber(protocol.getSequenceNumber());
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#deleteProtocolStudyGroup(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean, org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean)
-     */
+    @Override
     public void deleteProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, 
             IacucProtocolStudyGroup deletedIacucProtocolStudyGroup, IacucProtocol iacucProtocol) {
         selectedProtocolStudyGroupBean.getIacucProtocolStudyGroups().remove(deletedIacucProtocolStudyGroup);
@@ -677,42 +653,32 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         }
     }
 
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#deleteProcedureGroupPersonResponsible(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup, org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible, org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void deleteProcedureGroupPersonResponsible(IacucProtocolStudyGroup selectedProtocolStudyGroup, IacucProcedurePersonResponsible deletedProcedurePersonResponsible, 
             IacucProtocol iacucProtocol) {
         selectedProtocolStudyGroup.getIacucProcedurePersonResponsibleList().remove(deletedProcedurePersonResponsible);
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#deleteProcedureGroupLocation(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup, org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation, org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void deleteProcedureGroupLocation(IacucProtocolStudyGroup selectedProtocolStudyGroup, IacucProtocolStudyGroupLocation deletedProtocolStudyGroupLocation, 
             IacucProtocol iacucProtocol) {
         selectedProtocolStudyGroup.getIacucProcedureLocationResponsibleList().remove(deletedProtocolStudyGroupLocation);
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#deleteProtocolStudyGroup(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean, org.kuali.kra.iacuc.procedures.IacucProtocolSpeciesStudyGroup)
-     */
+    @Override
     public void deleteProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, IacucProtocolSpeciesStudyGroup deletedIacucProtocolStudyGroup) {
         selectedProtocolStudyGroupBean.getIacucProtocolStudyGroups().removeAll(deletedIacucProtocolStudyGroup.getIacucProtocolStudyGroups());
         selectedProtocolStudyGroupBean.getIacucProtocolSpeciesStudyGroups().remove(deletedIacucProtocolStudyGroup);
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#addProcedureLocation(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation, org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void addProcedureLocation(IacucProtocolStudyGroupLocation newStudyGroupLocation, IacucProtocol protocol) {
         updateAttributesForNewProcedureLocation(newStudyGroupLocation, protocol);
         protocol.getIacucProtocolStudyGroupLocations().add(newStudyGroupLocation);
         populateSpeciesLocationProcedures(protocol);
     }
 
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#addProcedureGroupLocation(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation, org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup)
-     */
+    @Override
     public void addProcedureGroupLocation(IacucProtocolStudyGroupLocation newStudyGroupLocation, IacucProtocolStudyGroup selectedStudyGroup, IacucProtocol protocol) {
         populateProcedureStudyGroupLocations(protocol);
         updateAttributesForNewProcedureLocation(newStudyGroupLocation, protocol);
@@ -721,9 +687,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         selectedStudyGroup.setNewIacucProtocolStudyGroupLocation(new IacucProtocolStudyGroupLocation());
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#deleteProcedureLocation(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation, org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void deleteProcedureLocation(IacucProtocolStudyGroupLocation deletedIacucProtocolStudyGroupLocation, IacucProtocol iacucProtocol) {
         deleteProcedureLocationList(iacucProtocol, deletedIacucProtocolStudyGroupLocation);
         iacucProtocol.getIacucProtocolStudyGroupLocations().remove(deletedIacucProtocolStudyGroupLocation);
@@ -791,9 +755,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         return protocolStudyGroupLocations;
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#addLocationResponsibleProcedures(org.kuali.kra.iacuc.IacucProtocol, org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation)
-     */
+    @Override
     public void addLocationResponsibleProcedures(IacucProtocol protocol) {
         for(IacucProtocolStudyGroupLocation iacucProtocolStudyGroupLocation : protocol.getIacucProtocolStudyGroupLocations()) {
             for(IacucProtocolSpeciesStudyGroup protocolSpeciesStudyGroup : iacucProtocolStudyGroupLocation.getProcedureDetails()) {
@@ -853,9 +815,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         }
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#addPersonResponsibleProcedures(org.kuali.kra.iacuc.IacucProtocol, org.kuali.kra.iacuc.personnel.IacucProtocolPerson)
-     */
+    @Override
     public void addPersonResponsibleProcedures(IacucProtocol protocol) {
         for(ProtocolPersonBase protocolPerson : protocol.getProtocolPersons()) {
             IacucProtocolPerson iacucProtocolPerson = (IacucProtocolPerson)protocolPerson; 
@@ -955,9 +915,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         resposibleProcedure.setIacucProtocolStudyGroupId(iacucProtocolStudyGroup.getIacucProtocolStudyGroupId());
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#setProcedureSummaryGroupedBySpecies(org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void setProcedureSummaryGroupedBySpecies(IacucProtocol protocol) {
         List<IacucProtocolStudyGroup> iacucProtocolStudyGroups = getAllProcedureStudyGroups(protocol);
         List<IacucProtocolSpeciesStudyGroup> iacucProtocolStudyGroupSpeciesList = getListOfProcedureStudyBySpecies(iacucProtocolStudyGroups);
@@ -977,9 +935,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         }
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#setProcedureSummaryBySpeciesGroup(org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void setProcedureSummaryBySpeciesGroup(IacucProtocol protocol) {
         List<IacucProtocolStudyGroup> iacucProtocolStudyGroups = getAllProcedureStudyGroups(protocol);
         List<IacucProtocolSpeciesStudyGroup> iacucProtocolStudyGroupSpeciesList = getListOfProcedureStudyBySpeciesGroup(iacucProtocolStudyGroups);
@@ -1177,16 +1133,12 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         }
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#createNewProtocolStudyProcedures(org.kuali.kra.iacuc.IacucProtocol, org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void createNewProtocolStudyProcedures(IacucProtocol sourceProtocol, IacucProtocol destProtocol) {
         createNewStudyProcedures(sourceProtocol, destProtocol);
     }
 
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#mergeProtocolSpecies(org.kuali.kra.iacuc.IacucProtocol, org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public void mergeProtocolSpecies(IacucProtocol sourceProtocol, IacucProtocol destProtocol) {
         destProtocol.setIacucProtocolSpeciesList((List<IacucProtocolSpecies>) deepCopy(sourceProtocol.getIacucProtocolSpeciesList()));
@@ -1221,9 +1173,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         }
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#mergeProtocolProcedures(org.kuali.kra.iacuc.IacucProtocol, org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void mergeProtocolProcedures(IacucProtocol sourceProtocol, IacucProtocol destProtocol) {
         createNewStudyProcedures(sourceProtocol, destProtocol);
         synchronizeProcedurePersonnel(sourceProtocol, destProtocol);
@@ -1243,9 +1193,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         }
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#mergeProtocolProcedurePersonnel(org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void mergeProtocolProcedurePersonnel(IacucProtocol destProtocol) {
         HashMap<String, IacucProtocolPerson> newProtocolPersons = getProtocolPersons(destProtocol);       
         for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : destProtocol.getIacucProtocolStudyGroups()) {
@@ -1259,9 +1207,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         }
     }
     
-    /**
-     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#resetAllProtocolStudyProcedures(org.kuali.kra.iacuc.IacucProtocol)
-     */
+    @Override
     public void resetAllProtocolStudyProcedures(IacucProtocol iacucProtocol) {
         setAttributesForIacucProtocolSpecies(iacucProtocol);
         HashMap<String, IacucProtocolSpecies> newIacucProtocolSpeciesMapping = getIacucProtocolSpeciesMapping(iacucProtocol.getIacucProtocolSpeciesList());

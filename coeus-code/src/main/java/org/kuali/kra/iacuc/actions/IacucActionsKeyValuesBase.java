@@ -24,9 +24,7 @@ import org.kuali.kra.protocol.actions.ProtocolActionsKeyValuesBase;
  */
 public abstract class IacucActionsKeyValuesBase extends ProtocolActionsKeyValuesBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5653084925713964704L;
  
     

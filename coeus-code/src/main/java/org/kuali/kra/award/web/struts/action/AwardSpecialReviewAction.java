@@ -202,11 +202,6 @@ public class AwardSpecialReviewAction extends AwardAction {
         return forward;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.award.web.struts.action.AwardAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
-     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);

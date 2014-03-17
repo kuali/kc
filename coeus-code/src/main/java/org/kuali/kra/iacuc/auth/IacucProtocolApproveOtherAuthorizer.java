@@ -22,10 +22,7 @@ public class IacucProtocolApproveOtherAuthorizer  extends IacucProtocolAuthorize
 
     private KcWorkflowService kraWorkflowService;
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
-     */
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         IacucProtocolDocument protocolDocument = (IacucProtocolDocument) task.getProtocol().getProtocolDocument();
 

@@ -47,16 +47,12 @@ public class AddProtocolSpeciesEvent extends ProtocolSpeciesEventBase {
         this(errorPathPrefix, (IacucProtocolDocument)document, iacucProtocolSpecies);
     } 
     
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return AddProtocolSpeciesRule.class;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddProtocolSpeciesRule)rule).processAddProtocolSpeciesBusinessRules(this);
     }

@@ -44,9 +44,6 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
                         
                                             extends KcTransactionalDocumentBase implements Copyable, SessionDocument {
 
-	/**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = 1L;
 
     private static final String DOCUMENT_TYPE_CODE = "COMT";
@@ -63,9 +60,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
      */
     private List<CMT> committeeList = new ArrayList<CMT>();
     
-    /**
-     * Constructs a CommitteeDocument object
-     */
+
     public CommitteeDocumentBase() {
         CMT committee = getNewCommitteeInstanceHook();
         committeeList.add(committee);
@@ -77,9 +72,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
     protected abstract CMT getNewCommitteeInstanceHook();
     
 
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#initialize()
-     */
+    @Override
     public void initialize() {
     }
 
@@ -121,32 +114,16 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
         this.committeeList = committeeList;
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
-// TODO : only save to wkflw document, not persist to BO till 'approve'        
-//        List <CommitteeMembershipRole> roles = new ArrayList<CommitteeMembershipRole>();
-//        List<CommitteeMembershipExpertise> expertise = new ArrayList<CommitteeMembershipExpertise>();
-//        for (CommitteeMembershipBase committeeMembership : getCommittee().getCommitteeMemberships()) {
-//            roles.addAll(committeeMembership.getMembershipRoles());
-//            expertise.addAll(committeeMembership.getMembershipExpertise());
-//        }
 
         List managedLists = super.buildListOfDeletionAwareLists();
-//        managedLists.add(committeeList);
-//        managedLists.add(roles);
-//        managedLists.add(expertise);
-//        managedLists.add(getCommittee().getCommitteeMemberships());
-//        managedLists.addAll(getCommittee().buildListOfDeletionAwareLists());
+
         return managedLists;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getAllRolePersons()
-     */
+    @Override
     protected List<RolePersons> getAllRolePersons() {
         return new ArrayList<RolePersons>();
     }

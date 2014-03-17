@@ -38,10 +38,7 @@ import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
 public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase implements DocumentAuditRule {
     public static final String BUDGET_COST_SHARE_ERROR_KEY = "budgetCostShareAuditErrors";
     
-    /**
-     * 
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         Budget budget = ((BudgetDocument) document).getBudget();
 

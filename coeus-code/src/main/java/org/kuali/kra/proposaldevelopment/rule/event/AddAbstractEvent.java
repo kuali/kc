@@ -50,9 +50,7 @@ public class AddAbstractEvent extends KcDocumentEventBase {
         logEvent();
     }
     
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase#validate()
-     */
+    @Override
     public void validate() {
         super.validate();
         if (this.proposalAbstract == null) {
@@ -60,9 +58,6 @@ public class AddAbstractEvent extends KcDocumentEventBase {
         }
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
@@ -79,16 +74,12 @@ public class AddAbstractEvent extends KcDocumentEventBase {
         LOG.debug(logMessage);
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return AbstractsRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AbstractsRule) rule).processAddAbstractBusinessRules((ProposalDevelopmentDocument) this.getDocument(), 
                                                                         this.proposalAbstract);

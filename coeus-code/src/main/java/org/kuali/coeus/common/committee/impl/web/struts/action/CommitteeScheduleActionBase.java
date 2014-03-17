@@ -51,9 +51,6 @@ public abstract class CommitteeScheduleActionBase extends CommitteeActionBase {
         
     public static final boolean FALSE = false;
     
-    /**
-     * @see org.kuali.coeus.common.committee.impl.web.struts.action.CommitteeActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -64,9 +61,6 @@ public abstract class CommitteeScheduleActionBase extends CommitteeActionBase {
         return actionForward;
     }    
     
-    /**
-     * @see org.kuali.coeus.common.committee.impl.web.struts.action.CommitteeActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
                 

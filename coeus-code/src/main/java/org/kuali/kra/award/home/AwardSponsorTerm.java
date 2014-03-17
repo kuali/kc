@@ -35,9 +35,7 @@ public class AwardSponsorTerm extends AwardAssociate {
 
     private SponsorTerm sponsorTerm;
 
-    /**
-     * Constructs a AwardSponsorTerm.java.
-     */
+
     public AwardSponsorTerm() {
         super();
     }
@@ -135,9 +133,6 @@ public class AwardSponsorTerm extends AwardAssociate {
         this.sponsorTerm = sponsorTerm;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -150,9 +145,6 @@ public class AwardSponsorTerm extends AwardAssociate {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -174,9 +166,7 @@ public class AwardSponsorTerm extends AwardAssociate {
         return true;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.awardSponsorTermId = null;
     }

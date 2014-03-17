@@ -130,12 +130,7 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
         assertNotNull(message);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_ABSTRACT_TYPE_DUPLICATE);
     }
-    
-    /**
-     * This method...
-     * @param document
-     * @param abstractTypeCode
-     */
+
     private void addAbstract(ProposalDevelopmentDocument document, String abstractTypeCode) {
         List<ProposalAbstract> abstracts = document.getDevelopmentProposal().getProposalAbstracts();
         ProposalAbstract proposalAbstract = new ProposalAbstract();

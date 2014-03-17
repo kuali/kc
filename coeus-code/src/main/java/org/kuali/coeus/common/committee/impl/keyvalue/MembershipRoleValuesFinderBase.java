@@ -29,9 +29,7 @@ import java.util.Map;
 
 public abstract class MembershipRoleValuesFinderBase extends UifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7492852270320003877L;
 
     @Override

@@ -31,25 +31,11 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
     
     private BusinessObject source;
     private int index;
-        
-    /**
-     * Default Constructor
-     * 
-     * @param document
-     * @param person
-     * @param source business object
-     */
+
     public ChangeKeyPersonEvent(ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source, int index) {
         this("", document, person, source ,index);
     }
 
-    /**
-     * Default Constructor
-     * 
-     * @param document
-     * @param person
-     * @param source business object 
-     */
     public ChangeKeyPersonEvent(String errorPathPrefix, ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source,int index) {
         super("add BusinessObject to person " + person, errorPathPrefix, document, person);
         setSource(source);
@@ -75,16 +61,12 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
         this.source = source;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class<ChangeKeyPersonRule> getRuleInterfaceClass() {
         return ChangeKeyPersonRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         //GlobalVariables.getMessageMap().addToErrorPath(getErrorPathPrefix());
         boolean retval = ((ChangeKeyPersonRule) rule).processChangeKeyPersonBusinessRules(getProposalPerson(), getSource(),index);

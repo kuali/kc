@@ -37,9 +37,7 @@ import java.util.Map;
 public class ProtocolLookupableHelperServiceImpl extends ProtocolLookupableHelperServiceImplBase<Protocol> {
     
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -6170836146164439176L;
     
     private ProtocolDao<Protocol> protocolDao;

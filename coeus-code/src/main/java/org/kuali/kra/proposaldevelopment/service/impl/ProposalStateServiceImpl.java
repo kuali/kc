@@ -28,9 +28,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
     
     private ProposalHierarchyService proposalHierarchyService;
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalStateService#getProposalStateTypeCode(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, boolean)
-     */
+    @Override
     public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged, boolean isRejectAction ) {
         String proposalStateTypeCode = null;
         WorkflowDocument wd = proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument();

@@ -966,7 +966,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     @Override
     public List<String> getRoleNames() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
@@ -982,7 +982,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     @Override
     public String getDocumentRoleTypeCode() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
@@ -992,29 +992,18 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
             qualifiedRoleAttributes.put("documentNumber", getSubAwardDocument().getDocumentNumber());
 
     }
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#incrementSequenceNumber()
-     */
+    @Override
     public void incrementSequenceNumber() {
         this.sequenceNumber++;
     }
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getOwnerSequenceNumber()
-     */
     @Override
     public void setSequenceOwner(SubAward newlyVersionedOwner) {
-        // TODO Auto-generated method stub
+
     }
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
-     */
     @Override
     public SubAward getSequenceOwner() {
         return this;
     }
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
     @Override
     public void resetPersistenceState() {
        this.subAwardId=null;

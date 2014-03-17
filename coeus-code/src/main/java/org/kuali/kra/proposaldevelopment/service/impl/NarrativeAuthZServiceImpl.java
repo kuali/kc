@@ -50,9 +50,7 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
         return businessObjectService;
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService#getDefaultNarrativeRight(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
+    @Override
     public NarrativeRight getDefaultNarrativeRight(String userId, ProposalDevelopmentDocument doc) {
         NarrativeRight right;
         if (kraAuthorizationService.hasPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE)) {
@@ -67,9 +65,7 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
         return right;
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService#getDefaultNarrativeRight(java.lang.String)
-     */
+    @Override
     public NarrativeRight getDefaultNarrativeRight(String roleName) {
         return this.getDefaultNarrativeRight(Collections.singletonList(roleName));
     }

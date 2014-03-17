@@ -23,9 +23,7 @@ import java.sql.Date;
 
 public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -277575593517810685L;
 
     private Long proposalAdminDetailId;

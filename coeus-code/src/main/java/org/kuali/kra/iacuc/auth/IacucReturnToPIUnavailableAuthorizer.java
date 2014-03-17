@@ -27,7 +27,6 @@ public class IacucReturnToPIUnavailableAuthorizer extends IacucProtocolAuthorize
 
     private KcWorkflowService kraWorkflowService;
 
-    /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, IacucProtocolTask task) {
         if ( (!kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) ||

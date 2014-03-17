@@ -36,10 +36,7 @@ public class SaveFinancialEntityRule extends KcTransactionalDocumentRuleBase imp
     
     private static final String SPONSOR_CODE = "sponsorCode";
     private SponsorService sponsorService;
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(SaveFinancialEntityEvent event) {
         boolean isValid = checkValidSponsor(event);
         isValid &= checkUniqueEntityName(event);

@@ -112,9 +112,7 @@ public class ProposalRoleTemplate extends KcPersistableBusinessObjectBase {
         this.unit = unit;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
         if (this == obj) return true;

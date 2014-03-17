@@ -110,9 +110,7 @@ extends KcTransactionalDocumentAuthorizerBase {
         (SubAwardDocument) document, TaskName.VIEW_SUBAWARD);
     }
 
-    /**
-     * @see org.kuali.rice.krad.document.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
-     */
+    @Override
     public boolean canInitiate(String documentTypeName, Person user) {
         return canCreateSubAward(user.getPrincipalId());
     }

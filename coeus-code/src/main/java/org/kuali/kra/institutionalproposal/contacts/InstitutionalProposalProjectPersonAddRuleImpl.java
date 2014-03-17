@@ -19,15 +19,11 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalProjectPersonAddRuleImpl extends BaseInstitutionalProposalContactAddRule implements
         InstitutionalProposalProjectPersonAddRule {
 
-    /**
-     * @see org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalProjectPersonAddRule
-     */
+    @Override
     public boolean processAddInstitutionalProposalProjectPersonBusinessRules(InstitutionalProposalProjectPersonRuleAddEvent event) {
         InstitutionalProposalPerson newProjectPerson = event.getNewProjectPerson();
         InstitutionalProposal institutionalProposal = ((InstitutionalProposalDocument) event.getDocument()).getInstitutionalProposal();

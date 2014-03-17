@@ -39,10 +39,7 @@ public class ProtocolReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
     private PermissionService permissionService;
 
     private List<ProtocolReviewType>allReviewTypes = null;
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = filterActiveProtocolReviewTypes();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));

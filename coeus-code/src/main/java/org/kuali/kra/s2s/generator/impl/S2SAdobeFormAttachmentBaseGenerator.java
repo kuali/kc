@@ -141,7 +141,7 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
             return writer.toString();
         }
         catch (Exception e) {
-            throw new S2SException(e.getMessage());
+            throw new S2SException(e.getMessage(),e);
         }
     }
 

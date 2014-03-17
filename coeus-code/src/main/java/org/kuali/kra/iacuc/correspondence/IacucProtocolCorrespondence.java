@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 
 public class IacucProtocolCorrespondence  extends ProtocolCorrespondence{
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 604115444527901249L;
 
     /**

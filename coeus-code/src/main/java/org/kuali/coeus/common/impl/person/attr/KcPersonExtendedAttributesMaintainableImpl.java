@@ -36,9 +36,6 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 
-/**
- * This class...
- */
 public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableImpl implements Maintainable {
     
     private CustomDataHelper customDataHelper;

@@ -42,9 +42,7 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
     @SkipVersioning
     private List<SequenceAssociateChild> skipChildren;
     
-    /**
-     * Constructs a SequenceOwnerImpl.java.
-     */
+
     public SequenceOwnerImpl() {
         this.name = "SequenceOwner";
         sequenceNumber = 1;
@@ -78,9 +76,6 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
         sequenceAssociateChild.setOwner(this);
     }
     
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -110,30 +105,22 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
         return true;
     }
 
-    /**
-     * @return
-     */
+
     public SimpleAssociate getAssociate() {
         return associate;
     }
     
-    /**
-     * @return
-     */
+
     public List<SequenceAssociateAttachmentBO> getAttachments() {
         return attachments;
     }
     
-    /**
-     * @return
-     */
+
     public List<SequenceAssociateChild> getChildren() {
         return children;
     }
     
-    /**
-     * @return
-     */
+
     public String getName() {
         return name;
     }
@@ -146,23 +133,17 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
         return ownerAssociate;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getOwnerSequenceNumber()
-     */
+    @Override
     public Integer getOwnerSequenceNumber() {
         return null;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#getSequenceNumber()
-     */
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
-     */
+    @Override
     public SequenceOwnerImpl getSequenceOwner() {
        return this;
     }
@@ -187,16 +168,11 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
         return skipChildren;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getVersionNameField()
-     */
+    @Override
     public String getVersionNameField() {
         return "name";
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -206,16 +182,12 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
         return result;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#incrementSequenceNumber()
-     */
+    @Override
     public void incrementSequenceNumber() {
         sequenceNumber++;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
        setSequenceOwnerId(null); 
     }
@@ -263,9 +235,7 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
         this.sequenceNumber = sequenceNumber;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner)
-     */
+    @Override
     public void setSequenceOwner(SequenceOwnerImpl newOwner) {
        // do nothing - this is root sequence association
     }

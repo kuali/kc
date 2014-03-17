@@ -29,14 +29,10 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public abstract class InstitutionalProposalContact extends InstitutionalProposalAssociate implements SequenceAssociate<InstitutionalProposal> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7866050768005705153L;
 
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
@@ -64,30 +60,16 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     private transient KcPersonService kcPersonService;
 
-    /**
-     * Constructor
-     */
+
     public InstitutionalProposalContact() {
     }
 
-    /**
-     * 
-     * Convenience constructor
-     * @param rolodex
-     * @param contactType
-     */
     public InstitutionalProposalContact(NonOrganizationalRolodex rolodex, ContactRole contactRole) {
         this();
         setRolodex(rolodex);
         setContactRole(contactRole);
     }
 
-    /**
-     * 
-     * Convenience constructor
-     * @param person
-     * @param contactCategory
-     */
     public InstitutionalProposalContact(KcPerson person, ContactRole role) {
         this();
         setPerson(person);
@@ -156,24 +138,18 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         return contact;
     }
 
-    /**
-     * @return
-     */
+
     public String getContactOrganizationName() {
         Contactable contact = getContact();
         return contact != null ? contact.getContactOrganizationName() : null;
     }
 
-    /**
-     * @return
-     */
+
     public String getGenericId() {
         return rolodexId != null ? rolodexId.toString() : personId;
     }
 
-    /**
-     * @return
-     */
+
     public String getOrganizationIdentifier() {
         return getContact() != null ? getContact().getOrganizationIdentifier() : null;
     }
@@ -186,23 +162,17 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         return contactRole;
     }
 
-    /**
-     * @return
-     */
+
     public String getContactRoleCode() {
         return roleCode;
     }
 
-    /**
-     * @return
-     */
+
     public String getEmailAddress() {
         return getContact() != null ? getContact().getEmailAddress() : null;
     }
 
-    /**
-     * @return
-     */
+
     public String getFullName() {
         return fullName;
     }
@@ -274,9 +244,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         return getContact() != null && (getContact() instanceof KcPerson);
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.institutionalProposalContactId = null;
     }
@@ -424,9 +392,6 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
      */
     protected abstract String getContactRoleTypeIdentifier();
 
-    /**
-     * @see org.kuali.kra.institutionalProposal.contacts.institutionalProposalContact#refreshContactRole()
-     */
     protected ContactRole refreshContactRole() {
         ContactRole role;
         if (roleCode != null) {
@@ -474,9 +439,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         setRolodex(rolodex);
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
-     */
+    @Override
     public InstitutionalProposal getSequenceOwner() {
         return getInstitutionalProposal();
     }
@@ -484,9 +447,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     //    public Integer getSequenceNumber() {  
     //        return getInstitutionalProposal().getSequenceNumber();  
     //    }  
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
-     */
+    @Override
     public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
         setInstitutionalProposal((InstitutionalProposal) newlyVersionedOwner);
     }

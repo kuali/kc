@@ -18,9 +18,7 @@ package org.kuali.kra.subaward.subawardrule;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 
-/**
- * This class is for rule validation for subAwardContact...
- */
+
 public interface SubAwardContactRule extends
 org.kuali.rice.krad.rules.rule.BusinessRule {
 	/**.

@@ -148,12 +148,12 @@ public abstract class ProtocolAmendRenewalBase extends KcPersistableBusinessObje
         this.protocol = protocol;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ProtocolBase getSequenceOwner() {
         return this.getProtocol();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void setSequenceOwner(ProtocolBase newlyVersionedOwner) {
         this.setProtocol(newlyVersionedOwner);
     }

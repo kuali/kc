@@ -28,18 +28,13 @@ import org.kuali.rice.krad.exception.ValidationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * This class...
- */
+
 public class IacucProtocolCustomDataAction extends IacucProtocolAction {
 
     public String getCustomAttributeNameHook() {
         return "IacucCustomDataAttribute";
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -49,9 +44,7 @@ public class IacucProtocolCustomDataAction extends IacucProtocolAction {
         return forward;    
     }
     
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) throws Exception { 
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;

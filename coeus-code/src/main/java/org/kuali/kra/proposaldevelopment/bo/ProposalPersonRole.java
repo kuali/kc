@@ -127,16 +127,12 @@ public class ProposalPersonRole extends KcPersistableBusinessObjectBase implemen
         this.certificationRequired = certificationRequired;
     }
 
-    /**
-     * @see org.kuali.kra.award.home.ContactRole#getRoleCode()
-     */
+    @Override
     public String getRoleCode() {
         return getProposalPersonRoleId();
     }
 
-    /**
-     * @see org.kuali.kra.award.home.ContactRole#getRoleDescription()
-     */
+    @Override
     public String getRoleDescription() {
         return getDescription();
     }

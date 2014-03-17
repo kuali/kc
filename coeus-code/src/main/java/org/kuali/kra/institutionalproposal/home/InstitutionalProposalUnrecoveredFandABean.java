@@ -22,14 +22,9 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 
 import java.io.Serializable;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalUnrecoveredFandABean implements Serializable {
 
-/**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = -4162806132355841770L;
 
     private InstitutionalProposalForm parent;
@@ -77,18 +72,12 @@ public class InstitutionalProposalUnrecoveredFandABean implements Serializable {
         this.newInstitutionalProposalUnrecoveredFandA = thisInstitutionalProposalUnrecoveredFandA;
     }
 
-    /**
-     * This method...
-     * @return
-     */
+
     public InstitutionalProposalDocument getInstitutionalProposalDocument() {
         return parent.getInstitutionalProposalDocument();
     }
     
-    /**
-     * This method...
-     * @return
-     */
+
     public Object getData() {
         return getNewInstitutionalProposalUnrecoveredFandA();
     }

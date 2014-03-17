@@ -42,9 +42,7 @@ public class AwardSponsorContactsBean extends AwardContactsBean {
         return null;
     }
     
-    /**
-     * @return
-     */
+
     public AwardSponsorContact getSponsorContact() {
         return (AwardSponsorContact) newAwardContact;
     }

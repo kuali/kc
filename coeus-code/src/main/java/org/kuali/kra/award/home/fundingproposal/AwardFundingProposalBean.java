@@ -178,9 +178,7 @@ public class AwardFundingProposalBean implements Serializable {
         mergeTypeCode = mergeType.getKey();
     }    
 
-    /**
-     * @return
-     */
+
     BusinessObjectService getBusinessObjectService() {
         return (BusinessObjectService) KcServiceLocator.getService(BusinessObjectService.class);
     }
@@ -195,9 +193,7 @@ public class AwardFundingProposalBean implements Serializable {
         mergeTypeCode = FundingProposalMergeType.NOCHANGE.getKey();
     }
     
-    /**
-     * @return
-     */
+
     Award getAward() {
         return awardForm.getAwardDocument().getAward();
     }

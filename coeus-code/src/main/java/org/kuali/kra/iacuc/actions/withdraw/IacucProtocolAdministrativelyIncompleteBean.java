@@ -22,9 +22,7 @@ import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncomplet
 
 public class IacucProtocolAdministrativelyIncompleteBean extends IacucProtocolWithdrawBean implements ProtocolAdministrativelyIncompleteBean {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8495329655747136375L;
 
     public IacucProtocolAdministrativelyIncompleteBean(IacucActionHelper actionHelper) {

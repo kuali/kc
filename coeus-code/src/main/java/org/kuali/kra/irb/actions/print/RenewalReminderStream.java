@@ -32,16 +32,12 @@ import org.kuali.kra.protocol.actions.print.RenewalReminderStreamBase;
 import java.sql.Date;
 import java.util.*;
 
-/**
- * This class...
- */
+
 public class RenewalReminderStream extends RenewalReminderStreamBase {
     private ProtocolXmlStream protocolXmlStream;
     private CommitteeXmlStream committeeXmlStream;
 
-    /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
-     */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Protocol protocol = (Protocol)printableBusinessObject;
         RenewalReminderDocument renewalReminderDocument = RenewalReminderDocument.Factory.newInstance() ;

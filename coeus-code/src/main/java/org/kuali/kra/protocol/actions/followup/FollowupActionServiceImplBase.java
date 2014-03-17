@@ -33,9 +33,7 @@ public abstract class FollowupActionServiceImplBase<T extends ValidProtocolActio
     private static final String PROTOCOL_ACTION_TYPE_CODE = "protocolActionTypeCode"; 
     private static final String COMMITTEE_MOTION_TYPE_CODE = "motionTypeCode";
   
-    /**
-     * @see org.kuali.kra.irb.actions.followup.FollowupActionService#getFollowupsForActionTypeAndMotionType(java.lang.String, java.lang.String)
-     */
+    @Override
     public List<T> getFollowupsForActionTypeAndMotionType(String protocolActionTypeCode, String committeeMotionTypeCode) {
          
         Map<String,String> fieldSet = new HashMap<String,String>();
@@ -66,9 +64,7 @@ public abstract class FollowupActionServiceImplBase<T extends ValidProtocolActio
         return resultSet;
     }
     
-    /**
-     * @see org.kuali.kra.irb.actions.followup.FollowupActionService#getFollowupsForProtocol(org.kuali.kra.irb.ProtocolBase)
-     */
+    @Override
     public List<T> getFollowupsForProtocol(ProtocolBase protocol) {
         List<T> resultList; 
         if (protocol.getLastProtocolAction()==null) {
@@ -87,9 +83,7 @@ public abstract class FollowupActionServiceImplBase<T extends ValidProtocolActio
     protected abstract String getProtocolActionTypeCodeForRecordCommitteeDecisionHook();
 
 
-    /**
-     * @see org.kuali.kra.irb.actions.followup.FollowupActionService#isActionOpenForFollowup(java.lang.String, org.kuali.kra.irb.ProtocolBase)
-     */
+    @Override
     public boolean isActionOpenForFollowup(String protocolActionTypeCode, ProtocolBase protocol) {
         if (getLogHook().isDebugEnabled()) {
             getLogHook().debug("**********************************");

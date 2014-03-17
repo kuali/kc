@@ -25,10 +25,7 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
  */
 public class AddIacucProtocolPersonnelRule extends ProtocolPersonnelRuleBase implements KcBusinessRule<AddIacucProtocolPersonnelEvent> {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(AddIacucProtocolPersonnelEvent event) {
         return processAddProtocolPersonnelEvent(event);
     }

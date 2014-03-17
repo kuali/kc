@@ -316,7 +316,7 @@ public class SponsorHierarchy extends KcPersistableBusinessObjectBase implements
 
     @Override
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
-        // TODO Auto-generated method stub
+
         
     }
 }

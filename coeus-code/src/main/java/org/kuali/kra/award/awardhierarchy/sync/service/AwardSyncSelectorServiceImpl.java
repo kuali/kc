@@ -45,9 +45,7 @@ public class AwardSyncSelectorServiceImpl implements AwardSyncSelectorService {
         return false;
     }
     
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncSelectorService#isChangeApplicableToAward(org.kuali.kra.award.home.Award, org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange)
-     */
+    @Override
     public boolean isChangeApplicableToAward(Award award, AwardSyncChange change) {
         boolean retval = false;
         if ((StringUtils.equals(change.getSyncDescendants(), 
@@ -72,9 +70,7 @@ public class AwardSyncSelectorServiceImpl implements AwardSyncSelectorService {
         return retval;
     }       
     
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncSelectorService#isAwardActive(org.kuali.kra.award.home.Award)
-     */
+    @Override
     public boolean isAwardActive(Award award) {
         String activeParm = getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.AWARD_ACTIVE_STATUS_CODES_PARM);
         for (String activeCode : activeParm.split(",")) {
@@ -85,9 +81,7 @@ public class AwardSyncSelectorServiceImpl implements AwardSyncSelectorService {
         return false;
     }
 
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncSelectorService#isCostShareAccount(org.kuali.kra.award.home.Award)
-     */
+    @Override
     public boolean isCostShareAccount(Award award) {
         String sponsorCode = getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.AWARD_COST_SHARING_PARM);
         return StringUtils.equals(award.getSponsorCode(), sponsorCode);

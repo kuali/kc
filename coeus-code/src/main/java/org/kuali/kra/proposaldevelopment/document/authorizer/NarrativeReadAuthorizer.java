@@ -33,11 +33,7 @@ public class NarrativeReadAuthorizer extends NarrativeAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeAuthorizer#isAuthorized(java.lang.String, 
-     *      org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, NarrativeTask task) {
           
         ProposalDevelopmentDocument doc = task.getDocument();

@@ -199,16 +199,12 @@ public class OwnerAssociate implements SequenceOwner<SequenceOwnerImpl> {
         this.sequenceNumber = sequenceNumber;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner)
-     */
+    @Override
     public void setSequenceOwner(SequenceOwnerImpl newOwnerReference) {
         setOwner(newOwnerReference);
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getVersionNameField()
-     */
+    @Override
     public String getVersionNameField() {
         return "name";
     }

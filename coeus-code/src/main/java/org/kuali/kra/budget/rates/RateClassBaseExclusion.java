@@ -22,9 +22,7 @@ public class RateClassBaseExclusion extends KcPersistableBusinessObjectBase {
     
     
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5945293631529734148L;
     private Long rateClassBaseExclusionId; 
     private String rateClassCode; 

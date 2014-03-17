@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
 
 public class IacucProtocolPersonRole extends ProtocolPersonRoleBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3784889493594400151L;
     
     public static final String ROLE_CORRESPONDENTS = "CRC";

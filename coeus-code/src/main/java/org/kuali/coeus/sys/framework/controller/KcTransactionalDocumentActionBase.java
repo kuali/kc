@@ -359,10 +359,6 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /** 
-     * {@inheritDoc}
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#generatePessimisticLockMessage(org.kuali.rice.krad.document.authorization.PessimisticLock)
-     */
     @Override
     protected String generatePessimisticLockMessage(PessimisticLock lock) {
         String descriptor = (lock.getLockDescriptor() != null) ? lock.getLockDescriptor() : "";
@@ -451,9 +447,6 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
         }  
     }
     
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
-     */
     @SuppressWarnings("unchecked")
     @Override
     protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {

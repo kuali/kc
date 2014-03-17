@@ -137,7 +137,6 @@ public abstract class ProtocolAssociateBase extends KcPersistableBusinessObjectB
         this.protocolNumber = protocolNumber;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -147,7 +146,6 @@ public abstract class ProtocolAssociateBase extends KcPersistableBusinessObjectB
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -177,12 +175,12 @@ public abstract class ProtocolAssociateBase extends KcPersistableBusinessObjectB
         return true;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ProtocolBase getSequenceOwner() {
         return this.getProtocol();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void setSequenceOwner(ProtocolBase newlyVersionedOwner) {
         this.setProtocol(newlyVersionedOwner);
     }

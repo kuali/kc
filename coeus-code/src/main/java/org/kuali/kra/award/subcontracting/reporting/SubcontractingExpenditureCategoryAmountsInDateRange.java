@@ -19,9 +19,7 @@ import java.sql.Date;
 
 public class SubcontractingExpenditureCategoryAmountsInDateRange extends SubcontractingExpenditureCategoryAmountsBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4702488408295836126L;
     
     private Date rangeStartDate;

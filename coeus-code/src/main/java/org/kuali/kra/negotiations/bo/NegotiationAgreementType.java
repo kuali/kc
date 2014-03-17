@@ -23,15 +23,10 @@ import java.io.Serializable;
  */
 public class NegotiationAgreementType extends NegotiationsGroupingBase implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1893447828422435537L;
 
-    /**
-     * 
-     * Constructs a NegotiationAgreementType.java.
-     */
+
     public NegotiationAgreementType() {
         super();
     }

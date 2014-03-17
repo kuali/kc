@@ -84,16 +84,11 @@ public class PermissionsUser extends BusinessObjectBase {
         this.unitName = unitName;
     }
     
-    /**
-     * @see org.kuali.core.bo.BusinessObject#refresh()
-     */
+    @Override
     public void refresh() {
         // do nothing
     }
     
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -114,9 +109,6 @@ public class PermissionsUser extends BusinessObjectBase {
             && StringUtils.equals(this.unitName, user.unitNumber);
     }
  
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -21,9 +21,7 @@ import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 
 public class IacucCommitteeSchedule extends CommitteeScheduleBase<IacucCommitteeSchedule, IacucCommittee, IacucProtocolSubmission, IacucCommitteeScheduleMinute> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -579662475857490755L;
     
     private IacucCommittee committee;

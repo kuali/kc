@@ -45,9 +45,7 @@ public class CurrentAndPendingReportServiceImpl implements CurrentAndPendingRepo
         this.printingService = printingService;
     }
 
-    /**
-     * @see org.kuali.kra.printing.service.CurrentAndPendingReportService#loadCurrentReportData(java.lang.String)
-     */
+    @Override
     public List<CurrentReportBean> loadCurrentReportData(String personId) {
         List<CurrentReportBean> data;
         try {
@@ -58,9 +56,7 @@ public class CurrentAndPendingReportServiceImpl implements CurrentAndPendingRepo
         return data;
     }
 
-    /**
-     * @see org.kuali.kra.printing.service.CurrentAndPendingReportService#loadPendingReportData(java.lang.String)
-     */
+    @Override
     public List<PendingReportBean> loadPendingReportData(String personId) {
         List<PendingReportBean> data;
         try {
@@ -71,9 +67,7 @@ public class CurrentAndPendingReportServiceImpl implements CurrentAndPendingRepo
         return data;
     }
 
-    /**
-     * @see org.kuali.kra.printing.service.CurrentAndPendingReportService#printCurrentAndPendingReportReport(java.lang.String, java.util.Map)
-     */
+    @Override
     public AttachmentDataSource printCurrentAndPendingSupportReport(
             String reportName, Map<String, Object> reportParameters) throws PrintingException {
         AttachmentDataSource source = null;

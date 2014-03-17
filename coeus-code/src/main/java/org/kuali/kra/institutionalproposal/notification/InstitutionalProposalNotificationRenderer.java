@@ -43,10 +43,7 @@ public class InstitutionalProposalNotificationRenderer extends NotificationRende
         this.institutionalProposal = institutionalProposal;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
-     */
+    @Override
     public Map<String, String> getDefaultReplacementParameters() {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
         Map<String, String> result = super.getDefaultReplacementParameters();

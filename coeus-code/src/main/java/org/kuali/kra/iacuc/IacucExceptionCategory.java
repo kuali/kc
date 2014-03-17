@@ -53,7 +53,6 @@ public class IacucExceptionCategory extends KcPersistableBusinessObjectBase {
         this.active = active;
     }
 
-    /**  {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -63,7 +62,6 @@ public class IacucExceptionCategory extends KcPersistableBusinessObjectBase {
         return result;
     }
 
-    /**  {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

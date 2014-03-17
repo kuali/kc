@@ -45,9 +45,7 @@ public class UnitAdministratorType extends KcPersistableBusinessObjectBase imple
 
     public static final String FINANCIAL_CONTACT_TYPE_CODE = "8";
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8872381393239718701L;
 
     @Id
@@ -95,9 +93,7 @@ public class UnitAdministratorType extends KcPersistableBusinessObjectBase imple
         return getDescription();
     }
 
-    /**
-     * @return
-     */
+
     public UnitContactType getUnitContactType() {
         return unitContactType;
     }

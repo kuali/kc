@@ -57,9 +57,7 @@ import java.util.*;
 public class CoiDisclosure extends KcPersistableBusinessObjectBase implements SequenceOwner<CoiDisclosure>, Permissionable {
     
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1056040995591476518L;
     
     public static final String MANUAL_DISCL_MODULE_CODE = "14";
@@ -714,7 +712,7 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
 
     @Override
     public Integer getOwnerSequenceNumber() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 

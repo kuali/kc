@@ -35,14 +35,10 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-/**
- * This class...
- */
+
 public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5090730280279711495L;
     
     private static final Log LOG = LogFactory.getLog(ProposalPersonQuestionnaireHelper.class);
@@ -74,10 +70,6 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
         this.proposalPerson = proposalPerson;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.QuestionnaireHelperBase#getModuleQnBean()
-     */
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
         //ProposalDevelopmentDocument propDevDoc = getProposalDevelopmentDocument(); 

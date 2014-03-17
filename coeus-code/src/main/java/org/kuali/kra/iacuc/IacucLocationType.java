@@ -44,7 +44,6 @@ public class IacucLocationType extends KcPersistableBusinessObjectBase {
         this.location = location;
     }
 
-    /**  {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -54,7 +53,6 @@ public class IacucLocationType extends KcPersistableBusinessObjectBase {
         return result;
     }
 
-    /**  {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

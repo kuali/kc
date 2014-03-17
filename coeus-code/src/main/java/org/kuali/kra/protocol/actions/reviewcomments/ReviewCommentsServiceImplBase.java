@@ -71,23 +71,13 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     
     
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService#canViewOnlineReviewerComments(java.lang.String,
-     *      org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase)
-     */
+    @Override
     public boolean canViewOnlineReviewerComments(String principalId, ProtocolSubmissionBase protocolSubmission) {
         return isAdminOrOnlineReviewer(principalId, protocolSubmission) || hasSubmissionCompleteStatus(protocolSubmission)
                 || isActiveCommitteeMember(protocolSubmission, principalId);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService#canViewOnlineReviewers(java.lang.String,
-     *      org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase)
-     */
+    @Override
     public boolean canViewOnlineReviewers(String principalId, ProtocolSubmissionBase protocolSubmission) {
         return isAdminOrOnlineReviewer(principalId, protocolSubmission);
     }
@@ -510,10 +500,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         this.parameterService = parameterService;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService#setHideReviewerName(org.kuali.kra.irb.ProtocolBase, int)
-     */
+    @Override
     public boolean setHideReviewerName(ProtocolBase protocol, int submissionNumber) {
         return setHideReviewerName(getReviewerComments(protocol.getProtocolNumber(), submissionNumber));
     }

@@ -29,9 +29,7 @@ import java.math.BigDecimal;
  * just return a new instance with the new value.
  */
 public class BudgetDecimal extends AbstractKualiDecimal<BudgetDecimal> {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1602860735060812811L;
 
     public static final int SCALE = 2;

@@ -62,9 +62,7 @@ public class SponsorHierarchyForm extends KualiForm {
      */
     private String lookupResultsSequenceNumber;
 
-    /**
-     * Constructs a SponsorHierarchyForm.
-     */
+
     public SponsorHierarchyForm() {
         super();
         hierarchyNameList=new ArrayList();

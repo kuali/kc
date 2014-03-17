@@ -39,10 +39,7 @@ public class ProposalDevelopmentYnqAuditRule extends KcTransactionalDocumentRule
     private static final String PROPOSAL_QUESTIONS_KEY="document.developmentProposalList[0].proposalYnq[%d].%s";
     private static final String PROPOSAL_QUESTIONS_PANEL_KEY="ynqAuditErrors%s";
     
-    /**
-     * 
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
     
         boolean valid = true;

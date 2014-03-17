@@ -156,13 +156,6 @@ public class VersionHistoryServiceTest {
             return collection;
         }
 
-        /**
-         * This method...
-         * @param clazz
-         * @param fieldValues
-         * @param collection
-         * @param versionName
-         */
         private Collection handleSequenceOwnerImplClass(Class clazz, String versionNameField) {
             Collection collection = new ArrayList();
             String className = clazz.getName();
@@ -177,12 +170,6 @@ public class VersionHistoryServiceTest {
             return collection;
         }
 
-        /**
-         * This method...
-         * @param fieldValues
-         * @param collection
-         * @param versionName
-         */
         private Collection handleVersionHistoryClass(Map fieldValues, String versionName) {
             Collection collection = new ArrayList();
             String className = (String) fieldValues.get(VersionHistoryServiceImpl.SEQUENCE_OWNER_CLASS_NAME_FIELD);

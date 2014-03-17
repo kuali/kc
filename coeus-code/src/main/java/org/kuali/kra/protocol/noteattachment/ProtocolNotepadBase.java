@@ -177,12 +177,11 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
         this.createUserFullName = createUserFullName;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.id = null;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -195,7 +194,6 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -254,7 +252,7 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
         private NotepadByEntryNumber() {
         }
 
-        /** {@inheritDoc} */
+        @Override
         public int compare(ProtocolNotepadBase o1, ProtocolNotepadBase o2) {
             return o1.getEntryNumber().compareTo(o2.getEntryNumber());
         }

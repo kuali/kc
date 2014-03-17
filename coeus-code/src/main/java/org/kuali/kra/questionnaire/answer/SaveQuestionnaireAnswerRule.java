@@ -58,10 +58,7 @@ public class SaveQuestionnaireAnswerRule implements KcBusinessRule<SaveQuestionn
         VALIDATION_CLASSES = Collections.unmodifiableMap(tempPatterns);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(SaveQuestionnaireAnswerEvent event) {
         boolean valid = true;
         int answerHeaderIndex = 0;

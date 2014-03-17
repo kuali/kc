@@ -26,9 +26,7 @@ import javax.persistence.Table;
 @Table(name = "SCIENCE_KEYWORD")
 public class ScienceKeyword extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7064465474079964486L;
 
     @Id

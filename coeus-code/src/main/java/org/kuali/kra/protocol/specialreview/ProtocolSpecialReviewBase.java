@@ -60,10 +60,7 @@ public abstract class ProtocolSpecialReviewBase extends SpecialReview<ProtocolSp
         return sequenceOwner != null ? sequenceOwner.getSequenceNumber() : null;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         protocolSpecialReviewId = null;
     }

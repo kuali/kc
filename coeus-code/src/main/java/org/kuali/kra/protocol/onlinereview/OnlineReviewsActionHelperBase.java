@@ -160,10 +160,7 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
 
     }
     
-    /**
-     * This method...
-     * @return
-     */
+
     public List<ProtocolOnlineReviewBase> getCurrentProtocolOnlineReviews() {
         List<ProtocolOnlineReviewBase> reviews = new ArrayList<ProtocolOnlineReviewBase>();
         for (Iterator<Map<String,Object>> it = documentHelperMap.values().iterator(); it.hasNext();) {
@@ -172,20 +169,14 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
         return reviews;
     }
     
-    /**
-     * This method...
-     * @return
-     */
+
     public List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission() {
         List<CommitteeMembershipBase> members = getProtocolOnlineReviewService()
         .getAvailableCommitteeMembersForCurrentSubmission(form.getProtocolDocument().getProtocol());
         return members;
     }
     
-    /**
-     * This method...
-     * @return
-     */
+
     public List<ProtocolOnlineReviewDocumentBase> getProtocolOnlineReviewsForCurrentSubmission() {
         return protocolOnlineReviewDocuments;
     }

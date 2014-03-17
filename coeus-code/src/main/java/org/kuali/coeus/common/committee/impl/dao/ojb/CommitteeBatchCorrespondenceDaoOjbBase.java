@@ -40,9 +40,7 @@ public abstract class CommitteeBatchCorrespondenceDaoOjbBase<CBC extends Committ
     private static final String BATCH_CORRESPONDENCE_TYPE_CODE = "batchCorrespondenceTypeCode";
     private static final String BATCH_RUN_DATE = "batchRunDate";
 
-    /**
-     * {@inheritDoc} 
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<CBC> getCommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, Date startDate, Date endDate) {
         Criteria crit = new Criteria();

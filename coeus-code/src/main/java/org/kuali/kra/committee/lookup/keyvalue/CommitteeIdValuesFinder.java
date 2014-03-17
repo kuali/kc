@@ -25,9 +25,7 @@ import org.kuali.kra.committee.bo.Committee;
  */
 public class CommitteeIdValuesFinder extends CommitteeIdValuesFinderBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 579262858064163358L;
 
     @Override

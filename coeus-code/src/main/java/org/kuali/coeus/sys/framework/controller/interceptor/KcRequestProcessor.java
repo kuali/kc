@@ -42,9 +42,6 @@ import java.util.Map;
  */
 public class KcRequestProcessor extends KualiRequestProcessor {
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean processPreprocess(HttpServletRequest request, HttpServletResponse response) {
         super.processPreprocess(request, response);
@@ -55,9 +52,6 @@ public class KcRequestProcessor extends KualiRequestProcessor {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected ActionForward processActionPerform(final HttpServletRequest request,
         final HttpServletResponse response, final Action action, final ActionForm form,
@@ -78,9 +72,6 @@ public class KcRequestProcessor extends KualiRequestProcessor {
         return actionForward;
     }  
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void processPopulate(HttpServletRequest request, HttpServletResponse response, ActionForm form,
         ActionMapping mapping) throws ServletException {

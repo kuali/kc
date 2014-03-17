@@ -29,10 +29,7 @@ public class QuestionnaireAuthorizationServiceImpl implements QuestionnaireAutho
     private UnitAuthorizationService unitAuthorizationService;
     private KcPersonService kcPersonService;
     
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.QuestionnaireAuthorizationService#hasPermission(java.lang.String)
-     */
+    @Override
     public boolean hasPermission(String permissionName){
         KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
         return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-QUESTIONNAIRE", permissionName);

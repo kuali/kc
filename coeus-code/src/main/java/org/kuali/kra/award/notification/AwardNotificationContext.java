@@ -73,42 +73,27 @@ public class AwardNotificationContext extends NotificationContextBase {
         ((AwardNotificationRenderer)getRenderer()).setAward(award);
     }    
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getModuleCode()
-     */
+    @Override
     public String getModuleCode() {
         return CoeusModule.AWARD_MODULE_CODE;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getDocumentNumber()
-     */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getActionTypeCode()
-     */
+    @Override
     public String getActionTypeCode() {
         return actionTypeCode;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getContextName()
-     */
+    @Override
     public String getContextName() {
         return contextName;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getEmailAttachments()
-     */
+    @Override
     public List<EmailAttachment> getEmailAttachments() {
         return emailAttachments;
     }

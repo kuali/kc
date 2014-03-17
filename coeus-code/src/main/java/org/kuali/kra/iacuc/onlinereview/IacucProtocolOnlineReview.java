@@ -27,9 +27,7 @@ import java.sql.Date;
 public class IacucProtocolOnlineReview extends ProtocolOnlineReviewBase {
     
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3526853926706200095L;
 
     private String determinationReviewTypeCode;

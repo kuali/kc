@@ -65,16 +65,12 @@ public class SaveNarrativesEvent extends NarrativeEventBase{
         return this.originalNarratives;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return SaveNarrativesRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((SaveNarrativesRule) rule).processSaveNarrativesBusinessRules(this);
     }

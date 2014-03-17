@@ -26,9 +26,7 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalPersonAuditRule implements DocumentAuditRule {
 
     private static final String CONTACTS_AUDIT_ERRORS = "contactsAuditErrors";
@@ -48,9 +46,7 @@ public class InstitutionalProposalPersonAuditRule implements DocumentAuditRule {
         auditErrors = new ArrayList<AuditError>();
     }
     
-    /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument)document;

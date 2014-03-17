@@ -24,9 +24,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalPersonUnitCreditSplitRuleImpl extends KcTransactionalDocumentRuleBase implements
         InstitutionalProposalPersonUnitCreditSplitRule {
 

@@ -28,10 +28,7 @@ public abstract class ProtocolApproveRuleBase<E extends ProtocolApproveEventBase
     private static final String EXPIRATION_DATE_FIELD = "expirationDate";
     private static final String ACTION_DATE_FIELD = "actionDate";
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(E event) {
         boolean isValid = true;
         

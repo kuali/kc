@@ -89,14 +89,6 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         return false;
     }
 
-    /**
-     * This method...
-     * @param budgetDocument
-     * @param isProposalBudget
-     * @param budget
-     * @param budgetParent
-     * @throws WorkflowException
-     */
     protected BudgetDocument<DevelopmentProposal> saveBudgetDocument(BudgetDocument<DevelopmentProposal> budgetDocument) throws WorkflowException {
         budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.saveDocument(budgetDocument);
         return (BudgetDocument<DevelopmentProposal>) documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
@@ -190,10 +182,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         // DO NOTHING
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.budget.core.BudgetCommonService#validateAddingNewBudget(org.kuali.kra.budget.document.BudgetParentDocument)
-     */
+    @Override
     public boolean validateAddingNewBudget(BudgetParentDocument<DevelopmentProposal> parentDocument) {
         return true;
     }

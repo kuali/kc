@@ -20,9 +20,7 @@ import org.kuali.kra.bo.CommentType;
 
 public class AwardTemplateComment extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4617051298910760741L;
 
     private Integer templateCommentsId;

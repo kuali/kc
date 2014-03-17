@@ -23,9 +23,7 @@ import org.kuali.kra.protocol.protocol.location.ProtocolOrganizationTypeBase;
  */
 public class ProtocolOrganizationType extends ProtocolOrganizationTypeBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 148098563046181725L;
 
     private String protocolOrganizationTypeCode;
@@ -38,34 +36,22 @@ public class ProtocolOrganizationType extends ProtocolOrganizationTypeBase {
     public ProtocolOrganizationType() {
     }
 
-    /**
-	 * This method...
-	 * @return
-	 */
+
     public String getProtocolOrganizationTypeCode() {
         return protocolOrganizationTypeCode;
     }
 
-    /**
-	 * This method...
-	 * @param protocolOrganizationTypeCode
-	 */
+
     public void setProtocolOrganizationTypeCode(String protocolOrganizationTypeCode) {
         this.protocolOrganizationTypeCode = protocolOrganizationTypeCode;
     }
 
-    /**
-	 * This method...
-	 * @return
-	 */
+
     public String getDescription() {
         return description;
     }
 
-    /**
-	 * This method...
-	 * @param description
-	 */
+
     public void setDescription(String description) {
         this.description = description;
     }

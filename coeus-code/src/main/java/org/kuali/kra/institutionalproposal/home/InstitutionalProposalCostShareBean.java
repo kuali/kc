@@ -25,14 +25,9 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 
 import java.io.Serializable;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalCostShareBean implements Serializable, CostShareFunctions {
 
-/**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = -7837407094828925591L;
 
     private InstitutionalProposalForm parent;
@@ -79,18 +74,12 @@ public class InstitutionalProposalCostShareBean implements Serializable, CostSha
         this.newInstitutionalProposalCostShare = newInstitutionalProposalCostShare;
     }
 
-    /**
-     * This method...
-     * @return
-     */
+
     public InstitutionalProposalDocument getInstitutionalProposalDocument() {
         return parent.getInstitutionalProposalDocument();
     }
     
-    /**
-     * This method...
-     * @return
-     */
+
     public Object getData() {
         return getNewInstitutionalProposalCostShare();
     }

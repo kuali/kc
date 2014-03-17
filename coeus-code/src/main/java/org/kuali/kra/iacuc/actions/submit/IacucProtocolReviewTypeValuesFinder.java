@@ -41,10 +41,7 @@ public class IacucProtocolReviewTypeValuesFinder extends IacucActionsKeyValuesBa
     private PermissionService permissionService;
 
     private static List<IacucProtocolReviewType>allReviewTypes = null;
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = filterActiveProtocolReviewTypes();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));

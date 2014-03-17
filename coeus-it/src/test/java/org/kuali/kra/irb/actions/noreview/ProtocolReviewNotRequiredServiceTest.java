@@ -34,9 +34,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.sql.Date;
 
 import static org.junit.Assert.assertEquals;
-/**
- * This class...
- */
+
 public class ProtocolReviewNotRequiredServiceTest extends KcIntegrationTestBase {
     
     private static final String COMMENTS = "really cool comments";

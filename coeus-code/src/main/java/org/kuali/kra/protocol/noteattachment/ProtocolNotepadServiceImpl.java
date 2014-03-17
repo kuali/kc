@@ -30,9 +30,7 @@ public class ProtocolNotepadServiceImpl implements ProtocolNotepadService {
     protected final Log LOG = LogFactory.getLog(getClass()); 
     private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
    
-    /**
-     * @see org.kuali.kra.protocol.noteattachment.ProtocolNotepadService#setProtocolNotepadUpdateUsersName(java.util.List)
-     */
+    @Override
     public void setProtocolNotepadUpdateUsersName(List<ProtocolNotepadBase> protocolNotepads) {
         for (ProtocolNotepadBase pnp : protocolNotepads) {
             if (LOG.isDebugEnabled()) { 

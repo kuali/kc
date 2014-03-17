@@ -187,7 +187,7 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
 
     @Override
     protected String getAuditErrorsLabel() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 

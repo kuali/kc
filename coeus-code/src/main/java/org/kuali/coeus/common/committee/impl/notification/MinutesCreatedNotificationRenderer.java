@@ -57,10 +57,6 @@ public class MinutesCreatedNotificationRenderer extends CommitteeNotificationRen
         this.commScheduleMinuteDoc = commScheduleMinuteDoc;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#replaceContextVariables(java.lang.String)
-     */
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();

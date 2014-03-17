@@ -27,9 +27,7 @@ public class ProtocolWithdrawUnavailableAuthorizer extends ProtocolAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         if (!isAmendmentOrRenewal(task.getProtocol()) && hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL)) {
             if (!kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) ||

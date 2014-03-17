@@ -49,18 +49,17 @@ class AddProtocolAttachmentProtocolEvent extends KcDocumentEventBase {
         this.newAttachmentProtocol = newAttachmentProtocol;
     }
 
-    /** {@inheritDoc} */
     @Override
     protected void logEvent() {
         LOG.debug("adding new: " + this.newAttachmentProtocol + " on doc # " + this.getDocument().getDocumentNumber());
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Class<AddProtocolAttachmentProtocolRule> getRuleInterfaceClass() {
         return AddProtocolAttachmentProtocolRule.class;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return this.getRuleInterfaceClass().cast(rule).processAddProtocolAttachmentProtocolRules(this);
     }

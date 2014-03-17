@@ -33,10 +33,7 @@ public abstract class ProtocolActionTypeToCorrespondenceTemplateServiceImplBase 
     
     private BusinessObjectService businessObjectService;
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateService#getTemplatesByProtocolAction(java.lang.String)
-     */
+    @Override
     public List<ProtocolCorrespondenceTemplateBase> getTemplatesByProtocolAction(String protocolActionType, String committeeId) {
         List<ProtocolCorrespondenceTemplateBase> templates = new ArrayList<ProtocolCorrespondenceTemplateBase>();
         Map<String, List<String>> actionTypesToCorrespondenceTypeMap = getActionTypesToCorrespondenceTypeMap();
@@ -48,9 +45,7 @@ public abstract class ProtocolActionTypeToCorrespondenceTemplateServiceImplBase 
         return templates;
     }
     
-    /**
-     * @see org.kuali.kra.protocol.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateService#getTemplatesByProtocolAction(java.lang.String)
-     */
+    @Override
     public List<ProtocolCorrespondenceTemplateBase> getTemplatesByProtocolAction(String protocolActionType) {
         return getTemplatesByProtocolAction(protocolActionType, Constants.DEFAULT_CORRESPONDENCE_TEMPLATE);   
     }

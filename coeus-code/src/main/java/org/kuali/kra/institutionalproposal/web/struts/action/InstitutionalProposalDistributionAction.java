@@ -28,9 +28,7 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalDistributionAction extends InstitutionalProposalAction {
 
     private static final String CONFIRM_DELETE_COST_SHARE = "confirmDeleteCostShare";

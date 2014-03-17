@@ -36,9 +36,7 @@ import org.springframework.util.AutoPopulatingList;
 public class IacucProtocolSubmitAction extends IacucProtocolActionBean implements ProtocolSubmitAction {
 
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4456005318168340284L;
     
     private String submissionTypeCode = "";

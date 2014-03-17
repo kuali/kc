@@ -33,10 +33,7 @@ public abstract class EDSF424SupplementBaseGenerator extends S2SBaseFormGenerato
     protected static final int NARRATIVE_TYPE_ED_SF424_SUPPLIMENT = 54;
     protected S2SUtilService s2sUtilService;
 
-    /**
-     * 
-     * Constructs a EDSF424SupplementBaseGenerator.java.
-     */
+
     public EDSF424SupplementBaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
     }

@@ -34,9 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UnitAdministratorRoleAttribute extends GenericRoleAttribute {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2837085991084714072L;
     private static final String ROLE_NAME = "UnitAdministrator";
     private static final String UNIT_NODE_NAME = "leadUnitNumber";

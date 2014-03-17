@@ -59,10 +59,6 @@ public class InstituteRateMaintenanceDocumentRule extends KcMaintenanceDocumentR
         this.rule = rule;
     }
 
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
     @Override
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         this.logDocInfo(document);
@@ -73,10 +69,6 @@ public class InstituteRateMaintenanceDocumentRule extends KcMaintenanceDocumentR
         return valid;
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
     @Override
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         this.logDocInfo(document);

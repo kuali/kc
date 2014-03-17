@@ -863,9 +863,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return getProposalPersonYnqs().get(index);
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -875,9 +872,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -1770,9 +1764,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return this.otherAcademicGroupFlag;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#getOrganization()
-     */
     public String getOrganization() {
         return getUnit().getUnitName();
     }
@@ -2140,51 +2131,30 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return homeUnitRef;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#getIdentifier()
-     */
     public Serializable getIdentifier() {
         return personId;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#getUnit()
-     */
     public Unit getUnit() {
         return homeUnitRef;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#setIdentifier(java.io.Serializable)
-     */
     public void setIdentifier(Serializable identifier) {
         setPersonId((String) identifier);
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#setUnit(org.kuali.coeus.common.framework.unit.Unit)
-     */
     public void setUnit(Unit unit) {
         setHomeUnitRef(unit);
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#getPhoneNumber()
-     */
     public String getPhoneNumber() {
         return officePhone;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#getContactOrganizationName()
-     */
     public String getContactOrganizationName() {
         return getUnit().getUnitName();
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#getOrganizationIdentifier()
-     */
     public String getOrganizationIdentifier() {
         return homeUnit;
     }

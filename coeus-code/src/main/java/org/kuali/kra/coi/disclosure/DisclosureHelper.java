@@ -40,9 +40,7 @@ import java.util.List;
 
 public class DisclosureHelper implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7441300028105575094L;
     protected static final String NAMESPACE_CODE = "KC-COIDISCLOSURE";
     protected static final String PARAMETER_CODE = "Document";

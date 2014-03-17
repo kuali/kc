@@ -17,9 +17,6 @@ package org.kuali.coeus.common.impl.unit;
 
 import org.kuali.coeus.common.framework.unit.Unit;
 
-/**
- * This class...
- */
 public interface UnitLookupDao {
     
     /**

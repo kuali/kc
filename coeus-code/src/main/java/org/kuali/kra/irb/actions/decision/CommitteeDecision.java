@@ -260,7 +260,7 @@ public class CommitteeDecision extends ProtocolActionBean implements org.kuali.k
     }
 
     public ReviewAttachmentsBean getReviewAttachmentsBean() {
-        // TODO Auto-generated method stub
+
         return null;
     }
     

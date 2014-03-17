@@ -19,9 +19,7 @@ import org.kuali.rice.krms.api.repository.function.FunctionParameterDefinition;
 
 import java.util.Comparator;
 
-/**
- * This class...
- */
+
 public class FunctionParamComparator implements Comparator<FunctionParameterDefinition> {
     @Override
     public int compare(FunctionParameterDefinition param1, FunctionParameterDefinition param2) {

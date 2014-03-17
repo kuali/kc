@@ -56,10 +56,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();    
     }
     
-     /**
-     * 
-     * @see org.kuali.kra.award.service.AwardHierarchyUIService#getRootAwardNode(java.lang.String)
-     */
+     @Override
     public String getRootAwardNode(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException{
         AwardHierarchyNode awardNode;
         if(canUseExistingTMSessionObject(awardNumber)){ 
@@ -193,10 +190,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         return sb.toString();
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.award.service.AwardHierarchyUIService#getAwardRecord(org.kuali.kra.award.home.Award)
-     */
+    @Override
     public String getAwardRecord(Award award) throws ParseException{
         
         String awardNumber = award.getAwardNumber();

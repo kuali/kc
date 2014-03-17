@@ -28,9 +28,7 @@ import java.math.BigInteger;
 import java.util.*;
 
 
-/**
- * This class...
- */
+
 public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Serializable {
 
     private static final long serialVersionUID = -3215265492607686197L;
@@ -101,7 +99,7 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
                 methodName = "get" + (fieldName.charAt(0)+"").toUpperCase()+ fieldName.substring(1);
                 method = dataClass.getMethod(methodName, null);
             }catch (NoSuchMethodException noSuchMethodException) {
-                noSuchMethodException.printStackTrace();
+                LOG.error(noSuchMethodException.getMessage(), noSuchMethodException);
                 return false;
             }
         }
@@ -357,7 +355,7 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
                     method = dataClass.getMethod(methodName, null);
                 }
             }catch (NoSuchMethodException noSuchMethodException) {
-                noSuchMethodException.printStackTrace();
+                LOG.error(noSuchMethodException.getMessage(), noSuchMethodException);
             }
         }
         
@@ -384,9 +382,9 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
                     
                 }
             }catch (IllegalAccessException illegalAccessException) {
-                illegalAccessException.printStackTrace();
+                LOG.error(illegalAccessException.getMessage(), illegalAccessException);
             }catch (InvocationTargetException invocationTargetException) {
-                invocationTargetException.printStackTrace();
+                LOG.error(invocationTargetException.getMessage(), invocationTargetException);
             }
         }
         return sum;
@@ -430,7 +428,7 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
                 String methodName = "get" + (fieldName.charAt(0)+"").toUpperCase()+ fieldName.substring(1);
                 method = dataClass.getMethod(methodName, null);
             }catch (NoSuchMethodException noSuchMethodException) {
-                noSuchMethodException.printStackTrace();
+                LOG.error(noSuchMethodException.getMessage(), noSuchMethodException);
             }
         }
         
@@ -442,16 +440,15 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
                 value = method.invoke(baseBean, null);
             }
         }catch (IllegalAccessException illegalAccessException) {
-            illegalAccessException.printStackTrace();
+            LOG.error(illegalAccessException.getMessage(), illegalAccessException);
         }catch (InvocationTargetException invocationTargetException) {
-            invocationTargetException.printStackTrace();
+            LOG.error(invocationTargetException.getMessage(), invocationTargetException);
         }
         return value;
     }
     
-    /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public QueryList<E> clone() {
         
         final QueryList<E> ql;
@@ -470,134 +467,131 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
     
     //delegate methods.
     
-    /** {@inheritDoc} */
+    @Override
     public boolean add(E o) {
         return this.backingList.add(o);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void add(int index, E element) {
         this.backingList.add(index, element);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean addAll(Collection<? extends E> c) {
         return this.backingList.addAll(c);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         return this.backingList.addAll(index, c);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void clear() {
         this.backingList.clear();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean contains(Object o) {
         return this.backingList.contains(o);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean containsAll(Collection<?> c) {
         return this.backingList.containsAll(c);
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
         return this.backingList.equals(o);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public E get(int index) {
         return this.backingList.get(index);
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return this.backingList.hashCode();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public int indexOf(Object o) {
         return this.backingList.indexOf(o);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean isEmpty() {
         return this.backingList.isEmpty();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Iterator<E> iterator() {
         return this.backingList.iterator();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public int lastIndexOf(Object o) {
         return this.backingList.lastIndexOf(o);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ListIterator<E> listIterator() {
         return this.backingList.listIterator();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ListIterator<E> listIterator(int index) {
         return this.backingList.listIterator(index);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public E remove(int index) {
         return this.backingList.remove(index);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean remove(Object o) {
         return this.backingList.remove(o);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean removeAll(Collection<?> c) {
         return this.backingList.removeAll(c);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean retainAll(Collection<?> c) {
         return this.backingList.retainAll(c);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public E set(int index, E element) {
         return this.backingList.set(index, element);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public int size() {
         return this.backingList.size();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public List<E> subList(int fromIndex, int toIndex) {
         return this.backingList.subList(fromIndex, toIndex);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Object[] toArray() {
         return this.backingList.toArray();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public <T> T[] toArray(T[] a) {
         return this.backingList.toArray(a);
     }
     
-    /** {@inheritDoc} */
     @Override
     public String toString() {
         return this.backingList.toString();

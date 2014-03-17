@@ -19,9 +19,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class ProtocolMaintainOnlineReviewsAuthorizer extends ProtocolAuthorizer {
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return hasPermission( userId, task.getProtocol(), PermissionConstants.MAINTAIN_ONLINE_REVIEWS);
     }

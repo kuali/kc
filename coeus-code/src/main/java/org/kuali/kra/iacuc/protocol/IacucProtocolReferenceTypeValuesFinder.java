@@ -21,9 +21,7 @@ import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceTypeBase;
 
 public class IacucProtocolReferenceTypeValuesFinder extends ProtocolReferenceTypeValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 809031604590465735L;
 
     @Override

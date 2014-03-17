@@ -23,9 +23,7 @@ import java.sql.Date;
 // this is a read-only access BO that will be used in computing the expenditure data for small business contracting reports
 public class SubcontractingExpenditureCategoryDetails extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8329712110358616261L;
     
     private Long id;

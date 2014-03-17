@@ -82,7 +82,7 @@ public class IacucProtocolSubmissionLookupableHelperServiceImpl extends Protocol
                  //submissionLookupData=getIacucProtocolSubmitActionService().getProtocolSubmissionsLookupData(submissionLookupData);   
             }             
         }catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
            LOG.info("submissionLookupData Lookup : " + submissionLookupData.size() + " parsing error");
         }
         for (IacucProtocolSubmission submission : submissionLookupData) {

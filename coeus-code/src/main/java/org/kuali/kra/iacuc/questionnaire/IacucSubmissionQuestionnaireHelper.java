@@ -23,9 +23,7 @@ import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelpe
 
 public class IacucSubmissionQuestionnaireHelper extends ProtocolSubmissionQuestionnaireHelper {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4032839091658062383L;
 
     public IacucSubmissionQuestionnaireHelper(ProtocolBase protocol, String actionTypeCode, String submissionNumber, boolean readOnlyView) {

@@ -34,9 +34,7 @@ public class BasicProposalAuthorizer extends ProposalAuthorizer {
         this.permissionName = permissionName;
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
         return hasProposalPermission(userId, doc, permissionName);

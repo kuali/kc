@@ -27,30 +27,22 @@ import org.kuali.coeus.common.framework.rolodex.Rolodex;
 public class NonOrganizationalRolodex extends Rolodex implements Contactable {
     private static final long serialVersionUID = -4699230471690515157L;
 
-    /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#getIdentifier()
-     */
+    @Override
     public Serializable getIdentifier() {
         return getRolodexId();
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#setIdentifier(java.io.Serializable)
-     */
+
     public void setIdentifier(Serializable identifier) {
         setRolodexId((Integer) identifier);
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#getContactOrganizationName()
-     */
+    @Override
     public String getContactOrganizationName() {
         return getOrganization();
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.contact.Contactable#getOrganizationIdentifier()
-     */
+    @Override
     public String getOrganizationIdentifier() {
         return getOwnedByUnit();
     }

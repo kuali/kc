@@ -124,11 +124,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
         }
         
     }
-    /**
-     * This method...
-     * @param membershipBean
-     * @param committeeMember
-     */
+
     private void setCommitteeMembershipType(CommitteeMembership membershipBean, CommitteeMember committeeMember) {
         membershipBean.refreshNonUpdateableReferences();
         setPersonType(membershipBean,committeeMember);

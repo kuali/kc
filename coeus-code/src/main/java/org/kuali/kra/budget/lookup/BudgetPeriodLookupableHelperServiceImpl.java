@@ -26,9 +26,7 @@ import java.util.ListIterator;
 import java.util.Map;
 
 
-/**
- * This class...
- */
+
 public class BudgetPeriodLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     
     protected AwardBudgetService awardBudgetService;

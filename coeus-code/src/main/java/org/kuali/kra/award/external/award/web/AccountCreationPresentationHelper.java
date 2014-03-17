@@ -31,9 +31,7 @@ import java.util.List;
  */
 public class AccountCreationPresentationHelper implements Serializable {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7566225295106786401L;
     
     private List<ValidRates> validRateCandidates;

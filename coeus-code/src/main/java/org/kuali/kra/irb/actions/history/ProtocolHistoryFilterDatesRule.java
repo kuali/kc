@@ -27,10 +27,7 @@ public class ProtocolHistoryFilterDatesRule extends KcTransactionalDocumentRuleB
     private static final String BEGINNING_ON_DATE = "Beginning On Date";
     private static final String ENDING_ON_DATE = "Ending On Date";
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(ProtocolHistoryFilterDatesEvent event) {
         boolean isValid = true;
         

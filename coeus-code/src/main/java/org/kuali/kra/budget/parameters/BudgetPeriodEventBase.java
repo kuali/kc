@@ -28,9 +28,6 @@ public abstract class BudgetPeriodEventBase extends KcDocumentEventBase implemen
     private BudgetPeriod budgetPeriod;
     private int budgetPeriodNumber;
 
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#KcDocumentEventBase(String, String, Document)
-     */
     protected BudgetPeriodEventBase(String description, String errorPathPrefix, BudgetDocument document,
             BudgetPeriod budgetPeriod) {
         super(description, errorPathPrefix, document);
@@ -42,9 +39,6 @@ public abstract class BudgetPeriodEventBase extends KcDocumentEventBase implemen
         logEvent();
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#KcDocumentEventBase(String, String, Document)
-     */
     protected BudgetPeriodEventBase(String description, String errorPathPrefix, BudgetDocument document,
             int budgetPeriodNumber) {
         super(description, errorPathPrefix, document);
@@ -56,9 +50,6 @@ public abstract class BudgetPeriodEventBase extends KcDocumentEventBase implemen
         logEvent();
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#KcDocumentEventBase(String, String, Document)
-     */
     protected BudgetPeriodEventBase(String description, String errorPathPrefix, BudgetDocument document) {
         super(description, errorPathPrefix, document);
 
@@ -82,9 +73,7 @@ public abstract class BudgetPeriodEventBase extends KcDocumentEventBase implemen
         return budgetPeriodNumber;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#validate()
-     */
+    @Override
     public void validate() {
         super.validate();
     }

@@ -18,22 +18,15 @@ package org.kuali.coeus.sys.framework.persistence;
 import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
 import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
 
-/**
- * This class...
- */
 public class OjbBlobClobFieldConersion implements FieldConversion {
 
-    /**
-     * @see org.apache.ojb.broker.accesslayer.conversions.FieldConversion#javaToSql(java.lang.Object)
-     */
+    @Override
     public Object javaToSql(Object source) throws ConversionException {
         byte[] sourceBytes = (byte[])source;
         return sourceBytes==null?null:new String(sourceBytes);
     }
 
-    /**
-     * @see org.apache.ojb.broker.accesslayer.conversions.FieldConversion#sqlToJava(java.lang.Object)
-     */
+    @Override
     public Object sqlToJava(Object source) throws ConversionException {
         if(source==null) return null;
         byte[] sourceBytes = null;

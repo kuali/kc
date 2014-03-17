@@ -46,9 +46,7 @@ import java.util.Map;
 
 public class IacucCommitteeHelper extends CommitteeHelperBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4430069287888114555L;
 
     public IacucCommitteeHelper(IacucCommitteeForm committeeForm) {

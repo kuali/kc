@@ -24,9 +24,7 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import java.util.Map;
 
 public class PersonSignatureMaintainableImpl extends KraMaintainableImpl implements Maintainable {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8173735177817352778L;
     private static final String KIM_PERSON_LOOKUPABLE_REFRESH_CALLER = "kimPersonLookupable";
 

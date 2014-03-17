@@ -22,9 +22,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  */
 public class IacucUndoLastActionProtocolAuthorizer extends IacucProtocolAuthorizer {
 
-    /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }

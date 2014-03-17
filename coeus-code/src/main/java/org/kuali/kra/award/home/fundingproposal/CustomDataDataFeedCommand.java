@@ -26,9 +26,6 @@ class CustomDataDataFeedCommand extends ProposalDataFeedCommandBase {
         super(award, proposal, mergeType);
     }
 
-    /**
-     * @see org.kuali.kra.award.home.fundingproposal.ProposalDataFeedCommandBase#performDataFeed()
-     */
     @Override
     void performDataFeed() {
         if (mergeType == FundingProposalMergeType.NEWAWARD 

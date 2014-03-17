@@ -20,9 +20,7 @@ import org.kuali.kra.protocol.actions.submit.ValidProtoSubRevType;
 
 public class IacucValidProtoSubRevType extends ValidProtoSubRevType{
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2272711643598965684L;
 
 }

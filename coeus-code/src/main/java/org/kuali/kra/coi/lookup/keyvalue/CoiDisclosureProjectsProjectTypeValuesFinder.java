@@ -29,9 +29,7 @@ import java.util.List;
 
 public class CoiDisclosureProjectsProjectTypeValuesFinder extends UifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5160412959634597155L;
 
     /**

@@ -34,9 +34,7 @@ public abstract class ProtocolFinderDaoOjbBase extends PlatformAwareDaoBaseOjb i
     private static final String MAX_SEQUENCE_NUMBER = "max(" + SEQUENCE_NUMBER + ")";
     private static final String SUBMISSION_NUMBER = "submissionNumber"; 
 
-    /**
-     * @see org.kuali.kra.protocol.ProtocolFinderDao#findCurrentProtocolByNumber(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public ProtocolBase findCurrentProtocolByNumber(String protocolNumber) {
         
@@ -54,10 +52,7 @@ public abstract class ProtocolFinderDaoOjbBase extends PlatformAwareDaoBaseOjb i
     }
     
     
-    /**
-     * 
-     * @see org.kuali.kra.protocol.ProtocolFinderDao#findProtocolSubmissions(java.lang.String, int)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<ProtocolSubmissionBase> findProtocolSubmissions(String protocolNumber, int submissionNumber) {
         Criteria crit = new Criteria();
@@ -67,10 +62,7 @@ public abstract class ProtocolFinderDaoOjbBase extends PlatformAwareDaoBaseOjb i
         return (List<ProtocolSubmissionBase>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.protocol.ProtocolFinderDao#findProtocols(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<ProtocolBase> findProtocols(String protocolNumber) {
         

@@ -29,9 +29,7 @@ import java.util.Map;
 
 public class MasterDisclosureBean implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8636120108965638825L;
     private CoiDisclosure coiDisclosure;
     private List<CoiDisclosureProjectBean> awardProjects;

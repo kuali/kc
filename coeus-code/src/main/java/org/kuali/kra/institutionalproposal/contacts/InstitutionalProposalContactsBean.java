@@ -36,9 +36,7 @@ import java.util.Map;
  */
 public abstract class InstitutionalProposalContactsBean implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4211366507290652295L;
     private static final String PERSON_IDENTIFIER_FIELD = "personId";
     private static final String ROLODEX_IDENTIFIER_FIELD = "rolodexId";
@@ -151,9 +149,7 @@ public abstract class InstitutionalProposalContactsBean implements Serializable 
         return matchingRole;
     }
 
-    /**
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService() {
         if(businessObjectService == null) {
             businessObjectService = (BusinessObjectService) KcServiceLocator.getService(BusinessObjectService.class);

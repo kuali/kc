@@ -357,9 +357,7 @@ public class NarrativeServiceImpl implements NarrativeService {
 //        return !(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE.equals(narrative.getNarrativeType().getNarrativeTypeGroup()));
 //    }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#deletePerson(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
+    @Override
     public void deletePerson(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
@@ -444,10 +442,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         this.attachmentDao = attachmentDao;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#setNarrativeTimeStampUser(java.util.List)
-     */
+    @Override
     public void setNarrativeTimeStampUser(List<Narrative> narratives) {
 
         for (Narrative narrative : narratives) {

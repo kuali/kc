@@ -297,18 +297,12 @@ public class Protocol extends ProtocolBase {
     }
 
     
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentKey()
-     */
+    @Override
     public String getDocumentKey() {
         return PermissionableKeys.PROTOCOL_KEY;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getRoleNames()
-     */
+    @Override
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
 
@@ -322,10 +316,7 @@ public class Protocol extends ProtocolBase {
         return Constants.MODULE_NAMESPACE_PROTOCOL;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.UnitAclLoadable#getDocumentRoleTypeCode()
-     */
+    @Override
     public String getDocumentRoleTypeCode() {
         return RoleConstants.PROTOCOL_DOC_ROLE_TYPE;
     }

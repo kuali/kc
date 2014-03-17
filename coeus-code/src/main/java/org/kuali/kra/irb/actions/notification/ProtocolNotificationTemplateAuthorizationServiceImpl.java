@@ -29,10 +29,7 @@ public class ProtocolNotificationTemplateAuthorizationServiceImpl implements Pro
     private KcPersonService kcPersonService;
 
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateAuthorizationService#hasPermission(java.lang.String)
-     */
+    @Override
     public boolean hasPermission(String permissionName) {
         KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());
         return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-PROTOCOL", permissionName);

@@ -18,14 +18,10 @@ package org.kuali.kra.infrastructure;
 import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
 import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
 
-/**
- * This class...
- */
+
 public class OjbOnOffCampusFlagFieldConversion implements FieldConversion {
 
-    /**
-     * @see org.apache.ojb.broker.accesslayer.conversions.FieldConversion#javaToSql(java.lang.Object)
-     */
+    @Override
     public Object javaToSql(Object source) throws ConversionException {
         if (source instanceof Boolean) {
             if (source != null) {
@@ -65,7 +61,6 @@ public class OjbOnOffCampusFlagFieldConversion implements FieldConversion {
             return source;
         }
         catch (Throwable t) {
-            t.printStackTrace();
             throw new RuntimeException("I have exploded converting types", t);
         }
     }

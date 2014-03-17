@@ -47,11 +47,6 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
     }
 
     @Override
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.protocol.personnel.ProtocolPersonBase, 
-     *                                                                                    org.kuali.kra.protocol.ProtocolBase)
-     */
     public void setPrincipalInvestigator(ProtocolPersonBase newPrincipalInvestigator, ProtocolBase protocol) {
         if (protocol != null) {
             ProtocolPersonBase currentPrincipalInvestigator = getPrincipalInvestigator(protocol.getProtocolPersons());

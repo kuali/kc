@@ -65,9 +65,7 @@ public class CfdaNumberServiceImpl implements CfdaNumberService {
     }
 
 
-    /**
-     * @see org.kuali.kra.external.Cfda.service.CfdaNumberService#lookupCfda(java.util.List)
-     */
+    @Override
     public List<CfdaDTO> lookupCfda(List<HashMapElement> criteria) {
         HashMap<String, String> searchCriteria =  new HashMap<String, String>();
         List<CFDA> cfdaNumbers = new ArrayList<CFDA>();

@@ -26,9 +26,7 @@ import java.util.List;
 public abstract class ReviewCommentsBeanBase  implements Serializable {
 
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 994429171132365761L;
 
     private String errorPropertyKey;
@@ -38,9 +36,7 @@ public abstract class ReviewCommentsBeanBase  implements Serializable {
     private List<CommitteeScheduleMinuteBase> deletedReviewComments;
     // flag to hide reviewer name for this bean.
     private boolean hideReviewerName;
-    /**
-     * Constructs a ReviewerCommentsBean.
-     */
+
     public ReviewCommentsBeanBase(String errorPropertyKey) {
         this.errorPropertyKey = errorPropertyKey + ".reviewCommentsBean";
         

@@ -131,9 +131,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
         return this.parameterService;
     }
     
-    /**
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }
@@ -332,12 +330,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
             }
         }
     }
-    
-    /**
-     * This method...
-     * @param projectPerson
-     * @return
-     */
+
     private String getPersonKey(AwardPerson projectPerson) {
         String personKey = "";
         if (projectPerson != null) {

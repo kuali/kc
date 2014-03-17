@@ -54,17 +54,9 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
     @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
-    /**
-     * Default constructor.
-     */
     public PropScienceKeyword() {
     }
 
-    /**
-     * Constructs a PropScienceKeyword.
-     * @param proposalNumber
-     * @param scienceKeyword
-     */
     public PropScienceKeyword(String proposalNumber, ScienceKeyword scienceKeyword) {
         this.proposalNumber = proposalNumber;
 
@@ -104,9 +96,6 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
         this.selectKeyword = selectKeyword;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -116,9 +105,6 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

@@ -23,9 +23,7 @@ import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleImpl;
 
 import java.io.Serializable;
 
-/**
- * This class...
- */
+
 public class ApprovedSubawardActionHelper implements Serializable {
     
     private static final long serialVersionUID = -6683397794718075987L;

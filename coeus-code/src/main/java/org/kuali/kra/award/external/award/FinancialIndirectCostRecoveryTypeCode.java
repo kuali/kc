@@ -21,14 +21,10 @@ import org.kuali.kra.budget.rates.RateType;
 
 public class FinancialIndirectCostRecoveryTypeCode extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2261091456759912345L;
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private String rateClassCode;
 
     private String rateTypeCode;

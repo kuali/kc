@@ -290,10 +290,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         return applicantWebService;
     }
 
-    /**
-     * This method...
-     * @param tlsConfig
-     */
+
     protected void setPossibleCypherSuites(TLSClientParameters tlsConfig) {
         FiltersType filters = new FiltersType();
         filters.getInclude().add("SSL_RSA_WITH_RC4_128_MD5");
@@ -345,19 +342,19 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
             TrustManager[] tm = trustManagerFactory.getTrustManagers();
             tlsConfig.setTrustManagers(tm);
         }catch (NoSuchAlgorithmException e){
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }catch (KeyStoreException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }catch (UnrecoverableKeyException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }catch (CertificateException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }catch (IOException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }
     }

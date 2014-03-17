@@ -47,9 +47,7 @@ import java.util.List;
 
 public abstract class ProtocolHelperBase implements Serializable {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8036126015259703614L;
 
 

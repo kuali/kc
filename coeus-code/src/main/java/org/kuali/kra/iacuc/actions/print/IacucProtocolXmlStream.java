@@ -59,9 +59,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
     protected static final String FLAG_YES = "Yes";
     protected static final String FLAG_NO = "No";
 
-    /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
-     */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         IacucProtocol protocol = (IacucProtocol) printableBusinessObject;        
         ProtocolDocument protocolDocumentType = ProtocolDocument.Factory.newInstance();   
@@ -179,12 +177,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
         setMinutes(submissionInfoBean, submission);
     }
 
-    /**
-     * This method...
-     * @param submissionInfoBean
-     * @param submission
-     * @return
-     */
+
     protected void setMinutes(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase submissionInfoBean,
             Submissions submission) {
         CommitteeScheduleBase committeeSchedule = submissionInfoBean.getCommitteeSchedule();

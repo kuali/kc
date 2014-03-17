@@ -59,9 +59,7 @@ public class SensitiveFieldSimpleMatcher implements SensitiveFieldMatcher {
         }
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.sensitive.SensitiveFieldMatcher#match(java.lang.String)
-     */
+    @Override
     public boolean match(String searchString) {        
         return fields.contains(searchString);
     }

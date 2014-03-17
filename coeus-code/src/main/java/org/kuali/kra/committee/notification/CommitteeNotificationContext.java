@@ -66,34 +66,22 @@ public class CommitteeNotificationContext extends NotificationContextBase {
         ((CommitteeNotificationRoleQualifierService) getNotificationRoleQualifierService()).setCommittee(this.committee);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getModuleCode()
-     */
+    @Override
     public String getModuleCode() {
         return CoeusModule.COMMITTEE_MODULE_CODE;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getDocumentNumber()
-     */
+    @Override
     public String getDocumentNumber() {
         return committee.getCommitteeDocument().getDocumentNumber();
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getActionTypeCode()
-     */
+    @Override
     public String getActionTypeCode() {
         return actionTypeCode;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getContextName()
-     */
+    @Override
     public String getContextName() {
         return contextName;
     }
@@ -119,7 +107,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
 
     @Override
     public List<EmailAttachment> getEmailAttachments() {
-        // TODO Auto-generated method stub
+
         return null;
     }
  

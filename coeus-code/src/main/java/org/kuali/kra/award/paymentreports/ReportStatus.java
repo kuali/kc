@@ -24,9 +24,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
  */
 public class ReportStatus extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3119807996482789387L;
 
     private String reportStatusCode;

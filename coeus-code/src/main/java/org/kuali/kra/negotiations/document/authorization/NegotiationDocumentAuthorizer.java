@@ -34,18 +34,13 @@ import java.util.Set;
  */
 public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
-    /**
-     * 
-     * Constructs a NegotiationDocumentAuthorizer.java.
-     */
+
     public NegotiationDocumentAuthorizer() {
         super();
     }
 
     
-    /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
-     */
+    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
         String userId = user.getPrincipalId();
@@ -105,18 +100,12 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
     
     
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
-     */
+    @Override
     public boolean canInitiate(String documentTypeName, Person user) {
         return canCreateNegotiation(user);
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
+    @Override
     public boolean canOpen(Document document, Person user) {
         boolean retVal = 
             canExecuteNegotiationTask(user.getPrincipalId(), (NegotiationDocument) document, TaskName.NEGOTIATION_VIEW_NEGOTIATION);

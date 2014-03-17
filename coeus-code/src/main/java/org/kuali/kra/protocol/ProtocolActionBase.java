@@ -74,7 +74,6 @@ import java.util.Map;
  */
 public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBase {
 
-    /** {@inheritDoc} */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -228,9 +227,6 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
     
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
@@ -355,7 +351,6 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         return forward;
     }
 
-    /** {@inheritDoc} */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -718,12 +713,8 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         }
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#recall(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @SuppressWarnings("deprecation")
     @Override
+    @SuppressWarnings("deprecation")
     public ActionForward recall(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward;  // the return value
         

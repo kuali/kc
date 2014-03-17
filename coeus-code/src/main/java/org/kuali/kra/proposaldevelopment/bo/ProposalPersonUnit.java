@@ -71,9 +71,7 @@ public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implemen
     @Transient
     private boolean delete;
 
-    /**
-     * Default constructor
-     */
+
     public ProposalPersonUnit() {
         creditSplits = new ArrayList<ProposalUnitCreditSplit>();
     }

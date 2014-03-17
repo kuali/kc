@@ -24,9 +24,6 @@ public class CoiDisclosureEventTypeMaintainableImpl extends KraMaintainableImpl 
     private static final long serialVersionUID = -316878223662581136L;
     private transient CoiDisclosureEventTypeToCoeusSubModuleSynchronizerService synchronizerService;
     
-    /**
-     * @see org.kuali.rice.krad.maintenance.MaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
-     */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         CoiDisclosureEventTypeToCoeusSubModuleSynchronizerService synchronizer =  getSynchronizerService();

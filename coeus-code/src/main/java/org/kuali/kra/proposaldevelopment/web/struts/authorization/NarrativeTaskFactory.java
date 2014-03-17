@@ -33,14 +33,9 @@ public abstract class NarrativeTaskFactory extends WebTaskFactoryBase {
     
     private static final String LINE_NUMBER = "line";
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.WebTaskFactory#createTask(org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
-     */
+    @Override
     public abstract Task createTask(ActionForm form, HttpServletRequest request);
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase#getTaskGroupName()
-     */
     @Override
     public final String getTaskGroupName() {
         return TaskGroupName.NARRATIVE;

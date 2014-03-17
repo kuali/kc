@@ -25,9 +25,7 @@ import java.util.List;
  * This class is for UI data matrix display. It will be populated from data/group/datamatrix/relationshiptype tables
  */
 public class FinEntityDataMatrixBean implements Serializable {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2560941824792191059L;
     private static final String GUI_DROPDOWN = "DROPDOWN";
     private String columnName; 

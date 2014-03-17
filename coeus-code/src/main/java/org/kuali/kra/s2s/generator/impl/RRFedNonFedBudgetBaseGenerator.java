@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -42,6 +44,9 @@ import java.util.List;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerator {
+
+    private static final Log LOG = LogFactory.getLog(RRFedNonFedBudgetBaseGenerator.class);
+
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
     protected S2SUtilService s2sUtilService;
     private DocumentService documentService ;
@@ -59,10 +64,7 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
     protected static final int OTHERPERSONNEL_MAX_ALLOWED = 6;
     protected static final int ARRAY_LIMIT_IN_SCHEMA = 4;
 
-    /**
-     * 
-     * Constructs a RRFedNonFedBudgetBaseGenerator.java.
-     */
+
     public RRFedNonFedBudgetBaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
@@ -88,7 +90,7 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
             .getByDocumentHeaderId(pdDoc.getBudgetDocumentVersion(0).getDocumentNumber());
             }
             catch (WorkflowException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }           
            budgetLineItemList = budgetDocument.getBudget().getBudgetPeriod(period-1).getBudgetLineItems();
            

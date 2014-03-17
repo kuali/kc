@@ -25,9 +25,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
  */
 public class ProtocolValuesFinder extends ProtocolValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -6742435002576211916L;
 
     @Override

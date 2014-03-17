@@ -103,10 +103,6 @@ public class FinancialEntityForm  extends KualiForm {
         this.readOnly = readOnly;
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
-     */
     @Override
     public void populate(HttpServletRequest request) {
         financialEntityHelper.refreshData();
@@ -129,7 +125,7 @@ public class FinancialEntityForm  extends KualiForm {
     
     @Override
     public void reset(ActionMapping mapping, ServletRequest request) {
-        // TODO Auto-generated method stub
+
         super.reset(mapping, request);
     }
 

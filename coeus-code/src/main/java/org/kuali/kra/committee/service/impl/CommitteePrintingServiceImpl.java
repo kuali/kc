@@ -45,9 +45,7 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
     private CommitteeRosterPrint committeeRosterPrint;
     private CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint;
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public AbstractPrint getCommitteePrintable(CommitteeReportType reportType, String committeeId) {
         AbstractPrint printable = null;
         

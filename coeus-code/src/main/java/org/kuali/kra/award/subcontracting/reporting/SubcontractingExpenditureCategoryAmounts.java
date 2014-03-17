@@ -17,9 +17,7 @@ package org.kuali.kra.award.subcontracting.reporting;
 
 public class SubcontractingExpenditureCategoryAmounts extends SubcontractingExpenditureCategoryAmountsBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2914392759850816282L;
     
     // transient 'fresh' flag to indicate if this BO represents an existing record or freshly created

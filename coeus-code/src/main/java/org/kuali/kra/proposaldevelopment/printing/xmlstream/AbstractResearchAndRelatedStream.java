@@ -215,12 +215,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         }
     }
 
-    /**
-     * This method...
-     * @param developmentProposal
-     * @param budgetLineItem
-     * @return
-     */
+
     private BudgetCategoryMap getBudgetCategoryMap(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
         boolean isNih = getSponsorService().isSponsorNihOsc(developmentProposal) 
                                 || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
@@ -243,10 +238,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         return budgetCategoryMap;
     }
 
-    /**
-     * This method...
-     * @return
-     */
+
     private SponsorService getSponsorService() {
         return KcServiceLocator.getService(SponsorService.class);
     }
@@ -862,11 +854,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         return isSamePerson(budgetPerson, proposalPerson);
     }
 
-    /**
-     * This method...
-     * @param budgetPerson
-     * @param proposalPerson
-     */
+
     private boolean isSamePerson(BudgetPerson budgetPerson, ProposalPerson proposalPerson) {
         if(proposalPerson.getPersonId()!=null && proposalPerson.getPersonId().equals(budgetPerson.getPersonId())){
             return true;
@@ -1188,11 +1176,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         return keyPersons;
     }
 
-    /**
-     * This method...
-     * @param keyPerson
-     * @param keyPersons
-     */
+
     private void addToKeyPersonList(KeyPersonInfo keyPerson, List<KeyPersonInfo> keyPersons) {
         if(!keyPersons.contains(keyPerson)){
             keyPersons.add(keyPerson);
@@ -1254,12 +1238,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         return keyPerson;
     }
 
-    /**
-     * This method...
-     * 
-     * @param budgetPersonnelDetails
-     * @return
-     */
+
     private KeyPersonInfo getKeyPersonFromRolodex(BudgetPersonnelDetails budgetPersonnelDetails) {
 
         budgetPersonnelDetails.getBudgetPerson().refreshReferenceObject("rolodex");
@@ -1268,12 +1247,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         return keyPerson;
     }
 
-    /**
-     * This method...
-     * 
-     * @param rolodexPerson
-     * @return
-     */
+
     private KeyPersonInfo getKeyPeronInfo(Rolodex rolodexPerson) {
         KeyPersonInfo keyPerson = new KeyPersonInfo();
         keyPerson.setRolodexId(rolodexPerson.getRolodexId());

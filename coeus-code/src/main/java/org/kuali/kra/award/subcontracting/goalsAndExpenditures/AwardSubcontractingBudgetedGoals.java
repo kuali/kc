@@ -20,9 +20,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class AwardSubcontractingBudgetedGoals extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5828522679101788693L;
     
     // the primary key for this BO

@@ -31,9 +31,7 @@ import java.util.List;
  */
 public abstract class CommitteeScheduleValuesFinderBase extends FormViewAwareUifKeyValuesFinderBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1914558119859827942L;
 
     /**

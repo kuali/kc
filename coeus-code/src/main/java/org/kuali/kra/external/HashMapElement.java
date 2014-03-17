@@ -24,9 +24,7 @@ import java.io.Serializable;
  */
 public class HashMapElement implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 416236787015578068L;
     private String key;
     private String value;

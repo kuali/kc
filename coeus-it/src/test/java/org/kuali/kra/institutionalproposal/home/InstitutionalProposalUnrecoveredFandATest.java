@@ -21,9 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalUnrecoveredFandATest extends KcIntegrationTestBase {
 
 private static final int IP_UNRECOVERED_FNA_ATTRIBUTES_COUNT = 9;

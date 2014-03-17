@@ -28,19 +28,15 @@ public class AddAwardAttachmentEvent extends AwardAttachmentEventBase {
     
    public AddAwardAttachmentEvent(String description, String errorPathPrefix, AwardDocument document) {
         super(description, errorPathPrefix, document);
-        // TODO Auto-generated constructor stub
+
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return AddAwardAttachmentRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddAwardAttachmentRule) rule).processsAddAttachmentRule(this);
     }

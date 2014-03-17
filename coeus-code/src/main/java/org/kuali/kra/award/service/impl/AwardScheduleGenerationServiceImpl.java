@@ -54,10 +54,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     private ParameterService parameterService;
     private AwardAmountInfoService awardAmountInfoService;
     
-    /**
-     * 
-     * Constructs a AwardScheduleGenerationServiceImpl.java.
-     */
+
     public AwardScheduleGenerationServiceImpl(){
         
     }
@@ -82,10 +79,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         mapOfDates.put(FrequencyBaseConstants.AWARD_EFFECTIVE_DATE_OF_OBLIGATION.getfrequencyBase(), awardAmountInfo.getCurrentFundEffectiveDate());
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.award.service.AwardScheduleGenerationService#generateSchedules(org.kuali.kra.award.home.Award, java.util.List)
-     */
+    @Override
     public List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms, boolean isThisNotPaymentPanel) throws ParseException{
         List<Date> dates = new ArrayList<Date>();
         Map<String, java.util.Date> mapOfDates = new HashMap<String, java.util.Date>();

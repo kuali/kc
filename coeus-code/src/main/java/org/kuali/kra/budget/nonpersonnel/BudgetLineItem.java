@@ -202,9 +202,6 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         this.objectTotal = objectTotal;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -214,9 +211,6 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -246,7 +240,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         if (compare == 0) {
             compare = this.getLineItemNumber().compareTo(o.getLineItemNumber());
         }
-        // TODO Auto-generated method stub
+
         return compare;
     }
     

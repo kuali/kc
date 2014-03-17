@@ -233,9 +233,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         return CollectionUtils.isNotEmpty(units);
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#populateProposalPerson(ProposalPerson, ProposalDevelopmentDocument)
-     */
+    @Override
     public void populateProposalPerson(ProposalPerson person, ProposalDevelopmentDocument document) {
         /* populate certification questions for new person */
         person = getYnqService().getPersonYNQ(person, document);
@@ -449,30 +447,22 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         businessObjectService = boservice;
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isPrincipalInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
-     */
+    @Override
     public boolean isPrincipalInvestigator(ProposalPerson person) {
         return PRINCIPAL_INVESTIGATOR_ROLE.equals(person.getProposalPersonRoleId());
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCoInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
-     */
+    @Override
     public boolean isCoInvestigator(ProposalPerson person) {
         return CO_INVESTIGATOR_ROLE.equals(person.getProposalPersonRoleId());
     }
 
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCoInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
-     */
+    @Override
     public boolean isKeyPerson(ProposalPerson person) {
         return KEY_PERSON_ROLE.equals(person.getProposalPersonRoleId());
     }
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
-     */
+    @Override
     public boolean isInvestigator(ProposalPerson person) {
         if (person.getOptInUnitStatus()) {
             return isPrincipalInvestigator(person) || isCoInvestigator(person) || isKeyPerson(person);
@@ -481,9 +471,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         }
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#hasPrincipalInvestigator(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
+    @Override
     public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
         boolean retval = false;
 
@@ -496,9 +484,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         return retval;
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#addUnitToPerson(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit)
-     */
+    @Override
     public void addUnitToPerson(ProposalPerson person, ProposalPersonUnit unit) {
         if (unit == null) {
             throw new IllegalArgumentException("Cannot add null units to a ProposalPerson instance");
@@ -632,10 +618,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         this.parameterService = parameterService;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isRoleReadOnly(org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole)
-     */
+    @Override
     public boolean isRoleReadOnly(ProposalPersonRole role) {
         if (role == null) {
             return false;
@@ -643,10 +626,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         return isRoleReadOnly(role.getProposalPersonRoleId());
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#getPrincipalInvestigatorRoleDescription(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
+    @Override
     public String getPrincipalInvestigatorRoleDescription(ProposalDevelopmentDocument document) {
         String parameterName = "personrole.pi";
         final Sponsor sponsor = document.getDevelopmentProposal().getSponsor();

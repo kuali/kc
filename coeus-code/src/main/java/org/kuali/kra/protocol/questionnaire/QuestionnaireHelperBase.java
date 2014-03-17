@@ -36,9 +36,7 @@ import java.util.List;
  */
 public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnaire.QuestionnaireHelperBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3436562040789756688L;
 
     /**

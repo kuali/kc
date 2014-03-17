@@ -73,9 +73,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     
     protected abstract AccountCreationService getServiceHandle();
     
-    /**
-     * @see org.kuali.kra.award.external.award.AccountCreationClient#isValidAccountNumber(java.lang.String)
-     */
+    @Override
     public String isValidAccountNumber(String accountNumber) {
         boolean isValidAccountNumber = false;
         
@@ -90,9 +88,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         return isValidAccountNumber + "";
     }
     
-    /**
-     * @see org.kuali.kra.award.external.award.AccountCreationClient#isValidChartAccount(java.lang.String, java.lang.String)
-     */
+    @Override
     public String isValidChartAccount(String chartOfAccountsCode, String accountNumber) {
         boolean isValidChartOfAccountsCode = false;
         

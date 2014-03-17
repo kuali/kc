@@ -137,14 +137,6 @@ public class ActivePendingTransactionServiceImplTest {
         Assert.assertEquals(awardNumber1, activePendingTransactionsServiceImpl.findCommonParent(awardHierarchyNodes, awardNumber1, awardNumber3, awardNumber4));
     }
 
-    
-
-    /**
-     * This method...
-     * @param rootAwardNumber
-     * @param parentAwardNumber
-     * @param awardNumber
-     */
     private void addAwardHierarchyNode(String rootAwardNumber, String parentAwardNumber, String awardNumber) {
         awardHierarchyNode = new AwardHierarchyNode();
         awardHierarchyNode.setAwardNumber(awardNumber);

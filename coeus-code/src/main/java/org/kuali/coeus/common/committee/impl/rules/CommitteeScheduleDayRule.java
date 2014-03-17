@@ -31,9 +31,7 @@ public class CommitteeScheduleDayRule extends KcTransactionalDocumentRuleBase im
 
     public static final String SCHEDULEDATA_YEARLY_DAY = "committeeHelper.scheduleData.yearlySchedule.day";
     
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(CommitteeScheduleDayEvent event) {
         boolean rulePassed = true;
         ScheduleData scheduleData = event.getScheduleData();

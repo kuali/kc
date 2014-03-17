@@ -105,10 +105,7 @@ public class NegotiationServiceImpl implements NegotiationService {
         }
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.negotiations.service.NegotiationService#buildNegotiationAssociatedDetailBean(org.kuali.kra.negotiations.bo.Negotiation)
-     */
+    @Override
     public NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation) {
         negotiation.refreshReferenceObject("negotiationAssociationType");
         if (negotiation.getNegotiationAssociationType() != null) {
@@ -233,9 +230,6 @@ public class NegotiationServiceImpl implements NegotiationService {
         return nat.isActive();
     }
 
-    /**
-     * @see org.kuali.kra.negotiations.service.NegotiationService#checkForPropLogPromotion(org.kuali.kra.negotiations.bo.Negotiation)
-     */
     @Override
     public void checkForPropLogPromotion(Negotiation negotiation) {
         if (negotiation.getNegotiationAssociationType() != null 
@@ -256,10 +250,7 @@ public class NegotiationServiceImpl implements NegotiationService {
         
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.negotiations.service.NegotiationService#findAndLoadNegotiationUnassociatedDetail(org.kuali.kra.negotiations.bo.Negotiation, boolean)
-     */
+    @Override
     public NegotiationUnassociatedDetail findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation) {
         if (negotiation.getNegotiationAssociationType() != null 
                 && StringUtils.equalsIgnoreCase(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION) 
@@ -272,10 +263,7 @@ public class NegotiationServiceImpl implements NegotiationService {
         }
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.negotiations.service.NegotiationService#getNegotiationActivityHistoryLineBeans(java.util.List)
-     */
+    @Override
     public List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans(List<NegotiationActivity> activities) {
         List<NegotiationActivityHistoryLineBean> beans = new ArrayList<NegotiationActivityHistoryLineBean>();
         for (NegotiationActivity activity : activities) {
@@ -360,10 +348,7 @@ public class NegotiationServiceImpl implements NegotiationService {
         return startOk && endOk;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.negotiations.service.NegotiationService#promoteProposalLogNegotiation(java.lang.String, java.lang.String)
-     */
+    @Override
     public void promoteProposalLogNegotiation(String proposalLogProposalNumber, String institutionalProposalProposalNumber) {
         Collection<Negotiation> negotiations = getAssociatedNegotiations(proposalLogProposalNumber, NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION);
         ArrayList<Negotiation> negotiationsToSave = new ArrayList<Negotiation>();

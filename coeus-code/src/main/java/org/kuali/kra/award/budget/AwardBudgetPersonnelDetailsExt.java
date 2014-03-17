@@ -19,14 +19,10 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 
-/**
- * This class...
- */
+
 public class AwardBudgetPersonnelDetailsExt extends BudgetPersonnelDetails {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4480947148039922420L;
     private BudgetDecimal obligatedAmount;
     /**

@@ -261,12 +261,7 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
         return netSalary;
     }
     
-    /**
-     * This method...
-     * @param person
-     * @return
-     * @throws Exception
-     */
+
     protected String[] getElements(String person) throws Exception {
         if (person.contains(",")) {
                 String[] personElements = person.split(",");

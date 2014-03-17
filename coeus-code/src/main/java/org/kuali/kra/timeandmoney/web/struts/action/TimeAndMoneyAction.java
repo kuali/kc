@@ -82,9 +82,6 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     private ActivePendingTransactionsService activePendingTransactionsService;
     private TimeAndMoneyVersionService timeAndMoneyVersionService;
     
-    /**
-     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
@@ -586,9 +583,6 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
         }
     }
 
-    /*
-     * This method...
-     */
     private int findAwardHierarchyNodeIndex(Entry<String, AwardHierarchyNode> awardHierarchyNode) {
         String i = awardHierarchyNode.getValue().getAwardNumber().replaceAll("\\d*\\-0*", "");
         int index = Integer.parseInt(i);
@@ -726,10 +720,6 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
-    /*
-     * This method...
-     * @param doc
-     */
     private void updateDocumentFromSession(TimeAndMoneyDocument doc) {
         if(doc.getAwardHierarchyNodes()==null || doc.getAwardHierarchyNodes().size()==0){
             if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)!=null){
@@ -753,10 +743,6 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     
    
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
@@ -1159,9 +1145,6 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
         return new ActionForward(forwardString, true);
     }
     
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
-     */
     @SuppressWarnings("unchecked")
     @Override
     // Overriding this because KraTransactionalDocumentActionBase assumes the authorizer is of type KcDocumentAuthorizerBase

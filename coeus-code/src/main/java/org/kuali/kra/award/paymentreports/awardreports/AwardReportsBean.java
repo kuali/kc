@@ -36,9 +36,7 @@ import java.util.Map;
  */
 public class AwardReportsBean implements Serializable {    
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7425300585057908055L;
     private List<AwardReportTerm> newAwardReportTerms;
     private List<AwardReportTermRecipient> newAwardReportTermRecipients;    
@@ -55,10 +53,7 @@ public class AwardReportsBean implements Serializable {
         this.form = form;
     }
     
-    /**
-     * 
-     * Constructs a AwardReportsBean.java.
-     */
+
     public AwardReportsBean() {
         
     }
@@ -137,17 +132,12 @@ public class AwardReportsBean implements Serializable {
         return recipient;
     }
         
-    /**
-     * @return
-     */
+
     public Award getAward() {
         return form.getAwardDocument().getAward();
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public AwardDocument getAwardDocument() {
         return form.getAwardDocument();
     }

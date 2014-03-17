@@ -27,9 +27,7 @@ import java.util.List;
 
 public class IacucProtocolFinalCorrespondenceActionTypeValuesFinder extends IacucActionsKeyValuesBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7873988843510970100L;
 
     /**

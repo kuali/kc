@@ -46,10 +46,7 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
     private DataDictionaryService dataDictionaryService;
     private SponsorService sponsorService;
     
-    /**
-     * 
-     * Constructs a NegotiationDocumentRule.java.
-     */
+
     public NegotiationDocumentRule() {
         super();
     }
@@ -79,10 +76,7 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
         
         return result;
     }
-    
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);

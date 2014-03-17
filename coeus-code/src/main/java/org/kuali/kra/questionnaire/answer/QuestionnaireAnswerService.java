@@ -90,7 +90,6 @@ public interface QuestionnaireAnswerService {
     
     /**
      * check if the questionnaire is complete.
-     * This method...
      * @param answers
      * @return
      */

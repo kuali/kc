@@ -32,9 +32,7 @@ import java.util.Map;
 /**
  * Validate a protocol submission to the IRB for review.
  */
-/**
- * This class...
- */
+
 public abstract class ProtocolSubmitActionRuleBase extends KcTransactionalDocumentRuleBase implements ExecuteProtocolSubmitActionRule {
 
     private static final String MANDATORY = "M";

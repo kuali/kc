@@ -54,9 +54,7 @@ public class WeekScheduleSequenceDecorator extends ScheduleSequenceDecorator {
         this.dayCount = dayCount;
     }
 
-    /**
-     * @see ScheduleSequence#executeScheduleSequence(java.lang.String, java.util.Date, java.util.Date)
-     */
+    @Override
     public List<Date> executeScheduleSequence(String expression, Date startDate, Date endDate) throws ParseException {
 
         List<Date> dates = scheduleSequence.executeScheduleSequence(expression, startDate, endDate);

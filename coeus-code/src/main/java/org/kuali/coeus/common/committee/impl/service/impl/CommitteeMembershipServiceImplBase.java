@@ -27,9 +27,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;
 
-/**
- * This class...
- */
 public abstract class CommitteeMembershipServiceImplBase<CMT extends CommitteeBase<CMT, ?, ?>, 
                                                      CSRV extends CommitteeServiceBase<CMT, ?>> 
         
@@ -45,9 +42,7 @@ public abstract class CommitteeMembershipServiceImplBase<CMT extends CommitteeBa
     private BusinessObjectService businessObjectService;
     private CSRV committeeService;
 
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase#addCommitteeMembership(org.kuali.coeus.common.committee.impl.bo.CommitteeBase, org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase)
-     */
+    @Override
     public void addCommitteeMembership(CMT committee, CommitteeMembershipBase committeeMembership) {
         
         committeeMembership.setCommitteeIdFk(committee.getId());
@@ -62,9 +57,7 @@ public abstract class CommitteeMembershipServiceImplBase<CMT extends CommitteeBa
         committee.getCommitteeMemberships().add(committeeMembership);
     }
 
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase#deleteCommitteeMembership(org.kuali.coeus.common.committee.impl.bo.CommitteeBase)
-     */
+    @Override
     public void deleteCommitteeMembership(CMT committee) {
         List<CommitteeMembershipBase> deletedCommitteememberships = new ArrayList<CommitteeMembershipBase>();
         for(CommitteeMembershipBase committeeMembership : committee.getCommitteeMemberships()) {
@@ -75,9 +68,7 @@ public abstract class CommitteeMembershipServiceImplBase<CMT extends CommitteeBa
         committee.getCommitteeMemberships().removeAll(deletedCommitteememberships);
     }
 
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase#addCommitteeMembershipRole(org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase, org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole)
-     */
+    @Override
     public void addCommitteeMembershipRole(CMT committee, int selectedMembershipIndex, CommitteeMembershipRole committeeMembershipRole) {
         CommitteeMembershipBase committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
         
@@ -88,18 +79,14 @@ public abstract class CommitteeMembershipServiceImplBase<CMT extends CommitteeBa
         committeeMembership.getMembershipRoles().add(committeeMembershipRole);
     }
    
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase#deleteCommitteeMembershipRole(org.kuali.coeus.common.committee.impl.bo.CommitteeBase, int, int)
-     */
+    @Override
     public void deleteCommitteeMembershipRole(CMT committee, int selectedMembershipIndex, int lineNumber) {
         CommitteeMembershipBase committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
         CommitteeMembershipRole membershipRole = committeeMembership.getMembershipRoles().get(lineNumber);
         committeeMembership.getMembershipRoles().remove(membershipRole);
     }
     
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase#addCommitteeMembershipExpertise(org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase, java.util.Collection)
-     */
+    @Override
     public void addCommitteeMembershipExpertise(CommitteeMembershipBase committeeMembership, Collection<ResearchAreaBase> researchAreas) {
         for (ResearchAreaBase researchArea: researchAreas) {
             // check if the research area is not already included in expertise for the committee member
@@ -131,19 +118,14 @@ public abstract class CommitteeMembershipServiceImplBase<CMT extends CommitteeBa
         return false;
     }
    
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase#deleteCommitteeMembershipExpertise(org.kuali.coeus.common.committee.impl.bo.CommitteeBase, int, int)
-     */
+    @Override
     public void deleteCommitteeMembershipExpertise(CMT committee, int selectedMembershipIndex, int lineNumber) {
         CommitteeMembershipBase committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
         CommitteeMembershipExpertiseBase committeeMembershipExpertise = committeeMembership.getMembershipExpertise().get(lineNumber);
         committeeMembership.getMembershipExpertise().remove(committeeMembershipExpertise);
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase#isMemberAssignedToReviewer(org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase, java.lang.String)
-     */
+    @Override
     public boolean isMemberAssignedToReviewer(CommitteeMembershipBase member, String committeeId) {
         boolean isReviewer = false;
         for (ProtocolSubmissionBase submission : getProtocolSubmissionsForCommittee(committeeId)) {
@@ -158,10 +140,7 @@ public abstract class CommitteeMembershipServiceImplBase<CMT extends CommitteeBa
         return isReviewer;
     }
     
-    /**
-     * 
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeMembershipServiceBase#isMemberAttendedMeeting(org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase, java.lang.String)
-     */
+    @Override
     public boolean isMemberAttendedMeeting(CommitteeMembershipBase member, String committeeId) {
         boolean isAttendance = false;
         CMT committee = committeeService.getCommitteeById(committeeId);

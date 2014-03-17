@@ -25,7 +25,7 @@ public class AddProtocolNotepadRuleImpl implements AddProtocolNotepadRule {
     private final ProtocolNotepadRuleHelper notesHelper
         = new ProtocolNotepadRuleHelper(NoteAndAttachmentPrefix.NEW_NOTEPAD.getPrefixName());
     
-    /** {@inheritDoc} */
+    @Override
     public boolean processAddProtocolNotepadRules(AddProtocolNotepadEvent event) {
         final ProtocolNotepad newProtocolNotepad = event.getNewProtocolNotepad();
         

@@ -63,16 +63,12 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
             PrintingTestUtils.writePdftoDisk(pdfBytes,"Questionnaire");
             assertNotNull(pdfBytes);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             //assert false;
             throw new RuntimeException(e);
         }
     }
-    /**
-     * This method...
-     * @return
-     * @throws WorkflowException
-     */
+
     private String createQuestionnaireMaintDocument() throws WorkflowException {
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
@@ -135,7 +131,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
                     "QuestionnaireAnswer");
             assertNotNull(pdfBytes);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             //assert false;
             throw new RuntimeException(e);
         }
@@ -186,7 +182,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
             assertEquals(printables.size(),1);
             assertEquals(((AbstractPrint)printables.get(0)).getReportParameters().get("questionnaireId"), 1);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             //assert false;
             throw new RuntimeException(e);
         }

@@ -25,9 +25,7 @@ import java.util.List;
 public abstract class ProtocolResearchAreaServiceImplBase implements ProtocolResearchAreaService {
 
        
-    /**
-     * @see org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService#addProtocolResearchArea(org.kuali.kra.protocol.ProtocolBase, org.kuali.kra.bo.ResearchArea)
-     */
+    @Override
     public void addProtocolResearchArea(ProtocolBase protocol, Collection<ResearchAreaBase> selectedBOs) {
         for (ResearchAreaBase newResearchAreas : selectedBOs) {
             //New ResearchAreas added by user selection

@@ -88,10 +88,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
 
     List<BudgetCategoryMap> budgetCategoryMapListWithoutFilter;
 
-    /**
-     * 
-     * Constructs a ED524BudgetBaseGenerator.java.
-     */
+
     public ED524BudgetBaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);

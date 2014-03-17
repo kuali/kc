@@ -26,9 +26,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class AwardProjectPersonAddRuleImpl extends BaseAwardContactAddRule implements AwardProjectPersonAddRule {
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardProjectPersonAddRule
-     */
+    @Override
     public boolean processAddAwardProjectPersonBusinessRules(AwardProjectPersonRuleAddEvent event) {
         AwardPerson newProjectPerson = event.getNewProjectPerson();
         Award award = ((AwardDocument) event.getDocument()).getAward();

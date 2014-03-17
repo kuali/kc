@@ -32,9 +32,7 @@ import java.util.List;
  */
 public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintainable, Comparable<BudgetSubAwards> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -857485535655759499L;
 
     private String proposalNumber;

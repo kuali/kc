@@ -20,9 +20,7 @@ import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.noreview.ExecuteProtocolReviewNotRequiredRule;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * This class...
- */
+
 public class IacucProtocolReviewNotRequiredEvent extends KcDocumentEventBase {
     
     private IacucProtocolReviewNotRequiredBean actionBean;
@@ -39,23 +37,19 @@ public class IacucProtocolReviewNotRequiredEvent extends KcDocumentEventBase {
         logEvent();
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return ExecuteProtocolReviewNotRequiredRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ExecuteProtocolReviewNotRequiredRule) rule).processReviewNotRequiredRule((ProtocolDocumentBase) getDocument(), actionBean);
     }
 
     @Override
     protected void logEvent() {
-        // TODO Auto-generated method stub
+
         
     }
 

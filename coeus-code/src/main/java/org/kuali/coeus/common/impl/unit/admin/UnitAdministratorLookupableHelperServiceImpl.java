@@ -37,9 +37,7 @@ import java.util.Map;
  */  
 public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2733736916454475501L;
     
     @SuppressWarnings("unchecked")
@@ -56,9 +54,6 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
         return returnHtmlDataList;
     }
 
-    /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
-     */
     @Override
     public List<Row> getRows() {
         List<Row> rows =  super.getRows();

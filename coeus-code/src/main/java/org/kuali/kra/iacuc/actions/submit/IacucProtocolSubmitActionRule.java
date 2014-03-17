@@ -36,9 +36,7 @@ import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
 /**
  * Validate a protocol submission to the IRB for review.
  */
-/**
- * This class...
- */
+
 @SuppressWarnings("deprecation")
 public class IacucProtocolSubmitActionRule extends ProtocolSubmitActionRuleBase {
 

@@ -27,9 +27,7 @@ import java.util.List;
  */
 public class AwardVersionHistory implements Serializable{
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1282330144911723521L;
     
     private String documentUrl;

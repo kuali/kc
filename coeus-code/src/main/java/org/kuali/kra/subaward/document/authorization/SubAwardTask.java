@@ -19,9 +19,7 @@ import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 
-/**
- * This class is for SubAwardTask...
- */
+
 public class SubAwardTask extends Task {
 
     private SubAwardDocument subAwardDocument;

@@ -36,10 +36,7 @@ public class FrequencyCodeValuesFinder extends UifKeyValuesFinderBase {
     private String reportCode;
     private KeyValuesService keyValuesService;
     
-    /**
-     * 
-     * Constructs a FrequencyCodeValuesFinder.java.
-     */
+
     public FrequencyCodeValuesFinder() {
         super();
     }
@@ -81,39 +78,19 @@ public class FrequencyCodeValuesFinder extends UifKeyValuesFinderBase {
                     getUniqueRelevantFrequencyCodes(validClassReportFrequencies));
         }
     }
-    
-    /**
-     * 
-     * This method...
-     * @return
-     */
+
     public String getReportClassCode() {
         return reportClassCode;
     }
 
-    /**
-     * 
-     * This method...
-     * @param reportClassCode
-     */
     public void setReportClassCode(String reportClassCode) {
         this.reportClassCode = reportClassCode;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getReportCode() {
         return reportCode;
     }
 
-    /**
-     * 
-     * This method...
-     * @param reportCode
-     */
     public void setReportCode(String reportCode) {
         this.reportCode = reportCode;
     }    

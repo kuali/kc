@@ -47,16 +47,12 @@ public class AddProtocolExceptionEvent extends ProtocolExceptionEventBase {
         this(errorPathPrefix, (IacucProtocolDocument)document, iacucProtocolException);
     } 
     
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return AddProtocolExceptionRule.class;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddProtocolExceptionRule)rule).processAddProtocolExceptionBusinessRules(this);
     }

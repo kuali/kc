@@ -38,9 +38,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 @IdClass(ProposalPerson.ProposalPersonId.class)
 public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4756287061318140215L;
 
     private static final String UNSUPPORTED_OPPERATION_ERROR_MESSAGE = "ProposalPersonExtendedAttributes intentionally not supporting this method.";
@@ -50,18 +48,9 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
     @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
     private ProposalPerson proposalPerson;
 
-    /**
-     * 
-     * Constructs a ProposalPersonExtendedAttributes.java. Default constructor.
-     */
     public ProposalPersonExtendedAttributes() {
     }
 
-    /**
-     * 
-     * Constructs a ProposalPersonExtendedAttributes.java.
-     * @param person
-     */
     public ProposalPersonExtendedAttributes(ProposalPerson person) {
         this();
         if (person == null) {
@@ -120,37 +109,21 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
         this.proposalPerson = proposalPerson;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes#setPersonDegrees(java.util.List)
-     */
     @Override
     public void setPersonDegrees(List<PersonDegree> personDegrees) {
         throw new UnsupportedOperationException(UNSUPPORTED_OPPERATION_ERROR_MESSAGE);
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes#getPersonDegrees()
-     */
     @Override
     public List<PersonDegree> getPersonDegrees() {
         return super.getPersonDegrees();
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes#getPersonAppointments()
-     */
     @Override
     public List<PersonAppointment> getPersonAppointments() {
         return super.getPersonAppointments();
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes#setPersonAppointments(java.util.List)
-     */
     @Override
     public void setPersonAppointments(List<PersonAppointment> personAppointments) {
         throw new UnsupportedOperationException(UNSUPPORTED_OPPERATION_ERROR_MESSAGE);

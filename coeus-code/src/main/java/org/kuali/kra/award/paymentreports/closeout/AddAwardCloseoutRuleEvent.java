@@ -37,10 +37,6 @@ public class AddAwardCloseoutRuleEvent extends AwardCloseoutRuleEvent {
         super(errorPathPrefix, awardDocument, award, closeoutItem);
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRuleEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardCloseoutRule)rule).processAddAwardCloseoutBusinessRules(this);
