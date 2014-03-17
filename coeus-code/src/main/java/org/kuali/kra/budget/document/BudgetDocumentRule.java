@@ -62,16 +62,12 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         return new BudgetCostShareRuleImpl().processAddBudgetCostShareBusinessRules(addBudgetCostShareEvent);
     }
     
-    /**
-     * @see org.kuali.kra.budget.parameters.AddBudgetPeriodRule#processAddBudgetPeriodBusinessRules(org.kuali.kra.budget.document.BudgetDocument,org.kuali.kra.budget.parameters.BudgetPeriod)
-     */
+    @Override
     public boolean processAddBudgetPeriodBusinessRules(AddBudgetPeriodEvent addBudgetPeriodEvent) {
         return new BudgetPeriodRule().processAddBudgetPeriodBusinessRules(addBudgetPeriodEvent);    
     }
 
-    /**
-     * @see org.kuali.kra.budget.distributionincome.AddBudgetProjectIncomeRule#processAddBudgetProjectIncomeBusinessRules(org.kuali.kra.budget.distributionincome.AddBudgetProjectIncomeEvent)
-     */
+    @Override
     public boolean processAddBudgetProjectIncomeBusinessRules(AddBudgetProjectIncomeEvent addBudgetIncomeEvent) {
         return new BudgetProjectIncomeRuleImpl().processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent);
     }
@@ -410,9 +406,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         return valid;
     }
     
-    /**
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         

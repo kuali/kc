@@ -117,10 +117,6 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
         verifySequenceAssociatesAfterVersioning(awardVersion2.getSpecialReviews(), awardVersion3.getSpecialReviews());
     }
 
-    /**
-     * This method...
-     * @param awardVersion2
-     */
     private void addSomeApprovedEquipmentAndVerifyBaseline(Award awardVersion2) {
         awardVersion2.add(new AwardApprovedEquipment(VENDOR_A, MODEL_A, ITEM_A, AMOUNT));
         awardVersion2.add(new AwardApprovedEquipment(VENDOR_A, MODEL_A, ITEM_B, AMOUNT));
@@ -201,9 +197,7 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
         return term;
     }
     
-    /**
-     * @return
-     */
+
     private AwardComment createComment(String commentText) {
         AwardComment comment = new AwardComment();
         comment.setComments(commentText);
@@ -335,13 +329,7 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
             assertEquals(associateBeforeVersioning.getSequenceNumber().intValue() + 1, associateAfterVersioning.getSequenceNumber().intValue());
         }
     }
-    
-    /**
-     * This method...
-     * @return
-     * @throws VersionException
-     * @throws WorkflowException
-     */
+
     private Award versionAward(AwardDocument oldVersionDocument) throws VersionException, WorkflowException {
         Award oldVersion = oldVersionDocument.getAward();
         Award newVersion = (Award) versioningService.createNewVersion(oldVersion);

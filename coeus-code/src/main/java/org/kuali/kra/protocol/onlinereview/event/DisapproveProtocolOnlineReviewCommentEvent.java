@@ -40,7 +40,6 @@ public class DisapproveProtocolOnlineReviewCommentEvent extends KcDocumentEventB
         this.maxLength = reasonMaxLength;
     }
  
-    /** {@inheritDoc} */
     @Override
     protected void logEvent() {
         if (LOG.isDebugEnabled()) {

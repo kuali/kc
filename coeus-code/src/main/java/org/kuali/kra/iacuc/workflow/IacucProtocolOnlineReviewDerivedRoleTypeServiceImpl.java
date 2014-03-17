@@ -77,10 +77,6 @@ public class IacucProtocolOnlineReviewDerivedRoleTypeServiceImpl  extends Derive
         return members;
     }
 
-    /**
-     * 
-     * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#hasDerivedRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.core.util.AttributeSet)
-     */
     @Override
     public boolean hasDerivedRole(
             String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification){

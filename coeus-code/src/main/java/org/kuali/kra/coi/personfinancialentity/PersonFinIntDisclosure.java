@@ -35,9 +35,7 @@ import java.util.List;
  */
 public class PersonFinIntDisclosure extends KcPersistableBusinessObjectBase implements SequenceOwner<PersonFinIntDisclosure> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3218103115548868080L;
     private Long personFinIntDisclosureId;
     private Long financialEntityReporterId;
@@ -293,12 +291,12 @@ public class PersonFinIntDisclosure extends KcPersistableBusinessObjectBase impl
     }
 
     public void setSequenceOwner(PersonFinIntDisclosure newlyVersionedOwner) {
-        // TODO Auto-generated method stub
+
         
     }
 
     public PersonFinIntDisclosure getSequenceOwner() {
-        // TODO Auto-generated method stub
+
         return this;
     }
 
@@ -313,12 +311,12 @@ public class PersonFinIntDisclosure extends KcPersistableBusinessObjectBase impl
     }
 
     public Integer getOwnerSequenceNumber() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
     public String getVersionNameField() {
-        // TODO Auto-generated method stub
+
         return "entityNumber";
     }
 

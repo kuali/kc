@@ -38,7 +38,7 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
      * @see org.kuali.kra.budget.external.budget.service.BudgetCategoryService#lookupBudgetCategories(java.util.List)
      */
     public List<BudgetCategoryDTO> lookupBudgetCategories(List<HashMapElement> criteria) {
-        // TODO Auto-generated method stub
+
         HashMap<String, String> searchCriteria =  new HashMap<String, String>();
         List<BudgetCategoryDTO> budgetCategoryDTO = new ArrayList<BudgetCategoryDTO>();
         List<BudgetCategory> budgetCategories = new ArrayList<BudgetCategory>();

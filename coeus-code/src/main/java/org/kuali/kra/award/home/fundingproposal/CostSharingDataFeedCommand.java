@@ -33,9 +33,6 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
         super(award, proposal, mergeType);
     }
 
-    /**
-     * @see org.kuali.kra.award.home.fundingproposal.ProposalDataFeedCommandBase#performDataFeed()
-     */
     @Override
     void performDataFeed() {
         if (mergeType != FundingProposalMergeType.NOCHANGE) {

@@ -28,14 +28,10 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalUnitContactsBean extends InstitutionalProposalContactsBean {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1563581536920498669L;
     private static final String DEFAULT_GROUP_CODE_FOR_UNIT_CONTACTS = "U";
 
@@ -87,9 +83,7 @@ public class InstitutionalProposalUnitContactsBean extends InstitutionalProposal
         return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
     }
 
-    /**
-     * @return
-     */
+
     public InstitutionalProposalUnitContact getUnitContact() {
        return (InstitutionalProposalUnitContact) newInstitutionalProposalContact; 
     }
@@ -123,17 +117,11 @@ public class InstitutionalProposalUnitContactsBean extends InstitutionalProposal
         }
     }
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContactsBean#getContactRoleType()
-     */
     @Override
     protected Class<? extends ContactRole> getContactRoleType() {
         return ContactType.class;
     }
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContactsBean#init()
-     */
     @Override
     protected InstitutionalProposalContact createNewContact() {
         return new InstitutionalProposalUnitContact(UnitContactType.CONTACT);

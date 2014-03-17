@@ -34,10 +34,6 @@ public class AwardFandaRateRuleTest {
     AwardFandaRateRule awardFandaRateRule;
     AwardFandaRate awardFandaRate;    
 
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
     @Before
     public void setUp() throws Exception {
         awardFandaRateRule = new AwardFandaRateRule();
@@ -52,10 +48,6 @@ public class AwardFandaRateRuleTest {
         GlobalVariables.setMessageMap(new MessageMap());
     }
 
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
     @After
     public void tearDown() throws Exception {
         awardFandaRateRule = null;

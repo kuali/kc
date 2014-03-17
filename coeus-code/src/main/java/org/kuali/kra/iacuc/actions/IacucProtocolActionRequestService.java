@@ -266,11 +266,7 @@ public interface IacucProtocolActionRequestService extends ProtocolActionRequest
      * @return
      */
     public boolean isAssignCommitteeAuthorized(IacucProtocolForm protocolForm);
-    
-    
-    /**
-     * @see org.kuali.kra.iacuc.actions.IacucProtocolActionRequestService#isWithdrawRequestActionAuthorized(org.kuali.kra.iacuc.IacucProtocolForm)
-     */
+
     public boolean isWithdrawRequestActionAuthorized(IacucProtocolForm protocolForm);
 
     

@@ -61,9 +61,6 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
     private static final int FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH = 6;
     private KcPersonService kcPersonService;
     
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
-     */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         return processSaveKeyPersonBusinessRules((ProposalDevelopmentDocument) document);
@@ -252,23 +249,14 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         return retval;
     }
 
-    /**
-     * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
-     */
     private boolean isPrincipalInvestigator(ProposalPerson person) {
         return getKeyPersonnelService().isPrincipalInvestigator(person);
     }
 
-    /**
-     * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
-     */
     private boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
         return getKeyPersonnelService().hasPrincipalInvestigator(document);
     }
 
-    /**
-     * @see KeyPersonnelService#isCoInvestigator(ProposalPerson)
-     */
     private boolean isCoInvestigator(ProposalPerson person){
         return getKeyPersonnelService().isCoInvestigator(person);
     }
@@ -277,9 +265,6 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         return isCoInvestigator(person) || isPrincipalInvestigator(person);
     }
     
-    /**
-     * @see KeyPersonnelService#isCoInvestigator(ProposalPerson)
-     */
     private boolean isKeyPerson(ProposalPerson person){
         return getKeyPersonnelService().isKeyPerson(person);
     }

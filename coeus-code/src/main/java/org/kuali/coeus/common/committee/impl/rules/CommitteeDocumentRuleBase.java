@@ -79,9 +79,6 @@ public abstract class CommitteeDocumentRuleBase extends KcTransactionalDocumentR
     
     private static final String INACTIVE_RESEARCH_AREAS_PREFIX = "document.committeeList[0].committeeResearchAreas.inactive";
 
-    /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.krad.document.Document)
-     */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean retval = true;
@@ -91,9 +88,6 @@ public abstract class CommitteeDocumentRuleBase extends KcTransactionalDocumentR
         return retval;
     }
 
-    /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.krad.document.Document)
-     */
     @Override
     public boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean valid = true;
@@ -624,23 +618,17 @@ public abstract class CommitteeDocumentRuleBase extends KcTransactionalDocumentR
         return new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
     }
     
-    /**
-     * @see org.kuali.coeus.common.committee.impl.rule.AddCommitteeMembershipRule#processAddCommitteeMembershipRules(org.kuali.coeus.common.committee.impl.rule.event.AddCommitteeMembershipEvent)
-     */
+    @Override
     public boolean processAddCommitteeMembershipBusinessRules(AddCommitteeMembershipEvent addCommitteeMembershipEvent) {
         return new CommitteeMembershipRule().processAddCommitteeMembershipBusinessRules(addCommitteeMembershipEvent);
     }
     
-    /**
-     * @see org.kuali.coeus.common.committee.impl.rule.AddCommitteeMembershipRoleRule#processAddCommitteeMembershipRoleBusinessRules(org.kuali.coeus.common.committee.impl.rule.event.AddCommitteeMembershipRoleEvent)
-     */
+    @Override
     public boolean processAddCommitteeMembershipRoleBusinessRules(AddCommitteeMembershipRoleEvent addCommitteeMembershipRoleEvent) {
         return new CommitteeMembershipRule().processAddCommitteeMembershipRoleBusinessRules(addCommitteeMembershipRoleEvent);
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);

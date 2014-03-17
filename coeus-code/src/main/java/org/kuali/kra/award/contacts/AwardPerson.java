@@ -128,9 +128,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         return creditSplits.get(index);
     }
 
-    /**
-     * @return
-     */
+
     public List<AwardPersonCreditSplit> getCreditSplits() {
         return creditSplits;
     }
@@ -206,9 +204,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.KEY_PERSON_CODE);
     }
 
-    /**
-     * @return
-     */
+
     public boolean isPrincipalInvestigator() {
         return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.PI_CODE);
     }
@@ -273,18 +269,12 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         return String.format("%s:%s", getContact().getIdentifier().toString(), getContact().getFullName());
     }
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContact#getContactRoleType()
-     */
     @SuppressWarnings("unchecked")
     @Override
     protected Class getContactRoleType() {
         return ProposalPersonRole.class;
     }
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContact#getContactRoleTypeIdentifier()
-     */
     @Override
     protected String getContactRoleTypeIdentifier() {
         return "proposalPersonRoleId";
@@ -312,10 +302,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         this.keyPersonRole = keyPersonRole;
     }
 
-    /**
-     * 
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
+    @Override
     public int compareTo(AwardPerson o) {
         int lastNameComp = ObjectUtils.compare(this.getLastName(), o.getLastName());
         if (lastNameComp != 0) {

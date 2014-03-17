@@ -35,18 +35,13 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class...
- */
 public class AwardSyncAuditRule implements DocumentAuditRule {
 
     protected String SYNC_ERRORS = "awardSyncAuditErrors";
     
     protected List<AuditError> auditErrors;
     
-    /**
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         AwardDocument awardDocument = (AwardDocument) document;

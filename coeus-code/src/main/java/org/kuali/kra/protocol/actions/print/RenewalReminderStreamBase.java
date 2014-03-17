@@ -21,9 +21,7 @@ import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public abstract class RenewalReminderStreamBase extends PrintBaseXmlStream {
     
     public abstract Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters);

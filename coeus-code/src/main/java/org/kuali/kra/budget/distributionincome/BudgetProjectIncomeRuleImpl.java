@@ -26,16 +26,12 @@ public class BudgetProjectIncomeRuleImpl implements AddBudgetProjectIncomeRule {
      */
     private ValidationHelper validationHelper;
     
-    /**
-     * Constructs a BudgetProjectIncomeRuleImpl
-     */
+
     public BudgetProjectIncomeRuleImpl() {
         validationHelper = new ValidationHelper();
     }
     
-    /**
-     * @see org.kuali.kra.budget.distributionincome.AddBudgetProjectIncomeRule#processAddBudgetProjectIncomeBusinessRules(org.kuali.kra.budget.distributionincome.AddBudgetProjectIncomeEvent)
-     */
+    @Override
     public boolean processAddBudgetProjectIncomeBusinessRules(AddBudgetProjectIncomeEvent addBudgetIncomeEvent) {
         BudgetProjectIncome projectIncome = addBudgetIncomeEvent.getBudgetProjectIncome();
         return areRequiredRulesSatisfied(projectIncome) && isProjectIncomeAmountValid(projectIncome);

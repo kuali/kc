@@ -40,9 +40,7 @@ public class AwardPersonUnitRuleAddEvent extends KcDocumentEventBase {
         this.addUnitPersonIndex = addUnitPersonIndex;
     }
 
-    /**
-     * @return
-     */
+
     public AwardPersonUnit getNewPersonUnit() {
         return newPersonUnit;
     }

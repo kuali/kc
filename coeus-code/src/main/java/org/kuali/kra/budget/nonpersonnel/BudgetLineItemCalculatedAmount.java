@@ -22,9 +22,7 @@ public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmou
     @DeepCopyIgnore
     private Long budgetLineItemCalculatedAmountId;
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1755216989884993632L;
 
     public BudgetLineItemCalculatedAmount() {

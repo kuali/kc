@@ -22,9 +22,7 @@ import org.kuali.kra.award.AwardAssociate;
 
 public class CoiDisclosureAssociate extends KcPersistableBusinessObjectBase implements SequenceAssociate<CoiDisclosure> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4604078758009003461L;
 
     private String coiDisclosureNumber;
@@ -81,9 +79,6 @@ public class CoiDisclosureAssociate extends KcPersistableBusinessObjectBase impl
         this.sequenceNumber = sequenceNumber;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -93,9 +88,6 @@ public class CoiDisclosureAssociate extends KcPersistableBusinessObjectBase impl
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -132,7 +124,7 @@ public class CoiDisclosureAssociate extends KcPersistableBusinessObjectBase impl
 
     @Override
     public void resetPersistenceState() {
-        // TODO Auto-generated method stub
+
         
     }
 

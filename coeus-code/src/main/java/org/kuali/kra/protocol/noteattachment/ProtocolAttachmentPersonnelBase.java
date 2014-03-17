@@ -94,43 +94,42 @@ public abstract class ProtocolAttachmentPersonnelBase extends ProtocolAttachment
         this.personId = personId;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ProtocolAttachmentTypeBase getType() {
         return this.type;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void setType(ProtocolAttachmentTypeBase type) {
         this.type = type;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public String getTypeCode() {
         return this.typeCode;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public abstract String getGroupCode();
 
-    /** {@inheritDoc} */
+    @Override
     public String getDescription() {
         return this.description;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public abstract String getAttachmentDescription();
 
-    /** {@inheritDoc} */
     @Override
     public boolean supportsVersioning() {
         return false;
@@ -146,7 +145,6 @@ public abstract class ProtocolAttachmentPersonnelBase extends ProtocolAttachment
         this.setPersonId(null);
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -158,7 +156,6 @@ public abstract class ProtocolAttachmentPersonnelBase extends ProtocolAttachment
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

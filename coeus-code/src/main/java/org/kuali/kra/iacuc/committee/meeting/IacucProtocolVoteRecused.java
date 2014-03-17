@@ -19,9 +19,7 @@ import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteRecusedBase;
 
 public class IacucProtocolVoteRecused extends ProtocolVoteRecusedBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5869573656989919135L;
 
 }

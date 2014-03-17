@@ -17,15 +17,10 @@ package org.kuali.kra.negotiations.bo;
 
 public class NegotiationActivityType extends NegotiationsGroupingBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8263333935272955542L;
 
-    /**
-     * 
-     * Constructs a NegotiationAgreementType.java.
-     */
+
     public NegotiationActivityType() {
         super();
     }

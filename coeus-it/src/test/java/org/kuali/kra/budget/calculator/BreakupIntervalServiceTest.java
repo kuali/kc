@@ -104,10 +104,6 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
         assertEquals(bi.getUnderRecovery(), new BudgetDecimal(4050.00));
     }
 
-    /**
-     * This method...
-     * @return
-     */
     private BreakUpInterval createBreakupInterval() {
         BreakUpInterval bi1  = new BreakUpInterval();
         bi1.setApplicableAmt(new BudgetDecimal(5000));
@@ -123,14 +119,6 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
         return bi1;
     }
 
-
-    /**
-     * This method...
-     * @param rateClassCode
-     * @param rateTypeCode
-     * @param rateClassType
-     * @param rateAndCosts
-     */
     private RateAndCost getRateCost(String rateClassCode, String rateTypeCode, String rateClassType,double rate) {
         RateAndCost rateCost = new RateAndCost();
         rateCost.setApplyRateFlag(true);
@@ -194,10 +182,6 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
         return rates;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     private BudgetRate getBudgetRate(String actCode,double rate,Long bgtId,String year,
                                     double instRate,boolean campFlag,String rcCode,String rtCode,String rct,String stDate,String unitNumber) {
         BudgetRate br1 = new BudgetRate();

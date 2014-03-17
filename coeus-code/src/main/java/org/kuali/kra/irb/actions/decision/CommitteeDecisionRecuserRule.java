@@ -28,10 +28,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class CommitteeDecisionRecuserRule extends CommitteeDecisionVoterRuleBase implements ExecuteCommitteeDecisionRecuserRule<CommitteeDecision> {
     
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRecuserRule#proccessCommitteeDecisionRecuserRule(org.kuali.kra.irb.actions.decision.CommitteeDecision)
-     */
+    @Override
     public boolean proccessCommitteeDecisionRecuserRule(ProtocolDocumentBase document, CommitteeDecision committeeDecision) {
         boolean retVal = true; 
         

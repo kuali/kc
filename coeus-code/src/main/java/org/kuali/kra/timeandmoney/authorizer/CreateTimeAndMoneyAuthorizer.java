@@ -25,9 +25,7 @@ import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
  */
 public class CreateTimeAndMoneyAuthorizer extends TaskAuthorizerBase {
 
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
-     */
+    @Override
     public boolean isAuthorized(String userId, Task task) {
         return true;
         //return hasUnitPermission(userId, "createTimeAndMoney"); 

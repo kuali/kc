@@ -55,10 +55,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_IACUC, "9");
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.QuestionnaireService#isQuestionnaireNameExist(java.lang.Integer, java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public boolean isQuestionnaireNameExist(String questionnaireId, String name) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -106,10 +103,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.QuestionnaireService#getAssociateModules()
-     */
+    @Override
     public List<String> getAssociateModules() {
         /*
          * TODO : (kcirb-378)this is a temporary (for release 2) to get questionnaire modules association list based on permission
@@ -144,9 +138,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         this.parameterService = parameterService;
     }
     
-    /**
-     * @see org.kuali.kra.questionnaire.QuestionnaireService#isUniqueUsage(org.kuali.kra.questionnaire.QuestionnaireUsage)
-     */
+    @Override
     public boolean isUniqueUsage(Questionnaire questionnaire, QuestionnaireUsage usage) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("moduleItemCode", usage.getCoeusModule().getModuleCode());

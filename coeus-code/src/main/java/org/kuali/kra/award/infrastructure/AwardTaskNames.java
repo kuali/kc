@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.award.infrastructure;
 
-/**
- * 
- * This class...
- */
+
 public enum AwardTaskNames {
     MODIFY_AWARD("modifyAward"),VIEW_AWARD("viewAward"),MODIFY_AWARD_ROLES("modifyAwardRoles"),ADD_AWARD_NOTES("addAwardNotes"),
     MAINTAIN_REPORT_TRACKING("maintainReportTracking"),CREATE_AWARD_ACCOUNT("createAwardAccount");

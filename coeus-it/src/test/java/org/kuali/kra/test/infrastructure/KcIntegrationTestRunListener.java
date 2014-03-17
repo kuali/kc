@@ -41,9 +41,6 @@ public class KcIntegrationTestRunListener extends RunListener {
         this.lifecycle = lifecycle;
     }
 
-    /**
-     * @see org.junit.runner.notification.RunListener#testRunFinished(org.junit.runner.Result)
-     */
     @Override
     public void testRunFinished(Result result) throws Exception {
         lifecycle.stopPerSuite();

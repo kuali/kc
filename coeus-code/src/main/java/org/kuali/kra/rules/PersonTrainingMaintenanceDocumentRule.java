@@ -28,19 +28,12 @@ import java.util.Map;
 
 public class PersonTrainingMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
 
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */ 
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         PersonTraining personTraining = (PersonTraining)document.getNoteTarget();
         return validate(personTraining);
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         PersonTraining personTraining = (PersonTraining)document.getNoteTarget();

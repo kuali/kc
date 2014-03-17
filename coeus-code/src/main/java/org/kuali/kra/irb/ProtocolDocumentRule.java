@@ -105,38 +105,28 @@ public class ProtocolDocumentRule extends ProtocolDocumentRuleBase<CommitteeDeci
         return processRules(new SaveSpecialReviewEvent<ProtocolSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, (List)specialReviews, false, false));
     }
 
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.rule.PermissionsRule#processAddPermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.coeus.common.permissions.impl.bo.PermissionsUser)
-     */
+    @Override
     public boolean processAddPermissionsUserBusinessRules(Document document, List<User> users, PermissionsUser newUser) {
         return new ProtocolPermissionsRule().processAddPermissionsUserBusinessRules(document, users, newUser);
     }
 
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.rule.PermissionsRule#processDeletePermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, int)
-     */
+    @Override
     public boolean processDeletePermissionsUserBusinessRules(Document document, List<User> users, int index) {
         return new ProtocolPermissionsRule().processDeletePermissionsUserBusinessRules(document, users, index);     
     }
 
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.rule.PermissionsRule#processEditPermissionsUserRolesBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles)
-     */
+    @Override
     public boolean processEditPermissionsUserRolesBusinessRules(Document document, List<User> users,
             PermissionsUserEditRoles editRoles) {
         return new ProtocolPermissionsRule().processEditPermissionsUserRolesBusinessRules(document, users, editRoles);
     }
 
-    /**
-     * @see org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule#processAssignToCommitteeSchedule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean)
-     */
+    @Override
     public boolean processAssignToCommitteeSchedule(ProtocolDocument document, ProtocolAssignCmtSchedBean actionBean) {
         return new ProtocolAssignCmtSchedRule().processAssignToCommitteeSchedule(document, actionBean);
     }
 
-    /**
-     * @see org.kuali.kra.irb.actions.assignreviewers.ExecuteProtocolAssignReviewersRule#processAssignReviewers(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean)
-     */
+    @Override
     public boolean processAssignReviewers(ProtocolDocument document, ProtocolAssignReviewersBean actionBean) {
         return new ProtocolAssignReviewersRule().processAssignReviewers(document, actionBean);
     }

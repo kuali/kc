@@ -65,7 +65,6 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
     private String genericTaskName;
 
     
-    /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         if (StringUtils.isEmpty(this.genericTaskName)) {

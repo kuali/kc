@@ -19,8 +19,6 @@ import org.kuali.kra.protocol.protocol.ProtocolTypeBase;
 
 public class IacucProtocolType extends ProtocolTypeBase{
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2622328718522740839L;
 }

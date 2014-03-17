@@ -80,16 +80,12 @@ public class AwardApprovedForeignTravel extends AwardAssociate implements Compar
     // used in tag 
     private transient KcPersonService kcPersonService;
 
-    /**
-     * Constructs a AwardApprovedForeignTravel
-     */
+
     public AwardApprovedForeignTravel() {
         instanceNumber = instanceCount++;
     }
 
-    /**
-     * Constructs a AwardApprovedForeignTravel
-     */
+
     public AwardApprovedForeignTravel(Object traveler, String destination, Date startDate, Date endDate, double amount) {
         super();
         if (traveler instanceof KcPerson) {
@@ -184,16 +180,12 @@ public class AwardApprovedForeignTravel extends AwardAssociate implements Compar
         return endDate;
     }
 
-    /**
-     * @return
-     */
+
     public Integer getRolodexId() {
         return rolodexId;
     }
 
-    /**
-     * @return
-     */
+
     public NonOrganizationalRolodex getRolodexTraveler() {
         return rolodexTraveler;
     }
@@ -214,23 +206,17 @@ public class AwardApprovedForeignTravel extends AwardAssociate implements Compar
         return amount;
     }
 
-    /**
-     * @return
-     */
+
     public boolean isEmployee() {
         return personId != null;
     }
 
-    /**
-     * @return
-     */
+
     public boolean isNonemployee() {
         return rolodexId != null;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.approvedForeignTravelId = null;
     }

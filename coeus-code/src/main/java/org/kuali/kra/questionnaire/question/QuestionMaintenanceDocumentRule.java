@@ -39,9 +39,7 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 
     private static final Log LOG = LogFactory.getLog(QuestionMaintenanceDocumentRule.class);
 
-    /**
-     * Constructs a QuestionMaintenanceDocumentRule.
-     */
+
     public QuestionMaintenanceDocumentRule() {
         super();
     }

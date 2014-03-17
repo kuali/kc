@@ -33,9 +33,7 @@ public class CommitteeType extends KcPersistableBusinessObjectBase {
 
     private String description;
 
-    /**
-     * Constructs a CommitteeType.
-     */
+
     public CommitteeType() {
     }
 

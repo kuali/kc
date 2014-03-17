@@ -63,9 +63,7 @@ public class ProtocolGrantExemptionServiceImpl implements ProtocolGrantExemption
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }    
 
-    /**
-     * @see org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService#grantExemption(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean)
-     */
+    @Override
     public void grantExemption(Protocol protocol, ProtocolGrantExemptionBean actionBean) throws Exception {
         ProtocolAction protocolAction = new ProtocolAction(protocol, protocol.getProtocolSubmission(), ProtocolActionType.GRANT_EXEMPTION); 
         protocolAction.setComments(actionBean.getComments());

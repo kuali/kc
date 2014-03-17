@@ -17,9 +17,7 @@ package org.kuali.kra.coi;
 
 public class CoiSubmittedDisclosure extends CoiDisclosure {
   
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2765830403983369630L;
 
     public CoiSubmittedDisclosure () {

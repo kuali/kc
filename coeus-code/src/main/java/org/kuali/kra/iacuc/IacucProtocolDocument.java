@@ -75,9 +75,7 @@ import java.util.Map;
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_IACUC)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class IacucProtocolDocument extends ProtocolDocumentBase { 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1014286912251147390L;
     @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(IacucProtocolDocument.class);
@@ -87,9 +85,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     
     private static final String DISAPPROVED_CONTEXT_NAME = "Disapproved";
 	
-    /**
-     * Constructs a ProtocolDocumentBase object.
-     */
+
 	public IacucProtocolDocument() { 
         super();
 	}

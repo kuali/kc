@@ -24,9 +24,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 public class CoiDisclosureHistory extends KcPersistableBusinessObjectBase {
     
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6373301098038646558L;
     private Long coiDisclosureHistoryId; 
     private Long coiDisclosureId; 

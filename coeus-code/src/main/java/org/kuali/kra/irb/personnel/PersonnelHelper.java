@@ -30,9 +30,7 @@ import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 
 public class PersonnelHelper extends PersonnelHelperBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8864871204975643125L;
 
     public PersonnelHelper(ProtocolForm form) {

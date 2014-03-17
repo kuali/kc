@@ -2311,13 +2311,13 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     @Override
     public String getProjectName() {
-        // TODO Auto-generated method stub 
+
         return getTitle();
     }
 
     @Override
     public String getProjectId() {
-        // TODO Auto-generated method stub 
+
         return getProposalNumber();
     }
 

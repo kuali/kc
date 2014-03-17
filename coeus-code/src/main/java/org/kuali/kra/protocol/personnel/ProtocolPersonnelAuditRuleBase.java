@@ -36,10 +36,7 @@ public abstract class ProtocolPersonnelAuditRuleBase extends KcTransactionalDocu
     private List<AuditError> auditErrors;
     private static final String PERSONNEL_AUDIT_ERRORS = "personnelAuditErrors";
     
-    /**
-     * 
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean isValid = true;
         ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase)document;

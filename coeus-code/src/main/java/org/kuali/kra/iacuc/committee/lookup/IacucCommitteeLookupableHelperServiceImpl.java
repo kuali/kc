@@ -23,9 +23,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class IacucCommitteeLookupableHelperServiceImpl extends CommitteeLookupableHelperServiceImplBase<IacucCommittee, CommonCommitteeDocument> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1230794939567685359L;
 
     @Override

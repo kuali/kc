@@ -54,9 +54,7 @@ public class XMonthlyScheduleSequenceDecorator extends ScheduleSequenceDecorator
         this.frequency = frequency;        
     }
 
-    /**
-     * @see ScheduleSequence#executeScheduleSequence(java.lang.String, java.util.Date, java.util.Date)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<Date> executeScheduleSequence(String expression, Date startDate, Date endDate) throws ParseException {
 

@@ -43,10 +43,7 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
     protected BusinessObjectService businessObjectService;
     private FiscalYearMonthService fiscalYearMonthService;
     
-    /**
-     * 
-     * @see org.kuali.kra.award.commitments.AwardFandaRateService#getStartAndEndDatesBasedOnFiscalYear(java.lang.String)
-     */
+    @Override
     public List<String> getStartAndEndDatesBasedOnFiscalYear(String fiscalYear){
         List<String> listDates = new ArrayList<String>();
         if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length()==FOUR_DIGIT_YEAR_LENGTH) {

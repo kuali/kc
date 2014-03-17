@@ -18,6 +18,8 @@ package org.kuali.kra.budget.calculator.query;
 
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.calculator.QueryList;
 
 import java.lang.reflect.InvocationTargetException;
@@ -35,7 +37,9 @@ import java.util.Map;
  * accessed globally.
  */
 public class QueryEngine {
-    
+
+    private static final Log LOG = LogFactory.getLog(QueryEngine.class);
+
     private Map dataCollection;
     
     /** Creates a new instance of QueryEngine */
@@ -237,11 +241,11 @@ public class QueryEngine {
                     dataCollection.put(dataList.get(0).getClass(), dataList);
                 }
             }catch (IllegalAccessException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }catch (InvocationTargetException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }catch (NoSuchMethodException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
         

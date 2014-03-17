@@ -97,7 +97,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             xmlObjectList.put("Questionnaire", getQuestionnaireData(printableBusinessObject,reportParameters));
         }
         catch (PrintingException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return xmlObjectList;
     }

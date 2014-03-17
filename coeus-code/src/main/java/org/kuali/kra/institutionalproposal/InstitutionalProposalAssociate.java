@@ -23,9 +23,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
  */
 public class InstitutionalProposalAssociate extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5913284355985592531L;
 
     private String proposalNumber;

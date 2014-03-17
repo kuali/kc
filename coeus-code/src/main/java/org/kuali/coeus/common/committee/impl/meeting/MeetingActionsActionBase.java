@@ -339,9 +339,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
      * TODO : maybe should create a public class for this ?
      */
     public class PrintableAttachment extends AttachmentDataSource {
-        /**
-         * Comment for <code>serialVersionUID</code>
-         */
+
         private static final long serialVersionUID = -8537865725808758230L;
         
         private byte[] streamData;

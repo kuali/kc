@@ -35,23 +35,17 @@ public abstract class AwardAssociate extends KcPersistableBusinessObjectBase imp
 
     private Award award;
 
-    /**
-     * @return
-     */
+
     public String getAwardNumber() {
         return awardNumber;
     }
 
-    /**
-     * @return
-     */
+
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
-    /**
-     * @return
-     */
+
     public Award getAward() {
         return award;
     }
@@ -98,9 +92,6 @@ public abstract class AwardAssociate extends KcPersistableBusinessObjectBase imp
         }
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -110,9 +101,6 @@ public abstract class AwardAssociate extends KcPersistableBusinessObjectBase imp
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -142,16 +130,12 @@ public abstract class AwardAssociate extends KcPersistableBusinessObjectBase imp
         return true;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
-     */
+    @Override
     public Award getSequenceOwner() {
         return getAward();
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
-     */
+    @Override
     public void setSequenceOwner(Award newlyVersionedOwner) {
         setAward(newlyVersionedOwner);
     }

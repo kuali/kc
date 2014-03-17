@@ -20,9 +20,7 @@ import java.util.Comparator;
 
 public class CoiDisclosureAttachmentFilter implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4725272230342475909L;
     private String filterBy;
     private String sortBy;

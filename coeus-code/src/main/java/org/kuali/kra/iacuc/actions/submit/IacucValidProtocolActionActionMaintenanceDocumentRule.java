@@ -28,10 +28,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class IacucValidProtocolActionActionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         IacucValidProtocolActionAction validProtocolActionAction = (IacucValidProtocolActionAction) document.getDocumentBusinessObject();
@@ -39,10 +35,6 @@ public class IacucValidProtocolActionActionMaintenanceDocumentRule extends KcMai
     }
 
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         IacucValidProtocolActionAction validProtocolActionAction = (IacucValidProtocolActionAction) document.getDocumentBusinessObject();

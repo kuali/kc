@@ -28,9 +28,7 @@ import java.util.List;
  */
 public class IacucCorrespondentTypeQualifierValuesFinder extends UifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3106476961230607417L;
 
 

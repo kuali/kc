@@ -44,16 +44,12 @@ public class SequenceAssociateAttachmentBO2 implements SeparatelySequenceableAss
         this.attachmentId = attachmentId;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         setAttachmentId(null);
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#getSequenceNumber()
-     */
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }

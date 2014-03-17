@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierTypeBase
 
 public class ProtocolSubmissionQualifierType extends ProtocolSubmissionQualifierTypeBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8568514666944391924L;
 
     public static final String ANNUAL_SCHEDULED_BY_IRB = "2";

@@ -95,9 +95,6 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
         super(ATTRIBUTE_COUNT, cm);
     }
 
-    /**
-     * @see org.kuali.kra.committee.bo.BoAttributeTestBase#getFieldMap()
-     */
     @SuppressWarnings("unchecked")
     @Override
     protected Map getFieldMap() {
@@ -119,9 +116,6 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
         return map;
     }
 
-    /**
-     * @see org.kuali.kra.committee.bo.BoAttributeTestBase#boPrerequisite()
-     */
     @Override
     protected void boPrerequisite(){
         super.boPrerequisite();
@@ -132,9 +126,6 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
         FIELD_TIME_VALUE = new java.sql.Timestamp(dt.getTime());
     }
     
-    /**
-     * @see org.kuali.kra.committee.bo.BoAttributeTestBase#boPostrequisite()
-     */
     @Override
     protected void boPostrequisite() {
         super.boPostrequisite();

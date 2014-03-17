@@ -20,6 +20,8 @@ import gov.grants.apply.coeus.additionalEquipment.AdditionalEquipmentListDocumen
 import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument;
 import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList;
 import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons.Compensation;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -62,7 +64,10 @@ import java.util.Map;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
-	private static final String ADDITIONAL_EQUIPMENT = "ADDITIONAL_EQUIPMENT";
+
+    private static final Log LOG = LogFactory.getLog(RRBudgetBaseGenerator.class);
+
+    private static final String ADDITIONAL_EQUIPMENT = "ADDITIONAL_EQUIPMENT";
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
 	protected S2SUtilService s2sUtilService;
 	protected BusinessObjectService businessObjectService;
@@ -153,7 +158,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 				narrative = saveNarrative(printData.getContent(),
 						EQUIPMENT_NARRATIVE_TYPE_CODE,fileName,ADDITIONAL_EQUIPMENT);
 			} catch (PrintingException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage(), e);
 			}
 		}
 		return narrative;
@@ -203,7 +208,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+periodInfo.getBudgetPeriod()+"_"+EXTRA_KEYPERSONS+".pdf";
 				extraKPNarrative = saveNarrative(printData.getContent(), EXTRA_KEYPERSONS_TYPE, fileName, EXTRA_KEYPERSONS_COMMENT);
 			} catch (PrintingException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage(), e);
 			}
 		}
 		return extraKPNarrative;
@@ -275,7 +280,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
            .getByDocumentHeaderId(pdDoc.getBudgetDocumentVersion(0).getDocumentNumber());
            }
            catch (WorkflowException e) {
-               e.printStackTrace();
+               LOG.error(e.getMessage(), e);
            }           
           budgetLineItemList = budgetDocument.getBudget().getBudgetPeriod(period-1).getBudgetLineItems();
           

@@ -50,10 +50,6 @@ public class ProtocolTerminatedNotificationRenderer extends IRBNotificationRende
         this.actionComments = actionComments;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#replaceContextVariables(java.lang.String)
-     */
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();

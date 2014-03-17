@@ -31,9 +31,7 @@ import org.kuali.kra.award.home.ContactType;
  */
 public class AwardReportTermRecipient extends KcPersistableBusinessObjectBase implements SequenceAssociate<Award> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3941499915900100395L;
 
     private Long awardReportTermRecipientId;
@@ -61,18 +59,12 @@ public class AwardReportTermRecipient extends KcPersistableBusinessObjectBase im
     @AwardSyncableProperty(parent = true, parentProperty = "awardReportTermRecipients")
     private AwardReportTerm awardReportTerm;
 
-    /**
-     * 
-     * Constructs a AwardReportTerm.java.
-     */
+
     public AwardReportTermRecipient() {
         numberOfCopies = 1;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public Long getAwardReportTermId() {
         return awardReportTermId;
     }
@@ -85,10 +77,7 @@ public class AwardReportTermRecipient extends KcPersistableBusinessObjectBase im
         this.awardReportTermId = awardReportTermId;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public Long getAwardReportTermRecipientId() {
         return awardReportTermRecipientId;
     }
@@ -101,10 +90,7 @@ public class AwardReportTermRecipient extends KcPersistableBusinessObjectBase im
         this.awardReportTermRecipientId = awardReportTermRecipientId;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public AwardReportTerm getAwardReportTerm() {
         return awardReportTerm;
     }
@@ -117,10 +103,7 @@ public class AwardReportTermRecipient extends KcPersistableBusinessObjectBase im
         this.awardReportTerm = awardReportTerm;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public Long getContactId() {
         return contactId;
     }
@@ -213,9 +196,6 @@ public class AwardReportTermRecipient extends KcPersistableBusinessObjectBase im
         this.rolodex = rolodex;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -225,9 +205,6 @@ public class AwardReportTermRecipient extends KcPersistableBusinessObjectBase im
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -242,11 +219,6 @@ public class AwardReportTermRecipient extends KcPersistableBusinessObjectBase im
         return equals((AwardReportTermRecipient) obj);
     }
 
-    /**
-     * This method...
-     * @param other
-     * @return
-     */
     private boolean equals(AwardReportTermRecipient other) {
         if (contactTypeCode == null) {
             if (other.contactTypeCode != null) {

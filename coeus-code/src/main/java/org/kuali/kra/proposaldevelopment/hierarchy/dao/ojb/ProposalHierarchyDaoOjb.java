@@ -29,9 +29,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ProposalHierarchyDao {
     public List<String> getHierarchyChildProposalNumbers(String proposalNumber) {
         List<String> retval = new ArrayList<String>();

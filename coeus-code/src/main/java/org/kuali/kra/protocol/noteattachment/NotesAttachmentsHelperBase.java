@@ -16,6 +16,8 @@
 package org.kuali.kra.protocol.noteattachment;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
@@ -36,7 +38,9 @@ import java.util.*;
  * This is the "Helper" class for ProtocolBase Notes And Attachments.
  */
 public abstract class NotesAttachmentsHelperBase {
-    
+
+    private static final Log LOG = LogFactory.getLog(NotesAttachmentsHelperBase.class);
+
     protected static final String NAMESPACE = "KC-UNT";
 
     protected static final String UNSUPPORTED_ATTACHMENT_TYPE = "unsupported attachment type ";
@@ -259,11 +263,7 @@ public abstract class NotesAttachmentsHelperBase {
         }
     }
     
-    /**
-     * 
-     * This method...
-     * @param parameterMap
-     */
+
     public void fixReloadedAttachments(Map parameterMap) {
         Iterator keys = parameterMap.keySet().iterator();
         while (keys.hasNext()) {
@@ -285,7 +285,7 @@ public abstract class NotesAttachmentsHelperBase {
             } catch (Exception e) {
               //we could get an exception from the getting of the integer, or from the collection not having the integer in it's index/
               //do nothing.
-              e.printStackTrace();
+              LOG.error(e.getMessage(), e);
             }
         }
     }

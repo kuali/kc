@@ -44,18 +44,14 @@ import java.util.Iterator;
 import java.util.List;
 
 
-/**
- * This class...
- */
+
 public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetService {
 
     private static final Log LOG = LogFactory.getLog(BudgetPersonnelBudgetServiceImpl.class);
 
     private BudgetPersonService budgetPersonService;
     private BudgetCalculationService budgetCalculationService;
-    /**
-     * @see org.kuali.kra.budget.personnel.BudgetPersonnelBudgetService#addBudgetPersonnelDetails(org.kuali.kra.budget.nonpersonnel.BudgetLineItem, org.kuali.kra.budget.personnel.BudgetPersonnelDetails)
-     */
+    @Override
     public void addBudgetPersonnelDetails(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails) {
         try {
             ConvertUtils.register(new SqlDateConverter(null), java.sql.Date.class);

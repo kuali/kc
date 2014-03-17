@@ -33,14 +33,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalCreditSplitBean implements Serializable {
 
-/**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = 1033802859817554693L;
 
     static final String PERSON_TOTALS_KEY = "personTotalsKey";
@@ -166,9 +161,7 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
         return this.parameterService;
     }
     
-    /**
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }
@@ -357,11 +350,7 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
         }
     }
     
-    /**
-     * This method...
-     * @param projectPerson
-     * @return
-     */
+
     private String getPersonKey(InstitutionalProposalPerson projectPerson) {
         return projectPerson.getFullName();
     }

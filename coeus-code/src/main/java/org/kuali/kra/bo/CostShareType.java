@@ -16,72 +16,42 @@
 package org.kuali.kra.bo;
 
 
-/**
- * This class...
- */
+
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-/**
- * This class...
- */
+
 public class CostShareType extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
+
     private static final long serialVersionUID = -4625330898428160836L;
 
     private Integer costShareTypeCode;
 
     private String description;
 
-    /**
-     * 
-     * Constructs a CostShareType.java.
-     */
+
     public CostShareType() {
         super();
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public Integer getCostShareTypeCode() {
         return costShareTypeCode;
     }
 
-    /**
-     * This method...
-     * @param costShareTypeCode
-     */
     public void setCostShareTypeCode(Integer costShareTypeCode) {
         this.costShareTypeCode = costShareTypeCode;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public String getDescription() {
         return description;
     }
 
-    /**
-     * This method...
-     * @param description
-     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -91,9 +61,6 @@ public class CostShareType extends KcPersistableBusinessObjectBase {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

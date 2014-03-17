@@ -66,9 +66,6 @@ public abstract class CommitteeCommitteeActionBase extends CommitteeActionBase {
         return actionForward;
     }
     
-    /**
-     * @see org.kuali.coeus.common.committee.impl.web.struts.action.CommitteeActionBase#processMultipleLookupResults(org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase, java.lang.Class, java.util.Collection)
-     */
     @Override
     protected void processMultipleLookupResults(CommitteeFormBase committeeForm,
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {

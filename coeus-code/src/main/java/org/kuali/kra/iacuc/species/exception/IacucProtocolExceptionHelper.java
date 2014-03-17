@@ -28,9 +28,7 @@ import java.io.Serializable;
 
 public class IacucProtocolExceptionHelper implements Serializable{
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2090976351003068814L;
 
     protected IacucProtocolForm form;

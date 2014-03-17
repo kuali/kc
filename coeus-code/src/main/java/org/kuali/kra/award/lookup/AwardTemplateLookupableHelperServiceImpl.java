@@ -28,10 +28,7 @@ import java.util.Properties;
 
 public class AwardTemplateLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    
-  /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7169266970079382877L;
 
   protected String getDocumentTypeName() {

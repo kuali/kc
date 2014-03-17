@@ -25,9 +25,7 @@ import java.util.List;
 
 public class CoiDisclosedProjectBean implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7805100701232656867L;
     
     private boolean projectDisclosed;

@@ -22,9 +22,7 @@ import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 /**
  * Defines the functions needed for the generic action service functions.
  */
-/**
- * This class...
- */
+
 public interface ProtocolGenericActionService {
     
     /**

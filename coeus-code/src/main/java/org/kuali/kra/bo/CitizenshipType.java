@@ -21,9 +21,7 @@ import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
 
-/**
- * This class...
- */
+
 @Entity
 @Table(name = "CITIZENSHIP_TYPE_T")
 public class CitizenshipType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
@@ -39,9 +37,7 @@ public class CitizenshipType extends KcPersistableBusinessObjectBase implements 
     @Convert(converter = BooleanYNConverter.class)
     private boolean active;
 
-    /**
-     * Constructs a CitizenshipType.java.
-     */
+
     public CitizenshipType() {
         super();
     }

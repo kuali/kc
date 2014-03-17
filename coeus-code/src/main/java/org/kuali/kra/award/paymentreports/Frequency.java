@@ -24,9 +24,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
  */
 public class Frequency extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3635003841342435180L;
 
     private String frequencyCode;
@@ -104,9 +102,6 @@ public class Frequency extends KcPersistableBusinessObjectBase implements Mutabl
         this.advanceNumberOfMonths = advanceNumberOfMonths;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -115,9 +110,6 @@ public class Frequency extends KcPersistableBusinessObjectBase implements Mutabl
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

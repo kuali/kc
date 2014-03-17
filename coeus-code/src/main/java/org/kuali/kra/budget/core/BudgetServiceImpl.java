@@ -163,11 +163,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
     
 
-    /**
-     * This method...
-     * @param budgetDocument
-     * @throws WorkflowException
-     */
     protected void saveBudgetDocument(BudgetDocument<T> budgetDocument) throws WorkflowException {
         Budget budget = budgetDocument.getBudget();
         BudgetParentDocument<T> parentDocument = budgetDocument.getParentDocument(); 
@@ -888,9 +883,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         return Arrays.asList(formulatedCEs);
     }
     
-    /**
-     * @see org.kuali.kra.budget.core.BudgetService#setBudgetStatuses(org.kuali.kra.budget.document.BudgetParentDocument)
-     */
+    @Override
     public void setBudgetStatuses(BudgetParentDocument<T> parentDocument) {
         
         String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(

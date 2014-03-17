@@ -24,7 +24,6 @@ import org.kuali.kra.protocol.ProtocolBase;
  */
 public class IacucAcknowledgeUnavailableAuthorizer extends IacucProtocolAuthorizer {
 
-    /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, IacucProtocolTask task) {
         ProtocolBase protocol = task.getProtocol();

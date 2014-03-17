@@ -42,9 +42,7 @@ import java.io.Serializable;
 */
 public class BudgetCategoryDTO implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1L;
     
     String budgetCategoryCode;

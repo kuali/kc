@@ -36,9 +36,7 @@ import java.util.Map;
 
 public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupableHelperServiceImplBase<IacucProtocol> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4930225152545760432L;
     private static final String[] AMEND_RENEW_PROTOCOL_TASK_CODES = { TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT, 
         TaskName.CREATE_PROTOCOL_RENEWAL };

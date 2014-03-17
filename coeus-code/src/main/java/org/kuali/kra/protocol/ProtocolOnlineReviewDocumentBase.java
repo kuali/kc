@@ -55,14 +55,10 @@ public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDo
     private static final String OLR_DOC_ID_PARAM = "olrDocId";
     private static final String OLR_EVENT_PARAM = "olrEvent";
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 803158468103165087L;
 
-    /**
-     * Constructs a ProtocolDocumentBase object
-     */
+
 	public ProtocolOnlineReviewDocumentBase() { 
         super();
 	} 
@@ -88,10 +84,7 @@ public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDo
      */
      public abstract void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview);
 
-     /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getAllRolePersons()
-     */
-    @Override
+     @Override
     protected List<RolePersons> getAllRolePersons() {
         return new ArrayList<RolePersons>();
     }
@@ -101,17 +94,11 @@ public abstract class ProtocolOnlineReviewDocumentBase extends KcTransactionalDo
     }
     
     
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
-     */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
     }
   
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
-     */
     @Override
     public void doActionTaken( ActionTakenEvent event ) {
         super.doActionTaken(event);

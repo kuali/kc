@@ -19,9 +19,7 @@ import org.kuali.kra.irb.actions.ActionHelper;
 
 public class ProtocolAdministrativelyIncompleteBean extends ProtocolWithdrawBean implements org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncompleteBean {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4564083324808749647L;
 
     public ProtocolAdministrativelyIncompleteBean(ActionHelper actionHelper) {

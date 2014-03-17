@@ -20,9 +20,7 @@ import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 
 public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmount {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3100896964798965084L;
 
     private Integer personNumber;

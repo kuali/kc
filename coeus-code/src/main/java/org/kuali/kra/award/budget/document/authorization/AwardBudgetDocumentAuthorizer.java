@@ -30,9 +30,7 @@ import java.util.Set;
 
 public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
-     */
+    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
          

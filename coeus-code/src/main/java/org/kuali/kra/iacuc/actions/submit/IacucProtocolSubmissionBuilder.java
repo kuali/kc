@@ -50,12 +50,7 @@ public class IacucProtocolSubmissionBuilder {
     
     private IacucProtocolSubmission protocolSubmission;
     private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
-    
-    /**
-     * Constructs a IacucProtocolSubmissionBuilder.
-     * @param protocol
-     * @param submissionTypeCode
-     */
+
     public IacucProtocolSubmissionBuilder(IacucProtocol protocol, String submissionTypeCode) {
         protocolSubmission = new IacucProtocolSubmission();
         protocolSubmission.setProtocol(protocol);

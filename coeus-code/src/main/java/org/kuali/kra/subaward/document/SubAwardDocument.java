@@ -38,16 +38,11 @@ import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
 
-/**
- * This class is for subAwardDocument...
- */
+
 public class SubAwardDocument extends KcTransactionalDocumentBase
 	implements  Copyable, SessionDocument, KrmsRulesContext {
 
 
-    /**.
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = 5454534590787613256L;
     private transient boolean documentSaveAfterVersioning;
     private List<SubAward> subAwardList;
@@ -116,9 +111,7 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
         subAwardList = new ArrayList<SubAward>();
         subAwardList.add(new SubAward());
     }
-    /**
-     * @return
-     */
+
     public boolean isDocumentSaveAfterVersioning() {
         return documentSaveAfterVersioning;
     }
@@ -129,9 +122,7 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
     public void setDocumentSaveAfterSubAwardLookupEditOrVersion(boolean documentSaveAfterVersioning) {
         this.documentSaveAfterVersioning = documentSaveAfterVersioning;
     }
-    /**
-     * @return
-     */
+
     protected VersionHistoryService getVersionHistoryService() {
         return KcServiceLocator.getService(VersionHistoryService.class);
     }
@@ -168,12 +159,8 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
         return getSubAward().getSubAwardCustomDataList();
     }
     
-    /**
-     * 
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         SubAward subAward = getSubAward();

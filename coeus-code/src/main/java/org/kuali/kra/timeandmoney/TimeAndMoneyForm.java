@@ -46,9 +46,7 @@ import java.util.*;
 
 public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     public static final String COLUMN = ":";
     private static final int NUMBER_30 = 30;
     public static final String UPDATE_TIMESTAMP_DD_NAME = "DataDictionary.Award.attributes.updateTimestamp";
@@ -127,7 +125,6 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
         fieldsInError = new ArrayList<String>();
     }
     
-    /** {@inheritDoc} */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "TimeAndMoneyDocument";
@@ -184,7 +181,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
 
     @Override
     protected void setSaveDocumentControl(Map editMode) {
-        // TODO Auto-generated method stub
+
         
     }
     
@@ -264,10 +261,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     }    
     
     
-    /**
-     * This method...
-     * @return
-     */
+
     private AwardHierarchyUIService getAwardHierarchyUIService() {
         return KcServiceLocator.getService(AwardHierarchyUIService.class);
     }
@@ -566,21 +560,14 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
         return extraButtons;
     }
     
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     private ConfigurationService lookupKualiConfigurationService() {
         return CoreApiServiceLocator.getKualiConfigurationService();
     }
     
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kew.api.WorkflowDocument)
-     */
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         // super.populateHeaderFields(workflowDocument);
 

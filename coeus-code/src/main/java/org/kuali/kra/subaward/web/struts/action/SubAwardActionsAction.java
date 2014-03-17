@@ -45,7 +45,7 @@ SubAwardAction implements AuditModeAction {
         execute(mapping, form, request, response);
         return actionForward;
     }
-    /** {@inheritDoc} */
+    @Override
     public ActionForward activate(ActionMapping mapping,
     ActionForm form, HttpServletRequest request,
     HttpServletResponse response)
@@ -53,7 +53,7 @@ SubAwardAction implements AuditModeAction {
         return new AuditActionHelper().
         setAuditMode(mapping, (SubAwardForm) form, true);
     }
-    /** {@inheritDoc} */
+    @Override
     public ActionForward deactivate(ActionMapping mapping,
     ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (SubAwardForm) form, false);

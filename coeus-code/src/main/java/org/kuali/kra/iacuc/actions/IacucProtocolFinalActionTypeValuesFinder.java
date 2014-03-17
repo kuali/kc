@@ -24,9 +24,7 @@ import java.util.*;
 
 public class IacucProtocolFinalActionTypeValuesFinder extends IacucActionsKeyValuesBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4549709102598366272L;
 
     private static final String FINAL_ACTION_FOR_BATCH_CORRESP_FIELD = "finalActionForBatchCorrespondence";

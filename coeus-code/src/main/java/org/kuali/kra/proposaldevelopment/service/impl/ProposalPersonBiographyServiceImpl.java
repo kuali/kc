@@ -161,10 +161,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         this.businessObjectService = businessObjectService;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#setPersonnelBioTimeStampUser(java.util.List)
-     */
+    @Override
     public void setPersonnelBioTimeStampUser(List<ProposalPersonBiography> proposalPersonBios) {
 
         for (ProposalPersonBiography proposalPersonBiography : proposalPersonBios) {

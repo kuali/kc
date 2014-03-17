@@ -18,37 +18,27 @@ package org.kuali.kra.printing.xmlstream;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-/**
- * This class...
- */
+
 public abstract class PrintBaseXmlStream implements XmlStream {
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#getBusinessObjectService()
-     */
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
-    /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#getDateTimeService()
-     */
+    @Override
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
-    /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#setBusinessObjectService(org.kuali.rice.krad.service.BusinessObjectService)
-     */
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
-    /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#setDateTimeService(org.kuali.rice.core.api.datetime.DateTimeService)
-     */
+    @Override
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }

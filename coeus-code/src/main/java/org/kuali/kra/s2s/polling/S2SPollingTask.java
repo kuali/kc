@@ -71,10 +71,7 @@ public class S2SPollingTask {
     private static final String SORT_ID_F = "F";
     private static final String SORT_ID_Z = "Z";
 
-    /**
-     * 
-     * Constructs a S2SPollingTask.java.
-     */
+
     public S2SPollingTask() {
         lstStatus.add(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE.toUpperCase());
         lstStatus.add(S2SConstants.STATUS_RECEIVING.toUpperCase());

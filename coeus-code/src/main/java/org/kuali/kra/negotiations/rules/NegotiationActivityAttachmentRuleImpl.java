@@ -32,9 +32,7 @@ public class NegotiationActivityAttachmentRuleImpl implements NegotiationActivit
     
     private final ErrorReporter errorReporter = new ErrorReporter();
 
-    /**
-     * @see org.kuali.kra.negotiations.rules.NegotiationActivityAttachmentAddRule#processAddAttachmentRule(org.kuali.kra.negotiations.rules.NegotiationActivityAttachmentAddRuleEvent)
-     */
+    @Override
     public boolean processAddAttachmentRule(NegotiationActivityAttachmentAddRuleEvent event) {
         boolean result = true;
         

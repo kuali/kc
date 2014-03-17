@@ -31,9 +31,7 @@ import java.util.List;
 
 public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6339476452241934050L;
 
     @Override

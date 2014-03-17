@@ -29,9 +29,7 @@ import java.util.Map;
 
 public class SubmissionReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
     
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
        

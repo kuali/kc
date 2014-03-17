@@ -24,9 +24,6 @@ package org.kuali.kra.printing;
  */
 public class PrintingException extends RuntimeException {
 
-	/**
-	 * Default constructor
-	 */
 	public PrintingException() {
 		super();
 	}

@@ -148,9 +148,7 @@ public abstract class AwardContactsBean implements Serializable {
         return matchingRole;
     }
 
-    /**
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService() {
         if(businessObjectService == null) {
             businessObjectService = (BusinessObjectService) KcServiceLocator.getService(BusinessObjectService.class);

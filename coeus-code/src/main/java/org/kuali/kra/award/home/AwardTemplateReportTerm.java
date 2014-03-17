@@ -30,9 +30,7 @@ import java.util.List;
 
 public class AwardTemplateReportTerm extends KcPersistableBusinessObjectBase implements GenericAwardReportTerm {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2410943921568581512L;
 
     private Integer templateReportTermId;
@@ -291,9 +289,6 @@ public class AwardTemplateReportTerm extends KcPersistableBusinessObjectBase imp
         this.awardTemplate = awardTemplate;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -315,9 +310,6 @@ public class AwardTemplateReportTerm extends KcPersistableBusinessObjectBase imp
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

@@ -42,9 +42,6 @@ public class ReportTrackingDaoOjb extends LookupDaoOjb implements ReportTracking
 
     private PersistenceStructureService persistenceStructureServiceLocal;
 
-    /**
-     * @see org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDao#getResultsGroupedBy(java.util.Map, java.util.List, java.util.List)
-     */
     @SuppressWarnings("unchecked")
     @Override
     public List<ReportTracking> getResultsGroupedBy(Map<String, String> searchValues, List<String> groupedByAttrs, List<String> displayByAttrs) throws IllegalAccessException, InvocationTargetException {
@@ -87,9 +84,7 @@ public class ReportTrackingDaoOjb extends LookupDaoOjb implements ReportTracking
         return searchResults;
     }
     
-    /**
-     * @see org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDao#getDetailResults(java.util.Map, java.util.List)
-     */
+    @Override
     public List<ReportTracking> getDetailResults(Map<String, String> searchValues, List<String> detailAttrs) throws IllegalAccessException, InvocationTargetException {
         Criteria criteria = getCollectionCriteriaFromMap(new ReportTracking(), searchValues);
         QueryByCriteria query = QueryFactory.newQuery(ReportTracking.class, criteria, false);

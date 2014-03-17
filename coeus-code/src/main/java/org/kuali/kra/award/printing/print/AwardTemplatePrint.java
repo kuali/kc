@@ -33,10 +33,6 @@ import java.util.List;
  * 
  */
 public class AwardTemplatePrint extends AbstractPrint {
-
-	/**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = 7247867016510379530L;
 
     /**

@@ -95,9 +95,6 @@ public class BudgetAction extends BudgetActionBase {
     protected static final String NO_SYNCH_AWARD_RATES = "noSynchAwardRates";
 
     private ProposalHierarcyActionHelper hierarchyHelper;
-    /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -206,9 +203,6 @@ public class BudgetAction extends BudgetActionBase {
         return actionForward; 
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
@@ -276,9 +270,6 @@ public class BudgetAction extends BudgetActionBase {
         return KcServiceLocator.getService(BudgetSummaryService.class);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form,
         HttpServletRequest request, HttpServletResponse response)
@@ -539,10 +530,7 @@ public class BudgetAction extends BudgetActionBase {
         return hierarchyHelper;
     }
 
-    /**
-     * This method...
-     * @param budget
-     */
+
     private void populateBudgetPrintForms(Budget budget) {
         if(budget.getBudgetPrintForms().isEmpty()){
             BudgetPrintService budgetPrintService = KcServiceLocator.getService(BudgetPrintService.class);
@@ -717,9 +705,6 @@ public class BudgetAction extends BudgetActionBase {
     }
 
     
-    /**
-     * @see BudgetActionBase#getPessimisticLockService()
-     */
     @Override
     protected PessimisticLockService getPessimisticLockService() {
         return KcServiceLocator.getService(BudgetLockService.class);
@@ -774,11 +759,7 @@ public class BudgetAction extends BudgetActionBase {
     protected void recalculateBudgetPeriod(BudgetForm budgetForm, Budget budget, BudgetPeriod budgetPeriod) {
         getBudgetCommonService(budgetForm.getBudgetDocument().getParentDocument()).recalculateBudgetPeriod(budget, budgetPeriod);
     }  
-    /**
-     * This method...
-     * @param budget
-     * @param budgetPeriod
-     */
+
     protected void calculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod) {
         getCalculationService().calculateBudgetPeriod(budget, budgetPeriod);
     }

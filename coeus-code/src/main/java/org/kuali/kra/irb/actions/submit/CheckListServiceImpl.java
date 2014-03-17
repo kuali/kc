@@ -36,9 +36,7 @@ public class CheckListServiceImpl implements CheckListService {
         this.businessObjectService = businessObjectService;
     }
     
-    /**
-     * @see org.kuali.kra.irb.actions.submit.CheckListService#getExpeditedReviewCheckList()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<ExpeditedReviewCheckListItem> getExpeditedReviewCheckList() { 
         Collection<ExpeditedReviewCheckListItem> items = businessObjectService.findAll(ExpeditedReviewCheckListItem.class);
@@ -47,9 +45,7 @@ public class CheckListServiceImpl implements CheckListService {
         return checkList;
     }
 
-    /**
-     * @see org.kuali.kra.irb.actions.submit.CheckListService#getExemptStudiesCheckList()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<ExemptStudiesCheckListItem> getExemptStudiesCheckList() {
         Collection<ExemptStudiesCheckListItem> items = businessObjectService.findAll(ExemptStudiesCheckListItem.class);

@@ -111,7 +111,6 @@ public class IacucProtocolStudyGroup extends KcPersistableBusinessObjectBase {
         this.procedureBeanIndex = procedureBeanIndex;
     }
 
-    /**  {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy;
 
-/**
- * This class...
- */
+
 public interface ProposalHierarchyKeyConstants {
     public static final String MESSAGE_LINK_SUCCESS = "message.hierarchy.link.success";
     public static final String MESSAGE_CREATE_SUCCESS = "message.hierarchy.create.success";

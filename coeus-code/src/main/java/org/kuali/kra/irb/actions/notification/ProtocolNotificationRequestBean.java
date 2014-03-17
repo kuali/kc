@@ -21,9 +21,7 @@ import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBeanBase;
 
 public class ProtocolNotificationRequestBean extends ProtocolNotificationRequestBeanBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4383148548571108022L;
     
     public ProtocolNotificationRequestBean(Protocol protocol, String actionType, String description) {

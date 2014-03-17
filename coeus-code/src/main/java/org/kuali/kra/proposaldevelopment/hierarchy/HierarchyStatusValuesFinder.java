@@ -22,9 +22,7 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class HierarchyStatusValuesFinder extends UifKeyValuesFinderBase {
 
     @Override

@@ -44,10 +44,7 @@ public class QuestionServiceImpl implements QuestionService {
         this.businessObjectService = businessObjectService;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.question.QuestionService#getQuestionByRefId(java.lang.String)
-     */
+    @Override
     public Question getQuestionByRefId(String questionRefId) {
         Question question = null;
         if (!StringUtils.isBlank(questionRefId)) {
@@ -58,10 +55,7 @@ public class QuestionServiceImpl implements QuestionService {
         return question;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.question.QuestionService#getQuestionById(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public Question getQuestionById(String questionId) {
         Question question = null;
@@ -81,9 +75,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     
-    /**
-     * @see org.kuali.kra.questionnaire.question.QuestionService#isQuestionUsed(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public boolean isQuestionUsed(String questionId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();

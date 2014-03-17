@@ -21,9 +21,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 public class IacucProtocolValuesFinder extends ProtocolValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -360649243591776772L;
 
     @Override

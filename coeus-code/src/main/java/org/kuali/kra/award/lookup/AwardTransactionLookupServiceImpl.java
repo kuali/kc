@@ -35,10 +35,7 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
     private BusinessObjectService businessObjectService;
     private static final Log LOG = LogFactory.getLog(AwardTransactionLookupServiceImpl.class);
     
-    /**
-     * 
-     * @see org.kuali.kra.award.lookup.AwardTransactionLookupService#getApplicableTransactionIds(java.lang.String, java.lang.Integer)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public Map<Integer, String> getApplicableTransactionIds(String awardNumber, Integer sequenceNumber) {
         if(isAuthorizedToAccess(awardNumber)){

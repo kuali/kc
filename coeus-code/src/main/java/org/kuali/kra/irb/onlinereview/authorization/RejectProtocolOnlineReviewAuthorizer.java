@@ -33,9 +33,7 @@ public class RejectProtocolOnlineReviewAuthorizer extends ProtocolOnlineReviewAu
 
     private KcWorkflowService kraWorkflowService;
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolOnlineReviewTask task) {
         boolean hasPermission = false;
         ProtocolOnlineReview protocolOnlineReview = task.getProtocolOnlineReview();

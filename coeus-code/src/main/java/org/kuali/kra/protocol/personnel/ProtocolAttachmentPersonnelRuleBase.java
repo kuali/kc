@@ -16,6 +16,8 @@
 package org.kuali.kra.protocol.personnel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -30,15 +32,14 @@ import java.io.IOException;
 
 public abstract class ProtocolAttachmentPersonnelRuleBase extends KcTransactionalDocumentRuleBase implements AddProtocolAttachmentPersonnelRule {
 
+    private static final Log LOG = LogFactory.getLog(ProtocolAttachmentPersonnelRuleBase.class);
+
     protected static final String PROPERTY_NAME_NEW_ATTACHMENT_TYPE = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].typeCode";
     protected static final String PROPERTY_NAME_NEW_ATTACHMENT_DESCRIPTION = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].description";
     protected static final String PROPERTY_NAME_NEW_ATTACHMENT_FILE = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].newFile";
 
     
-    /**
-     * 
-     * @see org.kuali.kra.protocol.personnel.AddProtocolAttachmentPersonnelRule#processAddProtocolAttachmentPersonnelRules(org.kuali.kra.protocol.personnel.AddProtocolAttachmentPersonnelEvent)
-     */
+    @Override
     public boolean processAddProtocolAttachmentPersonnelRules(AddProtocolAttachmentPersonnelEvent event) {
         boolean isValid = true;
         
@@ -98,7 +99,7 @@ public abstract class ProtocolAttachmentPersonnelRuleBase extends KcTransactiona
             fileData = file.getFileData();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             GlobalVariables.getMessageMap().putError(propertyName, 
                     KeyConstants.ERROR_PROTOCOL_ATTACHMENT_PERSONNEL_EMPTY_FILE);
             return false;

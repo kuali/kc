@@ -48,9 +48,7 @@ public class MeetingSaveRule  extends KcTransactionalDocumentRuleBase implements
     private static final String VIEW_END_TIME = "viewEndTime";
     private ErrorReporter errorReporter;
     
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(MeetingSaveEvent event) {
         boolean rulePassed = true;
         rulePassed &= validateMeetingDetails(event.getMeetingHelper().getCommitteeSchedule());

@@ -20,9 +20,7 @@ package org.kuali.kra.coi.auth;
  */
 public class AnswerCoiDisclosureQuestionnaireAuthorizer extends ModifyCoiDisclosureAuthorizer {
     
-    /**
-     * @see org.kuali.kra.coi.auth.ModifyCoiDisclosureAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.coi.auth.CoiDisclosureTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, CoiDisclosureTask task) {
         return super.isAuthorized(userId, task);
     }

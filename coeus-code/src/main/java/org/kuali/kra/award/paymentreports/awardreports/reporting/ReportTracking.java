@@ -34,15 +34,10 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-/**
- * 
- * This class...
- */
+
 public class ReportTracking extends KcPersistableBusinessObjectBase implements Comparable<ReportTracking> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7660491024739306314L;
     private Long awardReportTermId;
 

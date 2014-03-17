@@ -326,9 +326,6 @@ public class AwardHomeAction extends AwardAction {
         return returnValue;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // The user is prompted to save when the document is closed.  If they say yes, it will save the document but won't call back to the Action.save.
@@ -356,14 +353,7 @@ public class AwardHomeAction extends AwardAction {
 
         return super.performLookup(mapping, form, request, response);
     }
-    
-    
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     @SuppressWarnings("unchecked")
     protected KeywordsService getKeywordService(){
         return KcServiceLocator.getService(KeywordsService.class);

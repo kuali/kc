@@ -19,9 +19,7 @@ import org.kuali.kra.web.struts.form.ResearchAreasFormBase;
 
 public class IacucResearchAreasForm extends ResearchAreasFormBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4979500725468930607L;
 
 }

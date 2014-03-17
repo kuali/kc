@@ -19,6 +19,8 @@ import edu.mit.coeus.xml.iacuc.*;
 import edu.mit.coeus.xml.iacuc.ScheduleType.Attendents;
 import edu.mit.coeus.xml.iacuc.ScheduleType.OtherBusiness;
 import edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
@@ -50,7 +52,9 @@ import java.text.ParseException;
 import java.util.*;
 
 public class IacucScheduleXmlStream extends PrintBaseXmlStream {
-    
+
+    private static final Log LOG = LogFactory.getLog(IacucScheduleXmlStream.class);
+
     private CommitteeMembershipServiceBase committeeMembershipService;
     private KcPersonService kcPersonService;
     private IacucPrintXmlUtilService printXmlUtilService;
@@ -440,7 +444,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             }
         }
         catch (ParseException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
 
         scheduleMasterDataType.setMaxProtocols(new BigInteger(String.valueOf(scheduleDetailsBean.getMaxProtocols())));

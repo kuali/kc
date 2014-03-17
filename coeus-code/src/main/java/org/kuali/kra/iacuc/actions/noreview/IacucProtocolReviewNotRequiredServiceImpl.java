@@ -41,11 +41,7 @@ public class IacucProtocolReviewNotRequiredServiceImpl implements IacucProtocolR
         this.protocolActionService = protocolActionService;
     }
 
-    /**
-     * 
-     * This method...
-     * @param businessObjectService
-     */
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -53,9 +49,7 @@ public class IacucProtocolReviewNotRequiredServiceImpl implements IacucProtocolR
         return businessObjectService;
     }
 
-    /**
-     * @see org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredService#reviewNotRequired(org.kuali.kra.protocol.ProtocolDocument, org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean)
-     */
+    @Override
     public void reviewNotRequired(IacucProtocolDocument protocolDocument, IacucProtocolReviewNotRequiredBean actionBean) {
         IacucProtocol protocol = protocolDocument.getIacucProtocol();
         IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, (IacucProtocolSubmission) protocol.getProtocolSubmission(), IacucProtocolActionType.IACUC_REVIEW_NOT_REQUIRED);

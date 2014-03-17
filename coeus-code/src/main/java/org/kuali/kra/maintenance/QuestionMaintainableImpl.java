@@ -94,10 +94,6 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
         return new ArrayList<Section>();
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.maintenance.KraMaintainableImpl#handleRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
-     */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         clearUnusedFieldValues();

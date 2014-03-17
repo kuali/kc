@@ -32,9 +32,7 @@ import java.util.Map;
  */
 public class CorrespondenceXmlStream extends CorrespondenceXmlStreamBase {
     private ProtocolXmlStream protocolXmlStream;
-    /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
-     */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Protocol protocol = (Protocol)printableBusinessObject;
         ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();

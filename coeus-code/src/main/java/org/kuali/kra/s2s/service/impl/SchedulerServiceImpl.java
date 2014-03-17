@@ -64,10 +64,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     private static final String KEY_CODE = "code";
     private static final String KEY_VALUE = "value";
 
-    /**
-     * 
-     * @see org.kuali.kra.s2s.service.SchedulerService#startAllServices()
-     */
+    @Override
     public synchronized void startAllServices() {
         if (started){
             return;
@@ -121,10 +118,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         started = true;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.s2s.service.SchedulerService#stopAllServices()
-     */
+    @Override
     public synchronized void stopAllServices() {
         try {
             scheduler.shutdown();
@@ -134,10 +128,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.s2s.service.SchedulerService#restartAllServices()
-     */
+    @Override
     public synchronized void restartAllServices() {
         stopAllServices();
         started = false;

@@ -520,7 +520,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return nextWebPage;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -528,7 +528,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return new AuditActionHelper().setAuditMode(mapping, (ProposalDevelopmentForm) form, true);
     }
     
-    /** {@inheritDoc} */
+    @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ((ProposalDevelopmentForm) form).clearUnitRulesMessages();
@@ -1008,12 +1008,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return proposalId;
     }
 
-    /**
-     * This method...
-     * @param proposalDevelopmentDocument
-     * @param instProposalNumber
-     * @return
-     */
+
     private Long findInstProposalNumber(String devProposalNumber) {
         Long instProposalId = null;
         BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
@@ -1033,12 +1028,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return map;
     }
 
-    /**
-     * This method...
-     * @param instProposalNumber
-     * @param instProposalSequenceNumber TODO
-     * @param proposalDevelopmentDocument
-     */
     private void persistProposalAdminDetails(String devProposalNumber, Long instProposalId) {
         ProposalAdminDetails proposalAdminDetails = new ProposalAdminDetails();
         proposalAdminDetails.setDevProposalNumber(devProposalNumber);
@@ -1837,7 +1826,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                                                                     KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
                     }
                     catch (Exception e) {
-                        e.printStackTrace();
+                        LOG.error(e.getMessage(), e);
                     }
                 } 
                 else if(DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {

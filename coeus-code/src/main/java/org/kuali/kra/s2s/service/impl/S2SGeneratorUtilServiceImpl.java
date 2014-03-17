@@ -52,10 +52,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
     private static final String YNQ_NOT_REVIEWED = "N";
     private static final String DATE_FORMAT = "MM/dd/yyyy";
 
-    /**
-     * 
-     * Constructs a S2SGeneratorUtilServiceImpl.java.
-     */
+
     public S2SGeneratorUtilServiceImpl() {
     }
 
@@ -258,18 +255,12 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
         return null;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.s2s.service.S2SGeneratorUtilService#getCurrentCalendar()
-     */
+    @Override
     public Calendar getCurrentCalendar() {
         return dateTimeService.getCurrentCalendar();
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.s2s.service.S2SGeneratorUtilService#convertDateToCalendar(java.sql.Date)
-     */
+    @Override
     public Calendar convertDateToCalendar(Date date) {
         if (date == null)
             return null;

@@ -18,9 +18,7 @@ package org.kuali.kra.irb.actions.submit;
 
 public class ProtocolReviewer extends org.kuali.kra.protocol.actions.submit.ProtocolReviewer {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4855276715176145059L;
 
 }

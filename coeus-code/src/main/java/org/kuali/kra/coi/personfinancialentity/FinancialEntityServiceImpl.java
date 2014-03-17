@@ -42,10 +42,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
     private VersioningService versioningService;
     private SequenceAccessorService sequenceAccessorService;
 
-    /**
-     * 
-     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntities(java.lang.String, boolean)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<PersonFinIntDisclosure> getFinancialEntities(String personId, boolean active) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -84,10 +81,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         return (List<FinIntEntityRelType>) businessObjectService.findMatchingOrderBy(FinIntEntityRelType.class, fieldValues, "sortId", true);
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntityDataMatrix()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<FinEntityDataMatrixBean> getFinancialEntityDataMatrix() {
         List<FinIntEntityRelType> relationshipTypes = getFinancialEntityRelationshipTypes();
@@ -126,10 +120,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         return dataMatrixs;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinDisclosureDetails(java.util.List, java.lang.String, java.lang.Integer)
-     */
+    @Override
     public List<PersonFinIntDisclDet> getFinDisclosureDetails(List<FinEntityDataMatrixBean> dataMatrixs, String entityNumber, Integer sequenceNumber) {
         List<PersonFinIntDisclDet>  disclosureDetails = new ArrayList<PersonFinIntDisclDet>();
         for (FinEntityDataMatrixBean dataRow : dataMatrixs) {
@@ -154,10 +145,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         return disclosureDetails;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntityDataMatrixForEdit(java.util.List)
-     */
+    @Override
     public List<FinEntityDataMatrixBean> getFinancialEntityDataMatrixForEdit(List<PersonFinIntDisclDet> disclosureDetails) {
         // TODO : be aware this is not efficient.  investigate if there is more efficient approach
         List<FinEntityDataMatrixBean> dataMatrixs = getFinancialEntityDataMatrix();
@@ -214,10 +202,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         this.businessObjectService = businessObjectService;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntityReporter(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public FinancialEntityReporter getFinancialEntityReporter(String personId) {
         // TODO : this reporterroleid is KC filed.  may be changed
@@ -333,10 +318,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
 
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getNextEntityNumber()
-     */
+    @Override
     public String getNextEntityNumber() {
         return sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_ENTITY_NUMBER_S", PersonFinIntDisclosure.class).toString(); // sequence #
 

@@ -31,9 +31,7 @@ import java.util.Map;
  */
 public class NegotiationNegotiatorDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     
-    /**
-     * Constructs a NegotiationPersonDerivedRoleTypeServiceImpl.java.
-     */
+
     public NegotiationNegotiatorDerivedRoleTypeServiceImpl() {
     }   
     
@@ -62,10 +60,6 @@ public class NegotiationNegotiatorDerivedRoleTypeServiceImpl extends DerivedRole
         return requiredAttributes;
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.kim.framework.role.RoleTypeService#dynamicRoleMembership(java.lang.String, java.lang.String)
-     */
     @Override
     public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
         return true;

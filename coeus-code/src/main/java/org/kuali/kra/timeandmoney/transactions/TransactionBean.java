@@ -31,9 +31,7 @@ import java.util.List;
  */
 public class TransactionBean implements Serializable {    
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5513993757805685581L;
     private PendingTransaction newPendingTransaction;
     private AwardAmountTransaction newAwardAmountTransaction;
@@ -76,11 +74,7 @@ public class TransactionBean implements Serializable {
             newPendingTransaction.setObligatedAmount(newPendingTransaction.getObligatedDirectAmount().add(newPendingTransaction.getObligatedIndirectAmount()));
         }
     }
-    
-    /*
-     * This method...
-     * @param doc
-     */
+
     private void updateDocumentFromSession(TimeAndMoneyDocument doc) {
         if(doc.getAwardHierarchyNodes()==null || doc.getAwardHierarchyNodes().size()==0){
             if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)!=null){
@@ -105,16 +99,12 @@ public class TransactionBean implements Serializable {
         }        
     }
     
-    /**
-     * @return
-     */
+
     public TimeAndMoneyDocument getTimeAndMoneyDocument() {
         return form.getTimeAndMoneyDocument();
     }
     
-    /**
-     * @return
-     */
+
     public Object getData() {
         return getNewPendingTransaction();
     }
@@ -146,10 +136,7 @@ public class TransactionBean implements Serializable {
         this.ruleService = ruleService;
     }
     
-    /**
-     * 
-     * @return
-     */
+
     AddTransactionRuleEvent generateAddEvent() {        
         AddTransactionRuleEvent event = new AddTransactionRuleEvent(
                                                             "transactionBean.newPendingTransaction",

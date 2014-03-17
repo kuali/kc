@@ -24,9 +24,7 @@ import java.util.List;
 public abstract class ReviewAttachmentsBeanBase<PRA extends ProtocolReviewAttachmentBase> implements Serializable {
 
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -376105485699731967L;
     
     private String errorPropertyKey;
@@ -35,9 +33,7 @@ public abstract class ReviewAttachmentsBeanBase<PRA extends ProtocolReviewAttach
     private List<PRA> deletedReviewAttachments;
     // flag to hide reviewer name for this bean.
     private boolean hideReviewerName;
-    /**
-     * Constructs a ReviewerAttachmentsBean.
-     */
+
     public ReviewAttachmentsBeanBase(String errorPropertyKey) {
         this.errorPropertyKey = errorPropertyKey + ".reviewAttachmentsBean";        
         this.newReviewAttachment = getNewProtocolReviewAttachmentInstanceHook();

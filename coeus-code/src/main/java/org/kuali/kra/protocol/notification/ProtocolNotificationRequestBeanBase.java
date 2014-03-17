@@ -22,9 +22,7 @@ import java.io.Serializable;
 
 public abstract class ProtocolNotificationRequestBeanBase implements Serializable {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1481201763594063662L;
     
     private ProtocolBase protocol;

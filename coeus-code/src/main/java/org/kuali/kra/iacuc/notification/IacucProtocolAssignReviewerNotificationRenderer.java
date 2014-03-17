@@ -48,10 +48,7 @@ public class IacucProtocolAssignReviewerNotificationRenderer extends IacucProtoc
         this.actionTaken = actionTaken;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#replaceContextVariables(java.lang.String)
-     */
+    @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
         params.put("{ACTION_TAKEN}", actionTaken);

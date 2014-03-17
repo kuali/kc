@@ -22,9 +22,7 @@ import java.sql.Date;
 @SuppressWarnings("deprecation")
 public class SubcontractingExpendituresDataGenerationForm extends KualiForm {  
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6069838251546593746L;
     
     private Date rangeStartDate;

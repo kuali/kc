@@ -29,10 +29,7 @@ import java.util.List;
 public class Tree<T> {
  
     private Node<T> rootElement;
-     
-    /**
-     * Default constructor.
-     */
+
     public Tree() {
         super();
     }
@@ -97,10 +94,7 @@ class Node<T> {
  
     public T data;
     public List<Node<T>> children;
- 
-    /**
-     * Default constructor.
-     */
+
     public Node() {
         super();
     }

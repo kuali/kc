@@ -31,9 +31,6 @@ public abstract class ProtocolSpeciesEventBase extends KcDocumentEventBase imple
         this.protocolSpecies = protocolSpecies;
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
     }

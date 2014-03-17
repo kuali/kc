@@ -34,9 +34,7 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class IacucProtocolModifySubmissionScheduleValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 951593069011237294L;
 
     /**

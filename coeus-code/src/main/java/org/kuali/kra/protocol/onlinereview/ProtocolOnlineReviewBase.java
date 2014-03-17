@@ -322,7 +322,7 @@ public abstract class ProtocolOnlineReviewBase extends KcPersistableBusinessObje
     }
 
     public String getDocumentRoleTypeCode() {
-        // TODO Auto-generated method stub  
+
         return null;
     }
 
@@ -345,7 +345,7 @@ public abstract class ProtocolOnlineReviewBase extends KcPersistableBusinessObje
     }
 
     public String getDocumentUnitNumber() {
-        // TODO Auto-generated method stub  
+
         return null;
     }
 
@@ -386,7 +386,6 @@ public abstract class ProtocolOnlineReviewBase extends KcPersistableBusinessObje
         return super.buildListOfDeletionAwareLists();
     }
 
-    /** {@inheritDoc} */
     public void resetPersistenceState() {
         this.protocolOnlineReviewId = null;
     }

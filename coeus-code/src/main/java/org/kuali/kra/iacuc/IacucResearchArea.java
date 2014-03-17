@@ -19,9 +19,7 @@ import org.kuali.kra.bo.ResearchAreaBase;
 
 public class IacucResearchArea extends ResearchAreaBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -570251855552419477L;
 
     public IacucResearchArea() {

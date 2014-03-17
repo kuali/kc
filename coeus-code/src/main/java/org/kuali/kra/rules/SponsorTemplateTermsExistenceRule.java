@@ -31,17 +31,11 @@ import java.util.List;
 
 public class SponsorTemplateTermsExistenceRule extends KcMaintenanceDocumentRuleBase {
 
-    /**
-     * Constructs a SponsorTemplateTermsExistenceRule
-     */
+
     public SponsorTemplateTermsExistenceRule() {
         super();
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return checkTermsExistence(document);

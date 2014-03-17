@@ -35,19 +35,12 @@ public class ValidSpecialReviewApprovalMaintenanceRule extends KcMaintenanceDocu
     private static final String APPROVAL_TYPE_CODE = "approvalTypeCode";
     private static final String APPROVAL_TYPE_TITLE = "Approval Type Code";
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */ 
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval) document.getDocumentBusinessObject();
         return validate(specialReviewApproval);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval) document.getDocumentBusinessObject();

@@ -22,9 +22,7 @@ import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 
 public class IacucReviewCommentsBean extends ReviewCommentsBeanBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -384690927668253611L;
     
 

@@ -34,10 +34,6 @@ import java.util.List;
  */
 public class ProposalLogPrint extends AbstractPrint {
 
-    /**
-     * 
-     * @see org.kuali.kra.printing.print.AbstractPrint#getXSLTemplates()
-     */
     @Override
 	public List<Source> getXSLTemplates() {
 		ArrayList<Source> sourceList = PrintingUtils

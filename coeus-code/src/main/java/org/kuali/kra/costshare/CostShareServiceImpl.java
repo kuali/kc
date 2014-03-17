@@ -19,9 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
-/**
- * This class...
- */
+
 public class CostShareServiceImpl implements CostShareService {
     
     private static final String PARAM_LABEL_NAME = "CostShareProjectPeriodNameLabel"; 
@@ -31,27 +29,19 @@ public class CostShareServiceImpl implements CostShareService {
     
     private ParameterService parameterService; 
 
-    /**
-     * @see org.kuali.kra.costshare.CostShareService#getCostShareLabel()
-     */
+    @Override
     public String getCostShareLabel() {
         return this.getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, 
                     Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PARAM_LABEL_NAME);
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.costshare.CostShareService#validateProjectPeriodAsFiscalYear()
-     */
+    @Override
     public boolean validateProjectPeriodAsFiscalYear() {
         boolean retVal = StringUtils.equalsIgnoreCase(STANDARD_COST_SHARE_LABEL_FISCAL_YEAR, getCostShareLabel());
         return retVal;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.costshare.CostShareService#validateProjectPeriodAsProjectPeriod()
-     */
+    @Override
     public boolean validateProjectPeriodAsProjectPeriod() {
         boolean retVal = StringUtils.equalsIgnoreCase(STANDARD_COST_SHARE_LABEL_PROJECT_PERIOD, getCostShareLabel());
         return retVal;

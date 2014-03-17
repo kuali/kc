@@ -17,9 +17,7 @@ package org.kuali.kra.institutionalproposal.contacts;
 
 import org.kuali.rice.krad.util.GlobalVariables;
 
-/**
- * This class...
- */
+
 public class BaseInstitutionalProposalContactAddRule {
 
     public static final String ERROR_CONTACT_REQUIRED = "error.award.contact.person.required";

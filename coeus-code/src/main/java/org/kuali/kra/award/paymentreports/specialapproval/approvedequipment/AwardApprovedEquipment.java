@@ -36,15 +36,11 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
 
     private KualiDecimal amount;
 
-    /**
-     * Constructs a AwardApprovedEquipment
-     */
+
     public AwardApprovedEquipment() {
     }
 
-    /**
-     * Constructs a AwardApprovedEquipment
-     */
+
     public AwardApprovedEquipment(String vendor, String model, String item, double amount) {
         this();
         this.vendor = vendor;
@@ -224,9 +220,7 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
         return true;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.approvedEquipmentId = null;
     }

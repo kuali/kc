@@ -22,9 +22,7 @@ import java.text.ParseException;
 
 public class IacucProtocolReference extends ProtocolReferenceBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5606862862070468479L;
 
 

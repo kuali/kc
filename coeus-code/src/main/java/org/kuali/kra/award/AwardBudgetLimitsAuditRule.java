@@ -35,9 +35,7 @@ public class AwardBudgetLimitsAuditRule implements DocumentAuditRule {
 
     protected String AWARD_BUDGET_LIMITS_AUDIT_ERRORS = "awardBudgetLimitAuditErrors";
     
-    /**
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public boolean processRunAuditBusinessRules(Document document) {
         boolean result = true;

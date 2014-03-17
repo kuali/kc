@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.paymentschedule;
 
-/**
- * This class...
- */
+
 public enum FrequencyBaseConstants {
     AWARD_EXECUTION_DATE("1"),AWARD_EFFECTIVE_DATE("2"),AWARD_EXPIRATION_DATE_OF_OBLIGATION("3"),FINAL_EXPIRATION_DATE("4")
         ,AWARD_EFFECTIVE_DATE_OF_OBLIGATION("5");

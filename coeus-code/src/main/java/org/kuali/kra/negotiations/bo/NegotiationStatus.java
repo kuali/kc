@@ -23,15 +23,10 @@ import java.io.Serializable;
  */
 public class NegotiationStatus extends NegotiationsGroupingBase implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -12710508760973677L;
 
-    /**
-     * 
-     * Constructs a NegotiationStatus.java.
-     */
+
     public NegotiationStatus() {
         super();
     }

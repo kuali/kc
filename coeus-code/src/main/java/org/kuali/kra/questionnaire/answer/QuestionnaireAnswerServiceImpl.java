@@ -49,9 +49,7 @@ import java.util.*;
  * 
  * This class implemented the questionnaire answer related methods.
  */
-/**
- * This class...
- */
+
 public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerService {
 
     private static final String MODULE_ITEM_CODE = "moduleItemCode";
@@ -164,10 +162,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
 
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#versioningQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
-     */
+    @Override
     public List<AnswerHeader> versioningQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean,
             Integer newSequenceNumber) {
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
@@ -284,9 +279,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
     
     
-    /**
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#checkIfQuestionnaireIsActiveForModule(java.lang.Integer, java.lang.String, java.lang.String)
-     */
+    @Override
     public boolean checkIfQuestionnaireIsActiveForModule(Integer questionnaireId, String moduleItemCode, String moduleSubItemCode) {
         boolean isActive = false;
         Questionnaire latestQnnrInstance = getLatestQuestionnaireVersion(questionnaireId);
@@ -349,10 +342,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
 
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#preSave(java.util.List)
-     */
+    @Override
     public void preSave(List<AnswerHeader> answerHeaders) {
         for (AnswerHeader answerHeader : answerHeaders) {
             int i = 0;
@@ -504,10 +494,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         return answers;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#setupChildAnswerIndicator(java.util.List)
-     */
+    @Override
     public void setupChildAnswerIndicator(AnswerHeader answerHeader) {
         List<Answer> answers = answerHeader.getAnswers();
         List<List<Answer>> parentAnswers = setupParentAnswers(answers);
@@ -837,10 +824,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
     
     
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getAnswerHeadersForProtocol(java.lang.String)
-     */
+    @Override
     public List<AnswerHeader> getAnswerHeadersForProtocol(String protocolNumber) {
         boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
         String originalProtocolNumber = protocolNumber;

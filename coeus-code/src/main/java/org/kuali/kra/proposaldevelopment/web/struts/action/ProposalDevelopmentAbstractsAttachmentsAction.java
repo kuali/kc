@@ -836,9 +836,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#processAuthorizationViolation(java.lang.String, org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    @Override
     public ActionForward processAuthorizationViolation(String taskName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = null;
         if (!StringUtils.equals(taskName, "addProposalAttachmentRights")) {

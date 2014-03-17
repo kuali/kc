@@ -26,9 +26,7 @@ import java.sql.Date;
  */
 public class ProtocolNotifyCommitteeBean extends ProtocolActionBean implements org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6386919161260179234L;
     
     private String comment = "";

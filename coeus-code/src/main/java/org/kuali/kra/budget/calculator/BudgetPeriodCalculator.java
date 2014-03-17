@@ -449,11 +449,6 @@ public class BudgetPeriodCalculator {
         calculate(budget, budgetPeriodBean);
     }
 
-    /**
-     * This method...
-     * @param budgetPeriodBean
-     * @param budgetDetailBean
-     */
     private boolean checkSyncToLimitErrors(Budget budget,BudgetLineItem budgetDetailBean,BudgetDecimal costLimit) {
         if (budgetDetailBean.getBudgetCategory().getBudgetCategoryTypeCode().equals(KeyConstants.PERSONNEL_CATEGORY) && 
               !budgetDetailBean.getBudgetPersonnelDetailsList().isEmpty()) {

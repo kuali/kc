@@ -23,9 +23,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 public class ValidClassReportFrequency extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 369663255546045771L;
 
     private Integer validClassReportFreqId;
@@ -42,10 +40,7 @@ public class ValidClassReportFrequency extends KcPersistableBusinessObjectBase {
 
     private ReportClass reportClass;
 
-    /**
-     * 
-     * Constructs a ValidClassReportFrequency.java.
-     */
+
     public ValidClassReportFrequency() {
     }
 
@@ -55,10 +50,7 @@ public class ValidClassReportFrequency extends KcPersistableBusinessObjectBase {
         this.frequencyCode = frquencyCode;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public Integer getValidClassReportFreqId() {
         return validClassReportFreqId;
     }
@@ -71,10 +63,7 @@ public class ValidClassReportFrequency extends KcPersistableBusinessObjectBase {
         this.validClassReportFreqId = validClassReportFreqId;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public String getReportClassCode() {
         return reportClassCode;
     }
@@ -87,10 +76,7 @@ public class ValidClassReportFrequency extends KcPersistableBusinessObjectBase {
         this.reportClassCode = reportClassCode;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public String getReportCode() {
         return reportCode;
     }
@@ -103,10 +89,7 @@ public class ValidClassReportFrequency extends KcPersistableBusinessObjectBase {
         this.reportCode = reportCode;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public String getFrequencyCode() {
         return frequencyCode;
     }
@@ -119,10 +102,7 @@ public class ValidClassReportFrequency extends KcPersistableBusinessObjectBase {
         this.frequencyCode = frequencyCode;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public Frequency getFrequency() {
         return frequency;
     }
@@ -135,10 +115,7 @@ public class ValidClassReportFrequency extends KcPersistableBusinessObjectBase {
         this.frequency = frequency;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public Report getReport() {
         return report;
     }
@@ -151,10 +128,7 @@ public class ValidClassReportFrequency extends KcPersistableBusinessObjectBase {
         this.report = report;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public ReportClass getReportClass() {
         return reportClass;
     }
@@ -167,9 +141,6 @@ public class ValidClassReportFrequency extends KcPersistableBusinessObjectBase {
         this.reportClass = reportClass;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -180,9 +151,6 @@ public class ValidClassReportFrequency extends KcPersistableBusinessObjectBase {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

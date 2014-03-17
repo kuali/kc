@@ -24,9 +24,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalSaveUnrecoveredFandARuleEvent extends KcDocumentEventBase {
 
 private static final Log LOG = LogFactory.getLog(InstitutionalProposalAddCostShareRuleEvent.class);
@@ -65,25 +63,18 @@ private static final Log LOG = LogFactory.getLog(InstitutionalProposalAddCostSha
     }
     
     
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
         LOG.info("Logging InstitutionalProposalUnrecoveredFandARuleEvent");
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return InstitutionalProposalUnrecoveredFandARule.class;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((InstitutionalProposalUnrecoveredFandARule)rule).processSaveInstitutionalProposalUnrecoveredFandABusinessRules(this);
     }

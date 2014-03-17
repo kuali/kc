@@ -35,9 +35,7 @@ import java.util.List;
 
 
 public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate implements Comparable<FinancialEntityAttachment>{
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8722598360752485817L;
     private Long attachmentId;
     private Long fileId;
@@ -187,11 +185,10 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
     
     @Override
     public int compareTo(FinancialEntityAttachment arg0) {
-        // TODO Auto-generated method stub
+
         return 0;
     }
   
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -260,7 +257,6 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
     }
     
     
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;

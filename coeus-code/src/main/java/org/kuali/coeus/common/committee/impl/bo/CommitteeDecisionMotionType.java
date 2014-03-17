@@ -47,9 +47,7 @@ public class CommitteeDecisionMotionType extends KcPersistableBusinessObjectBase
 
     private String description;
 
-    /**
-     * Constructs a CommitteeDecisionMotionType.
-     */
+
     public CommitteeDecisionMotionType() {
     }
 

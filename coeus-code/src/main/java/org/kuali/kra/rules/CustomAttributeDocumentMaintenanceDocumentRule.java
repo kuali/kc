@@ -28,9 +28,7 @@ import java.util.Map;
 
 public class CustomAttributeDocumentMaintenanceDocumentRule  extends MaintenanceDocumentRuleBase {
     
-    /**
-     * Constructs a CustomAttributeMaintenanceDocumentRule.java.
-     */
+
     public CustomAttributeDocumentMaintenanceDocumentRule() {
         super();
     }

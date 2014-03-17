@@ -21,9 +21,7 @@ import org.kuali.kra.protocol.ProtocolBase;
 
 public abstract class ProtocolReferenceServiceImplBase implements ProtocolReferenceService {
     
-    /**
-     * @see org.kuali.kra.protocol.protocol.reference.ProtocolReferenceService#addProtocolReference(org.kuali.kra.protocol.document.ProtocolDocumentBase, org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase)
-     */
+    @Override
     public void addProtocolReference(ProtocolBase protocol, ProtocolReferenceBase protocolReference) {
         
         protocolReference.refreshReferenceObject("protocolReferenceType");

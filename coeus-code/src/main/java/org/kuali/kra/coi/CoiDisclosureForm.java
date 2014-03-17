@@ -46,9 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CoiDisclosureForm extends KcTransactionalDocumentFormBase implements AuditableForm, QuestionableFormInterface  {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5620344612882618024L;
     private transient DisclosureHelper disclosureHelper;
     private transient DisclosureActionHelper disclosureActionHelper;
@@ -119,7 +117,7 @@ public class CoiDisclosureForm extends KcTransactionalDocumentFormBase implement
     
    @Override
     protected String getDefaultDocumentTypeName() {
-        // TODO Auto-generated method stub
+
         return "CoiDisclosureDocument";
     }
 
@@ -130,7 +128,7 @@ public class CoiDisclosureForm extends KcTransactionalDocumentFormBase implement
 
     @Override
     protected void setSaveDocumentControl(Map editMode) {
-        // TODO Auto-generated method stub
+
         
     }
 

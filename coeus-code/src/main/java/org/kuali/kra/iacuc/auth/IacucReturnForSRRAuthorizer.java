@@ -25,10 +25,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  */
 public class IacucReturnForSRRAuthorizer extends IacucProtocolAuthorizer {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {        
         IacucProtocolAction lastAction = (IacucProtocolAction) task.getProtocol().getLastProtocolAction();
         IacucProtocolSubmission lastSubmission = (IacucProtocolSubmission) task.getProtocol().getProtocolSubmission();

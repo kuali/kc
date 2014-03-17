@@ -27,9 +27,7 @@ public class ObjectCodeToBudgetCategoryCodeServiceImpl implements ObjectCodeToBu
 
     private BusinessObjectService businessObjectService;
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.ObjectCodeToBudgetCategoryCodeService#getBudgetCategoryCodeForCostElment(java.lang.String)
-     */
+    @Override
     public String getBudgetCategoryCodeForCostElment(String objectCode) {
         String budgetCategoryCode = null;
 

@@ -31,9 +31,7 @@ public class ProtocolPersonnelAuditRuleTest extends ProtocolRuleTestBase {
     private ProtocolPersonnelAuditRule auditRule;
     private ProtocolDocument document;
 
-    /**
-     * @see org.kuali.kra.irb.test.ProtocolRuleTestBase#setUp()
-     */
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -42,9 +40,7 @@ public class ProtocolPersonnelAuditRuleTest extends ProtocolRuleTestBase {
         setProtocolRequiredFields(document);
     }
     
-    /**
-     * @see org.kuali.kra.irb.test.ProtocolRuleTestBase#tearDown()
-     */
+    @Override
     @After
     public void tearDown() throws Exception {
         auditRule = null;

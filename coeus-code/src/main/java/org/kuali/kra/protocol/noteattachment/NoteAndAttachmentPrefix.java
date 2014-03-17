@@ -60,7 +60,6 @@ public enum NoteAndAttachmentPrefix {
         return this.name + "[" + index + "]";
     }
     
-    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "name: " + this.name + " indexed: " + this.indexed;

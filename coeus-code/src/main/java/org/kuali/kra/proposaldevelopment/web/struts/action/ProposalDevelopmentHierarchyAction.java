@@ -35,9 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentAction {
 
     private static final String FORWARD_PROPOSAL_SUMMARY = "ajaxProposalSummary";

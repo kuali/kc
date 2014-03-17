@@ -85,10 +85,7 @@ public class PollingInfo implements TaskInfo {
         this.pollingInterval = pollingInterval != null && pollingInterval.trim().length() > 0 ? Long.parseLong(pollingInterval) : 0;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.s2s.polling.TaskInfo#getPollingInterval()
-     */
+    @Override
     public long getPollingInterval() {
         return this.pollingInterval;
     }
@@ -151,10 +148,7 @@ public class PollingInfo implements TaskInfo {
         }
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.s2s.polling.TaskInfo#getDelayToStart()
-     */
+    @Override
     public long getDelayToStart() {
         return delayToStart;
     }

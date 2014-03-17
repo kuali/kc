@@ -58,9 +58,7 @@ public class ProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServiceImpl
         return Protocol.class;
     }
 
-    /**
-     * @see org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getValidCommitteeDates(java.lang.String)
-     */
+    @Override
     public String getValidCommitteeDates(String committeeId, String protocolNumber) {
         StringBuffer ajaxList = new StringBuffer();
         if (isAuthorizedToAccess(protocolNumber)) {

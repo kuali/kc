@@ -24,9 +24,7 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
-/**
- * This class...
- */
+
 public class CommitteeMembershipServiceImpl extends CommitteeMembershipServiceImplBase<Committee, CommitteeService> implements CommitteeMembershipService {
 
     @Override

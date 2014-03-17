@@ -98,9 +98,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private ProposalDevelopmentPrintingService proposalDevelopmentPrintingService;
     private ProposalRoleTemplateService proposalRoleTemplateService;
 
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = null;
@@ -236,9 +233,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(KualiDocumentFormBase)
-     */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
@@ -543,9 +537,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         return KcServiceLocator.getService(PersonEditableService.class);
     }   
     
-    /**
-     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#initialDocumentSave(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
-     */
     @Override
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
@@ -891,12 +882,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#recall(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @SuppressWarnings("deprecation")
     @Override
+    @SuppressWarnings("deprecation")
     public ActionForward recall(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward;  // the return value
         

@@ -182,10 +182,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         // DO NOTHING
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.budget.core.BudgetCommonService#validateAddingNewBudget(org.kuali.kra.budget.document.BudgetParentDocument)
-     */
+    @Override
     public boolean validateAddingNewBudget(BudgetParentDocument<DevelopmentProposal> parentDocument) {
         return true;
     }

@@ -26,9 +26,7 @@ import java.util.*;
 
 public class IacucLocationNameValuesFinder extends UifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8545179201741577722L;
     private Integer locationTypeCode;
 

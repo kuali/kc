@@ -20,9 +20,7 @@ import org.kuali.coeus.common.committee.impl.keyvalue.MembershipRoleValuesFinder
 
 public class IacucMembershipRoleValuesFinder extends MembershipRoleValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 122609042066078164L;
 
     @Override

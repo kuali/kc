@@ -27,10 +27,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
  */
 public class DisapproveIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {        
         ProtocolActionBase lastAction = task.getProtocol().getLastProtocolAction();
         ProtocolSubmissionBase lastSubmission = task.getProtocol().getProtocolSubmission();

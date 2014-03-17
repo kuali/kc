@@ -83,9 +83,7 @@ public class AwardUnitContactsBean extends AwardContactsBean {
         return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
     }
 
-    /**
-     * @return
-     */
+
     public AwardUnitContact getUnitContact() {
        return (AwardUnitContact) newAwardContact; 
     }
@@ -119,17 +117,11 @@ public class AwardUnitContactsBean extends AwardContactsBean {
         }
     }
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContactsBean#getContactRoleType()
-     */
     @Override
     protected Class<? extends ContactRole> getContactRoleType() {
         return ContactType.class;
     }
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContactsBean#init()
-     */
     @Override
     protected AwardContact createNewContact() {
         return new AwardUnitContact(UnitContactType.CONTACT);

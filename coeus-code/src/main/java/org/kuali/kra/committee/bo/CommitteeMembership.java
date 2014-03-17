@@ -24,9 +24,7 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
  */
 public class CommitteeMembership extends CommitteeMembershipBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2323339440798678419L;
 
 }

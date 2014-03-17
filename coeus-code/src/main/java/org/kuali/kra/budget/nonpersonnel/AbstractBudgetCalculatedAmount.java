@@ -23,9 +23,7 @@ import org.kuali.kra.budget.rates.RateClass;
 
 public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4346953317701218299L;
 
     private Integer budgetPeriod;
@@ -79,21 +77,6 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
         this.rateClass = rateClass;
     }
 
-    //    /** 
-    //     * Gets the rateType attribute.  
-    //     * @return Returns the rateType. 
-    //     */ 
-    //    public RateType getRateType() { 
-    //        return rateType; 
-    //    } 
-    // 
-    //    /** 
-    //     * Sets the rateType attribute value. 
-    //     * @param rateType The rateType to set. 
-    //     */ 
-    //    public void setRateType(RateType rateType) { 
-    //        this.rateType = rateType; 
-    //    } 
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }

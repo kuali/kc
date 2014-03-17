@@ -343,9 +343,6 @@ public class OjbRepositoryMappingTest {
         private String currentTableName;
         private Boolean extents;
 
-        /**
-         * Default Constructor
-         */
         public TableValidationHandler(Connection conn) {
             connection = conn;
         }

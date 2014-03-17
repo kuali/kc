@@ -30,9 +30,6 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class...
- */
 public class AwardSubawardAuditRule implements DocumentAuditRule {
     
     private static final String SUBAWARD_AUDIT_ERRORS = "subawardAuditErrors";
@@ -42,9 +39,7 @@ public class AwardSubawardAuditRule implements DocumentAuditRule {
     private List<AuditError> auditErrors;
     private List<AuditError> auditWarnings;
     
-    /**
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         AwardDocument awardDocument = (AwardDocument) document;

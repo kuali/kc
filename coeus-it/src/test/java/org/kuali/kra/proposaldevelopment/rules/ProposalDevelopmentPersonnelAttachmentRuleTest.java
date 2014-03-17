@@ -195,10 +195,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
         return foundDocType;
     }
     
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     private String findOtherDocumentTypeCode() {
         return findDocumentTypeForDescription(ProposalDevelopmentPersonnelAttachmentRule.OTHER_DOCUMENT_TYPE_DESCRIPTION).getDocumentTypeCode();
     }

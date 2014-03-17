@@ -20,9 +20,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 @SuppressWarnings("deprecation")
 public class IsrSsrReportGenerationForm extends KualiForm {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1L;
     private String reportName;
     private String awardNo;    

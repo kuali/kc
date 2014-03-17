@@ -37,25 +37,16 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
     
     public static final String ALREADY_EDITED_ERROR = "error.questionnaire.alreadyEdited";
 
-    /**
-     * Constructs a CustomAttributeMaintenanceDocumentRule.java.
-     */
+
     public QuestionnaireMaintenanceDocumentRule() {
         super();
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */ 
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
             return validateQuestionnaire(document);
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
             return validateQuestionnaire(document);

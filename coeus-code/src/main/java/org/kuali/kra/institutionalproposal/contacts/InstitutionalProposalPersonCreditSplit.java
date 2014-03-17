@@ -29,9 +29,7 @@ import java.util.Map;
 
 public class InstitutionalProposalPersonCreditSplit extends KcPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<InstitutionalProposal> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 994819927148154584L;
 
     private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
@@ -49,17 +47,10 @@ public class InstitutionalProposalPersonCreditSplit extends KcPersistableBusines
 
     private Long institutionalProposalContactId;
 
-    /**
-     * Default Constructor
-     */
+
     public InstitutionalProposalPersonCreditSplit() {
     }
 
-    /**
-     * Convenience Constructor
-     * @param investigatorCreditType
-     * @param credit
-     */
     InstitutionalProposalPersonCreditSplit(InvestigatorCreditType investigatorCreditType, KualiDecimal credit) {
         setInvestigatorCreditType(investigatorCreditType);
         setCredit(credit);
@@ -169,9 +160,7 @@ public class InstitutionalProposalPersonCreditSplit extends KcPersistableBusines
         this.invCreditTypeCode = investigatorCreditType != null ? investigatorCreditType.getInvCreditTypeCode() : null;
     }
 
-    /**
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }

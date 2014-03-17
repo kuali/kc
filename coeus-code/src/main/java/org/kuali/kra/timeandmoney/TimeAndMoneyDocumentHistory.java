@@ -27,9 +27,7 @@ import java.util.List;
  */
 public class TimeAndMoneyDocumentHistory implements Serializable{
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 786405622918877359L;
     
     private String documentUrl;

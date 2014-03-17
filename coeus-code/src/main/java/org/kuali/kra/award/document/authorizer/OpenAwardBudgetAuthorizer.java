@@ -31,10 +31,7 @@ public class OpenAwardBudgetAuthorizer extends AwardAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.award.document.authorizer.AwardAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.award.document.authorization.AwardTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, AwardTask task) {
         AwardDocument doc = task.getAward().getAwardDocument();
         

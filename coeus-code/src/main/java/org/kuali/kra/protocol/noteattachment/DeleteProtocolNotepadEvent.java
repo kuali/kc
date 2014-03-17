@@ -49,18 +49,17 @@ public class DeleteProtocolNotepadEvent extends KcDocumentEventBase {
         this.protocolNotepad = protocolNotepad;
     }
 
-    /** {@inheritDoc} */
     @Override
     protected void logEvent() {
         LOG.debug("adding new: " + this.protocolNotepad + " on doc # " + this.getDocument().getDocumentNumber());
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Class<DeleteProtocolNotepadRule> getRuleInterfaceClass() {
         return DeleteProtocolNotepadRule.class;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return this.getRuleInterfaceClass().cast(rule).processDeleteProtocolNotepadRules(this);
     }

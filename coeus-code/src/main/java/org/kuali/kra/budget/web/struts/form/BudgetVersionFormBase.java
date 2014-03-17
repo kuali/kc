@@ -136,12 +136,12 @@ public abstract class BudgetVersionFormBase extends KcTransactionalDocumentFormB
         return "";
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean isAuditActivated() {
         return this.auditActivated;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }
@@ -204,9 +204,6 @@ public abstract class BudgetVersionFormBase extends KcTransactionalDocumentFormB
         this.showAllBudgetVersions = showAllBudgetVersions;
     }
 
-    /**
-     * @see org.kuali.kra.award.budget.AwardBudgetService#getInactiveBudgetStatus()
-     */
     public List<String> getAwardBudgetInactiveStatuses() {
         return KcServiceLocator.getService(AwardBudgetService.class).getInactiveBudgetStatus();
     }

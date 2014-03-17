@@ -32,10 +32,7 @@ public class ViewProposalBudgetAuthorizer extends BudgetAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.budget.document.authorizer.BudgetAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.budget.document.authorization.BudgetTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, BudgetTask task) {
         
         BudgetDocument budgetDocument = task.getBudgetDocument();

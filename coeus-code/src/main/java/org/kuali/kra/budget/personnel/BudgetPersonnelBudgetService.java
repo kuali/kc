@@ -23,9 +23,7 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import java.util.List;
 
 
-/**
- * This class...
- */
+
 public interface BudgetPersonnelBudgetService {
     public void addBudgetPersonnelDetails(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudegtPersonnelDetails);
     public void calculateBudgetPersonnelBudget(Budget budget, BudgetLineItem selectedBudgetLineItem,

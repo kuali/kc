@@ -31,9 +31,7 @@ import java.util.Map;
 public class IacucCorrespondenceXmlStream extends CorrespondenceXmlStreamBase {
     
     private ProtocolXmlStreamBase protocolXmlStream;
-    /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
-     */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         IacucProtocol protocol = (IacucProtocol) printableBusinessObject;
         ProtocolSubmissionBase protocolSubmission = protocol.getProtocolSubmission();

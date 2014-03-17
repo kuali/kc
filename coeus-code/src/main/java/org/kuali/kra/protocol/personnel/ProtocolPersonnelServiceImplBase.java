@@ -67,9 +67,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     }
 
 
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#addProtocolPerson(org.kuali.kra.protocol.ProtocolBase, org.kuali.kra.protocol.personnel.ProtocolPersonBase)
-     */
+    @Override
     public void addProtocolPerson(ProtocolBase protocol, ProtocolPersonBase protocolPerson) {
 
         Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber(getSequenceNumberNameHook(), protocolPerson.getClass()).intValue();
@@ -98,9 +96,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     protected abstract String getSequenceNumberNameHook();
 
 
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#deleteProtocolPerson(org.kuali.kra.protocol.ProtocolBase, int)
-     */
+    @Override
     public void deleteProtocolPerson(ProtocolBase protocol) {
         List<ProtocolPersonBase> deletedPersons = new ArrayList<ProtocolPersonBase>();
         for(ProtocolPersonBase protocolPerson : protocol.getProtocolPersons()) {
@@ -111,10 +107,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         protocol.getProtocolPersons().removeAll(deletedPersons);
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#addProtocolPersonAttachment(org.kuali.kra.protocol.ProtocolBase, org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase, int)
-     */
+    @Override
     public void addProtocolPersonAttachment(ProtocolBase protocol, ProtocolAttachmentPersonnelBase newAttachment, int selectedPersonIndex) {
 
         // syncNewFile
@@ -148,9 +141,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         protocol.getProtocolPerson(selectedPersonIndex).getAttachmentPersonnels().add(newAttachment);
     }
     
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#addProtocolPersonUnit(org.kuali.kra.protocol.ProtocolBase, org.kuali.kra.protocol.personnel.ProtocolPersonBase)
-     */
+    @Override
     public void addProtocolPersonUnit(List<ProtocolUnitBase> protocolPersonUnits, ProtocolPersonBase protocolPerson, int selectedPersonIndex) {
         ProtocolUnitBase newProtocolPersonUnit = protocolPersonUnits.get(selectedPersonIndex);
         newProtocolPersonUnit.setProtocolNumber(protocolPerson.getProtocolNumber());
@@ -170,9 +161,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     protected abstract ProtocolUnitBase createNewProtocolUnitInstanceHook();
 
 
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#deleteProtocolPersonUnit(java.util.List, org.kuali.kra.protocol.personnel.ProtocolPersonBase, int)
-     */
+    @Override
     public void deleteProtocolPersonUnit(ProtocolBase protocol, int selectedPersonIndex, int lineNumber) {
         ProtocolPersonBase selectedPerson =  protocol.getProtocolPerson(selectedPersonIndex);
         ProtocolUnitBase protocolUnit = selectedPerson.getProtocolUnit(lineNumber);
@@ -182,9 +171,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         selectedPerson.getProtocolUnits().remove(lineNumber);
     }
     
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#switchInvestigatorCoInvestigatorRole(java.util.List)
-     */
+    @Override
     public void switchInvestigatorCoInvestigatorRole(List<ProtocolPersonBase> protocolPersons) {
         ProtocolPersonBase investigator = null;
         String personNewRole = null;
@@ -286,9 +273,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
      */
     public abstract Class<? extends ProtocolPersonRoleMappingBase> getProtocolPersonRoleMappingClassHook();
     
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#getProtocolPersonRole(java.lang.String)
-     */
+    @Override
     public ProtocolPersonRoleBase getProtocolPersonRole(String sourceRoleId) {
         return getBusinessObjectService().findBySinglePrimaryKey(getProtocolPersonRoleClassHook(), sourceRoleId);
     }
@@ -300,9 +285,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
      */
     public abstract Class<? extends ProtocolPersonRoleBase> getProtocolPersonRoleClassHook();
 
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#syncProtocolPersonRoleChanges(java.util.List)
-     */
+    @Override
     public void syncProtocolPersonRoleChanges(List<ProtocolPersonBase> protocolPersons) {
         for (ProtocolPersonBase protocolPerson : protocolPersons) {
             if (!isUnitDetailsRequired(protocolPerson)) {
@@ -366,9 +349,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         protocolPerson.getProtocolUnit(protocolPerson.getSelectedUnit()).setLeadUnitFlag(LEAD_UNIT_FLAG_ON);
     }
     
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#selectProtocolUnit(java.util.List)
-     */
+    @Override
     public void selectProtocolUnit(List<ProtocolPersonBase> protocolPersons) {
         for(ProtocolPersonBase protocolPerson : protocolPersons) {
             int selectedUnit = 0;
@@ -383,9 +364,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     }
 
     
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#isDuplicateUnit(java.util.List, org.kuali.kra.protocol.personnel.ProtocolUnitBase)
-     */
+    @Override
     public boolean isDuplicateUnit(ProtocolPersonBase protocolPerson, ProtocolUnitBase newProtocolUnit) {
         boolean duplicateUnit = false;
         for(ProtocolUnitBase protocolUnit : protocolPerson.getProtocolUnits()) {
@@ -411,9 +390,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     
     
     
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#isDuplicatePerson(java.util.List, org.kuali.kra.protocol.personnel.ProtocolPersonBase)
-     */
+    @Override
     public boolean isDuplicatePerson(List<ProtocolPersonBase> protocolPersons, ProtocolPersonBase newProtocolPerson) {
         boolean duplicatePerson = false;
         for(ProtocolPersonBase protocolPerson : protocolPersons) {
@@ -426,9 +403,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
 
     
     
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#getPrincipalInvestigator(java.util.List)
-     */
+    @Override
     public ProtocolPersonBase getPrincipalInvestigator(List<ProtocolPersonBase> protocolPersons) {
         ProtocolPersonBase principalInvestigator = null;
         for(ProtocolPersonBase protocolPerson : protocolPersons) {
@@ -471,10 +446,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#getLeadUnit(org.kuali.kra.protocol.personnel.ProtocolPersonBase)
-     */
+    @Override
     public ProtocolUnitBase getLeadUnit(ProtocolPersonBase principalInvestigator) {
         ProtocolUnitBase leadUnit = null;
         if (principalInvestigator != null) {
@@ -489,11 +461,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     }
 
  
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#setLeadUnit(org.kuali.kra.protocol.personnel.ProtocolUnitBase, 
-     *                                                                       org.kuali.kra.protocol.personnel.ProtocolPersonBase, org.kuali.kra.protocol.ProtocolBase)
-     */
+    @Override
     public void setLeadUnit(ProtocolUnitBase newLeadUnit, ProtocolPersonBase principalInvestigator, ProtocolBase protocol) {
         if (principalInvestigator != null) {
             ProtocolUnitBase currentLeadUnit = getLeadUnit(principalInvestigator);
@@ -515,27 +483,21 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     
     
     
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#syncPersonRoleAndUnit(org.kuali.kra.protocol.personnel.ProtocolPersonBase)
-     */
+    @Override
     public void syncPersonRoleAndUnit(ProtocolPersonBase protocolPerson) {
         if(!isUnitDetailsRequired(protocolPerson)) {
             protocolPerson.getProtocolUnits().removeAll(protocolPerson.getProtocolUnits());
         }
     }
 
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#syncPersonRoleAndAffiliation(org.kuali.kra.protocol.personnel.ProtocolPersonBase)
-     */
+    @Override
     public void syncPersonRoleAndAffiliation(ProtocolPersonBase protocolPerson) {
         if(!isAffiliationDetailsRequired(protocolPerson)) {
             protocolPerson.setAffiliationTypeCode(null);
         }
     }
     
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#isValidStudentFacultyMatch(java.util.List)
-     */
+    @Override
     public boolean isValidStudentFacultyMatch(List<ProtocolPersonBase> protocolPersons) {
         boolean validInvestigator = true;
         HashMap<Integer, Integer> investigatorAffiliation = new HashMap<Integer, Integer>();

@@ -25,9 +25,7 @@ import org.kuali.kra.infrastructure.TaskGroupName;
 
 public class IacucCommitteeScheduleLookupableHelperServiceImpl extends CommitteeScheduleLookupableHelperServiceImplBase<IacucCommitteeSchedule, IacucCommittee, CommitteeTaskBase<IacucCommittee>, IacucCommitteeScheduleTask> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2963379561699240982L;
 
     @Override

@@ -52,10 +52,7 @@ public class AwardCommentServiceImplTest {
 
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
 
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
+
     @Before
     public void setUp() throws Exception {
         awardCommentServiceImpl = new AwardCommentServiceImpl();
@@ -74,10 +71,7 @@ public class AwardCommentServiceImplTest {
 
     }
 
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
+
     @After
     public void tearDown() throws Exception {
         awardCommentServiceImpl = null;

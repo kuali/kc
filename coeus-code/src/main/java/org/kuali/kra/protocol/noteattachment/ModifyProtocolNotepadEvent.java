@@ -49,18 +49,17 @@ public class ModifyProtocolNotepadEvent extends KcDocumentEventBase {
         this.existingProtocolNotepad = existingProtocolNotepad;
     }
 
-    /** {@inheritDoc} */
     @Override
     protected void logEvent() {
         LOG.debug("adding new: " + this.existingProtocolNotepad + " on doc # " + this.getDocument().getDocumentNumber());
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Class<ModifyProtocolNotepadRule> getRuleInterfaceClass() {
         return ModifyProtocolNotepadRule.class;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return this.getRuleInterfaceClass().cast(rule).processModifyProtocolNotepadRules(this);
     }

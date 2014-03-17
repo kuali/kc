@@ -34,9 +34,7 @@ import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
 public class QuestionnaireHelper extends QuestionnaireHelperBase {
 
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8923292365833681926L;
 
     public QuestionnaireHelper(ProtocolFormBase form) {

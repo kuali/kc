@@ -24,9 +24,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  */
 public class ValidRates extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2959106106569652167L;
 
     private Integer validRatesId;
@@ -41,18 +39,10 @@ public class ValidRates extends KcPersistableBusinessObjectBase {
 
     private String icrRateCode;
 
-    /**
-     * 
-     * Constructs a ValidRates.java.
-     */
+
     public ValidRates() {
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public Integer getValidRatesId() {
         return validRatesId;
     }
@@ -65,90 +55,42 @@ public class ValidRates extends KcPersistableBusinessObjectBase {
         this.icrRateCode = icrRateCode;
     }
 
-    /**
-     * 
-     * This method...
-     * @param validRatesId
-     */
     public void setValidRatesId(Integer validRatesId) {
         this.validRatesId = validRatesId;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public KualiDecimal getOnCampusRate() {
         return onCampusRate;
     }
 
-    /**
-     * 
-     * This method...
-     * @param onCampusRate
-     */
     public void setOnCampusRate(KualiDecimal onCampusRate) {
         this.onCampusRate = onCampusRate;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public KualiDecimal getOffCampusRate() {
         return offCampusRate;
     }
 
-    /**
-     * 
-     * This method...
-     * @param offCampusRate
-     */
     public void setOffCampusRate(KualiDecimal offCampusRate) {
         this.offCampusRate = offCampusRate;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getRateClassType() {
         return rateClassType;
     }
 
-    /**
-     * 
-     * This method...
-     * @param rateClassType
-     */
     public void setRateClassType(String rateClassType) {
         this.rateClassType = rateClassType;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getAdjustmentKey() {
         return adjustmentKey;
     }
 
-    /**
-     * 
-     * This method...
-     * @param adjustmentKey
-     */
     public void setAdjustmentKey(String adjustmentKey) {
         this.adjustmentKey = adjustmentKey;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -161,9 +103,6 @@ public class ValidRates extends KcPersistableBusinessObjectBase {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

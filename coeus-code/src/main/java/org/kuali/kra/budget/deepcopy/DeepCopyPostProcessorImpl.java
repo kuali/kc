@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.deepcopy;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
@@ -33,6 +35,8 @@ import java.util.*;
  */
 public class DeepCopyPostProcessorImpl implements DeepCopyPostProcessor{
 
+    private static final Log LOG = LogFactory.getLog(DeepCopyPostProcessorImpl.class);
+
     public <T extends Serializable> T processDeepCopyWithDeepCopyIgnore(T source) {
         Serializable copiedObject = ObjectUtils.deepCopy(source);
         return (T) processDeepCopyIgnoreAnnotation(copiedObject);
@@ -47,7 +51,7 @@ public class DeepCopyPostProcessorImpl implements DeepCopyPostProcessor{
                     try {
                         ObjectUtils.setObjectProperty(copiedObject, field.getName(), null);
                     }catch (Exception e) {
-                        e.printStackTrace();
+                        LOG.error(e.getMessage(), e);
                     }
                 }
             }

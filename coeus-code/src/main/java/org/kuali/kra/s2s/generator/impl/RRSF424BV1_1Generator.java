@@ -29,15 +29,11 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 
-/**
- * This class...
- */
+
 public class RRSF424BV1_1Generator extends S2SBaseFormGenerator {
 
     private static final String NON_CONSTRUCTION = "Non-Construction";
-    /**
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
+    @Override
     public AssurancesDocument getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
         AssurancesDocument assurcesDocument = AssurancesDocument.Factory.newInstance();
         DevelopmentProposal propDevFormBean = proposalDevelopmentDocument.getDevelopmentProposal();

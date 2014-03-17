@@ -54,9 +54,7 @@ public class AwardPersonUnitCreditSplitRuleEvent extends KcDocumentEventBase {
         return projectPerson;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class<AwardPersonUnitCreditSplitRule> getRuleInterfaceClass() {
         return AwardPersonUnitCreditSplitRule.class;
     }
@@ -69,9 +67,7 @@ public class AwardPersonUnitCreditSplitRuleEvent extends KcDocumentEventBase {
         return totalsByCreditSplitType;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return false;
     }

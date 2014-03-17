@@ -234,7 +234,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
     }
     
-    /** {@inheritDoc} */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "ProposalDevelopmentDocument";
@@ -744,8 +743,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
 
     /**
-     * This method...
-     *
      * @return true if copying budget(s) is disabled; otherwise false.
      */
     public boolean getIsCopyBudgetDisabled() {
@@ -1676,10 +1673,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         this.medusaBean = medusaBean;
     }    
     
-    /**
-     *
-     * @return
-     */
+
     public ReportHelperBean getReportHelperBean() {
         return reportHelperBean;
     }

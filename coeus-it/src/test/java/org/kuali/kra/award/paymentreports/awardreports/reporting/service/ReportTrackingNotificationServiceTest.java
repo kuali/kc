@@ -36,15 +36,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
- /*
- >>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testRunReportTrackingNotificationsPreviouslySent 	2 ms	1
->>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testRunReportTrackingNotificationsPreviouslySent 	6 ms	1
->>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testRunReportTrackingNotifications 	1 ms	1
->>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testRunReportTrackingNotifications 	1 ms	1
->>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testDateBarriers 	1 ms	1
->>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testDateBarriers
 
-  */
 public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase {
 
     private ReportTrackingNotificationServiceImpl service;

@@ -31,9 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
-/**
- * This class...
- */
+
 public class NegotiationBasicTest extends KcIntegrationTestBase {
     
     BusinessObjectService businessObjectService;

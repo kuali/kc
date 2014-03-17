@@ -35,10 +35,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     private String hierarchyProposalNumber;
     private boolean hiddenInHierarchy;
 
-    /**
-     * 
-     * Constructs a BudgetCostShare.java.
-     */
+
     public BudgetCostShare() {
         super();
     }
@@ -59,10 +56,6 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
         this.sourceAccount = sourceAccount;
     }
 
-    /**
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -93,56 +86,29 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
         return true;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent#getDocumentComponentIdKey()
-     */
+    @Override
     public String getDocumentComponentIdKey() {
         return DOCUMENT_COMPONENT_ID_KEY;
     }
-    
-    /**
-     * 
-     * This method...
-     * @return
-     */
+
     public Integer getProjectPeriod() {
         return projectPeriod;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public BudgetDecimal getShareAmount() {
          return BudgetDecimal.returnZeroIfNull(shareAmount);
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public BudgetDecimal getSharePercentage() {
         return BudgetDecimal.returnZeroIfNull(sharePercentage);
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getSourceAccount() {
         return sourceAccount;
     }
     
     
 
-    /**
-     * 
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -153,38 +119,18 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
         return result;
     }
 
-    /**
-     * 
-     * This method...
-     * @param projectPeriod
-     */
     public void setProjectPeriod(Integer projectPeriod) {
         this.projectPeriod = projectPeriod;
     }
 
-    /**
-     * 
-     * This method...
-     * @param shareAmount
-     */
     public void setShareAmount(BudgetDecimal shareAmount) {
         this.shareAmount = shareAmount;
     }
 
-    /**
-     * 
-     * This method...
-     * @param sharePercentage
-     */
     public void setSharePercentage(BudgetDecimal sharePercentage) {
         this.sharePercentage = sharePercentage;
     }
 
-    /**
-     * 
-     * This method...
-     * @param sourceAcocunt
-     */
     public void setSourceAccount(String sourceAcocunt) {
         this.sourceAccount = sourceAcocunt;
     }

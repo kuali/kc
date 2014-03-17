@@ -24,9 +24,7 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
  */
 public class AbandonProtocolAuthorizer extends ProtocolAuthorizer {
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         // TODO : permission : PI and protocol has never been approved. protocol status is SRR/SMR
         return canExecuteAction(task.getProtocol(), ProtocolActionType.ABANDON_PROTOCOL) 

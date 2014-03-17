@@ -27,9 +27,7 @@ public class CoiReviewType extends KcPersistableBusinessObjectBase {
     private String reviewTypeCode;
     private String description;
     
-    /**
-     * Constructs a CoiReviewType.
-     */
+
     public CoiReviewType() {
         
     }

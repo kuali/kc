@@ -34,9 +34,7 @@ public abstract class ProtocolActionTypeBase extends KcPersistableBusinessObject
 
     private boolean finalActionForBatchCorrespondence;
 
-    /**
-     * Constructs a ProtocolActionType.
-     */
+
     public ProtocolActionTypeBase() {
     }
 

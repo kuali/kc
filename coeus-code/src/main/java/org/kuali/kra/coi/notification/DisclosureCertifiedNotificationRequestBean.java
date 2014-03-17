@@ -23,9 +23,7 @@ import java.util.List;
 
 public class DisclosureCertifiedNotificationRequestBean extends CoiNotificationRequestBean {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1675582315061417093L;
     public List<CoiUserRole> coiDisclosureReviewers;
 

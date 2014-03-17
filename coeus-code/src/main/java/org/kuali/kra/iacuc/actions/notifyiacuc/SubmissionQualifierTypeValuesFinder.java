@@ -34,9 +34,7 @@ import java.util.*;
  */
 public class SubmissionQualifierTypeValuesFinder extends IacucActionsKeyValuesBase {
 
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
 

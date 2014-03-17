@@ -24,25 +24,16 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class YnqMaintenanceDocumentRule  extends MaintenanceDocumentRuleBase {
 
-    /**
-     * Constructs a YnqMaintenanceDocumentRule.java.
-     */
+
     public YnqMaintenanceDocumentRule() {
         super();
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */ 
+    @Override
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return checkYNQ(document);
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return checkYNQ(document);

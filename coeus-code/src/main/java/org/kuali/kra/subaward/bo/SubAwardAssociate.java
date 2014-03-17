@@ -22,9 +22,7 @@ import java.io.Serializable;
 
 
 
-/**
- * This class is for SubAwardAssociate...
- */
+
 public abstract class SubAwardAssociate extends KcPersistableBusinessObjectBase implements SequenceAssociate<SubAward>, Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -89,9 +87,6 @@ public abstract class SubAwardAssociate extends KcPersistableBusinessObjectBase 
         }
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -101,9 +96,6 @@ public abstract class SubAwardAssociate extends KcPersistableBusinessObjectBase 
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -133,16 +125,12 @@ public abstract class SubAwardAssociate extends KcPersistableBusinessObjectBase 
         return true;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
-     */
+    @Override
     public SubAward getSequenceOwner() {
         return getSubAward();
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
-     */
+    @Override
     public void setSequenceOwner(SubAward newlyVersionedOwner) {
         setSubAward(newlyVersionedOwner);   
     }

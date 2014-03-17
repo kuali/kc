@@ -26,9 +26,7 @@ import org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute;
 
 public class KcNotificationSecurityAttribute implements DocumentSecurityAttribute {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3547172238972658576L;
 
     private ActionListService actionListService;

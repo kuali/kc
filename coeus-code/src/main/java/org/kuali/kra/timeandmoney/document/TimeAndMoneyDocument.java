@@ -48,9 +48,7 @@ import java.util.*;
  */
 public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements Copyable, SessionDocument, Permissionable, Comparable {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2554022334215932544L;
 
     public static final String DOCUMENT_TYPE_CODE = "TAMD";
@@ -68,9 +66,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
     private List<AwardVersionHistory> awardVersionHistoryList;
     private List<String> order;
     
-    /**
-     * Constructs a AwardDocument object
-     */
+
     public TimeAndMoneyDocument(){        
         super();        
         init();
@@ -89,12 +85,8 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
         return getObjectId() == null; 
     }
     
-    /**
-     * 
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();       
         managedLists.add(pendingTransactions);

@@ -69,9 +69,7 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
         removeCollectionItem(getAward().getApprovedForeignTravelTrips(), deletedTripIndex);
     }
 
-    /**
-     * @return
-     */
+
     public Object getData() {
         return getNewApprovedForeignTravel();
     }
@@ -138,9 +136,7 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
         return event;
     }
 
-    /**
-     * @return
-     */
+
     public List<KeyValue> getKnownTravelers() {
         return new ApprovedForeignTravelerValuesFinder().getKeyValues();
     }

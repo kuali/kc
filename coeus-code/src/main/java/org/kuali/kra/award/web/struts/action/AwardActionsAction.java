@@ -156,7 +156,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         }
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         AwardForm awardForm = (AwardForm) form;
@@ -164,7 +164,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, true);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ((AwardForm) form).clearUnitRulesMessages();

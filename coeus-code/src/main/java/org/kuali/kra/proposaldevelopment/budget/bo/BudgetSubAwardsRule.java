@@ -17,6 +17,8 @@ package org.kuali.kra.proposaldevelopment.budget.bo;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.org.Organization;
@@ -31,7 +33,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BudgetSubAwardsRule {
-    
+
+    private static final Log LOG = LogFactory.getLog(BudgetSubAwardsRule.class);
     public static final String SUBAWARD_ORG_NAME_FIELD_NAME = ".organizationName";
     
     private BudgetSubAwards budgetSubAwards;
@@ -88,11 +91,11 @@ public class BudgetSubAwardsRule {
                 success = false;
             }
         } catch(FileNotFoundException fnfe) {
-            fnfe.printStackTrace();
+            LOG.error(fnfe.getMessage(), fnfe);
             GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
             success = false;
         } catch(IOException ioe) {
-            ioe.printStackTrace();
+            LOG.error(ioe.getMessage(), ioe);
             GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
             success = false;
         }
@@ -109,13 +112,11 @@ public class BudgetSubAwardsRule {
                 subAwardData = subAwardFile.getFileData();
             }
             catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                //e.printStackTrace();
+                LOG.error(e.getMessage(), e);
                 //should never happen as this would be caught in verifyNonXFDAttachment
             }
             catch (IOException e) {
-                // TODO Auto-generated catch block
-                //e.printStackTrace();
+                LOG.error(e.getMessage(), e);
                 //should never happen as this would be caught in verifyNonXFDAttachment
             }
             if(subAwardData==null || subAwardData.length==0 || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){

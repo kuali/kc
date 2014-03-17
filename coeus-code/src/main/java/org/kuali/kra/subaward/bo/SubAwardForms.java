@@ -30,9 +30,7 @@ public class SubAwardForms extends KcPersistableBusinessObjectBase implements Pe
     private String contentType;
     private transient FormFile templateFile;    
 
-    /**
-     * Constructs a SubAwardForms.java.
-     */
+
 public SubAwardForms() {
 
 }

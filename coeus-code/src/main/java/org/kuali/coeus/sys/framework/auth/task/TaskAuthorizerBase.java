@@ -42,9 +42,7 @@ public abstract class TaskAuthorizerBase implements TaskAuthorizer {
         this.unitAuthorizationService = unitAuthorizationService;
     }
     
-    /**
-     * @see TaskAuthorizer#getTaskName()
-     */
+    @Override
     public final String getTaskName() {
         return taskName;
     }

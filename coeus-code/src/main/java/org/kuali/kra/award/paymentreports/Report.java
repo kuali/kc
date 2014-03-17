@@ -25,9 +25,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
  */
 public class Report extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4555054434451627778L;
 
     private String reportCode;
@@ -38,16 +36,11 @@ public class Report extends KcPersistableBusinessObjectBase implements MutableIn
 
     private boolean active;
 
-    /**
-     * Constructs a Report.java
-     */
+
     public Report() {
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public String getReportCode() {
         return reportCode;
     }
@@ -60,10 +53,7 @@ public class Report extends KcPersistableBusinessObjectBase implements MutableIn
         this.reportCode = reportCode;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public String getDescription() {
         return description;
     }
@@ -76,10 +66,7 @@ public class Report extends KcPersistableBusinessObjectBase implements MutableIn
         this.description = description;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public boolean getFinalReportFlag() {
         return finalReportFlag;
     }
@@ -92,9 +79,6 @@ public class Report extends KcPersistableBusinessObjectBase implements MutableIn
         this.finalReportFlag = finalReportFlag;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -103,9 +87,6 @@ public class Report extends KcPersistableBusinessObjectBase implements MutableIn
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

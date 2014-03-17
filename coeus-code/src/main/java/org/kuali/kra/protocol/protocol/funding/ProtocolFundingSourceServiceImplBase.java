@@ -185,10 +185,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
         
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService#updateProtocolFundingSource(java.lang.String, java.lang.String, java.lang.String)
-     */
+    @Override
     public ProtocolFundingSourceBase updateProtocolFundingSource(String fundingSourceTypeCode, String fundingSourceNumber,
             String fundingSourceName) {
         ProtocolFundingSourceBase protocolFundingSource = null;
@@ -430,10 +427,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
         return fundingSource;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService#isValidIdForType(org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase)
-     */
+    @Override
     public boolean isValidIdForType(ProtocolFundingSourceBase protocolFundingSource) {
         boolean valid = false;
 
@@ -462,10 +456,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
         return valid;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService#getLookupParameters(java.lang.String)
-     */
+    @Override
     public Entry<String, String> getLookupParameters(String fundingSourceTypeCode) {        
         HashMap<String, String> boAndFields = new HashMap<String, String>();
         FundingSourceLookup sourceLookup = FundingSourceLookup.OTHER;
@@ -525,10 +516,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
         return fieldConversions.toString();
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService#updateLookupParameter(java.lang.String, java.lang.String, java.lang.String)
-     */
+    @Override
     public String updateLookupParameter(String parameter, String boClassName, String fieldConversions) {
         StringBuffer fullParameterBuffer = new StringBuffer(parameter);
         int start = fullParameterBuffer.indexOf(KRADConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL) + KRADConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL.length();
@@ -543,11 +531,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
     }
 
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService#getViewProtocolFundingSourceUrl(
-     *      org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase, org.kuali.kra.protocol.protocol.ProtocolProtocolAction)
-     */
+    @Override
     public String getViewProtocolFundingSourceUrl(ProtocolFundingSourceBase protocolFundingSource, ProtocolActionBase action) throws Exception {
         String fundingSourceTypeCode = protocolFundingSource.getFundingSourceTypeCode();
         String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
@@ -672,10 +656,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
     
     
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService#isEditable(java.lang.String)
-     */
+    @Override
     public boolean isEditable(String fundingSourceTypeCode) {
         boolean isEditable = true;
         
@@ -694,10 +675,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
         return isEditable;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService#isLookupable(java.lang.String)
-     */
+    @Override
     public boolean isLookupable(String fundingSourceTypeCode) {
         boolean isLookupable = false;
         

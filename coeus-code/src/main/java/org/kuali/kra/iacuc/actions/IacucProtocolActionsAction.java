@@ -135,7 +135,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
@@ -203,13 +203,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
 
-    /** {@inheritDoc} */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (ProtocolFormBase) form, true);
     }
 
-    /** {@inheritDoc} */
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (ProtocolFormBase) form, false);
@@ -1035,17 +1033,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
     
-    
-    /**
-     * 
-     * This method... 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
+
     public ActionForward assignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;

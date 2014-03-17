@@ -47,10 +47,7 @@ public class IacucProtocolNotificationRenderer extends ProtocolNotificationRende
         super(protocol);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
-     */
+    @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
         IacucProtocolSubmission protocolSubmission = (IacucProtocolSubmission)getProtocol().getProtocolSubmission();

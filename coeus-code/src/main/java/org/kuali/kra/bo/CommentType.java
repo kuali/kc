@@ -23,9 +23,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 public class CommentType extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5649376154094364142L;
 
     public static final String SCREENFLAG_TRUE = "Y";
@@ -112,9 +110,6 @@ public class CommentType extends KcPersistableBusinessObjectBase {
         this.awardCommentScreenFlag = awardCommentScreenFlag;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -127,9 +122,6 @@ public class CommentType extends KcPersistableBusinessObjectBase {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

@@ -20,9 +20,7 @@ package org.kuali.kra.coi;
  */
 public class CoiEventDisclosure extends CoiDisclosure {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7999922976134338387L;
 
   

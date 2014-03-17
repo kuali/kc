@@ -97,16 +97,12 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
 
     
     
-    /**
-     * @see org.kuali.kra.protocol.actions.submit.ProtocolActionService#isActionAllowed(java.lang.String, org.kuali.kra.protocol.ProtocolBase)
-     */
+    @Override
     public boolean isActionAllowed(String actionTypeCode, ProtocolBase protocol) {
         return canPerformAction(actionTypeCode, protocol) || protocol.isFollowupAction(actionTypeCode);
     }
 
-    /**
-     * @see org.kuali.kra.protocol.actions.submit.ProtocolActionService#getActionsAllowed(org.kuali.kra.protocol.ProtocolBase)
-     */
+    @Override
     public List<String> getActionsAllowed(ProtocolBase protocol) {
 
         List<String> actionList = new ArrayList<String>();
@@ -208,10 +204,7 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
     
     public abstract  void resetProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol);    
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.actions.ProtocolActionFollowupService#isActionOpenForFollowup(java.lang.String, org.kuali.kra.protocol.ProtocolBase)
-     */
+    @Override
     public boolean isActionOpenForFollowup(String protocolActionTypeCode, ProtocolBase protocol) {
         return followupActionService.isActionOpenForFollowup(protocolActionTypeCode, protocol);
     }

@@ -31,9 +31,7 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class IacucCommitteeDecisionMotionValuesFinder extends CommitteeDecisionMotionValuesFinder {
        
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -449881228899486120L;
          
     /*
