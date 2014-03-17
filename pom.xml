@@ -643,8 +643,7 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-
-                <plugin>
+            <plugin>
                     <groupId>${jetty-maven-plugin.groupId}</groupId>
                     <artifactId>${jetty-maven-plugin.artifactId}</artifactId>
                     <version>${jetty-maven-plugin.version}</version>

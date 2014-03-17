@@ -69,6 +69,14 @@ public class SubAwardAmountInfo extends
     
     private String contentType;
 
+    private Date modificationEffectiveDate ;
+    
+    private String modificationID;
+    
+    private Date periodofPerformanceStartDate;
+    
+    private Date periodofPerformanceEndDate;
+    
     /**
      * the SubAwardAmountInfo constructor.
      */
@@ -362,5 +370,61 @@ public class SubAwardAmountInfo extends
      */
     public String getContentType() {
         return contentType;
+    }
+    /**
+     * Gets the modificationEffectiveDate.
+     * @return modificationEffectiveDate.
+     */
+    public Date getModificationEffectiveDate() {
+        return modificationEffectiveDate;
+    }
+    /**
+     * Sets the modificationEffectiveDate.
+     * @param modificationEffectiveDate the modificationEffectiveDate.
+     */
+    public void setModificationEffectiveDate(Date modificationEffectiveDate) {
+        this.modificationEffectiveDate = modificationEffectiveDate;
+    }
+    /**
+     * Gets the modificationID.
+     * @return modificationID.
+     */
+    public String getModificationID() {
+        return modificationID;
+    }
+    /**
+     * Sets the modificationID.
+     * @param modificationID the modificationID.
+     */
+    public void setModificationID(String modificationID) {
+        this.modificationID = modificationID;
+    }
+    /**
+     * Gets the periodofPerformanceStartDate.
+     * @return periodofPerformanceStartDate.
+     */
+    public Date getPeriodofPerformanceStartDate() {
+        return periodofPerformanceStartDate;
+    }
+    /**
+     * Sets the periodofPerformanceStartDate.
+     * @param periodofPerformanceStartDate the periodofPerformanceStartDate.
+     */
+    public void setPeriodofPerformanceStartDate(Date periodofPerformanceStartDate) {
+        this.periodofPerformanceStartDate = periodofPerformanceStartDate;
+    }
+    /**
+     * Gets the periodofPerformanceEndDate.
+     * @return periodofPerformanceEndDate.
+     */
+    public Date getPeriodofPerformanceEndDate() {
+        return periodofPerformanceEndDate;
+    }
+    /**
+     * Sets the periodofPerformanceEndDate.
+     * @param periodofPerformanceEndDate the periodofPerformanceEndDate.
+     */
+    public void setPeriodofPerformanceEndDate(Date periodofPerformanceEndDate) {
+        this.periodofPerformanceEndDate = periodofPerformanceEndDate;
     }
 }

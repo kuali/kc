@@ -71,10 +71,10 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
     
     @Override
     public String getAssignedCommitteeId(Protocol protocol) {
-        ProtocolSubmission submission = findSubmission(protocol);
+        ProtocolSubmission submission = findSubmissionIncludingInAgenda(protocol);
         if ( submission != null && 
              (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)
-              || 
+              || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA) ||
               (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) & 
                StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.REQUEST_FOR_SUSPENSION))) ) {
             return submission.getCommitteeId();
@@ -84,8 +84,9 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
     
     @Override
     public String getAssignedScheduleId(Protocol protocol) {
-        ProtocolSubmission submission = findSubmission(protocol);
-        if (submission != null && StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+        ProtocolSubmission submission = findSubmissionIncludingInAgenda(protocol);
+        if (submission != null && StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) ||
+                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA)) {
             return submission.getScheduleId();
         }
         return null;

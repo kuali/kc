@@ -24,7 +24,7 @@
 			org/kuali/kra/s2s/phs398modularbudget/PHS398_ModularBudget-V1.2.fo.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.phs398ModularBudget12V12</pkgName>
-		<sortIndex>1</sortIndex>
+		<sortIndex>190</sortIndex>
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/SF424_2_1-V2.1">
 		<formName>SF424-V2.1</formName>
@@ -58,6 +58,7 @@
 		<pkgName>
 			gov.grants.apply.forms.phs398CareerDevelopmentAwardSup20V20
 		</pkgName>
+		<sortIndex>200</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_ResearchPlan_2_0-V2.0">
@@ -69,6 +70,7 @@
 			org/kuali/kra/s2s/phs398researchplan/PHS398_ResearchPlan_2_0-V2.0.fo.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.phs398ResearchPlan20V20</pkgName>
+		<sortIndex>195</sortIndex>
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan_2_0-V2.0">
 		<formName>PHS398_ResearchTrainingProgramPlan_2_0</formName>
@@ -81,6 +83,7 @@
 		<pkgName>
 			gov.grants.apply.forms.phs398ResearchTrainingProgramPlan20V20
 		</pkgName>
+		<sortIndex>220</sortIndex>
 	</Form>  
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_KeyPersonExpanded_2_0-V2.0">
@@ -94,6 +97,7 @@
 		<pkgName>
 			gov.grants.apply.forms.rrKeyPersonExpanded20V20
 		</pkgName>
+		<sortIndex>155</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_CoverPageSupplement_2_0-V2.0">
@@ -105,6 +109,7 @@
 			org/kuali/kra/s2s/phs398coverpagesupplement/PHS398_CoverPageSupplement_2_0-V2.0.fo.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.phs398CoverPageSupplement20V20</pkgName>
+		<sortIndex>185</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PerformanceSite_2_0-V2.0">
@@ -116,6 +121,7 @@
 			org/kuali/kra/s2s/performancesite/PerformanceSite-V2.0.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.performanceSite20V20</pkgName>
+		<sortIndex>130</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_SubawardBudget30_1_3-V1.3">
@@ -127,6 +133,7 @@
 			org/kuali/kra/s2s/rrsubawardbudget/RR_SubawardBudget30_1_3-V1.3.fo.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.rrSubawardBudget3013V13</pkgName>
+		<sortIndex>180</sortIndex>
 	</Form>
 
 	<Form
@@ -139,6 +146,7 @@
 			org/kuali/kra/s2s/rrbudget/RR_Budget-V1.3.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.rrBudget13V13</pkgName>
+		<sortIndex>165</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_TrainingSubawardBudget_2_0-V2.0">
@@ -150,6 +158,7 @@
 			org/kuali/kra/s2s/phs398trainingsubawardbudget/PHS398_TrainingSubawardBudget-V2.0.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.phs398TrainingSubawardBudget20V20</pkgName>
+		<sortIndex>162</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0">
@@ -161,6 +170,7 @@
 			org/kuali/kra/s2s/phsfellowshipsupplemental/PHS_fellowship_supplemental-V2.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.phsFellowshipSupplemental20V20</pkgName>
+		<sortIndex>211</sortIndex>
 	</Form>
 		<Form namespace="http://apply.grants.gov/forms/RR_SF424_2_0-V2.0">
 		<formName>RR_SF424_2_0-V2.0</formName>
@@ -171,6 +181,7 @@
 			org/kuali/kra/s2s/sf424r/RR_SF424_2_0-V2.0.fo.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.rrSF42420V20</pkgName>
+		<sortIndex>120</sortIndex>
 	</Form>
 	<Form          
 		namespace="http://apply.grants.gov/forms/RR_OtherProjectInfo_1_3-V1.3">
@@ -184,6 +195,7 @@
 		<pkgName>
 			gov.grants.apply.forms.rrOtherProjectInfo13V13
 		</pkgName>
+		<sortIndex>140</sortIndex>
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_SubawardBudget10_30_1_3-V1.3">
 		<formName>RR_SubawardBudget10_30_1_3</formName>
@@ -196,6 +208,7 @@
 		<pkgName>
 			gov.grants.apply.forms.rrSubawardBudget103013V13
 		</pkgName>
+		<sortIndex>179</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_Budget10_1_3-V1.3">
@@ -209,6 +222,7 @@
 		<pkgName>
 			gov.grants.apply.forms.rrBudget1013V13
 		</pkgName>
+		<sortIndex>167</sortIndex>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_SubawardBudget10_10_1_3-V1.3">
@@ -222,6 +236,7 @@
 		<pkgName>
 			gov.grants.apply.forms.rrSubawardBudget101013V13
 		</pkgName>
+		<sortIndex>178</sortIndex>
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_SubawardBudget_1_3-V1.3">
 		<formName>RR_SubawardBudget_1_3</formName>
@@ -234,5 +249,6 @@
 		<pkgName>
 			gov.grants.apply.forms.rrSubawardBudget13V13
 		</pkgName>
+		<sortIndex>177</sortIndex>
 	</Form>
 </FormBinding>

@@ -21,10 +21,10 @@
 
 	<!-- globally used properties -->
 	<property name="db.version" value="600"/>
-	<property name="bun.username" value="KCBND"/>
-	<property name="bun.password" value="bnd174kc"/>
-	<property name="tst.username" value="KCUNT"/>
-	<property name="tst.password" value="unt174kc"/>
+	<property name="bun.username" value="kcbnd"/>
+	<property name="bun.password" value="kcbnd"/>
+	<property name="tst.username" value="kcunit"/>
+	<property name="tst.password" value="kcunit"/>
 	<property name="emb.client.username" value="EMBEDDED CLIENT DB USERID"/>
 	<property name="emb.client.password" value="EMBEDDED CLIENT DB PASSWORD"/>
 	<property name="emb.server.username" value="EMBEDDED SERVER DB USERID"/>

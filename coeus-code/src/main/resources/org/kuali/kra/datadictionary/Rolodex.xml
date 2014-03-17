@@ -31,7 +31,6 @@
         <ref bean="Rolodex-phoneNumber"/>
         <ref bean="Rolodex-postalCode"/>
         <ref bean="Rolodex-prefix"/>
-        <ref bean="Rolodex-isSponsorAddress"/>
         <ref bean="Rolodex-sponsorAddressFlag"/>
         <ref bean="Rolodex-sponsorCode"/>
         <ref bean="Rolodex-sponsor.sponsorName"/>
@@ -362,7 +361,9 @@
       </bean>
     </property>
     <property name="control">
-      <bean p:size="40" parent="TextControlDefinition"/> 
+      <bean parent="TextareaControlDefinition" 
+            p:rows="5"
+            p:cols="40" />
     </property>
     <property name="controlField">
       <bean p:size="40" parent="Uif-TextControl"/>
@@ -472,32 +473,6 @@
     <property name="description" value="Prefix"/>
   </bean>
 
-  <bean id="Rolodex-isSponsorAddress" parent="Rolodex-isSponsorAddress-parentBean"/>
-  <bean abstract="true" id="Rolodex-isSponsorAddress-parentBean" parent="AttributeDefinition">
-    <property name="name" value="isSponsorAddress"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Sponsor Address Flag"/>
-    <property name="shortLabel" value="Sponsor Address Flag"/>
-    <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.RolodexAddressFlagValuesFinder" p:script="updateOrganizationLookupReturn(this)"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.RolodexAddressFlagValuesFinder"/>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-    </property>
-    <property name="summary" value="Sponsor Address Flag"/>
-    <property name="description" value="Sponsor Address Flag"/>
-  </bean>
-
   <bean id="Rolodex-sponsorAddressFlag" parent="Rolodex-sponsorAddressFlag-parentBean"/>
   <bean abstract="true" id="Rolodex-sponsorAddressFlag-parentBean" parent="AttributeDefinition">
     <property name="name" value="sponsorAddressFlag"/>
@@ -512,7 +487,9 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
     <property name="control">
-      <bean p:size="1" parent="TextControlDefinition"/>
+      <bean parent="SelectControlDefinition" 
+      p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.RolodexAddressFlagValuesFinder"
+      p:script="updateOrganizationLookupReturn(this)"/>
     </property>
     <property name="controlField">
       <bean p:size="1" parent="Uif-TextControl"/>
@@ -647,12 +624,12 @@
               <bean p:attributeName="lastName" parent="FieldDefinition"/>
               <bean p:attributeName="middleName" parent="FieldDefinition"/>
               <bean p:attributeName="fullName" parent="FieldDefinition"/>
-              <bean p:attributeName="sponsorAddressFlag" parent="FieldDefinition"/>
               <bean p:attributeName="organization" parent="FieldDefinition" />
               <bean p:attributeName="unit.unitName" parent="FieldDefinition"/>
               <bean p:attributeName="phoneNumber" parent="FieldDefinition"/>
               <bean p:attributeName="postalCode" parent="FieldDefinition"/>
               <bean p:attributeName="prefix" parent="FieldDefinition"/>
+              <bean p:attributeName="sponsorAddressFlag" parent="FieldDefinition"/>
               <bean p:attributeName="sponsor.sponsorName" parent="FieldDefinition"/>
               <bean p:attributeName="suffix" parent="FieldDefinition"/>
               <bean p:attributeName="title" parent="FieldDefinition"/>
@@ -712,7 +689,6 @@
   <bean id="Rolodex-LookupView" parent="Rolodex-LookupView-parentBean"/>
   <bean abstract="true" id="Rolodex-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Address Book Lookup"/>
-    <property name="lookupableID" value="rolodexLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
     <property name="defaultSort">
       <bean parent="SortDefinition"/>
@@ -722,7 +698,6 @@
         <bean p:attributeName="rolodexId" parent="FieldDefinition"/>
         <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
         <bean p:attributeName="sponsor.sponsorName" parent="FieldDefinition"/>
-        <bean p:attributeName="isSponsorAddress" parent="FieldDefinition"/>
         <bean p:attributeName="organization" parent="FieldDefinition"/>
         <bean p:attributeName="lastName" parent="FieldDefinition"/>
         <bean p:attributeName="firstName" parent="FieldDefinition"/>
@@ -736,6 +711,7 @@
         <bean p:attributeName="countryCode" parent="FieldDefinition"/>
         <bean p:attributeName="postalCode" parent="FieldDefinition"/>
         <bean p:attributeName="emailAddress" parent="FieldDefinition"/>
+        <bean p:attributeName="sponsorAddressFlag" parent="FieldDefinition"/>
          <bean p:attributeName="active" parent="FieldDefinition"/>
       </list>
     </property>
