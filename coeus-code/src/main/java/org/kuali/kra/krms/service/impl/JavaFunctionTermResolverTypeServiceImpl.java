@@ -27,9 +27,6 @@ import java.util.Set;
  */
 public class JavaFunctionTermResolverTypeServiceImpl extends FunctionTermResolverTypeServiceBase {
 
-    /**
-     * @see org.kuali.kra.krms.service.impl.FunctionTermResolverTypeServiceBase#createFunctionResolver(java.util.List, java.util.Set, FunctionDefinition)
-     */
     @Override
     public FunctionTermResolver createFunctionResolver(List<String> functionParams, Set<String> termResolverParams, String output, FunctionDefinition functionTerm) {
         return new JavaFunctionResolver(functionParams,termResolverParams,output,functionTerm);

@@ -32,9 +32,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class AnswerProposalQuestionnaireAuthorizer extends ProposalAuthorizer {
     private KcWorkflowService kraWorkflowService;
   
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
         boolean hasBeenRejected= KcServiceLocator.getService(KcDocumentRejectionService.class).isDocumentOnInitialNode(doc);

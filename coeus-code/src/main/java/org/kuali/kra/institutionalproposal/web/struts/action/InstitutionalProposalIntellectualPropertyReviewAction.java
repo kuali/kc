@@ -26,9 +26,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalIntellectualPropertyReviewAction extends InstitutionalProposalAction {
     
     /**

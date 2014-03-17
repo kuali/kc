@@ -27,9 +27,7 @@ import java.sql.Date;
  */
 public class IacucProtocolNotifyCommitteeBean extends IacucProtocolActionBean implements ProtocolNotifyCommitteeBean {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3812176663326229406L;
     
     private String comment = "";

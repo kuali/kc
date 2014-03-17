@@ -27,14 +27,10 @@ import org.kuali.kra.irb.Protocol;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -6233936470002193650L;
     private Protocol protocol;
 
@@ -45,17 +41,11 @@ public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
         super(roleType);
      }    
 
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#canModifyPermissions()
-     */
     @Override
     public boolean canModifyPermissions() {
         return false;
     }
 
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getPersonsInRole(java.lang.String)
-     */
     @Override
     protected List<KcPerson> getPersonsInRole(String roleName) {
         KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
@@ -73,9 +63,6 @@ public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
         return persons;
     }
 
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#isStandardRoleName(java.lang.String)
-     */
     @Override
     protected boolean isStandardRoleName(String roleName) {
         return StringUtils.equals(roleName, RoleConstants.PROTOCOL_AGGREGATOR) ||

@@ -21,9 +21,7 @@ import java.io.Serializable;
  * This class is for setting the print options for ProtocolSummary
  */
 public class ProtocolSummaryPrintOptions implements Serializable {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7053561167215452265L;
     private boolean actions = true;
     private boolean ammendmentRenewalSummary = true;

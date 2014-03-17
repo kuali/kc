@@ -81,9 +81,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     protected abstract BudgetAdjustmentService getServiceHandle();
     
 
-    /**
-     * @see org.kuali.kra.budget.external.budget.BudgetAdjustmentClient#createBudgetAdjustmentDocument()
-     */
+    @Override
     public void createBudgetAdjustmentDocument(AwardBudgetDocument awardBudgetDocument) throws Exception {
         BudgetAdjustmentParametersDTO parametersDTO = new BudgetAdjustmentParametersDTO();
         boolean complete = setBudgetAdjustmentParameters(awardBudgetDocument, parametersDTO);    

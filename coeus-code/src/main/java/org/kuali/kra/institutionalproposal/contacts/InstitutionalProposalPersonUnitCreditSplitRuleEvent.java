@@ -24,9 +24,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalPersonUnitCreditSplitRuleEvent extends KcDocumentEventBase {
 
 private static final Log LOG = LogFactory.getLog(InstitutionalProposalPersonUnitCreditSplitRuleEvent.class);
@@ -55,9 +53,7 @@ private static final Log LOG = LogFactory.getLog(InstitutionalProposalPersonUnit
         return projectPerson;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class<InstitutionalProposalPersonUnitCreditSplitRule> getRuleInterfaceClass() {
         return InstitutionalProposalPersonUnitCreditSplitRule.class;
     }
@@ -70,9 +66,7 @@ private static final Log LOG = LogFactory.getLog(InstitutionalProposalPersonUnit
         return totalsByCreditSplitType;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return false;
     }

@@ -73,30 +73,22 @@ public class SequenceAssociateChild2 implements SequenceAssociate<OwnerAssociate
         this.sequenceNumber = owner != null ? owner.getSequenceNumber() : null;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#getSequenceNumber()
-     */
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
-     */
+    @Override
     public OwnerAssociate getSequenceOwner() {
         return owner;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         setChildId(null);
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
-     */
+    @Override
     public void setSequenceOwner(OwnerAssociate newOwner) {
         setOwner(newOwner);
     }
@@ -113,9 +105,6 @@ public class SequenceAssociateChild2 implements SequenceAssociate<OwnerAssociate
         // do nothing
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -125,9 +114,6 @@ public class SequenceAssociateChild2 implements SequenceAssociate<OwnerAssociate
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

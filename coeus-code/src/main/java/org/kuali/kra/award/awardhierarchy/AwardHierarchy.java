@@ -128,9 +128,6 @@ public class AwardHierarchy extends KcPersistableBusinessObjectBase implements C
         return new AwardHierarchy(awardNumber, ROOTS_PARENT_AWARD_NUMBER, awardNumber, awardNumber);
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -149,9 +146,7 @@ public class AwardHierarchy extends KcPersistableBusinessObjectBase implements C
         return true;
     }
 
-    /**
-     * @return
-     */
+
     public Award getAward() {
         if (award == null) {
             lazyLoadAward();
@@ -167,9 +162,7 @@ public class AwardHierarchy extends KcPersistableBusinessObjectBase implements C
         return awardHierarchyId;
     }
 
-    /**
-     * @return
-     */
+
     public String getAwardNumber() {
         return awardNumber;
     }
@@ -222,9 +215,7 @@ public class AwardHierarchy extends KcPersistableBusinessObjectBase implements C
         return list;
     }
 
-    /**
-     * @return
-     */
+
     public String getRootAwardNumber() {
         return rootAwardNumber;
     }
@@ -237,9 +228,6 @@ public class AwardHierarchy extends KcPersistableBusinessObjectBase implements C
         return children != null && children.size() > 0;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -267,9 +255,7 @@ public class AwardHierarchy extends KcPersistableBusinessObjectBase implements C
         return findNode(rootNode, awardNumber);
     }
 
-    /**
-     * @return
-     */
+
     public String generateNextAwardNumberInSequence() {
         List<AwardHierarchy> list = getFlattenedListOfNodesInHierarchy();
         Set<String> awardNumberSet = new TreeSet<String>();

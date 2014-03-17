@@ -23,9 +23,7 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 
 public class FinancialObjectCodeMapping extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7669400139293393635L;
 
     private String rateClassCode;
@@ -129,7 +127,7 @@ public class FinancialObjectCodeMapping extends KcPersistableBusinessObjectBase 
     }
 
     public int compareTo(Object arg0) {
-        // TODO Auto-generated method stub 
+
         return 0;
     }
 }

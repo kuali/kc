@@ -61,11 +61,6 @@ public class ProposalDevelopmentResubmissionPromptAction extends ProposalDevelop
         return forward;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentActionsAction#cancel(org.apache.struts.action.ActionMapping, 
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);

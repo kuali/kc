@@ -58,11 +58,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         }
     }
 
-    /**
-     * This method...
-     * @param budgetDocument
-     * @return
-     */
+
     private boolean isAwardBudget(BudgetDocument<T> budgetDocument) {
         return budgetDocument.getParentDocument().getClass().equals(AwardDocument.class);
     }

@@ -29,9 +29,7 @@ import java.util.List;
 public class CoiNoteTypeValuesFinder extends UifKeyValuesFinderBase {
 
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2585370127869963041L;
 
         /**

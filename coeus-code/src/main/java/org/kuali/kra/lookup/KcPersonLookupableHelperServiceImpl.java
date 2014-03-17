@@ -72,7 +72,6 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
         return rows;
     }
 
-    /** {@inheritDoc} */
     @Override
     public List<KcPerson> getSearchResults(Map<String, String> fieldValues) {
         this.kcPersonService.modifyFieldValues(fieldValues);

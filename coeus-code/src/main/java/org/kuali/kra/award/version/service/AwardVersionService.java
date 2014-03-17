@@ -28,19 +28,9 @@ public interface AwardVersionService {
      * @return
      */
     public Award getWorkingAwardVersion(String awardNumber);
-    
-    /**
-     * This method...
-     * @param awardNumber
-     * @return
-     */
+
     public Award getActiveAwardVersion(String awardNumber);
-    
-    /**
-     * This method...
-     * @param awardNumber
-     * @return
-     */
+
     public Award getPendingAwardVersion(String awardNumber);
     
 

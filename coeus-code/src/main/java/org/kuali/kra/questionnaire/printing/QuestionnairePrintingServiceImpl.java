@@ -48,10 +48,7 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
         
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#getQuestionnairePrintable(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.List)
-     */
+    @Override
     public List<Printable> getQuestionnairePrintable(KcPersistableBusinessObjectBase printableBusinessObject,
                                                      List<QuestionnairePrintOption> questionnairesToPrints) {
         List<Printable> printables = new ArrayList<Printable>();

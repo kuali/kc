@@ -65,10 +65,7 @@ public class SubAwardContact extends SubAwardAssociate {
 
     private String comments;
 
-    /**
-     * 
-     * Constructs a SubAwardContact.java.
-     */
+
     public SubAwardContact() {
     }
 

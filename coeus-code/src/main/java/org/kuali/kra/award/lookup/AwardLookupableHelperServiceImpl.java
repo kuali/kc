@@ -259,12 +259,6 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         return inquiryUrl;
     }
 
-    /**
-     * This method...
-     * @param bo
-     * @param propertyName
-     * @return
-     */
     protected HtmlData getUnitNumberInquiryUrl(Award award) {
         Unit inqBo = new Unit();
         Unit leadUnit = award.getLeadUnit();

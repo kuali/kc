@@ -482,17 +482,17 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         return name.length() > 0 ? name.toString() : null;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public String getContactOrganizationName() {
         return this.getUnit().getUnitName();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Serializable getIdentifier() {
         return this.getRolodexId();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public String getOrganizationIdentifier() {
         return this.getUnit().getOrganizationId();
     }

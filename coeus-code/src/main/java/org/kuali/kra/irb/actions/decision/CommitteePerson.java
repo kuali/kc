@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.actions.decision.CommitteePersonBase;
 
 public class CommitteePerson extends CommitteePersonBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2168060913915166500L;
 
     

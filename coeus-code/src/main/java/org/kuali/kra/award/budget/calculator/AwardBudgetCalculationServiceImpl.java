@@ -30,10 +30,7 @@ import java.util.*;
  */
 public class AwardBudgetCalculationServiceImpl extends BudgetCalculationServiceImpl implements AwardBudgetCalculationService {
 
-    /**
-     * 
-     * @see org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService#calculateBudgetSummaryTotals(org.kuali.kra.award.budget.AwardBudgetExt, boolean)
-     */
+    @Override
     public void calculateBudgetSummaryTotals(AwardBudgetExt budget, boolean includePrevious) {
         calculateBudgetSummaryTotals(budget);
         aggregatePeriodSummaryTotals(budget);

@@ -21,18 +21,13 @@ import java.io.Serializable;
 
 public class ProposalDevelopmentRejectionBean implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4081027512143550976L;
     
     private String rejectReason;
     transient private FormFile rejectFile;
     
-    /**
-     * 
-     * Constructs a ProposalDevelopmentRejectionBean.java.
-     */
+
     public ProposalDevelopmentRejectionBean() {
         
     }

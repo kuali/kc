@@ -43,10 +43,7 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
         this.coiDisclosure = coiDisclosure;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
-     */
+    @Override
     public Map<String, String> getDefaultReplacementParameters() {
         String[] replacementParameters = CoiReplacementParameters.REPLACEMENT_PARAMETERS;
         

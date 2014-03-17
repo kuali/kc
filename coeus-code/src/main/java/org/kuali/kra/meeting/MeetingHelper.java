@@ -40,9 +40,7 @@ import java.util.Map;
 
 public class MeetingHelper extends MeetingHelperBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2119007932507558770L;
     
     private static final String NAMESPACE = "KC-UNT";

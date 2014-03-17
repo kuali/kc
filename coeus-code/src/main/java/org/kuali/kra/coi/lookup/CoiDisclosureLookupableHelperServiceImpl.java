@@ -34,9 +34,7 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public class CoiDisclosureLookupableHelperServiceImpl extends CoiDisclosureLookupableHelperBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7142988696939655833L;
     
     //field names
@@ -51,7 +49,7 @@ public class CoiDisclosureLookupableHelperServiceImpl extends CoiDisclosureLooku
             GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
             return false;
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
             return false;
         }

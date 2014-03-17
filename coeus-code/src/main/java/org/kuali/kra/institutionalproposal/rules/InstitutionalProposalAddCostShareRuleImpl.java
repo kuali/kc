@@ -34,20 +34,14 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
     private String fieldStarter = "";
     private boolean displayNullFieldErrors = true;
     
-    /**
-     * 
-     * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRule#processAddInstitutionalProposalCostShareBusinessRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRuleEvent)
-     */
+    @Override
     public boolean processAddInstitutionalProposalCostShareBusinessRules(InstitutionalProposalAddCostShareRuleEvent institutionalProposalAddCostShareRuleEvent) {
         this.fieldStarter = "institutionalProposalCostShareBean.newInstitutionalProposalCostShare";
         this.displayNullFieldErrors = true;
         return proccessRules(institutionalProposalAddCostShareRuleEvent);
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRule#processInstitutionalProposalCostShareBusinessRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddCostShareRuleEvent, int)
-     */
+    @Override
     public boolean processInstitutionalProposalCostShareBusinessRules(InstitutionalProposalAddCostShareRuleEvent institutionalProposalAddCostShareRuleEvent, int i) {
         this.fieldStarter = "document.institutionalProposalList[0].institutionalProposalCostShares["  + i + "]";
         this.displayNullFieldErrors = false;

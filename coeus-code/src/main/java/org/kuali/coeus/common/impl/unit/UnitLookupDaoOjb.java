@@ -23,9 +23,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 
 public class UnitLookupDaoOjb extends PlatformAwareDaoBaseOjb implements UnitLookupDao {
 
-    /**
-     * @see org.kuali.coeus.common.impl.unit.UnitLookupDao#findUnitbyNumberCaseInsensitive(java.lang.String)
-     */
+    @Override
     public Unit findUnitbyNumberCaseInsensitive(String unitNumber) {
         Criteria crit = new Criteria();
         crit.addEqualTo(getDbPlatform().getUpperCaseFunction() + "(UNIT_NUMBER)", unitNumber.toUpperCase());

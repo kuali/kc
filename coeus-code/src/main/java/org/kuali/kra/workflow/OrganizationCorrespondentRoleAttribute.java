@@ -34,9 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OrganizationCorrespondentRoleAttribute extends GenericRoleAttribute {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final String ROLE_NAME = "OrganizationCorrespondent";
     private static final String ORGANIZATION_ID = "organizationId";
 

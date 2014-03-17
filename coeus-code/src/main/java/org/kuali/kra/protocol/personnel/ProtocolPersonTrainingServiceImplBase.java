@@ -36,18 +36,14 @@ public abstract class ProtocolPersonTrainingServiceImplBase implements ProtocolP
     private DateTimeService dateTimeService;
     
     
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService#isPersonTrained(java.lang.String)
-     */
+    @Override
     public void updatePersonTrained(List<ProtocolPersonBase> protocolPersons) {
         for(ProtocolPersonBase protocolPerson : protocolPersons) {
             setTrainedFlag(protocolPerson);
         }
     }
     
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService#setTrainedFlag(org.kuali.kra.protocol.personnel.ProtocolPersonBase)
-     */
+    @Override
     public void setTrainedFlag(ProtocolPersonBase protocolPerson) {
         protocolPerson.setTrained(isTrained(protocolPerson.getPersonId()));
     }

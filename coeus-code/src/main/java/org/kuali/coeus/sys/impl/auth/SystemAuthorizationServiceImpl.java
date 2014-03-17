@@ -94,9 +94,7 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
         return roleNames;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.SystemAuthorizationService#getRoles(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<Role> getRoles(String namespaceCode) {
         QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();

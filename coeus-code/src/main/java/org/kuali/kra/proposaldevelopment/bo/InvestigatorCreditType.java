@@ -49,17 +49,10 @@ public class InvestigatorCreditType extends KcPersistableBusinessObjectBase impl
     @Column(name = "DESCRIPTION")
     private String description;
 
-    /**
-     * Default constructor
-     */
+
     public InvestigatorCreditType() {
     }
 
-    /**
-     * Convenience constructor
-     * @param invCreditTypeCode
-     * @param description
-     */
     public InvestigatorCreditType(String invCreditTypeCode, String description) {
         this.invCreditTypeCode = invCreditTypeCode;
         this.description = description;
@@ -147,9 +140,6 @@ public class InvestigatorCreditType extends KcPersistableBusinessObjectBase impl
         this.active = active;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -158,9 +148,6 @@ public class InvestigatorCreditType extends KcPersistableBusinessObjectBase impl
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

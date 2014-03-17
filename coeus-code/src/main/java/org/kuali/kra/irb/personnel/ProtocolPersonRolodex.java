@@ -26,9 +26,7 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
  */
 public class ProtocolPersonRolodex extends ProtocolPersonRolodexBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6280277069306606395L;
 
     private String userName;

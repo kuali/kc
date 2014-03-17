@@ -42,10 +42,7 @@ public class FundingSourceTypeServiceImpl implements FundingSourceTypeService {
     }
 
 
-    /**
-     * 
-     * @see org.kuali.kra.service.FundingSourceTypeService#getFundingSourceType(java.lang.String)
-     */
+    @Override
     public FundingSourceType getFundingSourceType(String sourceTypeId) {
 
         FundingSourceType sourceType = null;

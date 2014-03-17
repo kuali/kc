@@ -37,9 +37,7 @@ import java.util.List;
  */
 public class NegotiationActivityHelper implements Serializable {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8707454680500119142L;
     private NegotiationForm form;
     private NegotiationActivity newActivity;

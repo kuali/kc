@@ -126,11 +126,7 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    /**
-     * This method...
-     * @param form
-     * @return
-     */
+
     private Budget getBudget(ActionForm form) {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();

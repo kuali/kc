@@ -68,9 +68,7 @@ public class BudgetSummaryInfo {
     private BudgetDecimal cumTotalIndirectCostSharing = BudgetDecimal.ZERO;
 
 
-    /**
-     * Default Constructor
-     */
+
 
     public BudgetSummaryInfo() {
     }

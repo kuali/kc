@@ -29,9 +29,7 @@ import java.util.Map;
 public class AwardPersonCreditSplitRuleImpl extends KcTransactionalDocumentRuleBase implements AwardPersonCreditSplitRule {
     private static final KualiDecimal MAX_TOTAL_VALUE = new KualiDecimal(100.00);
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardPersonCreditSplitRule#checkAwardPersonCreditSplitTotals(org.kuali.kra.award.contacts.AwardPersonCreditSplitRuleEvent)
-     */
+    @Override
     public boolean checkAwardPersonCreditSplitTotals(AwardPersonCreditSplitRuleEvent event) {
         int errorCount = 0; 
         for(InvestigatorCreditType creditType: loadInvestigatorCreditTypes()) {

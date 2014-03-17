@@ -29,9 +29,7 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public class CoiDisclosureReviewsLookupableHelper extends CoiDisclosureLookupableHelperBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5482769028074271782L;
 
     @Override

@@ -23,9 +23,7 @@ import java.sql.Date;
 
 public abstract class AbstractBudgetRateAndBase extends BudgetAssociate {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5786156490914012479L;
 
     private Long budgetPeriodId;

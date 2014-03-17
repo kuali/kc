@@ -32,9 +32,7 @@ public class ProtocolAssignReviewersAuthorizer extends ProtocolAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
         return isOnNode(protocol) && isPendingOrSubmittedToCommittee(protocol) && 

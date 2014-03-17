@@ -36,9 +36,7 @@ import java.util.Map;
 
 public abstract class CommitteeScheduleAttachmentsBase extends KcPersistableBusinessObjectBase implements KcAttachment  {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5308464510751671978L;
 
     private Integer attachmentId;

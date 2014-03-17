@@ -55,9 +55,7 @@ import java.util.Map;
 
 public class ProtocolHelper extends ProtocolHelperBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1236584866243874926L;
 
     private ProtocolParticipant newProtocolParticipant;

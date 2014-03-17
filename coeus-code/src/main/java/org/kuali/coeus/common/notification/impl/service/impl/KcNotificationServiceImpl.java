@@ -98,18 +98,12 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private IdentityService identityService;
     private KcEmailService kcEmailService;    
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationService#getNotificationType(org.kuali.coeus.common.notification.impl.NotificationContext)
-     */
+    @Override
     public NotificationType getNotificationType(NotificationContext context) {
         return getNotificationType(context.getModuleCode(), context.getActionTypeCode());
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationService#getNotificationType(java.lang.String, java.lang.String)
-     */
+    @Override
     public NotificationType getNotificationType(String moduleCode, String actionTypeCode) {
         NotificationType notificationType = null;
         
@@ -126,10 +120,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         return notificationType;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationService#createNotificationObject(org.kuali.coeus.common.notification.impl.NotificationContext)
-     */
+    @Override
     public KcNotification createNotificationObject(NotificationContext context) {
         KcNotification notification = new KcNotification();
         
@@ -149,18 +140,12 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         return notification;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationService#saveNotification(org.kuali.coeus.common.notification.impl.bo.KcNotification)
-     */
+    @Override
     public void saveNotification(KcNotification notification) {
         getBusinessObjectService().save(notification);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationService#getNotifications(java.lang.String, java.lang.String, java.util.Set)
-     */
+    @Override
     public List<KcNotification> getNotifications(String documentNumber, String moduleCode, Set<String> actionCodes) {
         List<KcNotification> notifications = new ArrayList<KcNotification>();
         
@@ -176,9 +161,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         return notifications;
     }
     
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void sendNotification(NotificationContext context) {
         KcNotification notification = createNotificationObject(context);
         
@@ -193,11 +176,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         }
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationService#sendNotification(org.kuali.coeus.common.notification.impl.NotificationContext, 
-     *      org.kuali.coeus.common.notification.impl.bo.KcNotification, java.util.List)
-     */
+    @Override
     public void sendNotification(NotificationContext context, KcNotification notification, List<NotificationTypeRecipient> notificationTypeRecipients) {        
         String contextName = context.getContextName();
         String subject = notification.getSubject();
@@ -210,11 +189,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         sendEmailNotification(getKcEmailService().getDefaultFromAddress(), emailRecipients, subject, message, context.getEmailAttachments());
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationService#sendNotification(java.lang.String, java.lang.String, java.lang.String, 
-     *      java.util.List)
-     */
+    @Override
     public void sendNotification(String contextName, String subject, String message, List<String> principalNames) {
         Collection<NotificationRecipient.Builder> notificationRecipients = getNotificationRecipients(principalNames);
         
@@ -222,10 +197,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         sendEmailNotification(subject, message, notificationRecipients, Collections.<EmailAttachment>emptyList());
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationService#sendEmailNotification(org.kuali.coeus.common.notification.impl.NotificationContext)
-     */
+    @Override
     public void sendEmailNotification(NotificationContext context) {
         if (isEmailEnabled()) {
             KcNotification notification = createNotificationObject(context);
@@ -453,8 +425,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
                 }
             } catch (UnknownRoleException e) {
                 LOG.error("Role id " + e.getRoleId() + " not recognized for context " + e.getContext() + ". "
-                        + "Notification will not be sent for notificationTypeRecipient" + roleRecipient.toString());
-                e.printStackTrace();
+                        + "Notification will not be sent for notificationTypeRecipient" + roleRecipient.toString(), e);
             }
         }
         roleRecipients.addAll(createRoleRecipients(recipients));
@@ -566,10 +537,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         return emailEnabled;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationService#createNotificationObject(org.kuali.coeus.common.notification.impl.NotificationContext)
-     */
     private void fillinNotificationObject(KcNotification notification, NotificationContext context, List<NotificationTypeRecipient> notificationTypeRecipients) {
         fillinNotificationObject(notification, context);
         String resultList = notification.getRecipients();
@@ -588,10 +555,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         notification.setRecipients(resultList);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationService#createNotificationObject(org.kuali.coeus.common.notification.impl.NotificationContext)
-     */
     private void fillinNotificationObject(KcNotification notification, NotificationContext context) {
         NotificationType notificationType = getNotificationType(context);
         // some fields will already be set if we get here from one of the notification editors

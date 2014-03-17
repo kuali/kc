@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
 
 public class IacucBatchCorrespondence extends BatchCorrespondenceBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3390566227861932432L;
 
 }

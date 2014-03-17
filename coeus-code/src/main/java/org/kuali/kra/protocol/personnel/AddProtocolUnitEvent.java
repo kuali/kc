@@ -35,16 +35,12 @@ public class AddProtocolUnitEvent extends ProtocolUnitEventBase {
         this(errorPathPrefix, (ProtocolDocumentBase) document, protocolUnit, personIndex);
     }
     
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return AddProtocolUnitRule.class;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddProtocolUnitRule) rule).processAddProtocolUnitBusinessRules(this);
     }

@@ -31,9 +31,7 @@ import java.util.*;
 
 public class FinancialEntitySummaryHelper implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -6990736543009439730L;
    
     private int currentVersionNumber;

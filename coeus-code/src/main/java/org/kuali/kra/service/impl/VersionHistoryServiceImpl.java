@@ -35,9 +35,6 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
     
     private BusinessObjectService bos;
     
-    /**
-     * @see org.kuali.kra.service.VersionHistoryService#createVersionHistory(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner, org.kuali.kra.bo.versioning.VersionStatus, java.lang.String)
-     */
     protected VersionHistory createVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId) {
         VersionHistory versionHistory = new VersionHistory(sequenceOwner, versionStatus, userId, new Date(new java.util.Date().getTime()));
         
@@ -88,9 +85,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         }
     }
 
-    /**
-     * @see org.kuali.kra.service.VersionHistoryService#findActiveVersion(java.lang.Class, java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public VersionHistory findActiveVersion(Class<? extends SequenceOwner> klass, String versionName) {
         List<VersionHistory> histories = new ArrayList<VersionHistory>(bos.findMatching(VersionHistory.class, buildFieldValueMapForActiveVersionHistory(klass, versionName)));
@@ -105,9 +100,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         return activeVersionHistory;
     }
 
-    /**
-     * @see org.kuali.kra.service.VersionHistoryService#loadVersionHistory(java.lang.Class, java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<VersionHistory> loadVersionHistory(Class<? extends SequenceOwner> klass, String versionName) {
         List<VersionHistory> histories = findVersionHistory(klass, versionName);
@@ -171,12 +164,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
     }
     
     
-    /**
-     * This method...
-     * @param klass
-     * @param versionName
-     * @return
-     */
+
     @SuppressWarnings("unchecked")
     protected Map<String, Object> buildFieldValueMapForActiveVersionHistory(Class<? extends SequenceOwner> klass, String versionName) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -186,11 +174,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         return fieldValues;
     }
 
-    /**
-     * This method...
-     * @param histories
-     * @return
-     */
+
     protected VersionHistory findActiveVersionHistory(List<VersionHistory> histories) {
         VersionHistory activeVersionHistory = null;
         if(histories.size() > 0) {

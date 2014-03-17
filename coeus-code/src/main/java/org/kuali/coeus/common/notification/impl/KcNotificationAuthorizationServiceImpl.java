@@ -25,10 +25,7 @@ public class KcNotificationAuthorizationServiceImpl implements KcNotificationAut
     private UnitAuthorizationService unitAuthorizationService;
     private KcPersonService kcPersonService;
     
-    /**
-     * 
-     * @see org.kuali.coeus.common.notification.impl.KcNotificationAuthorizationService#hasPermission(java.lang.String)
-     */
+    @Override
     public boolean hasPermission(String permissionName){
         KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
         return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-NTFCN", permissionName);

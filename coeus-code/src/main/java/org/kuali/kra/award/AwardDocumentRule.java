@@ -239,9 +239,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         return new AwardPermissionsRule().processEditPermissionsUserRolesBusinessRules(document, users, editRoles);
     }
     
-    /**
-     * @see org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processSaveAwardDetailsAndDates(org.kuali.kra.award.detailsdates.AwardDetailsAndDatesSaveEvent)
-     */
+    @Override
     public boolean processSaveAwardDetailsAndDates(AwardDetailsAndDatesSaveEvent awardDetailsAndDatesSaveEvent) {
         return new AwardDetailsAndDatesRuleImpl().processSaveAwardDetailsAndDates(awardDetailsAndDatesSaveEvent);
     }
@@ -512,13 +510,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     public boolean processSaveFandaRateBusinessRules(AwardFandaRateSaveEvent awardFandaRateSaveEvent) {
         return new AwardFandaRateRule().processSaveFandaRateBusinessRules(awardFandaRateSaveEvent);
     }
-    
-    /**
-     * 
-     * This method...
-     * @param document
-     * @return
-     */
+
     public boolean processAwardReportTermBusinessRules(Document document) {
         AwardDocument awardDocument = (AwardDocument) document;
         AwardReportTerm awardReportTermItem = awardDocument.getAward().getAwardReportTermItems().isEmpty() ? null : awardDocument.getAward().getAwardReportTermItems().get(0);
@@ -707,18 +699,14 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     
 
 
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;
     }
 
-    /**
-     * @see org.kuali.kra.award.rule.AddAwardAttachmentRule#processsAddAttachmentRule(org.kuali.kra.award.rule.event.AddAwardAttachmentEvent)
-     */
+    @Override
     public boolean processsAddAttachmentRule(AddAwardAttachmentEvent event) {
         boolean valid = true;
         

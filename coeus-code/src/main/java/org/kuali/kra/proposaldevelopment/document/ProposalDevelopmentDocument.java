@@ -185,9 +185,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         }
     }
 
-    /**
-     * @see org.kuali.rice.krad.document.Document#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
-     */
     @Override
     public void doActionTaken(ActionTakenEvent event) {
         super.doActionTaken(event);
@@ -333,10 +330,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         this.allowsNoteAttachments = allowsNoteAttachments;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getRoleNames()
-     */
+    @Override
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
         roleNames.add(RoleConstants.AGGREGATOR);
@@ -347,18 +341,12 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return roleNames;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentNumberForPermission()
-     */
+    @Override
     public String getDocumentNumberForPermission() {
         return getDevelopmentProposal().getProposalNumber();
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentKey()
-     */
+    @Override
     public String getDocumentKey() {
         return PermissionableKeys.PROPOSAL_KEY;
     }
@@ -435,7 +423,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return getDevelopmentProposal();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public String getDocumentBoNumber() {
         return getDevelopmentProposal().getProposalNumber();
     }
@@ -474,9 +462,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         };
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
-     */
     @Override
     public boolean answerSplitNodeQuestion(String routeNodeName) {
         LOG.debug("Processing answerSplitNodeQuestion:" + routeNodeName);

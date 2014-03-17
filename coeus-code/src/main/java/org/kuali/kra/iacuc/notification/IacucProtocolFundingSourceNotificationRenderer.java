@@ -21,9 +21,7 @@ import java.util.Map;
 
 public class IacucProtocolFundingSourceNotificationRenderer extends IacucProtocolNotificationRenderer {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3119244748963366055L;
 
     private String fundingType;
@@ -58,10 +56,6 @@ public class IacucProtocolFundingSourceNotificationRenderer extends IacucProtoco
         this.action = action;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#replaceContextVariables(java.lang.String)
-     */
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();

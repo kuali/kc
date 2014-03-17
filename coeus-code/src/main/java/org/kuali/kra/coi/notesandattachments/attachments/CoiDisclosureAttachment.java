@@ -36,9 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements Comparable<CoiDisclosureAttachment>{
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8722598360752485817L;
     private Long attachmentId;
     private Long fileId;
@@ -259,11 +257,10 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
    
     @Override
     public int compareTo(CoiDisclosureAttachment arg0) {
-        // TODO Auto-generated method stub
+
         return 0;
     }
   
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -308,7 +305,6 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
         return true;
     }
     
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;

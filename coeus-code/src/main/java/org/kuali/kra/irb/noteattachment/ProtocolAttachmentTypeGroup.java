@@ -136,7 +136,6 @@ public class ProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroupBase
         this.groupCode = groupCode;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -147,7 +146,6 @@ public class ProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroupBase
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

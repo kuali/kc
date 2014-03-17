@@ -22,7 +22,6 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  * This class is the authorizer for all the generic actions and the action is currently not available.
  */
 public class GenericProtocolUnavailableAuthorizer extends GenericProtocolAuthorizer {
-    /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return !canExecuteAction(task.getProtocol(), super.convertGenericTaskNameToProtocolActionType()) 

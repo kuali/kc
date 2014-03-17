@@ -92,8 +92,6 @@ public interface FinancialEntityService {
 
     /**
      * get next entity number from DB sequence
-     * This method...
-     * @return
      */
     String getNextEntityNumber();
     

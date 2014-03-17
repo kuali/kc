@@ -93,10 +93,7 @@ public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
 
     protected static final int DEPARTMENT_NAME_MAX_LENGTH = 30;
     
-    /**
-     * 
-     * Constructs a SF424BaseGenerator.java.
-     */
+
     public SF424BaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);

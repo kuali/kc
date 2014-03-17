@@ -65,13 +65,9 @@ public interface Contactable {
      */
     String getPhoneNumber();
 
-    /**
-     * @return
-     */
+
     String getFirstName();
 
-    /**
-     * @return
-     */
+
     String getLastName();
 }

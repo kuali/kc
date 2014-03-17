@@ -58,10 +58,7 @@ public class KcQueryCustomizerDefaultImpl extends org.apache.ojb.broker.accessla
         }
         return this.parameterService;
     }
-    /**
-     * 
-     * @see org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl#customizeQuery(java.lang.Object, org.apache.ojb.broker.PersistenceBroker, org.apache.ojb.broker.metadata.CollectionDescriptor, org.apache.ojb.broker.query.QueryByCriteria)
-     */
+    @Override
     public Query customizeQuery(Object anObject,
             PersistenceBroker aBroker,
             CollectionDescriptor aCod, QueryByCriteria aQuery){

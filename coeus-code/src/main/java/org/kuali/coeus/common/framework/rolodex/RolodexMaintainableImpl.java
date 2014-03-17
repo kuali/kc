@@ -32,9 +32,7 @@ import java.util.Map;
 
 public class RolodexMaintainableImpl extends KraMaintainableImpl {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -6436670290567992063L;
     
     public static final String ROLODEX_ID_SEQUENCE_NAME = "SEQ_ROLODEX_ID";
@@ -47,10 +45,6 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     private transient ParameterService parameterService;
     private transient SequenceAccessorService sequenceAccessorService;
    
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setGenerateDefaultValues(java.lang.String)
-     */
     @Override
     public void setGenerateDefaultValues(String docTypeName) {
         super.setGenerateDefaultValues(docTypeName);
@@ -60,10 +54,7 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
         }
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.maintenance.KraMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.maintenance.Maintainable)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<Section> getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);

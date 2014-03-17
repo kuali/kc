@@ -422,11 +422,7 @@ AbstractResearchAndRelatedStream {
         return proposalPersonType;
     }
 
-    /**
-     * This method...
-     * @param proposalPerson
-     * @return
-     */
+
     private String getDegree(ProposalPerson proposalPerson) {
         List<ProposalPersonDegree> proposalPersonDegress = proposalPerson.getProposalPersonDegrees();
         String degree = null;
@@ -725,7 +721,7 @@ AbstractResearchAndRelatedStream {
                 }
             }
         }catch (ParseException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return indirectCost;
     }
@@ -1256,11 +1252,7 @@ AbstractResearchAndRelatedStream {
         setPerformanceSites(researchCoverPage, proposalSites);
     }
 
-    /**
-     * This method...
-     * @param researchCoverPage
-     * @param proposalSites
-     */
+
     private void setPerformanceSites(ResearchCoverPage researchCoverPage, List<ProposalSite> proposalSites) {
         for (ProposalSite proposalSite : proposalSites) {
             ProjectSiteType projectSiteType= researchCoverPage.addNewAlternateProjectSites();

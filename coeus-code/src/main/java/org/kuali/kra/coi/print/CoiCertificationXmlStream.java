@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.coi.print;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
@@ -42,6 +44,8 @@ import java.util.*;
 
 public class CoiCertificationXmlStream implements XmlStream {
 
+    private static final Log LOG = LogFactory.getLog(CoiCertificationXmlStream.class);
+
     private DateTimeService dateTimeService;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
@@ -63,8 +67,7 @@ public class CoiCertificationXmlStream implements XmlStream {
         try {
 			approvedDisclosureDoc.setApprovedDisclosure(getDisclosureData(disclosure,reportParameters));
 		} catch (PrintingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error(e.getMessage(), e);
 		}
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         Map<String, XmlObject> map = new HashMap<String,XmlObject>();

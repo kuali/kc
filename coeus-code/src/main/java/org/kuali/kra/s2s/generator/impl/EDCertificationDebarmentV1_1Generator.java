@@ -38,10 +38,7 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
     private static final int ED_CERTIFICATION_DEBARMENT = 58;
     S2SUtilService s2sUtilService;
 
-    /**
-     * 
-     * Constructs a EDCertificationDebarmentV1_1Generator.java.
-     */
+
     public EDCertificationDebarmentV1_1Generator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
     }

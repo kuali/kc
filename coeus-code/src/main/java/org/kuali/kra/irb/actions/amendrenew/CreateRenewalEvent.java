@@ -20,7 +20,6 @@ import org.kuali.kra.protocol.actions.amendrenew.CreateRenewalEventBase;
 
 /**
  * Rule Event for creating renewal without amendment.
- * This class...
  */
 @SuppressWarnings("unchecked")
 public class CreateRenewalEvent extends CreateRenewalEventBase {

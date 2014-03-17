@@ -35,10 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * This class...
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
 public abstract class ProtocolOnlineReviewFormBase extends KcTransactionalDocumentFormBase implements PermissionsForm, AuditableForm {
     
     private static final long serialVersionUID = -7633960906991275328L;
@@ -105,30 +101,27 @@ public abstract class ProtocolOnlineReviewFormBase extends KcTransactionalDocume
         return "protocol";
     }
 
-    /**
-     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getResearchDocument()
-     */
     public KcTransactionalDocumentBase getResearchDocument() {
         return (KcTransactionalDocumentBase) this.getDocument();
     }
 
     public PermissionsHelperBase getPermissionsHelper() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
     public CustomDataHelperBase getCustomDataHelper() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
     public boolean isAuditActivated() {
-        // TODO Auto-generated method stub
+
         return false;
     }
 
     public void setAuditActivated(boolean auditActivated) {
-        // TODO Auto-generated method stub
+
         
     }
 

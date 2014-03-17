@@ -71,11 +71,7 @@ public interface ProtocolOnlineReviewService {
      */
     List<ProtocolOnlineReviewDocumentBase> getProtocolReviewDocumentsForCurrentSubmission(ProtocolBase protocol);
    
-    /**
-     * This method...
-     * @param protocol
-     * @return
-     */
+
     List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission(ProtocolBase protocol);
 
     /**

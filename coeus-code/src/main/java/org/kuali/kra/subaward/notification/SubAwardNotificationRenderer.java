@@ -40,10 +40,7 @@ public class SubAwardNotificationRenderer extends NotificationRendererBase {
         this.subAward = subAward;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
-     */
+    @Override
     public Map<String, String> getDefaultReplacementParameters() {
         return getSubAwardReplacementParameters(subAward);
     }

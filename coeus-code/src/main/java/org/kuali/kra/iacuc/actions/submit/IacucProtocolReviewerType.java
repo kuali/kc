@@ -20,9 +20,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolReviewerType;
 public class IacucProtocolReviewerType extends ProtocolReviewerType {
 
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8264635414385637707L;
 
     public static final String PRIMARY = "1";

@@ -26,7 +26,6 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 public class IacucManageReviewCommentsUnavailableAuthorizer extends IacucProtocolAuthorizer {
     private KcWorkflowService kraWorkflowService;
 
-    /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, IacucProtocolTask task) {
         IacucProtocol protocol = task.getProtocol();

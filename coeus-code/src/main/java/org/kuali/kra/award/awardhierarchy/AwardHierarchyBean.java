@@ -230,9 +230,7 @@ public class AwardHierarchyBean implements Serializable {
         return rootNode;
     }
 
-    /**
-     * @return
-     */
+
     public boolean saveHierarchyChanges() {
         MessageList messageList = new MessageList();
         MessageList originalMessageList = KNSGlobalVariables.getMessageList();

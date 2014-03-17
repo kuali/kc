@@ -39,9 +39,7 @@ import java.util.Map;
 /**
  * Validate a protocol submission to the IRB for review.
  */
-/**
- * This class...
- */
+
 public class ProtocolSubmitActionRule extends KcTransactionalDocumentRuleBase implements ExecuteProtocolSubmitActionRule {
 
     private static final String MANDATORY = "M";

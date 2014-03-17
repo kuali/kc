@@ -26,9 +26,7 @@ import org.kuali.kra.bo.ScienceKeyword;
  */
 public class AwardScienceKeyword extends AbstractScienceKeyword implements SequenceAssociate<Award> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8415861677886653309L;
 
     private Long awardScienceKeywordId;
@@ -98,10 +96,7 @@ public class AwardScienceKeyword extends AbstractScienceKeyword implements Seque
         return getSequenceOwner() != null ? getSequenceOwner().getSequenceNumber() : null;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         awardScienceKeywordId = null;
      }

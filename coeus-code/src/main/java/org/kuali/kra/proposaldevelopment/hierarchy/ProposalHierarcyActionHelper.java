@@ -43,9 +43,7 @@ import java.util.List;
 
 import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
 
-/**
- * This class...
- */
+
 public class ProposalHierarcyActionHelper {
     private static final Log LOG = LogFactory.getLog(ProposalHierarcyActionHelper.class);
 

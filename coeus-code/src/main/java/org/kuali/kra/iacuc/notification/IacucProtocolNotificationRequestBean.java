@@ -21,9 +21,7 @@ import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBeanBase;
 
 public class IacucProtocolNotificationRequestBean extends ProtocolNotificationRequestBeanBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 539022630037045456L;
 
     public IacucProtocol getIacucProtocol() {

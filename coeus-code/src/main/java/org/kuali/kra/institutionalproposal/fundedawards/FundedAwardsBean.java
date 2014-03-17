@@ -36,18 +36,14 @@ import java.util.Set;
  */
 public class FundedAwardsBean implements Serializable {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7202420195219545687L;
     
     private static final String ERROR_UNLOCK_PENDING_AWARDS = "error.institutionalProposal.unlockAward.pendingVersion";
     
     private InstitutionalProposalForm institutionalProposalForm;
     
-    /**
-     * Constructs a FundedAwardsBean.java.
-     */
+
     public FundedAwardsBean() {
         super();
     }

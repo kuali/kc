@@ -22,14 +22,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class AwardAmountInfoHistory implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3741486339602358742L;
     
     private AwardAmountInfo awardAmountInfo;

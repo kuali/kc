@@ -28,25 +28,16 @@ import java.util.List;
 public class UnitMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
      
-    /**
-     * Constructs a UnitMaintenanceDocumentRule.java.
-     */
+
     public UnitMaintenanceDocumentRule() {
         super();
     }
 
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */ 
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return moveUnit(document);
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return moveUnit(document);

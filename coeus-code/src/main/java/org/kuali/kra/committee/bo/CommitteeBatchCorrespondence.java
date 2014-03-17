@@ -25,9 +25,7 @@ import java.sql.Date;
  */
 public class CommitteeBatchCorrespondence extends CommitteeBatchCorrespondenceBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7368044642475233153L;
 
     

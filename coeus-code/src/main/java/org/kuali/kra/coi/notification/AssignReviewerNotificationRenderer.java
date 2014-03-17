@@ -24,9 +24,7 @@ import java.util.Map;
  */
 public class AssignReviewerNotificationRenderer extends CoiNotificationRenderer {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8779177260177014284L;
     private String actionTaken;
     
@@ -49,10 +47,6 @@ public class AssignReviewerNotificationRenderer extends CoiNotificationRenderer 
         this.actionTaken = actionTaken;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#replaceContextVariables(java.lang.String)
-     */
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();

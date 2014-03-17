@@ -140,23 +140,17 @@ public class IntellectualPropertyReviewActivity extends KcPersistableBusinessObj
         }
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
-     */
+    @Override
     public IntellectualPropertyReview getSequenceOwner() {
         return getIntellectualPropertyReview();
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
-     */
+    @Override
     public void setSequenceOwner(IntellectualPropertyReview newlyVersionedOwner) {
         setIntellectualPropertyReview((IntellectualPropertyReview) newlyVersionedOwner);
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.proposalIpReviewActivityId = null;
     }

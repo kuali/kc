@@ -32,16 +32,12 @@ public class AddProtocolLocationEvent extends ProtocolLocationEventBase {
         this(errorPathPrefix, (ProtocolDocumentBase) document, protocolLocation);
     }
     
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return AddProtocolLocationRule.class;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddProtocolLocationRule) rule).processAddProtocolLocationBusinessRules(this);
     }

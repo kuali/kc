@@ -29,10 +29,7 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
     private BusinessObjectService businessObjectService;
 
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationModuleRoleService#getNotificationModuleRoles(java.lang.String)
-     */
+    @Override
     public List<NotificationModuleRole> getNotificationModuleRoles(String moduleCode) {
 
         Map<String, String> fieldValues = new HashMap<String, String>();
@@ -43,10 +40,7 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
         return moduleRoles;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationModuleRoleService#getNotificationModuleRolesString(java.lang.String)
-     */
+    @Override
     public String getNotificationModuleRolesString(String moduleCode) {
         String resultStr = "";
         List<NotificationModuleRole> moduleRoles = getNotificationModuleRoles(moduleCode);
@@ -58,10 +52,7 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
         return resultStr;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationModuleRoleService#getNotificationModuleRolesForKimRole(java.lang.String, java.lang.String)
-     */
+    @Override
     public List<NotificationModuleRole> getNotificationModuleRolesForKimRole(String moduleCode, String roleName) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleCode", moduleCode);

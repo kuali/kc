@@ -36,10 +36,7 @@ public class MailInfo {
     private MailMessage mailMessage;
     
     
-    /**
-     * 
-     * Constructs a MailInfo.java.
-     */
+
     public MailInfo(){
     }
     

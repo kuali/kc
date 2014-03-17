@@ -455,10 +455,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return enableGrantsGov;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#deleteProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
+    @Override
     public ProposalDevelopmentDocument deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
         ListIterator<BudgetDocumentVersion> iter = proposalDocument.getBudgetDocumentVersions().listIterator();
         while (iter.hasNext()) {
@@ -884,10 +881,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return newCopy;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#loadDocument(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
+    @Override
     public void loadDocument(ProposalDevelopmentDocument document) {
         getKeyPersonnelService().populateDocument(document);
         updateNIHDescriptions(document.getDevelopmentProposal());

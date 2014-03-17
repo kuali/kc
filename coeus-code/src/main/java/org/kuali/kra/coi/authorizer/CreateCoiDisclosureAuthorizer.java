@@ -24,9 +24,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 public class CreateCoiDisclosureAuthorizer extends TaskAuthorizerBase {
 
     private CoiDisclosureService coiDisclosureService;
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
-     */
+    @Override
     public boolean isAuthorized(String userId, Task task) {
         // TODO : do we let coi admin create coi disclosure if admin is not a reporter ?
         return coiDisclosureService.isReporter() || hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.REPORT_COI_DISCLOSURE)

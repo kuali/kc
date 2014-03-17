@@ -17,9 +17,7 @@ package org.kuali.kra.irb.onlinereview;
 
 public class ProtocolOnlineReviewStatus extends org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatus {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3524007292237466524L;
 
     public static final String FINAL_STATUS_CD = "F";

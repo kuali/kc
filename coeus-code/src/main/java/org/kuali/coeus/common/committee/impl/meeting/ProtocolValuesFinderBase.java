@@ -29,9 +29,7 @@ import java.util.*;
  * This class is to find protocols submitted to this committee schedule.
  */
 public abstract class ProtocolValuesFinderBase extends UifKeyValuesFinderBase {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5144171874415568112L;
     
     private String scheduleId;

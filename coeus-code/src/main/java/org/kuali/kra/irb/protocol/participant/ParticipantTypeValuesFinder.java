@@ -36,9 +36,7 @@ import java.util.List;
  */
 public class ParticipantTypeValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6315943281880005921L;
 
     /**

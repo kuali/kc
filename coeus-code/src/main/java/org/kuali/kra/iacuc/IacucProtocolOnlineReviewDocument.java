@@ -47,9 +47,7 @@ import java.util.List;
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentBase { 
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 43793212884887769L;
     private static final String DOCUMENT_TYPE_CODE = "PTRV";
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IacucProtocolOnlineReviewDocument.class);
@@ -58,9 +56,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
 
     private List<IacucProtocolOnlineReview> protocolOnlineReviewList;
 
-    /**
-     * Constructs a ProtocolDocument object
-     */
+
     public IacucProtocolOnlineReviewDocument() { 
         super();
         protocolOnlineReviewList = new ArrayList<IacucProtocolOnlineReview>();
@@ -125,9 +121,6 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
         this.protocolOnlineReviewList = protocolOnlineReviewList;
     }
     
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -139,9 +132,6 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
         return managedLists;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getAllRolePersons()
-     */
     @Override
     protected List<RolePersons> getAllRolePersons() {
         KcAuthorizationService kraAuthService =
@@ -154,9 +144,6 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     }
     
     
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
-     */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
@@ -172,9 +159,6 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
         }
     }
   
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
-     */
     @Override
     public void doActionTaken( ActionTakenEvent event ) {
         super.doActionTaken(event);

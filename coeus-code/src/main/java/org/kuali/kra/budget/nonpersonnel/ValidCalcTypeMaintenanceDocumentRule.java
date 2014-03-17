@@ -34,9 +34,7 @@ public class ValidCalcTypeMaintenanceDocumentRule extends KcMaintenanceDocumentR
     
     private final BusinessObjectService boService;
     
-    /**
-     * Constructs a ValidCalcTypeMaintenanceDocumentRule.java.
-     */
+
     public ValidCalcTypeMaintenanceDocumentRule() {
         this(KcServiceLocator.getService(BusinessObjectService.class));
     }
@@ -50,19 +48,11 @@ public class ValidCalcTypeMaintenanceDocumentRule extends KcMaintenanceDocumentR
         this.boService = boService;
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */ 
     @Override
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return this.checkExistence(document);
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
     @Override
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return this.checkExistence(document);

@@ -168,9 +168,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         this.parameterService = parameterService;
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalCopyService#copyProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria)
-     */
+    @Override
     public String copyProposal(ProposalDevelopmentDocument doc, ProposalCopyCriteria criteria) throws Exception {
         String newDocNbr = null;
         LOG.info("STARTING PROPOSAL COPY");
@@ -902,8 +900,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
     
     /**
-     * This method...
-     *
      * @param src the source proposal development document, i.e. the original.
      * @param dest the destination proposal development document, i.e. the new document.
      * @param budgetVersions

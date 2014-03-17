@@ -48,16 +48,12 @@ public class AwardPersonCreditSplitRuleEvent extends KcDocumentEventBase {
         LOG.info("Logging event");
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class<AwardPersonCreditSplitRule> getRuleInterfaceClass() {
         return AwardPersonCreditSplitRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return false;
     }

@@ -23,22 +23,14 @@ import org.kuali.kra.irb.Protocol;
  */
 public class ProtocolRiskLevelServiceImpl implements ProtocolRiskLevelService {
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelService#addRiskLevel(org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel, 
-     *      org.kuali.kra.irb.Protocol)
-     */
+    @Override
     public void addRiskLevel(ProtocolRiskLevel newProtocolRiskLevel, Protocol protocol) {
         newProtocolRiskLevel.setProtocolId(protocol.getProtocolId());
         newProtocolRiskLevel.setProtocol(protocol);
         protocol.getProtocolRiskLevels().add(newProtocolRiskLevel);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelService#updateRiskLevel(org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel, 
-     *      org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel)
-     */
+    @Override
     public void updateRiskLevel(ProtocolRiskLevel currentProtocolRiskLevel, ProtocolRiskLevel newProtocolRiskLevel) {
         currentProtocolRiskLevel.setStatus(Constants.STATUS_INACTIVE);
         
@@ -47,10 +39,7 @@ public class ProtocolRiskLevelServiceImpl implements ProtocolRiskLevelService {
         newProtocolRiskLevel.setComments(currentProtocolRiskLevel.getComments());
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelService#deleteRiskLevel(int, org.kuali.kra.irb.Protocol)
-     */
+    @Override
     public void deleteRiskLevel(int index, Protocol protocol) {
         if (index >= 0 && index < protocol.getProtocolRiskLevels().size()) {
             protocol.getProtocolRiskLevels().remove(index);

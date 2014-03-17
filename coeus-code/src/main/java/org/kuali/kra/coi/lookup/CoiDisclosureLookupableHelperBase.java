@@ -41,9 +41,7 @@ import java.util.*;
 @SuppressWarnings("deprecation")
 public abstract class CoiDisclosureLookupableHelperBase extends KraLookupableHelperServiceImpl {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1746355811792663715L;
     
     private TaskAuthorizationService taskAuthorizationService;

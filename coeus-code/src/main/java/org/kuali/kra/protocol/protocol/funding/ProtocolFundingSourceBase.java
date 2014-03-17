@@ -124,7 +124,7 @@ public abstract class ProtocolFundingSourceBase extends ProtocolAssociateBase {
 
     protected abstract Class<? extends ProtocolFundingSourceService> getProtocolFundingSourceServiceClassHook();
 
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.setProtocolFundingSourceId(null);
     }

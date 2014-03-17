@@ -300,9 +300,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         return results;    
     }
     
-    /**
-     * @see org.kuali.kra.institutionalproposal.service.InstitutionalProposalService#getAllLinkedDevelopmentProposals(java.lang.String)
-     */
+    @Override
     public List<DevelopmentProposal> getAllLinkedDevelopmentProposals(String proposalNumber) {
         List<DevelopmentProposal> result = new ArrayList<DevelopmentProposal>();
         List<InstitutionalProposal> proposals = getProposalsForProposalNumber(proposalNumber);
@@ -609,9 +607,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     }
     
     
-    /**
-     * @see org.kuali.kra.institutionalproposal.service.InstitutionalProposalService#createAndSaveNewVersion(org.kuali.kra.institutionalproposal.home.InstitutionalProposal, org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument)
-     */
+    @Override
     public InstitutionalProposalDocument createAndSaveNewVersion(InstitutionalProposal currentInstitutionalProposal, 
             InstitutionalProposalDocument currentInstitutionalProposalDocument) throws VersionException, 
             WorkflowException, IOException{
@@ -694,9 +690,6 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
-    /**
-     * @see org.kuali.kra.institutionalproposal.service.InstitutionalProposalService#getValidFundingProposalStatusCodes()
-     */
     @Override
     public Collection<String> getValidFundingProposalStatusCodes() {
         String value = getParameterService().getParameterValueAsString(InstitutionalProposalDocument.class, "validFundingProposalStatusCodes");

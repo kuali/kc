@@ -55,7 +55,7 @@ public abstract class ProtocolResearchAreaBase extends ProtocolAssociateBase {
         this.researchAreas = researchAreas;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.setId(null);
     }

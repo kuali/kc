@@ -88,23 +88,17 @@ public class AwardSyncServiceImpl implements AwardSyncService {
     private KcWorkflowService kraWorkflowService;
     private KcAuthorizationService kraAuthorizationService;
         
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#validateHierarchyChanges(org.kuali.kra.award.home.Award)
-     */
+    @Override
     public void validateHierarchyChanges(Award award) {
         runSync(award, SyncType.VALIDATE);
     }
     
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#applyAwardSyncChangesToHierarchy(org.kuali.kra.award.home.Award)
-     */
+    @Override
     public void applyAwardSyncChangesToHierarchy(Award award) {
         runSync(award, SyncType.SYNC);
     }  
     
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#getAwardLockingHierarchyForSync(org.kuali.kra.award.document.AwardDocument, java.lang.String)
-     */
+    @Override
     public AwardDocument getAwardLockingHierarchyForSync(AwardDocument awardDocument, String principalId) {
         AwardHierarchy hierarchy = getAwardHierarchyService().loadAwardHierarchy(awardDocument.getAward().getAwardNumber());
         if (hierarchy != null) {

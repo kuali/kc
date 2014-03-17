@@ -21,9 +21,7 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 
 public class ProtocolCorrespondenceTemplate extends ProtocolCorrespondenceTemplateBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8817193262483416232L;
 
     @Override

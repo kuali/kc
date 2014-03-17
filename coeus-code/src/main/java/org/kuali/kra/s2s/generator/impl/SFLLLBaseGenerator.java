@@ -35,10 +35,7 @@ public abstract class SFLLLBaseGenerator extends S2SBaseFormGenerator {
     protected static final int CITY_MAX_LENGTH = 35;
     protected static final int PROGRAM_ANNOUNCEMENT_TITLE_MAX_LENGTH = 120;
     
-    /**
-     * 
-     * Constructs a SFLLLBaseGenerator.java.
-     */
+
     public SFLLLBaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
     }

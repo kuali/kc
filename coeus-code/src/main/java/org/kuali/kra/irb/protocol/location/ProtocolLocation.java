@@ -22,9 +22,7 @@ import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
  */
 public class ProtocolLocation extends ProtocolLocationBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6509347537504066578L;
 
 }

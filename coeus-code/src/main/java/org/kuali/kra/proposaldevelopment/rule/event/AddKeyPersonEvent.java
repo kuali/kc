@@ -49,16 +49,12 @@ public class AddKeyPersonEvent extends KeyPersonEventBase implements KeyPersonEv
         this((ProposalDevelopmentDocument) document, person);
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return AddKeyPersonRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddKeyPersonRule) rule).processAddKeyPersonBusinessRules((ProposalDevelopmentDocument) getDocument(), getProposalPerson());
     }

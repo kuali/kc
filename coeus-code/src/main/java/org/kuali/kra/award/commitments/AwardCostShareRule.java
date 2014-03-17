@@ -17,9 +17,7 @@ package org.kuali.kra.award.commitments;
 
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * This class...
- */
+
 public interface AwardCostShareRule extends BusinessRule {
 
     public boolean processCostShareBusinessRules(AwardCostShareRuleEvent 

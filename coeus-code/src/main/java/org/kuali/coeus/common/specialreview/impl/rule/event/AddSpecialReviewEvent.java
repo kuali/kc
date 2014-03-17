@@ -82,10 +82,6 @@ public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialRevi
         return new AddSpecialReviewRule<T>();
     }
 
-    /**
-     * {@inheritDoc}
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -94,10 +90,6 @@ public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialRevi
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

@@ -53,10 +53,6 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
     }
     
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#postDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
-     */
     @Override
     public void postDocumentSave(KualiDocumentFormBase form) throws Exception {
         super.postDocumentSave(form);

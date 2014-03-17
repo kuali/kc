@@ -28,9 +28,7 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 
 public class OnlineReviewsActionHelper extends  OnlineReviewsActionHelperBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5629826686189661976L;
 
     public OnlineReviewsActionHelper(ProtocolForm form) {

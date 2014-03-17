@@ -57,9 +57,7 @@ public class SensitiveFieldPatternMatcherDecorator implements SensitiveFieldMatc
         }
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.sensitive.SensitiveFieldMatcher#match(java.lang.String)
-     */
+    @Override
     public boolean match(String text) {
         //SimpleMatcher
         if(matcher.match(text)) return true;

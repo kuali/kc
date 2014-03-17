@@ -20,9 +20,7 @@ import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateSer
 
 public class IacucScheduleTemplatePrint extends ScheduleTemplatePrintBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -9175459734372306511L;
     
     public void setIacucProtocolCorrespondenceTemplateService(IacucProtocolCorrespondenceTemplateService iacucProtocolCorrespondenceTemplateService) {

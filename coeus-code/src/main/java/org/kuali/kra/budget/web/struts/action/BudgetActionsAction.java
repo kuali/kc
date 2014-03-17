@@ -89,9 +89,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
 
     
 
-    /**
-     * Constructs a BudgetActionsAction, injecting a BudgetJustificationService implementation
-     */
+
     public BudgetActionsAction() {
         super();
         setBudgetJustificationService(new BudgetJustificationServiceImpl());
@@ -639,7 +637,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    /** {@inheritDoc} */
+    @Override
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward forward;
@@ -651,7 +649,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         return forward;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward forward;

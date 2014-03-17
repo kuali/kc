@@ -41,10 +41,6 @@ public class AwardCostShareRuleTest extends KcIntegrationTestBase {
     AwardCostShareRuleImpl awardCostShareRule;
     AwardCostShare awardCostShare;
 
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
     @Before
     public void setUp() throws Exception {
         awardCostShareRule = new AwardCostShareRuleImpl();
@@ -57,11 +53,7 @@ public class AwardCostShareRuleTest extends KcIntegrationTestBase {
         GlobalVariables.setMessageMap(new MessageMap());
           
     }
-    
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
+
     @After
     public void tearDown() throws Exception {
         awardCostShareRule = null;

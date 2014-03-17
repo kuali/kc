@@ -23,10 +23,6 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
  */
 public class ResponseApprovalUnavailableAuthorizer extends ProtocolAuthorizer {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return !canExecuteAction(task.getProtocol(), ProtocolActionType.RESPONSE_APPROVAL) 

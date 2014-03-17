@@ -38,9 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 // import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 
 
-/**
- * This class...
- */
+
 public class CoiNoteAndAttachmentAction extends CoiAction {
    
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;

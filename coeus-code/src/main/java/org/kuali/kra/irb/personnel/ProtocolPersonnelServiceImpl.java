@@ -44,11 +44,7 @@ public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBa
         return ProtocolPersonRole.class;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.irb.personnel.ProtocolPerson, 
-     *                                                                                    org.kuali.kra.irb.Protocol)
-     */
+    @Override
     public void setPrincipalInvestigator(ProtocolPersonBase newPrincipalInvestigator, ProtocolBase protocol) {
         if (protocol != null) {
             ProtocolPerson currentPrincipalInvestigator = (ProtocolPerson) getPrincipalInvestigator(protocol.getProtocolPersons());

@@ -37,10 +37,7 @@ import java.util.Map;
  */
 public class ValidAwardBasisPaymentMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
 
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
+    @Override
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         final ValidAwardBasisPayment validAwardBasisPayment = (ValidAwardBasisPayment) document.getNewMaintainableObject().getDataObject();
 

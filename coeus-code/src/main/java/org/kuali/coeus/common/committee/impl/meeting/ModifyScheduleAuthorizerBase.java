@@ -21,9 +21,7 @@ import org.kuali.coeus.common.committee.impl.document.authorizer.CommitteeAuthor
 
 public abstract class ModifyScheduleAuthorizerBase extends CommitteeAuthorizerBase {
 
-    /**
-     * @see org.kuali.kra.protocol.document.authorizer.CommitteeAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.document.authorization.CommitteeTaskBase)
-     */
+    @Override
     public boolean isAuthorized(String username, CommitteeTaskBase task) {
         boolean hasPermission = true;
         CommitteeBase committee = task.getCommittee();

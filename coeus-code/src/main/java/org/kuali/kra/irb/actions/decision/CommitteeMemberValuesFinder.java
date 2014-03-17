@@ -39,9 +39,7 @@ import java.util.List;
  */
 public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7110160295510181062L;
 
     @Override

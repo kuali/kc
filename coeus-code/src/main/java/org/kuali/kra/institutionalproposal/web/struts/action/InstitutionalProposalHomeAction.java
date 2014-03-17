@@ -59,9 +59,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalHomeAction extends InstitutionalProposalAction {
     private static final String VERSION_EDITPENDING_PROMPT_KEY = "message.award.version.editpending.prompt";
 
@@ -71,9 +69,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     private InstitutionalProposalService institutionalProposalService;
     private InstitutionalProposalNoteAttachmentService institutionalProposalNoteAttachmentService;
 
-    /**
-     * Constructs a InstitutionalProposalHomeAction.java.
-     */
+
     public InstitutionalProposalHomeAction() {
         institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean();
     }
@@ -225,11 +221,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
+
     @SuppressWarnings("unchecked")
     protected KeywordsService getKeywordService(){
         return KcServiceLocator.getService(KeywordsService.class);

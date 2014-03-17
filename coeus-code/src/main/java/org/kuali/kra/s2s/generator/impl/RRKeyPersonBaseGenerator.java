@@ -40,10 +40,7 @@ public abstract class RRKeyPersonBaseGenerator extends RRKeyPersonBase {
     protected static final int ROLE_DESCRIPTION_MAX_LENGTH = 40;
     protected static final String NIH = "NIH";
 
-    /**
-     * 
-     * Constructs a RRKeyPersonBaseGenerator.java.
-     */
+
     public RRKeyPersonBaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
     }

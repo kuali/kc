@@ -36,9 +36,7 @@ public class ProposalUserRoles implements Serializable {
     private String unitName = "";
     private List<String> roleNames;
 
-    /**
-     * Constructs a ProposalUser.
-     */
+
     public ProposalUserRoles() {
         roleNames = new ArrayList<String>();
     }

@@ -259,7 +259,6 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
     
     /**
      * It checks for duplicate narrative types and mandatory description for narrative type 'Other'
-     * This method...
      * @param narrativeList
      * @param narrative
      * @return true if rules passed, else false
@@ -303,9 +302,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule#processNewNarrativeUserRightsBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.util.List, int)
-     */
+    @Override
     public boolean processNewNarrativeUserRightsBusinessRules(ProposalDevelopmentDocument document,
             List<NarrativeUserRights> newNarrativeUserRights, int narrativeIndex) {
         

@@ -39,9 +39,7 @@ public class CommitteeScheduleDateConflictRule extends KcTransactionalDocumentRu
     public static final String DATES_IN_CONFLICT_ERROR_KEY = "datesInConflict";
     
 
-    /**
-     * @see org.kuali.kra.committee.rule.BusinessRuleInterface#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBase)
-     */
+    @Override
     public boolean processRules(CommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
         
         boolean rulePassed = true;   

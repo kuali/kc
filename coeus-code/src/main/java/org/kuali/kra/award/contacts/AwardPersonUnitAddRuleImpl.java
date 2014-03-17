@@ -23,9 +23,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class AwardPersonUnitAddRuleImpl implements AwardPersonUnitAddRule {
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardPersonUnitAddRule
-     */
+    @Override
     public boolean processAddAwardPersonUnitBusinessRules(AwardPersonUnitRuleAddEvent event) {
         boolean valid = checkForDuplicateUnits(event.getProjectPerson(), event.getNewPersonUnit(), event.getAddUnitPersonIndex());
         valid &= checkForInvalidUnit(event.getNewPersonUnit(), event.getAddUnitPersonIndex());

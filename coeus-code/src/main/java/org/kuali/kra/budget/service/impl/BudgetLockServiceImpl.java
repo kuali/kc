@@ -39,9 +39,6 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
 
     private static final String ADD_BUDGET = "addBudget";
 
-    /**
-     * @see org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl#isLockRequiredByUser(org.kuali.rice.krad.document.Document, java.util.Map, org.kuali.rice.kim.api.identity.Person)
-     */
     @SuppressWarnings("unchecked")
     @Override
     protected boolean isLockRequiredByUser(Document document, Map editMode, Person user) {
@@ -76,9 +73,6 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
         return super.establishLocks(document, editMode, user); 
     }
 
-    /**
-     * @see org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl#isEntryEditMode(java.util.Map.Entry)
-     */
     @SuppressWarnings("unchecked")
     @Override
     protected boolean isEntryEditMode(Map.Entry entry) {
@@ -92,9 +86,6 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
         return false;
     }
     
-    /**
-     * @see org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl#createNewPessimisticLock(org.kuali.rice.krad.document.Document, java.util.Map, org.kuali.rice.kim.api.identity.Person)
-     */
     @SuppressWarnings("unchecked")
     @Override
     protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, Person user) {
@@ -115,9 +106,6 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
         }
     }
     
-    /**
-     * @see org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl#hasPreRouteEditAuthorization(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @SuppressWarnings("unchecked")
     @Override
     public boolean hasPreRouteEditAuthorization(Document document, Person user) {

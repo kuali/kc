@@ -25,9 +25,7 @@ import java.sql.Date;
  * This class contains all the attributes for a line in the activity history table.
  */
 public class NegotiationActivityHistoryLineBean extends ResultRow implements Comparable<NegotiationActivityHistoryLineBean>, Serializable {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1497207089018881667L;
     
     private String activityType;
@@ -40,10 +38,7 @@ public class NegotiationActivityHistoryLineBean extends ResultRow implements Com
     private String locationDays;
     private String lineNumber;
     
-    /**
-     * 
-     * Constructs a NegotiationActivityHistoryLineBean.java.
-     */
+
     public NegotiationActivityHistoryLineBean() {
         super(null, "", "");
     }

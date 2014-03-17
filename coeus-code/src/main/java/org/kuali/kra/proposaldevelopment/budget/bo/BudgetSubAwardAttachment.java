@@ -19,9 +19,7 @@ import org.kuali.kra.budget.core.BudgetAssociate;
 
 public class BudgetSubAwardAttachment extends BudgetAssociate {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2467480179750426256L;
 
     private byte[] attachment;

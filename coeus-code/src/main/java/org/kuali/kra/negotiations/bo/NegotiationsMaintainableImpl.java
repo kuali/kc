@@ -29,15 +29,9 @@ import java.util.Collection;
  */
 public class NegotiationsMaintainableImpl extends KraMaintainableImpl {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4054390064236611181L;
 
-    /**
-     * 
-     * @see org.kuali.core.maintenance.Maintainable#prepareForSave()
-     */
     @Override
     public void prepareForSave() {
         NegotiationsGroupingBase negotiationBase = (NegotiationsGroupingBase) this.businessObject;

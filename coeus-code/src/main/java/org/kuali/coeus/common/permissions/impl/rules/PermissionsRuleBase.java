@@ -42,9 +42,7 @@ public abstract class PermissionsRuleBase extends KcTransactionalDocumentRuleBas
     private static final String USERNAME_FIELD_NAME = "userName";
     private transient KcPersonService kcPersonService;
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.rule.PermissionsRule#processAddPermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.coeus.common.permissions.impl.bo.PermissionsUser)
-     */
+    @Override
     public boolean processAddPermissionsUserBusinessRules(Document document, List<User> users, PermissionsUser newUser) {
         boolean isValid = true;
        
@@ -69,9 +67,7 @@ public abstract class PermissionsRuleBase extends KcTransactionalDocumentRuleBas
         return isValid;
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.rule.PermissionsRule#processDeletePermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, int)
-     */
+    @Override
     public boolean processDeletePermissionsUserBusinessRules(Document document, List<User> users, int index) {
         boolean isValid = true;
         
@@ -91,9 +87,7 @@ public abstract class PermissionsRuleBase extends KcTransactionalDocumentRuleBas
         return isValid;
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.rule.PermissionsRule#processEditPermissionsUserRolesBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles)
-     */
+    @Override
     public boolean processEditPermissionsUserRolesBusinessRules(Document document, List<User> users, PermissionsUserEditRoles editRoles) {
          boolean isValid = true;
         

@@ -45,9 +45,6 @@ public class VersionHistorySearchBo extends KcPersistableBusinessObjectBase {
     private transient SequenceOwner<? extends SequenceOwner<?>> sequenceOwner;
 
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;

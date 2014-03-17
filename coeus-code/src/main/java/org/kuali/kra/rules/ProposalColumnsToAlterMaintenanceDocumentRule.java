@@ -48,25 +48,16 @@ public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDo
         validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern", "NUMBER");
     }
  
-    /**
-     * Constructs a ProposalColumnsToAlterMaintenanceDocumentRule.java.
-     */
+
     public ProposalColumnsToAlterMaintenanceDocumentRule() {
         super();
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */ 
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return checkLookupReturn(document);
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return checkLookupReturn(document);
@@ -97,10 +88,7 @@ public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDo
         return true;
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */ 
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         return verifyProposaEditableColumnsDataType(document);
     }

@@ -21,9 +21,7 @@ package org.kuali.kra.award.paymentreports.awardreports;
  */
 public class MultipleSponsorContactsException extends RuntimeException {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -315196634642722965L;
 
     /**

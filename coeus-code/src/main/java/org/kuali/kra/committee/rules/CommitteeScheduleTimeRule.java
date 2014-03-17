@@ -40,9 +40,7 @@ public class CommitteeScheduleTimeRule extends KcTransactionalDocumentRuleBase i
 
     public static final String ID2 = "committeeHelper.scheduleData.time.time";
 
-    /**
-     * @see org.kuali.kra.committee.rule.FilterCommitteeScheduleRule#processRules(org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent)
-     */
+    @Override
     public boolean processRules(CommitteeScheduleTimeEvent event) {
 
         boolean rulePassed = true;

@@ -36,14 +36,10 @@ import java.io.IOException;
 public class PerformanceLoggingFilter implements Filter {
     private static final Log LOG = LogFactory.getLog(PerformanceLoggingFilter.class);
     
-    /**
-     * @see Filter#destroy()
-     */
+    @Override
     public void destroy() {}
     
-    /**
-     * @see Filter#init(FilterConfig)
-     */
+    @Override
     public void init(FilterConfig config) throws ServletException {
     }
 

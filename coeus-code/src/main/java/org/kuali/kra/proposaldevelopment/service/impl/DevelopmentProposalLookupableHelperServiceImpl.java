@@ -34,9 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 8611232870631352662L;
@@ -59,9 +57,6 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
         return filteredResults;
     }
     
-    /**
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
-     */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         ProposalDevelopmentDocument document = ((DevelopmentProposal)businessObject).getProposalDocument();
@@ -93,25 +88,16 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
         return htmlDataList;
     }
 
-    /**
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getDocumentTypeName()
-     */
     @Override
     protected String getDocumentTypeName() {
         return "ProposalDevelopmentDocument";
     }
 
-    /**
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getHtmlAction()
-     */
     @Override
     protected String getHtmlAction() {
         return "proposalDevelopmentProposal.do";
     }
 
-    /**
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getKeyFieldName()
-     */
     @Override
     protected String getKeyFieldName() {
         return "proposalNumber";

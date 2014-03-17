@@ -35,7 +35,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
  */
 public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServiceImplBase implements ProtocolGenericActionService {
     
-    /**{@inheritDoc}**/
+    @Override
     public void close(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         if (ProtocolActionType.REQUEST_TO_CLOSE.equals(protocol.getLastProtocolAction().getProtocolActionType().getProtocolActionTypeCode())) {
           //if previous action is request to close then the new status is closed by investigator
@@ -46,63 +46,63 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
         }
     }
     
-    /**{@inheritDoc}**/
+    @Override
     public void closeEnrollment(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_FOR_ENROLLMENT, ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT);
     }
     
-    /**{@inheritDoc}**/
+    @Override
     public ProtocolDocument defer(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.DEFERRED, ProtocolStatus.DEFERRED);
         
         return getDeferredVersionedDocument(protocol);
     }
     
-    /**{@inheritDoc}**/
+    @Override
     public void disapprove(ProtocolBase protocol, org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.DISAPPROVED, ProtocolStatus.DISAPPROVED);
         performDisapprove(protocol);
     }
     
-    /**{@inheritDoc}**/
+    @Override
     public void expire(ProtocolBase protocol, org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.EXPIRED, ProtocolStatus.EXPIRED);
     }
     
-    /**{@inheritDoc}**/
+    @Override
     public void irbAcknowledgement(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.IRB_ACKNOWLEDGEMENT);
     }
 
-    /**{@inheritDoc}**/
+    @Override
     public void permitDataAnalysis(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.DATA_ANALYSIS_ONLY, ProtocolStatus.ACTIVE_DATA_ANALYSIS_ONLY);
     }
 
-    /**{@inheritDoc}**/
+    @Override
     public void reopenEnrollment(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.REOPEN_ENROLLMENT, ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
     }
     
-    /**{@inheritDoc}**/
+    @Override
     public ProtocolDocument returnForSMR(ProtocolBase protocol, org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED);
         return getReturnedVersionedDocument(protocol);
     }
     
-    /**{@inheritDoc}**/
+    @Override
     public ProtocolDocument returnForSRR(ProtocolBase protocol, org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED);
         return getReturnedVersionedDocument(protocol);
     }
     
-    /**{@inheritDoc}**/
+    @Override
     public ProtocolDocument returnToPI(ProtocolBase protocol, org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.RETURNED_TO_PI, ProtocolStatus.RETURN_TO_PI);
         return getReturnedVersionedDocument(protocol);
     }     
     
-    /**{@inheritDoc}**/
+    @Override
     public void suspend(ProtocolBase protocol, org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean actionBean) throws Exception {
         if (ProtocolActionType.REQUEST_FOR_SUSPENSION.equals(protocol.getLastProtocolAction().getProtocolActionType().getProtocolActionTypeCode())) {
             //if previous action is request to suspend then the new status is suspend by investigator
@@ -113,12 +113,12 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
         }
     }
     
-    /**{@inheritDoc}**/
+    @Override
     public void suspendByDsmb(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED_BY_DSMB, ProtocolStatus.SUSPENDED_BY_DSMB);
     }
     
-    /**{@inheritDoc}**/
+    @Override
     public void terminate(ProtocolBase protocol, org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.TERMINATED, ProtocolStatus.TERMINATED_BY_IRB);
     }

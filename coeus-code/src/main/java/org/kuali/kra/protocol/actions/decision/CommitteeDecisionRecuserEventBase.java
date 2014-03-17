@@ -21,10 +21,7 @@ import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * 
- * This class...
- */
+
 public abstract class CommitteeDecisionRecuserEventBase<CD extends CommitteeDecision<?>> extends KcDocumentEventBase {
     
     private CD actionBean;

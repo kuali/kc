@@ -34,25 +34,17 @@ private static final String ADD_ERROR_KEY = "error.custom";
      */
     private ValidationHelper validationHelper;
     
-    /**
-     * Constructor
-     */
+
     public BudgetUnrecoveredFandARuleImpl() {
         validationHelper = new ValidationHelper();
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.budget.distributionincome.AddBudgetUnrecoveredFandARule#processAddBudgetUnrecoveredFandABusinessRules(org.kuali.kra.budget.distributionincome.AddBudgetUnrecoveredFandAEvent)
-     */
+    @Override
     public boolean processAddBudgetUnrecoveredFandABusinessRules(AddBudgetUnrecoveredFandAEvent budgetUnrecoveredFandAEvent) {
         return !areDuplicatesPresent(budgetUnrecoveredFandAEvent.getBudgetUnrecoveredFandA());
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.budget.distributionincome.BudgetValidationUnrecoveredFandARule#processBudgetValidationUnrecoveredFandABusinessRules(org.kuali.kra.budget.distributionincome.BudgetValidationUnrecoveredFandAEvent)
-     */
+    @Override
     public boolean processBudgetValidationUnrecoveredFandABusinessRules(BudgetValidationUnrecoveredFandAEvent budgetUnrecoveredFandAEvent) {
         return areRequiredRulesSatisfied(budgetUnrecoveredFandAEvent.getBudgetUnrecoveredFandA());
     }

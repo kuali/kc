@@ -24,9 +24,7 @@ import org.kuali.kra.protocol.ProtocolAssociateBase;
  */
 public abstract class ProtocolLocationBase extends ProtocolAssociateBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6509347537504066578L;
 
     private Integer protocolLocationId;
@@ -105,7 +103,7 @@ public abstract class ProtocolLocationBase extends ProtocolAssociateBase {
         this.rolodex = rolodex;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.setProtocolLocationId(null);
     }

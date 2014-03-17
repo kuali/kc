@@ -29,9 +29,7 @@ import org.kuali.rice.krad.service.KeyValuesService;
  * BusinessObjectService, so each class need not do that it self.
  */
 public abstract class ProtocolActionsKeyValuesBase extends FormViewAwareUifKeyValuesFinderBase {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7919893695536280256L;
     
     private BusinessObjectService businessObjectService;

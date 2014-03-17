@@ -23,9 +23,7 @@ import org.kuali.coeus.common.committee.impl.print.ScheduleTemplatePrintBase;
  */
 public class ScheduleTemplatePrint extends ScheduleTemplatePrintBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1565960151556324475L;
 
 //    private static final long serialVersionUID = -1565960151556324475L;

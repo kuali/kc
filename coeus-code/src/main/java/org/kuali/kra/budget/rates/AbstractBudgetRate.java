@@ -24,9 +24,7 @@ import org.kuali.kra.budget.core.BudgetAssociateInterface;
 
 public abstract class AbstractBudgetRate extends AbstractInstituteRate implements BudgetAssociateInterface {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7152006670699620080L;
 
     private Long budgetId;
@@ -190,9 +188,6 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
         this.budgetId = budgetId;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -208,9 +203,6 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

@@ -29,16 +29,12 @@ public class SaveDocumentSpecialReviewEvent<T extends SpecialReview> extends Sav
         super(errorPathPrefix, document);
     }
     
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class<? extends BusinessRule> getRuleInterfaceClass() {
         return SaveDocumentSpecialReviewRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((SaveDocumentSpecialReviewRule) rule).processSaveDocumentSpecialReview(this);
     }

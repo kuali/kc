@@ -34,9 +34,7 @@ import org.kuali.rice.krad.service.KeyValuesService;
  */
 public class IacucProtocolOnlineReviewDeterminationTypeRecommendationValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7071063929463359324L;
 
     private static final String DEFAULT_SELECTION = "select"; 

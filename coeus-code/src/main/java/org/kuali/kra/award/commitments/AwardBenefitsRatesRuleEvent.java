@@ -22,9 +22,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * This class...
- */
+
 public class AwardBenefitsRatesRuleEvent extends KcDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(AwardBenefitsRatesRuleEvent.class);
@@ -46,25 +44,18 @@ public class AwardBenefitsRatesRuleEvent extends KcDocumentEventBase {
     }
     
     
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
         LOG.info("Logging AwardBenefitsRatesRuleEvent");
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return AwardBenefitsRatesRule.class;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardBenefitsRatesRule)rule).processBenefitsRatesBusinessRules(this);
     }

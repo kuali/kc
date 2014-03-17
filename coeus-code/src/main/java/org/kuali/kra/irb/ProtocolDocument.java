@@ -76,9 +76,7 @@ import org.kuali.rice.krms.api.engine.Facts.Builder;
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class ProtocolDocument extends ProtocolDocumentBase { 
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 803158468103165087L;
 
     private static final Log LOG = LogFactory.getLog(ProtocolDocument.class);

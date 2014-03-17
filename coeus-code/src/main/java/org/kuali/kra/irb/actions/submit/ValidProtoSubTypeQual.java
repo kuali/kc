@@ -17,9 +17,7 @@ package org.kuali.kra.irb.actions.submit;
 
 public class ValidProtoSubTypeQual extends org.kuali.kra.protocol.actions.submit.ValidProtoSubTypeQual {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6546751709369749190L;
 
 }

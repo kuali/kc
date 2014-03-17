@@ -50,11 +50,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     private KcNotificationService kcNotificationService;
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService#assignReviewers(org.kuali.kra.irb.actions.submit.ProtocolSubmission, 
-     *      java.util.List)
-     */
+    @Override
     public void assignReviewers(ProtocolSubmissionBase protocolSubmission, List<ProtocolReviewerBeanBase> protocolReviewerBeans) throws Exception  {
         if (protocolSubmission != null) {
             for (ProtocolReviewerBeanBase bean : protocolReviewerBeans) {

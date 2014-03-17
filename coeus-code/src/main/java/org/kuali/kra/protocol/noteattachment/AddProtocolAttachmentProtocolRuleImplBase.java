@@ -24,7 +24,7 @@ public abstract class AddProtocolAttachmentProtocolRuleImplBase implements AddPr
     protected ProtocolAttachmentBaseRuleHelper baseHelper;
     protected ProtocolAttachmentProtocolRuleHelperBase protocolHelper;
 
-    /** {@inheritDoc} */
+    @Override
     public boolean processAddProtocolAttachmentProtocolRules(AddProtocolAttachmentProtocolEvent event) {      
         
         final ProtocolAttachmentProtocolBase newAttachmentProtocol = event.getNewAttachmentProtocol();

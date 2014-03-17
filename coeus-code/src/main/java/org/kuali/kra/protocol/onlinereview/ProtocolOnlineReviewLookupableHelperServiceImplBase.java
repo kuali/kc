@@ -35,9 +35,7 @@ import java.util.*;
 
 public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extends KraLookupableHelperServiceImpl {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7269604308213091097L;
 
 
@@ -87,7 +85,7 @@ public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extend
            GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
            return false;
        } catch (Exception e) {
-           e.printStackTrace();
+           LOG.error(e.getMessage(), e);
            GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
            return false;
        }

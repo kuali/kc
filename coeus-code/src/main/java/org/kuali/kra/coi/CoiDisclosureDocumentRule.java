@@ -58,10 +58,7 @@ public class CoiDisclosureDocumentRule extends KcTransactionalDocumentRuleBase i
                 document.getCoiDisclosure().getDisclosureReporter().getDisclosurePersonUnits()));
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);

@@ -36,100 +36,62 @@ public class NegotiationCustomData extends NegotiationAssociate implements Docum
 
     private CustomAttribute customAttribute;
 
-    /**
-     * Constructs a NegotiationCustomData.java.
-     */
+
     public NegotiationCustomData() {
     }
 
-    /**
-     * This method...
-     * @return
-     */
+
     public Long getNegotiationCustomDataId() {
         return negotiationCustomDataId;
     }
 
-    /**
-     * This method...
-     * @param proposalCustomDataId
-     */
+
     public void setProposalCustomDataId(Long proposalCustomDataId) {
         this.negotiationCustomDataId = proposalCustomDataId;
     }
 
-    /**
-     * This method...
-     * @return
-     */
+
     public Long getCustomAttributeId() {
         return customAttributeId;
     }
 
-    /**
-     * This method...
-     * @param customAttributeId
-     */
+
     public void setCustomAttributeId(Long customAttributeId) {
         this.customAttributeId = customAttributeId;
     }
 
-    /**
-     * This method...
-     * @return
-     */
+
     public String getValue() {
         return value;
     }
 
-    /**
-     * This method...
-     * @param value
-     */
+
     public void setValue(String value) {
         this.value = value;
     }
 
-    /**
-     * This method...
-     * @return
-     */
+
     public CustomAttribute getCustomAttribute() {
         return customAttribute;
     }
 
-    /**
-     * This method...
-     * @param customAttribute
-     */
+
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
-     */
     public SequenceOwner getSequenceOwner() {
         return (SequenceOwner) getNegotiation();
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner)
-     */
     public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
         setNegotiation((Negotiation) newlyVersionedOwner);
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
     public void resetPersistenceState() {
         this.negotiationCustomDataId = null;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -141,9 +103,6 @@ public class NegotiationCustomData extends NegotiationAssociate implements Docum
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

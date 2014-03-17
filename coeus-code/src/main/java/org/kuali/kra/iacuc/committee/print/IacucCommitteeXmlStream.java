@@ -129,11 +129,7 @@ public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
         }
         
     }
-    /**
-     * This method...
-     * @param membershipBean
-     * @param committeeMember
-     */
+
     private void setCommitteeMembershipType(CommitteeMembershipBase membershipBean, CommitteeMemberType committeeMember) {
         membershipBean.refreshNonUpdateableReferences();
         setPersonType(membershipBean,committeeMember);

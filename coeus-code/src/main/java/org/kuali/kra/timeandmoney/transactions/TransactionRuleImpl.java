@@ -334,12 +334,7 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
         return KcServiceLocator.getService(AwardVersionService.class);
     }
     
-    /**
-     * This method...
-     * @param awardHierarchyNode
-     * @param aai
-     * @return
-     */
+
     public boolean processParameterEnabledRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai, TimeAndMoneyDocument doc) {
         boolean valid = true;
         KualiDecimal obligatedDirectChange = awardHierarchyNode.getObligatedTotalDirect().subtract(aai.getObligatedTotalDirect());
@@ -395,12 +390,7 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
         return valid;
     }
     
-    /**
-     * This method...
-     * @param awardHierarchyNode
-     * @param aai
-     * @return
-     */
+
     public boolean processParameterDisabledRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai, TimeAndMoneyDocument doc) {
         boolean valid = true;
         KualiDecimal obligatedChange = awardHierarchyNode.getAmountObligatedToDate().subtract(aai.getAmountObligatedToDate());

@@ -27,9 +27,7 @@ import org.kuali.rice.krad.util.MessageMap;
 public class ProtocolSpeciesRule extends KcTransactionalDocumentRuleBase implements AddProtocolSpeciesRule {
     private static final String NEW_PROTOCOL_SPECIES_PATH = "iacucProtocolSpeciesHelper.newIacucProtocolSpecies";
 
-    /**
-     * @see org.kuali.kra.irb.protocol.reference.AddProtocolSpeciesRule#processAddProtocolSpeciesBusinessRules(org.kuali.kra.irb.protocol.reference.AddProtocolSpeciesEvent)
-     */
+    @Override
     public boolean processAddProtocolSpeciesBusinessRules(AddProtocolSpeciesEvent addProtocolSpeciesEvent) {
         
         boolean rulePassed = true;

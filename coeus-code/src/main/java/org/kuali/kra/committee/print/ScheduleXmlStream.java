@@ -31,6 +31,8 @@ import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.ActionType;
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo;
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo.Checklists;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
@@ -63,6 +65,9 @@ import java.text.ParseException;
 import java.util.*;
 
 public class ScheduleXmlStream extends PrintBaseXmlStream {
+
+    private static final Log LOG = LogFactory.getLog(ScheduleXmlStream.class);
+
     private CommitteeMembershipService committeeMembershipService;
     private KcPersonService kcPersonService;
     private IrbPrintXmlUtilService irbPrintXmlUtilService;
@@ -454,7 +459,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             }
         }
         catch (ParseException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
 
         currentSchedule.setMaxProtocols(new BigInteger(String.valueOf(scheduleDetailsBean.getMaxProtocols())));

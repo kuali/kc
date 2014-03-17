@@ -45,10 +45,7 @@ public class FinancialEntityNotificationRenderer extends NotificationRendererBas
         this.disclosure = disclosure;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
-     */
+    @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
         String personId = getDisclosure().getPersonId();

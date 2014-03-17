@@ -88,13 +88,13 @@ public class DisclosurePerson extends DisclosureReporter implements SequenceAsso
 
     @Override
     public List<? extends DisclosureReporterUnit> getDisclosureReporterUnits() {
-        // TODO Auto-generated method stub
+
         return getDisclosurePersonUnits();
     }
 
     @Override
     public Integer getSequenceNumber() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
@@ -112,7 +112,7 @@ public class DisclosurePerson extends DisclosureReporter implements SequenceAsso
 
     @Override
     public CoiDisclosure getSequenceOwner() {
-        // TODO Auto-generated method stub
+
         return this.getCoiDisclosure();
     }
 

@@ -18,14 +18,9 @@ package org.kuali.kra.award.budget;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 
-/**
- * This class...
- */
 public class AwardBudgetLineItemCalculatedAmountExt extends BudgetLineItemCalculatedAmount {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8143479362083133558L;
     private BudgetDecimal obligatedAmount;
 

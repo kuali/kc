@@ -23,26 +23,18 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 public class FandaRateType extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -6901016199815302736L;
 
     private Integer fandaRateTypeCode;
 
     private String description;
 
-    /**
-     * 
-     * Constructs a FandaRateType.java.
-     */
+
     public FandaRateType() {
     }
 
-    /**
-     *
-     * @return
-     */
+
     public Integer getFandaRateTypeCode() {
         return fandaRateTypeCode;
     }
@@ -55,10 +47,7 @@ public class FandaRateType extends KcPersistableBusinessObjectBase {
         this.fandaRateTypeCode = fandaRateTypeCode;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public String getDescription() {
         return description;
     }

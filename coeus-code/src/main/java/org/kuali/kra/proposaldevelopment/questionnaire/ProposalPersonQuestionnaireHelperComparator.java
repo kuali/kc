@@ -25,10 +25,7 @@ import java.util.Comparator;
  */
 public class ProposalPersonQuestionnaireHelperComparator implements Comparator<ProposalPersonQuestionnaireHelper> {
 
-    /**
-     * 
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
+    @Override
     public int compare(ProposalPersonQuestionnaireHelper helper1, ProposalPersonQuestionnaireHelper helper2) {
         ProposalPersonComparator personComp = new ProposalPersonComparator();
         return personComp.compare(helper1.getProposalPerson(), helper2.getProposalPerson());

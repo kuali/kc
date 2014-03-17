@@ -23,9 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class AwardApprovedSubawardRuleEvent extends KcDocumentEventBase {
     
     private AwardApprovedSubaward awardApprovedSubaward;
@@ -102,28 +100,21 @@ public class AwardApprovedSubawardRuleEvent extends KcDocumentEventBase {
     }
 
     
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
-        // TODO Auto-generated method stub
+
 
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        // TODO Auto-generated method stub
+
         return false;
     }
 

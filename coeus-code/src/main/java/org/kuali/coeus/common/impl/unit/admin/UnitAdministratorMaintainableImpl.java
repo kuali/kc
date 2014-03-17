@@ -33,14 +33,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class...
- */
 public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl implements Maintainable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4267900712064482626L;
     private static final String KIM_PERSON_LOOKUPABLE_REFRESH_CALLER = "kimPersonLookupable";
     private static final String UNIT_ID_INVALID_ERROR_KEY = "error.invalid.unitAdministrator.unitId";
@@ -48,9 +43,6 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
     private static final String UNIT_ADMINISTRATOR_TYPE_CODE_INVALID_ERROR_KEY = "error.invalid.unitAdministrator.unitAdministratorTypeCode";
     
 
-    /**
-     * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
-     */
     @Override
     @SuppressWarnings("unchecked")
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {

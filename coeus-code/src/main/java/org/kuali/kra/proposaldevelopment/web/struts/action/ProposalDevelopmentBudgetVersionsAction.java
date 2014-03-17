@@ -248,9 +248,6 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         return performQuestionWithoutInput(mapping, form, request, response, COPY_BUDGET_PERIOD_QUESTION, QUESTION_TEXT + versionToCopy.getBudgetVersionNumber() + ".", QUESTION_TYPE, pdForm.getMethodToCall(), "");
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -341,9 +338,6 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         return -1;
     }   
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ActionForward forward = super.reload(mapping, form, request, response);

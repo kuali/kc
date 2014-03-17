@@ -29,9 +29,7 @@ import java.util.List;
  */
 public class CoiUndisclosedEventTypeValuesFinder extends UifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2596141537553819058L;
 
     @Override

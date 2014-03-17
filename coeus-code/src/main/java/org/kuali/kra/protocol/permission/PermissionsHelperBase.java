@@ -45,9 +45,7 @@ import java.util.Map;
  */
 public abstract class PermissionsHelperBase extends org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5896277052902587682L;
     
     protected static final String AGGREGATOR_NAME = "Aggregator";
@@ -143,17 +141,11 @@ public abstract class PermissionsHelperBase extends org.kuali.coeus.common.permi
     }
 
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getUnassignedRoleName()
-     */
     @Override
     public String getUnassignedRoleName() {
         return RoleConstants.PROTOCOL_UNASSIGNED;
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getRoleDisplayName(java.lang.String)
-     */
     @Override
     protected String getRoleDisplayName(String roleName) {
         buildDisplayNameMap();
@@ -192,9 +184,6 @@ public abstract class PermissionsHelperBase extends org.kuali.coeus.common.permi
     }
 
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getPersonsInRole(java.lang.String)
-     */
     @Override
     protected List<KcPerson> getPersonsInRole(String roleName) {
         KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);

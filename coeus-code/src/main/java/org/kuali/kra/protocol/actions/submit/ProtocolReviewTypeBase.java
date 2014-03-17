@@ -30,9 +30,7 @@ public class ProtocolReviewTypeBase extends KcPersistableBusinessObjectBase {
 
     private boolean globalFlag;
 
-    /**
-     * Constructs a ProtocolReviewType.
-     */
+
     public ProtocolReviewTypeBase() {
     }
 

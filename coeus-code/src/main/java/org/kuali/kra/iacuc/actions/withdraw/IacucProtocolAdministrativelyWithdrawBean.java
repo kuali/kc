@@ -22,9 +22,7 @@ import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawB
 
 public class IacucProtocolAdministrativelyWithdrawBean extends IacucProtocolWithdrawBean implements ProtocolAdministrativelyWithdrawBean {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6918550703566682822L;
 
     public IacucProtocolAdministrativelyWithdrawBean(IacucActionHelper actionHelper) {

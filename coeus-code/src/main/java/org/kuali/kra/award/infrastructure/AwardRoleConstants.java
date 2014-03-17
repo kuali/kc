@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.award.infrastructure;
 
-/**
- * 
- * This class...
- */
+
 public enum AwardRoleConstants {    
 
     AWARD_BUDGET_APPROVER("Award Budget Approver"),

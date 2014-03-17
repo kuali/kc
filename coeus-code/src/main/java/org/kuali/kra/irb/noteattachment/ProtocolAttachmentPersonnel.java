@@ -48,12 +48,11 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentPersonnelBase
     }
 
     
-    /** {@inheritDoc} */
+    @Override
     public String getGroupCode() {
         return GROUP_CODE;
     }
 
-    /** {@inheritDoc} */
     @Override
     public String getAttachmentDescription() {
         return "Personnel Attachment";

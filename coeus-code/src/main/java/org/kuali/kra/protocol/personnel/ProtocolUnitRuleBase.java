@@ -32,9 +32,7 @@ public abstract class ProtocolUnitRuleBase extends KcTransactionalDocumentRuleBa
     private String ERROR_PROPERTY_PERSON_INDEX = "[personIndex]";
     private String PERSON_INDEX = "personIndex";
     
-    /**
-     * @see org.kuali.kra.protocol.ProtocolDocumentRuleBase#processAddProtocolUnitBusinessRules(org.kuali.kra.protocol.personnel.AddProtocolUnitEvent)
-     */
+    @Override
     public boolean processAddProtocolUnitBusinessRules(AddProtocolUnitEvent addProtocolUnitEvent) {
         boolean isValid = true;
 

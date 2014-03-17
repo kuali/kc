@@ -15,6 +15,8 @@
  */
 package org.kuali.coeus.common.impl.rolodex;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -26,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 public class RolodexLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
+
+    private final Log LOG = LogFactory.getLog(RolodexLookupableHelperServiceImpl.class);
 
     private static final String IS_SPONSOR_ADDRESS = "isSponsorAddress";
     private static final String SPONSOR_NAME = "sponsor.sponsorName";
@@ -44,7 +48,7 @@ public class RolodexLookupableHelperServiceImpl extends KualiLookupableHelperSer
         try {
             returnResults = filterForRolodex(unboundedResults);
         } catch (WorkflowException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return returnResults;
     }

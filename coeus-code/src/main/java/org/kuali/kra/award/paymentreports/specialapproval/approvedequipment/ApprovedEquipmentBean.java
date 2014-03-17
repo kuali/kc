@@ -68,9 +68,7 @@ public class ApprovedEquipmentBean extends SpecialApprovalBean implements Serial
         removeCollectionItem(getAward().getApprovedEquipmentItems(), deletedItemIndex);
     }
     
-    /**
-     * @return
-     */
+
     public Object getData() {
         return getNewAwardApprovedEquipment();
     }

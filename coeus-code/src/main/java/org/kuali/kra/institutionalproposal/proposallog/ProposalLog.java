@@ -79,9 +79,7 @@ public class ProposalLog extends KcPersistableBusinessObjectBase implements Nego
     
     private transient KcPersonService kcPersonService;
     
-    /**
-     * Constructs a ProposalLog.java.
-     */
+
     public ProposalLog() { 
 
     } 

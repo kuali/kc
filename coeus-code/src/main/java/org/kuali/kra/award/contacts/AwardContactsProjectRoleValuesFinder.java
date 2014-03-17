@@ -39,9 +39,7 @@ public abstract class AwardContactsProjectRoleValuesFinder extends FormViewAware
         return buildKeyValues(getKeyValuesService().findAll(getRoleType()));
     }
 
-    /**
-     * @return
-     */
+
     protected KeyValuesService getKeyValuesService() {
         return (KeyValuesService) KcServiceLocator.getService(KEY_VALUES_SERVICE_NAME);
     }

@@ -52,23 +52,17 @@ public class SequenceAssociateGrandChild implements SequenceAssociate<SequenceOw
         this.parent = parent;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
-     */
+    @Override
     public SequenceOwnerImpl getSequenceOwner() {
         return owner;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
-     */
+    @Override
     public void setSequenceOwner(SequenceOwnerImpl newOwner) {
         setOwner(newOwner);
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#getSequenceNumber()
-     */
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -114,9 +108,6 @@ public class SequenceAssociateGrandChild implements SequenceAssociate<SequenceOw
         // do nothing
     }
     
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -134,9 +125,6 @@ public class SequenceAssociateGrandChild implements SequenceAssociate<SequenceOw
         this.grandChildId = grandChildId;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

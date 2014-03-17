@@ -26,10 +26,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
     
     private BusinessObjectService businessObjectService;
     
-    /**
-     * 
-     * @see org.kuali.kra.award.service.AwardTemplateReportTermService#getReportTypeForAjaxCall(java.lang.String)
-     */
+    @Override
     public String getReportTypeForAjaxCall(String reportClassCode) throws Exception {
         Collection reportTypes = getReportTypesUsingReportClassCode(reportClassCode);
         String attributeNames="";
@@ -56,10 +53,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
         return reportTypes;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.award.service.AwardTemplateReportTermService#getFrequencyForAjaxCall(java.lang.String, java.lang.String)
-     */
+    @Override
     public String getFrequencyForAjaxCall(String reportCode, String reportClass) throws Exception {
         Collection frequencyCodes = getFrequencyUsingReportCodeAndClass(reportCode, reportClass);
         String attributeNames="";
@@ -87,10 +81,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
         return frequencyCodes;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.award.service.AwardTemplateReportTermService#getFrequencyBaseForAjaxCall(java.lang.String)
-     */
+    @Override
     public String getFrequencyBaseForAjaxCall(String frequencyCode) throws Exception {
         Collection frequencyBaseCodes = getFrequencyBaseUsingFrequencyCode(frequencyCode);
         String attributeNames="";

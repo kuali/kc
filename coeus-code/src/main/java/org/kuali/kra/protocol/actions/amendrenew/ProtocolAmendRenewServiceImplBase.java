@@ -41,9 +41,7 @@ import java.util.List;
 /**
  * The ProtocolBase Amendment/Renewal Service Implementation.
  */
-/**
- * This class...
- */
+
 public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmendRenewService {
 
     protected static final String AMEND_ID = "A";
@@ -96,9 +94,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         this.protocolFinderDao = protocolFinderDao;
     }
     
-    /**
-     * @see org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService#createAmendment(org.kuali.kra.protocol.ProtocolDocumentBase, org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean)
-     */
+    @Override
     public String createAmendment(ProtocolDocumentBase protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
         ProtocolDocumentBase amendProtocolDocument = null;
         try {
@@ -138,9 +134,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         
     }
 
-    /**
-     * @see org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService#createRenewal(org.kuali.kra.protocol.ProtocolDocumentBase, java.lang.String)
-     */
+    @Override
     public String createRenewal(ProtocolDocumentBase protocolDocument, String renewalSummary) throws Exception {
         ProtocolDocumentBase renewProtocolDocument = null;
         try {
@@ -172,9 +166,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         return renewProtocolDocument.getDocumentNumber();
     }
     
-    /**
-     * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#createRenewalWithAmendment(org.kuali.kra.irb.ProtocolDocumentBase, org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean)
-     */
+    @Override
     public String createRenewalWithAmendment(ProtocolDocumentBase protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
         ProtocolDocumentBase renewProtocolDocument = null;
         try {
@@ -354,9 +346,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         return protocolAction;
     }
 
-    /**
-     * @see org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService#getAmendmentAndRenewals(java.lang.String)
-     */
+    @Override
     public List<ProtocolBase> getAmendmentAndRenewals(String protocolNumber) throws Exception {
         List<ProtocolBase> protocols = new ArrayList<ProtocolBase>();
         protocols.addAll(getAmendments(protocolNumber));

@@ -25,10 +25,7 @@ public class IacucProtocolCorrespondenceTemplateAuthorizationServiceImpl  implem
     private UnitAuthorizationService unitAuthorizationService;
     private KcPersonService kcPersonService;
     
-    /**
-     * 
-     * @see org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateAuthorizationService#hasPermission(java.lang.String)
-     */
+    @Override
     public boolean hasPermission(String permissionName){
         KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
         return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-IACUC", permissionName);

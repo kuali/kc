@@ -31,14 +31,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObjectBase implements Comparable<InstitutionalProposalPersonUnit>, SequenceAssociate<InstitutionalProposal> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8863551989073626234L;
 
     private Long institutionalProposalPersonUnitId;
@@ -56,9 +52,6 @@ public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObject
 
     private Long institutionalProposalContactId;
 
-    /**
-     * Default Constructor.
-     */
     public InstitutionalProposalPersonUnit() {
         super();
         creditSplits = new ArrayList<InstitutionalProposalPersonUnitCreditSplit>();
@@ -132,16 +125,11 @@ public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObject
         }
     }
 
-    /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
+    @Override
     public int compareTo(InstitutionalProposalPersonUnit other) {
         return this.unit.getUnitName().compareToIgnoreCase(other.getUnit().getUnitName());
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -179,9 +167,7 @@ public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObject
         return institutionalProposalContactId;
     }
 
-    /**
-     * @return
-     */
+
     public InstitutionalProposalContact getInstitutionalProposalPerson() {
         return institutionalProposalPerson;
     }
@@ -210,38 +196,27 @@ public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObject
         return creditSplits;
     }
 
-    /**
-     * @return
-     */
+
     public String getFullName() {
         return institutionalProposalPerson != null ? (institutionalProposalPerson.getContact() != null ? institutionalProposalPerson.getContact().getFullName() : null) : null;
     }
 
-    /**
-     * @return
-     */
+
     public Unit getUnit() {
         lazilyLoadUnit();
         return unit;
     }
 
-    /**
-     * @return
-     */
+
     public String getUnitName() {
         return unit != null ? unit.getUnitName() : null;
     }
 
-    /**
-     * @return
-     */
+
     public String getUnitNumber() {
         return unitNumber;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -251,9 +226,7 @@ public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObject
         return result;
     }
 
-    /**
-     * @return
-     */
+
     public boolean isLeadUnit() {
         return leadUnit;
     }
@@ -313,9 +286,7 @@ public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObject
         this.unitNumber = unitNumber;
     }
 
-    /**
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }

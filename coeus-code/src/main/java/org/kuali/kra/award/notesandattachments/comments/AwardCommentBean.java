@@ -31,17 +31,12 @@ import java.util.List;
  */
 public class AwardCommentBean implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8505814106872342691L;
     private List<CommentType> awardCommentScreenDisplayTypes;
     private AwardForm form;
     
-    /**
-     * 
-     * Constructs a AwardReportsBean.java.
-     */
+
     public AwardCommentBean() {
         
     }

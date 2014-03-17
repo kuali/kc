@@ -25,7 +25,7 @@ import org.kuali.kra.protocol.auth.ProtocolTaskBase;
  */
 public class IacucViewRestrictedNotesProtocolAuthorizer extends ProtocolAuthorizerBase {
 
-    /** {@inheritDoc} */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.VIEW_IACUC_RESTRICTED_NOTES);
     }

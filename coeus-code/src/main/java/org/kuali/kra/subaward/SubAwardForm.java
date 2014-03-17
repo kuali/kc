@@ -290,13 +290,13 @@ implements PermissionsForm, AuditableForm, CustomDataDocumentForm {
 
     @Override
     protected String getLockRegion() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
     @Override
     protected void setSaveDocumentControl(Map editMode) {
-        // TODO Auto-generated method stub
+
 
     }
 
@@ -326,7 +326,7 @@ implements PermissionsForm, AuditableForm, CustomDataDocumentForm {
     }
 
     public PermissionsHelperBase getPermissionsHelper() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 

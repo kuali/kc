@@ -28,10 +28,7 @@ import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 public class SaveSpecialReviewRule<T extends SpecialReview<? extends SpecialReviewExemption>> extends SpecialReviewRuleBase<T> 
     implements KcBusinessRule<SaveSpecialReviewEvent<T>> {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(SaveSpecialReviewEvent<T> event) {
         return processSaveSpecialReviewEvent(event);
     }

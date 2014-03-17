@@ -26,9 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomReportDetailsValueFinder extends UifKeyValuesFinderBase {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1L;
     private BirtReportService birtReportService;
     private BirtReportService getBirtReportService() {

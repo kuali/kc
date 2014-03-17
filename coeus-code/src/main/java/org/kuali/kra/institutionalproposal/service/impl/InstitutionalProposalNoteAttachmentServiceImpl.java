@@ -37,9 +37,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.NoteType;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalNoteAttachmentServiceImpl implements InstitutionalProposalNoteAttachmentService {
 
     private AttachmentService attachmentService;

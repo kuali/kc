@@ -22,9 +22,7 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
  * This class populates the bytes of PDF document to be generated
  */
 public class PrintableAttachment extends AttachmentDataSource {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1860670624193916246L;
     private byte[] streamData;
 

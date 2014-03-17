@@ -27,16 +27,12 @@ public class ReplaceInstituteAttachmentEvent extends AddInstituteAttachmentEvent
         super(errorPathPrefix, document, narrative);
     }
     
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return ReplaceInstituteAttachmentRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ReplaceInstituteAttachmentRule) rule).processReplaceInstituteAttachmentBusinessRules(this);
     }

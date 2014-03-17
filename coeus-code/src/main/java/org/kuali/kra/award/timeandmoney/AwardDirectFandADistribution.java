@@ -25,9 +25,7 @@ import java.sql.Date;
  */
 public class AwardDirectFandADistribution extends AwardAssociate {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1548622355738763084L;
 
     private Long awardDirectFandADistributionId;
@@ -188,16 +186,11 @@ public class AwardDirectFandADistribution extends AwardAssociate {
         return serialVersionUID;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.awardDirectFandADistributionId = null;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -213,9 +206,6 @@ public class AwardDirectFandADistribution extends AwardAssociate {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

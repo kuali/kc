@@ -49,9 +49,7 @@ public class NegotiationActivityAddRuleEvent extends KcDocumentEventBase {
         return NegotiationActivityAddRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((NegotiationActivityAddRule) rule).processAddNegotiationActivityRule(this);
     }

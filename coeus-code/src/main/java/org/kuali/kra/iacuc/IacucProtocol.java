@@ -66,9 +66,7 @@ import java.util.*;
  */
 public class IacucProtocol extends ProtocolBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7380281405644745576L;
     
     private boolean isBillable;
@@ -273,7 +271,7 @@ public class IacucProtocol extends ProtocolBase {
 
     @Override
     protected String getDefaultProtocolTypeCodeHook() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 

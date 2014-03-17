@@ -28,9 +28,7 @@ public class ProtocolRiskLevelBean implements Serializable {
     
     private ProtocolRiskLevel newProtocolRiskLevel;
     
-    /**
-     * Constructs a ProtocolRiskLevelBean.
-     */
+
     public ProtocolRiskLevelBean(String errorPropertyKey) {
         this.errorPropertyKey = errorPropertyKey + ".protocolRiskLevelBean";
         

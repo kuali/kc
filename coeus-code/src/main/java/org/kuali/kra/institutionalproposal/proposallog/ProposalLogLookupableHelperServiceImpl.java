@@ -132,7 +132,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }                
         }
 
@@ -176,9 +176,6 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         return htmlDataList;
     }
     
-    /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
-     */
     @Override
     public List<Row> getRows() {
         if (this.getParameters().containsKey("returnLocation")

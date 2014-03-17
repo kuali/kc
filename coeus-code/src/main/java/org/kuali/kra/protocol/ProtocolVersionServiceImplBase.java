@@ -108,9 +108,7 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
 
     protected abstract ProtocolBase createProtocolNewVersionHook(ProtocolBase protocol) throws Exception;
     
-    /**
-     * @see org.kuali.kra.protocol.ProtocolVersionService#versionProtocolDocument(org.kuali.kra.protocol.ProtocolDocumentBase)
-     */
+    @Override
     public ProtocolDocumentBase versionProtocolDocument(ProtocolDocumentBase protocolDocument) throws Exception {
      
         materializeCollections(protocolDocument.getProtocol());
@@ -308,9 +306,7 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
     }
 
    
-    /**
-     * @see org.kuali.kra.protocol.ProtocolVersionService#getProtocolVersion(java.lang.String, java.lang.Integer)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public ProtocolBase getProtocolVersion(String protocolNumber, Integer sequenceNumber) {
         ProtocolBase protocol = null;

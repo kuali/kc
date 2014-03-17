@@ -34,10 +34,7 @@ public class ProtocolModifySubmissionServiceImpl extends ProtocolProccessBillabl
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionService#modifySubmission(org.kuali.kra.irb.actions.submit.ProtocolSubmission, org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean)
-     */
+    @Override
     public void modifySubmission(ProtocolDocument protocolDocument, ProtocolModifySubmissionBean bean) throws Exception {
         ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
         submission.setSubmissionTypeCode(bean.getSubmissionTypeCode());

@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 
 public class IacucProtocolLocation extends ProtocolLocationBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7982031573066808319L;
 
 }

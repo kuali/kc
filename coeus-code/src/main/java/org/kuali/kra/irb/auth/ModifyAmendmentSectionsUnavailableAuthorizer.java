@@ -20,9 +20,7 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 
 public class ModifyAmendmentSectionsUnavailableAuthorizer extends ProtocolAuthorizer {
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_AMMENDMENT) &&
                (!isAmendmentOrRenewal(task.getProtocol()) ||

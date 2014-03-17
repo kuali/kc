@@ -20,9 +20,7 @@ import org.kuali.kra.award.document.AwardDocument;
 
 import java.io.Serializable;
 
-/**
- * This class...
- */
+
 public class ApprovedSubawardFormHelper implements Serializable {
     
     private AwardForm parent;
@@ -61,18 +59,10 @@ public class ApprovedSubawardFormHelper implements Serializable {
         this.newAwardApprovedSubaward = newAwardApprovedSubaward;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public AwardDocument getAwardDocument() {
         return parent.getAwardDocument();
     }
-    
-    /**
-     * This method...
-     * @return
-     */
+
     public Object getData() {
         return getNewAwardApprovedSubaward();
     }

@@ -28,7 +28,6 @@ public class IacucProtocolAssignToAgendaAuthorizer extends IacucProtocolAuthoriz
 
     private KcWorkflowService kraWorkflowService;
 
-    /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, IacucProtocolTask task) {
         ProtocolBase protocol = task.getProtocol();

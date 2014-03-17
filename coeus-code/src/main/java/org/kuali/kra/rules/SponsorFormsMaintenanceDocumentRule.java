@@ -27,35 +27,21 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class SponsorFormsMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
-    /**
-     * Constructs a SponsorMaintenanceDocumentRule.java.
-     */
+
     public SponsorFormsMaintenanceDocumentRule() {
         super();
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         return checkSponsorCodeOrHierarchyName(document);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return checkSponsorCodeOrHierarchyName(document);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return checkSponsorCodeOrHierarchyName(document);

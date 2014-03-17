@@ -37,9 +37,7 @@ import org.kuali.rice.core.api.util.KeyValue;
  */
 public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4743158845190302163L;
 
     @Override

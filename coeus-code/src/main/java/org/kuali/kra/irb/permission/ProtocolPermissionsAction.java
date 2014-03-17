@@ -36,9 +36,6 @@ public class ProtocolPermissionsAction extends ProtocolAction implements Permiss
      
     private ProtocolPermissionsActionHelper permissionsActionHelper = new ProtocolPermissionsActionHelper(this);
     
-    /**
-     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -49,18 +46,12 @@ public class ProtocolPermissionsAction extends ProtocolAction implements Permiss
         return actionForward;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#preDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
-     */
     @Override
     protected void preDocumentSave(KualiDocumentFormBase form) throws Exception {
         super.preDocumentSave(form);
         permissionsActionHelper.save((ProtocolForm) form);
     }
     
-    /**
-     * @see org.kuali.kra.irb.ProtocolAction#saveOnClose(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.saveOnClose(mapping, form, request, response);
@@ -70,49 +61,37 @@ public class ProtocolPermissionsAction extends ProtocolAction implements Permiss
         return forward;
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction#getPermissionsRoleRights(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    @Override
     public ActionForward getPermissionsRoleRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         return permissionsActionHelper.getRoleRights(mapping, form, request, response);
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction#addUser(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    @Override
     public ActionForward addUser(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         return permissionsActionHelper.addUser(mapping, form, request, response);
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction#deleteUser(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    @Override
     public ActionForward deleteUser(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         return permissionsActionHelper.deleteUser(mapping, form, request, response);
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction#confirmDeletePermissionsUser(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    @Override
     public ActionForward confirmDeletePermissionsUser(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return permissionsActionHelper.confirmDeletePermissionsUser(mapping, form, request, response);
     }      
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction#editRoles(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    @Override
     public ActionForward editRoles(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                 HttpServletResponse response) throws Exception {
         return permissionsActionHelper.editRoles( mapping, form, request, response) ;
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsAction#setEditRoles(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    @Override
     public ActionForward setEditRoles(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                 HttpServletResponse response) throws Exception {
        return permissionsActionHelper.setEditRoles(mapping, form, request, response);
