@@ -814,6 +814,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
              * Opportunity, then the user wants to submit the proposal manually (printing and sending via
              * snail mail).
              */
+            if (!KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
+                auditPassed = false;
+            }
             boolean s2sPassed = true;
             if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
                 S2SService s2sService = (S2SService) KcServiceLocator.getService(S2SService.class);

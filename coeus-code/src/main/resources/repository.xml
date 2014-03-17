@@ -402,41 +402,9 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		
-		<!-- not available yet
-		<collection-descriptor name="AwardContact" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="rolodexId"/>
-		</collection-descriptor>
-
-		<collection-descriptor name="AwardReportTerms" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="rolodexId"/>
-		</collection-descriptor>
-		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="rolodexId"/>
-		</collection-descriptor>
-		<collection-descriptor name="Sponsor" proxy="true" element-class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="rolodexId"/>
-		</collection-descriptor>
-		<collection-descriptor name="SubcontractContact" proxy="true" element-class-ref="org.kuali.kra.bo.SubcontractContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="rolodexId"/>
-		</collection-descriptor>
-		<collection-descriptor name="TemplateContact" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="rolodexId"/>
-		</collection-descriptor>
-		<collection-descriptor name="TemplateReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="rolodexId"/>
-		</collection-descriptor>
-		<reference-descriptor name="CountryCode" class-ref="org.kuali.kra.bo.CountryCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="countryCode"/>
-		</reference-descriptor>
-		-->
 
 		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="ownedByUnit" />
-    	</reference-descriptor>
-    	
-    	<reference-descriptor name="organizations" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
-        	<foreignkey field-ref="organization" />
     	</reference-descriptor>
     	
 		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">

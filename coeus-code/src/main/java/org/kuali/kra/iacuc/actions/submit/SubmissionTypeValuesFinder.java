@@ -73,11 +73,12 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
             return displayResubmission(currentStatus) || displayContinuationWithAmendment(currentStatus, protocol);
         } else if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.RESPONSE_TO_PREV_IACUC_NOTIFICATION)) {
             return displayResubmission(currentStatus) || displayResponseToPrevIACUCNotification(currentStatus);
+        } else if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.NOTIFY_IACUC)) {
+            return displayNotifyIacuc(currentStatus, protocol);
         }
         return false; 
     }
     
-    // TODO this is just a temporary fix to test acknowledge action, need further clarification to decide when exactly to show the FYI option
     private boolean displayFYISubmission(String currentStatus) {
         String validStatuses[] = { 
                                    IacucProtocolStatus.IN_PROGRESS, 
@@ -141,9 +142,25 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     
+    protected boolean displayNotifyIacuc(String currentStatus, ProtocolBase protocol) {
+        String validStatuses[] = { IacucProtocolStatus.ACTIVE };
+        String validSumissionStatuses[] = { IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE};        
+        String currentSubmissionStatus = protocol.getProtocolSubmission().getSubmissionStatusCode();
+        return validateCurrentStatus(currentStatus, validStatuses)  && validateCurrentSubmissionStatus(currentSubmissionStatus, validSumissionStatuses);
+    }
+    
     private boolean validateCurrentStatus(String currentStatus, String[] validStatuses) {
         for (String status : validStatuses) {
             if (StringUtils.equals(currentStatus, status)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    protected boolean validateCurrentSubmissionStatus(String currentSubmissionStatus, String[] validSubmissionStatuses) {
+        for (String status : validSubmissionStatuses) {
+            if (StringUtils.equals(currentSubmissionStatus, status)) {
                 return true;
             }
         }

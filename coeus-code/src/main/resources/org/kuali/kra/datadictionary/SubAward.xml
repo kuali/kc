@@ -42,6 +42,13 @@
         <ref bean="SubAward-lastUpdate" />
         <ref bean="SubAward-subAwardCode" />    
         <ref bean="SubAward-awardNumber" /> 
+        <ref bean="SubAward-costType" />
+        <ref bean="SubAward-executionDate" />
+        <ref bean="SubAward-requisitionId" />
+        <ref bean="SubAward-modificationEffectiveDate" /> 
+        <ref bean="SubAward-modificationId" /> 
+        <ref bean="SubAward-performanceStartDate" /> 
+        <ref bean="SubAward-performanceEnddate" />
       </list>
     </property>
   </bean>
@@ -670,6 +677,113 @@
     </property>
     <property name="summary" value="Award ID"/>
     <property name="description" value="Award ID"/>
+  </bean>
+
+  <bean id="SubAward-costType" parent="SubAward-costType-parentBean" />
+  
+  <bean id="SubAward-costType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="costType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Cost Type" />
+    <property name="shortLabel" value="Cost Type" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.subaward.bo.SubAwardCostType"
+            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="costTypeCode"
+            p:labelAttribute="costTypeDescription" />
+    </property>
+    <property name="summary" value="Cost Type" />
+    <property name="description" value="Cost Type" />    
+  </bean>
+  
+  <bean id="SubAward-executionDate" parent="SubAward-executionDate-parentBean" />
+  
+  <bean id="SubAward-executionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+    <property name="name" value="executionDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Execution Date" />
+    <property name="shortLabel" value="Execution Date" />
+    <property name="required" value="false" />
+    <property name="summary" value="Execution Date" />
+    <property name="description" value="Execution Date" />    
+  </bean>
+  
+  <bean id="SubAward-requisitionId" parent="SubAward-requisitionId-parentBean" />
+  
+  <bean id="SubAward-requisitionId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requisitionId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Requisition ID" />
+    <property name="shortLabel" value="Requisition ID" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Requisition ID" />
+    <property name="description" value="Requisition ID" />    
+  </bean>
+  
+   <bean id="SubAward-modificationEffectiveDate" parent="SubAward-modificationEffectiveDate-parentBean" />
+  
+  <bean id="SubAward-modificationEffectiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="modificationEffectiveDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Modification Effective Date" />
+    <property name="shortLabel" value="Modification Effective Date" />
+    <property name="summary" value="Modification Effective Date" />
+    <property name="description" value="Modification Effective Date" />    
+  </bean>
+	
+	<bean id="SubAward-modificationId" parent="SubAward-modificationId-parentBean" />
+  
+  <bean id="SubAward-modificationId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="modificationId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Modification ID" />
+    <property name="shortLabel" value="Modification ID" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Modification ID" />
+    <property name="description" value="Modification ID" />    
+  </bean>
+  <bean id="SubAward-performanceStartDate" parent="SubAward-performanceStartDate-parentBean" />
+  
+  <bean id="SubAward-performanceStartDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+    <property name="name" value="performanceStartDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Period of Performance Start Date" />
+    <property name="shortLabel" value="Period of Performance Start Date" />
+    <property name="required" value="false" />
+    <property name="summary" value="Period of Performance Start Date" />
+    <property name="description" value="Period of Performance Start Date" />    
+  </bean>
+  <bean id="SubAward-performanceEnddate" parent="SubAward-performanceEnddate-parentBean" />
+  
+  <bean id="SubAward-performanceEnddate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+    <property name="name" value="performanceEnddate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Period of Performance End Date" />
+    <property name="shortLabel" value="Period of Performance End Date" />
+    <property name="required" value="false" />
+    <property name="summary" value="Period of Performance End Date" />
+    <property name="description" value="Period of Performance End Date" />    
   </bean>
 
   <!-- Business Object Inquiry Definition -->
