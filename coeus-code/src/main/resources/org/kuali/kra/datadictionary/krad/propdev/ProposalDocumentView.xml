@@ -40,8 +40,8 @@
 				<ref bean="PropDev-AbstractsPage" />
 				<ref bean="PropDev-NotesPage" />
 				<ref bean="PropDev-QuestionnairePage" />
+				<ref bean="PropDev-SponsorProgramInfo" />
 				<bean id="PropDev-DeliveryInfo" parent="PropDev-UnderDevelopmentPage" />
-				<bean id="PropDev-SponsorProgramInfo" parent="PropDev-UnderDevelopmentPage" />
 				<bean id="PropDev-CreditAllocation" parent="PropDev-UnderDevelopmentPage" />
 				<bean id="PropDev-Budget-Summary" parent="PropDev-UnderDevelopmentPage" />
 				<bean id="PropDev-Budget-Parameters" parent="PropDev-UnderDevelopmentPage" />
