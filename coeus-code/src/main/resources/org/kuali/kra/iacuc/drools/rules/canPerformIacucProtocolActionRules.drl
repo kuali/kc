@@ -23,7 +23,15 @@ then
 	setAction(protocolAction, true);
 end
 
-rule "Assign to Agenda"
+rule "Assign to Agenda 1"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "200", protocolStatusCode =="200", submissionStatusCode == "102", scheduleId != null, submissionTypeCode == "110")
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Assign to Agenda 2"
 salience 100
 when
     protocolAction : IacucProtocolActionMapping(actionTypeCode == "200", protocolStatusCode == "101", submissionStatusCode == "102", scheduleId != null, protocolReviewTypeCode in ("2", "3", "4", "5", "6"))
@@ -223,12 +231,21 @@ then
     setAction(protocolAction, true);
 end
 
-rule "Manage Review Comments"
+rule "Manage Review Comments 1"
 when
     protocolAction : IacucProtocolActionMapping(actionTypeCode == "310", protocolStatusCode in ("101", "103", "203"))
 then    
     setAction(protocolAction, true);
 end
+
+rule "Manage Review Comments 2"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "310", submissionStatusCode in ("102"))
+then    
+    setAction(protocolAction, true);
+end
+
 
 rule "Suspend Protocol "
 salience 100
@@ -372,6 +389,14 @@ salience 100
 when
 	protocolAction : IacucProtocolActionMapping(actionTypeCode == '309',  protocolStatusCode == '101', submissionStatusCode in ("101", "102"))
 then	
+    setAction(protocolAction, true);
+end
+
+rule "Rule 2 -  Modify Protocol Submission"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == '309',  protocolStatusCode == '200', submissionStatusCode in ("102"))
+then    
     setAction(protocolAction, true);
 end
 
