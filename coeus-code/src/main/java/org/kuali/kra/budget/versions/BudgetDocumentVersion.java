@@ -34,10 +34,9 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
 
     private static final String BUDGET_COMPLETE = "1";
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = -2143813153034264031L;
+    @Id
+    @Column(name = "DOCUMENT_NUMBER")
+    private String documentNumber;
 
     @Column(name = "PARENT_DOCUMENT_KEY")
     private String parentDocumentKey;
@@ -45,13 +44,8 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
     @Column(name = "PARENT_DOCUMENT_TYPE_CODE")
     private String parentDocumentTypeCode;
 
-    @OneToMany(targetEntity = BudgetVersionOverview.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
+    @OneToMany(mappedBy="budgetDocumentVersion", cascade=CascadeType.ALL, orphanRemoval = true)
     private List<BudgetVersionOverview> budgetVersionOverviews;
-
-    @Id
-    @Column(name = "DOCUMENT_NUMBER")
-    private String documentNumber;
 
     @Transient
     private DocumentHeader documentHeader;

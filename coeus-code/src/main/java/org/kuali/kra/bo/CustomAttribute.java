@@ -20,9 +20,6 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 import javax.persistence.*;
 
-/**
- * This is bo class of CustomAttribute.
- */
 @Entity
 @Table(name = "CUSTOM_ATTRIBUTE")
 public class CustomAttribute extends KcPersistableBusinessObjectBase {
@@ -166,7 +163,7 @@ public class CustomAttribute extends KcPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the value attribute. 
+     * Gets the value attribute.
      * @return Returns the value.
      */
     public String getValue() {

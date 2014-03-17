@@ -89,14 +89,6 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         return false;
     }
 
-    /**
-     * This method...
-     * @param budgetDocument
-     * @param isProposalBudget
-     * @param budget
-     * @param budgetParent
-     * @throws WorkflowException
-     */
     protected BudgetDocument<DevelopmentProposal> saveBudgetDocument(BudgetDocument<DevelopmentProposal> budgetDocument) throws WorkflowException {
         budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.saveDocument(budgetDocument);
         return (BudgetDocument<DevelopmentProposal>) documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());

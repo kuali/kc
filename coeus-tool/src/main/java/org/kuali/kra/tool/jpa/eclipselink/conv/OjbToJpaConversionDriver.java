@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.metadata.DescriptorRepository;
 import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
-import org.kuali.coeus.sys.framework.persistence.OjbBlobClobFieldConersion;
+import org.kuali.coeus.sys.framework.persistence.OjbBlobClobFieldConversion;
 import org.kuali.kra.budget.BudgetDecimalConverter;
 import org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion;
 import org.kuali.rice.devtools.jpa.eclipselink.conv.common.CommonUtil;
@@ -58,7 +58,7 @@ public class OjbToJpaConversionDriver {
         cfg.addConverter(org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion.class.getName(), org.kuali.rice.krad.data.jpa.converters.KualiDecimalConverter.class.getName());
         cfg.addConverter(org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiPercentFieldConversion.class.getName(), KualiPercentConverter.class.getName());
         //I think that nothing is needed here as JPA will use the correct jdbc type
-        cfg.addConverter(OjbBlobClobFieldConersion.class.getName(), "");
+        cfg.addConverter(OjbBlobClobFieldConversion.class.getName(), "");
         cfg.addConverter(org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion.class.getName(), org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter.class.getName());
     }
 

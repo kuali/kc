@@ -943,10 +943,10 @@
 	<class-descriptor class="org.kuali.kra.s2s.bo.S2sOpportunity" table="S2S_OPPORTUNITY">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="cfdaNumber" column="CFDA_NUMBER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="closingDate" column="CLOSING_DATE" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="closingDate" column="CLOSING_DATE" jdbc-type="TIMESTAMP" conversion="org.kuali.coeus.sys.framework.persistence.OjbCalendarSqlTimestampConversion"/>
 		<field-descriptor name="competetionId" column="COMPETETION_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="instructionUrl" column="INSTRUCTION_URL" jdbc-type="VARCHAR"/>
-		<field-descriptor name="openingDate" column="OPENING_DATE" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="openingDate" column="OPENING_DATE" jdbc-type="TIMESTAMP" conversion="org.kuali.coeus.sys.framework.persistence.OjbCalendarSqlTimestampConversion"/>
 		<field-descriptor name="opportunity" column="OPPORTUNITY" jdbc-type="CLOB"/>
 		<field-descriptor name="opportunityId" column="OPPORTUNITY_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="opportunityTitle" column="OPPORTUNITY_TITLE" jdbc-type="VARCHAR"/>
@@ -1236,7 +1236,7 @@
 	<class-descriptor class="org.kuali.kra.bo.SponsorFormTemplate" table="SPONSOR_FORM_TEMPLATES">
 		<field-descriptor name="sponsorFormTemplateId" column="SPONSOR_FORM_TEMPLATE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_SPONSOR_FORM_TEMPLATES" autoincrement="true"/>
 		<field-descriptor name="sponsorFormId" column="SPONSOR_FORM_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="attachmentContent" column="FORM_TEMPLATE" jdbc-type="CLOB" conversion="org.kuali.coeus.sys.framework.persistence.OjbBlobClobFieldConersion"/>
+		<field-descriptor name="attachmentContent" column="FORM_TEMPLATE" jdbc-type="CLOB" conversion="org.kuali.coeus.sys.framework.persistence.OjbBlobClobFieldConversion"/>
 		<field-descriptor name="pageDescription" column="PAGE_DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="pageNumber" column="PAGE_NUMBER" jdbc-type="INTEGER"/>
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
@@ -1651,7 +1651,7 @@
 		<field-descriptor name="reportDescription" column="REPORT_DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="reportTypeCode" column="REPORT_TYPE_CODE" jdbc-type="INTEGER" /> 
 		<field-descriptor name="permissionName" column="RIGHT_REQUIRED" jdbc-type="VARCHAR" />
-		<field-descriptor name="attachmentContent" column="REPORT_DESIGN" jdbc-type="CLOB" conversion="org.kuali.coeus.sys.framework.persistence.OjbBlobClobFieldConersion"/>
+		<field-descriptor name="attachmentContent" column="REPORT_DESIGN" jdbc-type="CLOB" conversion="org.kuali.coeus.sys.framework.persistence.OjbBlobClobFieldConversion"/>
 		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
