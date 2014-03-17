@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.sys.impl.controller;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.controller.SysFrameworkControllerConstants;
 import org.kuali.rice.core.api.CoreConstants;

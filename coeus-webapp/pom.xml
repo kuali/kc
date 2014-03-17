@@ -16,6 +16,10 @@
         The Kuali Coeus Webapp module contains web artifacts for the Kuali Coeus application.
     </description>
 
+    <prerequisites>
+        <maven>${require.maven.version}</maven>
+    </prerequisites>
+
     <properties>
         <!-- jetty & tomcat properties -->
         <kc.context.path>/kc-${build.environment}</kc.context.path>

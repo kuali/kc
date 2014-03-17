@@ -16,6 +16,10 @@
         The Kuali Coeus Database module is the parent module for all database related artifacts for the Kuali Coeus application.
     </description>
 
+    <prerequisites>
+        <maven>${require.maven.version}</maven>
+    </prerequisites>
+
     <modules>
         <module>coeus-db-sql</module>
         <module>coeus-db-xml</module>

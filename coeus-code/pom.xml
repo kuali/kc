@@ -16,6 +16,10 @@
         The Kuali Coeus Code module contains the main source code and unit tests for the Kuali Coeus application.
     </description>
 
+    <prerequisites>
+        <maven>${require.maven.version}</maven>
+    </prerequisites>
+
     <properties>
         <!-- WSDL config -->
         <gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
@@ -228,6 +232,16 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
 
         <dependency>

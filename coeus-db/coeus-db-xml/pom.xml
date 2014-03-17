@@ -17,6 +17,10 @@
         meant to be ingested using the Kuali Rice ingester.
     </description>
 
+    <prerequisites>
+        <maven>${require.maven.version}</maven>
+    </prerequisites>
+
     <properties>
         <copy.javaagent.off>true</copy.javaagent.off>
     </properties>
