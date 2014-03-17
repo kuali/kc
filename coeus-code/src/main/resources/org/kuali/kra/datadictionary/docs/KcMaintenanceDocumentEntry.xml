@@ -40,7 +40,5 @@
     		</list>
   		</property>
 	</bean>
-	
-	<bean id="KraMaintenanceDocumentEntry" class="org.kuali.kra.maintenance.KraMaintenanceDocumentEntry" 
-    	parent="KcMaintenanceDocumentEntry" abstract="true"/>
+
 </beans>  
