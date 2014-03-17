@@ -46,10 +46,7 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
         this.committee = committee;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
-     */
+    @Override
     public Map<String, String> getDefaultReplacementParameters() {
         String[] replacementParameters = CommitteeReplacementParameters.REPLACEMENT_PARAMETERS;
         

@@ -27,18 +27,12 @@ import org.kuali.rice.kew.api.actionlist.DisplayParameters;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
 public class CopyCustomActionListAttribute implements CustomActionListAttribute {
-    /**
-     * @see edu.iu.uis.eden.plugin.attributes.CustomActionListAttribute#getDocHandlerDisplayParameters(edu.iu.uis.eden.web.session.UserSession, edu.iu.uis.eden.actionitem.ActionItem)
-     */
     @Override
     public DisplayParameters getDocHandlerDisplayParameters(String principalId, ActionItem actionItem) throws Exception {
     	DisplayParameters dp = DisplayParameters.Builder.create(new Integer(300)).build();
     	return dp;
     }
 
-    /**
-     * @see edu.iu.uis.eden.plugin.attributes.CustomActionListAttribute#getLegalActions(edu.iu.uis.eden.web.session.UserSession, edu.iu.uis.eden.actionitem.ActionItem)
-     */
     @Override
     public ActionSet getLegalActions(String principalId, ActionItem actionItem) throws Exception {
     	ActionSet as = ActionSet.Builder.create().build();

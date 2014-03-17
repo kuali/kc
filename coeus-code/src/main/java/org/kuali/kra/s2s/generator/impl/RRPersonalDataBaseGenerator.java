@@ -29,10 +29,7 @@ public abstract class RRPersonalDataBaseGenerator extends S2SBaseFormGenerator {
     public static final String KEYPERSON_TYPE_C0_INVESTIGATOR = "COI";
     protected S2SUtilService s2sUtilService;
 
-    /**
-     * 
-     * Constructs a RRPersonalDataBaseGenerator.java.
-     */
+
     public RRPersonalDataBaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
     }

@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 
 public class IacucProtocolResearchArea extends ProtocolResearchAreaBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8195470445987156725L;
 
 }

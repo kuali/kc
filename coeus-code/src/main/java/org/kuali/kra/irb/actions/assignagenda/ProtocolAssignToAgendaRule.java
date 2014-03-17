@@ -28,10 +28,7 @@ public class ProtocolAssignToAgendaRule extends KcTransactionalDocumentRuleBase 
     private static final String COMMITTEE_ID_FIELD = "committeeId";
     private static final String ACTION_DATE_FIELD = "actionDate";
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(ProtocolAssignToAgendaEvent event) {
         boolean isValid = true;
         

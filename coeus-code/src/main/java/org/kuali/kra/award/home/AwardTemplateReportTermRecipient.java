@@ -22,9 +22,7 @@ import org.kuali.kra.infrastructure.Constants;
 
 public class AwardTemplateReportTermRecipient extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3067969440328090438L;
 
     private Integer templateReportTermRecipientId;
@@ -119,9 +117,6 @@ public class AwardTemplateReportTermRecipient extends KcPersistableBusinessObjec
         this.awardTemplateReportTerm = awardTemplateReportTerm;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -132,9 +127,6 @@ public class AwardTemplateReportTermRecipient extends KcPersistableBusinessObjec
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

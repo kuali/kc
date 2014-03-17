@@ -28,7 +28,7 @@ public class MeetingAddAttachmentsRule  extends KcTransactionalDocumentRuleBase 
     
     @Override
     public boolean processRules(MeetingAddAttachmentsEvent event) {
-        // TODO Auto-generated method stub
+
         boolean isValid = true;
         CommitteeScheduleAttachmentsBase committeeScheduleAttachments = event.getMeetingHelper().getNewCommitteeScheduleAttachments();
         if (committeeScheduleAttachments.getAttachmentsTypeCode() == null){

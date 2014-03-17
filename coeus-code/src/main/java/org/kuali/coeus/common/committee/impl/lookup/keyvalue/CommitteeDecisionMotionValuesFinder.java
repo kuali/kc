@@ -31,9 +31,7 @@ import java.util.List;
  */
 public class CommitteeDecisionMotionValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3729912964388818340L;
     
     private KeyValuesService keyValuesService;

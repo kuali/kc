@@ -25,9 +25,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  */
 public class AwardApprovedSubaward extends AwardAssociate implements ValuableItem {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5025168632828604306L;
 
     private Long awardApprovedSubawardId;
@@ -44,34 +42,18 @@ public class AwardApprovedSubaward extends AwardAssociate implements ValuableIte
         setAmount(new KualiDecimal(0.00));
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public Long getAwardApprovedSubawardId() {
         return awardApprovedSubawardId;
     }
 
-    /**
-     * This method...
-     * @param awardApprovedSubawardId
-     */
     public void setAwardApprovedSubawardId(Long awardApprovedSubawardId) {
         this.awardApprovedSubawardId = awardApprovedSubawardId;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public String getOrganizationName() {
         return organizationName;
     }
 
-    /**
-     * This method...
-     * @param organizationName
-     */
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
     }
@@ -108,26 +90,15 @@ public class AwardApprovedSubaward extends AwardAssociate implements ValuableIte
         this.organization = organization;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public KualiDecimal getAmount() {
         return amount;
     }
 
-    /**
-     * This method...
-     * @param amount
-     */
     public void setAmount(KualiDecimal amount) {
         this.amount = amount;
     }
 
     //CSOFF  
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -139,9 +110,6 @@ public class AwardApprovedSubaward extends AwardAssociate implements ValuableIte
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -182,9 +150,7 @@ public class AwardApprovedSubaward extends AwardAssociate implements ValuableIte
     }
 
     //CSON  
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.awardApprovedSubawardId = null;
     }

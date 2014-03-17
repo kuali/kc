@@ -107,9 +107,7 @@ public class AwardCreditSplitBeanTest {
         }
     }
 
-    /**
-     * @return
-     */
+
     private void addAwardPerson(Long id, String personId, String fullName, ContactRole contactRole) {
         KcPerson person = KcPersonFixtureFactory.createKcPerson(personId);
         person.setPersonId(id.toString());
@@ -156,10 +154,6 @@ public class AwardCreditSplitBeanTest {
         return types;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     private Map<String, KualiDecimal> initializeCreditSplitTotalsForAllPersons() {
         Map<String, KualiDecimal> expectedTotals = new HashMap<String, KualiDecimal>();
 
@@ -174,10 +168,6 @@ public class AwardCreditSplitBeanTest {
         return expectedTotals;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     private Map<String, Map<String, KualiDecimal>> initializeCreditSplitTotalsForEachPersonUnit() {
         Map<String, Map<String, KualiDecimal>> personMapOfUnitCreditSplitTotals = new HashMap<String, Map<String, KualiDecimal>>(); 
         Map<String, KualiDecimal> expectedPersonUnitCreditSplitTotals = new HashMap<String, KualiDecimal>();

@@ -8,14 +8,9 @@ import java.util.List;
 
 public class KcPersonExtendedAttributesLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8135788972031192656L;
 
-    /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
-     */
     @Override
     public List<Row> getRows() {
         List<Row> rows =  super.getRows();

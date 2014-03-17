@@ -212,7 +212,6 @@ public abstract class KcTransactionalDocumentFormBase extends KualiTransactional
         ((KcTransactionalDocumentBase)document).setViewOnly(isViewOnly());
     }
     
-    /** {@inheritDoc} */
     @Override
     protected abstract String getDefaultDocumentTypeName();
 

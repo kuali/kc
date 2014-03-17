@@ -126,17 +126,6 @@ public class PrintingServiceImpl implements PrintingService {
 
     }
 
-    /**
-     * This method...
-     * 
-     * @param streamMap
-     * @param pdfByteMap
-     * @param fopFactory
-     * @param xslCount
-     * @param transformer
-     * @throws FOPException
-     * @throws TransformerException
-     */
     protected void createPdfWithFOP(Map<String, byte[]> streamMap, Map<String, byte[]> pdfByteMap, FopFactory fopFactory,
             int xslCount, StreamSource xslt, Printable printableArtifact) throws FOPException, TransformerException {
         createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, null, printableArtifact);
@@ -162,13 +151,7 @@ public class PrintingServiceImpl implements PrintingService {
         }
     }
 
-    /**
-     * This method...
-     * 
-     * @param xslCount
-     * @param xmlData
-     * @return
-     */
+
     protected String createBookMark(int xslCount, String bookmarkKey) {
         String pdfMapKey = bookmarkKey + (xslCount == 1 ? "" : " " + xslCount);
         return pdfMapKey;

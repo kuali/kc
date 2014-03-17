@@ -26,9 +26,7 @@ import java.sql.Date;
  */
 public class AwardCloseout extends AwardAssociate {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5392480855349965272L;
 
     private Long awardCloseoutId;
@@ -63,63 +61,30 @@ public class AwardCloseout extends AwardAssociate {
          </c:otherwise>
     </c:choose>
      */
-    /**
-     * 
-     * Constructs a AwardCloseout.java.
-     */
+
     public AwardCloseout() {
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public Long getAwardCloseoutId() {
         return awardCloseoutId;
     }
 
-    /**
-     * 
-     * This method...
-     * @param awardCloseoutId
-     */
     public void setAwardCloseoutId(Long awardCloseoutId) {
         this.awardCloseoutId = awardCloseoutId;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public Date getFinalSubmissionDate() {
         return finalSubmissionDate;
     }
 
-    /**
-     * 
-     * This method...
-     * @param finalSubmissionDate
-     */
     public void setFinalSubmissionDate(Date finalSubmissionDate) {
         this.finalSubmissionDate = finalSubmissionDate;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getCloseoutReportCode() {
         return closeoutReportCode;
     }
 
-    /**
-     * 
-     * This method...
-     * @param closeoutReportCode
-     */
     public void setCloseoutReportCode(String closeoutReportCode) {
         this.closeoutReportCode = closeoutReportCode;
     }
@@ -172,9 +137,6 @@ public class AwardCloseout extends AwardAssociate {
         this.closeoutReportName = closeoutReportName;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -202,17 +164,11 @@ public class AwardCloseout extends AwardAssociate {
         this.multiple = multiple;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         awardCloseoutId = null;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

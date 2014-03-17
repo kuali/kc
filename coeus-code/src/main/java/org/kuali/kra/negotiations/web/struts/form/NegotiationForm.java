@@ -61,10 +61,7 @@ public class NegotiationForm extends KcTransactionalDocumentFormBase implements 
     
     private MedusaBean medusaBean;
     
-    /**
-     * 
-     * Constructs a NegotiationForm.java.
-     */
+
     public NegotiationForm() {
         super();
         negotiationUnassociatedDetailsToDelete = new ArrayList<NegotiationUnassociatedDetail>();

@@ -86,9 +86,7 @@ import java.util.*;
 import static org.apache.commons.lang3.StringUtils.replace;
 import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
 
-/**
- * This class...
- */
+
 @Transactional
 public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
@@ -142,9 +140,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         this.configurationService = configurationService;
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#createHierarchy(java.lang.String)
-     */
+    @Override
     public String createHierarchy(DevelopmentProposal initialChild) throws ProposalHierarchyException {
         LOG.info(String.format("***Create Hierarchy using Proposal #%s", initialChild.getProposalNumber()));
         if (initialChild.isInHierarchy()) {
@@ -212,9 +208,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return hierarchy.getProposalNumber();
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#linkToHierarchy(org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal, org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal, java.lang.String)
-     */
+    @Override
     public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal, String hierarchyBudgetTypeCode) throws ProposalHierarchyException {
         LOG.info(String.format("***Linking Child (#%s) linked to Parent (#%s)", newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
         if (!hierarchyProposal.isParent()) {
@@ -231,9 +225,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         LOG.info(String.format("***Linking Child (#%s) linked to Parent (#%s) complete", newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#removeFromHierarchy(java.lang.String)
-     */
+    @Override
     public void removeFromHierarchy(DevelopmentProposal childProposal) throws ProposalHierarchyException {
         String hierarchyProposalNumber = childProposal.getHierarchyParentProposalNumber();
         DevelopmentProposal hierarchyProposal = getHierarchy(hierarchyProposalNumber);
@@ -287,9 +279,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         LOG.info(String.format("***Removing Child (#%s) from Parent (#%s) complete", childProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchySyncService#synchronizeAllChildren(java.lang.String)
-     */
+    @Override
     public void synchronizeAllChildren(ProposalDevelopmentDocument pdDoc) throws ProposalHierarchyException {
         prepareHierarchySync(pdDoc);
         synchronizeAll(pdDoc.getDevelopmentProposal());
@@ -316,9 +306,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         LOG.info(String.format("***Synchronizing all Children of Parent (#%s) complete", hierarchyProposal.getProposalNumber()));
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchySyncService#synchronizeChild(java.lang.String)
-     */
+    @Override
     public void synchronizeChild(DevelopmentProposal childProposal) throws ProposalHierarchyException {
         DevelopmentProposal hierarchy = getHierarchy(childProposal.getHierarchyParentProposalNumber());
         LOG.info(String.format("***Synchronizing Child (#%s) of Parent (#%s)", childProposal.getProposalNumber(), hierarchy.getProposalNumber()));
@@ -346,9 +334,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         LOG.info(String.format("***Synchronizing Child Budget (#%s) of Parent (#%s) complete", childProposal.getProposalNumber(), hierarchy.getProposalNumber()));
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#lookupParent(org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal)
-     */
+    @Override
     public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException {
         return getHierarchy(childProposal.getHierarchyParentProposalNumber());
     }
@@ -1502,9 +1488,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getHierarchyChildren(java.lang.String)
-     */
+    @Override
     public List<DevelopmentProposal> getHierarchyChildren(String parentProposalNumber) {
         List<DevelopmentProposal> children = new ArrayList<DevelopmentProposal>();
         for( String childProposalNumber : proposalHierarchyDao.getHierarchyChildProposalNumbers(parentProposalNumber)) {
@@ -1513,17 +1497,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return children;
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getParentWorkflowStatus(org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal)
-     */
+    @Override
     public WorkflowDocument getParentWorkflowDocument(ProposalDevelopmentDocument child) throws ProposalHierarchyException {
             return getParentDocument( child ).getDocumentHeader().getWorkflowDocument();
     }
 
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getParentDocument(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
+    @Override
     public ProposalDevelopmentDocument getParentDocument(ProposalDevelopmentDocument child) throws ProposalHierarchyException {
         try {
             DevelopmentProposal parentProposal = getHierarchy(child.getDevelopmentProposal().getHierarchyParentProposalNumber());
@@ -1578,9 +1558,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#rejectProposalDevelopmentDocument(java.lang.String, java.lang.String)
-     */
+    @Override
     public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalName, FormFile rejectFile ) 
     throws WorkflowException, ProposalHierarchyException, IOException {
         DevelopmentProposal pbo = getDevelopmentProposal(proposalNumber);
@@ -1683,9 +1661,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return newChildStatusTarget;
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#routeHierarchyChildren(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange, java.lang.String)
-     */
+    @Override
     public void routeHierarchyChildren(ProposalDevelopmentDocument proposalDevelopmentDocument, DocumentRouteStatusChange dto ) throws ProposalHierarchyException {
         
         String childStatusTarget = calculateChildRouteStatus(proposalDevelopmentDocument, dto );
@@ -1787,9 +1763,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return isInvestigator1 == isInvestigator2;
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getHierarchyPersonnelSummaries(java.lang.String)
-     */
+    @Override
     public List<HierarchyPersonnelSummary> getHierarchyPersonnelSummaries(String parentProposalNumber) throws ProposalHierarchyException {
         List<HierarchyPersonnelSummary> summaries = new ArrayList<HierarchyPersonnelSummary>();
         
@@ -1815,9 +1789,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return summaries;
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getHierarchyProposalSummaries(java.lang.String)
-     */
+    @Override
     public List<HierarchyProposalSummary> getHierarchyProposalSummaries(String proposalNumber) throws ProposalHierarchyException {
         DevelopmentProposal proposal = getDevelopmentProposal(proposalNumber);
         List<HierarchyProposalSummary> summaries = new ArrayList<HierarchyProposalSummary>();

@@ -23,9 +23,7 @@ import java.util.List;
 
 public class ProposalDevelopmentApproverViewDO implements Serializable  {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8148637372623283215L;
     
     String projectTitle;

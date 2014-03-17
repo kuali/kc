@@ -29,10 +29,7 @@ public class LookupProtocolFundingSourceRule extends KcTransactionalDocumentRule
 
     private final ErrorReporter errorReporter = new ErrorReporter();
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(LookupProtocolFundingSourceEventBase event) {
         boolean valid = true;
         

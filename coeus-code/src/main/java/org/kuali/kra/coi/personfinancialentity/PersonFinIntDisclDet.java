@@ -24,9 +24,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 public class PersonFinIntDisclDet extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1121307383084809439L;
 
     private Long perFinIntDisclDetId;

@@ -29,11 +29,6 @@ public class IRBNotificationRoleQualifierServiceImpl implements IRBNotificationR
     private Protocol protocol;
     private ProtocolOnlineReview protocolOnlineReview;
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService#getRoleQualifierValue(
-     *      org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier)
-     */
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
         String roleQualifierValue = null;

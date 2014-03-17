@@ -24,9 +24,7 @@ import java.util.List;
 
 public abstract class SendCorrespondenceValuesFinderBase extends UifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -9029045379411708867L;
 
     @Override

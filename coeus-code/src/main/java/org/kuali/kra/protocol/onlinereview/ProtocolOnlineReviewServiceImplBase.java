@@ -74,12 +74,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     @SuppressWarnings("unchecked")
     protected PersonService personService;
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#createAndRouteProtocolOnlineReviewDocument(
-     *      org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase, org.kuali.kra.irb.actions.submit.ProtocolReviewerBeanBase, java.lang.String, java.lang.String, 
-     *      java.lang.String, java.lang.String, boolean, java.sql.Date, java.sql.Date, java.lang.String)
-     */
+    @Override
     public ProtocolOnlineReviewDocumentBase createAndRouteProtocolOnlineReviewDocument(ProtocolSubmissionBase protocolSubmission, 
                                                                                    ProtocolReviewer protocolReviewer,
                                                                                    String documentDescription,
@@ -183,11 +178,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
 
     protected abstract String getProtocolOLRDocumentTypeHook();
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#createProtocolReviewer(java.lang.String, boolean, java.lang.String, 
-     *      org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase)
-     */
+    @Override
     public ProtocolReviewer createProtocolReviewer(String principalId, 
                                                    boolean nonEmployeeFlag, 
                                                    String reviewerTypeCode, 
@@ -215,9 +206,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     protected abstract ProtocolReviewer createNewProtocolReviewerInstanceHook();
     
 
-    /**
-     * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#getProtocolReviewDocumentsForCurrentSubmission(org.kuali.kra.protocol.ProtocolBase)
-     */
+    @Override
     public List<ProtocolOnlineReviewDocumentBase> getProtocolReviewDocumentsForCurrentSubmission(ProtocolBase protocol) {
         List<ProtocolOnlineReviewDocumentBase> onlineReviewDocuments = new ArrayList<ProtocolOnlineReviewDocumentBase>();
         ProtocolSubmissionBase submission = protocol.getProtocolSubmission();
@@ -237,9 +226,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     }
 
     
-    /**
-     * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#getAvailableCommitteeMembersForCurrentSubmission(org.kuali.kra.protocol.ProtocolBase)
-     */
+    @Override
     public List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission(ProtocolBase protocol) {
         List<CommitteeMembershipBase> results = new ArrayList<CommitteeMembershipBase>();
         
@@ -269,10 +256,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         return results;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#getProtocolReviewsForCurrentSubmission(java.lang.String)
-     */
+    @Override
     public List<ProtocolOnlineReviewBase> getProtocolReviews(String protocolNumber) {
         ProtocolBase protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
         List<ProtocolOnlineReviewBase> reviews = null;
@@ -287,10 +271,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         return reviews;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#getProtocolReviews(java.lang.Long)
-     */
+    @Override
     public List<ProtocolOnlineReviewBase> getProtocolReviews(Long submissionId) {
         List<ProtocolOnlineReviewBase> reviews = new ArrayList<ProtocolOnlineReviewBase>();
         
@@ -308,11 +289,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     
     protected abstract Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook();
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#getProtocolReviewer(java.lang.String, 
-     *      org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase)
-     */
+    @Override
     public ProtocolReviewer getProtocolReviewer(String personId, boolean nonEmployeeFlag, ProtocolSubmissionBase protocolSubmission) {
         ProtocolReviewer protocolReviewer = null;
 
@@ -330,9 +307,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     }
 
     
-    /**
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#getProtocolOnlineReviewDocument(java.lang.String, boolean, org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase)
-     */
+    @Override
     public ProtocolOnlineReviewDocumentBase getProtocolOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmissionBase protocolSubmission) {
         ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument = null;
         
@@ -361,10 +336,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         return protocolOnlineReviewDocument;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#isUserAnOnlineReviewerOfProtocol(java.lang.String, org.kuali.kra.protocol.ProtocolBase)
-     */
+    @Override
     public boolean isProtocolReviewer(String personId, boolean nonEmployeeFlag, ProtocolSubmissionBase protocolSubmission) {
         boolean isReviewer = false;
         
@@ -454,9 +426,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         
     }
         
-    /**
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#removeOnlineReviewDocument(java.lang.String, boolean, org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase, java.lang.String)
-     */
+    @Override
     public void removeOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmissionBase submission, String annotation) {
         ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument = this.getProtocolOnlineReviewDocument(personId, nonEmployeeFlag, submission);
         
@@ -498,11 +468,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     protected abstract String getProtocolOLRRemovedCancelledStatusCodeHook();
 
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#cancelOnlineReviews(org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase, 
-     *      java.lang.String)
-     */
+    @Override
     public void cancelOnlineReviews(ProtocolSubmissionBase submission, String annotation) {
         //get the online reviews, loop through them and finalize them if necessary.
         for (ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
@@ -510,9 +476,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         }
     }
     
-    /**
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#finalizeOnlineReviews(org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase)
-     */
+    @Override
     public void finalizeOnlineReviews(ProtocolSubmissionBase submission, String annotation) {
         //get the online reviews, loop through them and finalize them if necessary.
         for(ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
@@ -521,10 +485,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         }
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#moveOnlineReviews(org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase, org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase)
-     */
+    @Override
     public void moveOnlineReviews(ProtocolSubmissionBase submission, ProtocolSubmissionBase newSubmission) {
         newSubmission.setProtocolOnlineReviews(new ArrayList<ProtocolOnlineReviewBase>());
         for (ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {

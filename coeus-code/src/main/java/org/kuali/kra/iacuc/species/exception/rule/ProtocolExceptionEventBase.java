@@ -31,9 +31,6 @@ public abstract class ProtocolExceptionEventBase extends KcDocumentEventBase imp
         this.protocolException = protocolException;
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
     }

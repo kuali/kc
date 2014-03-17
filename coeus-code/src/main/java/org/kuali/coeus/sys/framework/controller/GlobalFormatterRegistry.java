@@ -59,7 +59,7 @@ public class GlobalFormatterRegistry implements PlugIn {
     
     private final Map<Class<?>, Class<? extends Formatter>> previousRegisters = new HashMap<Class<?>, Class<? extends Formatter>>();
     
-    /** {@inheritDoc} */
+    @Override
     public void init(final ActionServlet aServlet, final ModuleConfig aConfig) throws ServletException {
         servlet = aServlet;
         config = aConfig;
@@ -67,7 +67,7 @@ public class GlobalFormatterRegistry implements PlugIn {
         register();
     }
     
-    /** {@inheritDoc} */
+    @Override
     public void destroy() {
         servlet = null;
         config = null;

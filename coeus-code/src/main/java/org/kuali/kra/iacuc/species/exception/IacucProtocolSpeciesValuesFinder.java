@@ -27,14 +27,10 @@ import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.*;
 
-/**
- * This class...
- */
+
 public class IacucProtocolSpeciesValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1095033401204774650L;
 
     /**

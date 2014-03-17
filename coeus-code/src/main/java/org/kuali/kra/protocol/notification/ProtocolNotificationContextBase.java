@@ -73,34 +73,22 @@ public abstract class ProtocolNotificationContextBase extends NotificationContex
         setNotificationModuleRoleService(KcServiceLocator.getService(KcNotificationModuleRoleService.class));
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getDocumentNumber()
-     */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getActionTypeCode()
-     */
+    @Override
     public String getActionTypeCode() {
         return actionTypeCode;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getContextName()
-     */
+    @Override
     public String getContextName() {
         return contextName;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getEmailAttachments()
-     */
+    @Override
     public List<EmailAttachment> getEmailAttachments() {
         return emailAttachments;
     }

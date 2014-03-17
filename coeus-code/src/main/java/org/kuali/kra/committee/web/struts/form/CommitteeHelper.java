@@ -49,9 +49,7 @@ import java.util.Map;
  */
 public class CommitteeHelper extends CommitteeHelperBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1690627670210310054L;
 
     public CommitteeHelper(CommitteeForm committeeForm) {

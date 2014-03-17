@@ -320,10 +320,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         awardFundingProposals.add(afp);
     }
 
-    /**
-     * This method...
-     * @param institutionaProposalNotepad
-     */
+
     public void add(InstitutionalProposalNotepad institutionalProposalNotepad) {
         institutionalProposalNotepad.setEntryNumber(getInstitutionalProposalNotepads().size() + 1);
         institutionalProposalNotepad.setProposalNumber(this.getProposalNumber());
@@ -331,19 +328,13 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         institutionalProposalNotepad.setInstitutionalProposal(this);
     }
 
-    /**
-     * This method...
-     * @param institutionalProposalCostShare
-     */
+
     public void add(InstitutionalProposalCostShare institutionalProposalCostShare) {
         institutionalProposalCostShare.setInstitutionalProposal(this);
         institutionalProposalCostShares.add(institutionalProposalCostShare);
     }
 
-    /**
-     * This method...
-     * @param institutionalProposalUnrecoveredFandA
-     */
+
     public void add(InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA) {
         institutionalProposalUnrecoveredFandA.setInstitutionalProposal(this);
         institutionalProposalUnrecoveredFandAs.add(institutionalProposalUnrecoveredFandA);
@@ -498,9 +489,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         institutionalProposalUnitContact.setInstitutionalProposal(this);
     }
 
-    /**
-     * @return
-     */
+
     public KcPerson getOspAdministrator() {
         for (InstitutionalProposalUnitContact contact : getInstitutionalProposalUnitContacts()) {
             if (contact.isOspAdministrator()) {
@@ -518,16 +507,12 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.institutionalProposalUnitContacts = institutionalProposalUnitContacts;
     }
 
-    /**
-     * @return
-     */
+
     public List<InstitutionalProposalUnitContact> getInstitutionalProposalUnitContacts() {
         return institutionalProposalUnitContacts;
     }
 
-    /**
-     * @return
-     */
+
     public int getInstitutionalProposalContactsCount() {
         return institutionalProposalUnitContacts.size();
     }
@@ -1125,17 +1110,12 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.unitNumber = unitNumber;
     }
 
-    /**
-     * @return
-     */
+
     public String getLeadUnitNumber() {
         return getUnitNumber();
     }
 
-    /**
-     * This method...
-     * @param unitNumber
-     */
+
     public void setLeadUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
     }
@@ -1411,30 +1391,22 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         return getKeywords().get(index);
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getOwnerSequenceNumber()
-     */
+    @Override
     public Integer getOwnerSequenceNumber() {
         return null;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#incrementSequenceNumber()
-     */
+    @Override
     public void incrementSequenceNumber() {
         this.sequenceNumber++;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
-     */
+    @Override
     public InstitutionalProposal getSequenceOwner() {
         return this;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner)
-     */
+    @Override
     public void setSequenceOwner(InstitutionalProposal newOwner) {
         // no-op
     }
@@ -1451,16 +1423,12 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         updateFundingStatus();
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.proposalId = null;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getName()
-     */
+    @Override
     public String getVersionNameField() {
         return "proposalNumber";
     }

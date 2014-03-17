@@ -37,9 +37,7 @@ import java.util.Map;
 public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewFormBase  {
     
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5729500189953414964L;
   
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucProtocolOnlineReviewForm.class);
@@ -58,7 +56,6 @@ public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewFormBase
     }
 
    
-    /** {@inheritDoc} */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "IacucProtocolOnlineReviewDocument";

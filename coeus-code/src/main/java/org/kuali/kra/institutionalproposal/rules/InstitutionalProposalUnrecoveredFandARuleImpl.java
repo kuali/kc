@@ -29,9 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransactionalDocumentRuleBase implements
         InstitutionalProposalUnrecoveredFandARule {
     
@@ -40,18 +38,14 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
     
     private static final String NEW_PROPOSAL_UNRECOVERED_FNA = "newInstitutionalProposalUnrecoveredFandA";
 
-    /**
-     * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalUnrecoveredFandARule#processAddInstitutionalProposalUnrecoveredFandABusinessRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddUnrecoveredFandARuleEvent)
-     */
+    @Override
     public boolean processAddInstitutionalProposalUnrecoveredFandABusinessRules(
             InstitutionalProposalAddUnrecoveredFandARuleEvent institutionalProposalAddUnrecoveredFandARuleEvent) {
         return processCommonValidations(institutionalProposalAddUnrecoveredFandARuleEvent.getUnrecoveredFandAForValidation(), 
                 institutionalProposalAddUnrecoveredFandARuleEvent.getInstitutionalProposalUnrecoveredFandAs());
     }
 
-    /**
-     * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalUnrecoveredFandARule#processSaveInstitutionalProposalUnrecoveredFandABusinessRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalSaveUnrecoveredFandARuleEvent)
-     */
+    @Override
     public boolean processSaveInstitutionalProposalUnrecoveredFandABusinessRules(
             InstitutionalProposalSaveUnrecoveredFandARuleEvent institutionalProposalAddUnrecoveredFandARuleEvent) {
         return processCommonValidations(institutionalProposalAddUnrecoveredFandARuleEvent.getUnrecoveredFandAForValidation(), 

@@ -56,9 +56,7 @@ import java.util.List;
  */
 public class ProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolAttachmentBase & org.kuali.kra.protocol.noteattachment.TypedAttachment> extends UifKeyValuesFinderBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1806457024473671666L;
     private static final String GROUP_CODE_NAME = "groupCode";
     private static final String TYPE_DESCRIPTION_NAME = "type.description";

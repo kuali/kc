@@ -29,15 +29,11 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
 
     private static final String ADD_ERROR_KEY = "error.custom";
 
-    /**
-     * Constructs a BudgetCostShareRuleImpl
-     */
+
     public BudgetCostShareRuleImpl() {
     }
 
-    /**
-     * @see org.kuali.kra.budget.distributionincome.AddBudgetCostShareRule#processAddBudgetCostSharingRules(org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent)
-     */
+    @Override
     public boolean processAddBudgetCostShareBusinessRules(AddBudgetCostShareEvent budgetCostShareEvent) {
         boolean retVal = !areDuplicatesPresent(budgetCostShareEvent.getBudgetCostShare());
         retVal &= validateProjectPeriod(budgetCostShareEvent);
@@ -91,10 +87,7 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
         return duplicate;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.budget.distributionincome.BudgetCostShareAllocationRule#processBudgetCostShareAllocationBusinessRules(org.kuali.kra.budget.distributionincome.BudgetCostShareAllocationEvent)
-     */
+    @Override
     public boolean processBudgetCostShareAllocationBusinessRules(BudgetCostShareAllocationEvent budgetCostShareEvent) {
         boolean unallocatedCostSharingExists = budgetCostShareEvent.getBudgetDocument().getBudget().getUnallocatedCostSharing()
                 .isNonZero();

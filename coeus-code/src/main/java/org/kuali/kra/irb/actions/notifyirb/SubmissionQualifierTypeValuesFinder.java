@@ -32,9 +32,7 @@ import java.util.*;
  */
 public class SubmissionQualifierTypeValuesFinder extends IrbActionsKeyValuesBase {
 
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
 

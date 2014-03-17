@@ -31,9 +31,7 @@ import java.util.List;
  */
 public class AwardDirectFandADistributionBean implements Serializable{
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6274443203617122440L;
     private TimeAndMoneyForm parent;
     private AwardDirectFandADistribution newAwardDirectFandADistribution;
@@ -44,9 +42,7 @@ public class AwardDirectFandADistributionBean implements Serializable{
         setNewAwardDirectFandADistribution (new AwardDirectFandADistribution());
     }
     
-    /**
-     * Constructs a AwardDirectFandADistributionBean.java.
-     */
+
     public AwardDirectFandADistributionBean() {
         
     }

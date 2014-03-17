@@ -64,10 +64,7 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
         return keyValueList;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService#getKeyValues(java.lang.Class, java.lang.String, java.lang.String, java.util.Map)
-     */
+    @Override
     public List<KeyValue> getKeyValues(Class<? extends BusinessObject> keyValClass, String codePropName, String valPropName, Map<String, ?> queryMap) {
         
         Collection keyVals = businessObjectService.findMatching(keyValClass,queryMap);

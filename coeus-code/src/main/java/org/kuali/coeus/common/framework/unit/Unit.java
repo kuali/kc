@@ -207,9 +207,6 @@ public class Unit extends KcPersistableBusinessObjectBase implements MutableInac
         return managedLists;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -218,9 +215,6 @@ public class Unit extends KcPersistableBusinessObjectBase implements MutableInac
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

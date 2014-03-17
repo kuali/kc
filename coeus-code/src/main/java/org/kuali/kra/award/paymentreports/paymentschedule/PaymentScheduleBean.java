@@ -40,9 +40,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class PaymentScheduleBean implements Serializable {    
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5513993757805685581L;
     private AwardPaymentSchedule newAwardPaymentSchedule;
     private transient KualiRuleService ruleService;
@@ -152,23 +150,17 @@ public class PaymentScheduleBean implements Serializable {
         return description;
     }
     
-    /**
-     * @return
-     */
+
     public Award getAward() {
         return form.getAwardDocument().getAward();
     }
 
-    /**
-     * @return
-     */
+
     public AwardDocument getAwardDocument() {
         return form.getAwardDocument();
     }
     
-    /**
-     * @return
-     */
+
     public Object getData() {
         return getNewAwardPaymentSchedule();
     }
@@ -200,10 +192,7 @@ public class PaymentScheduleBean implements Serializable {
         this.ruleService = ruleService;
     }
     
-    /**
-     * 
-     * @return
-     */
+
     AddAwardPaymentScheduleRuleEvent generateAddEvent() {        
         AddAwardPaymentScheduleRuleEvent event = new AddAwardPaymentScheduleRuleEvent(
                                                             "paymentScheduleBean.newAwardPaymentSchedule",

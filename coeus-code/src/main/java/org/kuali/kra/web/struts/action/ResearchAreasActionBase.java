@@ -16,6 +16,8 @@
 package org.kuali.kra.web.struts.action;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -34,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class ResearchAreasActionBase extends KualiAction {
 
+    private static final Log LOG = LogFactory.getLog(ResearchAreasActionBase.class);
 
     /**
      * 
@@ -106,7 +109,7 @@ public abstract class ResearchAreasActionBase extends KualiAction {
                 }
             }
             catch (Exception e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
         else if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("A")) {
@@ -138,7 +141,7 @@ public abstract class ResearchAreasActionBase extends KualiAction {
                 }
             }
             catch (Exception e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
         else if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("D")) {
@@ -164,7 +167,7 @@ public abstract class ResearchAreasActionBase extends KualiAction {
                 }
             }
             catch (Exception e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
         else {
@@ -176,7 +179,7 @@ public abstract class ResearchAreasActionBase extends KualiAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
+
         ResearchAreasFormBase researchAreaForm = (ResearchAreasFormBase) form;
         ActionForward forward = super.execute(mapping, form, request, response);
         setResearchAreas(form);

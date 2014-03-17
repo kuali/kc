@@ -50,16 +50,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase implements AuditableForm,
         MultiLookupForm, ReportHelperBeanContainer,
                                                                         CustomDataDocumentForm {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4564236415580911082L;
     private static final String CUSTOM_DATA_NAV_TO = "customData";
 
@@ -99,7 +95,6 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         initialize();
     }
     
-    /** {@inheritDoc} */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "InstitutionalProposalDocument";
@@ -239,9 +234,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         return unitContactsBean;
     }
     
-    /**
-     * @return
-     */
+
     public InstitutionalProposalCentralAdminContactsBean getCentralAdminContactsBean() {
         return centralAdminContactsBean;
     }
@@ -315,29 +308,23 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         projectPersonnelBean.setSelectedLeadUnit(unitName);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase#getLockRegion()
-     */
     @Override
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_INSTITUTIONAL_PROPOSAL;
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase#setSaveDocumentControl(java.util.Map)
-     */
     @Override
     protected void setSaveDocumentControl(Map editMode) {
         getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
 
     }
     
-    /** {@inheritDoc} */
+    @Override
     public boolean isAuditActivated() {
         return this.auditActivated;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }
@@ -412,10 +399,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         return "";
     }
 
-    /**
-     *
-     * @return
-     */
+
     public ReportHelperBean getReportHelperBean() {
         return reportHelperBean;
     }

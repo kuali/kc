@@ -33,9 +33,6 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class...
- */
 public class AwardPaymentAndInvoicesAuditRule implements DocumentAuditRule {
    
     private static final String DOT = ".";
@@ -48,9 +45,7 @@ public class AwardPaymentAndInvoicesAuditRule implements DocumentAuditRule {
     
     private static final String PAYMENTS_INVOICES_URL=Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE+"."+Constants.PAYMENT_AND_INVOICES_PANEL_ANCHOR;
     
-    /**
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         AwardDocument awardDocument = (AwardDocument) document;

@@ -55,7 +55,6 @@ public class AwardInquirable extends KualiInquirableImpl {
             awardNode = service.getRootAwardNode(award);
         }
         catch (ParseException e) {
-            // TODO Auto-generated catch block
             LOG.error("Error parsing award information" ,e);
         }
         
@@ -122,15 +121,7 @@ public class AwardInquirable extends KualiInquirableImpl {
         sections.add(section);
         return sections;
     }
-    
-    /**
-     * This method...
-     * @param text
-     * @param row1
-     * @param field_1_2
-     * @param propertyName TODO
-     * @param fieldLabel TODO
-     */
+
     private void addField(String text, Row row1, String propertyName, String fieldLabel) {
         Field field = new Field();
         field.setPropertyName(propertyName);        

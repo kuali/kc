@@ -20,9 +20,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 public abstract class ProtocolPersonRoleBase extends KcPersistableBusinessObjectBase implements Comparable<ProtocolPersonRoleBase>, MutableInactivatable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4525940858799917386L;
 
     public static final String ROLE_PRINCIPAL_INVESTIGATOR = "PI";

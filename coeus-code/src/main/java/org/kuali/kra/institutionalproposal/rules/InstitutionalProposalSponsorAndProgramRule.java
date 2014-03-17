@@ -17,16 +17,10 @@ package org.kuali.kra.institutionalproposal.rules;
 
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * This class...
- */
+
 public interface InstitutionalProposalSponsorAndProgramRule extends BusinessRule {
 
     
-    /**
-     * This method...
-     * @param institutionalProposalSponsorAndProgramRuleEvent
-     * @return
-     */
+
     boolean processInstitutionalProposalSponsorAndProgramRules(InstitutionalProposalSponsorAndProgramRuleEvent institutionalProposalSponsorAndProgramRuleEvent);
 }

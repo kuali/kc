@@ -19,9 +19,7 @@ import org.kuali.coeus.common.framework.rolodex.Rolodex;
 
 public abstract class ProtocolPersonRolodexBase extends Rolodex {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3995059787549106317L;
 
 }

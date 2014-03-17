@@ -31,17 +31,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ProposalTaskFactory extends WebTaskFactoryBase {
 
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.WebTaskFactory#createTask(java.lang.String, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
-     */
+    @Override
     public Task createTask(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         return new ProposalTask(getTaskName(), proposalDevelopmentForm.getProposalDevelopmentDocument());
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase#getTaskGroupName()
-     */
     @Override
     public String getTaskGroupName() {
         return TaskGroupName.PROPOSAL;

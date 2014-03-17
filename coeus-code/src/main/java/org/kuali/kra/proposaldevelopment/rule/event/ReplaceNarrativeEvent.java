@@ -51,16 +51,12 @@ public class ReplaceNarrativeEvent extends AddNarrativeEvent {
         this(errorPathPrefix, (ProposalDevelopmentDocument) document, narrative);
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return ReplaceNarrativeRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ReplaceNarrativeRule) rule).processReplaceNarrativeBusinessRules(this);
     }

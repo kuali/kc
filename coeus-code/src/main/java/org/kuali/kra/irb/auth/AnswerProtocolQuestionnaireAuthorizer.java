@@ -22,9 +22,7 @@ package org.kuali.kra.irb.auth;
  */
 public class AnswerProtocolQuestionnaireAuthorizer extends ModifyProtocolAuthorizer {
     
-    /**
-     * @see org.kuali.kra.irb.auth.ModifyProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return super.isAuthorized(userId, task);
     }

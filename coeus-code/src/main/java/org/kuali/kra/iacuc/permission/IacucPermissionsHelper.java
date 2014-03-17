@@ -34,9 +34,7 @@ import java.util.HashSet;
  */
 public class IacucPermissionsHelper extends PermissionsHelperBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3601806102887965826L;
 
 
@@ -64,9 +62,6 @@ public class IacucPermissionsHelper extends PermissionsHelperBase {
     }
     
 
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#isStandardRoleName(java.lang.String)
-     */
     @Override
     protected boolean isStandardRoleName(String roleName) {
         return StringUtils.equals(roleName, RoleConstants.IACUC_PROTOCOL_AGGREGATOR) ||
@@ -75,9 +70,6 @@ public class IacucPermissionsHelper extends PermissionsHelperBase {
     }
     
 
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#canModifyPermissions()
-     */
     @Override
     public boolean canModifyPermissions() {              
         ProtocolTaskBase task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ROLES, (IacucProtocol) getProtocol());

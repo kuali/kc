@@ -23,11 +23,6 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
  * This class manages the business rule for adding a new abstainer.
  */
 public interface ExecuteCommitteeDecisionAbstainerRule<CD extends CommitteeDecision<?> > extends BusinessRule {
-    /**
-     * 
-     * This method...
-     * @param committeeDecision
-     * @return
-     */
+
     boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocumentBase document, CD committeeDecision);
 }

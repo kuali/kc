@@ -20,9 +20,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public abstract class ResearchAreaBase extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1950434459698084680L;
 
     private String researchAreaCode;

@@ -185,7 +185,7 @@ public abstract class ProtocolQuestionnaireAuditRuleBase extends BaseQuestionnai
 
     @Override
     protected String getAuditErrorsLabel() {
-        // TODO Auto-generated method stub
+
         return null;
     }
     

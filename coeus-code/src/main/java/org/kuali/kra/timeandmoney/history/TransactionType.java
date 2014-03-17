@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.timeandmoney.history;
 
-/**
- * This class...
- */
+
 public enum TransactionType {
     DATE, MONEY, INITIAL, SINGLENODEMONEYTRANSACTION
 }

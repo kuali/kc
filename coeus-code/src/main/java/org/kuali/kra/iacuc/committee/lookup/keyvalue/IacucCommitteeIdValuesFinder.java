@@ -21,9 +21,7 @@ import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 
 public class IacucCommitteeIdValuesFinder extends CommitteeIdValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5083716441320247996L;
 
     @Override

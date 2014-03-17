@@ -28,9 +28,7 @@ import java.util.List;
 
 public class CoiReviewStatusValuesFinder extends UifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6372894146228331241L;
     private static KeyValuesService keyValuesService;
 

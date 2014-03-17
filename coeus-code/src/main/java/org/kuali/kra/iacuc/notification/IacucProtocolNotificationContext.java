@@ -47,10 +47,7 @@ public class IacucProtocolNotificationContext extends ProtocolNotificationContex
         ((IacucProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getModuleCode()
-     */
+    @Override
     public String getModuleCode() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
     }

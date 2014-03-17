@@ -37,7 +37,6 @@ import org.kuali.coeus.common.committee.impl.web.struts.form.CommitteeHelperBase
 @SuppressWarnings("serial")
 public class CommitteeForm extends CommitteeFormBase {
     
-    /** {@inheritDoc} */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "CommitteeDocument";

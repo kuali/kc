@@ -86,10 +86,7 @@ public class PerformPersonMassChangeRule extends KcTransactionalDocumentRuleBase
     private static final String UNIT_ADMINISTRATOR_ADMINISTRATIVE_CONTACT = "Unit Administrator Administrative Contact";
     private static final String UNIT_ADMINISTRATOR_FINANCIAL_CONTACT = "Unit Administrator Financial Contact";
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(PerformPersonMassChangeEvent event) {
         return processPerformMassChangeEvent(event);
     }

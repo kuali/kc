@@ -33,9 +33,6 @@ public class AddTransactionRuleEvent extends TransactionRuleEvent {
         super(errorPathPrefix, timeAndMoneyDocument, pendingTransactionItem);
     }
 
-    /**
-     * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((TransactionRule)rule).processAddPendingTransactionBusinessRules(this);

@@ -31,10 +31,7 @@ import java.util.List;
  */
 public class CreateProposalDevelopmentProtocolAuthorizer extends ProtocolAuthorizer {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
 
         Protocol protocol = (Protocol)task.getProtocol();

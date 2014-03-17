@@ -41,9 +41,7 @@ import java.util.Map;
 @Table(name = "BUDGET")
 public class BudgetVersionOverview extends KcPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4997453399414404715L;
 
     @Column(name = "VERSION_NUMBER")
@@ -319,9 +317,6 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.descriptionUpdatable = descriptionUpdatable;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#afterLookup()
-     */
     @Override
     protected void postLoad() {
         // The purpose of this lookup is to get the document description from the doc header,  
@@ -341,10 +336,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         return docHeader;
     }
 
-    /**
-     * 
-     * @see java.lang.Comparable
-     */
+    @Override
     public int compareTo(BudgetVersionOverview otherVersion) {
         return this.budgetVersionNumber.compareTo(otherVersion.getBudgetVersionNumber());
     }
@@ -413,9 +405,6 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.onOffCampusFlag = onOffCampusFlag;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -447,9 +436,6 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

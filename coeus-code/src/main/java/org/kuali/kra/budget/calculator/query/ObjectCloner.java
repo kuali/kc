@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.budget.calculator.query;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.*;
 
 /**
@@ -24,6 +27,8 @@ import java.io.*;
  */
 
 public class ObjectCloner {
+    private static final Log LOG = LogFactory.getLog(ObjectCloner.class);
+
     // so that nobody can accidentally create an ObjectCloner object
     private ObjectCloner() {
     }
@@ -56,7 +61,7 @@ public class ObjectCloner {
                 if (ois != null)
                     ois.close();
             }catch (IOException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
     }

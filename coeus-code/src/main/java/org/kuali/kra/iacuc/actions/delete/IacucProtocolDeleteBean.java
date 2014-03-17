@@ -21,9 +21,7 @@ import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 
 public class IacucProtocolDeleteBean extends IacucProtocolActionBean implements ProtocolDeleteBean {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1848550635242005374L;
 
     private String reason = "";

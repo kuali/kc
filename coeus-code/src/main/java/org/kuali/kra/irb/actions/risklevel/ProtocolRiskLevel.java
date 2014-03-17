@@ -43,9 +43,7 @@ public class ProtocolRiskLevel extends ProtocolAssociateBase {
 
     private RiskLevel riskLevel;
 
-    /**
-     * Constructs a ProtocolRiskLevel, ensuring that the dateAssigned defaults to the current date.
-     */
+
     public ProtocolRiskLevel() {
         dateAssigned = new Date(System.currentTimeMillis());
         status = Constants.STATUS_ACTIVE;
@@ -175,7 +173,7 @@ public class ProtocolRiskLevel extends ProtocolAssociateBase {
         return this.protocolRiskLevelId != null;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.setProtocolRiskLevelId(null);
     }

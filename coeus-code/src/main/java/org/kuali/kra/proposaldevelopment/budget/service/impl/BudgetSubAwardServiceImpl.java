@@ -53,9 +53,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * This class...
- */
+
 public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     private static final String DUPLICATE_FILE_NAMES =  "Duplicate PDF Attachment File Names"; 
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
@@ -278,28 +276,6 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     protected String getLoggedInUserNetworkId() {
         return GlobalVariables.getUserSession().getPrincipalName();
     }
-//    private List<BudgetSubAwardAttachment> getSubAwardAttachments(BudgetSubAwards budgetSubAwardBean) {
-//        List<BudgetSubAwardAttachment> budgetSubAwardBeanAttachments = (List<BudgetSubAwardAttachment>) budgetSubAwardBean.getBudgetSubAwardAttachments();
-//        List<BudgetSubAwardAttachment> budgetSubAwardAttachments =  new ArrayList<BudgetSubAwardAttachment>();
-//        if(budgetSubAwardBeanAttachments!=null)
-//        for(BudgetSubAwardAttachment budgetSubAwardAttachmentBean: budgetSubAwardBeanAttachments) {
-//            BudgetSubAwardAttachment budgetSubAwardAttachment = new BudgetSubAwardAttachment();
-//            try {
-//                BeanUtils.copyProperties(budgetSubAwardAttachment, budgetSubAwardAttachmentBean);
-//                budgetSubAwardAttachment.setBudgetId(budgetSubAwardBean.getBudgetId());
-//                budgetSubAwardAttachment.setSubAwardNumber(budgetSubAwardBean.getSubAwardNumber());
-//            }
-//            catch (IllegalAccessException e) {
-//                LOG.warn(e);
-//            }
-//            catch (InvocationTargetException e) {
-//                LOG.warn(e);
-//            }
-//            budgetSubAwardAttachment.setBudgetId(budgetSubAwardAttachmentBean.getBudgetId());
-//            budgetSubAwardAttachments.add(budgetSubAwardAttachment);            
-//        }
-//        return budgetSubAwardAttachments;
-//    }
     
     /**
      * extracts XML from PDF
@@ -426,10 +402,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
 
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService#updateSubAwardBudgetDetails(org.kuali.kra.budget.core.Budget, org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards, java.util.List)
-     */
+    @Override
     public boolean updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards budgetSubAward, List<String[]> errors) throws Exception {
         boolean result = true;
         //extarct xml from the pdf because the stored xml has been modified

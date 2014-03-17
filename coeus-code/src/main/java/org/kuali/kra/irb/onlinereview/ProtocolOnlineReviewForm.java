@@ -33,10 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
 public class ProtocolOnlineReviewForm extends ProtocolOnlineReviewFormBase {
     
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolOnlineReviewForm.class);

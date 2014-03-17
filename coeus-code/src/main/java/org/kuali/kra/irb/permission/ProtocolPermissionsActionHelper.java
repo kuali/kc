@@ -63,18 +63,12 @@ class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
         this.protocolPermissionsAction = protocolPermissionsAction;
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsActionHelperBase#addUserToRoleInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
-     */
     @Override
     protected void addUserToRoleInDatabase(Document document, String userId, String roleName) {
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
         getKraAuthorizationService().addRole(userId, roleName, protocolDocument.getProtocol());
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsActionHelperBase#removeRoleFromUserInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
-     */
     @Override
     protected void removeUserFromRoleInDatabase(Document document, String userId, String roleName) {
         ProtocolDocument protocolDocument = (ProtocolDocument) document;

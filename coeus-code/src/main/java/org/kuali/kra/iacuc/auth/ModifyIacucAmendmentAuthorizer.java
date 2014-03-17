@@ -31,9 +31,6 @@ public abstract class ModifyIacucAmendmentAuthorizer extends ModifyIacucProtocol
         this.moduleTypeCode = moduleTypeCode;
     }
 
-    /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
-     */
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         ProtocolBase protocol = task.getProtocol();

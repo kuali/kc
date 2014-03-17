@@ -23,9 +23,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 public abstract class ProtocolOrganizationTypeBase extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 148098563046181725L;
 
     private String protocolOrganizationTypeCode;
@@ -38,34 +36,22 @@ public abstract class ProtocolOrganizationTypeBase extends KcPersistableBusiness
     public ProtocolOrganizationTypeBase() {
     }
 
-    /**
-	 * This method...
-	 * @return
-	 */
+
     public String getProtocolOrganizationTypeCode() {
         return protocolOrganizationTypeCode;
     }
 
-    /**
-	 * This method...
-	 * @param protocolOrganizationTypeCode
-	 */
+
     public void setProtocolOrganizationTypeCode(String protocolOrganizationTypeCode) {
         this.protocolOrganizationTypeCode = protocolOrganizationTypeCode;
     }
 
-    /**
-	 * This method...
-	 * @return
-	 */
+
     public String getDescription() {
         return description;
     }
 
-    /**
-	 * This method...
-	 * @param description
-	 */
+
     public void setDescription(String description) {
         this.description = description;
     }

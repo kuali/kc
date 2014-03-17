@@ -20,14 +20,9 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 
 import java.io.Serializable;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalNotepadBean implements Serializable {
 
- /**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = -2409602626444019766L;
 
     private InstitutionalProposalForm parent;
@@ -75,18 +70,12 @@ public class InstitutionalProposalNotepadBean implements Serializable {
         this.newInstitutionalProposalNotepad = newInstitutionalProposalNotepad;
     }
 
-    /**
-     * This method...
-     * @return
-     */
+
     public InstitutionalProposalDocument getInstitutionalProposalDocument() {
         return parent.getInstitutionalProposalDocument();
     }
     
-    /**
-     * This method...
-     * @return
-     */
+
     public Object getData() {
         return getNewInstitutionalProposalNotepad();
     }

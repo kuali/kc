@@ -29,17 +29,11 @@ import java.util.Map;
 
 public class UnitFormulatedCostRule extends KcMaintenanceDocumentRuleBase {
 
-    /**
-     * Constructs a SponsorTemplateTermsExistenceRule
-     */
+
     public UnitFormulatedCostRule() {
         super();
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return checkForUnitCostExistence(document);

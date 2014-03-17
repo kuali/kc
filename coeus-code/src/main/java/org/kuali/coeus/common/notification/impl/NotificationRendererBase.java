@@ -42,10 +42,6 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
     private transient KcPersonService kcPersonService;
     private ConfigurationService kualiConfigurationService;
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#render(java.lang.String)
-     */
     @Override
     public String render(String text) {
         return render(text, getDefaultReplacementParameters());
@@ -66,10 +62,7 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
         return text;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
-     */
+    @Override
     public Map<String, String> getDefaultReplacementParameters() {
 
         Map<String, String> params = new HashMap<String, String>();

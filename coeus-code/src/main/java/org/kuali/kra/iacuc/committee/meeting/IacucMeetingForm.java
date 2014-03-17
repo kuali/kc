@@ -20,9 +20,7 @@ import org.kuali.coeus.common.committee.impl.meeting.MeetingHelperBase;
 
 public class IacucMeetingForm extends MeetingFormBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2580635682386198931L;
 
     @Override

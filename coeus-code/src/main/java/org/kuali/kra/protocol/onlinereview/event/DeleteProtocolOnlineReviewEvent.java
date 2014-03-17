@@ -39,7 +39,6 @@ public class DeleteProtocolOnlineReviewEvent extends KcDocumentEventBase {
         this.maxLength = reasonMaxLength;
     }
  
-    /** {@inheritDoc} */
     @Override
     protected void logEvent() {
         if (LOG.isDebugEnabled()) {

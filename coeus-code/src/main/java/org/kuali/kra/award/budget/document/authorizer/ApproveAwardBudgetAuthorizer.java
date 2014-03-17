@@ -31,10 +31,7 @@ public class ApproveAwardBudgetAuthorizer extends BudgetAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.budget.document.authorizer.BudgetAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
-     */
+    @Override
     public boolean isAuthorized(String userId, Task task) {
         AwardBudgetTask budgetTask = (AwardBudgetTask) task;
         AwardBudgetDocument budgetDocument = budgetTask.getAwardBudgetDocument();

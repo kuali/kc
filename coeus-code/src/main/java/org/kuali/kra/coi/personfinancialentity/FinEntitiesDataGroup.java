@@ -25,9 +25,7 @@ import java.util.List;
  */
 public class FinEntitiesDataGroup extends KcPersistableBusinessObjectBase implements Comparable<FinEntitiesDataGroup> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7800055388419460633L;
 
     private Integer dataGroupId;

@@ -42,10 +42,7 @@ public class ProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewService
     private static final Log LOG = LogFactory.getLog(ProtocolOnlineReviewServiceImpl.class);
     private static final String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "ProtocolOnlineReviewDocument";
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#isProtocolInStateToBeReviewed(org.kuali.kra.irb.Protocol)
-     */
+    @Override
     public boolean isProtocolInStateToBeReviewed(ProtocolBase protocol) {
         boolean isReviewable = false;
         ProtocolSubmission submission = (ProtocolSubmission)((Protocol) protocol).getProtocolSubmission();

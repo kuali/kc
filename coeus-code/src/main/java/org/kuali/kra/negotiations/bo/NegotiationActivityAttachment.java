@@ -24,9 +24,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 public class NegotiationActivityAttachment extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1933107350837716003L;
 
     private Long attachmentId;

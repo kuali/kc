@@ -29,10 +29,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class CreateIacucProtocolFromProposalAuthorizer extends ProposalAuthorizer {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
 
         DevelopmentProposal proposal = (DevelopmentProposal)task.getDocument().getDevelopmentProposal();

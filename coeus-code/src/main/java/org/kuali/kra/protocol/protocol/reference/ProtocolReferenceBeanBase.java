@@ -23,9 +23,7 @@ import java.io.Serializable;
  */
 public abstract class ProtocolReferenceBeanBase implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6775965004016986063L;
 
     private Long protocolReferenceId;
@@ -36,10 +34,7 @@ public abstract class ProtocolReferenceBeanBase implements Serializable {
     private String approvalDate;
     private String comments;
 
-    /**
-     * 
-     * Constructs a ProtocolReferenceBeanBase.java.
-     */
+
     public ProtocolReferenceBeanBase() {
         init();
     }
@@ -114,10 +109,7 @@ public abstract class ProtocolReferenceBeanBase implements Serializable {
         this.comments = comments;
     }
     
-    /**
-     * 
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         String newLine = "\n";

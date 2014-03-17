@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.protocol.ProtocolTypeBase;
 
 public class ProtocolType extends ProtocolTypeBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5222672499618671313L;
 
     private String protocolTypeCode;

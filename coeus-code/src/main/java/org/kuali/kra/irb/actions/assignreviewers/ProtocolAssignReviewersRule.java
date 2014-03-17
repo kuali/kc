@@ -43,7 +43,7 @@ public class ProtocolAssignReviewersRule extends KcTransactionalDocumentRuleBase
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     
     
-    /**{@inheritDoc}**/
+    @Override
     public boolean processAssignReviewers(ProtocolDocument document, ProtocolAssignReviewersBean actionBean) {
         boolean isValid = true;
         List<ProtocolReviewerBean> reviewers = (List)actionBean.getReviewers();

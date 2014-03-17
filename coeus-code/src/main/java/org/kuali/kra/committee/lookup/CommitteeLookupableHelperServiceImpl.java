@@ -27,9 +27,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  */
 public class CommitteeLookupableHelperServiceImpl extends CommitteeLookupableHelperServiceImplBase<Committee, CommitteeDocument> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3249634640550089590L;
 
     @Override

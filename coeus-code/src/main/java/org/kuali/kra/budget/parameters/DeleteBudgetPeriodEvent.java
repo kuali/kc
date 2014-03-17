@@ -41,16 +41,12 @@ public class DeleteBudgetPeriodEvent extends BudgetPeriodEventBase{
         this(errorPathPrefix, (BudgetDocument) document, budgetPeriodNumber);
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return DeleteBudgetPeriodRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((DeleteBudgetPeriodRule) rule).processDeleteBudgetPeriodBusinessRules(this);
     }

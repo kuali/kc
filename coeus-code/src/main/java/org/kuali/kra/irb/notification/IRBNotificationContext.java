@@ -60,10 +60,7 @@ public class IRBNotificationContext extends ProtocolNotificationContextBase {
         setForwardName(forwardName);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getModuleCode()
-     */
+    @Override
     public String getModuleCode() {
         return CoeusModule.IRB_MODULE_CODE;
     }    

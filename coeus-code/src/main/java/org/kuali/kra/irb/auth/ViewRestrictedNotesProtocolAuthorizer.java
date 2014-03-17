@@ -23,7 +23,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  */
 public class ViewRestrictedNotesProtocolAuthorizer extends ProtocolAuthorizer {
 
-    /** {@inheritDoc} */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.VIEW_RESTRICTED_NOTES);
     }

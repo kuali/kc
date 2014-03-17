@@ -33,10 +33,7 @@ public abstract class ProtocolFundingSourceAuditRuleBase extends KcTransactional
     private static final String FUNDING_SOURCE_AUDIT_ERRORS = "requiredFieldsAuditErrors";
     private static final String FUNDING_SOURCE_AUDIT_LINK = Constants.PROTOCOL_PROTOCOL_PAGE + "." + Constants.PROTOCOL_PROTOCOL_FUNDING_SRC_PANEL_ANCHOR;
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean isValid = true;
         ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) document;

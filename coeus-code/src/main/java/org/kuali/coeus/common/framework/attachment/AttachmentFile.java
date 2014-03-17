@@ -161,7 +161,6 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
         this.data = (data == null) ? null : data.clone();
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -172,7 +171,6 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -210,9 +208,6 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
      */
     public static class CreateException extends RuntimeException {
 
-        /**
-         * Comment for <code>serialVersionUID</code>
-         */
         private static final long serialVersionUID = -230592614193518930L;
 
         /**

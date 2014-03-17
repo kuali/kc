@@ -18,9 +18,7 @@ package org.kuali.kra.timeandmoney.rules;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardAmountTransactionSaveEvent;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * This class...
- */
+
 public interface TimeAndMoneyAwardAmountTransactionRule extends BusinessRule {
 
     /**

@@ -140,9 +140,6 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
 
     
     
-    /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
     @Override
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;  
@@ -218,9 +215,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     protected abstract ProtocolReferenceRuleBase getNewProtocolReferenceRuleInstanceHook();
 
 
-    /**
-     * @see org.kuali.kra.irb.protocol.location.AddProtocolLocationRule#processAddProtocolLocationBusinessRules(org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent)
-     */
+    @Override
     public boolean processAddProtocolLocationBusinessRules(AddProtocolLocationEvent addProtocolLocationEvent) {
         return getNewProtocolLocationRuleInstanceHook().processAddProtocolLocationBusinessRules(addProtocolLocationEvent);       
     }    
@@ -241,9 +236,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     public abstract ProtocolAttachmentPersonnelRuleBase getProtocolAttachmentPersonnelRuleInstanceHook();
 
 
-    /**
-     * @see org.kuali.kra.iacuc.personnel.AddProtocolUnitRule#processAddProtocolUnitBusinessRules(org.kuali.kra.irb.personnel.AddProtocolUnitEvent)
-     */
+    @Override
     public boolean processAddProtocolUnitBusinessRules(AddProtocolUnitEvent addProtocolUnitEvent) {
 
         return getNewProtocolUnitRuleInstanceHook().processAddProtocolUnitBusinessRules(addProtocolUnitEvent);
@@ -252,10 +245,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     
     protected abstract ProtocolUnitRuleBase getNewProtocolUnitRuleInstanceHook();
     
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
@@ -279,28 +269,21 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     
     protected abstract SubmitProtocolAttachmentProtocolRuleImplBase newSubmitProtocolAttachmentProtocolRuleImplInstanceHook();
 
-    /**
-     * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocumentBase, org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean)
-     */
+    @Override
     public boolean processSubmitAction(ProtocolDocumentBase document, ProtocolSubmitAction submitAction) {
         return newProtocolSubmitActionRuleInstanceHook().processSubmitAction(document, submitAction);
     }
 
     protected abstract ExecuteProtocolSubmitActionRule newProtocolSubmitActionRuleInstanceHook();
 
-    /**
-     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRule#proccessCommitteeDecisionRule(org.kuali.kra.irb.ProtocolDocumentBase, org.kuali.kra.irb.actions.decision.CommitteeDecision)
-     */
+    @Override
     public boolean proccessCommitteeDecisionRule(ProtocolDocumentBase document, CD actionBean) {
         return newCommitteeDecisionRuleInstanceHook().proccessCommitteeDecisionRule(document, actionBean);
     }
 
     protected abstract CommitteeDecisionRuleBase<CD> newCommitteeDecisionRuleInstanceHook();
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionAbstainerRule#proccessCommitteeDecisionAbstainerRule(org.kuali.kra.irb.ProtocolDocumentBase, org.kuali.kra.irb.actions.decision.CommitteeDecision)
-     */
+    @Override
     public boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocumentBase document, CD actionBean) {
         return newCommitteeDecisionAbstainerRuleInstanceHook().proccessCommitteeDecisionAbstainerRule(document, actionBean);
     }
@@ -308,10 +291,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     protected abstract ExecuteCommitteeDecisionAbstainerRule<CD> newCommitteeDecisionAbstainerRuleInstanceHook();
 
     
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRecuserRule#proccessCommitteeDecisionRecuserRule(org.kuali.kra.irb.ProtocolDocumentBase, org.kuali.kra.irb.actions.decision.CommitteeDecision)
-     */
+    @Override
     public boolean proccessCommitteeDecisionRecuserRule(ProtocolDocumentBase document, CD actionBean) {
         return newCommitteeDecisionRecuserRuleInstanceHook().proccessCommitteeDecisionRecuserRule(document, actionBean);
     }

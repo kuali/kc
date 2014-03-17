@@ -31,10 +31,7 @@ import java.util.TreeMap;
 
 public class BudgetJustificationServiceImpl implements BudgetJustificationService {
 
-    /**
-     * 
-     * @see org.kuali.kra.budget.nonpersonnel.BudgetJustificationService#consolidateExpenseJustifications(org.kuali.kra.budget.document.BudgetDocument, org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper)
-     */
+    @Override
     public void consolidateExpenseJustifications(Budget budget, BudgetJustificationWrapper budgetJustificationWrapper) throws BudgetException {
         if(budget.areLineItemJustificationsPresent()) {
             addConsolidatedLineItemJustificationText(budget, budgetJustificationWrapper);
@@ -43,10 +40,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
         }
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.budget.nonpersonnel.BudgetJustificationService#preSave(org.kuali.kra.budget.document.BudgetDocument, org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper)
-     */
+    @Override
     public void preSave(Budget budget, BudgetJustificationWrapper budgetJustificationWrapper) {
         updateJustficationMetaData(budgetJustificationWrapper);
         budget.setBudgetJustification(budgetJustificationWrapper.toString());

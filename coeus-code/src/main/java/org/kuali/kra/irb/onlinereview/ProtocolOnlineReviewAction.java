@@ -108,13 +108,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     }
 
         
-    /** {@inheritDoc} */
+    @Override
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, true);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, false);

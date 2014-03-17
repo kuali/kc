@@ -65,9 +65,7 @@ public class Budget extends BudgetVersionOverview {
 
     private static final String PARAM_VALUE_ENABLED = "1";
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -252470308729741085L;
 
 
@@ -279,19 +277,13 @@ public class Budget extends BudgetVersionOverview {
         return findProjectIncomeTotalsForBudgetPeriods(incomes);
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     public List<FiscalYearSummary> getFiscalYearCostShareTotals() {
         Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = mapBudgetPeriodsToFiscalYears();
         return findCostShareTotalsForBudgetPeriods(budgetPeriodFiscalYears);
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     public List<FiscalYearSummary> getFiscalYearUnrecoveredFandATotals() {
         Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = mapBudgetPeriodsToFiscalYears();
         return findCostShareTotalsForBudgetPeriods(budgetPeriodFiscalYears);
@@ -340,10 +332,7 @@ public class Budget extends BudgetVersionOverview {
         return (getAvailableUnrecoveredFandA().doubleValue() > 0.00);
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     public BudgetDecimal getAllocatedCostSharing() {
         BudgetDecimal costShareTotal = new BudgetDecimal(0.0);
         for (BudgetCostShare budgetCostShare : getBudgetCostShares()) {
@@ -354,10 +343,7 @@ public class Budget extends BudgetVersionOverview {
         return costShareTotal;
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     public BudgetDecimal getAllocatedUnrecoveredFandA() {
         BudgetDecimal allocatedUnrecoveredFandA = BudgetDecimal.ZERO;
         for (BudgetUnrecoveredFandA unrecoveredFandA : getBudgetUnrecoveredFandAs()) {
@@ -368,10 +354,7 @@ public class Budget extends BudgetVersionOverview {
         return allocatedUnrecoveredFandA;
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     public KualiDecimal getProjectIncomeTotal() {
         KualiDecimal projectIncomeTotal = new KualiDecimal(0.0);
         for (BudgetProjectIncome budgetProjectIncome : budgetProjectIncomes) {
@@ -622,10 +605,7 @@ public class Budget extends BudgetVersionOverview {
         this.rateClassTypes = rateClassTypes;
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     public int getBudgetProjectIncomeCount() {
         return getCollectionSize(budgetProjectIncomes);
     }
@@ -634,11 +614,6 @@ public class Budget extends BudgetVersionOverview {
         return budgetProjectIncomes;
     }
 
-    /**
-    * This method...
-    * @param index
-    * @return
-    */
     public BudgetProjectIncome getBudgetProjectIncome(int index) {
         while (getBudgetProjectIncomes().size() <= index) {
             getBudgetProjectIncomes().add(new BudgetProjectIncome());
@@ -776,11 +751,6 @@ public class Budget extends BudgetVersionOverview {
         this.instituteLaRates = instituteLaRates;
     }
 
-    /**
-    * This method...
-    * @param index
-    * @return
-    */
     public BudgetCostShare getBudgetCostShare(int index) {
         while (getBudgetCostShares().size() <= index) {
             getBudgetCostShares().add(new BudgetCostShare());
@@ -788,27 +758,15 @@ public class Budget extends BudgetVersionOverview {
         return getBudgetCostShares().get(index);
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
     public List<BudgetCostShare> getBudgetCostShares() {
         return budgetCostShares;
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     public int getBudgetCostShareCount() {
         return getCollectionSize(budgetCostShares);
     }
 
-    /**
-    * This method...
-    * @param index
-    * @return
-    */
     public BudgetUnrecoveredFandA getBudgetUnrecoveredFandA(int index) {
         while (getBudgetUnrecoveredFandAs().size() <= index) {
             getBudgetUnrecoveredFandAs().add(new BudgetUnrecoveredFandA());
@@ -816,18 +774,12 @@ public class Budget extends BudgetVersionOverview {
         return getBudgetUnrecoveredFandAs().get(index);
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     public List<BudgetUnrecoveredFandA> getBudgetUnrecoveredFandAs() {
         return budgetUnrecoveredFandAs;
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     public int getBudgetUnrecoveredFandACount() {
         return getCollectionSize(budgetUnrecoveredFandAs);
     }
@@ -852,10 +804,7 @@ public class Budget extends BudgetVersionOverview {
         this.calculatedExpenseTotals = calculatedExpenseTotals;
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     public BudgetDecimal getAvailableCostSharing() {
         BudgetDecimal availableCostShare = BudgetDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
@@ -866,10 +815,7 @@ public class Budget extends BudgetVersionOverview {
         return availableCostShare;
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     public BudgetDecimal getAvailableUnrecoveredFandA() {
         BudgetDecimal availableUnrecoveredFandA = BudgetDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
@@ -1101,10 +1047,7 @@ public class Budget extends BudgetVersionOverview {
         return parmValue.equalsIgnoreCase(TRUE_FLAG);
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     private Map<Integer, KualiDecimal> mapProjectIncomeTotalsToBudgetPeriodNumbers() {
         Map<Integer, KualiDecimal> budgetPeriodProjectIncomeMap = new TreeMap<Integer, KualiDecimal>();
         for (BudgetProjectIncome budgetProjectIncome : budgetProjectIncomes) {
@@ -1116,10 +1059,7 @@ public class Budget extends BudgetVersionOverview {
         return budgetPeriodProjectIncomeMap;
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     private Map<Integer, List<BudgetPeriod>> mapBudgetPeriodsToFiscalYears() {
         Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = new TreeMap<Integer, List<BudgetPeriod>>();
         for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
@@ -1158,29 +1098,14 @@ public class Budget extends BudgetVersionOverview {
             this.offCampusApplicableRate = offCampusApplicableRate;
         }
 
-        /**
-         * 
-         * This method...
-         * @return
-         */
         public Integer getFiscalYear() {
             return fiscalYear;
         }
 
-        /**
-         * 
-         * This method...
-         * @return
-         */
         public RateDecimal getOnCampusApplicableRate() {
             return onCampusApplicableRate;
         }
 
-        /**
-         * 
-         * This method...
-         * @return
-         */
         public RateDecimal getOffCampusApplicableRate() {
             return offCampusApplicableRate;
         }
@@ -1219,47 +1144,22 @@ public class Budget extends BudgetVersionOverview {
             this.fiscalYearRates = fiscalYearRates;
         }
 
-        /**
-         * 
-         * This method...
-         * @return
-         */
         public int getFiscalYear() {
             return fiscalYear;
         }
 
-        /**
-         * 
-         * This method...
-         * @return
-         */
         public BudgetPeriod getAssignedBudgetPeriod() {
             return assignedBudgetPeriod;
         }
 
-        /**
-         * 
-         * This method...
-         * @return
-         */
         public BudgetDecimal getCostShare() {
             return costShare;
         }
 
-        /**
-         * 
-         * This method...
-         * @return
-         */
         public FiscalYearApplicableRate getFiscalYearRates() {
             return fiscalYearRates;
         }
 
-        /**
-         * 
-         * This method...
-         * @return
-         */
         public BudgetDecimal getUnrecoveredFandA() {
             return unrecoveredFandA;
         }
@@ -1510,9 +1410,6 @@ public class Budget extends BudgetVersionOverview {
         return getBudgetDocument().getParentDocument().getBudgetParent();
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -1553,9 +1450,6 @@ public class Budget extends BudgetVersionOverview {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

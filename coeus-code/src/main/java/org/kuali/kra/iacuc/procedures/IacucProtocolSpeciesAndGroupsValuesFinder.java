@@ -28,14 +28,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class IacucProtocolSpeciesAndGroupsValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1095033401204774650L;
 
     /**

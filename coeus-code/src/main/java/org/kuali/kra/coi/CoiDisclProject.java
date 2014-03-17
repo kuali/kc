@@ -41,9 +41,7 @@ import java.util.List;
 public class CoiDisclProject extends KcPersistableBusinessObjectBase implements Disclosurable {
     
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -870946478393121916L;
 //    public static final String PROPOSAL_EVENT = "12";
 //    public static final String INSTITUTIONAL_PROPOSAL_EVENT = "14";

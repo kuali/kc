@@ -19,17 +19,9 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface InstitutionalProposalUnrecoveredFandARule extends BusinessRule {
 
-    /**
-     * This method...
-     * @param institutionalProposalSaveUnrecoveredFandARuleEvent
-     * @return
-     */
+
     boolean processSaveInstitutionalProposalUnrecoveredFandABusinessRules(InstitutionalProposalSaveUnrecoveredFandARuleEvent institutionalProposalAddUnrecoveredFandARuleEvent);
     
-    /**
-     * This method...
-     * @param institutionalProposalAddUnrecoveredFandARuleEvent
-     * @return
-     */
+
     boolean processAddInstitutionalProposalUnrecoveredFandABusinessRules(InstitutionalProposalAddUnrecoveredFandARuleEvent institutionalProposalAddUnrecoveredFandARuleEvent);
 }

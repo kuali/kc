@@ -17,9 +17,7 @@ package org.kuali.kra.irb.correspondence;
 
 public class CorrespondentType extends org.kuali.kra.protocol.correspondence.CorrespondentType {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2100602098262171740L;
 
 }

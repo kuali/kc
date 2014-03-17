@@ -45,9 +45,7 @@ public class AwardReportAuditRule implements DocumentAuditRule {
     private static final int ZERO = 0;
     private List<AuditError> auditErrors;
     
-    /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;

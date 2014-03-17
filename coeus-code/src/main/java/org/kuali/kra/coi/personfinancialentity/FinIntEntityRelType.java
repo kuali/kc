@@ -26,9 +26,7 @@ import java.util.List;
  */
 public class FinIntEntityRelType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7816013081822663506L;
 
     private String relationshipTypeCode;

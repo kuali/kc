@@ -22,9 +22,7 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardAmountTransactionRule;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * This class...
- */
+
 public class TimeAndMoneyAwardAmountTransactionSaveEvent extends KcDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(TimeAndMoneyAwardAmountTransactionSaveEvent.class);
@@ -50,9 +48,6 @@ public class TimeAndMoneyAwardAmountTransactionSaveEvent extends KcDocumentEvent
         return (TimeAndMoneyDocument) getDocument();
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
         LOG.info("Logging AwardAmountTransactionRuleEvent");

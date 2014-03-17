@@ -31,9 +31,6 @@ public class CoiDisclosureEventTypeToCoeusSubModuleSynchronizerServiceImpl imple
     
     private String coiCoeusModuleCode;
 
-    /**
-     * @see org.kuali.kra.coi.maintenance.CoiDisclosureEventTypeToCoeusSubModuleSynchronizerService#synchronizeCoeusSubModulesWithActiveCoiDisclosureEventTypes()
-     */
     @Override
     public void synchronizeCoeusSubModulesWithActiveCoiDisclosureEventTypes() {
         // get all the current coeus sub-modules for coi module

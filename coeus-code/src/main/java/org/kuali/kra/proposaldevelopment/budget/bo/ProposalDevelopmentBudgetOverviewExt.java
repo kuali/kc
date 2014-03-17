@@ -23,11 +23,7 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
  */
 public class ProposalDevelopmentBudgetOverviewExt extends BudgetVersionOverview {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8753945657927286025L;
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
 }

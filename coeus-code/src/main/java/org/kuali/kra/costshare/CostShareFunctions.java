@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.costshare;
 
-/**
- * 
- * This class...
- */
+
 public interface CostShareFunctions {
     
     /**

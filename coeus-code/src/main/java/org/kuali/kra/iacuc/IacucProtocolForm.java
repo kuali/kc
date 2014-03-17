@@ -60,9 +60,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class IacucProtocolForm extends ProtocolFormBase {
     
     private static final long serialVersionUID = -535557943052220820L;
@@ -104,7 +102,6 @@ public class IacucProtocolForm extends ProtocolFormBase {
         return "iacucProtocol";
     }
 
-    /** {@inheritDoc} */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "IacucProtocolDocument";
@@ -122,7 +119,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
 
     @Override
     protected String getLockRegion() {
-        // TODO Auto-generated method stub
+
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_IACUC_PROTOCOL;
     }
 

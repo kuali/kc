@@ -27,10 +27,6 @@ public class CommitteeNotificationRoleQualifierServiceImpl implements CommitteeN
     private Committee committee;
     private CommitteeSchedule committeeSchedule;
     
-    /**
-     * 
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService#getRoleQualifierValue(org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier)
-     */
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
         String qName = qualifier.getQualifier();

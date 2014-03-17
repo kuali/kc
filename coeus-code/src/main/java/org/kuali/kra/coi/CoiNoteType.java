@@ -20,9 +20,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 public class CoiNoteType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1520636068966348199L;
     
     public static final String PI_ENTRY_NOTE_TYPE_CODE = "1";
@@ -35,10 +33,7 @@ public class CoiNoteType extends KcPersistableBusinessObjectBase implements Muta
     private boolean active;
 
 
-    /**
-     * 
-     * Constructs a CoiNoteType.java.
-     */
+
     public CoiNoteType() {
     }
 

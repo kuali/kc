@@ -109,16 +109,12 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         this.kraAuthorizationService = kraAuthorizationService;
     }
     
-    /**
-     * @see org.kuali.kra.protocol.actions.copy.ProtocolCopyService#copyProtocol(org.kuali.kra.protocol.ProtocolDocumentBase)
-     */
+    @Override
     public GenericProtocolDocument copyProtocol(GenericProtocolDocument srcDoc) throws Exception {
         return copyProtocol(srcDoc, getProtocolNumberServiceHook().generateProtocolNumber(), false);
     }
     
-    /**
-     * @see org.kuali.kra.protocol.actions.copy.ProtocolCopyService#copyProtocol(org.kuali.kra.protocol.ProtocolDocumentBase, java.lang.String)
-     */
+    @Override
     public GenericProtocolDocument copyProtocol(GenericProtocolDocument srcDoc, String protocolNumber, boolean isAmendmentRenewal) throws Exception {
         GenericProtocolDocument newDoc = createNewProtocol(srcDoc, protocolNumber, isAmendmentRenewal);
         

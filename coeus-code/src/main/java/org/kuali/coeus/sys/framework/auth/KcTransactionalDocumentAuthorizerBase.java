@@ -58,9 +58,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     
     public static final String PRE_ROUTING_ROUTE_NAME = "PreRoute";
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActions(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
-     */
+    @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> oldDocumentActions) {
         return getDocumentActions(document, user);
     }
@@ -603,7 +601,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
         return (TaskAuthorizationService) KcServiceLocator.getService(TaskAuthorizationService.class);
     }
     
-    /** {@inheritDoc} */
+    @Override
     public boolean canSendAdHocRequests(Document arg0, String arg1, Person arg2) {
         return true;
     }

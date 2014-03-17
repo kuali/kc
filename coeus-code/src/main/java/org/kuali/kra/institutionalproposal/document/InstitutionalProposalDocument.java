@@ -59,22 +59,15 @@ import org.kuali.rice.krms.api.engine.Facts.Builder;
 public class InstitutionalProposalDocument extends KcTransactionalDocumentBase implements KrmsRulesContext {
     private static final Log LOG = LogFactory.getLog(InstitutionalProposalDocument.class);
 
-    /**
-     * Comment for <code>DOCUMENT_TYPE_CODE</code>
-     */
     public static final String DOCUMENT_TYPE_CODE = "INPR";
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5101782927161970631L;
     
     
     private List<InstitutionalProposal> institutionalProposalList;
     
-    /**
-     * Constructs a InstitutionalProposalDocument object
-     */
+
     public InstitutionalProposalDocument(){        
         super();        
         init();
@@ -100,10 +93,7 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
         institutionalProposalList.set(0, institutionalProposal);
     }
    
-    /**
-     *
-     * @return
-     */
+
     public List<InstitutionalProposal> getInstitutionalProposalList() {
         return institutionalProposalList;
     }
@@ -116,9 +106,6 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
         this.institutionalProposalList = institutionalProposalList;
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getDocumentTypeCode()
-     */
     @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
@@ -129,12 +116,8 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
         institutionalProposalList.add(new InstitutionalProposal());
     }
     
-    /**
-     * 
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();       
         
@@ -168,9 +151,6 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
         return managedLists;
     }
     
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
-     */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);

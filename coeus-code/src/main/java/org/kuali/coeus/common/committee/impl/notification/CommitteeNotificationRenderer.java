@@ -33,9 +33,7 @@ import java.util.Map;
  */
 public class CommitteeNotificationRenderer extends NotificationRendererBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6334584979829689495L;
 
     private CommitteeBase committee;
@@ -51,10 +49,7 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
         this.committee = committee;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
-     */
+    @Override
     public Map<String, String> getDefaultReplacementParameters() {
         String[] replacementParameters = CommitteeReplacementParameters.REPLACEMENT_PARAMETERS;
         

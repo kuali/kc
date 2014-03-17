@@ -50,12 +50,11 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentProtocolBase {
         super(protocol);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public String getGroupCode() {
         return GROUP_CODE;
     }
 
-    /** {@inheritDoc} */
     @Override
     public String getAttachmentDescription() {
         return "Protocol Attachment";

@@ -59,10 +59,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
 public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase implements PermissionsForm, AuditableForm, QuestionableFormInterface,
                                                                                         CustomDataDocumentForm {
     
@@ -246,12 +242,12 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
     }
     
     
-    /** {@inheritDoc} */
+    @Override
     public boolean isAuditActivated() {
         return this.auditActivated;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }

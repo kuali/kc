@@ -54,9 +54,7 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
     
     private AwardCommentServiceImpl awardCommentServiceImpl;
     
-    /**
-     * Constructs a InstitutionalProposalHomeAction.java.
-     */
+
     public AwardNotesAndAttachmentsAction() {
         awardNotepadBean = new AwardNotepadBean();
         awardCommentServiceImpl = new AwardCommentServiceImpl();

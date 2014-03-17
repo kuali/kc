@@ -301,10 +301,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         awardSequenceStatus = VersionStatus.PENDING.name();
     }
 
-    /**
-     * 
-     * @return
-     */
+
     private Map<String, AwardComment> getCommentMap() {
         if (commentMap == null || getNewVersion()) {
             commentMap = new HashMap<String, AwardComment>();
@@ -335,10 +332,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.financialChartOfAccountsCode = financialChartOfAccountsCode;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public Long getAwardId() {
         return awardId;
     }
@@ -352,10 +346,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getAwardNumber() {
         return awardNumber;
     }
@@ -369,9 +360,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#getSequenceNumber()
-     */
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -491,10 +480,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getSponsorCode() {
         return sponsorCode;
     }
@@ -519,10 +505,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public Integer getStatusCode() {
         return statusCode;
     }
@@ -535,10 +518,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.statusCode = statusCode;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -551,17 +531,12 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.accountNumber = accountNumber;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public List<AwardApprovedEquipment> getApprovedEquipmentItems() {
         return approvedEquipmentItems;
     }
 
-    /**
-     * @return
-     */
+
     public List<AwardUnitContact> getAwardUnitContacts() {
         return awardUnitContacts;
     }
@@ -608,16 +583,12 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return null;
     }
 
-    /**
-     * @return
-     */
+
     public List<AwardPerson> getProjectPersons() {
         return projectPersons;
     }
 
-    /**
-     * @return
-     */
+
     public List<AwardPerson> getProjectPersonsSorted() {
         List<AwardPerson> aList = new ArrayList<AwardPerson>();
         if (this.getPrincipalInvestigator() != null) {
@@ -702,30 +673,22 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return count;
     }
 
-    /**
-     * @return
-     */
+
     public int getAwardContactsCount() {
         return awardUnitContacts.size();
     }
 
-    /**
-     * @return
-     */
+
     public int getApprovedEquipmentItemCount() {
         return approvedEquipmentItems.size();
     }
 
-    /**
-     * @return
-     */
+
     public int getApprovedForeignTravelTripCount() {
         return approvedForeignTravelTrips.size();
     }
 
-    /**
-     * @return
-     */
+
     public List<AwardApprovedForeignTravel> getApprovedForeignTravelTrips() {
         return approvedForeignTravelTrips;
     }
@@ -751,10 +714,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.approvedForeignTravelTrips = approvedForeignTravelTrips;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public String getApprovedEquipmentIndicator() {
         return approvedEquipmentIndicator;
     }
@@ -768,10 +728,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getApprovedForeignTripIndicator() {
         return approvedForeignTripIndicator;
     }
@@ -785,10 +742,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getSubContractIndicator() {
         return subContractIndicator;
     }
@@ -802,10 +756,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public Date getAwardEffectiveDate() {
         return awardEffectiveDate;
     }
@@ -819,10 +770,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public Date getAwardExecutionDate() {
         return awardExecutionDate;
     }
@@ -836,10 +784,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public Date getBeginDate() {
         return beginDate;
     }
@@ -878,10 +823,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getCostSharingIndicator() {
         return costSharingIndicator;
     }
@@ -894,9 +836,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.costSharingIndicator = costSharingIndicator;
     }
 
-    /**
-     * @return
-     */
+
     public List<AwardFundingProposal> getFundingProposals() {
         return fundingProposals;
     }
@@ -922,10 +862,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getModificationNumber() {
         return modificationNumber;
     }
@@ -956,10 +893,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getPaymentScheduleIndicator() {
         return paymentScheduleIndicator;
     }
@@ -973,10 +907,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getScienceCodeIndicator() {
         return scienceCodeIndicator;
     }
@@ -990,10 +921,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getSpecialReviewIndicator() {
         return specialReviewIndicator;
     }
@@ -1024,10 +952,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getTransferSponsorIndicator() {
         return transferSponsorIndicator;
     }
@@ -1049,9 +974,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return unitNumber;
     }
 
-    /**
-     * @return
-     */
+
     public String getLeadUnitNumber() {
         return getUnitNumber();
     }
@@ -1064,10 +987,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.transferSponsorIndicator = transferSponsorIndicator;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public Integer getAccountTypeCode() {
         return accountTypeCode;
     }
@@ -1081,10 +1001,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getActivityTypeCode() {
         return activityTypeCode;
     }
@@ -1098,10 +1015,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public Integer getAwardTypeCode() {
         return awardTypeCode;
     }
@@ -1132,26 +1046,16 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.cfdaNumber = cfdaNumber;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public String getDocumentFundingId() {
         return documentFundingId;
     }
 
-    /**
-     * 
-     * This method...
-     * @param documentFundingId
-     */
     public void setDocumentFundingId(String documentFundingId) {
         this.documentFundingId = documentFundingId;
     }
 
-    /**
-     * @return
-     */
+
     public KcPerson getOspAdministrator() {
         for (AwardUnitContact contact : getCentralAdminContacts()) {
             if (contact.isOspAdministrator()) {
@@ -1162,19 +1066,14 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return ospAdministrator;
     }
 
-    /**
-     * @return
-     */
+
     public String getOspAdministratorName() {
         KcPerson ospAdministrator = getOspAdministrator();
         ospAdministratorName = ospAdministrator != null ? ospAdministrator.getFullName() : null;
         return ospAdministratorName;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public KualiDecimal getPreAwardAuthorizedAmount() {
         return preAwardAuthorizedAmount;
     }
@@ -1194,10 +1093,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public Date getPreAwardEffectiveDate() {
         return preAwardEffectiveDate;
     }
@@ -1211,10 +1107,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getProcurementPriorityCode() {
         return procurementPriorityCode;
     }
@@ -1228,10 +1121,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -1245,10 +1135,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public KualiDecimal getSpecialEbRateOffCampus() {
         return specialEbRateOffCampus;
     }
@@ -1262,10 +1149,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public KualiDecimal getSpecialEbRateOnCampus() {
         return specialEbRateOnCampus;
     }
@@ -1279,10 +1163,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getSubPlanFlag() {
         return subPlanFlag;
     }
@@ -1296,10 +1177,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    /**
-     * 
-     * @return
-     */
+
     public String getTitle() {
         return title;
     }
@@ -1448,10 +1326,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.financialAccountCreationDate = financialAccountCreationDate;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public AwardDocument getAwardDocument() {
         if (awardDocument == null) {
             this.refreshReferenceObject("awardDocument");
@@ -1463,58 +1337,30 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return getAwardDocument().buildForwardUrl();
     }
 
-    /**
-     * This method...
-     * @param awardDocument
-     */
     public void setAwardDocument(AwardDocument awardDocument) {
         this.awardDocument = awardDocument;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public List<AwardComment> getAwardComments() {
         return awardComments;
     }
 
-    /**
-     * This method...
-     * @param awardComments
-     */
     public void setAwardComments(List<AwardComment> awardComments) {
         this.awardComments = awardComments;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public List<AwardCostShare> getAwardCostShares() {
         return awardCostShares;
     }
 
-    /**
-     * This method...
-     * @param awardCostShares
-     */
     public void setAwardCostShares(List<AwardCostShare> awardCostShares) {
         this.awardCostShares = awardCostShares;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public List<AwardApprovedSubaward> getAwardApprovedSubawards() {
         return awardApprovedSubawards;
     }
 
-    /**
-     * This method...
-     * @param awardApprovedSubawards
-     */
     public void setAwardApprovedSubawards(List<AwardApprovedSubaward> awardApprovedSubawards) {
         this.awardApprovedSubawards = awardApprovedSubawards;
     }
@@ -1784,18 +1630,10 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return getTotalAmount(approvedForeignTravelTrips);
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public List<AwardFandaRate> getAwardFandaRate() {
         return awardFandaRate;
     }
 
-    /**
-     * This method...
-     * @param awardFandaRate
-     */
     public void setAwardFandaRate(List<AwardFandaRate> awardFandaRate) {
         this.awardFandaRate = awardFandaRate;
     }
@@ -2042,10 +1880,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         awardHierarchyTempObjects = new AutoPopulatingList<AwardHierarchyTempObject>(AwardHierarchyTempObject.class);
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public KualiDecimal getPreAwardInstitutionalAuthorizedAmount() {
         return preAwardInstitutionalAuthorizedAmount;
     }
@@ -2064,44 +1898,24 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         }
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public Date getPreAwardInstitutionalEffectiveDate() {
         return preAwardInstitutionalEffectiveDate;
     }
 
-    /**
-     * This method...
-     * @param preAwardInstitutionalEffectiveDate
-     */
     public void setPreAwardInstitutionalEffectiveDate(Date preAwardInstitutionalEffectiveDate) {
         this.preAwardInstitutionalEffectiveDate = preAwardInstitutionalEffectiveDate;
     }
 
-    /**
-     * This method...
-     * @param awardCostShare
-     */
     public void add(AwardCostShare awardCostShare) {
         awardCostShares.add(awardCostShare);
         awardCostShare.setAward(this);
     }
 
-    /**
-     * This method...
-     * @param awardApprovedSubaward
-     */
     public void add(AwardApprovedSubaward awardApprovedSubaward) {
         awardApprovedSubawards.add(awardApprovedSubaward);
         awardApprovedSubaward.setAward(this);
     }
 
-    /**
-     * This method...
-     * @param awardComment
-     */
     public void add(AwardComment awardComment) {
         awardComments.add(awardComment);
         awardComment.setAward(this);
@@ -2127,10 +1941,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         }
     }
 
-    /**
-     * This method...
-     * @param awardSponsorTerm
-     */
     public void add(AwardSponsorTerm awardSponsorTerm) {
         awardSponsorTerms.add(awardSponsorTerm);
         awardSponsorTerm.setAward(this);
@@ -2169,10 +1979,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         updateDirectFandADistributionBudgetPeriods(index + 1);
     }
 
-    /**
-     * This method...
-     * @param institutionaProposalNotepad
-     */
     public void add(AwardNotepad awardNotepad) {
         awardNotepad.setEntryNumber(awardNotepads.size() + 1);
         awardNotepad.setAwardNumber(this.getAwardNumber());
@@ -2213,9 +2019,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return awardSponsorTerms;
     }
 
-    /**
-     * @return
-     */
+
     public AwardStatus getAwardStatus() {
         if (awardStatus == null && statusCode != null) {
             refreshReferenceObject("awardStatus");
@@ -2249,16 +2053,12 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return sponsor;
     }
 
-    /**
-     * @return
-     */
+
     public List<AwardSponsorContact> getSponsorContacts() {
         return sponsorContacts;
     }
 
-    /**
-     * @return
-     */
+
     public void setSponsorContacts(List<AwardSponsorContact> awardSponsorContacts) {
         this.sponsorContacts = awardSponsorContacts;
     }
@@ -2510,26 +2310,17 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return returnValue;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentNumberForPermission()
-     */
+    @Override
     public String getDocumentNumberForPermission() {
         return awardId != null ? awardId.toString() : "";
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentKey()
-     */
+    @Override
     public String getDocumentKey() {
         return PermissionableKeys.AWARD_KEY;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getRoleNames()
-     */
+    @Override
     public List<String> getRoleNames() {
         List<String> roles = new ArrayList<String>();
 
@@ -2830,44 +2621,32 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.awardMethodOfPayment = awardMethodOfPayment;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getOwnerSequenceNumber()
-     */
+    @Override
     public Integer getOwnerSequenceNumber() {
         return null;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#incrementSequenceNumber()
-     */
+    @Override
     public void incrementSequenceNumber() {
         this.sequenceNumber++;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
-     */
+    @Override
     public Award getSequenceOwner() {
         return this;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner)
-     */
+    @Override
     public void setSequenceOwner(Award newOwner) {
         // no-op
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.awardId = null;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getName()
-     */
+    @Override
     public String getVersionNameField() {
         return "awardNumber";
     }
@@ -2948,10 +2727,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return getPerson(personId, true);
     }
 
-    /**
-     * This method...
-     * @param personId
-     */
     private PersonRolodex getPerson(String personId, boolean personFindFlag) {
         List<AwardPerson> awardPersons = getProjectPersons();
         for (AwardPerson awardPerson : awardPersons) {
@@ -3025,10 +2800,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return this.awardAttachments;
     }
 
-    /**
-     * This method...
-     * @param attachments
-     */
     public void setAttachments(List<AwardAttachment> attachments) {
         this.awardAttachments = attachments;
     }
@@ -3517,13 +3288,13 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     @Override
     public String getProjectName() {
-        // TODO Auto-generated method stub
+
         return getTitle();
     }
 
     @Override
     public String getProjectId() {
-        // TODO Auto-generated method stub
+
         return getAwardNumber();
     }
     

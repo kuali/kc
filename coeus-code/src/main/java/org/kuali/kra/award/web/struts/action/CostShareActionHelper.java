@@ -21,9 +21,7 @@ import org.kuali.kra.award.commitments.CostShareFormHelper;
 
 import java.io.Serializable;
 
-/**
- * This class...
- */
+
 public class CostShareActionHelper implements Serializable {
     
     private static final long serialVersionUID = 8927780321198666093L;

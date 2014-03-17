@@ -20,9 +20,7 @@ import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 
 public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -6003003851261499575L;
 
     private BudgetDecimal baseCost;

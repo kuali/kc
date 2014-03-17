@@ -27,9 +27,7 @@ import java.util.List;
  */
 public class FinancialEntityReporter extends DisclosureReporter {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2436497197072156523L;
 
     /** TODO : not sure about this table.  

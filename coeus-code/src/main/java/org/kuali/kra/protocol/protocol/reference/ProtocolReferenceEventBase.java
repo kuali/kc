@@ -30,16 +30,11 @@ public abstract class ProtocolReferenceEventBase extends KcDocumentEventBase imp
         this.protocolReferenceBean = protocolReferenceBean;
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
     }
     
-    /**
-     * @see org.kuali.kra.protocol.protocol.reference.ProtocolReferenceEvent#getProtocolReferenceBean()
-     */
+    @Override
     public ProtocolReferenceBeanBase getProtocolReferenceBean() {
         return this.protocolReferenceBean;
     }

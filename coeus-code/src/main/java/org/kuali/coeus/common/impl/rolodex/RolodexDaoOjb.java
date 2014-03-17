@@ -38,9 +38,7 @@ import java.util.Map;
 public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(RolodexDaoOjb.class);
     
-    /**
-     * @see org.kuali.coeus.common.impl.rolodex.RolodexDao#getNonOrganizationalRolodexResults(java.util.Map, boolean)
-     */
+    @Override
     public List<? extends BusinessObject> getNonOrganizationalRolodexResults(Map fieldValues, boolean usePrimaryKeys) {
         Collection searchResults = new ArrayList();
         Long matchingResultsCount = null;

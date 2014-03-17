@@ -110,10 +110,7 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     // lookup field  
     private String piName;
 
-    /**
-     * 
-     * Constructs a ProtocolSubmissionBase.java.
-     */
+
     public ProtocolSubmissionBase() {
         this.billable = false;
     }
@@ -446,10 +443,7 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
         this.committeeScheduleMinutes = committeeScheduleMinutes;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         submissionId = null;
     }

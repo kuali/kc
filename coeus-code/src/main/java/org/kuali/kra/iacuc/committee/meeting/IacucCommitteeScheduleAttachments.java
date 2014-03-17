@@ -19,9 +19,7 @@ import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleAttachment
 
 public class IacucCommitteeScheduleAttachments extends CommitteeScheduleAttachmentsBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3975150575067653032L;
 
 }

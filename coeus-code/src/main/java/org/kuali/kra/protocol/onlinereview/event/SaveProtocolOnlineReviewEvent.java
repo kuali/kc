@@ -59,7 +59,6 @@ public class SaveProtocolOnlineReviewEvent extends KcDocumentEventBase {
     
     
     
-    /** {@inheritDoc} */
     @Override
     protected void logEvent() {
         if (LOG.isDebugEnabled()) {

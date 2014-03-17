@@ -73,9 +73,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     private boolean allQuestionsAreUpToDate = true;
 
-    /**
-     * Constructs a QuestionnaireMaintenanceForm.
-     */
+
     @SuppressWarnings("unchecked")
     public QuestionnaireMaintenanceForm() {
         super();
@@ -357,7 +355,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     @Override
     public String getBusinessObjectClassName() {
-        // TODO Auto-generated method stub
+
         return "org.kuali.kra.questionnaire.Questionnaire";
     }
 

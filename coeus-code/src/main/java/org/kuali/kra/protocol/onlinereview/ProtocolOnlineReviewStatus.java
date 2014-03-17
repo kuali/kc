@@ -19,9 +19,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public class ProtocolOnlineReviewStatus extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8024835571051350950L;
 
     private String statusCode;

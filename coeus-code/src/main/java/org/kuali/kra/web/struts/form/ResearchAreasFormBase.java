@@ -33,9 +33,7 @@ public abstract class ResearchAreasFormBase extends KualiForm {
     private boolean authorizedToMaintainResearchAreas;
 
 
-    /**
-     * Constructs a ResearchAreasForm.
-     */
+
     public ResearchAreasFormBase() {
         super();
     }

@@ -118,9 +118,6 @@ public class BudgetVersionsAction extends BudgetAction {
         return super.execute(mapping, form, request, response);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -180,11 +177,7 @@ public class BudgetVersionsAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    /**
-     * This method...
-     * @param budgetForm
-     * @return
-     */
+
     private BudgetParentDocument getBudgetParentDocument(BudgetForm budgetForm) {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
@@ -284,13 +277,7 @@ public class BudgetVersionsAction extends BudgetAction {
         return synchBudgetRate(budgetDocument, true);
     }
 
-    /**
-     * This method...
-     * @param request
-     * @param budgetForm
-     * @return
-     * @throws WorkflowException
-     */
+
     private BudgetDocument getSelectedBudgetDocument(HttpServletRequest request, BudgetForm budgetForm) throws WorkflowException {
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         BudgetParentDocument budgetParentDocument = budgetDoc.getParentDocument();

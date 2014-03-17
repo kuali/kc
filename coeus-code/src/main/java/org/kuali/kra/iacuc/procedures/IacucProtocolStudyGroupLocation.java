@@ -123,7 +123,6 @@ public class IacucProtocolStudyGroupLocation extends KcPersistableBusinessObject
         this.setIacucProtocolStudyGroupLocationId(null);        
     }
 
-    /**  {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

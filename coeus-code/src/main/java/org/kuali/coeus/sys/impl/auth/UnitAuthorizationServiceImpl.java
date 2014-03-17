@@ -72,9 +72,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         this.permissionService = permissionService;
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String, java.lang.String)
-     */
+    @Override
     public boolean hasPermission(String userId, String unitNumber, String namespaceCode, String permissionName) {
         boolean userHasPermission = false;
 

@@ -33,18 +33,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class BudgetProposalTaskFactory extends WebTaskFactoryBase {
 
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.WebTaskFactory#createTask(java.lang.String, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
-     */
+    @Override
     public Task createTask(ActionForm form, HttpServletRequest request) {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetParentDocument parentDocument = budgetForm.getBudgetDocument().getParentDocument();
         return parentDocument.getParentAuthZTask(getTaskName());
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase#getTaskGroupName()
-     */
     @Override
     public String getTaskGroupName() {
         return TaskGroupName.PROPOSAL;

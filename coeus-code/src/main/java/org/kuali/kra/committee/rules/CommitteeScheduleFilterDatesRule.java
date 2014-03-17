@@ -30,9 +30,7 @@ public class CommitteeScheduleFilterDatesRule extends KcTransactionalDocumentRul
     
     public static final String [] MSG = {"Start date", "End date"}; 
             
-    /**
-     * @see org.kuali.kra.committee.rule.FilterCommitteeScheduleRule#processRules(org.kuali.kra.committee.rule.event.CommitteeScheduleFilterEvent)
-     */
+    @Override
     public boolean processRules(CommitteeScheduleFilterEvent filterCommitteeScheduleEvent) {
         
         boolean rulePassed = true;

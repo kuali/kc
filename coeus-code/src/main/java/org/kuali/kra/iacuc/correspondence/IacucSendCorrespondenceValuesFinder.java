@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.correspondence.SendCorrespondenceValuesFinderBase;
 
 public class IacucSendCorrespondenceValuesFinder extends SendCorrespondenceValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8430425110732611251L;
 
 }

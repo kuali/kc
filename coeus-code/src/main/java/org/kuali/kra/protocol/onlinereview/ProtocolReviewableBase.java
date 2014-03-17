@@ -26,9 +26,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * This class is for review comments and attachments
  */
 public abstract class ProtocolReviewableBase<CS extends CommitteeScheduleBase<CS, ?, ?, ?>> extends KcPersistableBusinessObjectBase {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2401653037114419518L;
 
     public abstract Long getProtocolId();

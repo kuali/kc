@@ -140,9 +140,7 @@ public class ProtocolActionType extends ProtocolActionTypeBase {
 
     private boolean finalActionForBatchCorrespondence;
 
-    /**
-     * Constructs a ProtocolActionType.
-     */
+
     public ProtocolActionType() {
     }
 

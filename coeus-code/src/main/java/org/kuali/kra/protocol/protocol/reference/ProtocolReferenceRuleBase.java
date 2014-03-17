@@ -29,9 +29,7 @@ import java.text.ParseException;
  */
 public abstract class ProtocolReferenceRuleBase extends KcTransactionalDocumentRuleBase implements AddProtocolReferenceRule {
 
-    /**
-     * @see org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceRule#processAddProtocolReferenceBusinessRules(org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceEventBase)
-     */
+    @Override
     public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEventBase addProtocolReferenceEvent) {
         
         boolean rulePassed = true;

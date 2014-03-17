@@ -31,9 +31,7 @@ import java.util.Map;
 
 public class IacucProtocolPersonsResponsibleValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -9014200066652039553L;
 
     @Override

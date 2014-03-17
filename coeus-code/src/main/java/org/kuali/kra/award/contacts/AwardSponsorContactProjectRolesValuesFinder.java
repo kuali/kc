@@ -25,10 +25,6 @@ import java.util.List;
  */
 public class AwardSponsorContactProjectRolesValuesFinder extends AwardContactsProjectRoleValuesFinder {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.award.contacts.AwardContactsProjectRoleValuesFinder#getKeyValues()
-     */
     @Override
     @SuppressWarnings("unchecked")
     public List getKeyValues() {

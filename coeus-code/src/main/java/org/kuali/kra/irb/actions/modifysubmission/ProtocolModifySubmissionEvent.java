@@ -59,10 +59,7 @@ public class ProtocolModifySubmissionEvent extends KcDocumentEventBase {
         return ExecuteProtocolModifySubmissionRule.class;
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ExecuteProtocolModifySubmissionRule) rule).processModifySubmissionRule((ProtocolDocument) getDocument(), actionBean);
     }

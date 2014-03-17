@@ -28,9 +28,7 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public class CoiSubmittedDisclosureLookupableHelper extends CoiDisclosureLookupableHelperBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4999402404037030752L;
     //field name
     private static final String LEAD_UNIT = "leadUnitNumber";

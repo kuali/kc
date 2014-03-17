@@ -33,9 +33,7 @@ import java.util.Set;
  */
 public abstract class CommitteeDocumentAuthorizerBase extends KcTransactionalDocumentAuthorizerBase {
        
-    /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
-     */
+    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
         String userId = user.getPrincipalId();
@@ -63,16 +61,12 @@ public abstract class CommitteeDocumentAuthorizerBase extends KcTransactionalDoc
         return editModes;
     }
     
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
-     */
+    @Override
     public boolean canInitiate(String documentTypeName, Person user) { 
         return canCreateCommittee(user);
     }
     
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
+    @Override
     public boolean canOpen(Document document, Person user) {
         CommitteeDocumentBase committeeDocument = (CommitteeDocumentBase) document;
         if (committeeDocument.getCommittee().getCommitteeId() == null) {
@@ -81,83 +75,53 @@ public abstract class CommitteeDocumentAuthorizerBase extends KcTransactionalDoc
         return canExecuteCommitteeTask(user.getPrincipalId(), (CommitteeDocumentBase) document, TaskName.VIEW_COMMITTEE);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canEdit(Document document, Person user) {
         return !isFinal(document) &&
                canExecuteCommitteeTask(user.getPrincipalId(), (CommitteeDocumentBase) document, TaskName.MODIFY_COMMITTEE);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canRoute(Document document, Person user) {
         return !isFinal(document) && super.canRoute(document, user);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canBlanketApprove(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canBlanketApprove(Document document, Person user) {
         return !isFinal(document) && super.canBlanketApprove(document, user);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canCancel(Document document, Person user) {
         return !isFinal(document) && super.canCancel(document, user);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canAcknowledge(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canAcknowledge(Document document, Person user) {
         return false;
     }
     
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canApprove(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canApprove(Document document, Person user) {
         return false;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canDisapprove(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canDisapprove(Document document, Person user) {
         return false;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canReload(Document document, Person user) {
         return isFinal(document);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canCopy(Document document, Person user) {
         return false;

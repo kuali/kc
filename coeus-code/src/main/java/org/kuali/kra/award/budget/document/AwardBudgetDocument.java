@@ -59,9 +59,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     private transient BudgetParentDocument<Award> newestBudgetParentDocument;
     private transient AwardBudgetService awardBudgetService;
     private Award  currentAward;
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3564659576355229703L;
 
     @Override
@@ -108,9 +106,6 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         this.currentAward = currentAward;
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getDocumentTypeCode()
-     */
     @Override
     public String getDocumentTypeCode() {
         return AWARD_BUDGET_DOCUMENT_TYPE_CODE;
@@ -239,9 +234,6 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     }
 
     
-    /**
-     * @see org.kuali.kra.budget.document.BudgetDocument#documentHasBeenRejected(java.lang.String)
-     */
     @Override
     public void documentHasBeenRejected( String reason ) {
         this.getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_REJECTED);
@@ -253,9 +245,6 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         }
     } 
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void prepareForSave() {
         //force ojb to precache the budget as an AwardBudgetExt.

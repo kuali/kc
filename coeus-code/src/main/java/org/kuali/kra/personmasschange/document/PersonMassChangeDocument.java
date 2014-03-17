@@ -57,10 +57,6 @@ public class PersonMassChangeDocument extends KcTransactionalDocumentBase implem
         personMassChangeList.add(newPersonMassChange);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getDocumentTypeCode()
-     */
     @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;

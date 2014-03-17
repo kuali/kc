@@ -25,9 +25,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase implements AwardCostShareRule {
 
     

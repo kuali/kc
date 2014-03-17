@@ -27,10 +27,7 @@ public abstract class ProtocolReviewCommentsPrintBase extends ProtocolReportPrin
 
     private static final long serialVersionUID = 7330987522940892013L;
 
-    /**
-     * 
-     * @see org.kuali.kra.protocol.actions.print.ProtocolReportPrintBase#getProtocolPrintType()
-     */
+    @Override
     public String getProtocolPrintType() {
         return ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT.getProtocolPrintType();
     }

@@ -38,9 +38,7 @@ import static java.util.Collections.sort;
  */
 public abstract class CommitteeIdValuesFinderBase extends UifKeyValuesFinderBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2721177236491755020L;
     
     private List<ProtocolCorrespondenceTemplateBase> correspondenceTemplates;

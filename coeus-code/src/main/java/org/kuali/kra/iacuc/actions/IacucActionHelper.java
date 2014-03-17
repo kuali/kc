@@ -24,6 +24,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
@@ -131,10 +133,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class IacucActionHelper extends ActionHelperBase {
   
+    private static final Log LOG = LogFactory.getLog(IacucActionHelper.class);
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = 777750088765246427L;
     
     /**
@@ -1569,7 +1569,7 @@ public class IacucActionHelper extends ActionHelperBase {
                     Constants.IACUC_PROTOCOL_DEFAULT_EXIPIRATION_TIME_DIFFERENCE_PARAMTETER, "1"));
             return retVal;
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             return 1;
         }
     }

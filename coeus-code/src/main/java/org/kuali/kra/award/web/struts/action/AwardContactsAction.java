@@ -394,9 +394,7 @@ public class AwardContactsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /**
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }

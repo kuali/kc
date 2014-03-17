@@ -35,10 +35,7 @@ public class ValidMethodOfPaymentValuesFinder extends UifKeyValuesFinderBase {
     private String basisOfPaymentCode;
     private AwardPaymentAndInvoicesService awardPaymentAndInvoicesService;
     
-    /**
-     * 
-     * Constructs a FrequencyCodeValuesFinder.java.
-     */
+
     public ValidMethodOfPaymentValuesFinder() {
         super();
     }

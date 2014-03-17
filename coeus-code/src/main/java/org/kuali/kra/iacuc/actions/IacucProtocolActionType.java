@@ -18,9 +18,7 @@ package org.kuali.kra.iacuc.actions;
 import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 
 public class IacucProtocolActionType extends ProtocolActionTypeBase { 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 162958759286804034L;
 
     // As ugly as it is, we lay out all the potential values here so we can use them in

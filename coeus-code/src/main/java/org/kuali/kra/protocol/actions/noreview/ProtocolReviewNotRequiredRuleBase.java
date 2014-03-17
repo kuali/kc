@@ -25,9 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public abstract class ProtocolReviewNotRequiredRuleBase extends KcTransactionalDocumentRuleBase implements ExecuteProtocolReviewNotRequiredRule {
 
-    /**
-     * @see org.kuali.kra.irb.actions.noreview.ExecuteProtocolReviewNotRequiredRule#processReviewNotRequiredRule(org.kuali.kra.irb.ProtocolDocumentBase, org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean)
-     */
+    @Override
     public boolean processReviewNotRequiredRule(ProtocolDocumentBase document, ProtocolReviewNotRequiredBean actionBean) {
         boolean valid = true;
         String fieldNameStarter = "actionHelper.protocolReviewNotRequiredBean.";

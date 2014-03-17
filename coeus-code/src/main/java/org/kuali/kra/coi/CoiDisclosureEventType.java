@@ -21,9 +21,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 public class CoiDisclosureEventType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
     
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     public static final long serialVersionUID = -933728957419448190L;
     public static final String ANNUAL = "14";
     public static final String TRAVEL = "15";

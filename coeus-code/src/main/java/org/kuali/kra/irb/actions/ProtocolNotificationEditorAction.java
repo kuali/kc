@@ -282,7 +282,7 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
 
     @Override
     protected ProtocolNotification getProtocolNotificationHook() {
-        // TODO Auto-generated method stub
+
         return null;
     }
     

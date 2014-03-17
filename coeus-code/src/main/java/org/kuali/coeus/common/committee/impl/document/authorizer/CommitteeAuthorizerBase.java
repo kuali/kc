@@ -29,9 +29,7 @@ public abstract class CommitteeAuthorizerBase extends TaskAuthorizerBase {
     
     protected KcAuthorizationService kraAuthorizationService;
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
-     */
+    @Override
     public final boolean isAuthorized(String userId, Task task) {
         return isAuthorized(userId, (CommitteeTaskBase) task);
     }

@@ -19,9 +19,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 
 import java.util.List;
 
-/**
- * This class...
- */
+
 public interface ProposalHierarchyDao {
     public List<String> getHierarchyChildProposalNumbers(String proposalNumber);
     public List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String proposalNumber);

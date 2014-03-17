@@ -135,7 +135,7 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
         setQuestionnaire(newlyVersionedOwner);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.setQuestionnaireUsageId(null);
     }

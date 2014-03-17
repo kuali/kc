@@ -66,9 +66,7 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
     private ScheduleXmlStream scheduleXmlStream;
     private CommitteeXmlStream committeeXmlStream;
 
-    /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
-     */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         org.kuali.kra.irb.Protocol protocol = (org.kuali.kra.irb.Protocol)printableBusinessObject;
         edu.mit.irb.irbnamespace.ProtocolDocument protocolDocumentType = edu.mit.irb.irbnamespace.ProtocolDocument.Factory.newInstance();
@@ -232,12 +230,7 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
         }
     }
 
-    /**
-     * This method...
-     * @param submissionInfoBean
-     * @param submission
-     * @return
-     */
+
     protected void setMinutes(org.kuali.kra.irb.actions.submit.ProtocolSubmission submissionInfoBean,
             Submissions submission) {
         CommitteeSchedule committeeSchedule = (CommitteeSchedule) submissionInfoBean.getCommitteeSchedule();

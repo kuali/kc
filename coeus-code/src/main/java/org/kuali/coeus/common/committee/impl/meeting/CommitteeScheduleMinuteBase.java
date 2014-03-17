@@ -136,9 +136,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         }
     };
 
-    /**
-     * Constructs a CommitteeScheduleMinuteBase.
-     */
+
     public CommitteeScheduleMinuteBase() {
     }
 
@@ -595,7 +593,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     //        return KraServiceLocator.getService(BusinessObjectService.class);  
     //    }  
     public boolean isReviewComment() {
-        // TODO Auto-generated method stub  
+
         return true;
     }
 

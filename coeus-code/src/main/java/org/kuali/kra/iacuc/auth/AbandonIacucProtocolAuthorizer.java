@@ -20,9 +20,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class AbandonIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 
-    /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
-     */
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         //TODO : permission : PI and protocol has never been approved. protocol status is SRR/SMR
         return canExecuteAction(task.getProtocol(), IacucProtocolActionType.IACUC_ABANDON) 

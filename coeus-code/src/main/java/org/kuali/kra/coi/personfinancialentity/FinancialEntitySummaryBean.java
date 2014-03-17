@@ -22,9 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FinancialEntitySummaryBean implements Serializable {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8525835671837464825L;
     private String address;
     private String webAddress;

@@ -27,7 +27,6 @@ public class ProtocolReturnToPIUnavailableAuthorizer extends ProtocolAuthorizer 
 
     private KcWorkflowService kraWorkflowService;
 
-    /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, ProtocolTask task) {
         if ( (!kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) ||

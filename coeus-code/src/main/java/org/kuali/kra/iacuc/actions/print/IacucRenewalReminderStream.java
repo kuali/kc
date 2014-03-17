@@ -37,9 +37,7 @@ public class IacucRenewalReminderStream extends RenewalReminderStreamBase {
     private ProtocolXmlStreamBase protocolXmlStream;
     private IacucCommitteeXmlStream committeeXmlStream;
 
-    /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
-     */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         IacucProtocol protocol = (IacucProtocol)printableBusinessObject;
         RenewalReminderDocument renewalReminderDocument = RenewalReminderDocument.Factory.newInstance() ;

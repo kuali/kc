@@ -52,9 +52,6 @@ public class DeletePermissionsUserEvent extends KcDocumentEventBase {
         logEvent();
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
@@ -63,17 +60,13 @@ public class DeletePermissionsUserEvent extends KcDocumentEventBase {
         LOG.debug(logMessage);
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return PermissionsRule.class;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((PermissionsRule) rule).processDeletePermissionsUserBusinessRules(this.getDocument(), 
                                                                                   users, index);

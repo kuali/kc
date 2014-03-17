@@ -35,9 +35,7 @@ import java.util.Map;
  */
 public class AwardFandaRate extends AwardAssociate {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1L;
 
     private Long awardFandaRateId;
@@ -60,97 +58,47 @@ public class AwardFandaRate extends AwardAssociate {
 
     private Date endDate;
 
-    /**
-     * 
-     * Constructs a AwardFandaRate.java.
-     */
+
     public AwardFandaRate() {
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public Long getAwardFandaRateId() {
         return awardFandaRateId;
     }
 
-    /**
-     * 
-     * This method...
-     * @param awardFandaRateId
-     */
     public void setAwardFandaRateId(Long awardFandaRateId) {
         this.awardFandaRateId = awardFandaRateId;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public KualiDecimal getApplicableFandaRate() {
         return applicableFandaRate;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.awardFandaRateId = null;
     }
 
-    /**
-     * 
-     * This method...
-     * @param applicableFandaRate
-     */
     public void setApplicableFandaRate(KualiDecimal applicableFandaRate) {
         this.applicableFandaRate = applicableFandaRate;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getFandaRateTypeCode() {
         return fandaRateTypeCode;
     }
 
-    /**
-     * 
-     * This method...
-     * @param fandaRateTypeCode
-     */
     public void setFandaRateTypeCode(String fandaRateTypeCode) {
         this.fandaRateTypeCode = fandaRateTypeCode;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getFiscalYear() {
         return fiscalYear;
     }
 
-    /**
-     * 
-     * This method...
-     * @param fiscalYear
-     */
     public void setFiscalYear(String fiscalYear) {
         this.fiscalYear = fiscalYear;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getOnCampusFlag() {
         return onCampusFlag;
     }
@@ -159,20 +107,10 @@ public class AwardFandaRate extends AwardAssociate {
         return onCampusFlag.equals("N");
     }
 
-    /**
-     * 
-     * This method...
-     * @param onCampusFlag
-     */
     public void setOnCampusFlag(String onCampusFlag) {
         this.onCampusFlag = onCampusFlag;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public KualiDecimal getUnderrecoveryOfIndirectCost() {
         return underrecoveryOfIndirectCost;
     }
@@ -181,90 +119,42 @@ public class AwardFandaRate extends AwardAssociate {
         return underrecoveryOfIndirectCost != null ? underrecoveryOfIndirectCost.longValue() : 0;
     }
 
-    /**
-     * 
-     * This method...
-     * @param underrecoveryOfIndirectCost
-     */
     public void setUnderrecoveryOfIndirectCost(KualiDecimal underrecoveryOfIndirectCost) {
         this.underrecoveryOfIndirectCost = underrecoveryOfIndirectCost;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getSourceAccount() {
         return sourceAccount;
     }
 
-    /**
-     * 
-     * This method...
-     * @param sourceAccount
-     */
     public void setSourceAccount(String sourceAccount) {
         this.sourceAccount = sourceAccount;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getDestinationAccount() {
         return destinationAccount;
     }
 
-    /**
-     * 
-     * This method...
-     * @param destinationAccount
-     */
     public void setDestinationAccount(String destinationAccount) {
         this.destinationAccount = destinationAccount;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public Date getStartDate() {
         return startDate;
     }
 
-    /**
-     * 
-     * This method...
-     * @param startDate
-     */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public Date getEndDate() {
         return endDate;
     }
 
-    /**
-     * 
-     * This method...
-     * @param endDate
-     */
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -281,9 +171,6 @@ public class AwardFandaRate extends AwardAssociate {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

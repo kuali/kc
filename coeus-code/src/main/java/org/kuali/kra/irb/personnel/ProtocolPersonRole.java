@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
 
 public class ProtocolPersonRole extends ProtocolPersonRoleBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4525940858799917386L;
 
     public static final String ROLE_PRINCIPAL_INVESTIGATOR = "PI";

@@ -23,7 +23,6 @@ import org.kuali.kra.protocol.auth.ProtocolTaskBase;
  * This class is the authorizer for all the generic actions and the action is currently not available.
  */
 public class IacucGenericProtocolUnavailableAuthorizer extends IacucGenericProtocolAuthorizer {
-    /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return !super.isAuthorized(userId, task) && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_IACUC_PROTOCOL_SUBMISSIONS);

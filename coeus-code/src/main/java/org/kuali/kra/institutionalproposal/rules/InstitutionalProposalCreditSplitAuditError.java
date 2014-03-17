@@ -50,9 +50,7 @@ public class InstitutionalProposalCreditSplitAuditError extends AuditError {
         super(PROPOSAL_CREDIT_SPLIT_LIST_ERROR_KEY, messageKey, CONTACTS_PANEL_NAME + "." + CONTACTS_PANEL_ANCHOR, params);
     }
         
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

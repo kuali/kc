@@ -159,7 +159,7 @@ public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase imple
         setQuestionnaire(newlyVersionedOwner);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.setQuestionnaireQuestionsId(null);
     }

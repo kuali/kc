@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ProposalDevelopmentAuditModeAction extends ProposalDevelopmentAction implements AuditModeAction {
     
-    /** {@inheritDoc} */
+    @Override
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -41,7 +41,7 @@ public class ProposalDevelopmentAuditModeAction extends ProposalDevelopmentActio
         return forward;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (ProposalDevelopmentForm) form, false);

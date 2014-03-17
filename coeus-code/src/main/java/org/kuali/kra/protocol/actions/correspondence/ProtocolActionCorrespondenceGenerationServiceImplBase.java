@@ -101,7 +101,7 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
         buildAndAttachProtocolCorrespondence(protocol, data, correspTypeCode);
     }
     
-    /**{@inheritDoc}**/
+    @Override
     public void generateCorrespondenceDocumentAndAttach(ProtocolActionsCorrespondenceBase printableCorrespondence) 
             throws PrintingException {
             if (printableCorrespondence.getXSLTemplates().size() > 0) {

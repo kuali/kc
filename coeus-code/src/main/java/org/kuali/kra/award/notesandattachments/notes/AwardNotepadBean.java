@@ -26,14 +26,9 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-/**
- * This class...
- */
+
 public class AwardNotepadBean implements Serializable {
 
- /**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = -2409602626444019766L;
 
     private AwardForm parent;
@@ -80,18 +75,10 @@ public class AwardNotepadBean implements Serializable {
         this.newAwardNotepad = newAwardNotepad;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public AwardDocument getAwardDocument() {
         return parent.getAwardDocument();
     }
-    
-    /**
-     * This method...
-     * @return
-     */
+
     public Object getData() {
         return getNewAwardNotepad();
     }

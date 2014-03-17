@@ -22,9 +22,7 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMappingBase;
  */
 public class ProtocolPersonRoleMapping extends ProtocolPersonRoleMappingBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4525940858799917386L;
 
     private Integer roleMappingId;

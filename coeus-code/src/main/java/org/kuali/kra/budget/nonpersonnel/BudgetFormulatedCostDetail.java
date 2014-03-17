@@ -21,9 +21,7 @@ import org.kuali.kra.budget.rates.FormulatedType;
 
 public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7218113007594733976L;
     private Long budgetFormulatedCostDetailId; 
     private Long budgetLineItemId; 

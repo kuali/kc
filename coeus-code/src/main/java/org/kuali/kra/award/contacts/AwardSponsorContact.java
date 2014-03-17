@@ -62,17 +62,11 @@ public class AwardSponsorContact extends AwardContact {
         this.contactType = contactType;
     }
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContact#getContactRoleType()
-     */
     @SuppressWarnings("unchecked")
     @Override
     protected Class getContactRoleType() {
         return ContactType.class;
     }
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContact#getContactRoleTypeIdentifier()
-     */
     @Override
     protected String getContactRoleTypeIdentifier() {
         return "contactTypeCode";

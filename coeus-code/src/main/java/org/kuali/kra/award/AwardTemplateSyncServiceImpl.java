@@ -552,7 +552,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
             return m;
         } catch ( Exception e ) {
             //could not find one, return null
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return m;
     }
@@ -565,7 +565,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
             return m;
         } catch ( Exception e ) {
             //could not find one, return null
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return m;
     }

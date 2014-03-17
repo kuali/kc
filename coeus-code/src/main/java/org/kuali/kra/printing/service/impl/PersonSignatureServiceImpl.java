@@ -89,9 +89,7 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
         
     }    
 
-    /**
-     * @see org.kuali.kra.printing.service.PersonSignatureService#applySignature(java.lang.String, java.lang.String, byte[])
-     */
+    @Override
     public byte[] applySignature(byte[] pdfBytes) throws Exception {
         byte[] pdfFileData = pdfBytes;
         ByteArrayOutputStream byteArrayOutputStream = getOriginalPdfDocumentAsOutputsStream(pdfBytes); //getFlattenedPdfForm(pdfFileData);
@@ -192,7 +190,7 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
             }
         }catch (Exception ex) {
                 LOG.error("Exception while applying signature : Method applyAutographInDocument : " + ex.getMessage());
-                ex.printStackTrace();
+                LOG.error(ex.getMessage(), ex);
         }
         return outputStream;
     }

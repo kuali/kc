@@ -60,10 +60,7 @@ public class InstitutionalProposalSpecialReview extends SpecialReview<Institutio
         return sequenceOwner != null ? sequenceOwner.getSequenceNumber() : null;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         proposalSpecialReviewId = null;
         for (InstitutionalProposalSpecialReviewExemption exemption : getSpecialReviewExemptions()) {
@@ -72,10 +69,6 @@ public class InstitutionalProposalSpecialReview extends SpecialReview<Institutio
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.specialreview.impl.bo.SpecialReview#createSpecialReviewExemption(java.lang.String)
-     */
     @Override
     public InstitutionalProposalSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
         InstitutionalProposalSpecialReviewExemption institutionalProposalSpecialReviewExemption = new InstitutionalProposalSpecialReviewExemption();

@@ -36,9 +36,6 @@ public class AddAwardReportTermRuleEvent extends AwardReportTermRuleEvent {
         super(errorPathPrefix, awardDocument, award, awardReportTermItem);
     }
 
-    /**
-     * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardReportTermRule)rule).processAddAwardReportTermBusinessRules(this);

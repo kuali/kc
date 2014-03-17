@@ -24,7 +24,6 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
      * This method is to check if user is authorized to perform expedited approval action
      * on a protocol.
      * Also apply rules if any.
-     * This method...
      * @param protocolForm
      * @return
      */
@@ -265,10 +264,7 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
      */
     public boolean isAssignReviewersAuthorized(ProtocolForm protocolForm);
     
-    
-    /**
-     * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#isCloseEnrollmentAuthorized(org.kuali.kra.irb.ProtocolForm)
-     */
+
     public boolean isWithdrawRequestActionAuthorized(ProtocolForm protocolForm);
 
 
@@ -307,7 +303,6 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
     /**
      * This method is to assign protocol to agenda
      * @param protocolForm
-     * @param notificationPromptName
      * @return String path to prompt/redirect user
      * @throws Exception
      */
@@ -357,7 +352,6 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
     /**
      * This method is to withdraw a previously submitted "request to" action
      * @param protocolForm
-     * @param taskName
      * @return
      * @throws Exception
      */

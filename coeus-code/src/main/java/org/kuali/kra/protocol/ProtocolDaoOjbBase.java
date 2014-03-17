@@ -70,10 +70,7 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
         initialization();
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.protocol.ProtocolDao#getProtocols(java.util.Map)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<GenericProtocol> getProtocols(Map<String, String> fieldValues) {
         Criteria crit = new Criteria();
@@ -85,7 +82,7 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
             try {
                 crit = getCollectionCriteriaFromMap(getProtocolBOClassHook().newInstance(), baseLookupFieldValues);
             }catch(Exception ex) {
-                ex.printStackTrace();
+                LOG.error(ex.getMessage(), ex);
             }
         }
 
@@ -106,7 +103,7 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
         return (List<GenericProtocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
-    /** {@inheritDoc} */
+    @Override
     @SuppressWarnings("unchecked")
     public <T extends ProtocolAttachmentBase & TypedAttachment> List<T> retrieveAttachmentVersions(T attachment, Class<T> type) {
         
@@ -133,10 +130,7 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
         return attachments;
     }
     
-    /**
-     * {@inheritDoc}
-     *  
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<GenericProtocol> getExpiringProtocols(String committeeId, Date startDate, Date endDate) {
         Criteria crit = new Criteria();

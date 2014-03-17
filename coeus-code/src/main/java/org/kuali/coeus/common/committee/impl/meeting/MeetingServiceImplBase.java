@@ -130,10 +130,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
 
     
     
-    /**
-     * 
-     * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#SaveMeetingDetails(org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase, java.util.List)
-     */
+    @Override
     public void saveMeetingDetails(CS committeeSchedule, List<? extends PersistableBusinessObject> deletedBos) {
         committeeSchedule.setStartTime(addHrMinToDate(committeeSchedule.getStartTime(), committeeSchedule.getViewStartTime()));
         committeeSchedule.setEndTime(addHrMinToDate(committeeSchedule.getEndTime(), committeeSchedule.getViewEndTime()));
@@ -150,10 +147,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
 
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#getStandardReviewComment(java.lang.String)
-     */
+    @Override
     public String getStandardReviewComment(String protocolContingencyCode) {
         String description = null;
         Map<String, String> queryMap = new HashMap<String, String>();
@@ -245,10 +239,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     }
 
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#markAbsent(java.util.List, java.util.List, int)
-     */
+    @Override
     public void markAbsent(List<MemberPresentBean> memberPresentBeans, List<MemberAbsentBean> memberAbsentBeans, int itemNumber) {
         MemberPresentBean memberPresentBean = memberPresentBeans.get(itemNumber);
         MemberAbsentBean memberAbsentBean = new MemberAbsentBean();
@@ -258,10 +249,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
         memberPresentBeans.remove(itemNumber);
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#presentVoting(org.kuali.coeus.common.committee.impl.meeting.MeetingHelperBase, int)
-     */
+    @Override
     public void presentVoting(MeetingHelperBase meetingHelper, int itemNumber) {
         MemberAbsentBean memberAbsentBean = meetingHelper.getMemberAbsentBeans().get(itemNumber);
         MemberPresentBean memberPresentBean = new MemberPresentBean();
@@ -386,10 +374,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     }
 
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#presentOther(org.kuali.coeus.common.committee.impl.meeting.MeetingHelperBase, int)
-     */
+    @Override
     public void presentOther(MeetingHelperBase meetingHelper, int itemNumber) {
         MemberAbsentBean memberAbsentBean = meetingHelper.getMemberAbsentBeans().get(itemNumber);
         OtherPresentBeanBase otherPresentBean = getNewOtherPresentBeanInstanceHook();
@@ -401,10 +386,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     
     protected abstract OtherPresentBeanBase getNewOtherPresentBeanInstanceHook();
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#addOtherPresent(org.kuali.coeus.common.committee.impl.meeting.MeetingHelperBase)
-     */
+    @Override
     public void addOtherPresent(MeetingHelperBase meetingHelper) {
         OtherPresentBeanBase otherPresentBean = getNewOtherPresentBeanInstanceHook();
         otherPresentBean.setMember(false);
@@ -457,10 +439,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     }
 
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#deleteOtherPresent(org.kuali.coeus.common.committee.impl.meeting.MeetingHelperBase, int)
-     */
+    @Override
     public void deleteOtherPresent(MeetingHelperBase meetingHelper, int itemNumber) {
         OtherPresentBeanBase otherPresentBean = meetingHelper.getOtherPresentBeans().get(itemNumber);
         if (otherPresentBean.isMember()) {
@@ -472,10 +451,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     }
 
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#addCommitteeScheduleMinute(org.kuali.coeus.common.committee.impl.meeting.MeetingHelperBase)
-     */
+    @Override
     public void addCommitteeScheduleMinute(MeetingHelperBase meetingHelper) {
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("minuteEntryType");
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("protocol");

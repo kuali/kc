@@ -29,15 +29,10 @@ public class NegotiationAssociationType  extends NegotiationsGroupingBase implem
     public static final String AWARD_ASSOCIATION = "AWD";
     public static final String SUB_AWARD_ASSOCIATION = "SWD";
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8163060629967261671L;
     
-    /**
-     * 
-     * Constructs a NegotiationAssociationType.java.
-     */
+
     public NegotiationAssociationType() {
         super();
     }

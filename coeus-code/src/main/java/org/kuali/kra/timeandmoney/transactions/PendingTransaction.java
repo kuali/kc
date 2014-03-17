@@ -20,9 +20,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class PendingTransaction extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8626352352644718112L;
 
     private Long transactionId;
@@ -52,9 +50,7 @@ public class PendingTransaction extends KcPersistableBusinessObjectBase {
     // is this a transaction resulting from a change to the current values?
     boolean singleNodeTransaction = false;
     
-    /**
-     * Constructs a PendingTransaction.java.
-     */
+
     public PendingTransaction() {
         setObligatedAmount(new KualiDecimal(0));
         setAnticipatedAmount(new KualiDecimal(0));

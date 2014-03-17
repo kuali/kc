@@ -48,10 +48,7 @@ public class SubAwardFundingSource extends SubAwardAssociate {
 
     private AwardAmountInfo awardAmountInfo;
     
-    /**
-     * 
-     * Constructs a SubAwardFundingSource.java.
-     */
+
     public SubAwardFundingSource() { 
 
     }

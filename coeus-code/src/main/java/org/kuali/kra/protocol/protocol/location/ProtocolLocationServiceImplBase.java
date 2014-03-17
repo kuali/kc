@@ -31,9 +31,7 @@ public abstract class ProtocolLocationServiceImplBase implements ProtocolLocatio
     private static final Integer SEQUENCE_NUMBER = 0;
     
     
-    /**
-     * @see org.kuali.kra.protocol.protocol.location.ProtocolLocationService#addProtocolLocation(org.kuali.kra.protocol.ProtocolBase, org.kuali.kra.protocol.protocol.location.ProtocolLocationBase)
-     */
+    @Override
     public void addProtocolLocation(ProtocolBase protocol, ProtocolLocationBase protocolLocation) {
         
         //TODO Framework problem of 2 saves
@@ -46,9 +44,7 @@ public abstract class ProtocolLocationServiceImplBase implements ProtocolLocatio
         protocol.getProtocolLocations().add(protocolLocation);
     }
 
-    /**
-     * @see org.kuali.kra.protocol.protocol.location.ProtocolLocationService#addDefaultProtocolLocation(org.kuali.kra.protocol.ProtocolBase)
-     */
+    @Override
     public void addDefaultProtocolLocation(ProtocolBase protocol) {
         if(protocol.getProtocolLocations().size() == 0) {
             ProtocolLocationBase protocolLocation = getNewProtocolLocationInstanceHook();
@@ -71,9 +67,7 @@ public abstract class ProtocolLocationServiceImplBase implements ProtocolLocatio
 
     protected abstract ProtocolLocationBase getNewProtocolLocationInstanceHook();
 
-    /**
-     * @see org.kuali.kra.protocol.protocol.location.ProtocolLocationService#clearProtocolLocation(org.kuali.kra.protocol.ProtocolBase, int)
-     */
+    @Override
     public void clearProtocolLocationAddress(ProtocolBase protocol, int lineNumber) {
 
         protocol.getProtocolLocations().get(lineNumber).setRolodexId(new Integer(0));  

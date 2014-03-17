@@ -27,10 +27,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
  */
 public class ReturnForSMRUnavailableAuthorizer extends ProtocolAuthorizer {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         ProtocolAction lastAction = task.getProtocol().getLastProtocolAction();
         ProtocolSubmission lastSubmission = task.getProtocol().getProtocolSubmission();

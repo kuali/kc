@@ -21,9 +21,7 @@ package org.kuali.kra.protocol.auth;
  */
 public abstract class AdminCorrectionProtocolAuthorizerBase extends ProtocolAuthorizerBase {
 
-    /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return canExecuteAction(task.getProtocol(), getActionTypeAdminCorrectionHook()) &&
                hasPermission(userId, task.getProtocol(), getPermissionMaintainProtocolSubmissionHook());

@@ -21,14 +21,10 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalPersonUnitAddRuleImpl implements InstitutionalProposalPersonUnitAddRule {
 
-    /**
-     * @see org.kuali.kra.institutionalProposal.contacts.InstitutionalProposalPersonUnitAddRule
-     */
+    @Override
     public boolean processAddInstitutionalProposalPersonUnitBusinessRules(InstitutionalProposalPersonUnitRuleAddEvent event) {
         return checkForValidUnit(event.getNewPersonUnit()) && checkForDuplicateUnits(event.getProjectPerson(), event.getNewPersonUnit());
     }

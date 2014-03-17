@@ -28,9 +28,7 @@ import org.kuali.kra.infrastructure.TaskName;
  */
 public class CommitteeDocumentAuthorizer extends CommitteeDocumentAuthorizerBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6464453088283772104L;
 
     @Override

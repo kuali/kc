@@ -43,9 +43,7 @@ import java.util.List;
  */
 public class AwardReportTerm extends AwardAssociate implements GenericAwardReportTerm {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3117988810554700250L;
 
     private Long awardReportTermId;
@@ -93,18 +91,12 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
     @AwardSyncableList(parentPropertyName = "awardReportTerm", syncClass = AwardReportTermRecipient.class, syncSourceClass = AwardTemplateReportTermRecipient.class, scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
     private List<AwardReportTermRecipient> awardReportTermRecipients;
 
-    /**
-     * 
-     * Constructs a AwardReportTerm.java.
-     */
+
     public AwardReportTerm() {
         awardReportTermRecipients = new ArrayList<AwardReportTermRecipient>();
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public Long getAwardReportTermId() {
         return awardReportTermId;
     }
@@ -154,9 +146,6 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
         this.awardReportTermRecipients = awardReportTermRecipients;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -164,9 +153,6 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -213,9 +199,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
         return isEqual;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.awardReportTermId = null;
     }

@@ -39,9 +39,6 @@ public class RateClassRateType {
         this.rateType = rateType;
     }
     
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int multiplier = 23;
@@ -52,9 +49,6 @@ public class RateClassRateType {
         return code;
     }
     
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object o) {
         RateClassRateType current = (RateClassRateType) o;

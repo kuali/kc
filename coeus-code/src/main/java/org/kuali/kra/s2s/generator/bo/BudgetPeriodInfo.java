@@ -83,9 +83,7 @@ public class BudgetPeriodInfo {
     private BudgetDecimal totalIndirectCostSharing;
 
 
-    /**
-     * Default Constructor
-     */
+
 
     public BudgetPeriodInfo() {
         keyPersons = new ArrayList<KeyPersonInfo>();

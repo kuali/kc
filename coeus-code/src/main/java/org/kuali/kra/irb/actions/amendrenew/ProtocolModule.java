@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.actions.amendrenew.ProtocolModuleBase;
 
 public class ProtocolModule extends ProtocolModuleBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4529315510212062290L;
 
     public static final String GENERAL_INFO = "001";

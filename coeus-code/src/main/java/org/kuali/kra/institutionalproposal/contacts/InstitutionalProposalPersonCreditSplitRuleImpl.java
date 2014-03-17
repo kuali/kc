@@ -24,17 +24,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalPersonCreditSplitRuleImpl extends KcTransactionalDocumentRuleBase implements
         InstitutionalProposalPersonCreditSplitRule {
 
     private static final KualiDecimal MAX_TOTAL_VALUE = new KualiDecimal(100.00);
 
-    /**
-     * @see org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplitRule#checkInstitutionalProposalPersonCreditSplitTotals(org.kuali.kra.nstitutionaliroposal.contacts.InstitutionalProposalPersonCreditSplitRuleEvent)
-     */
+    @Override
     public boolean checkInstitutionalProposalPersonCreditSplitTotals(InstitutionalProposalPersonCreditSplitRuleEvent event) {
         boolean retval = true; 
         for(InvestigatorCreditType creditType: loadInvestigatorCreditTypes()) {

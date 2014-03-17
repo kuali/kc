@@ -37,9 +37,7 @@ import java.util.List;
  */
 public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBase implements Negotiable {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 989159429578390915L;
     private Long negotiationUnassociatedDetailId;
     private Long negotiationId;
@@ -68,10 +66,7 @@ public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBa
 
     private transient KcPersonService kcPersonService;
     
-    /**
-     * 
-     * Constructs a NegotiationUnassociatedDetail.java.
-     */
+
     public NegotiationUnassociatedDetail() {
         super();
     }

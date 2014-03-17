@@ -19,9 +19,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 public class RateClassBaseInclusion extends KcPersistableBusinessObjectBase {
     
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1079390676098311747L;
     private Long rateClassBaseInclusionId; 
     private String rateClassCode; 

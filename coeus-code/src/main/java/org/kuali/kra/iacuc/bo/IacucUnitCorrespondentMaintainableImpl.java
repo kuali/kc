@@ -31,23 +31,16 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class IacucUnitCorrespondentMaintainableImpl extends KraMaintainableImpl implements Maintainable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -158475500509336068L;
     private static final String KIM_PERSON_LOOKUPABLE_REFRESH_CALLER = "kimPersonLookupable";
     private static final String UNIT_ID_INVALID_ERROR_KEY = "error.invalid.unitAdministrator.unitId";
     private static final String PRINCIPAL_ID_INVALID_ERROR_KEY = "error.invalid.unitAdministrator.principalId";
     private static final String CORRESPONDENT_TYPE_CODE_INVALID_ERROR_KEY = "error.invalid.unitCorrespondent.correspondentType";
 
-    /**
-     * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
-     */
     @Override
     @SuppressWarnings("unchecked")
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {

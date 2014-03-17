@@ -42,9 +42,7 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
 
     private boolean javaScriptEnabled;
 
-    /**
-     * Constructs a ProposalUserEditRoles.
-     */
+
     public ProposalUserEditRoles() {
         roleStates = new ArrayList<ProposalRoleState>();
     }
@@ -112,9 +110,7 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
         return this.javaScriptEnabled;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
-     */
+    @Override
     public void refresh() {
     }
 

@@ -59,9 +59,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
     private transient KcAttachmentService kcAttachmentService;
     private transient ParameterService parameterService;
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule#processAddPersonnelAttachmentBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent)
-     */
+    @Override
     public boolean processAddPersonnelAttachmentBusinessRules(AddPersonnelAttachmentEvent addPersonnelAttachmentEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)addPersonnelAttachmentEvent.getDocument();
         ProposalPersonBiography proposalPersonBiography = addPersonnelAttachmentEvent.getProposalPersonBiography();
@@ -104,9 +102,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         return checkForInvalidCharacters(event.getProposalPersonBiography());
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.rule.SavePersonnelAttachmentRule#processSavePersonnelAttachmentBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent)
-     */
+    @Override
     public boolean processSavePersonnelAttachmentBusinessRules(SavePersonnelAttachmentEvent savePersonnelAttachmentEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) savePersonnelAttachmentEvent.getDocument();
         ProposalPersonBiography proposalPersonBiography = savePersonnelAttachmentEvent.getProposalPersonBiography();

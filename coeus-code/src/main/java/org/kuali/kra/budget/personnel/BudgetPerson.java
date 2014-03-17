@@ -435,9 +435,6 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -447,9 +444,6 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

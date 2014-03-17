@@ -20,9 +20,7 @@ import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 
 public class ProtocolUnit extends ProtocolUnitBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8187880795930346699L;
 
 }

@@ -82,9 +82,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     }
     
 
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase#getCommitteeById(java.lang.String)
-     */
+    @Override
     public CMT getCommitteeById(String committeeId) {
         CMT committee = null;
         if (!StringUtils.isBlank(committeeId)) {
@@ -149,9 +147,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
 
     protected abstract CommitteeResearchAreaBase getNewCommitteeResearchAreaInstanceHook();
 
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase#getAvailableCommitteeDates(java.lang.String)
-     */
+    @Override
     public List<KeyValue> getAvailableCommitteeDates(String committeeId) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
@@ -218,9 +214,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         return sb.toString();
     }
 
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase#getAvailableMembers(java.lang.String, java.lang.String)
-     */
+    @Override
     public List<CommitteeMembershipBase> getAvailableMembers(String committeeId, String scheduleId) {
         if (StringUtils.isBlank(scheduleId)) {
             return getAvailableMembersNow(committeeId);
@@ -241,9 +235,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         return availableMembers;
     }
     
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase#getAvailableMembers(java.lang.String, java.lang.String)
-     */
+
     public List<CommitteeMembershipBase> getAvailableMembersNow(String committeeId) {
         List<CommitteeMembershipBase> availableMembers = new ArrayList<CommitteeMembershipBase>();
         CMT committee = getCommitteeById(committeeId);
@@ -287,17 +279,12 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         return false;
     }
 
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase#getCommitteeSchedule(org.kuali.coeus.common.committee.impl.bo.CommitteeBase, java.lang.String)
-     */
+    @Override
     public CS getCommitteeSchedule(CMT committee, String scheduleId) {
         return committee.getCommitteeSchedule(scheduleId);
     }
     
-    /**
-     * 
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase#mergeCommitteeSchedule(java.lang.String)
-     */
+    @Override
     public List<CS> mergeCommitteeSchedule(String committeeId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(COMMITTEE_ID, committeeId);
@@ -388,9 +375,6 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
 
     
     
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase#updateCommitteeForProtocolSubmissions(org.kuali.coeus.common.committee.impl.bo.CommitteeBase)
-     */
     @Override
     public void updateCommitteeForProtocolSubmissions(CMT committee) {
         // loop thru all the schedules for the committee and update each schedule's submissions if any

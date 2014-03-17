@@ -81,7 +81,7 @@ public abstract class ProtocolAssignToAgendaServiceImplBase implements ProtocolA
     
     
 
-    /** {@inheritDoc} */
+    @Override
     public void assignToAgenda(ProtocolBase protocol, ProtocolAssignToAgendaBean actionBean) throws Exception {
 
         ProtocolSubmissionBase submission = findSubmission(protocol);
@@ -100,7 +100,7 @@ public abstract class ProtocolAssignToAgendaServiceImplBase implements ProtocolA
     
     
     
-    /** {@inheritDoc} */
+    @Override
     public boolean isAssignedToAgenda(ProtocolBase protocol) {
         String protocolSubmissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
         
@@ -111,7 +111,7 @@ public abstract class ProtocolAssignToAgendaServiceImplBase implements ProtocolA
     
     
 
-    /** {@inheritDoc} */
+    @Override
     public String getAssignToAgendaComments(ProtocolBase protocol) {
         ProtocolActionBase pa = getAssignedToAgendaProtocolAction(protocol);
         if (pa == null) {
@@ -121,7 +121,7 @@ public abstract class ProtocolAssignToAgendaServiceImplBase implements ProtocolA
         }
     }
     
-    /** {@inheritDoc} */
+    @Override
     public ProtocolActionBase getAssignedToAgendaProtocolAction(ProtocolBase protocol) {
         Iterator<ProtocolActionBase> i = protocol.getProtocolActions().iterator();
         ProtocolActionBase returnAction = null;
@@ -139,7 +139,7 @@ public abstract class ProtocolAssignToAgendaServiceImplBase implements ProtocolA
 
     protected abstract String getProtocolActionTypeAssignToAgendaCodeHook();
     
-    /** {@inheritDoc} */
+    @Override
     public String getAssignedCommitteeName(ProtocolBase protocol) {
         String committeeID = getAssignedCommitteeId(protocol);
         if (committeeID != null) {

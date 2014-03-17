@@ -25,9 +25,7 @@ import java.util.List;
 
 public class MedusaBean implements Serializable{
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8727199559530816767L;
     private String medusaViewRadio;
     private String moduleName;
@@ -97,10 +95,7 @@ public class MedusaBean implements Serializable{
         this.moduleIdentifier = moduleIdentifier;
     }
     
-    /**
-     * This method...
-     * @return
-     */
+
     private MedusaService getMedusaService() {
         return KcServiceLocator.getService(MedusaService.class);
     }

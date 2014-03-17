@@ -30,9 +30,7 @@ import org.kuali.kra.irb.service.ResearchAreasService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.service.impl.ResearchAreasServiceBaseImpl;
 
-/**
- * This class...
- */
+
 public class ResearchAreasServiceImpl extends ResearchAreasServiceBaseImpl implements ResearchAreasService {
 
     @Override

@@ -25,9 +25,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
 
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 112662320812476906L;
 
     private Integer iacucProtocolStudyGroupHeaderId; 
@@ -148,7 +146,6 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
         return result;
     }
     
-    /**  {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

@@ -27,14 +27,10 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<InstitutionalProposal> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8804359877270428419L;
 
     private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
@@ -52,17 +48,10 @@ public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBus
 
     private String invCreditTypeCode;
 
-    /**
-     * Default Constructor
-     */
+
     public InstitutionalProposalPersonUnitCreditSplit() {
     }
 
-    /**
-     * Convenience Constructor
-     * @param investigatorCreditType
-     * @param credit
-     */
     InstitutionalProposalPersonUnitCreditSplit(InvestigatorCreditType investigatorCreditType, KualiDecimal credit) {
         setInvestigatorCreditType(investigatorCreditType);
         setCredit(credit);
@@ -170,9 +159,7 @@ public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBus
         this.credit = credit != null ? credit : new KualiDecimal(0);
     }
 
-    /**
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }

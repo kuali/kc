@@ -34,9 +34,7 @@ import org.kuali.rice.krad.util.MessageMap;
 import java.sql.Date;
 import java.util.Map.Entry;
 
-/**
- * This class...
- */
+
 public class TimeAndMoneyAwardAmountTransactionRuleImpl extends KcTransactionalDocumentRuleBase implements
         TimeAndMoneyAwardAmountTransactionRule {
     
@@ -47,9 +45,7 @@ public class TimeAndMoneyAwardAmountTransactionRuleImpl extends KcTransactionalD
     private AwardVersionService awardVersionService;
     private AwardAmountInfoService awardAmountInfoService;
 
-    /**
-     * @see org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardAmountTransactionRule#processSaveAwardAmountTransactionBusinessRules(org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardAmountTransactionSaveEvent)
-     */
+    @Override
     public boolean processSaveAwardAmountTransactionBusinessRules(
             TimeAndMoneyAwardAmountTransactionSaveEvent timeAndMoneyAwardAmountTransactionSaveEvent) {
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) timeAndMoneyAwardAmountTransactionSaveEvent.getDocument();

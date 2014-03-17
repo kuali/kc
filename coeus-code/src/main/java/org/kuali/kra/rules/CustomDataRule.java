@@ -70,10 +70,7 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
         dateFormat.setLenient(false);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(SaveCustomDataEvent event) {
         boolean rulePassed = true;
         Map<String, CustomAttributeDocument> customAttributeDocuments = event.getCustomAttributeDocuments();

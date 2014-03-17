@@ -22,9 +22,7 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalAddCostShareRuleEvent extends KcDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(InstitutionalProposalAddCostShareRuleEvent.class);
@@ -55,25 +53,18 @@ public class InstitutionalProposalAddCostShareRuleEvent extends KcDocumentEventB
     }
     
     
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
         LOG.info("Logging InstitutionalProposalCostShareRuleEvent");
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return InstitutionalProposalAddCostShareRule.class;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((InstitutionalProposalAddCostShareRule)rule).processAddInstitutionalProposalCostShareBusinessRules(this);
     }

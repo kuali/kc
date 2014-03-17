@@ -387,10 +387,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         return federalId;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getGgTrackingIdFromProposal(org.kuali.kra.institutionalproposal.home.InstitutionalProposal)
-     */
+    @Override
     public String getGgTrackingIdFromProposal(InstitutionalProposal proposal) {
         DevelopmentProposal newestDevProp = getNewestDevPropFromInstProp(proposal);
         if (newestDevProp != null && newestDevProp.getS2sOpportunity() != null) {
@@ -525,9 +522,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
 
-    /**
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getProperty(java.lang.String)
-     */
+    @Override
     public String getProperty(String key) {
         String value = kualiConfigurationService.getPropertyValueAsString(key);
         return value == null ? "" : value;
@@ -787,9 +782,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
 
-    /**
-     * @see org.kuali.kra.s2s.service.S2SUtilService#convertStringArrayToString(String[])
-     */
+    @Override
     public String convertStringArrayToString(String[] stringArray) {
         StringBuilder stringBuilder = new StringBuilder();
         if (stringArray != null && stringArray.length > 0) {

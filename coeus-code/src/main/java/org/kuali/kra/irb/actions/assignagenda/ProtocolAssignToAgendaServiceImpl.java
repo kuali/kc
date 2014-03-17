@@ -55,7 +55,7 @@ public class ProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgendaSer
         return new ProtocolAction((Protocol) protocol, (ProtocolSubmission) submission, ProtocolActionType.ASSIGN_TO_AGENDA);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void assignToAgenda(Protocol protocol, ProtocolExpeditedApproveBean actionBean) throws Exception {
 
         ProtocolSubmission submission = (ProtocolSubmission) findSubmission(protocol);
@@ -76,13 +76,13 @@ public class ProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgendaSer
         return ProtocolActionType.ASSIGN_TO_AGENDA;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public String getAssignedCommitteeId(ProtocolBase protocol) {
         String committeeID = this.protocolAssignCmtSchedService.getAssignedCommitteeId((Protocol) protocol);
         return committeeID;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public String getAssignedScheduleDate(ProtocolBase protocol) {
         String scheduleId = this.protocolAssignCmtSchedService.getAssignedScheduleId((Protocol) protocol);
         List<KeyValue> keyPair = this.getCommitteeService().getAvailableCommitteeDates(getAssignedCommitteeId(protocol));

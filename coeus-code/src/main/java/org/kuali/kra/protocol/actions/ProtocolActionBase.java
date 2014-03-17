@@ -315,10 +315,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         this.prevProtocolStatusCode = prevProtocolStatusCode;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         protocolActionId = null;
         submissionIdFk = null;
@@ -337,7 +334,6 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         }
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -347,7 +343,6 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

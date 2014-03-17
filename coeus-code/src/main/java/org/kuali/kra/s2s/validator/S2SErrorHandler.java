@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.s2s.validator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.DOMBuilder;
@@ -28,6 +30,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class S2SErrorHandler {
+
+    private static final Log LOG = LogFactory.getLog(S2SErrorHandler.class);
+
     private static Map<String, AuditError> auditErrorMap;
     private static final String ERROR_MAP_FILE = "/S2SErrorMessages.xml";
     private static final String ERROR_MAP_FILE_V2="/org/kuali/kra/s2s/s2sform/S2SErrorMessagesV2.xml";
@@ -65,7 +70,7 @@ public class S2SErrorHandler {
            //            }
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error(ex.getMessage(), ex);
         }
     }
 }

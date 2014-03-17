@@ -24,10 +24,7 @@ import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
  */
 public class AddProtocolParticipantRule extends ProtocolParticipantRuleBase implements KcBusinessRule<AddProtocolParticipantEvent> {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(AddProtocolParticipantEvent event) {
         return processAddProtocolParticipantEvent(event);
     }

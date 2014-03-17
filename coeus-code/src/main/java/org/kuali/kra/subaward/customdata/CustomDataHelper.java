@@ -44,12 +44,9 @@ public class CustomDataHelper extends CustomDataHelperBase<SubAwardCustomData> {
         this.subAwardForm = subAwardForm;
     }
 
-    /**
-     * @see org.kuali.kra.common.customattributes.CustomDataHelperBase#canModifyCustomData()
-     */
     @Override
     public boolean canModifyCustomData() {
-        // TODO Auto-generated method stub
+
         return false;
     }
 

@@ -28,9 +28,7 @@ public class ProtocolReviewerBean extends ProtocolReviewerBeanBase {
 
     
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 647867490941129499L;
 
     public ProtocolReviewerBean() {

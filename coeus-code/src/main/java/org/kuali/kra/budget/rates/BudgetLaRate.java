@@ -19,9 +19,7 @@ import org.kuali.kra.bo.InstituteLaRate;
 
 public class BudgetLaRate extends AbstractBudgetRate {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -993765790460645503L;
 
     public BudgetLaRate() {

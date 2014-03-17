@@ -19,9 +19,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public abstract class ProtocolSubmissionQualifierTypeBase extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -418480649135759029L;
 
     private String submissionQualifierTypeCode;

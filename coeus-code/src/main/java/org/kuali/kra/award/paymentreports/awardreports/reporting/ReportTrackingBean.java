@@ -24,9 +24,7 @@ import java.sql.Date;
  */
 public class ReportTrackingBean implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2415483170400832422L;
     private String preparerId;
     private String preparerName;

@@ -29,9 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class IacucSpeciesValuesFinder extends UifKeyValuesFinderBase {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3597528521094545089L;
 
     /**

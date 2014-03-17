@@ -74,10 +74,6 @@ public class CustomAttributeDocumentTestUtilities {
         return customAttributeDocuments;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     private static CustomAttributeDocument buildCustomAttributeDocument(String documentTypeCode, boolean required, CustomAttribute customAttribute) {
         CustomAttributeDocument customAttributeDocument = new CustomAttributeDocument();
         customAttributeDocument.setCustomAttributeId(customAttribute.getId());
@@ -92,10 +88,6 @@ public class CustomAttributeDocumentTestUtilities {
         return buildCustomAttribute(id, name, label, dataTypeCode, dataLength, groupName, null, null);
     }
 
-    /**
-     * This method...
-     * @return
-     */
     private static CustomAttribute buildCustomAttribute(Integer id, String name, String label, String dataTypeCode, Integer dataLength, String groupName, String lookupClass, String lookupReturn) {
         CustomAttribute customAttribute = new CustomAttribute();
 

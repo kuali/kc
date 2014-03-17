@@ -18,9 +18,7 @@ package org.kuali.kra.protocol.auth;
 
 public abstract class ModifyAmendmentSectionsAuthorizerBase extends ProtocolAuthorizerBase {
 
-    /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return isAmendmentOrRenewal(task.getProtocol()) &&
                canExecuteAction(task.getProtocol(), getActionTypeModifyAmendmentHook()) &&
