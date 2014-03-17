@@ -54,9 +54,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         getProposalDevelopmentService();
     }
     
-    /**
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
 

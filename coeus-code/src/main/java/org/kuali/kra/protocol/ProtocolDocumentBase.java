@@ -16,6 +16,8 @@
 package org.kuali.kra.protocol;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
@@ -54,23 +56,21 @@ import java.util.*;
 
 public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase implements Copyable, SessionDocument, KrmsRulesContext {
 
+    private static final Log LOG = LogFactory.getLog(ProtocolDocumentBase.class);
+
     private static final String AMENDMENT_KEY = "A";
     private static final String RENEWAL_KEY = "R";
     @SuppressWarnings("unused")
     private static final String OLR_DOC_ID_PARAM = "&olrDocId=";
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6493566444038807312L;
     
     private List<ProtocolBase> protocolList;
     private String protocolWorkflowType;
     private boolean reRouted = false;
     
-    /**
-     * Constructs a ProtocolDocumentBase object.
-     */
+
     public ProtocolDocumentBase() { 
         super();
         protocolList = new ArrayList<ProtocolBase>();
@@ -84,10 +84,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     protected abstract ProtocolBase createNewProtocolInstanceHook();
 
          
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#initialize()
-     */
+    @Override
     public void initialize() {
         super.initialize();
         Map<String, String> primaryKeys = new HashMap<String, String>();
@@ -143,9 +140,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
         this.protocolList = protocolList;
     }
     
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -159,9 +153,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     
 
     
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getAllRolePersons()
-     */
     @Override
     protected List<RolePersons> getAllRolePersons() {
         ProtocolAuthorizationService protocolAuthorizationService =
@@ -180,9 +171,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
         this.protocolWorkflowType = protocolWorkflowType.getName();
     }
     
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
-     */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
@@ -222,7 +210,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
             }
             catch (Exception e) {
                 // TODO Need to figure out what to do if the versioning throws exceptions
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         } else if (isRecall(statusChangeEvent)) {
             getProtocolGenericActionService().recall(getProtocol());
@@ -414,9 +402,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     }
 
     public static class ProtocolMergeException extends RuntimeException {
-        /**
-         * Comment for <code>serialVersionUID</code>
-         */
         private static final long serialVersionUID = 8370108752465881796L;
 
         public ProtocolMergeException(Throwable t) {

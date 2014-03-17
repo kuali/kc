@@ -23,9 +23,7 @@ import java.sql.Timestamp;
 
 public class CoiUserRole extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7167435123831925213L;
     private Long coiUserRolesId; 
     private Long coiDisclosureId; 

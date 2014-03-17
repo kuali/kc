@@ -22,9 +22,7 @@ import org.kuali.kra.budget.core.Budget;
  * Right now this is being used to represent extension class for Budget in repository.
  */
 public class ProposalDevelopmentBudgetExt extends Budget {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8234453927894053540L;
     
     private Integer hierarchyLastSyncHashCode;

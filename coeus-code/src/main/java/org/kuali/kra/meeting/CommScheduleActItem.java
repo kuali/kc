@@ -23,8 +23,6 @@ import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
  */
 public class CommScheduleActItem extends CommScheduleActItemBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -373252317683039246L;
 }

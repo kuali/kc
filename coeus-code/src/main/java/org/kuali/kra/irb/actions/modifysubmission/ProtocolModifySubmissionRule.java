@@ -36,10 +36,7 @@ import java.util.Map;
  */
 public class ProtocolModifySubmissionRule extends KcTransactionalDocumentRuleBase implements ExecuteProtocolModifySubmissionRule {
     
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.modifysubmission.ExecuteProtocolModifySubmissionRule#processModifySubmissionRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean)
-     */
+    @Override
     public boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionBean actionBean) {
         boolean valid = true;
         String errorParameters = null;

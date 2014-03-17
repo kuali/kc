@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.award.infrastructure;
 
-/**
- * 
- * This class...
- */
+
 public enum AwardPermissionConstants {
         VIEW_ANY_PROPOSAL("View Any Proposal"),APPROVE_AWARD_BUDGET("Approve AwardBudget"),CREATE_AWARD_BUDGET("Create AwardBudget")
         ,MODIFY_AWARD_BUDGET("Modify AwardBudget"),SUBMIT_AWARD_BUDGET("Submit AwardBudget"),VIEW_AWARD_BUDGET("View AwardBudget")

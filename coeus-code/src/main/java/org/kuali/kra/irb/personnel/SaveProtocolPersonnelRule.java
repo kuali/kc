@@ -25,10 +25,7 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
  */
 public class SaveProtocolPersonnelRule extends ProtocolPersonnelRuleBase implements KcBusinessRule<SaveProtocolPersonnelEvent> {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(SaveProtocolPersonnelEvent event) {
         return processSaveProtocolPersonnelEvent(event);
     }

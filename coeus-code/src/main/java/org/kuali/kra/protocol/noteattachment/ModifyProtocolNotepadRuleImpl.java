@@ -21,7 +21,7 @@ package org.kuali.kra.protocol.noteattachment;
  */
 public class ModifyProtocolNotepadRuleImpl implements ModifyProtocolNotepadRule {
     
-    /** {@inheritDoc} */
+    @Override
     public boolean processModifyProtocolNotepadRules(ModifyProtocolNotepadEvent event) {
         return true;
     }

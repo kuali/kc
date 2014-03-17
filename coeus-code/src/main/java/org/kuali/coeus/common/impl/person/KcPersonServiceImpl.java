@@ -87,7 +87,7 @@ public class KcPersonServiceImpl implements KcPersonService {
         } 
     }
     
-    /** {@inheritDoc} */
+    @Override
     public KcPerson getKcPersonByUserName(final String userName) {
         KcPerson person = null;
         
@@ -115,7 +115,7 @@ public class KcPersonServiceImpl implements KcPersonService {
         return person;
     }
     
-    /** {@inheritDoc} */
+    @Override
     public KcPerson getKcPersonByPersonId(final String personId) {
         if (StringUtils.isEmpty(personId)) {
             throw new IllegalArgumentException("the personId is null or empty");

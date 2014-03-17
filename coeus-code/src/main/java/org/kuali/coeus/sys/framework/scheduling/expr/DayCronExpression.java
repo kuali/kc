@@ -45,9 +45,6 @@ public class DayCronExpression extends CronExpression {
         this.frequency = frequency;
     }
 
-    /**
-     * @see CronExpression#getExpression()
-     */
     @Override
     public String getExpression() {
  

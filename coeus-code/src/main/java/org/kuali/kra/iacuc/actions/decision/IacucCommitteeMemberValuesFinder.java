@@ -39,9 +39,7 @@ import java.util.List;
  */
 public class IacucCommitteeMemberValuesFinder extends IacucActionsKeyValuesBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1547047028487421985L;
 
     public List<KeyValue> getKeyValues() {

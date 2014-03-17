@@ -72,26 +72,18 @@ public class AwardCloseoutRuleEvent extends KcDocumentEventBase {
         return closeoutItem;
     }   
 
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
         LOG.info("Logging AwardCloseoutRuleEvent");
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return AwardCloseoutRule.class;
     }
 
-    /**
-     * 
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardCloseoutRule)rule).processAwardCloseoutBusinessRules(this);
     }   

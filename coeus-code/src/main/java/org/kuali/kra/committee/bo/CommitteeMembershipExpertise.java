@@ -26,9 +26,7 @@ import org.kuali.kra.irb.ResearchArea;
 public class CommitteeMembershipExpertise extends CommitteeMembershipExpertiseBase {
 
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1713544776094954622L;
 
     @Override

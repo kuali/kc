@@ -19,9 +19,7 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceDeta
 
 public class IacucCommitteeBatchCorrespondenceDetail extends CommitteeBatchCorrespondenceDetailBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7733779694256339457L;
 
 }

@@ -30,9 +30,7 @@ public class MessageOfTheDayServiceImpl implements MessageOfTheDayService {
     private static String ACTIVE = "active";
     
     
-    /**
-     * @see org.kuali.kra.service.MessageOfTheDayService#getMessagesOfTheDay()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<MessageOfTheDay> getMessagesOfTheDay() {
         List<MessageOfTheDay> results = new ArrayList<MessageOfTheDay>( businessObjectService.findMatchingOrderBy(MessageOfTheDay.class,

@@ -59,11 +59,7 @@ public abstract class CommitteeDecisionServiceImplBase<CD extends CommitteeDecis
         this.documentService = documentService;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#setCommitteeDecision(org.kuali.kra.irb.ProtocolBase, 
-     *      org.kuali.kra.irb.actions.decision.CommitteeDecision)
-     */
+    @Override
     public void processCommitteeDecision(ProtocolBase protocol, CD committeeDecision) throws Exception {
         ProtocolSubmissionBase submission = getSubmission(protocol);
         
@@ -218,10 +214,7 @@ public abstract class CommitteeDecisionServiceImplBase<CD extends CommitteeDecis
         }
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#getAbstainers(java.lang.String, int)
-     */
+    @Override
     public List<ProtocolVoteAbstaineeBase> getAbstainers(String protocolNumber, int submissionNumber) {
         List<ProtocolVoteAbstaineeBase> protocolVoteAbstainers = new ArrayList<ProtocolVoteAbstaineeBase>();
 
@@ -232,10 +225,7 @@ public abstract class CommitteeDecisionServiceImplBase<CD extends CommitteeDecis
         return protocolVoteAbstainers;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#getRecusers(java.lang.String, int)
-     */
+    @Override
     public List<ProtocolVoteRecusedBase> getRecusers(String protocolNumber, int submissionNumber) {
         List<ProtocolVoteRecusedBase> protocolVoteRecusers = new ArrayList<ProtocolVoteRecusedBase>();
         

@@ -29,10 +29,7 @@ public abstract class BatchCorrespondenceDetailAuthorizationServiceImplBase impl
     private UnitAuthorizationService unitAuthorizationService;
     private KcPersonService kcPersonService;
 
-    /**
-     * 
-     * @see org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailAuthorizationService#hasPermission(java.lang.String)
-     */
+    @Override
     public boolean hasPermission(String permissionName){
         KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
         return unitAuthorizationService.hasPermission(person.getPersonId(), getNameSpaceHook(), permissionName);

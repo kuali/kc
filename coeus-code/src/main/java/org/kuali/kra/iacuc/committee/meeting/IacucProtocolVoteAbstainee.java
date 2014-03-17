@@ -19,9 +19,7 @@ import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteAbstaineeBase;
 
 public class IacucProtocolVoteAbstainee extends ProtocolVoteAbstaineeBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -379552248285239780L;
 
 }

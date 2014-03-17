@@ -219,7 +219,6 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 //        initialize();    
     }
     
-    /** {@inheritDoc} */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "BudgetDocument";
@@ -677,10 +676,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         return lookupKualiConfigurationService().getPropertyValueAsString(Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
     }
 
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     private ConfigurationService lookupKualiConfigurationService() {
         return CoreApiServiceLocator.getKualiConfigurationService();
     }
@@ -851,9 +847,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public String getActionPrefix(){
         return "budget";
     }
-    /**
-     * {@inheritDocs}
-     */
+
     @Override
     protected void setSaveDocumentControl(Map editMode) {
         

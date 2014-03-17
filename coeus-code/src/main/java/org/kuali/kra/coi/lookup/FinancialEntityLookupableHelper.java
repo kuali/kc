@@ -31,9 +31,7 @@ import java.util.Properties;
 
 public class FinancialEntityLookupableHelper extends KraLookupableHelperServiceImpl{
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 59748796825429286L;
 
     @SuppressWarnings("unchecked")

@@ -28,10 +28,7 @@ import java.util.List;
  */
 public class ProtocolAddRiskLevelRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<ProtocolAddRiskLevelEvent> {
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(ProtocolAddRiskLevelEvent event) {
         boolean isValid = true;
         

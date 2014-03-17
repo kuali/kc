@@ -324,9 +324,7 @@ public class SubAwardAmountInfo extends
     public void setFileId(Long fileId) {
         this.fileId = fileId;
     }
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.subAwardAmountInfoId = null;
     }

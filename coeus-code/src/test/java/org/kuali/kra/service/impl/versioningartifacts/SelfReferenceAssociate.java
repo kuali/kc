@@ -86,7 +86,7 @@ public class SelfReferenceAssociate implements SequenceAssociate<SelfReferenceOw
     }
 
     public SelfReferenceOwner getSequenceOwner() {
-        // TODO Auto-generated method stub
+
         return owner;
     }
 

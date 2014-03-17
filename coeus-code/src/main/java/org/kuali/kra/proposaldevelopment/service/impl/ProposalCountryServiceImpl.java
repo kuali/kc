@@ -15,18 +15,22 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.proposaldevelopment.service.ProposalCountryService;
 import org.kuali.rice.location.api.country.CountryService;
 
 public class ProposalCountryServiceImpl implements ProposalCountryService {
-    
+
+    private static final Log LOG = LogFactory.getLog(ProposalCountryServiceImpl.class);
+
     private CountryService countryService;
     
     public String convertAltCountryCodeToRealCountryCode(String currentCountryCode) {
         try {
             return getCountryService().getCountryByAlternateCode(currentCountryCode).getCode();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             return "";
         }
     }

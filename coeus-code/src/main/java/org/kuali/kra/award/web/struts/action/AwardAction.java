@@ -212,9 +212,6 @@ public class AwardAction extends BudgetParentActionBase {
     protected void cleanUpUserSession() {
         GlobalVariables.getUserSession().removeObject(GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION);
     }
-    /**
-     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
@@ -375,9 +372,6 @@ public class AwardAction extends BudgetParentActionBase {
         return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // TODO: JF Are all of these saves in a single transaction? 
@@ -656,14 +650,7 @@ public class AwardAction extends BudgetParentActionBase {
         
         return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
     }
-    
-    
 
-    /**
-     * This method...
-     * @param awardDocument
-     * @param awardForm
-     */
     @SuppressWarnings("unchecked")
     public void setBooleanAwardInMultipleNodeHierarchyOnForm (Award award) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -1317,10 +1304,7 @@ public class AwardAction extends BudgetParentActionBase {
         handlePlaceHolderDocument(awardForm, retrievedDocument);        
     }
     
-    /**
-     *
-     * @return
-     */
+
     @Override
     protected DocumentService getDocumentService() {
         return KRADServiceLocatorWeb.getDocumentService();
@@ -1642,9 +1626,7 @@ public class AwardAction extends BudgetParentActionBase {
         return KcServiceLocator.getService(AwardLockService.class);
     }
 
-    /**
-     * @return
-     */
+
     protected VersionHistoryService getVersionHistoryService() {
         return KcServiceLocator.getService(VersionHistoryService.class);
     }
@@ -1892,7 +1874,7 @@ public class AwardAction extends BudgetParentActionBase {
                             KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
                 }
                 catch (Exception e) {
-                    e.printStackTrace();
+                    LOG.error(e.getMessage(), e);
                 }
             } else if(DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {   
                 awardForm.setSelectedActionRequests((List<String>)GlobalVariables.getUserSession().retrieveObject(SUPER_USER_ACTION_REQUESTS));

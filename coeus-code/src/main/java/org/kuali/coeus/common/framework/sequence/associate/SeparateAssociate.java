@@ -33,7 +33,7 @@ public abstract class SeparateAssociate extends KcPersistableBusinessObjectBase 
 
     private Integer sequenceNumber = INITIAL_VERSION;
 
-    /** {@inheritDoc} */
+    @Override
     public Integer getSequenceNumber() {
         return this.sequenceNumber;
     }
@@ -46,12 +46,12 @@ public abstract class SeparateAssociate extends KcPersistableBusinessObjectBase 
         this.sequenceNumber = sequenceNumber;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void incrementSequenceNumber() {
         this.sequenceNumber++;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.setId(null);
     }
@@ -72,7 +72,6 @@ public abstract class SeparateAssociate extends KcPersistableBusinessObjectBase 
         this.id = id;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -82,7 +81,6 @@ public abstract class SeparateAssociate extends KcPersistableBusinessObjectBase 
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

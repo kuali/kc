@@ -25,25 +25,16 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CustomAttributeMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
     
-    /**
-     * Constructs a CustomAttributeMaintenanceDocumentRule.java.
-     */
+
     public CustomAttributeMaintenanceDocumentRule() {
         super();
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */ 
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return checkLookupReturn(document);
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return checkLookupReturn(document);

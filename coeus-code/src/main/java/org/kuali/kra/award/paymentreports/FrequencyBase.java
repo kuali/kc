@@ -26,9 +26,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
  */
 public class FrequencyBase extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5406416029670950959L;
 
     private String frequencyBaseCode;
@@ -39,18 +37,11 @@ public class FrequencyBase extends KcPersistableBusinessObjectBase implements Mu
 
     private boolean active;
 
-    /**
-     * Constructs a FrequencyBase object.
-     */
+
     public FrequencyBase() {
         regenerationTypeName = ReportRegenerationType.REGEN.name();
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getFrequencyBaseCode() {
         return frequencyBaseCode;
     }
@@ -63,10 +54,7 @@ public class FrequencyBase extends KcPersistableBusinessObjectBase implements Mu
         this.frequencyBaseCode = frequencyBaseCode;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public String getDescription() {
         return description;
     }
@@ -79,9 +67,6 @@ public class FrequencyBase extends KcPersistableBusinessObjectBase implements Mu
         this.description = description;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -90,9 +75,6 @@ public class FrequencyBase extends KcPersistableBusinessObjectBase implements Mu
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

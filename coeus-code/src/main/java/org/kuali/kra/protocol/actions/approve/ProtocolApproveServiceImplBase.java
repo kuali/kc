@@ -39,11 +39,7 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
 
     protected ProtocolOnlineReviewService protocolOnlineReviewService;
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.actions.approve.ProtocolApproveService#grantResponseApproval(org.kuali.kra.protocol.ProtocolBase, 
-     *      org.kuali.kra.protocol.actions.approve.ProtocolApproveBean)
-     */
+    @Override
     public void grantResponseApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception {
         generateProtocolActionAndAttach(protocol, actionBean, getProtocolActionTypeCodeForResponseApprovalHook());
         
@@ -64,11 +60,7 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
 
     
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.actions.approve.ProtocolApproveService#grantAdminApproval(org.kuali.kra.protocol.ProtocolBase, 
-     *      org.kuali.kra.protocol.actions.approve.ProtocolApproveBean)
-     */
+    @Override
     public void grantAdminApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception {
         generateProtocolActionAndAttach(protocol, actionBean, getProtocolActionTypeCodeForAdminApprovalHook());
         

@@ -32,11 +32,7 @@ public class IacucProtocolApproveServiceImpl extends ProtocolApproveServiceImplB
     private static final String FULL_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of full approval action on protocol.";
     
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.actions.approve.ProtocolApproveService#grantFullApproval(org.kuali.kra.protocol.ProtocolBase, 
-     *      org.kuali.kra.protocol.actions.approve.ProtocolApproveBean)
-     */
+    @Override
     public void grantFullApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception {
         generateProtocolActionAndAttach(protocol, actionBean, IacucProtocolActionType.IACUC_APPROVED);   
 

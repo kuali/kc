@@ -20,9 +20,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 public class CoiDispositionStatus extends KcPersistableBusinessObjectBase {
     
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7876291367875185011L;
     public static final String IN_PROGRESS = "100";
     public static final String SUBMITTED_FOR_REVIEW = "300";

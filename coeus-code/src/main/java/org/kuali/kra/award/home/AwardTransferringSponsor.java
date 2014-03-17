@@ -45,9 +45,7 @@ public class AwardTransferringSponsor extends AwardAssociate {
         return awardTransferringSponsorId;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.awardTransferringSponsorId = null;
     }

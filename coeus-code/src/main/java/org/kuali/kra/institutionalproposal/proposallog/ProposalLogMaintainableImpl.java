@@ -46,9 +46,6 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         return true;
     }
     
-    /**
-     * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
-     */
     @Override
     @SuppressWarnings("unchecked")
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
@@ -93,9 +90,6 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         proposalLog.setProposalNumber(getInstitutionalProposalService().getNextInstitutionalProposalNumber());
     }
     
-    /**
-     * @see org.kuali.rice.kns.maintenance.Maintainable#prepareForSave()
-     */
     @Override
     public void prepareForSave() {
         super.prepareForSave();

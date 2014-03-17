@@ -35,10 +35,7 @@ import org.kuali.kra.service.CitizenshipTypeService;
  */
 public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
     
-    /**
-     * 
-     * @see org.kuali.kra.service.CitizenshipTypeService#getEnumValueOfCitizenshipType(org.kuali.kra.bo.CitizenshipType)
-     */
+    @Override
     public Enum getEnumValueOfCitizenshipType(CitizenshipType citizenshipType) throws IllegalArgumentException {
         Enum retVal = null;
         switch(citizenshipType.getCitizenshipTypeCode()){

@@ -31,9 +31,7 @@ public class SubmissionReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
     
     private static final long serialVersionUID = 1525606389532878075L;
 
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

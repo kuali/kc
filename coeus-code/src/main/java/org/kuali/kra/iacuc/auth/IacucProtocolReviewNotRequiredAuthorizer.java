@@ -22,9 +22,6 @@ public class IacucProtocolReviewNotRequiredAuthorizer extends IacucProtocolAutho
 
     private static final String NAMESPACE = "KC-UNT";
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return kraAuthorizationService.hasRole(userId, NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR) &&

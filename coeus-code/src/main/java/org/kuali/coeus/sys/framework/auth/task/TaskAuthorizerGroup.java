@@ -27,9 +27,7 @@ public class TaskAuthorizerGroup {
     private String groupName;
     private List<TaskAuthorizer> taskAuthorizers = null;
     
-    /**
-     * Constructs a TaskAuthorizerGroup.
-     */
+
     public TaskAuthorizerGroup() {
       
     }

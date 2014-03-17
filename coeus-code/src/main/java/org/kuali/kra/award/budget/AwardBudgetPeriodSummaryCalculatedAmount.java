@@ -21,9 +21,7 @@ import org.kuali.kra.budget.core.CostElement;
 
 public class AwardBudgetPeriodSummaryCalculatedAmount extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8085114536868213976L;
 
     private Long awardBudgetPeriodSummaryCalculatedAmountId;

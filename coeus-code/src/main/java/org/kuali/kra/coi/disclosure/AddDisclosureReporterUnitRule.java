@@ -25,10 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AddDisclosureReporterUnitRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<AddDisclosureReporterUnitEvent> {
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(AddDisclosureReporterUnitEvent event) {
         boolean isValid = true;
 

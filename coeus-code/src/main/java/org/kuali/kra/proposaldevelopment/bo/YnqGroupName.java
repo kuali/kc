@@ -73,7 +73,6 @@ public class YnqGroupName extends TransientBusinessObjectBase implements Compara
         return this.getGroupName().compareTo(ynqGroupName.getGroupName());
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -83,7 +82,6 @@ public class YnqGroupName extends TransientBusinessObjectBase implements Compara
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

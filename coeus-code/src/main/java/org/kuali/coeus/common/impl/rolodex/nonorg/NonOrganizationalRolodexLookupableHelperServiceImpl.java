@@ -35,15 +35,11 @@ import java.util.Map;
 @Transactional
 public class NonOrganizationalRolodexLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3536764919498823536L;
     private transient RolodexDao rolodexDao;
 
-    /**
-     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     */
+    @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         boolean usePrimaryKeys = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(Rolodex.class, fieldValues);
         

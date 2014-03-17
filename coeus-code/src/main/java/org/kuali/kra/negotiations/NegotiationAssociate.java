@@ -23,9 +23,7 @@ import org.kuali.kra.negotiations.bo.Negotiation;
  */
 public class NegotiationAssociate extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3915267055124592134L;
 
     private String negotiationNumber;
@@ -64,9 +62,6 @@ public class NegotiationAssociate extends KcPersistableBusinessObjectBase {
         this.negotiation = negotiation;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

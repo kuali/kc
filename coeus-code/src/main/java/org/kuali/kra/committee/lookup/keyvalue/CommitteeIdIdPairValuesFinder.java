@@ -25,9 +25,7 @@ import java.util.List;
 
 public class CommitteeIdIdPairValuesFinder extends CommitteeIdValuesFinder {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1230239894490494267L;
 
     /**

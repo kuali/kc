@@ -112,11 +112,7 @@ public class AwardApprovedSubawardRuleImpl extends KcTransactionalDocumentRuleBa
         boolean validOrganization = validateApprovedSubawardOrganization();
         return validOrganization;
     }
-    
-    /**
-     * This method...
-     * @return
-     */
+
     public boolean validateApprovedSubawardOrganization(){
         boolean valid = true;
         String organizationName = awardApprovedSubaward.getOrganizationName();

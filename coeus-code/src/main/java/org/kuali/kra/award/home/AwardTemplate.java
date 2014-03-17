@@ -27,9 +27,7 @@ import java.util.List;
 
 public class AwardTemplate extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3038831932003349194L;
 
     private String statusCode;

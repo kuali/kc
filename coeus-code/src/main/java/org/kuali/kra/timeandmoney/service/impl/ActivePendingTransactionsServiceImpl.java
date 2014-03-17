@@ -49,10 +49,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
     @SuppressWarnings("unchecked")
     private PersonService personService;
 
-    /**
-     * 
-     * @see org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService#approveTransactions(org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument, org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction)
-     */
+    @Override
     public void approveTransactions(TimeAndMoneyDocument doc, AwardAmountTransaction newAwardAmountTransaction) {
         
         Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
@@ -64,16 +61,6 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         performSave(doc, transactionDetailItems, awardItems, awardAmountTransactions);
     }
 
-    /**
-     * This method...
-     * @param doc
-     * @param newAwardAmountTransaction
-     * @param awardAmountTransactionItems
-     * @param awardItems
-     * @param transactionDetailItems
-     * @param pendingTransactionsToBeDeleted
-     * @return
-     */
     public List<AwardAmountTransaction> processTransactions(TimeAndMoneyDocument doc,AwardAmountTransaction newAwardAmountTransaction
             , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems, Boolean refreshFlag) {
         
@@ -143,17 +130,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         List<AwardAmountTransaction> awardAmountTransactions = prepareAwardAmountTransactionsListForPersistence(awardAmountTransactionItems);
         return awardAmountTransactions;
     }
-    
-    /**
-     * This method...
-     * @param doc
-     * @param newAwardAmountTransaction
-     * @param awardAmountTransactionItems
-     * @param awardItems
-     * @param transactionDetailItems
-     * @param pendingTransactionsToBeDeleted
-     * @return
-     */
+
     public List<Award> processTransactionsForAddRuleProcessing(TimeAndMoneyDocument doc,AwardAmountTransaction newAwardAmountTransaction
             , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems) {
         
@@ -771,13 +748,6 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         
     }
 
-    /**
-     * This method...
-     * @param awardHierarchyNodes
-     * @param listOfParentsOfSource
-     * @param currentAwardNumber
-     * @return
-     */
     protected void buildListOfParents(Map<String, AwardHierarchyNode> awardHierarchyNodes, List<String> listOfParentsOfSource,
              String currentAwardNumber, String rootAwardNumber) {
         String parentAwardNumber;

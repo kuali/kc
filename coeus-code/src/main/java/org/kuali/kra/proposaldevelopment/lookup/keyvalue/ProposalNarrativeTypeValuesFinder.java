@@ -147,10 +147,7 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
         return !developmentProposal.getS2sOppForms().isEmpty();
     }
 
-    /**
-     * This method...
-     * @return
-     */
+
     private BusinessObjectService getBusinessObjectService() {
         return KNSServiceLocator.getBusinessObjectService();
     }

@@ -20,9 +20,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public abstract class SubcontractingExpenditureCategoryAmountsBase extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8538626710923020370L;
 
     // the primary key field

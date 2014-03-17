@@ -37,9 +37,7 @@ public abstract class ProtocolNumberServiceImplBase implements ProtocolNumberSer
         this.sequenceAccessorService = sequenceAccessorService;
     }
     
-    /**
-     * @see org.kuali.kra.irb.protocol.ProtocolNumberService#generateProtocolNumber()
-     */
+    @Override
     public String generateProtocolNumber() {
         Calendar calendar = Calendar.getInstance();
         return getYear(calendar) + getMonth(calendar) + getNextNumber();

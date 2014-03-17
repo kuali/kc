@@ -29,9 +29,7 @@ public class NegotiationNotificationRenderer extends NotificationRendererBase {
 
     private static final String DATE_FORMAT_MM_DD_YYYY = "MM/dd/yyyy";
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 408846376074619623L;
     private Negotiation negotiation; 
     

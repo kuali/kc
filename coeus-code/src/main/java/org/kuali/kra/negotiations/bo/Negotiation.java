@@ -47,9 +47,7 @@ public class Negotiation extends KcPersistableBusinessObjectBase implements Perm
 
     private transient KcPersonService kcPersonService;
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2529772854773433195L;
 
     private Long negotiationId;

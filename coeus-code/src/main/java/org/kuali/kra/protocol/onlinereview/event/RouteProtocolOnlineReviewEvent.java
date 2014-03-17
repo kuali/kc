@@ -56,7 +56,6 @@ public class RouteProtocolOnlineReviewEvent extends KcDocumentEventBase {
     
     
     
-    /** {@inheritDoc} */
     @Override
     protected void logEvent() {
         if (LOG.isDebugEnabled()) {

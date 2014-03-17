@@ -19,9 +19,7 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeResearchAreaBase;
 
 public class IacucCommitteeResearchArea extends CommitteeResearchAreaBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6600175625242106214L;
 
 }

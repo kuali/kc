@@ -32,9 +32,7 @@ import java.util.HashSet;
  */
 public class PermissionsHelper extends PermissionsHelperBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7892561010219047907L;
 
     public PermissionsHelper(ProtocolForm form) {

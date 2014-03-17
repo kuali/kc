@@ -42,14 +42,10 @@ import java.util.Set;
  */
 public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8742664470188406956L;
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
-     */
+    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
         
@@ -105,9 +101,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
         }
         return true;
     }
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
-     */
+    @Override
     public boolean canInitiate(String documentTypeName, Person user) {
         if (GlobalVariables.getUserSession().getObjectMap().get(ProtocolAmendRenewService.AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT) != null) {
             GlobalVariables.getUserSession().removeObject(ProtocolAmendRenewService.AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT);
@@ -116,9 +110,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
         return canCreateProtocol(user);
     }
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
+    @Override
     public boolean canOpen(Document document, Person user) {
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
         if (protocolDocument.getProtocol().getProtocolId() == null) {
@@ -151,41 +143,26 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canEdit(Document document, Person user) {
         return canExecuteProtocolTask(user.getPrincipalId(), (ProtocolDocument) document, TaskName.MODIFY_PROTOCOL);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canCopy(Document document, Person user) {
         return false;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canCancel(Document document, Person user) {
         return false;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canRoute(Document document, Person user) {
         return false;

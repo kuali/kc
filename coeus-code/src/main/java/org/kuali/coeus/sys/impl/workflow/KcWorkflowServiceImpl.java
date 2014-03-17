@@ -56,9 +56,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
     @Qualifier("actionListService")
     protected ActionListService actionListService;
 
-    /**
-     * @see org.kuali.coeus.sys.framework.workflow.KcWorkflowService#hasWorkflowPermission(java.lang.String, org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean hasWorkflowPermission(String userId, Document doc) {
         boolean hasPermission = false;
         WorkflowDocument workflowDoc = getWorkflowDocument(doc);
@@ -69,9 +67,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         return hasPermission;
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.workflow.KcWorkflowService#isClosed(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean isClosed(Document doc) {
         boolean isClosed = false;
         WorkflowDocument workflowDoc = getWorkflowDocument(doc);
@@ -84,9 +80,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         return isClosed;
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.workflow.KcWorkflowService#isEnRoute(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean isEnRoute(Document doc) {
         boolean isEnRoute = false;
         WorkflowDocument workflowDoc = getWorkflowDocument(doc);
@@ -96,9 +90,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         return isEnRoute;
     }
    
-    /**
-     * @see org.kuali.coeus.sys.framework.workflow.KcWorkflowService#isInWorkflow(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean isInWorkflow(Document doc) {
         boolean isInWorkflow = false;
         WorkflowDocument workflowDoc = getWorkflowDocument(doc);
@@ -143,9 +135,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
     }
     
 
-    /**
-     * @see org.kuali.coeus.sys.framework.workflow.KcWorkflowService#isUserApprovalRequested(org.kuali.rice.krad.document.Document, java.lang.String)
-     */
+    @Override
     public boolean isUserApprovalRequested(Document doc, String principalId) {
         boolean hasApprovalRequest = false;
         WorkflowDocument workDoc = getWorkflowDocument(doc,principalId);
@@ -155,9 +145,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         return hasApprovalRequest;
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.workflow.KcWorkflowService#isUserApprovalRequested(org.kuali.rice.krad.document.Document, java.lang.String)
-     */
+    @Override
     public boolean isUserActionRequested(Document doc, String principalId) {
         boolean hasActionRequest = false;
         WorkflowDocument workDoc = getWorkflowDocument(doc,principalId);
@@ -167,9 +155,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         return hasActionRequest;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.workflow.KcWorkflowService#isDocumentOnNode(org.kuali.rice.krad.document.Document, java.lang.String)
-     */
+    @Override
     public boolean isDocumentOnNode(Document document,String nodeName) {
         boolean result = false;
         try {
@@ -181,9 +167,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         }
     }
     
-    /**
-     * @see org.kuali.kra.service.KraWorkflowService#isCurrentNode(org.kuali.rice.krad.document.Document, java.lang.String)
-     */
+    @Override
     public boolean isCurrentNode(Document document, String nodeName){
         boolean result = false;
         try {
@@ -205,7 +189,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e.getMessage(),e);
         }
         return false;
     }
@@ -220,15 +204,12 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e.getMessage(),e);
         }
         return false;
     }
     
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.workflow.KcWorkflowService#isFinalApproval(org.kuali.rice.kew.api.WorkflowDocument)
-     */
+    @Override
     public boolean isFinalApproval(WorkflowDocument workflowDoc) {       
         RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(workflowDoc.getDocumentId());
         Set<String> approvalNodes = new HashSet<String>();
@@ -253,10 +234,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         return approvalNodes.size() == 0;
     }
     
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.workflow.KcWorkflowService#requestAlreadyApproved(org.kuali.rice.kew.api.WorkflowDocument, org.kuali.rice.kew.api.action.ActionRequest)
-     */
+    @Override
     public boolean requestAlreadyApproved(WorkflowDocument workflowDoc, ActionRequest actionRequest) {
         boolean result = false;
         for (ActionRequest childRequest : actionRequest.getChildRequests()) {

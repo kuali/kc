@@ -44,10 +44,7 @@ import java.util.Map;
 @Transactional
 public class AwardReportsServiceImpl implements AwardReportsService {
     protected static final String REPORT_CLASS_CODE_FIELD = "reportClassCode";
-    
-    //private static final String SEMICOLON_AS_DELIMITOR = ";";
-    //private static final String COMMA_AS_DELIMITOR = ",";
-    
+
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     
@@ -156,10 +153,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.award.service.AwardReportsService#getFrequencyCodes(java.lang.String, java.lang.String)
-     */
+    @Override
     public String getFrequencyCodes(String reportClassCode, String reportCode){        
         
         FrequencyCodeValuesFinder frequencyCodeValuesFinder = getFrequencyCodeValuesFinder(reportClassCode, reportCode);
@@ -170,10 +164,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     
     
     
-    /**
-     * 
-     * @see org.kuali.kra.award.service.AwardReportsService#getFrequencyBaseCodes(java.lang.String)
-     */
+    @Override
     public String getFrequencyBaseCodes(String frequencyCode){        
         FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder = getFrequencyBaseCodeValuesFinder(frequencyCode);
             
@@ -188,30 +179,15 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
-    /**
-     * 
-     * This method...
-     * @return
-     */
+
     protected ParameterService getParameterService(){
         return this.parameterService;
     }
 
-    /**
-     * 
-     * This method...
-     * @param businessObjectService
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
-    /**
-     * 
-     * This method...
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService(){
         return businessObjectService;
     }

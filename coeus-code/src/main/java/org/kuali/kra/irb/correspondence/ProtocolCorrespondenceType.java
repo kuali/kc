@@ -20,9 +20,7 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 
 public class ProtocolCorrespondenceType extends ProtocolCorrespondenceTypeBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 581785796901521423L;
 
     public static final String APPROVAL_LETTER = "1";

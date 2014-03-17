@@ -29,9 +29,7 @@ import java.util.Calendar;
 
 public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comparable<CoiDisclosureNotepad> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3452466623013297158L;
     private String comments;
     private Integer entryNumber;
@@ -190,7 +188,6 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
         this.editable = editable;
     }
     
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -203,7 +200,6 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

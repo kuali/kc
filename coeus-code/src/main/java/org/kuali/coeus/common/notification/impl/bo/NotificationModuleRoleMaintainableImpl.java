@@ -41,10 +41,6 @@ public class NotificationModuleRoleMaintainableImpl extends KraMaintainableImpl 
     private transient SequenceAccessorService sequenceAccessorService;
     
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setGenerateDefaultValues(java.lang.String)
-     */
     @Override
     public void setGenerateDefaultValues(String docTypeName) {
         super.setGenerateDefaultValues(docTypeName);
@@ -54,11 +50,7 @@ public class NotificationModuleRoleMaintainableImpl extends KraMaintainableImpl 
         notificationModuleRole.setNotificationModuleRoleId(nextNotificationModuleRoleId);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.maintenance.KraMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument, 
-     *      org.kuali.rice.kns.maintenance.Maintainable)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<Section> getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);

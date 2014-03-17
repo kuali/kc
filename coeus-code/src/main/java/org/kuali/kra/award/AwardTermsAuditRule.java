@@ -46,9 +46,7 @@ public class AwardTermsAuditRule implements DocumentAuditRule {
     private List<AuditError> auditErrors;
     private List<KeyValue> sponsorTermTypes;
     
-    /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         AwardDocument awardDocument = (AwardDocument) document;

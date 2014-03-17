@@ -33,9 +33,7 @@ import java.util.List;
  */
 public class IacucProtocolOnlineReviewDeterminationRecommendationValuesFinder extends IacucActionsKeyValuesBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1177665298157090424L;
 
     @Override

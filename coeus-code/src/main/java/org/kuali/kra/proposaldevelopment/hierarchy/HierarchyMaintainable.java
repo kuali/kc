@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy;
 
-/**
- * This class...
- */
+
 public interface HierarchyMaintainable {
 
     public String getHierarchyProposalNumber();

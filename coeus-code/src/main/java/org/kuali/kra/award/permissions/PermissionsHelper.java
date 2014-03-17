@@ -87,26 +87,17 @@ public class PermissionsHelper extends PermissionsHelperBase {
         return document.getAward();
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getUnassignedRoleName()
-     */
     @Override
     public String getUnassignedRoleName() {
         return AwardRoleConstants.AWARD_UNASSIGNED.getAwardRole();
     }
 
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#isStandardRoleName(java.lang.String)
-     */
     @Override
     protected boolean isStandardRoleName(String roleName) {
         return StringUtils.equals(roleName, AwardRoleConstants.AWARD_MODIFIER.getAwardRole()) 
                 || StringUtils.equals(roleName, AwardRoleConstants.AWARD_VIEWER.getAwardRole());
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getRoleDisplayName(java.lang.String)
-     */
     @Override
     protected String getRoleDisplayName(String roleName) {
         buildDisplayNameMap();
@@ -117,9 +108,6 @@ public class PermissionsHelper extends PermissionsHelperBase {
         return displayName;
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#getPersonsInRole(java.lang.String)
-     */
     @Override
     protected List<KcPerson> getPersonsInRole(String roleName) {
         KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
@@ -137,10 +125,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
         return persons;
     }
 
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase#canModifyPermissions()
-     */
-    @Override 
+    @Override
     public boolean canModifyPermissions() {
         AwardTask task = new AwardTask(AwardTaskNames.MODIFY_AWARD_ROLES.getAwardTaskName(), getAward());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);

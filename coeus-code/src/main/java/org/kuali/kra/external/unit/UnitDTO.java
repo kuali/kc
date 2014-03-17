@@ -36,9 +36,7 @@ public class UnitDTO implements Serializable {
     /* List of principalIds */
     private List<String> unitAdministrators;
     
-    /**
-     * Constructs a UnitDTO.java.
-     */
+
     public UnitDTO() {
         unitAdministrators = new ArrayList<String>();
     }

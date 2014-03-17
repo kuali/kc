@@ -28,10 +28,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class IacucCommitteeDecisionRecuserRule extends CommitteeDecisionVoterRuleBase<IacucCommitteePerson> implements ExecuteCommitteeDecisionRecuserRule<IacucCommitteeDecision> {
     
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRecuserRule#proccessCommitteeDecisionRecuserRule(org.kuali.kra.irb.actions.decision.CommitteeDecision)
-     */
+    @Override
     public boolean proccessCommitteeDecisionRecuserRule(ProtocolDocumentBase document, IacucCommitteeDecision committeeDecision) {
         boolean retVal = true; 
         

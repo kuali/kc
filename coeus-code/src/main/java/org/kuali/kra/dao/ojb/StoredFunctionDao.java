@@ -30,9 +30,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class StoredFunctionDao extends PlatformAwareDaoBaseOjb {
     private static final Log LOG = LogFactory.getLog(StoredFunctionDao.class);
     private DataSource dataSource;

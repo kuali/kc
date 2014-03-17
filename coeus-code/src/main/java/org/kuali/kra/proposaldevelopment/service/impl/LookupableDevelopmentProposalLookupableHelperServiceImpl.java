@@ -47,9 +47,7 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Ku
     private List <String> validLookupFields = Arrays.asList(new String[] {"proposalNumber","title","sponsorCode","ownedByUnitNumber","ownedByUnitName","proposalTypeCode"});
     
     private static final Log LOG = LogFactory.getLog(LookupableDevelopmentProposalLookupableHelperServiceImpl.class);
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2819167587268360381L;
     
     @SuppressWarnings("unchecked")

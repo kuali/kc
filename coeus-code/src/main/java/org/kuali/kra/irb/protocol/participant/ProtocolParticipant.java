@@ -25,9 +25,7 @@ import org.kuali.kra.protocol.ProtocolAssociateBase;
  */
 public class ProtocolParticipant extends ProtocolAssociateBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1716821047021762233L;
 
     private Long protocolParticipantId;
@@ -73,7 +71,7 @@ public class ProtocolParticipant extends ProtocolAssociateBase {
         return participantType;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.setProtocolParticipantId(null);
     }

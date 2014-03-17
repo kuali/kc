@@ -29,7 +29,6 @@ public class KcPersonInquirableImpl extends KualiInquirableImpl {
     
     private KcPersonService kcPersonService;
     
-    /** {@inheritDoc} */
     @Override
     public BusinessObject getBusinessObject(@SuppressWarnings("unchecked") Map fieldValues) {
         final String personId = (String) fieldValues.get("personId");

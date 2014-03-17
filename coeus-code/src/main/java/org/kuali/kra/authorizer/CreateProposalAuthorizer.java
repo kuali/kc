@@ -27,9 +27,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  */
 public class CreateProposalAuthorizer extends TaskAuthorizerBase {
 
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
-     */
+    @Override
     public boolean isAuthorized(String userId, Task task) { 
         return hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
     }

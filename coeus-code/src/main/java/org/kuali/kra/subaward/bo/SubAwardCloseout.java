@@ -17,9 +17,7 @@ package org.kuali.kra.subaward.bo;
 
 import java.sql.Date;
 
-/**
- * This class is for SubAwardCloseOut...
- */
+
 public class SubAwardCloseout extends SubAwardAssociate { 
 
     private static final long serialVersionUID = 1L;
@@ -39,9 +37,7 @@ public class SubAwardCloseout extends SubAwardAssociate {
 
     private String comments;
 
-    /**
-     * Constructs a SubAwardCloseout.java.
-     */
+
     public SubAwardCloseout() {
     }
 

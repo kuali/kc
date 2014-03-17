@@ -25,9 +25,7 @@ import java.util.List;
 
 public class IacucCommitteeIdIdPairValuesFinder extends IacucCommitteeIdValuesFinder {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1856217969303750675L;
     
     /**

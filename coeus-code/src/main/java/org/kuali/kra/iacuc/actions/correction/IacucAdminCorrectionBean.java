@@ -21,9 +21,7 @@ import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
 
 public class IacucAdminCorrectionBean extends IacucProtocolEditableBean implements AdminCorrectionBean {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3855105581488726963L;
     
     private String comments;

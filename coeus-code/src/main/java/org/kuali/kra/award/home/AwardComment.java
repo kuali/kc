@@ -28,9 +28,7 @@ import java.util.Date;
  */
 public class AwardComment extends AwardAssociate implements Comparable<AwardComment> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3611932717292205490L;
 
     private Long awardCommentId;
@@ -53,10 +51,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
 
     private CommentType commentType;
 
-    /**
-     * 
-     * Constructs a AwardComment.java.
-     */
+
     public AwardComment() {
         super();
     }
@@ -68,25 +63,14 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
         setChecklistPrintFlag(Boolean.FALSE);
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public Long getAwardCommentId() {
         return awardCommentId;
     }
 
-    /**
-     * This method...
-     * @param awardCommentId
-     */
     public void setAwardCommentId(Long awardCommentId) {
         this.awardCommentId = awardCommentId;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -95,9 +79,6 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

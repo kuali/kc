@@ -56,11 +56,7 @@ public class AwardValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
         
         return keyValues;
     }
-    
-    /*
-     * This method...
-     * @param doc
-     */
+
     private TimeAndMoneyDocument updateDocumentFromSession() {
         TimeAndMoneyDocument document;
         if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)!=null){

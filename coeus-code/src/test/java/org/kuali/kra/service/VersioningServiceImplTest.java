@@ -256,10 +256,7 @@ public class VersioningServiceImplTest {
         }
     }
     
-    /**
-     * This method...
-     * @param ownerAssociate
-     */
+
     private void addAssociate(OwnerAssociate ownerAssociate) {
         SimpleAssociate2 associateToOwnerAssociate = new SimpleAssociate2("OwnerAssociate's Associate");
         ownerAssociate.setAssociate(associateToOwnerAssociate);
@@ -385,9 +382,7 @@ public class VersioningServiceImplTest {
         originalOwnerAssociate = populateOwnerAssociate();
     }
 
-    /**
-     * @return
-     */
+
     private SequenceOwnerImpl populateTopLevelOwner() {
         SequenceOwnerImpl owner = new SequenceOwnerImpl();
         addAssociate(owner);
@@ -485,10 +480,7 @@ public class VersioningServiceImplTest {
         }
     }
 
-    /**
-     * This method...
-     * @param owner
-     */
+
     private void checkAssociatesThatShouldBeVersioned(SequenceOwnerImpl owner) {
         for(SequenceAssociateChild child: owner.getChildren()) {
             Assert.assertEquals(owner, child.getOwner());
@@ -502,10 +494,7 @@ public class VersioningServiceImplTest {
         }
     }
     
-    /**
-     * This method...
-     * @param owner
-     */
+
     private void verifyTopLevelAssociationsNotSequenced(OwnerAssociate ownerAssociate) {
         SequenceOwnerImpl owner = ownerAssociate.getSequenceOwner();
         for(SequenceAssociateChild child: owner.getChildren()) {

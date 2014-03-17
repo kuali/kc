@@ -21,9 +21,7 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 
 public class IacucProtocolCorrespondenceTemplateForm extends ProtocolCorrespondenceTemplateFormBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5542637095869525642L;
 
     @Override

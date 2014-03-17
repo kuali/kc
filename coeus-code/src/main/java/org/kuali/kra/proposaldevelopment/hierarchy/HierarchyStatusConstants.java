@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy;
 
-/**
- * This class...
- */
+
 public enum HierarchyStatusConstants {
     None ("N", "Not in a hierarchy"),
     Parent ("P", "Parent"),

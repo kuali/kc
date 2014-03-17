@@ -26,10 +26,7 @@ public abstract class ProtocolHistoryPrintBase extends ProtocolReportPrintBase {
 
     private static final long serialVersionUID = 834187306362966953L;
 
-    /**
-     * 
-     * @see org.kuali.kra.protocol.actions.print.ProtocolReportPrintBase#getProtocolPrintType()
-     */
+    @Override
     public String getProtocolPrintType() {
         return ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT.getProtocolPrintType();
     }

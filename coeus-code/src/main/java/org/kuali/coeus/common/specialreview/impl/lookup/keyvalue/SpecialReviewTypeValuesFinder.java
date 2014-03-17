@@ -46,10 +46,7 @@ public abstract class SpecialReviewTypeValuesFinder extends UifKeyValuesFinderBa
     private IdentityService identityManagementService;
     private PermissionService permissionService;
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = filterActiveSpecialReviewUsageTypes(createKeyValues());
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));

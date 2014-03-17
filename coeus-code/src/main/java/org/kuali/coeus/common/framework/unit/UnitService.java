@@ -27,9 +27,6 @@ import java.util.List;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-/**
- * This class...
- */
 public interface UnitService {
     
     /**

@@ -122,7 +122,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
      */
     public abstract String getAttachmentDescription();
 
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.setId(null);
     }
@@ -222,7 +222,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
      */
     public abstract boolean supportsVersioning();
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -233,7 +232,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

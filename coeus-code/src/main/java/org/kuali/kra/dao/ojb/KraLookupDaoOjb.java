@@ -32,9 +32,7 @@ import java.util.List;
  */
 public class KraLookupDaoOjb extends LookupDaoOjb implements KraLookupDao {
 
-    /**
-     * @see org.kuali.kra.service.KraLookupDao#findCollectionUsingWildCard(java.lang.Class, org.apache.ojb.broker.query.Criteria, boolean)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public Collection findCollectionUsingWildCard(Class businessObjectClass, String field, String wildCard, boolean unbounded) {
         Criteria criteria = new Criteria();

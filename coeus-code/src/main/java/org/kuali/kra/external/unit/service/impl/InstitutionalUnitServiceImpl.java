@@ -45,9 +45,7 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
     private BusinessObjectService businessObjectService;
     private static final Log LOG = LogFactory.getLog(InstitutionalUnitServiceImpl.class);
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public UnitDTO getUnit(String unitNumber) {
         Unit unit = unitService.getUnit(unitNumber);
         if (ObjectUtils.isNull(unit)) {
@@ -56,9 +54,7 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
         return unitBoToDto(unit);
     }
     
-    /**
-     * @see org.kuali.kra.external.unit.service.InstitutionalUnitService#lookupUnits(java.util.List)
-     */
+    @Override
     public List<UnitDTO> lookupUnits(List<HashMapElement> criteria) {
         
         HashMap<String, String> searchCriteria =  new HashMap<String, String>();
@@ -88,9 +84,7 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
     }
     
     
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public List<String> getParentUnits(String unitNumber) {
         ArrayList<String> parentUnits = new ArrayList<String>();
         

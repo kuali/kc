@@ -354,11 +354,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         return (Collection<InstituteLaRate>)abstractInstituteRates ;
     }
 
-    /**
-     * This method...
-     * @param budget
-     * @return
-     */
+
     @SuppressWarnings("unchecked")
     protected BudgetParentDocument<T> getBudgetParentDocument(Budget budget) {
         BudgetDocument<T> budgetDocument = budget.getBudgetDocument();

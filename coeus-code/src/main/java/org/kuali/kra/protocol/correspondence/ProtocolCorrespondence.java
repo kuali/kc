@@ -66,10 +66,7 @@ public class ProtocolCorrespondence extends KcPersistableBusinessObjectBase {
     private String forwardName;
     private boolean holdingPage;
 
-    /**
-     * 
-     * Constructs a ProtocolCorrespondence.java.
-     */
+
     public ProtocolCorrespondence() {
     }
 

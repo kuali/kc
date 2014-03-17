@@ -22,9 +22,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 public class UnitFormulatedCost extends KcPersistableBusinessObjectBase {
     
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8388817616860002696L;
     private Long unitFormulatedCostId;
     private String formulatedTypeCode; 

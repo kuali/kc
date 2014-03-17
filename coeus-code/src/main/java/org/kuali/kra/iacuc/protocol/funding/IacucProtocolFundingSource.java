@@ -20,9 +20,7 @@ import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
 
 public class IacucProtocolFundingSource extends ProtocolFundingSourceBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7739447137061210927L;
     
     /**

@@ -26,10 +26,7 @@ public class ViewProtocolAuthorizer extends ProtocolAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.VIEW_PROTOCOL)
             || kraWorkflowService.hasWorkflowPermission(userId, task.getProtocol().getProtocolDocument());

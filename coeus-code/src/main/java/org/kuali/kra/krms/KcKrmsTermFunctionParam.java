@@ -19,9 +19,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public class KcKrmsTermFunctionParam extends KcPersistableBusinessObjectBase implements Comparable<KcKrmsTermFunctionParam> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5500796091484340802L;
     private Long kcKrmsTermFunctionParamId;
     private Long kcKrmsTermFunctionId;

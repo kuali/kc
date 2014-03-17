@@ -27,9 +27,7 @@ import org.kuali.kra.protocol.actions.submit.ValidProtocolActionActionBase;
  */
 public class IacucValidProtocolActionAction extends ValidProtocolActionActionBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 920783769885103992L;
 
 }

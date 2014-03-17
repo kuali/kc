@@ -2560,7 +2560,6 @@ public abstract class ActionHelperBase implements Serializable {
      * Enable a module for selection by a user by setting its corresponding enabled
      * flag to true in the amendment bean.
      * Set appropriate details in subclass
-     * This method...
      * @param moduleTypeCode
      * @param amendmentBean
      */

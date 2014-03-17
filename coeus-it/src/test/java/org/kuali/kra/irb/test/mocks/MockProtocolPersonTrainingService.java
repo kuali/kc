@@ -25,9 +25,7 @@ import java.util.List;
  */
 public class MockProtocolPersonTrainingService implements ProtocolPersonTrainingService {
     
-    /**
-     * @see org.kuali.kra.irb.personnel.ProtocolPersonTrainingService#updatePersonTrained(java.util.List)
-     */
+    @Override
     public void updatePersonTrained(List<ProtocolPersonBase> protocolPersons) {
         for(ProtocolPersonBase protocolPerson : protocolPersons) {
             setTrainedFlag(protocolPerson);

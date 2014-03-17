@@ -36,9 +36,7 @@ public class NegotiationActivityRuleImpl implements NegotiationActivityAddRule {
 
     private final ErrorReporter errorReporter = new ErrorReporter();
     
-    /**
-     * @see org.kuali.kra.negotiations.rules.NegotiationActivityAddRule#processAddNegotiationActivityRule(org.kuali.kra.negotiations.rules.NegotiationActivityAddRuleEvent)
-     */
+    @Override
     public boolean processAddNegotiationActivityRule(NegotiationActivityAddRuleEvent event) {
         boolean result = true;
         

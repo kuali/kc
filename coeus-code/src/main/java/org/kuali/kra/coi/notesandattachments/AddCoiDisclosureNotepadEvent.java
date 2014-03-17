@@ -47,18 +47,17 @@ public class AddCoiDisclosureNotepadEvent extends KcDocumentEventBase {
         this.newCoiDisclosureNotepad = newCoiDisclosureNotepad;
     }
 
-    /** {@inheritDoc} */
     @Override
     protected void logEvent() {
         LOG.debug("adding new: " + this.newCoiDisclosureNotepad + " on doc # " + this.getDocument().getDocumentNumber());
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Class<AddCoiDisclosureNotepadRule> getRuleInterfaceClass() {
         return AddCoiDisclosureNotepadRule.class;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return this.getRuleInterfaceClass().cast(rule).processAddCoiDisclosureNotepadRules(this);
     }

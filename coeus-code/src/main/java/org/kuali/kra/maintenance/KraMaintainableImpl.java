@@ -30,15 +30,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class KraMaintainableImpl extends KualiMaintainableImpl {
 
-    /**
-     *
-     * @see org.kuali.core.maintenance.Maintainable#prepareForSave()
-     */
     @Override
     public void prepareForSave() {
         super.prepareForSave();

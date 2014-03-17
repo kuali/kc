@@ -21,9 +21,7 @@ import java.util.List;
 
 public class AwardBasisOfPayment extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5594710065439322293L;
 
     private String basisOfPaymentCode;
@@ -68,9 +66,6 @@ public class AwardBasisOfPayment extends KcPersistableBusinessObjectBase {
         this.validBasisMethodPayments = validBasisMethodPayments;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -81,9 +76,6 @@ public class AwardBasisOfPayment extends KcPersistableBusinessObjectBase {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

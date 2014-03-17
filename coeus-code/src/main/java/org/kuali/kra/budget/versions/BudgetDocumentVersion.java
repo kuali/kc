@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.versions;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
@@ -34,6 +36,10 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
 
     private static final String BUDGET_COMPLETE = "1";
 
+    private static final Log LOG = LogFactory.getLog(BudgetDocumentVersion.class);
+
+    private static final long serialVersionUID = -2143813153034264031L;
+    
     @Id
     @Column(name = "DOCUMENT_NUMBER")
     private String documentNumber;
@@ -129,15 +135,12 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
             BudgetDocument budgetDoc = (BudgetDocument) docService.getByDocumentHeaderId(getDocumentNumber());
             return budgetDoc.getBudget();
         } catch (WorkflowException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return null;
     }
 
-    /**
-     * 
-     * @see java.lang.Comparable
-     */
+    @Override
     public int compareTo(BudgetDocumentVersion otherVersion) {
         return getBudgetVersionOverview().getBudgetVersionNumber().compareTo(otherVersion.getBudgetVersionOverview().getBudgetVersionNumber());
     }

@@ -31,9 +31,7 @@ import java.util.Map;
  */
 public class CustomDataHelper extends CustomDataHelperBase<NegotiationCustomData> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -716264183914346452L;
 
     private NegotiationForm negotiationForm;    
@@ -61,7 +59,7 @@ public class CustomDataHelper extends CustomDataHelperBase<NegotiationCustomData
     
     @Override
     public boolean canModifyCustomData() {
-        // TODO Auto-generated method stub
+
         return false;
     }
     

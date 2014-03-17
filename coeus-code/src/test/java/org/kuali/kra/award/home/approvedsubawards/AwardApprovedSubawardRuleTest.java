@@ -27,9 +27,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * This class...
- */
+
 public class AwardApprovedSubawardRuleTest {
     
     public static final String ORGANIZATION_ONE = "organization one";
@@ -45,11 +43,7 @@ public class AwardApprovedSubawardRuleTest {
     AwardApprovedSubaward awardApprovedSubawardTwo;
     AwardApprovedSubaward awardApprovedSubawardTest;
     List<AwardApprovedSubaward> awardApprovedSubawards;
-    
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
+
     @Before
     public void setUp() throws Exception {
         awardApprovedSubawardRule = new AwardApprovedSubawardRuleImpl();
@@ -75,11 +69,7 @@ public class AwardApprovedSubawardRuleTest {
         GlobalVariables.setMessageMap(new MessageMap());
           
     }
-    
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
+
     @After
     public void tearDown() throws Exception {
         awardApprovedSubawardRule = null;

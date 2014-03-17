@@ -55,9 +55,7 @@ public class NewNarrativeUserRightsEvent extends KcDocumentEventBase {
         logEvent();
     }
     
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase#validate()
-     */
+    @Override
     public void validate() {
         super.validate();
         if (this.newNarrativeUserRights == null) {
@@ -65,9 +63,6 @@ public class NewNarrativeUserRightsEvent extends KcDocumentEventBase {
         }
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
@@ -85,16 +80,12 @@ public class NewNarrativeUserRightsEvent extends KcDocumentEventBase {
         LOG.debug(logMessage);
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return NewNarrativeUserRightsRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((NewNarrativeUserRightsRule) rule).processNewNarrativeUserRightsBusinessRules((ProposalDevelopmentDocument) this.getDocument(), 
                                                                         this.newNarrativeUserRights, this.narrativeIndex);

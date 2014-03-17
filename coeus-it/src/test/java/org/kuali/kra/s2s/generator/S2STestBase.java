@@ -72,7 +72,6 @@ public abstract class S2STestBase<T> extends KcIntegrationTestBase {
         generatorObject.setAuditErrors(errors);
         generatorObject.setAttachments(new ArrayList<AttachmentData>());
         XmlObject object=generatorObject.getFormObject(document);
-        System.out.println(object);
         getService(S2SValidatorService.class).validate(object, errors);
         for (AuditError auditError : errors) {
             assertNull(auditError.getMessageKey()+":"+auditError.getErrorKey(),auditError.getErrorKey());
@@ -140,7 +139,7 @@ public abstract class S2STestBase<T> extends KcIntegrationTestBase {
             assertNotNull(document.getDevelopmentProposal());
             return document;
         } catch (Throwable e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             tearDown();
             throw new RuntimeException(e);
         }

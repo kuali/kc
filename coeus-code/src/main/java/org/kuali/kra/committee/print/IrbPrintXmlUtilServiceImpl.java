@@ -44,9 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
 
     private BusinessObjectService businessObjectService;

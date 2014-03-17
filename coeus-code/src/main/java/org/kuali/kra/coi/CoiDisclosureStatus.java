@@ -19,9 +19,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public class CoiDisclosureStatus extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -204509679832775700L;
   
     public static final String IN_PROGRESS = "1";

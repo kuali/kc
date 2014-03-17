@@ -21,7 +21,7 @@ package org.kuali.kra.protocol.noteattachment;
  */
 public class DeleteProtocolNotepadRuleImpl implements DeleteProtocolNotepadRule {
 
-    /** {@inheritDoc} */
+    @Override
     public boolean processDeleteProtocolNotepadRules(DeleteProtocolNotepadEvent event) {
         //TODO: Might have to do some more authorizing here...
         return true;

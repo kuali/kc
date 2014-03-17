@@ -20,9 +20,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 public abstract class ProtocolAffiliationTypeBase extends KcPersistableBusinessObjectBase {
     
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1837379583066291237L;
     
 
@@ -59,7 +57,6 @@ public abstract class ProtocolAffiliationTypeBase extends KcPersistableBusinessO
         this.active = active;
     }
 
-    /**  {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -69,7 +66,6 @@ public abstract class ProtocolAffiliationTypeBase extends KcPersistableBusinessO
         return result;
     }
 
-    /**  {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

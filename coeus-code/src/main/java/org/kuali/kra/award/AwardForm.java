@@ -210,7 +210,6 @@ public class AwardForm extends BudgetVersionFormBase
         initialize();
     }
     
-    /** {@inheritDoc} */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "AwardDocument";
@@ -283,37 +282,27 @@ public class AwardForm extends BudgetVersionFormBase
         return (AwardDocument) super.getDocument();
     }
     
-    /**
-     * @return
-     */
+
     public ApprovedEquipmentBean getApprovedEquipmentBean() {
         return approvedEquipmentBean;
     }
     
-    /**
-     * @return
-     */
+
     public ApprovedForeignTravelBean getApprovedForeignTravelBean() {
         return approvedForeignTravelBean;
     }
     
-    /**
-     * @return
-     */
+
     public AwardCentralAdminContactsBean getCentralAdminContactsBean() {
         return centralAdminContactsBean;
     }
     
-    /**
-     * @return
-     */
+
     public CostShareFormHelper getCostShareFormHelper() {
         return costShareFormHelper;
     }
     
-    /**
-     * @return
-     */
+
     public AwardCommentBean getAwardCommentBean() {
         return awardCommentBean;
     }
@@ -337,10 +326,7 @@ public class AwardForm extends BudgetVersionFormBase
         this.newAwardCostShareComment = newAwardCostShareComment;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public AwardFandaRate getNewAwardFandaRate() {
         return newAwardFandaRate;
     }
@@ -518,13 +504,11 @@ public class AwardForm extends BudgetVersionFormBase
         this.paymentScheduleBean = paymentScheduleBean;
     }
     
-    /** {@inheritDoc} */
     @Override
     public boolean isAuditActivated() {
         return this.auditActivated;
     }
 
-    /** {@inheritDoc} */
     @Override
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
@@ -634,9 +618,7 @@ public class AwardForm extends BudgetVersionFormBase
         return "award";
     }
     
-    /**
-     * @see org.kuali.kra.common.customattributes.CustomDataForm#getCustomDataHelper()
-     */
+    @Override
     public CustomDataHelper getCustomDataHelper() {
         return customDataHelper;
     }
@@ -657,9 +639,7 @@ public class AwardForm extends BudgetVersionFormBase
         this.auditActivated = awardAuditActivated;
     }
 
-    /**
-     * @return
-     */
+
     public AwardCreditSplitBean getAwardCreditSplitBean() {
         return awardCreditSplitBean;
     }
@@ -762,9 +742,7 @@ public class AwardForm extends BudgetVersionFormBase
         this.awardAttachmentFormBean = awardAttachmentFormBean;
     }
 
-    /**
-     * @return
-     */
+
     public AwardFundingProposalBean getFundingProposalBean() {
         return fundingProposalBean;
     }
@@ -907,11 +885,7 @@ public class AwardForm extends BudgetVersionFormBase
     public void setDeletedRas(String deletedRas) {
         this.deletedRas = deletedRas;
     }
-    
-    /**
-     * This method...
-     * @return
-     */
+
     private AwardHierarchyUIService getAwardHierarchyUIService() {
         if (awardHierarchyUIService == null) {
             awardHierarchyUIService = KcServiceLocator.getService(AwardHierarchyUIService.class);
@@ -960,7 +934,6 @@ public class AwardForm extends BudgetVersionFormBase
 
     /**
      * Set the AwardPrintNotice object - responsible for passing Award Notice choices for printing.
-     * This method...
      * @param awardPrintNotice
      */
     public void setAwardPrintNotice(AwardPrintNotice awardPrintNotice) {
@@ -1018,10 +991,7 @@ public class AwardForm extends BudgetVersionFormBase
         return extraButtons;
     }
     
-    /**
-     * This method does what its name says
-     * @return
-     */
+
     private ConfigurationService lookupKualiConfigurationService() {
         return CoreApiServiceLocator.getKualiConfigurationService();
     }
@@ -1185,10 +1155,6 @@ public class AwardForm extends BudgetVersionFormBase
         return linkedProposals;
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kew.api.WorkflowDocument)
-     */
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         // super.populateHeaderFields(workflowDocument);

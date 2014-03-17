@@ -23,10 +23,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 
- * This class...
- */
+
 public class FiscalYearMonthServiceImpl implements FiscalYearMonthService {
     
     private ParameterService parameterService;

@@ -26,9 +26,7 @@ import org.kuali.kra.infrastructure.KraNotepadInterface;
 
 import java.sql.Timestamp;
 
-/**
- * This class...
- */
+
 public class AwardNotepad extends AwardAssociate implements KraNotepadInterface {
 
     private static final long serialVersionUID = 1L;
@@ -55,10 +53,7 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
 
     private transient KcPersonService kcPersonService;
 
-    /**
-     * 
-     * Constructs a AwardNotepad.java.
-     */
+
     public AwardNotepad() {
     }
 

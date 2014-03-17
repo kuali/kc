@@ -50,9 +50,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
         return (budget.getFinalVersionFlag() && budgetStatusCompleteValue.equals(budget.getBudgetStatus()));
     }
     
-    /**
-     * @see org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService#initializeCollectionDefaults(org.kuali.kra.budget.core.Budget)
-     */
+    @Override
     public void initializeCollectionDefaults(Budget budget) {
         if ( !isBudgetFinalAndComplete(budget) ) {
            initializeCostSharingCollectionDefaults(budget);
@@ -60,9 +58,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
         }
     }
 
-    /**
-     * @see org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService#initializeCostSharingCollectionDefaults(org.kuali.kra.budget.core.Budget)
-     */
+    @Override
     public void initializeCostSharingCollectionDefaults(Budget budget) {
         if (budget.isCostSharingApplicable() && budget.isCostSharingAvailable() && budget.getBudgetCostShares().size() == 0
                 && !isBudgetFinalAndComplete(budget)) {
@@ -80,9 +76,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
         }
     }
     
-    /**
-     * @see org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService#initializeUnrecoveredFandACollectionDefaults(org.kuali.kra.budget.core.Budget)
-     */
+    @Override
     public void initializeUnrecoveredFandACollectionDefaults(Budget budget) {
         if(budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAAvailable() && budget.getBudgetUnrecoveredFandAs().size() == 0 && !isBudgetFinalAndComplete(budget)) {
            for(FiscalYearSummary fiscalYearSummary: budget.getFiscalYearUnrecoveredFandATotals()) {

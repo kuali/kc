@@ -29,14 +29,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class AwardAttachment extends AwardAssociate implements Comparable<AwardAttachment> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 502762283098287794L;
 
     private Long awardAttachmentId;
@@ -223,7 +219,6 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
         return this.getAwardAttachmentId() == null;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -237,7 +232,6 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -295,10 +289,6 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
         return true;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
-     */
     @Override
     protected void preUpdate() {
         super.preUpdate();

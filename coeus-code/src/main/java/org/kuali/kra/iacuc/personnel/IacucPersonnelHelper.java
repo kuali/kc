@@ -33,9 +33,7 @@ import java.io.Serializable;
 
 public class IacucPersonnelHelper extends PersonnelHelperBase implements Serializable {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7184772967685221846L;
 
 

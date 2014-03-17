@@ -90,10 +90,6 @@ public abstract class MeetingFormBase extends KualiForm {
         this.readOnly = readOnly;
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
-     */
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);

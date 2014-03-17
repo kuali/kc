@@ -87,7 +87,7 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
      */
     protected abstract void doPerSuiteStop() throws Throwable;
     
-    /** {@inheritDoc} */
+    @Override
     public void startPerTest(boolean transactional) {
         if (this.perTestStarted) {
             throw new IllegalStateException("per test lifecycle already started");
@@ -118,7 +118,7 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
         }
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void stopPerTest() {
         if (!this.perTestStarted) {
             throw new IllegalStateException("per test lifecycle already stopped");
@@ -149,12 +149,12 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
         }
     }
 
-    /** {@inheritDoc} */
+    @Override
     public final boolean isPerTestStarted() {
         return this.perTestStarted;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void startPerClass() {
         if (this.perClassStarted) {
             throw new IllegalStateException("per class lifecycle already started");
@@ -185,7 +185,7 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
         }
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void stopPerClass() {
         if (!this.perClassStarted) {
             throw new IllegalStateException("per class lifecycle already stopped");
@@ -216,12 +216,12 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
         }
     }
 
-    /** {@inheritDoc} */
+    @Override
     public final boolean isPerClassStarted() {
         return this.perClassStarted;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void startPerSuite() {
         if (this.perSuiteStarted) {
             throw new IllegalStateException("per suite lifecycle already started");
@@ -252,7 +252,7 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
         }
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void stopPerSuite() {
         if (!this.perSuiteStarted) {
             throw new IllegalStateException("per suite lifecycle already stopped");
@@ -283,7 +283,7 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
         }
     }
 
-    /** {@inheritDoc} */
+    @Override
     public final boolean isPerSuiteStarted() {
         return this.perSuiteStarted;
     }
@@ -294,9 +294,7 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
 
     /** exception that wraps any lifecycle failures. */
     protected static class KcLifecycleException extends RuntimeException {
-        /**
-         * Comment for <code>serialVersionUID</code>
-         */
+
         private static final long serialVersionUID = 6680874845872733891L;
 
         public KcLifecycleException(Throwable t) {

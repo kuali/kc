@@ -27,34 +27,22 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRuleBase {
 
-    /**
-     * Constructs a OrganizationMaintenanceDocumentRule.java.
-     */
+
     public OrganizationMaintenanceDocumentRule() {
         super();
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */ 
+    @Override
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return isDocumentValidForSave(document);
     }
     
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return isDocumentValidForSave(document);
     }
     
    
-    /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
     @Override
     public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         return isDocumentValidForSave(document);

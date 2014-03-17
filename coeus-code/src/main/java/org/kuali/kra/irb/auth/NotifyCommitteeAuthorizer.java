@@ -26,9 +26,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
  */
 public class NotifyCommitteeAuthorizer extends ProtocolAuthorizer {
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return isStatusValid(task.getProtocol()) &&
         canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE) &&

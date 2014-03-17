@@ -27,9 +27,7 @@ import java.util.Collection;
 
 public class IacucCommitteeScheduleMinute extends CommitteeScheduleMinuteBase<IacucCommitteeScheduleMinute, IacucCommitteeSchedule> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1673628066653997531L;
 
     public IacucCommitteeScheduleMinute(String minuteEntryTypeCode) {

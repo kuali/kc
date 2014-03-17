@@ -29,9 +29,7 @@ import java.util.List;
 
 public class IacucLocationTypeValuesFinder extends UifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5333134394266736830L;
 
     /**

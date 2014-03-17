@@ -57,9 +57,7 @@ import java.util.*;
  */
 public abstract class CommitteeIdByUnitValuesFinderServiceImplBase<CMT extends CommitteeBase<CMT, ?, ?>> implements CommitteeIdByUnitValuesFinderService<CMT> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3005003472800028011L;
 
     public static final String FINAL_STATUS_CD = "F";

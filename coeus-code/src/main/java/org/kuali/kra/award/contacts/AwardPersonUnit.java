@@ -55,9 +55,7 @@ public class AwardPersonUnit extends KcPersistableBusinessObjectBase implements 
 
     private Long awardContactId;
 
-    /**
-     * Default Constructor
-     */
+
     public AwardPersonUnit() {
         super();
         creditSplits = new ArrayList<AwardPersonUnitCreditSplit>();
@@ -108,16 +106,11 @@ public class AwardPersonUnit extends KcPersistableBusinessObjectBase implements 
         creditSplit.setAwardPersonUnit(this);
     }
 
-    /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
+    @Override
     public int compareTo(AwardPersonUnit other) {
         return this.unit.getUnitName().compareToIgnoreCase(other.getUnit().getUnitName());
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -167,9 +160,7 @@ public class AwardPersonUnit extends KcPersistableBusinessObjectBase implements 
         return ospAdministrators;
     }
 
-    /**
-     * @return
-     */
+
     public AwardContact getAwardPerson() {
         return awardPerson;
     }
@@ -198,38 +189,27 @@ public class AwardPersonUnit extends KcPersistableBusinessObjectBase implements 
         return creditSplits;
     }
 
-    /**
-     * @return
-     */
+
     public String getFullName() {
         return awardPerson != null ? (awardPerson.getContact() != null ? awardPerson.getContact().getFullName() : null) : null;
     }
 
-    /**
-     * @return
-     */
+
     public Unit getUnit() {
         lazilyLoadUnit();
         return unit;
     }
 
-    /**
-     * @return
-     */
+
     public String getUnitName() {
         return unit != null ? unit.getUnitName() : null;
     }
 
-    /**
-     * @return
-     */
+
     public String getUnitNumber() {
         return unitNumber;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -239,9 +219,7 @@ public class AwardPersonUnit extends KcPersistableBusinessObjectBase implements 
         return result;
     }
 
-    /**
-     * @return
-     */
+
     public boolean isLeadUnit() {
         return leadUnit;
     }
@@ -310,9 +288,7 @@ public class AwardPersonUnit extends KcPersistableBusinessObjectBase implements 
         }
     }
 
-    /**
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }

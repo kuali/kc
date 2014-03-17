@@ -59,10 +59,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final String SPONSOR_GROUPS = "Sponsor Groups";
     protected static final String SPONSOR_NIH = "NIH";
 
-    /**
-     * 
-     * Constructs a RRSF424BaseGenerator.java.
-     */
+
     public RRSF424BaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);

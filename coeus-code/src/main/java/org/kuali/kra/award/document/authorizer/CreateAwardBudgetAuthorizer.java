@@ -27,9 +27,7 @@ import org.kuali.kra.infrastructure.Constants;
  */
 public class CreateAwardBudgetAuthorizer extends AwardAuthorizer {
 
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
-     */
+    @Override
     public boolean isAuthorized(String userId, AwardTask task) {
         AwardDocument doc = task.getAward().getAwardDocument(); 
         

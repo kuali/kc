@@ -23,9 +23,7 @@ import java.sql.Date;
 
 public class IacucProtocolApproveBean extends IacucProtocolGenericActionBean implements ProtocolApproveBean {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8184965873953673608L;
     
     private Date approvalDate;

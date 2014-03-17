@@ -31,9 +31,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public abstract class ModifyCommitteeAuthorizerBase extends CommitteeAuthorizerBase {
 
-    /**
-     * @see org.kuali.kra.protocol.document.authorizer.CommitteeAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.document.authorization.CommitteeTaskBase)
-     */
+    @Override
     public boolean isAuthorized(String userId, CommitteeTaskBase task) {
         boolean hasPermission = true;
         CommitteeBase committee = task.getCommittee();

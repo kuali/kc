@@ -75,9 +75,7 @@ public abstract class PermissionsHelperBase implements Serializable {
      */
     private boolean modifyPermissions = false;
    
-    /**
-     * Constructs a AbstractPermissionsHelper with a null role type.
-     */
+
     public PermissionsHelperBase() {
         initialize(null);
     }

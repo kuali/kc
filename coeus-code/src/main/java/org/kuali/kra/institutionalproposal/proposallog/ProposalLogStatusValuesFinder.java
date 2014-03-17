@@ -27,9 +27,7 @@ import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.*;
 
-/**
- * This class...
- */
+
 public class ProposalLogStatusValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
     /**

@@ -22,10 +22,7 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
  * This class is for handling all rules related to AwardBudgetDocument.
  */
 public class AwardBudgetDocumentRule extends BudgetDocumentRule {
-    /**
-     * 
-     * @see org.kuali.kra.budget.document.BudgetDocumentRule#processRunAuditBudgetVersionRule(org.kuali.kra.budget.document.BudgetParentDocument)
-     */
+    @Override
     protected boolean processRunAuditBudgetVersionRule(BudgetParentDocument parentDocument) {
         return true;
     }

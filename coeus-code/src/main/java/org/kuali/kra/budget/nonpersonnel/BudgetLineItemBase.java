@@ -31,9 +31,7 @@ import java.util.List;
 
 public abstract class BudgetLineItemBase extends BudgetAssociate {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8356817148151906918L;
 
     @DeepCopyIgnore

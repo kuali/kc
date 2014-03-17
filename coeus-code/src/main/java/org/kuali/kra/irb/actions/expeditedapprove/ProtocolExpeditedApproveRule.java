@@ -27,10 +27,7 @@ public class ProtocolExpeditedApproveRule extends ProtocolApproveRule {
     
     private static final String SCHEDULE_FIELD = "scheduleId";
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(ProtocolApproveEvent event) {
         boolean isValid = super.processRules(event);
         ProtocolExpeditedApproveBean expeditedBean = (ProtocolExpeditedApproveBean)event.getProtocolApproveBean();

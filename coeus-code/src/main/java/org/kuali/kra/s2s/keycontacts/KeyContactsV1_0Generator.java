@@ -216,7 +216,7 @@ public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
 
     @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
-        // TODO Auto-generated method stub
+
         this.pdDoc = proposalDevelopmentDocument;
         return getKeyContactsDocument();
     }

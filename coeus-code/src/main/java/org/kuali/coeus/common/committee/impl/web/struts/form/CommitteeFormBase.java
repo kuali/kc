@@ -62,16 +62,14 @@ public abstract class CommitteeFormBase extends KcTransactionalDocumentFormBase 
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
   
-    /**
-     * Constructs a CommitteeFormBase.
-     */
+
     public CommitteeFormBase() {
         super();
         //this.setScheduleData(new ScheduleData());
         initialize();
     }
     
-    /** {@inheritDoc} */
+    @Override
     // we mark an inherited non-abstract method as abstract to indicate that the subclasses will need to provide an implementation, 
     protected abstract String getDefaultDocumentTypeName();
 
@@ -93,9 +91,6 @@ public abstract class CommitteeFormBase extends KcTransactionalDocumentFormBase 
         return (CommitteeDocumentBase) this.getDocument();
     }
 
-    /**o
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
-     */
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
@@ -114,9 +109,6 @@ public abstract class CommitteeFormBase extends KcTransactionalDocumentFormBase 
         return trimmedCommitteeName;
     }
     
-    /**
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.core.workflow.service.KualiWorkflowDocument)
-     */
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
@@ -141,9 +133,6 @@ public abstract class CommitteeFormBase extends KcTransactionalDocumentFormBase 
         getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.committeeName", getCommitteeNameForHeaderDisplay(committeeDoc)));
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
-     */
     @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
@@ -183,18 +172,12 @@ public abstract class CommitteeFormBase extends KcTransactionalDocumentFormBase 
         this.lookupResultsBOClassName = lookupResultsBOClassName;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase#setSaveDocumentControl(org.kuali.core.document.authorization.DocumentActionFlags, java.util.Map)
-     */
     @Override
     @SuppressWarnings("unchecked")
     protected void setSaveDocumentControl(Map editMode) {
         getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase#getLockRegion()
-     */
     @Override
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_COMMITTEE;

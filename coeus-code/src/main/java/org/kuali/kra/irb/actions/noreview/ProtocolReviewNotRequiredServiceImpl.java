@@ -42,11 +42,7 @@ public class ProtocolReviewNotRequiredServiceImpl implements ProtocolReviewNotRe
 
     
 
-    /**
-     * 
-     * This method...
-     * @param businessObjectService
-     */
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -54,9 +50,7 @@ public class ProtocolReviewNotRequiredServiceImpl implements ProtocolReviewNotRe
         return businessObjectService;
     }
 
-    /**
-     * @see org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService#reviewNotRequired(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean)
-     */
+    @Override
     public void reviewNotRequired(ProtocolDocument protocolDocument, ProtocolReviewNotRequiredBean actionBean) {
         Protocol protocol = protocolDocument.getProtocol();
         ProtocolAction protocolAction = new ProtocolAction(protocol, protocol.getProtocolSubmission(), ProtocolActionType.IRB_REVIEW_NOT_REQUIRED);

@@ -18,14 +18,10 @@ package org.kuali.kra.award.notesandattachments.attachments;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentType;
 
-/**
- * This class...
- */
+
 public class AwardAttachmentType extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3918563746120540897L;
 
     private String typeCode;
@@ -86,7 +82,6 @@ public class AwardAttachmentType extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -96,7 +91,6 @@ public class AwardAttachmentType extends KcPersistableBusinessObjectBase {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

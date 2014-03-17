@@ -23,10 +23,6 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 public interface InstitutionalProposalFinancialRule extends BusinessRule {
 
     
-    /**
-     * This method...
-     * @param institutionalProposalFinancialRuleEvent
-     * @return
-     */
+
     boolean processInstitutionalProposalFinancialRules(InstitutionalProposalFinancialRuleEvent institutionalProposalFinancialRuleEvent);
 }

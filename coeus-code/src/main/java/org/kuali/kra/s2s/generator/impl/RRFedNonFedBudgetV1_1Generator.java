@@ -1340,7 +1340,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                         ADDITIONAL_EQUIPMENT_NARRATIVE_TYPE_CODE, fileName,
                         ADDITIONAL_EQUIPMENT_NARRATIVE_COMMENT);
             } catch (PrintingException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
         return narrative;
@@ -1392,7 +1392,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+"_"+periodInfo.getBudgetPeriod()+"_"+EXTRA_KEYPERSONS+".pdf";
                 extraKPNarrative = saveNarrative(printData.getContent(), ""+EXTRA_KEYPERSONS_TYPE, fileName, EXTRA_KEYPERSONS_COMMENT);
             } catch (PrintingException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
         return extraKPNarrative;

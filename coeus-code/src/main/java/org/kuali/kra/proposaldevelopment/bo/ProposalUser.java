@@ -42,9 +42,7 @@ public class ProposalUser extends BusinessObjectBase {
 
     private String roleName = "";
 
-    /**
-     * Constructs a ProposalUser.
-     */
+
     public ProposalUser() {
     }
 
@@ -148,15 +146,11 @@ public class ProposalUser extends BusinessObjectBase {
         }
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
-     */
+    @Override
     public void refresh() {
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
         if (obj == this) return true;

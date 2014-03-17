@@ -24,10 +24,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public abstract class ProtocolAddReviewCommentRuleBase<E extends ProtocolAddReviewCommentEventBase> extends KcTransactionalDocumentRuleBase implements KcBusinessRule<E> {
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(E event) {
         boolean isValid = true;
         

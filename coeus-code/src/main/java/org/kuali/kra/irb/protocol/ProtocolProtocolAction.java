@@ -16,6 +16,8 @@
 package org.kuali.kra.irb.protocol;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -65,7 +67,9 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
  * tab (web page).
  */
 public class ProtocolProtocolAction extends ProtocolAction {
-    
+
+    private static final Log LOG = LogFactory.getLog(ProtocolProtocolAction.class);
+
     private static final String CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY = "confirmDeleteProtocolFundingSource";
 
     /**
@@ -655,7 +659,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
             try {
                 getProtocolActionRequestService().generateFundingSource(protocolForm);
             }catch(Exception ex) {
-                ex.printStackTrace();
+                LOG.error(ex.getMessage(), ex);
             }
         }
     }

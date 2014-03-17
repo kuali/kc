@@ -43,10 +43,7 @@ public abstract class CommitteeBatchCorrespondenceDetailBase extends KcPersistab
 
     private ProtocolCorrespondence protocolCorrespondence;
 
-    /**
-     * 
-     * Constructs a CommitteeBatchCorrespondenceDetailBase.java.
-     */
+
     public CommitteeBatchCorrespondenceDetailBase() {
     }
 

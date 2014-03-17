@@ -191,9 +191,6 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
         this.protocolStatus = protocolStatus;
     }
 
-    /** 
-     * {@inheritDoc} 
-     */
     @Override
     protected void postLoad() {
         super.postLoad();

@@ -47,9 +47,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalActionsAction extends InstitutionalProposalAction implements AuditModeAction {
     private static final int ERROR = 2;
     private static final int OK = 0;
@@ -58,7 +56,7 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
     private static final String CONFIRM_UNLOCK_SELECTED = "confirmUnlockSelected";
     private static final String CONFIRM_UNLOCK_SELECTED_KEY = "confirmUnlockSelectedKey";
     private static final String ERROR_SELECTING_FUNDING_PROPS = "error.fundingproposal.unlockNoSelection";
-    /** {@inheritDoc} */
+    @Override
 	public ActionForward activate(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -66,15 +64,14 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
 				(InstitutionalProposalForm) form, true);
 	}
 
-	/** {@inheritDoc} */
+    @Override
 	public ActionForward deactivate(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		return new AuditActionHelper().setAuditMode(mapping,
 				(InstitutionalProposalForm) form, false);
 	}
-    
-    /** {@inheritDoc} */
+
     public ActionForward unlockSelected(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         InstitutionalProposalForm iForm = (InstitutionalProposalForm) form;
@@ -86,22 +83,19 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
         }
     }
     
-    /** {@inheritDoc} */
-    public ActionForward confirmUnlockSelected(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+    public ActionForward confirmUnlockSelected(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         new FundedAwardsBean((InstitutionalProposalForm) form).removeUnlockedAwards();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    /** {@inheritDoc} */
-    public ActionForward selectAllFundedAwards(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+    public ActionForward selectAllFundedAwards(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         new FundedAwardsBean((InstitutionalProposalForm) form).selectAllFundedAwards();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    /** {@inheritDoc} */
-    public ActionForward deselectAllFundedAwards(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+    public ActionForward deselectAllFundedAwards(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         ((InstitutionalProposalForm) form).setSelectedAwardFundingProposals(new String[0]);
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -307,7 +301,6 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
      * @param form
      * @param request
      * @param response
-     * @param deletePeriod
      * @return
      * @throws Exception
      */

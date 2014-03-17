@@ -69,10 +69,6 @@ public abstract class KcPersistableBusinessObjectBase extends PersistableBusines
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#afterInsert(org.apache.ojb.broker.PersistenceBroker)
-     */
     @Override
     @SuppressWarnings("unchecked")
     protected void postPersist() {

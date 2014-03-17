@@ -26,9 +26,7 @@ import org.kuali.kra.subaward.SubAwardForm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * This class is for SubAwardCustomDataAction...
- */
+
 public class SubAwardCustomDataAction extends SubAwardAction {
 
     @SuppressWarnings("all")

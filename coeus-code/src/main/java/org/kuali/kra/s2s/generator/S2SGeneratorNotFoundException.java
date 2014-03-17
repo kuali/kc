@@ -22,10 +22,7 @@ public class S2SGeneratorNotFoundException extends RuntimeException{
 
     private static final long serialVersionUID = 477143438237989597L;
 
-    /**
-     * 
-     * Constructs a S2SGeneratorNotFoundException.java.
-     */
+
     public S2SGeneratorNotFoundException(){
         super();
     }

@@ -52,9 +52,7 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
     private String leadUnitNumber;
     private String originalLeadUnitNumber;
 
-    /**
-     * Constructs a ProposalCopyCriteria.
-     */
+
     public ProposalCopyCriteria() {
         this.includeAttachments = false;
         this.includeBudget = false;
@@ -179,9 +177,7 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
         this.originalLeadUnitNumber = originalLeadUnitNumber;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
-     */
+    @Override
     public void refresh() {
         // do nothing
     }

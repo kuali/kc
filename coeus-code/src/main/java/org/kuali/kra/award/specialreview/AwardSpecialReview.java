@@ -60,10 +60,7 @@ public class AwardSpecialReview extends SpecialReview<AwardSpecialReviewExemptio
         return sequenceOwner != null ? sequenceOwner.getSequenceNumber() : null;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         awardSpecialReviewId = null;
         for (AwardSpecialReviewExemption exemption : getSpecialReviewExemptions()) {
@@ -72,10 +69,6 @@ public class AwardSpecialReview extends SpecialReview<AwardSpecialReviewExemptio
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.specialreview.impl.bo.SpecialReview#createSpecialReviewExemption(java.lang.String)
-     */
     @Override
     public AwardSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
         AwardSpecialReviewExemption awardSpecialReviewExemption = new AwardSpecialReviewExemption();

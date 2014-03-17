@@ -33,9 +33,7 @@ public class IacucProtocolSubmissionQualifierType extends ProtocolSubmissionQual
     public final static String UNANTICIPATED_PROBLEMS = "12";
     public final static String ANNUAL_REPORT = "13";
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -418480649135759029L;
 
     public IacucProtocolSubmissionQualifierType() {

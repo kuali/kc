@@ -30,9 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CoiDisclosureProjectBean implements Serializable {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -100427824220789523L;
     // TODO : should create interface "CoiDisclosureable" for these project. It is to close to 4.0 release
     // so wait after 4.0

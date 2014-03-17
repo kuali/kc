@@ -21,9 +21,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import java.util.List;
 
-/**
- * This class...
- */
+
 public interface NarrativeService {
     public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
     public void deleteProposalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete);

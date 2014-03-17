@@ -754,24 +754,15 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         this.specialReviews = specialReviews;
     }
     
-    /**
-     * @see org.kuali.kra.document.SpecialReviewHandler#addSpecialReview(org.kuali.kra.bo.AbstractSpecialReview)
-     */
     public void addSpecialReview(ProtocolSpecialReviewBase specialReview) {
         specialReview.setSequenceOwner(this);
         getSpecialReviews().add(specialReview);
     }
 
-    /**
-     * @see org.kuali.kra.document.SpecialReviewHandler#getSpecialReview(int)
-     */
     public ProtocolSpecialReviewBase getSpecialReview(int index) {
         return getSpecialReviews().get(index);
     }
 
-    /**
-     * @see org.kuali.kra.document.SpecialReviewHandler#getSpecialReviews()
-     */
     public List<ProtocolSpecialReviewBase> getSpecialReviews() {
         return specialReviews;
     }
@@ -1053,34 +1044,32 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
     
     
-    /** {@inheritDoc} */
+    @Override
     public Integer getOwnerSequenceNumber() {
         return null;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getVersionNameField()
-     */
+    @Override
     public String getVersionNameField() {
         return "protocolNumber";
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void incrementSequenceNumber() {
         this.sequenceNumber++; 
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ProtocolBase getSequenceOwner() {
         return this;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void setSequenceOwner(ProtocolBase newOwner) {
        //no-op
     }
     
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.protocolId = null;
     }
@@ -1531,24 +1520,15 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
 
     protected abstract ProtocolSummary createProtocolSummary();
     
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentKey()
-     */
+    @Override
     public abstract String getDocumentKey();
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentNumberForPermission()
-     */
+    @Override
     public String getDocumentNumberForPermission() {
         return protocolNumber;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getRoleNames()
-     */
+    @Override
     public abstract List<String> getRoleNames();
     
     public void resetForeignKeys() {
@@ -1568,18 +1548,12 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
     public abstract String getNamespace();    
 
-    /**
-     * 
-     * @see org.kuali.kra.UnitAclLoadable#getUnitNumberOfDocument()
-     */
+    @Override
     public String getDocumentUnitNumber() {
         return getLeadUnitNumber();
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.UnitAclLoadable#getDocumentRoleTypeCode()
-     */
+    @Override
      public abstract String getDocumentRoleTypeCode();
 
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {

@@ -40,10 +40,7 @@ public class SaveProtocolFundingSourceLinkRule extends KcTransactionalDocumentRu
     private AwardService awardService;
     private InstitutionalProposalService institutionalProposalService;
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(SaveProtocolFundingSourceLinkEvent event) {
         boolean rulePassed = true;
         

@@ -19,9 +19,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 
-/**
- * This class...
- */
+
 public interface InstitutionalProposalNoteAttachmentService {
 
     /**

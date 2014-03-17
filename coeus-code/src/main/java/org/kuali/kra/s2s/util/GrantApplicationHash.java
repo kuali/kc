@@ -67,8 +67,8 @@ public class GrantApplicationHash {
             xpath = new GrantApplicationXpath(xml);
             return _hash(xpath);
         }catch (Exception e) {
-            log.error(e);
-            throw new S2SException(e.getMessage());
+            log.error(e.getMessage(), e);
+            throw new S2SException(e.getMessage(),e);
         }
 	}
 

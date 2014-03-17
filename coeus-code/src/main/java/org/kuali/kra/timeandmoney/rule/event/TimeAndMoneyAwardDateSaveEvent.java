@@ -19,37 +19,28 @@ import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * This class...
- */
+
 public class TimeAndMoneyAwardDateSaveEvent extends KcDocumentEventBase {
 
     public TimeAndMoneyAwardDateSaveEvent(String errorPathPrefix, Document document) {
         super("Save Date Rules", errorPathPrefix, document);
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
-        // TODO Auto-generated method stub
+
 
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule arg0) {
-        // TODO Auto-generated method stub
+
         return false;
     }
 

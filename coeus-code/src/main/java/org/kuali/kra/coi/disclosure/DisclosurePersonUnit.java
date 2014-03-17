@@ -80,13 +80,13 @@ public class DisclosurePersonUnit  extends DisclosureReporterUnit implements Seq
     
     @Override
     public Long getReporterUnitId() {
-        // TODO Auto-generated method stub
+
         return getDisclosurePersonUnitsId();
     }
     
     @Override
     public Integer getSequenceNumber() {
-        // TODO Auto-generated method stub
+
         return null;
     }
     
@@ -104,7 +104,7 @@ public class DisclosurePersonUnit  extends DisclosureReporterUnit implements Seq
     
     @Override
     public CoiDisclosure getSequenceOwner() {
-        // TODO Auto-generated method stub
+
         return this.getDisclosurePerson().getCoiDisclosure();
     }
 

@@ -76,25 +76,18 @@ public class AwardSponsorTermRuleEvent extends KcDocumentEventBase {
         return sponsorTermTypeCode;
     }
 
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBase#logEvent()
-     */
     @Override
     protected void logEvent() {
         LOG.info("Logging AwardSponsorTermRuleEvent");
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return AwardSponsorTermRule.class;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardSponsorTermRule)rule).processAddSponsorTermBusinessRules(this);
     }

@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.actions.ProtocolEditableBean;
 
 public class IacucProtocolEditableBean extends IacucProtocolActionBean implements ProtocolEditableBean {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5518447794781881082L;
 
     private boolean generalInfoEnabled = false;

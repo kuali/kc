@@ -50,9 +50,6 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
         salaryCalculator = new SalaryCalculator(budget,budgetPersonnelLineItem);
     }
 
-    /**
-     * @see org.kuali.kra.budget.calculator.AbstractBudgetCalculator#populateApplicableCosts(Boundary)
-     */
     @Override
     public void populateApplicableCosts(Boundary boundary) {
         salaryCalculator.setInflationRates(getInflationRates());

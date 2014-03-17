@@ -22,9 +22,7 @@ import org.kuali.kra.protocol.ProtocolAssociateBase;
 
 public abstract class ProtocolUnitBase extends ProtocolAssociateBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8187880795930346699L;
 
     private Integer protocolUnitsId;
@@ -127,7 +125,7 @@ public abstract class ProtocolUnitBase extends ProtocolAssociateBase {
         this.init(protocolPerson.getProtocol());
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.setProtocolUnitsId(null);
     }

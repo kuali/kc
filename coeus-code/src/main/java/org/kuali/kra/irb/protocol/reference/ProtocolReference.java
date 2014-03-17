@@ -20,15 +20,10 @@ import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase;
 
 import java.text.ParseException;
 
-/**
- * 
- * This class...
- */
+
 public class ProtocolReference extends ProtocolReferenceBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7610203950849323256L;
     
     /**

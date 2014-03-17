@@ -36,9 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 @RunWith(JMock.class)
 public class InstitutionalProposalUnrecoveredFanARuleTest {
 
@@ -54,10 +52,7 @@ public class InstitutionalProposalUnrecoveredFanARuleTest {
     InstitutionalProposalUnrecoveredFandARuleImpl institutionalProposalUnrecoveredFandARuleImpl;
     InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA;
 
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
+
     @Before
     public void setUp() throws Exception {
         institutionalProposalUnrecoveredFandARuleImpl = new InstitutionalProposalUnrecoveredFandARuleImpl();
@@ -71,10 +66,7 @@ public class InstitutionalProposalUnrecoveredFanARuleTest {
         GlobalVariables.setMessageMap(new MessageMap());
     }
     
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
+
     @After
     public void tearDown() throws Exception {
         institutionalProposalUnrecoveredFandARuleImpl = null;

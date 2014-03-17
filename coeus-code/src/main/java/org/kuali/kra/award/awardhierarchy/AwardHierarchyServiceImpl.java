@@ -116,9 +116,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return copyAwardAsChildOfAnotherNode(sourceNode, targetParentNode);
     }
 
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#copyAwardAsNewHierarchy(AwardHierarchy)
-     */
+    @Override
     public AwardHierarchy copyAwardAsNewHierarchy(AwardHierarchy targetNode) {
         String nextAwardNumber = awardNumberService.getNextAwardNumber();
         Award newAward = copyAward(targetNode.getAward(), nextAwardNumber);
@@ -136,9 +134,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return newNode;
     }
 
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#createBasicHierarchy(java.lang.String)
-     */
+    @Override
     public AwardHierarchy createBasicHierarchy(String awardNumber){
         return new AwardHierarchy(awardNumber, Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, awardNumber, awardNumber);
     }
@@ -214,16 +210,12 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return newNode;
     }
 
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#loadAwardHierarchy(java.lang.String)
-     */
+    @Override
     public AwardHierarchy loadAwardHierarchy(String awardNumber) {
         return awardNumber == null || awardNumber.equals(Award.DEFAULT_AWARD_NUMBER) ? null : loadAwardHierarchyBranch(awardNumber);
     }
 
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#loadAwardHierarchy(java.lang.String)
-     */
+    @Override
     public AwardHierarchy loadAwardHierarchyBranch(String awardNumber) {
         Map<String, AwardHierarchy> hierarchy = getAwardHierarchy(awardNumber, new ArrayList<String>());
         return hierarchy.get(awardNumber);
@@ -275,16 +267,12 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return result;
     }
 
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#getAwardHierarchy(java.lang.String, java.util.List)
-     */
+    @Override
     public Map<String, AwardHierarchy> getAwardHierarchy(String awardNumber, List<String> order) {
         return getAwardHierarchy(loadSingleAwardHierarchyNode(awardNumber), order);
     }
 
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#loadFullHierarchyFromAnyNode(java.lang.String)
-     */
+    @Override
     public AwardHierarchy loadFullHierarchyFromAnyNode(String awardNumber) {
         List<String> order = new ArrayList<String>();
         Map<String, AwardHierarchy> hierarchy = getAwardHierarchy(awardNumber, order);
@@ -295,9 +283,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         }
     }
 
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#loadPlaceholderDocument()
-     */
+    @Override
     public AwardDocument loadPlaceholderDocument() {
         DocumentHeader header = findPlaceholderDocumentHeader();
         try {
@@ -307,9 +293,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         }
     }
 
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#persistAwardHierarchy(org.kuali.kra.award.awardhierarchy.AwardHierarchy)
-     */
+    @Override
     public void persistAwardHierarchy(AwardHierarchy node) {
         if(node.isNew()) {            // only save new nodes; no updates or deletes
             legacyDataAdapter.save(node);
@@ -328,9 +312,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         }
     }
 
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#persistAwardHierarchy(org.kuali.kra.award.awardhierarchy.AwardHierarchy, boolean)
-     */
+    @Override
     public void persistAwardHierarchy(AwardHierarchy branchNode, boolean recurse) {
         AwardDocument placeholderDocument = loadPlaceholderDocument();
         if(placeholderDocument != null) { // should only be null in unit test because we can't new AwardDocument

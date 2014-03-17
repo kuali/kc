@@ -63,18 +63,10 @@ public class CostShareFormHelper implements Serializable, CostShareFunctions {
         this.newAwardCostShare = newAwardCostShare;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public AwardDocument getAwardDocument() {
         return parent.getAwardDocument();
     }
-    
-    /**
-     * This method...
-     * @return
-     */
+
     public Object getData() {
         return getNewAwardCostShare();
     }

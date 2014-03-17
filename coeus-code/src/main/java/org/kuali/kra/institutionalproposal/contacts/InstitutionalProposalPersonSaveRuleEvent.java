@@ -24,9 +24,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalPersonSaveRuleEvent extends KcDocumentEventBase {
 
 private static final Log LOG = LogFactory.getLog(InstitutionalProposalPersonSaveRuleEvent.class);

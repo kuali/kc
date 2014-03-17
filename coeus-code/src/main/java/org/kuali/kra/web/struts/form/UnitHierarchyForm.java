@@ -39,9 +39,7 @@ public class UnitHierarchyForm extends KualiForm {
     
     private boolean displayWholeTree = false;
     
-    /**
-     * Constructs a UnitHierarchyForm.
-     */
+
     public UnitHierarchyForm() {        
         resetUnits();
     }

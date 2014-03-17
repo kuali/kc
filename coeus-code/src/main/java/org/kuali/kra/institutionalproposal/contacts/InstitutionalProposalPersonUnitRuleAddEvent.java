@@ -22,9 +22,7 @@ import org.kuali.kra.award.contacts.AwardPersonUnitRuleAddEvent;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalPersonUnitRuleAddEvent extends KcDocumentEventBase {
 
 private static final Log LOG = LogFactory.getLog(AwardPersonUnitRuleAddEvent.class);
@@ -39,9 +37,7 @@ private static final Log LOG = LogFactory.getLog(AwardPersonUnitRuleAddEvent.cla
         this.projectPerson = projectPerson;
     }
 
-    /**
-     * @return
-     */
+
     public InstitutionalProposalPersonUnit getNewPersonUnit() {
         return newPersonUnit;
     }

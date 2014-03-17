@@ -18,6 +18,8 @@ package org.kuali.kra.award.budget;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
@@ -72,7 +74,7 @@ import java.util.*;
  * This class is to process all basic services required for AwardBudget
  */
 public class AwardBudgetServiceImpl implements AwardBudgetService {
-
+    private static final Log LOG = LogFactory.getLog(AwardBudgetServiceImpl.class);
     private final static String BUDGET_VERSION_ERROR_PREFIX = "document.parentDocument.budgetDocumentVersion";
     
     private ParameterService parameterService;
@@ -85,17 +87,13 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     private VersionHistoryService versionHistoryService;
     private AwardService awardService;
 
-    /**
-     * @see org.kuali.kra.award.budget.AwardBudgetService#post(org.kuali.kra.award.budget.document.AwardBudgetDocument)
-     */
+    @Override
     public void post(AwardBudgetDocument awardBudgetDocument) {
         processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
         saveDocument(awardBudgetDocument);
     }
 
-    /**
-     * @see org.kuali.kra.award.budget.AwardBudgetService#post(org.kuali.kra.award.budget.document.AwardBudgetDocument)
-     */
+    @Override
     public void toggleStatus(AwardBudgetDocument awardBudgetDocument) {
         String currentStatusCode = awardBudgetDocument.getAwardBudget().getAwardBudgetStatusCode();
         if (currentStatusCode.equals(getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_TO_BE_POSTED))) {
@@ -107,21 +105,15 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         saveDocument(awardBudgetDocument);
     }
 
-    /**
-     * This method...
-     * @param awardBudgetDocument
-     */
     protected void saveDocument(AwardBudgetDocument awardBudgetDocument) {
         try {
             getDocumentService().saveDocument(awardBudgetDocument);
         }catch (WorkflowException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
-    /**
-     * @see org.kuali.kra.award.budget.AwardBudgetService#processApproval(org.kuali.kra.award.budget.document.AwardBudgetDocument)
-     */
+    @Override
     public void processApproval(AwardBudgetDocument awardBudgetDocument) {
         WorkflowDocument workFlowDocument = getWorkflowDocument(awardBudgetDocument);
         if(workFlowDocument.isFinal()){
@@ -130,16 +122,12 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         saveDocument(awardBudgetDocument);
     }
 
-    /**
-     * @see org.kuali.kra.award.budget.AwardBudgetService#processDisapproval(org.kuali.kra.award.budget.document.AwardBudgetDocument)
-     */
+    @Override
     public void processDisapproval(AwardBudgetDocument awardBudgetDocument) {
         processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_REJECTED);
     }
 
-    /**
-     * @see org.kuali.kra.award.budget.AwardBudgetService#processSubmision(org.kuali.kra.award.budget.document.AwardBudgetDocument)
-     */
+    @Override
     public void processSubmision(AwardBudgetDocument awardBudgetDocument) {
         processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_SUBMITTED);
     }
@@ -162,6 +150,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return budgetStatus.getDescription();
     }
 
+    @Override
     public AwardBudgetDocument rebudget(AwardDocument awardDocument,String documentDescription) throws WorkflowException{
         AwardBudgetDocument rebudgetDocument = createNewBudgetDocument(documentDescription, awardDocument, true);
         return rebudgetDocument;
@@ -237,10 +226,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     }
 
 
-    /**
-     * 
-     * @see org.kuali.kra.budget.core.BudgetCommonService#getNewBudgetVersion(org.kuali.kra.budget.document.BudgetParentDocument, java.lang.String)
-     */
+    @Override
     public BudgetDocument<Award> getNewBudgetVersion(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription)
     throws WorkflowException {
         
@@ -254,13 +240,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return awardBudgetDocument;
     }
 
-    /**
-     * This method...
-     * @param documentDescription
-     * @param parentDocument
-     * @return
-     * @throws WorkflowException
-     */
     protected AwardBudgetDocument createNewBudgetDocument(String documentDescription, AwardDocument parentDocument,boolean rebudget)
             throws WorkflowException {
         boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(
@@ -317,10 +296,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             if (awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO)) {
                 rebudget = true;
             }
-//            else{
-//                Budget budget = awardBudgetDocument.getBudget();
-//                budget.getBudgetPeriods().clear();
-//            }
         }
         recalculateBudget(awardBudgetDocument.getBudget());
         saveBudgetDocument(awardBudgetDocument,rebudget);
@@ -329,19 +304,11 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 
         return awardBudgetDocument;
     }
-    
-    /**
-     * This method...
-     * @return
-     */
+
     private String getBudgetParameterValue(String parameter) {
         return parameterService.getParameterValueAsString(BudgetDocument.class, parameter);
     }
 
-    /**
-     * This method...
-     * @return
-     */
     private String getAwardParameterValue(String parameter) {
         return parameterService.getParameterValueAsString(AwardBudgetDocument.class, parameter);
     }
@@ -429,16 +396,13 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
                 postedBudget = awardBudgetDocument.getAwardBudget();
             }
             catch (WorkflowException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
         return postedBudget;
     }
 
-    /**
-     * @see org.kuali.kra.award.budget.AwardBudgetService#getTotalCostLimit(org.kuali.kra.award.document.AwardDocument)
-     */
+    @Override
     public BudgetDecimal getTotalCostLimit(AwardDocument awardDocument) {
         KualiDecimal obligatedTotal = awardDocument.getAward().getObligatedDistributableTotal();
         KualiDecimal costLimit = awardDocument.getAward().getTotalCostBudgetLimit(); 
@@ -643,9 +607,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return (List) getBusinessObjectService().findMatching(clazz, fieldValues);
     }
     
-    /**
-     * @see org.kuali.kra.award.budget.AwardBudgetService#findBudgetPeriodsFromLinkedProposal(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber) {
         BusinessObjectService businessObjectService = getBusinessObjectService();
@@ -707,10 +669,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return result;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.award.budget.AwardBudgetService#getInactiveBudgetStatus()
-     */
+    @Override
     public List<String> getInactiveBudgetStatus() {
         List<String> result = new ArrayList<String>();
         result.add(getRejectedBudgetStatus());
@@ -720,10 +679,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return result;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.award.budget.AwardBudgetService#populateBudgetLimitSummary(org.kuali.kra.award.budget.BudgetLimitSummaryHelper, org.kuali.kra.award.document.AwardDocument)
-     */
+    @Override
     public void populateBudgetLimitSummary(BudgetLimitSummaryHelper summary, AwardDocument awardDocument) {
         
         AwardBudgetExt currentBudget = getCurrentBudget(awardDocument);
@@ -844,12 +800,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return ((AwardBudgetPeriodExt)budgetPeriod).getRateOverrideFlag();
     }
 
-    /**
-     * This method...
-     * @param budgetPeriod
-     * @param budget
-     * @return
-     */
     private BudgetDecimal getPeriodFringeTotal(BudgetPeriod budgetPeriod, Budget budget) {
         if(budget.getBudgetSummaryTotals()==null || budget.getBudgetSummaryTotals().get("personnelFringeTotals")==null) return BudgetDecimal.ZERO;
         BudgetDecimal periodFringeTotal = budget.getBudgetSummaryTotals().get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod()-1);
@@ -973,10 +923,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.budget.core.BudgetCommonService#validateAddingNewBudget(org.kuali.kra.budget.document.BudgetParentDocument)
-     */
+    @Override
     public boolean validateAddingNewBudget(BudgetParentDocument<Award> parentDocument) {
         return !checkForOutstandingBudgets(parentDocument);
     }

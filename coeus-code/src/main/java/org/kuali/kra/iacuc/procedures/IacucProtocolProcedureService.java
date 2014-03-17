@@ -23,9 +23,7 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 
 
-/**
- * This class...
- */
+
 public interface IacucProtocolProcedureService {
 
     /**

@@ -63,11 +63,7 @@ public abstract class CommitteeDecisionRuleBase<CD extends CommitteeDecision<?>>
         this.attendanceService = attendanceService;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRule#proccessCommitteeDecisionRule(org.kuali.kra.protocol.ProtocolDocumentBase, 
-     *                                                                                                    org.kuali.kra.protocol.actions.decision.CommitteeDecision)
-     */
+    @Override
     public boolean proccessCommitteeDecisionRule(ProtocolDocumentBase document, CD committeeDecision) {
         boolean isValid = true;
 

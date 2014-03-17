@@ -68,30 +68,16 @@ public abstract class AwardContact extends AwardAssociate {
 
     private transient KcPersonService kcPersonService;
 
-    /**
-     * Constructor
-     */
+
     public AwardContact() {
     }
 
-    /**
-     * 
-     * Convenience constructor
-     * @param rolodex
-     * @param contactType
-     */
     AwardContact(NonOrganizationalRolodex rolodex, ContactRole contactRole) {
         this();
         setRolodex(rolodex);
         setContactRole(contactRole);
     }
 
-    /**
-     * 
-     * Convenience constructor
-     * @param person
-     * @param contactCategory
-     */
     AwardContact(KcPerson person, ContactRole role) {
         this();
         setPerson(person);
@@ -160,24 +146,18 @@ public abstract class AwardContact extends AwardAssociate {
         return contact;
     }
 
-    /**
-     * @return
-     */
+
     public String getContactOrganizationName() {
         Contactable contact = getContact();
         return contact != null ? contact.getContactOrganizationName() : null;
     }
 
-    /**
-     * @return
-     */
+
     public String getGenericId() {
         return rolodexId != null ? rolodexId.toString() : personId;
     }
 
-    /**
-     * @return
-     */
+
     public String getOrganizationIdentifier() {
         return getContact() != null ? getContact().getOrganizationIdentifier() : null;
     }
@@ -190,23 +170,17 @@ public abstract class AwardContact extends AwardAssociate {
         return contactRole;
     }
 
-    /**
-     * @return
-     */
+
     public String getContactRoleCode() {
         return roleCode;
     }
 
-    /**
-     * @return
-     */
+
     public String getEmailAddress() {
         return getContact() != null ? getContact().getEmailAddress() : null;
     }
 
-    /**
-     * @return
-     */
+
     public String getFullName() {
         return fullName;
     }
@@ -281,9 +255,7 @@ public abstract class AwardContact extends AwardAssociate {
         return getContact() != null && (getContact() instanceof KcPerson);
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.awardContactId = null;
     }
@@ -417,9 +389,6 @@ public abstract class AwardContact extends AwardAssociate {
      */
     protected abstract String getContactRoleTypeIdentifier();
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContact#refreshContactRole()
-     */
     protected ContactRole refreshContactRole() {
         ContactRole role;
         if (roleCode != null) {

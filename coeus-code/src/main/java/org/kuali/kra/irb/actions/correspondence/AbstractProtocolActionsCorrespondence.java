@@ -30,9 +30,7 @@ import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermarkBase;
  */
 public abstract class AbstractProtocolActionsCorrespondence extends ProtocolActionsCorrespondenceBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4993731064232051911L;
 
     @Override

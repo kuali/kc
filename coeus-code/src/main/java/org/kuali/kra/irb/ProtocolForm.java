@@ -63,10 +63,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class...
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
 @SuppressWarnings("deprecation")
 public class ProtocolForm extends ProtocolFormBase {
     
@@ -85,7 +81,6 @@ public class ProtocolForm extends ProtocolFormBase {
   
     
     
-    /** {@inheritDoc} */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "ProtocolDocument";

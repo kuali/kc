@@ -23,8 +23,6 @@ import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleAttendance
  */
 public class CommitteeScheduleAttendance extends CommitteeScheduleAttendanceBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -290025341175004471L;
 }

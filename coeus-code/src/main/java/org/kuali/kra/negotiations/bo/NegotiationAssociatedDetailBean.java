@@ -27,9 +27,7 @@ import java.util.List;
  */
 public class NegotiationAssociatedDetailBean implements Serializable {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5451290930492370203L;
     
     private static final String EMPTY_STRING = "";

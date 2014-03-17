@@ -116,9 +116,6 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
     }
     
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);

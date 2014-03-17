@@ -32,10 +32,7 @@ public abstract class GGLobbyingFormBaseGenerator extends S2SBaseFormGenerator {
     protected static final int ORGANIZATON_NAME_MAX_LENGTH = 120;
     protected static final int PRIMARY_TITLE_MAX_LENGTH = 45;
     
-    /**
-     * 
-     * Constructs a GGLobbyingFormBaseGenerator.java.
-     */
+
     public GGLobbyingFormBaseGenerator(){
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
     }

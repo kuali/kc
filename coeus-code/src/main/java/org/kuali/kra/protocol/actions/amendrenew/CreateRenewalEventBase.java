@@ -21,7 +21,6 @@ import org.kuali.kra.protocol.ProtocolDocumentBase;
 
 /**
  * Rule Event for creating renewal without amendment.
- * This class...
  */
 @SuppressWarnings("unchecked")
 public abstract class CreateRenewalEventBase extends KcDocumentEventBaseExtension {

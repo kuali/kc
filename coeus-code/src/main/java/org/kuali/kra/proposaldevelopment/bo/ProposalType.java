@@ -32,9 +32,7 @@ public class ProposalType extends KcPersistableBusinessObjectBase {
 
     public static final String REVISION_TYPE_CODE = "5";
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7629520657077311450L;
 
     @Id

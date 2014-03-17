@@ -38,9 +38,7 @@ public class AwardSyncCreationServiceImpl implements AwardSyncCreationService {
     private XmlObjectSerializerService xmlSerializerService;
     private BusinessObjectService businessObjectService;
     
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#createAwardSyncChange(org.kuali.kra.award.awardhierarchy.sync.AwardSyncType, org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.lang.String)
-     */
+    @Override
     public AwardSyncChange createAwardSyncChange(AwardSyncPendingChangeBean pendingChange) 
         throws NoSuchFieldException, IllegalAccessException, InvocationTargetException {
         AwardSyncChange change = 
@@ -50,17 +48,13 @@ public class AwardSyncCreationServiceImpl implements AwardSyncCreationService {
         return change;
     }
     
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#addAwardSyncChange(org.kuali.kra.award.home.Award, org.kuali.kra.award.awardhierarchy.sync.AwardSyncType, org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.lang.String)
-     */
+    @Override
     public void addAwardSyncChange(Award award, AwardSyncPendingChangeBean pendingChange) throws Exception {
         AwardSyncChange syncChange = createAwardSyncChange(pendingChange);
         addAwardSyncChange(award, syncChange);
     }
     
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#addAwardSyncChange(org.kuali.kra.award.home.Award, org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange)
-     */
+    @Override
     public void addAwardSyncChange(Award award, AwardSyncChange syncChange) {
         ListIterator<AwardSyncChange> iter = award.getSyncChanges().listIterator();
         while (iter.hasNext()) {
@@ -74,9 +68,7 @@ public class AwardSyncCreationServiceImpl implements AwardSyncCreationService {
         award.getSyncChanges().add(syncChange); 
     }
     
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncCreationService#getXmlExport(org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange)
-     */
+    @Override
     public AwardSyncXmlExport getXmlExport(AwardSyncChange change) {
         return (AwardSyncXmlExport) getXmlSerializerService().fromXml(change.getXml());
     }  

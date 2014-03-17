@@ -86,7 +86,6 @@ public class ProtocolAttachmentStatus extends ProtocolAttachmentStatusBase {
         this.description = description;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -96,7 +95,6 @@ public class ProtocolAttachmentStatus extends ProtocolAttachmentStatusBase {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

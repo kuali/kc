@@ -37,10 +37,7 @@ public class CD511V1_1Generator extends S2SBaseFormGenerator {
     private S2SUtilService s2sUtilService;
     private DepartmentalPerson aorInfo;
 
-    /**
-     * 
-     * Constructs a CD511V1_1Generator.java.
-     */
+
     public CD511V1_1Generator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
     }

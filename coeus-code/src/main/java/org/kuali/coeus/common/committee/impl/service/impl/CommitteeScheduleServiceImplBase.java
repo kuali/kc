@@ -102,9 +102,7 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
         this.reviewCommentsService = reviewCommentsService;
     }
     
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase#isCommitteeScheduleDeletable(org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase)
-     */
+    @Override
     public Boolean isCommitteeScheduleDeletable(CS committeeSchedule){
         
         boolean retVal = false;
@@ -127,9 +125,7 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
         return retVal;
     }
 
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase#addSchedule(org.kuali.coeus.common.committee.impl.web.struts.form.schedule.ScheduleData, org.kuali.coeus.common.committee.impl.bo.CommitteeBase)
-     */
+    @Override
     public void addSchedule(ScheduleData scheduleData, CMT committee) throws ParseException {
         
         List<Date> dates = null;
@@ -313,10 +309,7 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
         return scheduleStatuses.get(0);
     }
     
-    /**
-     * 
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase#getMinutesByProtocol(java.lang.Long)
-     */
+    @Override
     public List<CSM> getMinutesByProtocol(Long protocolId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(PROTOCOL_ID_FIELD, protocolId);
@@ -326,10 +319,7 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
     
     protected abstract Class<CSM> getCommitteeScheduleMinuteBOClassHook();
 
-    /**
-     * 
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase#getMinutesBySchedule(java.lang.Long)
-     */
+    @Override
     public List<CSM> getMinutesBySchedule(Long scheduleId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         List<CSM> permittedMinutes = new ArrayList<CSM>();

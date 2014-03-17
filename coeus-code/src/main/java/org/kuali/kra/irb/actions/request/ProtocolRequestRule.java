@@ -34,9 +34,7 @@ public class ProtocolRequestRule extends KcTransactionalDocumentRuleBase impleme
     
     private static final String MANDATORY = "M";
     private ParameterService parameterService;
-    /**
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(ProtocolRequestEvent event) {
         
         boolean valid = true;

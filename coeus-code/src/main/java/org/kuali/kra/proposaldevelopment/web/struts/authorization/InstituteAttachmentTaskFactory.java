@@ -29,9 +29,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class InstituteAttachmentTaskFactory extends NarrativeTaskFactory {
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.web.struts.authorization.NarrativeTaskFactory#getNarrative(org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
-     */
     protected Narrative getNarrative(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         int index = getLineNumber(request);

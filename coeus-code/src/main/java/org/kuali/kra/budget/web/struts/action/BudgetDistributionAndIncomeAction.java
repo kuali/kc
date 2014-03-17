@@ -40,10 +40,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
    
     private BudgetDistributionAndIncomeService bdiService;
     
-    /**
-     * 
-     * Constructs a BudgetDistributionAndIncomeAction.java.
-     */
+
     public BudgetDistributionAndIncomeAction() {
         super();
         bdiService = KcServiceLocator.getService(BudgetDistributionAndIncomeService.class);

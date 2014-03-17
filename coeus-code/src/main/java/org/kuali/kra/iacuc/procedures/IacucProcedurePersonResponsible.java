@@ -91,7 +91,6 @@ public class IacucProcedurePersonResponsible extends KcPersistableBusinessObject
         return getProtocolPerson().getPersonName();
     }
 
-    /**  {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

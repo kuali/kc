@@ -30,7 +30,6 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
  */
 public class IrbAcknowledgementUnavailableAuthorizer extends ProtocolAuthorizer {
 
-    /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return !isValidToPerform(task)

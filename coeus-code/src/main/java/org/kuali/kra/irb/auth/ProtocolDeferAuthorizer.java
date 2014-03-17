@@ -24,9 +24,7 @@ import org.kuali.rice.kew.api.KewApiConstants;
  */
 public class ProtocolDeferAuthorizer extends ProtocolAuthorizer {
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return canExecuteAction(task.getProtocol(), ProtocolActionType.DEFERRED) &&
                 !task.getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals(

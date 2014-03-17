@@ -18,16 +18,11 @@ package org.kuali.kra.iacuc.auth;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.RoleConstants;
 
-/**
- * This class...
- */
+
 public class IacucProtocolReviewNotRequiredUnavailableAuthorizer extends IacucProtocolAuthorizer {
 
     private static final String NAMESPACE = "KC-UNT";
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return kraAuthorizationService.hasRole(userId, NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR) &&

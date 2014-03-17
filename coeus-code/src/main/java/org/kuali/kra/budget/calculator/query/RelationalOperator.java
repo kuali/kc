@@ -15,13 +15,18 @@
  */
 package org.kuali.kra.budget.calculator.query;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 
 public abstract class RelationalOperator implements Operator {
-    
+
+    private static final Log LOG = LogFactory.getLog(RelationalOperator.class);
+
     protected String fieldName;
     protected Comparable fixedData;
     protected boolean booleanFixedData;
@@ -64,7 +69,6 @@ public abstract class RelationalOperator implements Operator {
                     throw new NoSuchFieldException();
                 }
             }catch (NoSuchFieldException noSuchFieldException) {
-                //noSuchFieldException.printStackTrace();
                 try{
                     String methodName="";
                     
@@ -75,7 +79,7 @@ public abstract class RelationalOperator implements Operator {
                     }
                     method = dataClass.getMethod(methodName, null);
                 }catch (NoSuchMethodException noSuchMethodException) {
-                    noSuchMethodException.printStackTrace();
+                    LOG.error(noSuchMethodException.getMessage(), noSuchMethodException);
                 }
             }
         }//End if field==null && method==null
@@ -129,9 +133,9 @@ public abstract class RelationalOperator implements Operator {
                 }
             }
         }catch (IllegalAccessException illegalAccessException) {
-            illegalAccessException.printStackTrace();
+            LOG.error(illegalAccessException.getMessage(),illegalAccessException);
         }catch (InvocationTargetException invocationTargetException) {
-            invocationTargetException.printStackTrace();
+            LOG.error(invocationTargetException.getMessage(), invocationTargetException);
         }
         return compareValue;
     }

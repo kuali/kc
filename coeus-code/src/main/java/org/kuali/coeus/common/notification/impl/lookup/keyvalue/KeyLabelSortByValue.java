@@ -25,9 +25,7 @@ import org.kuali.rice.core.api.util.KeyValue;
  */
 public class KeyLabelSortByValue extends AbstractKeyValue implements Comparable<KeyValue> {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1L;
 
     public KeyLabelSortByValue(String key, String label) {

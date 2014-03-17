@@ -22,9 +22,7 @@ import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 
 public class PersonFinIntDisclosureAssociate extends KcPersistableBusinessObjectBase implements SequenceAssociate<PersonFinIntDisclosure> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5261867441953663528L;
     
     private String entityNumber;
@@ -81,9 +79,6 @@ public class PersonFinIntDisclosureAssociate extends KcPersistableBusinessObject
         this.sequenceNumber = sequenceNumber;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -93,9 +88,6 @@ public class PersonFinIntDisclosureAssociate extends KcPersistableBusinessObject
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -129,7 +121,7 @@ public class PersonFinIntDisclosureAssociate extends KcPersistableBusinessObject
 
     @Override
     public void resetPersistenceState() {
-        // TODO Auto-generated method stub
+
         
     }
 

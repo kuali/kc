@@ -25,9 +25,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
  */
 public class Distribution extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8638092879516673772L;
 
     private String ospDistributionCode;
@@ -36,16 +34,11 @@ public class Distribution extends KcPersistableBusinessObjectBase implements Mut
 
     private boolean active;
 
-    /**
-     * Constructs a Distribution.java
-     */
+
     public Distribution() {
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public String getOspDistributionCode() {
         return ospDistributionCode;
     }
@@ -58,10 +51,7 @@ public class Distribution extends KcPersistableBusinessObjectBase implements Mut
         this.ospDistributionCode = ospDistributionCode;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public String getDescription() {
         return description;
     }
@@ -74,9 +64,6 @@ public class Distribution extends KcPersistableBusinessObjectBase implements Mut
         this.description = description;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -85,9 +72,6 @@ public class Distribution extends KcPersistableBusinessObjectBase implements Mut
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

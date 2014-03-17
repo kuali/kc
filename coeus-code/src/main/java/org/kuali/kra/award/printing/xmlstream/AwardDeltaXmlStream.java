@@ -322,47 +322,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 		transferringSponsors.setTransferringSponsorArray(transferringSponsorList.toArray(new TransferringSponsor[0]));
 		return transferringSponsors;
 	}
-//    private AwardTransferringSponsors getAwardTransferringSponsors() {
-//        AwardTransferringSponsors transferringSponsors = AwardTransferringSponsors.Factory
-//                .newInstance();
-//        List<TransferringSponsor> transferringSponsorList = new LinkedList<TransferringSponsor>();
-//        String transferSponsorIndicator = award.getTransferSponsorIndicator();
-//        if (transferSponsorIndicator != null
-//                && !transferSponsorIndicator.equals(EMPTY_STRING)) {
-//            transferSponsorIndicator = transferSponsorIndicator.length() == 1 ? transferSponsorIndicator
-//                    : transferSponsorIndicator.substring(1, 2);
-//            if (transferSponsorIndicator.equals(TRANSFERSPONSOR_MODIFIED_VALUE)) {
-//                List<AwardTransferringSponsor> awardTransferringSponsorList = award
-//                        .getAwardTransferringSponsors();
-//                TransferringSponsor transferringSponsor = null;
-//                for (AwardTransferringSponsor awardTransferringSponsor : awardTransferringSponsorList) {
-//                    transferringSponsor = getAwardTransferringSponsor(awardTransferringSponsor);
-//                    transferringSponsorList.add(transferringSponsor);
-//                }
-//                List<AwardTransferringSponsor> prevTransferringSponsorList = null;
-//                if (prevAward != null) {
-//                    prevTransferringSponsorList = prevAward
-//                            .getAwardTransferringSponsors();
-//                }
-//                if (prevTransferringSponsorList != null) {
-//                    for (AwardTransferringSponsor awardTransferringSponsor : prevTransferringSponsorList) {
-//                        transferringSponsor = getPrevAwardTransferringSponsorBean(awardTransferringSponsor);
-//                        transferringSponsorList.add(transferringSponsor);
-//                    }
-//                }
-//            }
-//        }
-//        transferringSponsors
-//                .setTransferringSponsorArray(transferringSponsorList
-//                        .toArray(new TransferringSponsor[0]));
-//        return transferringSponsors;
-//    }
 
-    /**
-     * This method...
-     * @param awardTransferringSponsor
-     * @param awardTransferringSponsors
-     */
     private boolean checkSponsorCodeChange(AwardTransferringSponsor awardTransferringSponsor,
             List<AwardTransferringSponsor> awardTransferringSponsors) {
         for (AwardTransferringSponsor currentAwardTransferringSponsor : awardTransferringSponsors) {

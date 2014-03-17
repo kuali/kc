@@ -52,26 +52,15 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     private CostShareType costShareType;
 
-    /**
-     * 
-     * Constructs a AwardCostShare.java.
-     */
+
     public AwardCostShare() {
         super();
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public CostShareType getCostShareType() {
         return costShareType;
     }
 
-    /**
-     * This method...
-     * @param costShareTypeCode
-     */
     @SuppressWarnings("unchecked")
     public void setCostShareTypeCode(Integer costShareTypeCode) {
         this.costShareTypeCode = costShareTypeCode;
@@ -96,129 +85,68 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         }
     }
 
-    /**
-     * This method...
-     * @param costShareType
-     */
     public void setCostShareType(CostShareType costShareType) {
         this.costShareType = costShareType;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public String getProjectPeriod() {
         return projectPeriod;
     }
 
-    /**
-     * This method...
-     * @param projectPeriod
-     */
     public void setProjectPeriod(String projectPeriod) {
         this.projectPeriod = projectPeriod;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public KualiDecimal getCostSharePercentage() {
         return costSharePercentage;
     }
 
-    /**
-     * This method...
-     * @param costSharePercentage
-     */
     public void setCostSharePercentage(KualiDecimal costSharePercentage) {
         this.costSharePercentage = costSharePercentage;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public String getSource() {
         return source;
     }
 
-    /**
-     * This method...
-     * @param source
-     */
     public void setSource(String source) {
         this.source = source;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public String getDestination() {
         return destination;
     }
 
-    /**
-     * This method...
-     * @param destination
-     */
     public void setDestination(String destination) {
         this.destination = destination;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public KualiDecimal getCommitmentAmount() {
         return commitmentAmount;
     }
 
-    /**
-     * This method...
-     * @param commitmentAmount
-     */
     public void setCommitmentAmount(KualiDecimal commitmentAmount) {
         this.commitmentAmount = commitmentAmount;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     public Long getAwardCostShareId() {
         return awardCostShareId;
     }
 
-    /**
-     * This method...
-     * @param awardCostShareId
-     */
     public void setAwardCostShareId(Long awardCostShareId) {
         this.awardCostShareId = awardCostShareId;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     protected BusinessObjectService getBusinessObjectService() {
         return (BusinessObjectService) KcServiceLocator.getService("businessObjectService");
     }
 
-    /**
-     * @see org.kuali.kra.award.home.ValuableItem#getAmount()
-     */
+    @Override
     public KualiDecimal getAmount() {
         return getCommitmentAmount();
     }
 
     //CHECKSTYLE_OFF: NPathComplexity|MethodLength|CyclomaticComplexity|LocalFinalVariableName|JavaNCSS|NeedBraces|RightCurly  
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -234,9 +162,6 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -306,9 +231,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         this.costShareMet = costShareMet;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.awardCostShareId = null;
     }

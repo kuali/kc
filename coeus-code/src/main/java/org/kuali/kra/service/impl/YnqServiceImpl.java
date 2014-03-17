@@ -37,9 +37,7 @@ public class YnqServiceImpl implements YnqService {
     private BusinessObjectService businessObjectService;
 
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.YnqService#getYnqExplanationTypes()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<YnqExplanationType> getYnqExplanationTypes() {
         Collection<YnqExplanationType> allTypes = new ArrayList();
@@ -51,10 +49,7 @@ public class YnqServiceImpl implements YnqService {
         return ynqExplanationTypes;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.proposaldevelopment.service.YnqService#getYnq(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<Ynq> getYnq(String questionType) {
         Map<String, String> questionTypeMap = new HashMap<String, String>();
@@ -200,9 +195,7 @@ public class YnqServiceImpl implements YnqService {
     }
     
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.YnqService#populateQuestions()
-     */
+    @Override
     /* get YNQ for proposal */
     public void populateProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames, ProposalDevelopmentDocument document) {
         String questionType = Constants.QUESTION_TYPE_PROPOSAL;

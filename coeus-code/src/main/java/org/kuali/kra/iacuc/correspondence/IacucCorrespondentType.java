@@ -17,9 +17,7 @@ package org.kuali.kra.iacuc.correspondence;
 
 public class IacucCorrespondentType extends org.kuali.kra.protocol.correspondence.CorrespondentType {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8929345056594603589L;
 
 }

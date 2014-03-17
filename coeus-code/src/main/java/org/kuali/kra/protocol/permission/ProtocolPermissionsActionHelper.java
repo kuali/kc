@@ -46,9 +46,7 @@ import java.util.List;
  */
 public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4490013895383993701L;
 
     /**
@@ -59,18 +57,12 @@ public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase
         super(parentAction);
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsActionHelperBase#addUserToRoleInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
-     */
     @Override
     protected void addUserToRoleInDatabase(Document document, String userId, String roleName) {
         ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) document;
         getKraAuthorizationService().addRole(userId, roleName, protocolDocument.getProtocol());
     }
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsActionHelperBase#removeRoleFromUserInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
-     */
     @Override
     protected void removeUserFromRoleInDatabase(Document document, String userId, String roleName) {
         ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) document;

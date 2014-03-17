@@ -26,10 +26,7 @@ public abstract class ProtocolGenericActionRuleBase<E extends ProtocolGenericAct
     
     private static final String ACTION_DATE_FIELD = "actionDate";
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(E event) {
         boolean isValid = true;
         
