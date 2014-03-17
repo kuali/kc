@@ -22,10 +22,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * 
- * This class is bo of CustomAttributeDataType.
- */
 @Entity
 @Table(name = "CUSTOM_ATTRIBUTE_DATA_TYPE")
 public class CustomAttributeDataType extends KcPersistableBusinessObjectBase {
@@ -36,10 +32,6 @@ public class CustomAttributeDataType extends KcPersistableBusinessObjectBase {
 
     @Column(name = "DESCRIPTION")
     private String description;
-
-    public CustomAttributeDataType() {
-        super();
-    }
 
     public String getDataTypeCode() {
         return dataTypeCode;

@@ -24,10 +24,6 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * 
- * This class is bo of CustomAttributeDocValue.
- */
 @Entity
 @Table(name = "CUSTOM_ATTRIBUTE_DOC_VALUE")
 @IdClass(CustomAttributeDocValue.CustomAttributeDocValueId.class)
@@ -44,13 +40,9 @@ public class CustomAttributeDocValue extends KcPersistableBusinessObjectBase imp
     @Column(name = "VALUE")
     private String value;
 
-    @ManyToOne(targetEntity = CustomAttribute.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "CUSTOM_ATTRIBUTE_ID", referencedColumnName = "ID", insertable = false, updatable = false)
     private CustomAttribute customAttribute;
-
-    public CustomAttributeDocValue() {
-        super();
-    }
 
     public Long getCustomAttributeId() {
         return customAttributeId;

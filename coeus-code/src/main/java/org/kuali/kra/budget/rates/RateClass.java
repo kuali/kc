@@ -33,10 +33,7 @@ public class RateClass extends KcPersistableBusinessObjectBase {
     @Column(name = "RATE_CLASS_TYPE")
     private String rateClassType;
 
-    @Transient
-    private String rateClassTypeDescription;
-
-    @ManyToOne(targetEntity = RateClassType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "RATE_CLASS_TYPE", referencedColumnName = "RATE_CLASS_TYPE", insertable = false, updatable = false)
     private RateClassType rateClassTypeT;
 
@@ -62,14 +59,6 @@ public class RateClass extends KcPersistableBusinessObjectBase {
 
     public void setRateClassType(String rateClassType) {
         this.rateClassType = rateClassType;
-    }
-
-    public String getRateClassTypeDescription() {
-        return rateClassTypeDescription;
-    }
-
-    public void setRateClassTypeDescription(String rateClassTypeDescription) {
-        this.rateClassTypeDescription = rateClassTypeDescription;
     }
 
     public RateClassType getRateClassTypeT() {
