@@ -17,7 +17,7 @@
     </description>
 
     <prerequisites>
-        <maven>3.0</maven>
+        <maven>${require.maven.version}</maven>
     </prerequisites>
 
     <modules>
