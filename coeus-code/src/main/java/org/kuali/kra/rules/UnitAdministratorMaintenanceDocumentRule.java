@@ -35,18 +35,11 @@ import java.util.Map;
  */
 public class UnitAdministratorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */ 
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return validateMultipleUnitAdministratorTypes(document);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return validateMultipleUnitAdministratorTypes(document);

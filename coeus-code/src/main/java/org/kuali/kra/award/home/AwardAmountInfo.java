@@ -315,9 +315,7 @@ public class AwardAmountInfo extends AwardAssociate {
         this.transactionDetailItemsLength = transactionDetailItemsLength;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.awardAmountInfoId = null;
     }

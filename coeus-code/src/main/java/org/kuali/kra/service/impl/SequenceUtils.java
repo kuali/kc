@@ -195,10 +195,7 @@ public class SequenceUtils {
         }
     }
 
-    /**
-     * This method...
-     * @param associate
-     */
+
     private void resetPersistenceState(SequenceAssociate<?> associate) {
         if(associate instanceof PersistableBusinessObject) {
             ((PersistableBusinessObject) associate).setVersionNumber(null);

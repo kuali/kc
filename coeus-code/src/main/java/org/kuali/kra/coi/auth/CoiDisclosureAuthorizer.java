@@ -36,9 +36,7 @@ public abstract class CoiDisclosureAuthorizer extends TaskAuthorizerBase {
     private CoiDisclosureService coiDisclosureService;
     private KcWorkflowService kraWorkflowService;
 
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
-     */
+    @Override
     public final boolean isAuthorized(String userId, Task task) {
         return isAuthorized(userId, (CoiDisclosureTask) task);
     }

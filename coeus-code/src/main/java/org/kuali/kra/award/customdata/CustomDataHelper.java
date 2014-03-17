@@ -30,14 +30,10 @@ import java.util.Map;
  * The CustomDataHelper is used to manage the Custom Data tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
-/**
- * This class...
- */
+
 public class CustomDataHelper extends CustomDataHelperBase<AwardCustomData> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2308402022153534376L;   
     
     /**

@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.personnel.ProtocolAffiliationTypeBase;
 
 public class ProtocolAffiliationType extends ProtocolAffiliationTypeBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7383194460130476242L;
 
     public ProtocolAffiliationType() {

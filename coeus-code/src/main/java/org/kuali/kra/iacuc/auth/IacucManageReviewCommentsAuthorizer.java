@@ -27,7 +27,6 @@ public class IacucManageReviewCommentsAuthorizer extends IacucProtocolAuthorizer
 
     private KcWorkflowService kraWorkflowService;
 
-    /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, IacucProtocolTask task) {
         IacucProtocol protocol = task.getProtocol();

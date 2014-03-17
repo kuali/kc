@@ -19,9 +19,7 @@ import org.kuali.kra.budget.core.BudgetAssociate;
 
 public abstract class BudgetDistributionAndIncomeComponent extends BudgetAssociate {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5475883963362089242L;
 
     private Integer documentComponentId;

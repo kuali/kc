@@ -60,10 +60,6 @@ public class FundingSourceNotificationRenderer extends IRBNotificationRenderer {
         this.action = action;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#replaceContextVariables(java.lang.String)
-     */
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();

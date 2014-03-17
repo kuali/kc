@@ -36,10 +36,7 @@ import java.util.Iterator;
 
 public class AttachmentDaoOjb  extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, AttachmentDao {
 
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.dao.AttachmentDao#getPersonnelTimeStampAndUploadUser(java.lang.Integer, java.lang.String, java.lang.Integer)
-     */
+    @Override
     public Iterator getPersonnelTimeStampAndUploadUser(Integer proposalPersonNumber, String proposalNumber, Integer biographyNumber) {
         
         Criteria crit = new Criteria();
@@ -54,10 +51,7 @@ public class AttachmentDaoOjb  extends PlatformAwareDaoBaseOjb implements OjbCol
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.dao.AttachmentDao#getNarrativeTimeStampAndUploadUser(java.lang.Integer, java.lang.String)
-     */
+    @Override
     public Iterator getNarrativeTimeStampAndUploadUser(Integer moduleNumber, String proposalNumber) {
         
         Criteria crit = new Criteria();

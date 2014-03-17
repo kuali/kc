@@ -21,14 +21,10 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
-/**
- * This class...
- */
+
 public class AwardBudgetVersionOverviewExt extends BudgetVersionOverview {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8402075117207933626L;
 
     private String awardBudgetStatusCode;

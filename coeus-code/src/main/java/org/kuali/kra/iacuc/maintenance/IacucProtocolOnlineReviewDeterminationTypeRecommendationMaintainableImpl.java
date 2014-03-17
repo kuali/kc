@@ -21,9 +21,7 @@ import org.kuali.kra.maintenance.KraMaintainableImpl;
 
 
 public class IacucProtocolOnlineReviewDeterminationTypeRecommendationMaintainableImpl extends KraMaintainableImpl {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6613313050279041286L;
     
     //value should match org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewTypesNotDeterminationValuesFinder.DEFAULT_SELECTION

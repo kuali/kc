@@ -24,9 +24,7 @@ import org.springframework.util.CollectionUtils;
 
 public class IacucCommitteeForm extends CommitteeFormBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5623611578157741521L;
 
     @Override
@@ -39,9 +37,6 @@ public class IacucCommitteeForm extends CommitteeFormBase {
         return "CommonCommitteeDocument";
     }
     
-    /**
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.core.workflow.service.KualiWorkflowDocument)
-     */
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);

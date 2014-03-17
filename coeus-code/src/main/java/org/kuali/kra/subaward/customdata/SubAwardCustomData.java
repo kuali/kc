@@ -19,14 +19,9 @@ import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.subaward.bo.SubAwardAssociate;
 
-/**
- * This class is for SubAwardCustomData...
- */
+
 public class SubAwardCustomData extends SubAwardAssociate implements DocumentCustomData {
 
-    /**.
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = 4125090813618033094L;
 
     private Long subAwardCustomDataId;
@@ -78,9 +73,7 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
         return value;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.subAwardCustomDataId = null;
     }
@@ -111,9 +104,6 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

@@ -38,18 +38,14 @@ import java.util.List;
 public class KeywordsServiceImpl implements KeywordsService {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeywordsServiceImpl.class);
 
-    /**
-     * @see org.kuali.kra.service.KeywordsService#addKeyword(org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase, org.kuali.kra.bo.ScienceKeyword)
-     */
+    @Override
     public void addKeyword(KeywordsManager document, ScienceKeyword scienceKeyword) {
         if (!isDuplicateKeyword(scienceKeyword.getScienceKeywordCode(), document.getKeywords())) {
             document.addKeyword(scienceKeyword);
         }
     }
 
-    /**
-     * @see org.kuali.kra.service.KeywordsService#deleteKeyword(org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase, org.kuali.kra.bo.ScienceKeyword)
-     */
+    @Override
     public void deleteKeyword(KeywordsManager keywordsDocument) {
         List<AbstractScienceKeyword> scienceKeywords = keywordsDocument.getKeywords();
         for (int i = scienceKeywords.size()-1; i >=0 ; i--) {
@@ -101,7 +97,7 @@ public class KeywordsServiceImpl implements KeywordsService {
                 }
             }   
         }catch(Exception ex){
-            LOG.error(ex);
+            LOG.error(ex.getMessage(), ex);
         }
         
     }

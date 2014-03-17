@@ -24,9 +24,7 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewLookupableHelperS
 
 public class ProtocolOnlineReviewLookupableHelperServiceImpl extends ProtocolOnlineReviewLookupableHelperServiceImplBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8740814934249836927L;
 
     @Override

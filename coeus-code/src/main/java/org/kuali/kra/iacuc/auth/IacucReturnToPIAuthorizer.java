@@ -28,7 +28,6 @@ public class IacucReturnToPIAuthorizer extends IacucProtocolAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
-    /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, IacucProtocolTask task) {
         return kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&

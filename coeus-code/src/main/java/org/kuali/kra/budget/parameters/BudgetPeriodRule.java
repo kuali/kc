@@ -51,10 +51,7 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
     private String[] errorParameter;
     private BudgetDocument budgetDocument;
     private ParameterService parameterService;
-    /**
-     * 
-     * @see org.kuali.kra.budget.parameters.AddBudgetPeriodRule#processAddBudgetPeriodBusinessRules(org.kuali.kra.budget.parameters.AddBudgetPeriodEvent)
-     */
+    @Override
     public boolean processAddBudgetPeriodBusinessRules(AddBudgetPeriodEvent addBudgetPeriodEvent) {
         this.budgetDocument = (BudgetDocument) addBudgetPeriodEvent.getDocument();
         Budget budget = budgetDocument.getBudget();

@@ -36,9 +36,7 @@ public class Boundary {
     private BudgetDecimal applicableCost;
     private BudgetDecimal applicableCostSharing;
     
-/**
- * Default Constructor...
- */
+
     public  Boundary() {
         init();
     }

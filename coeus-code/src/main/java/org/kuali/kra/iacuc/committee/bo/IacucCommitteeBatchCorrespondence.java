@@ -21,9 +21,7 @@ import java.sql.Date;
 
 public class IacucCommitteeBatchCorrespondence extends CommitteeBatchCorrespondenceBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7537703994487982310L;
     
     public IacucCommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, Date endDate) {

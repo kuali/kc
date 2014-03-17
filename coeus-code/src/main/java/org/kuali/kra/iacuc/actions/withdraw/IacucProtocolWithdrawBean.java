@@ -29,9 +29,7 @@ import java.sql.Date;
  */
 public class IacucProtocolWithdrawBean extends IacucProtocolActionBean implements ProtocolWithdrawBean {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4142586313917806739L;
     
     private String reason = "";

@@ -41,9 +41,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
 
     private transient KcPersonService kcPersonService;
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.rule.PermissionsRule#processAddProposalUserBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.util.List, org.kuali.kra.proposaldevelopment.bo.ProposalUser)
-     */
+    @Override
     public boolean processAddProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUser proposalUser) {
         boolean isValid = true;
         
@@ -86,9 +84,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         return isValid;
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.rule.PermissionsRule#processDeleteProposalUserBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.util.List, int)
-     */
+    @Override
     public boolean processDeleteProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, int index) {
         boolean isValid = true;
         KcWorkflowService kraWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
@@ -122,9 +118,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         return isValid;
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.rule.PermissionsRule#processEditProposalUserRolesBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.util.List, org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles)
-     */
+    @Override
     public boolean processEditProposalUserRolesBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserEditRoles editRoles) {
         boolean isValid = true;
         KcWorkflowService kraWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);

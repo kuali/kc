@@ -52,16 +52,12 @@ public class AddAwardFandaRateEvent extends AwardFandaRateEvent{
         this(errorPathPrefix, (AwardDocument) document, awardFandaRate);
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class<? extends BusinessRule> getRuleInterfaceClass() {
         return AwardFandaRateRule.class;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddFandaRateRule) rule).processAddFandaRateBusinessRules(this);
     }

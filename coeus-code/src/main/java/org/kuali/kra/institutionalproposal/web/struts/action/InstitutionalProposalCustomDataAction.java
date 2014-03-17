@@ -26,9 +26,7 @@ import org.kuali.kra.rules.CustomDataRule;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalCustomDataAction extends InstitutionalProposalAction {
 
     

@@ -27,7 +27,6 @@ public class ManageReviewCommentsUnavailableAuthorizer extends ProtocolAuthorize
 
     private KcWorkflowService kraWorkflowService;
 
-    /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();

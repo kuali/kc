@@ -17,8 +17,13 @@
 package org.kuali.kra.budget.calculator.query;
 
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public final class DataType {
-    
+
+    private static final Log LOG = LogFactory.getLog(DataType.class);
+
     public static final String INT = "primitiveInt";
     public static final String CHAR = "primitiveChar";
     public static final String FLOAT = "primitiveFloat";
@@ -33,7 +38,7 @@ public final class DataType {
         try{
             return DataType.class.getDeclaredField(type).getType();
         }catch (NoSuchFieldException noSuchFieldException) {
-            noSuchFieldException.printStackTrace();
+            LOG.error(noSuchFieldException.getMessage(), noSuchFieldException);
             return null;
         }
     }

@@ -20,9 +20,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 public abstract class ProtocolReferenceTypeBase extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3772996557911089417L;
 
     private Integer protocolReferenceTypeCode;

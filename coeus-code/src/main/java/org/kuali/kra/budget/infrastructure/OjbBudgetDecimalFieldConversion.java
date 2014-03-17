@@ -21,14 +21,10 @@ import org.kuali.kra.budget.BudgetDecimal;
 
 import java.math.BigDecimal;
 
-/**
- * This class...
- */
+
 public class OjbBudgetDecimalFieldConversion implements FieldConversion {
 
-    /**
-     * @see org.apache.ojb.broker.accesslayer.conversions.FieldConversion#javaToSql(java.lang.Object)
-     */
+    @Override
     public Object javaToSql(Object source) throws ConversionException {
         Object converted = source;
 
@@ -39,9 +35,7 @@ public class OjbBudgetDecimalFieldConversion implements FieldConversion {
         return converted;
     }
 
-    /**
-     * @see org.apache.ojb.broker.accesslayer.conversions.FieldConversion#sqlToJava(java.lang.Object)
-     */
+    @Override
     public Object sqlToJava(Object source) throws ConversionException {
         Object converted = source;
 

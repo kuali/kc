@@ -259,7 +259,7 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
     }
 
     public ReviewAttachmentsBeanBase getReviewAttachmentsBean() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 

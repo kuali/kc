@@ -29,11 +29,6 @@ public class ProtocolNotificationRoleQualifierServiceImpl implements ProtocolNot
     private ProtocolBase protocol;
     private ProtocolOnlineReviewBase protocolOnlineReview;
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService#getRoleQualifierValue(
-     *      org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier)
-     */
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
         String roleQualifierValue = null;

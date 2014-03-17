@@ -27,9 +27,7 @@ import java.sql.Date;
  */
 public class IacucProtocolTableBean extends IacucProtocolActionBean implements Serializable {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6076002106217543225L;
     
     private String comments = "";

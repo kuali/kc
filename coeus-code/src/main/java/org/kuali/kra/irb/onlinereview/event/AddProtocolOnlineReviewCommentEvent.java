@@ -54,7 +54,6 @@ public class AddProtocolOnlineReviewCommentEvent extends KcDocumentEventBase {
     
     
     
-    /** {@inheritDoc} */
     @Override
     protected void logEvent() {
         LOG.debug("adding new: " + this.committeeScheduleMinute + " on doc # " + this.getDocument().getDocumentNumber());

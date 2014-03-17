@@ -23,19 +23,14 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 public class CloseoutReportType extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1825249905096558223L;
 
     private String closeoutReportCode;
 
     private String description;
 
-    /**
-     * 
-     * Constructs a CloseoutReportType.java.
-     */
+
     public CloseoutReportType() {
     }
 
@@ -71,9 +66,6 @@ public class CloseoutReportType extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -82,9 +74,6 @@ public class CloseoutReportType extends KcPersistableBusinessObjectBase {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

@@ -32,9 +32,7 @@ import java.util.Map;
  * This class is for AWARD_BUDGET_PERIOD_EXT table
  */
 public class AwardBudgetPeriodExt extends BudgetPeriod {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4306012301567173292L;
     private BudgetDecimal obligatedAmount;
     private BudgetDecimal totalFringeAmount;
@@ -62,10 +60,7 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
     }
-    /**
-     * 
-     * @see org.kuali.kra.budget.parameters.BudgetPeriod#getNewBudgetLineItem()
-     */
+    @Override
     public AwardBudgetLineItemExt getNewBudgetLineItem() {
         return new AwardBudgetLineItemExt();
     }
@@ -148,21 +143,13 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
         return rateOverrideFlag;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.budget.parameters.BudgetPeriod#getBudgetLineItems()
-     */
+    @Override
     public List<BudgetLineItem> getBudgetLineItems() {
         List<BudgetLineItem> budgetLineItems = super.getBudgetLineItems();
         calculateLineItemTotals(budgetLineItems);
         return budgetLineItems;
     }
-    
-    /**
-     * 
-     * This method...
-     * @param budgetLineItems
-     */
+
     protected void calculateLineItemTotals(List<BudgetLineItem> budgetLineItems) {
         BudgetDecimal runningTotal = BudgetDecimal.ZERO;
         int i = 0;

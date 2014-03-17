@@ -31,9 +31,7 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public interface ProposalHierarchyService {
     
     //Constants for Proposal Routing

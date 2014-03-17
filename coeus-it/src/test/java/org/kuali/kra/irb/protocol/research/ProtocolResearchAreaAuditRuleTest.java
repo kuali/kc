@@ -31,18 +31,14 @@ public class ProtocolResearchAreaAuditRuleTest extends ProtocolRuleTestBase {
     
     private ProtocolResearchAreaAuditRule auditRule;
 
-    /**
-     * @see org.kuali.kra.irb.test.ProtocolRuleTestBase#setUp()
-     */
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
         auditRule = new ProtocolResearchAreaAuditRule();
     }
     
-    /**
-     * @see org.kuali.kra.irb.test.ProtocolRuleTestBase#tearDown()
-     */
+    @Override
     @After
     public void tearDown() throws Exception {
         auditRule = null;

@@ -29,9 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public abstract class ProtocolReferenceTypeValuesFinderBase extends UifKeyValuesFinderBase {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7074168804030309949L;
 
     /**

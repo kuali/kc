@@ -29,14 +29,10 @@ import java.sql.Timestamp;
  * 
  * This class represents the AwardPaymentSchedule business object.
  */
-/**
- * This class...
- */
+
 public class AwardPaymentSchedule extends AwardAssociate {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1387310207139506329L;
     private Long awardPaymentScheduleId; 
     private Date dueDate; 
@@ -63,10 +59,7 @@ public class AwardPaymentSchedule extends AwardAssociate {
 
     private transient KcPersonService kcPersonService;
     
-    /**
-     * 
-     * Constructs a AwardPaymentSchedule.java.
-     */
+
     public AwardPaymentSchedule() { 
     }
     
@@ -96,9 +89,7 @@ public class AwardPaymentSchedule extends AwardAssociate {
         return amount;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
         this.awardPaymentScheduleId = null;
     }
@@ -155,9 +146,6 @@ public class AwardPaymentSchedule extends AwardAssociate {
         this.status = status;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -168,9 +156,6 @@ public class AwardPaymentSchedule extends AwardAssociate {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj){

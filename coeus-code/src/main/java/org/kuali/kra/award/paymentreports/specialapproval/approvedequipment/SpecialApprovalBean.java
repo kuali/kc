@@ -35,16 +35,12 @@ public class SpecialApprovalBean implements Serializable {
         this.form = form;
     }
 
-    /**
-     * @return
-     */
+
     protected Award getAward() {
         return form.getAwardDocument().getAward();
     }
 
-    /**
-     * @return
-     */
+
     protected AwardDocument getAwardDocument() {
         return form.getAwardDocument();
     }

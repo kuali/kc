@@ -77,9 +77,7 @@ public final class InstituteRateRateTypeRateClassRuleImpl implements InstituteRa
         this.parameterService = parameterService;
     }
     
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public boolean validateRateTypeAndRateClass(final AbstractInstituteRate rate) {
         
         if (rate == null) {

@@ -35,11 +35,6 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_CREDI
  */
 public class InvestigatorCreditTypeRule extends MaintenanceDocumentRuleBase {
 
-    /**
-     * Default constructor.
-     * 
-     * Constructs a InvestigatorCreditTypeRule instance.
-     */
     public InvestigatorCreditTypeRule() {
         super();
     }

@@ -15,16 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy;
 
-/**
- * This class...
- */
+
 public class ProposalHierarchyErrorDto {
     private String errorKey;
     private String[] errorParameters;
 
-    /**
-     * Constructs a ProposalHierarchyErrorDto.
-     */
+
     public ProposalHierarchyErrorDto() {
         this(null);
     }

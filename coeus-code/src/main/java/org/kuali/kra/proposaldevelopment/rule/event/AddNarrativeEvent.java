@@ -51,16 +51,12 @@ public class AddNarrativeEvent extends NarrativeEventBase{
         this(errorPathPrefix, (ProposalDevelopmentDocument) document, narrative);
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return AddNarrativeRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddNarrativeRule) rule).processAddNarrativeBusinessRules(this);
     }

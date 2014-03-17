@@ -26,14 +26,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalCentralAdminContactsBean implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2893460587069915649L;
 
     

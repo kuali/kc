@@ -145,10 +145,6 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
     public void resetPersistenceState() {
         proposalSpecialReviewId = null;
         for (ProposalSpecialReviewExemption exemption : getSpecialReviewExemptions()) {

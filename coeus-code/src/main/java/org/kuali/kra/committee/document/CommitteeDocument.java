@@ -33,9 +33,7 @@ import java.util.List;
 
 public class CommitteeDocument extends CommitteeDocumentBase<CommitteeDocument, Committee, CommitteeSchedule> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2248266592790548394L;
 
     @Override

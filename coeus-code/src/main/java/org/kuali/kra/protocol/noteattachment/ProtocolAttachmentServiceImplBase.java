@@ -66,19 +66,19 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
     public abstract Class<? extends ProtocolAttachmentProtocolBase> getProtocolAttachmentProtocolClassHook();
     public abstract Class<? extends ProtocolAttachmentPersonnelBase> getProtocolAttachmentPersonnelClassHook();
     
-    /** {@inheritDoc} */
+    @Override
     public ProtocolAttachmentStatusBase getStatusFromCode(final String code) {
         return this.getCodeType(getProtocolAttachmentStatusClassHook(), code);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public ProtocolAttachmentTypeBase getTypeFromCode(final String code) {
         return this.getCodeType(getProtocolAttachmentTypeClassHook(), code);
     }
 
     public abstract Collection<ProtocolAttachmentTypeBase> getTypesForGroup(String code);
     
-    /** {@inheritDoc} */
+    @Override
     public void saveAttatchment(ProtocolAttachmentBase attachment) {
         
         if (attachment == null) {
@@ -88,7 +88,7 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
         this.boService.save(attachment);
     }
     
-    /** {@inheritDoc} */
+    @Override
     public void deleteAttatchment(ProtocolAttachmentBase attachment) {
         if (attachment == null) {
             throw new IllegalArgumentException("the attachment is null");
@@ -96,7 +96,7 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
         this.boService.delete(attachment);
     }
     
-    /** {@inheritDoc} */
+    @Override
     public ProtocolPersonBase getPerson(Integer personId) {
         if (personId == null) {
             throw new IllegalArgumentException("the personId is null");
@@ -105,7 +105,7 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
         return (ProtocolPersonBase) this.boService.findByPrimaryKey(getProtocolPersonClassHook(), Collections.singletonMap("protocolPersonId", personId));
     }
     
-    /** {@inheritDoc} */
+    @Override
     public <T extends ProtocolAttachmentBase> T getAttachment(Class<T> type, Long id) {
         if (type == null) {
             throw new IllegalArgumentException("type is null");
@@ -120,10 +120,7 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
         return attachment;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService#isNewAttachmentVersion(org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public boolean isNewAttachmentVersion(ProtocolAttachmentProtocolBase attachment) {
         Map keyMap = new HashMap();
@@ -176,7 +173,7 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
         return protocols.get(0);
     }
     
-    /** {@inheritDoc} */
+    @Override
     public <T extends ProtocolAttachmentBase & TypedAttachment> Collection<T> getAttachmentsWithOlderFileVersions(final T attachment, final Class<T> type) {
         
         final Collection<T> olderAttachments = new ArrayList<T>();
@@ -213,10 +210,7 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
         return bo;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService#isSharedFile(org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public boolean isSharedFile(ProtocolAttachmentPersonnelBase attachment) {
         Map keyMap = new HashMap();
@@ -224,9 +218,7 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
         return this.boService.findMatching(getProtocolAttachmentPersonnelClassHook(), keyMap).size() > 1;
     }
     
-    /**
-     * @see org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService#setProtocolAttachmentPersonnelUpdateUsersName(java.util.List)
-     */
+    @Override
     public void setProtocolAttachmentUpdateUsersName(List<? extends ProtocolAttachmentBase> protocolAttachmentBases) {
         
         for (ProtocolAttachmentBase pab : protocolAttachmentBases) {

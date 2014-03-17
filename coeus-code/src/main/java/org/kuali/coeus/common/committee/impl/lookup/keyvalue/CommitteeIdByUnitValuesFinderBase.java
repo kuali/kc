@@ -62,9 +62,7 @@ import java.util.*;
  */
 public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBase<CMT, ?, ?> > extends UifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -3005003472800028011L;
 
     private String protocolLeadUnit;

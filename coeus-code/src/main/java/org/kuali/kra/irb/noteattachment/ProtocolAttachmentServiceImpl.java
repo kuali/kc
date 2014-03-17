@@ -35,7 +35,7 @@ public class ProtocolAttachmentServiceImpl extends ProtocolAttachmentServiceImpl
         super(boService, protocolDao);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Collection<ProtocolAttachmentTypeBase> getTypesForGroup(String code) {
         if (code == null) {
             throw new IllegalArgumentException("the code is null");

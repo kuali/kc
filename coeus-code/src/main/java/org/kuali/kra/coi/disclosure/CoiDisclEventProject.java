@@ -37,9 +37,7 @@ public class CoiDisclEventProject implements Serializable {
 
     // TODO : this is a class to help UI rendering with the mock design hierarchy structure of : discl -> projects -> fe details
     // this is not final.  
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3373941718110328593L;
     private String eventType; 
     private KcPersistableBusinessObjectBase eventProjectBo;

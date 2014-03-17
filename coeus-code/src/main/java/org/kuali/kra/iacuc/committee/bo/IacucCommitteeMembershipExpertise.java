@@ -21,9 +21,7 @@ import org.kuali.kra.iacuc.IacucResearchArea;
 
 public class IacucCommitteeMembershipExpertise extends CommitteeMembershipExpertiseBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 865409542244257623L;
 
     @Override

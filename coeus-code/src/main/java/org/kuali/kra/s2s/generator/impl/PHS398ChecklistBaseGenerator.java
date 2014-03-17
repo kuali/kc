@@ -41,10 +41,7 @@ public abstract class PHS398ChecklistBaseGenerator extends S2SBaseFormGenerator 
     protected static final int PROPOSAL_TYPE_CODE_6 = 6;
     public static final String NOT_ANSWERED = "No";
 
-    /**
-     * 
-     * Constructs a PHS398ChecklistBaseGenerator.java.
-     */
+
     public PHS398ChecklistBaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);

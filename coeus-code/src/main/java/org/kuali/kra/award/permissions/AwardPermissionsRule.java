@@ -26,9 +26,6 @@ import org.kuali.kra.award.infrastructure.AwardRoleConstants;
  */
 public class AwardPermissionsRule extends PermissionsRuleBase {
     
-    /**
-     * @see org.kuali.coeus.common.permissions.impl.rules.PermissionsRuleBase#getAdministratorRoleName()
-     */
     @Override
     protected String getAdministratorRoleName() {
         return AwardRoleConstants.AWARD_MODIFIER.getAwardRole();

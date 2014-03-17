@@ -29,9 +29,7 @@ public class CloseoutType extends KcPersistableBusinessObjectBase {
 
     private String description;
 
-    /**
-     * Constructs a CloseoutType.java.
-     */
+
     public CloseoutType() {
     }
 

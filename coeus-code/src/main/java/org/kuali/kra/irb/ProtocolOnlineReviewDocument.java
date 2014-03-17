@@ -64,15 +64,11 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
     private static final String OLR_DOC_ID_PARAM = "olrDocId";
     private static final String OLR_EVENT_PARAM = "olrEvent";
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 803158468103165087L;
     private List<ProtocolOnlineReview> protocolOnlineReviewList;
 
-    /**
-     * Constructs a ProtocolDocument object
-     */
+
 	public ProtocolOnlineReviewDocument() { 
         super();
         protocolOnlineReviewList = new ArrayList<ProtocolOnlineReview>();
@@ -138,9 +134,6 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
         this.protocolOnlineReviewList = protocolOnlineReviewList;
     }
     
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -152,9 +145,6 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
         return managedLists;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase#getAllRolePersons()
-     */
     @Override
     protected List<RolePersons> getAllRolePersons() {
         KcAuthorizationService kraAuthService =
@@ -168,9 +158,6 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
     }
     
     
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
-     */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
@@ -196,9 +183,6 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
         }
     }
 
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
-     */
     @Override
     public void doActionTaken( ActionTakenEvent event ) {
         super.doActionTaken(event);

@@ -43,9 +43,7 @@ public class RolodexServiceImpl implements RolodexService {
         this.businessObjectService = businessObjectService;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.rolodex.RolodexService#getRolodex(int)
-     */
+    @Override
     public Rolodex getRolodex(int rolodexId) {
         Rolodex rolodex = null;
 

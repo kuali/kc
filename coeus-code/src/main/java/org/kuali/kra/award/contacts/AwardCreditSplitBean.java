@@ -189,9 +189,7 @@ public class AwardCreditSplitBean implements Serializable {
         return this.parameterService;
     }
     
-    /**
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }
@@ -379,12 +377,7 @@ public class AwardCreditSplitBean implements Serializable {
             }
         }
     }
-    
-    /**
-     * This method...
-     * @param projectPerson
-     * @return
-     */
+
     private String getPersonKey(AwardPerson projectPerson) {
         return projectPerson.getFullName();
     }

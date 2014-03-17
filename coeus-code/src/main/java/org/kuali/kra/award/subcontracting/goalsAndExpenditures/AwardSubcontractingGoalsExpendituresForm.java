@@ -21,9 +21,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 @SuppressWarnings("deprecation")
 public class AwardSubcontractingGoalsExpendituresForm extends KualiForm {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 4542622372669064380L;
     
     private boolean readOnly;

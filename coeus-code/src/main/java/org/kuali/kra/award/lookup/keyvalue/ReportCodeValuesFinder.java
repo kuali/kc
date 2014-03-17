@@ -37,10 +37,7 @@ public class ReportCodeValuesFinder extends UifKeyValuesFinderBase {
     
     private String reportClassCode;
     
-    /**
-     * 
-     * Constructs a ReportCodeValuesFinder.java.
-     */
+
     public ReportCodeValuesFinder(){
         
     }

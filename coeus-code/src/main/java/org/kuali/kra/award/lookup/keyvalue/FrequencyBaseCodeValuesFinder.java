@@ -35,10 +35,7 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
     private String frequencyCode;
     private KeyValuesService keyValuesService;
 
-    /**
-     * 
-     * Constructs a CopyOfFrequencyBaseCodeValuesFinder.java.
-     */
+
     public FrequencyBaseCodeValuesFinder() {
         super();
     }
@@ -72,22 +69,10 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
         }
     }
 
-    /**
-     * 
-     * This method...
-     * 
-     * @return
-     */
     public String getFrequencyCode() {
         return frequencyCode;
     }
 
-    /**
-     * 
-     * This method...
-     * 
-     * @param frequencyCode
-     */
     public void setFrequencyCode(String frequencyCode) {
         this.frequencyCode = frequencyCode;
     }

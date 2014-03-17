@@ -26,10 +26,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
  */
 public class ApproveProtocolUnavailableAuthorizer extends ProtocolAuthorizer {
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         ProtocolAction lastAction = (ProtocolAction) task.getProtocol().getLastProtocolAction();
         ProtocolSubmission lastSubmission = (ProtocolSubmission) task.getProtocol().getProtocolSubmission();

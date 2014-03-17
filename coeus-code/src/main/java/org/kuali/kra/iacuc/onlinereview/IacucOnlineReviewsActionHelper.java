@@ -28,9 +28,7 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 
 public class IacucOnlineReviewsActionHelper  extends  OnlineReviewsActionHelperBase {
    
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8937646851450759832L;
     
 

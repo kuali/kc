@@ -47,9 +47,7 @@ public class AwardSponsorContactAuditRule implements DocumentAuditRule {
         auditErrors = new ArrayList<AuditError>();
     }
     
-    /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         AwardDocument awardDocument = (AwardDocument)document;

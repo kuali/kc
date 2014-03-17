@@ -157,15 +157,6 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         awardTerm.setReportTrackings(reportTrackingsClean);
     }
 
-
-    /**
-     * 
-     * This method...
-     * @param dates
-     * @param award
-     * @param awardTerm
-     * @Param reportsToSave
-     */
     protected void runDateCalcuations(List<java.util.Date> dates, Award award, AwardReportTerm awardTerm, List<ReportTracking> reportsToSave) {
         if (dates.size() == 0 && awardTerm.getReportTrackings().size() == 0) {
             ReportTracking rt = buildReportTracking(award, awardTerm);
@@ -256,13 +247,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         }
         return returnDate;
     }
-    
-    /**
-     * 
-     * This method...
-     * @return
-     * @unsupported
-     */
+
     protected ReportStatus getPendingReportStatus() {
         Map params = new HashMap();
         params.put("DESCRIPTION", PENDING_STATUS_DESCRIPTION);

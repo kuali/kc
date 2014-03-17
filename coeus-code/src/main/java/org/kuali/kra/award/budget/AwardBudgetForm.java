@@ -42,15 +42,12 @@ import java.util.Date;
 import java.util.List;
 
 public class AwardBudgetForm extends BudgetForm {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 9001767909548738932L;
     private String awardInMultipleNodeHierarchy;
     private String budgetParentId;
     private AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount;
     
-    /** {@inheritDoc} */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "AwardBudgetDocument";
@@ -216,10 +213,6 @@ public class AwardBudgetForm extends BudgetForm {
         return result;
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.budget.web.struts.form.BudgetForm#getCanModifyBudgetRates()
-     */
     @Override
     public boolean getCanModifyBudgetRates() {
         boolean retVal = this.getEditingMode().containsKey("modifyBudgets");

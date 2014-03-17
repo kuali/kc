@@ -38,9 +38,7 @@ import java.util.List;
  */
 public class DefaultScheduleSequence implements ScheduleSequence {
     
-    /**
-     * @see ScheduleSequence#executeScheduleSequence(java.lang.String, java.util.Date, java.util.Date)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<Date> executeScheduleSequence(String expression, Date startDate, Date endDate) throws ParseException {
 

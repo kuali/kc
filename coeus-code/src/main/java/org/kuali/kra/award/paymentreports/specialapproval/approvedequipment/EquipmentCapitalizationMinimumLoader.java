@@ -70,18 +70,12 @@ public class EquipmentCapitalizationMinimumLoader implements Serializable {
         return getParameterService().getParameterValueAsString(AwardDocument.class, parmName);
     }
 
-    /**
-     * 
-     * @return
-     */
+
     protected double getFederalCapitalizationMinimum() {
         return getValueFromParameter(FEDERAL_CAPITALIZATION_MIN_PARM_NAME);
     }
     
-    /**
-     * 
-     * @return
-     */
+
     protected double getInstitutionCapitalizationMinimum() {
         return getValueFromParameter(INSTITUTE_CAPITALIZATION_MIN_PARM_NAME);
     }

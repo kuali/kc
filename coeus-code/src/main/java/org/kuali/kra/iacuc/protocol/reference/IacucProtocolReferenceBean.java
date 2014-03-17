@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBeanBase;
 
 public class IacucProtocolReferenceBean extends ProtocolReferenceBeanBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3358959791141948267L;
 
 }

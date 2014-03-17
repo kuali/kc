@@ -63,34 +63,22 @@ public class CoiNotificationContext extends NotificationContextBase {
         ((CoiNotificationRoleQualifierService) getNotificationRoleQualifierService()).setCoiDisclosure(coiDisclosure);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getModuleCode()
-     */
+    @Override
     public String getModuleCode() {
         return CoeusModule.COI_DISCLOSURE_MODULE_CODE;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContextBase#getDocumentNumber()
-     */
+    @Override
     public String getDocumentNumber() {
         return coiDisclosureDocumentNumber;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getActionTypeCode()
-     */
+    @Override
     public String getActionTypeCode() {
         return actionTypeCode;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#getContextName()
-     */
+    @Override
     public String getContextName() {
         return contextName;
     }
@@ -116,7 +104,7 @@ public class CoiNotificationContext extends NotificationContextBase {
 
     @Override
     public List<EmailAttachment> getEmailAttachments() {
-        // TODO Auto-generated method stub
+
         return null;
     }
  

@@ -20,9 +20,7 @@ import org.kuali.kra.bo.SponsorTerm;
 
 public class AwardTemplateTerm extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 737831469929642714L;
 
     private Integer awardTemplateTermId;

@@ -23,8 +23,6 @@ import org.kuali.coeus.common.committee.impl.meeting.ProtocolContingencyBase;
  */
 public class ProtocolContingency extends ProtocolContingencyBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8653530847814189648L;
 }

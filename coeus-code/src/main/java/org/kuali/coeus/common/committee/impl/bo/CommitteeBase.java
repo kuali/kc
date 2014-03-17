@@ -76,9 +76,7 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
     private String unitName;
     private Boolean printRooster;
 
-    /**
-     * Constructs a CommitteeBase.
-     */
+
     public CommitteeBase() {
         setSequenceNumber(1);
         setCommitteeResearchAreas(new ArrayList<CommitteeResearchAreaBase>());
@@ -362,33 +360,22 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
         return "committeeName";
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentKey()
-     */
+    @Override
     public String getDocumentKey() {
         return PermissionableKeys.COMMITTEE_KEY;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#populateAdditionalQualifiedRoleAttributes(java.util.Map)
-     */
+    @Override
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         qualifiedRoleAttributes.put(KcKimAttributes.COMMITTEE, this.getCommitteeId());
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getDocumentNumberForPermission()
-     */
+    @Override
     public String getDocumentNumberForPermission() {
         return committeeId;
     }
 
-    /**
-     * 
-     * @see org.kuali.coeus.sys.framework.auth.perm.Permissionable#getRoleNames()
-     */
+    @Override
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
         

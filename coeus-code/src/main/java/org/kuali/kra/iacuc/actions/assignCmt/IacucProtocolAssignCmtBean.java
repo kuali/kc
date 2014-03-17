@@ -23,9 +23,7 @@ import java.io.Serializable;
 
 public class IacucProtocolAssignCmtBean extends  IacucProtocolActionBean implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4408101740397922792L;
     private String committeeId = "";
     private String newCommitteeId = "";

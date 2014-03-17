@@ -31,9 +31,7 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerBase {
     private KcAuthorizationService kraAuthorizationService;
     private boolean requiresWritableDoc = false;
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.task.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.coeus.sys.framework.auth.task.Task)
-     */
+    @Override
     public final boolean isAuthorized(String userId, Task task) {
         if (isRequiresWritableDoc() && ((ProposalTask)task).getDocument().isViewOnly() && task.getTaskName() != null && !StringUtils.equals(task.getTaskName(),"rejectProposal")) {
             return false;

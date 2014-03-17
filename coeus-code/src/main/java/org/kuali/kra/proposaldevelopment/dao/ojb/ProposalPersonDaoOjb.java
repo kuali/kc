@@ -41,10 +41,7 @@ public class ProposalPersonDaoOjb  extends PlatformAwareDaoBaseOjb implements Oj
     private LookupDao lookupDao;
     private DataDictionaryService dataDictionaryService;
 
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.dao.ProposalPersonDao#getProtocolPersonsByName(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<ProposalPerson> getProposalPersonsByName(String partialName) {
         Map<String, String> fieldValues = new HashMap<String,String>();

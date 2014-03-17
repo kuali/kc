@@ -33,10 +33,7 @@ import java.util.Map;
 public abstract class ValidProtoSubRevTypeMaintenanceDocumentRuleBase extends KcMaintenanceDocumentRuleBase {
     private Long oldTypeId = null;
 
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         setOldTYpeId(document);
         ValidProtoSubRevType validProtoSubRevType = (ValidProtoSubRevType) document.getNoteTarget();
@@ -49,10 +46,6 @@ public abstract class ValidProtoSubRevTypeMaintenanceDocumentRuleBase extends Kc
          }        
     }
 
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         setOldTYpeId(document);

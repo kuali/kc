@@ -17,9 +17,7 @@ package org.kuali.kra.institutionalproposal.contacts;
 
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * This class...
- */
+
 public interface InstitutionalProposalProjectPersonAddRule extends BusinessRule {
 
     public static final String PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY = "projectPersonnelBean.contactRoleCode";

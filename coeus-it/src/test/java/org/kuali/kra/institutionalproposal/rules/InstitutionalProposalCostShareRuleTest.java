@@ -28,9 +28,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalCostShareRuleTest extends KcIntegrationTestBase {
 
     private static final String TEST_SOURCE = "54321";
@@ -41,10 +39,6 @@ public class InstitutionalProposalCostShareRuleTest extends KcIntegrationTestBas
     InstitutionalProposalAddCostShareRuleImpl institutionalProposalAddCostShareRule;
     InstitutionalProposalCostShare institutionalProposalCostShare;
 
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
     @Before
     public void setUp() throws Exception {
         institutionalProposalAddCostShareRule = new InstitutionalProposalAddCostShareRuleImpl();
@@ -55,11 +49,7 @@ public class InstitutionalProposalCostShareRuleTest extends KcIntegrationTestBas
         institutionalProposalCostShare.setAmount(new KualiDecimal(AMOUNT));
         GlobalVariables.setMessageMap(new MessageMap());
     }
-    
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
+
     @After
     public void tearDown() throws Exception {
         institutionalProposalAddCostShareRule = null;

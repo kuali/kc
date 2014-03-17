@@ -53,11 +53,6 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
     private static final String TEMPLATE             = "template";
 
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.ProtocolAction#preSave(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
-     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.preSave(mapping, form, request, response);
@@ -120,11 +115,6 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
     }
     
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.ProtocolAction#saveOnClose(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
-     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);

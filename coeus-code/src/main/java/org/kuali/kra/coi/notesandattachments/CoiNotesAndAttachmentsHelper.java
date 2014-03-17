@@ -19,6 +19,8 @@ package org.kuali.kra.coi.notesandattachments;
 import edu.mit.irb.irbnamespace.ProtocolDocument;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
@@ -49,6 +51,8 @@ import java.util.*;
 
 
 public class CoiNotesAndAttachmentsHelper {
+
+    private static final Log LOG = LogFactory.getLog(CoiNotesAndAttachmentsHelper.class);
 
     private CoiDisclosureAttachment newCoiDisclosureAttachment;
     private CoiDisclosureForm coiDisclosureForm;
@@ -350,10 +354,7 @@ public class CoiNotesAndAttachmentsHelper {
         return docNumber == null ? NumberUtils.INTEGER_ONE : Integer.valueOf(docNumber.intValue() + 1);
     }
 
-    /**
-     * This method...
-     * @param attachments
-     */
+
     private void assignDocumentId(List<CoiDisclosureAttachment> attachments, final Map<String, Integer> typeToDocNumber) {
         for (CoiDisclosureAttachment attachment : attachments) {
             final Integer nextDocNumber = createNextDocNumber(typeToDocNumber.get(ATTACHMENT_TYPE_CD));
@@ -491,13 +492,13 @@ public class CoiNotesAndAttachmentsHelper {
                                 getBusinessObjectService().save(attachment);
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            LOG.error(e.getMessage(), e);
                         }
 
                     }
                 }
             } catch(Exception e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
 

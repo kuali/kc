@@ -17,9 +17,7 @@ package org.kuali.kra.institutionalproposal.service;
 
 import org.kuali.rice.krad.service.PessimisticLockService;
 
-/**
- * This class...
- */
+
 public interface InstitutionalProposalLockService extends PessimisticLockService {
 
 }

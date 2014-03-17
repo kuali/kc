@@ -63,14 +63,10 @@ public class RequestLoggingFilter implements Filter {
     
     private FilterConfig config;
     
-    /**
-     * @see Filter#destroy()
-     */
+    @Override
     public void destroy() {}
     
-    /**
-     * @see Filter#init(FilterConfig)
-     */
+    @Override
     public void init(FilterConfig config) throws ServletException {
         this.config = config;
     }

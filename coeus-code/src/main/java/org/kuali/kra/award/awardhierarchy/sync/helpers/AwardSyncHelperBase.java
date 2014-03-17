@@ -45,9 +45,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
     
     private AwardSyncUtilityService awardSyncUtilityService;
    
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncHelper#createAwardSyncChange(org.kuali.kra.award.awardhierarchy.sync.AwardSyncType, org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.lang.String)
-     */
+    @Override
     public AwardSyncChange createAwardSyncChange(AwardSyncType syncType, PersistableBusinessObject syncableObject, 
             String awardAttrName, String boAttrName) throws NoSuchFieldException,  
             IllegalAccessException, InvocationTargetException {
@@ -76,9 +74,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      */
     protected abstract String getDataDesc(PersistableBusinessObject syncableObject, String attrName);
     
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncHelper#buildXmlExport(org.kuali.kra.award.awardhierarchy.sync.AwardHierarchySyncable, java.lang.String)
-     */
+    @Override
     public AwardSyncXmlExport buildXmlExport(PersistableBusinessObject syncable, String attrName) 
         throws NoSuchFieldException, 
         IllegalAccessException, InvocationTargetException {
@@ -228,9 +224,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
         }
     }    
     
-    /**
-     * @see org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncHelper#applySyncChange(org.kuali.kra.award.home.Award, org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange, boolean)
-     */
+    @Override
     public void applySyncChange(Award award, AwardSyncChange change) 
         throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, 
         ClassNotFoundException, NoSuchMethodException, InstantiationException, AwardSyncException {

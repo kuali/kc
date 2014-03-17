@@ -17,10 +17,7 @@ package org.kuali.kra.service;
 
 import java.util.Calendar;
 
-/**
- * 
- * This class...
- */
+
 public interface FiscalYearMonthService {
     
     /**

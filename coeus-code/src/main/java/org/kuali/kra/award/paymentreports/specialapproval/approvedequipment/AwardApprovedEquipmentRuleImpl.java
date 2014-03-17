@@ -34,9 +34,7 @@ public class AwardApprovedEquipmentRuleImpl extends KcTransactionalDocumentRuleB
     private static final String AMOUNT_ERROR_PARM = "Amount (Amount)";
     private static final String ITEM_ERROR_PARM = "Item (Item)";
 
-    /**
-     * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRule#processAwardApprovedEquipmentBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent)
-     */
+    @Override
     public boolean processAwardApprovedEquipmentBusinessRules(AwardApprovedEquipmentRuleEvent event) {
         return processCommonValidations(event);        
     }

@@ -32,9 +32,7 @@ import java.util.List;
  */
 public class NegotiationActivity extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1927288853033781994L;
 
     public static final long MILLISECS_PER_DAY = 24 * 60 * 60 * 1000;

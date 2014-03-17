@@ -27,14 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class...
- */
+
 public class InstitutionalProposalRuleImpl extends KcTransactionalDocumentRuleBase implements InstitutionalProposalRule {
 
-    /**
-     * @see org.kuali.kra.institutionalproposal.rules.InstitutionalProposalRule#processInstitutionalProposalRules(org.kuali.kra.institutionalproposal.rules.InstitutionalProposalRuleEvent)
-     */
+    @Override
     public boolean processInstitutionalProposalRules(InstitutionalProposalRuleEvent institutionalProposalRuleEvent) {
         InstitutionalProposal proposal = institutionalProposalRuleEvent.getInstitutionalProposalForValidation();
         boolean valid = validateCurrentAwardNumberExists(proposal.getCurrentAwardNumber());

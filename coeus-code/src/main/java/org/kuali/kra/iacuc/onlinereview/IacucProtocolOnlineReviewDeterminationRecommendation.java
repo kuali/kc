@@ -21,9 +21,7 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewDeterminationReco
 
 public class IacucProtocolOnlineReviewDeterminationRecommendation extends ProtocolOnlineReviewDeterminationRecommendationBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1768290517796704487L;
 
     private String iacucProtocolReviewTypeCode;

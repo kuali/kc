@@ -22,9 +22,7 @@ import java.io.Serializable;
  * This class is for FE data matrix UI display
  */
 public class RelationshipTypeBean implements Serializable {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8317687460747741252L;
     private String code; 
     private String stringValue; 

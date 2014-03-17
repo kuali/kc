@@ -59,9 +59,7 @@ public class NotificationHelper<T extends NotificationContext> implements Serial
     private transient KcPersonService kcPersonService;
     private transient RolodexService rolodexService;
     
-    /**
-     * Constructs a NotificationHelperBase.
-     */
+
     public NotificationHelper() {
         this.setNewNotificationRecipient(new NotificationTypeRecipient());
         this.setNotificationRecipients(new ArrayList<NotificationTypeRecipient>());

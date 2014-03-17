@@ -71,13 +71,7 @@ public abstract class CostShareRuleResearchDocumentBase extends BudgetParentDocu
         return valid;
     }
     
-    /**
-     * 
-     * This method...
-     * @param projectPeriod
-     * @param projectPeriodField
-     * @return
-     */
+
     public boolean validateProjectPeriod(Object projectPeriod, String projectPeriodField) {
         return validateProjectPeriod(projectPeriod, projectPeriodField, -1);
     }

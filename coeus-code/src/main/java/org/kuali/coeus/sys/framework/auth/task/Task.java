@@ -61,9 +61,7 @@ public class Task {
         return this.genericTaskName;
     }
     
-    /**
-     * @see java.lang.Object#toString()
-     */
+    @Override
     public String toString() {
         return groupName + "." + taskName;
     }

@@ -38,9 +38,7 @@ import java.util.Map;
 
 public class DisclosureActionHelper implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4602681870006425531L;
     
     private CoiUserRole newCoiUserRole;

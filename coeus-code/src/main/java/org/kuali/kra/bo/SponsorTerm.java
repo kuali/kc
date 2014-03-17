@@ -23,9 +23,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 public class SponsorTerm extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -1780708005730780612L;
 
     private Long sponsorTermId;
@@ -38,9 +36,7 @@ public class SponsorTerm extends KcPersistableBusinessObjectBase {
 
     private SponsorTermType sponsorTermType;
 
-    /**
-     * Constructs a SponsorTerm.java.
-     */
+
     public SponsorTerm() {
     }
 
@@ -140,9 +136,6 @@ public class SponsorTerm extends KcPersistableBusinessObjectBase {
         return serialVersionUID;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -155,9 +148,6 @@ public class SponsorTerm extends KcPersistableBusinessObjectBase {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

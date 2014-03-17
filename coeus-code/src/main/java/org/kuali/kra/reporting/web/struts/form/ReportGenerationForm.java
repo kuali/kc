@@ -25,9 +25,7 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class ReportGenerationForm extends KualiForm {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 1L;
     private CustReportDetails custReportDetails;
     private CustReportType custReportType;

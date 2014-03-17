@@ -43,9 +43,7 @@ public class AwardFundingProposal extends KcPersistableBusinessObjectBase {
 
     private boolean active;
 
-    /**
-     * Constructs a AwardFundingProposal.java.
-     */
+
     public AwardFundingProposal() {
         setActive(true);
     }
@@ -155,9 +153,6 @@ public class AwardFundingProposal extends KcPersistableBusinessObjectBase {
         return this.getAwardFundingProposalId() != null;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -173,9 +168,6 @@ public class AwardFundingProposal extends KcPersistableBusinessObjectBase {
         return true;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -54,9 +54,6 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
         setRateClassBaseInclusions((List<RateClassBaseInclusion>) getBusinessObjectService().findAll(RateClassBaseInclusion.class));
         setRateClassBaseExclusions((List<RateClassBaseExclusion>) getBusinessObjectService().findAll(RateClassBaseExclusion.class));
     }
-    /**
-     * @see org.kuali.kra.budget.calculator.BreakupIntervalService#calculate(org.kuali.kra.budget.calculator.BreakUpInterval)
-     */
     @Override
     public void calculate(BreakUpInterval breakupInterval) {
         initializeRateClassBases();

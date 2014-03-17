@@ -186,7 +186,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
 
 
     protected boolean isAuthorizedCreateProposal(ProtocolHelperBase protocolHelper) {
-        // TODO Auto-generated method stub
+
         boolean canCreateProposal = protocolHelper.isCanCreateProposalDevelopment();
         return canCreateProposal;
     }

@@ -21,9 +21,7 @@ import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 
 public class IacucCommitteeScheduleValuesFinder extends CommitteeScheduleValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6980759040568533402L;
 
     @Override

@@ -35,10 +35,7 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     private String hierarchyProposalNumber;
     private boolean hiddenInHierarchy;
     
-    /**
-     * 
-     * Constructs a BudgetUnrecoveredFandA.java.
-     */
+
     public BudgetUnrecoveredFandA() {
         super();
     }
@@ -61,10 +58,6 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
        this.sourceAccount = sourceAccount;
     }
 
-    /**
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -107,55 +100,26 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
         return true;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public BudgetDecimal getAmount() {
         return BudgetDecimal.returnZeroIfNull(amount);
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public BudgetDecimal getApplicableRate() {
         return applicableRate;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getOnCampusFlag() {
         return onCampusFlag;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public Integer getFiscalYear() {
         return fiscalYear;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getSourceAccount() {
         return sourceAccount;
     }
 
-    /**
-     * 
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -168,55 +132,27 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
         return result;
     }
 
-    /**
-     * 
-     * This method...
-     * @param amount
-     */
     public void setAmount(BudgetDecimal amount) {
         this.amount = amount;
     }
 
-    /**
-     * 
-     * This method...
-     * @param applicableRate
-     */
     public void setApplicableRate(BudgetDecimal applicableRate) {
         this.applicableRate = applicableRate;
     }
 
-    /**
-     * 
-     * This method...
-     * @param campus
-     */
     public void setOnCampusFlag(String campus) {
         this.onCampusFlag = campus;
     }
 
-    /**
-     * 
-     * This method...
-     * @param fiscalYear
-     */
     public void setFiscalYear(Integer fiscalYear) {
         this.fiscalYear = fiscalYear;
     }
 
-    /**
-     * 
-     * This method...
-     * @param sourceAccount
-     */
+
     public void setSourceAccount(String sourceAccount) {
         this.sourceAccount = sourceAccount;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent#getDocumentComponentIdKey()
-     */
     @Override
     public String getDocumentComponentIdKey() {
         return DOCUMENT_COMPONENT_ID_KEY;

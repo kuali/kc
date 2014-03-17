@@ -25,9 +25,7 @@ import java.util.List;
 
 public class CfdaMaintenanceTypeValuesFinder extends UifKeyValuesFinderBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2607882482226239633L;
 
     @Override

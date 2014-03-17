@@ -79,8 +79,6 @@ public interface BudgetService<T extends BudgetParent>  {
     
     /**
      * check if this line item CE has inflation rate
-     * This method...
-     * @param budgetDocument
      * @param budgetLineItem
      * @return
      */

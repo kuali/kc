@@ -35,15 +35,10 @@ import java.util.Map;
  */  
 public class IacucPersonTrainingLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 749587517623905557L;
 
 
-    /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
-     */
     @Override
     public List<Row> getRows() {
         List<Row> rows =  super.getRows();

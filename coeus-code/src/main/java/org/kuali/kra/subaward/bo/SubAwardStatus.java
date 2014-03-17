@@ -25,9 +25,7 @@ public class SubAwardStatus extends KcPersistableBusinessObjectBase {
 
     private String description;
 
-    /**
-     * Constructs a SubAwardStatus.java.
-     */
+
     public SubAwardStatus() {
     }
 

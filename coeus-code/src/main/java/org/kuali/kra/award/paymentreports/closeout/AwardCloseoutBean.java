@@ -32,9 +32,7 @@ import java.util.List;
  */
 public class AwardCloseoutBean implements Serializable {    
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7888151034323714279L;
     
     private AwardCloseout newAwardCloseout;
@@ -135,23 +133,17 @@ public class AwardCloseoutBean implements Serializable {
         return event;
     }
     
-    /**
-     * @return
-     */
+
     public Award getAward() {
         return form.getAwardDocument().getAward();
     }
 
-    /**
-     * @return
-     */
+
     public AwardDocument getAwardDocument() {
         return form.getAwardDocument();
     }
     
-    /**
-     * @return
-     */
+
     public Object getData() {
         return getNewAwardCloseout();
     }

@@ -48,10 +48,7 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
         this.award = award;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationRenderer#getReplacementParameters()
-     */
+    @Override
     public Map<String, String> getDefaultReplacementParameters() {
         return getAwardReplacementParameters(award);
     }

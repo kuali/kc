@@ -23,9 +23,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 public class ValidFrequencyBase extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2875079003137515732L;
 
     private Integer validFrequencyBaseId;
@@ -38,10 +36,7 @@ public class ValidFrequencyBase extends KcPersistableBusinessObjectBase {
 
     private FrequencyBase frequencyBase;
 
-    /**
-     * 
-     * Constructs a ValidFrequencyBase.java.
-     */
+
     public ValidFrequencyBase() {
         super();
     }
@@ -57,10 +52,7 @@ public class ValidFrequencyBase extends KcPersistableBusinessObjectBase {
         this.frequencyBaseCode = frequencyBaseCode;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public Integer getValidFrequencyBaseId() {
         return validFrequencyBaseId;
     }
@@ -73,10 +65,7 @@ public class ValidFrequencyBase extends KcPersistableBusinessObjectBase {
         this.validFrequencyBaseId = validFrequencyBaseId;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public String getFrequencyCode() {
         return frequencyCode;
     }
@@ -89,10 +78,7 @@ public class ValidFrequencyBase extends KcPersistableBusinessObjectBase {
         this.frequencyCode = frequencyCode;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public String getFrequencyBaseCode() {
         return frequencyBaseCode;
     }
@@ -105,10 +91,7 @@ public class ValidFrequencyBase extends KcPersistableBusinessObjectBase {
         this.frequencyBaseCode = frequencyBaseCode;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public Frequency getFrequency() {
         return frequency;
     }
@@ -121,10 +104,7 @@ public class ValidFrequencyBase extends KcPersistableBusinessObjectBase {
         this.frequency = frequency;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public FrequencyBase getFrequencyBase() {
         return frequencyBase;
     }
@@ -137,9 +117,6 @@ public class ValidFrequencyBase extends KcPersistableBusinessObjectBase {
         this.frequencyBase = frequencyBase;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -149,9 +126,6 @@ public class ValidFrequencyBase extends KcPersistableBusinessObjectBase {
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

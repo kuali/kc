@@ -33,9 +33,7 @@ import java.util.Map;
  */
 public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelperBase<IacucProtocolCustomData> { 
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5964117436714994219L;
 
     /**

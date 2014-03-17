@@ -47,9 +47,7 @@ public class IacucCommitteePrintingServiceImpl extends PrintingServiceImpl imple
     private IacucCommitteeRosterPrint committeeRosterPrint;
     private IacucCommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint;
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public AbstractPrint getCommitteePrintable(CommitteeReportType reportType, String committeeId) {
         AbstractPrint printable = null;
         switch(reportType) {

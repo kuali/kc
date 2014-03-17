@@ -23,9 +23,7 @@ import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBeanBase;
  */
 public class ProtocolReferenceBean extends ProtocolReferenceBeanBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6775965004016986063L;
 
 }

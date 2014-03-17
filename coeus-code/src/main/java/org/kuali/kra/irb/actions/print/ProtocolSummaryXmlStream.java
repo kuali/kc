@@ -65,7 +65,6 @@ import org.w3.x2001.protocolSummarySchema.ProtocolSummaryDocument.ProtocolSummar
 import java.sql.Date;
 import java.util.*;
 
-// import org.kuali.kra.irb.actions.ProtocolSummaryPrintOptions;
 
 /**
  * This class is to generate Protocol Summary Xml file
@@ -82,9 +81,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
     private AwardService awardService;
 
 
-    /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
-     */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) {
         Protocol protocol = (Protocol) printableBusinessObject;
@@ -99,9 +96,6 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
     private String getOptionString(boolean printOption){
         return printOption?"1":"0";
     }
-    /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase, java.util.Map)
-     */
     public ProtocolSummary getProtocolSummary(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> htData) {
         Protocol protocol = (Protocol) printableBusinessObject;

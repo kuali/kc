@@ -40,9 +40,7 @@ public class ProtocolReviewType extends ProtocolReviewTypeBase {
 
     private boolean globalFlag;
 
-    /**
-     * Constructs a ProtocolReviewType.
-     */
+
     public ProtocolReviewType() {
     }
 

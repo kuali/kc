@@ -129,9 +129,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         return newAwardPersonUnits;
     }
     
-    /**
-     * @return
-     */
+
     public AwardPerson getNewProjectPerson() {
         return (AwardPerson) newAwardContact;
     }
@@ -201,17 +199,11 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         return new AwardPerson();
     }
     
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContactsBean#getContactRoleType()
-     */
     @Override
     protected Class<? extends ContactRole> getContactRoleType() {
         return ProposalPersonRole.class;
     }
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContactsBean#init()
-     */
     @Override
     protected void init() {
         super.init();

@@ -23,15 +23,10 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 
-/**
- * 
- * This class...
- */
+
 public abstract class ProtocolReferenceBase extends ProtocolAssociateBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7610203950849323256L;
 
     private Long protocolReferenceId;
@@ -159,7 +154,7 @@ public abstract class ProtocolReferenceBase extends ProtocolAssociateBase {
         this.setProtocolReferenceNumber(null);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
         this.setProtocolReferenceId(null);
     }

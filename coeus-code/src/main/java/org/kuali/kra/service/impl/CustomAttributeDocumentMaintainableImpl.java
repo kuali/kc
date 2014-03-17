@@ -24,15 +24,10 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
-/**
- * This class...
- */
+
 public class CustomAttributeDocumentMaintainableImpl extends KualiMaintainableImpl {
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#prepareForSave()
-     */
+    @Override
     public void prepareForSave() {
         CustomAttributeDocument customAttributeDocument = (CustomAttributeDocument) this.getBusinessObject();
         boolean needsTranslated = true;

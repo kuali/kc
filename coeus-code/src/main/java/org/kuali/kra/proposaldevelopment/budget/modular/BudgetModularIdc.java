@@ -21,9 +21,7 @@ import org.kuali.kra.budget.rates.RateClass;
 
 public class BudgetModularIdc extends BudgetAssociate {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 9162516694202776979L;
 
     private Long budgetPeriodId;

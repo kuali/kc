@@ -30,9 +30,7 @@ import java.util.List;
 
 public abstract class PersonnelHelperBase implements Serializable {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -411537473714173061L;
 
     /**

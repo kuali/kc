@@ -25,9 +25,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 public class FinancialEntityContactInfo extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -279139759458525391L;
 
     private Long financialEntityContactInfoId;

@@ -58,9 +58,7 @@ public abstract class CommitteeBatchCorrespondenceBase extends KcPersistableBusi
 
     private transient DateTimeService dateTimeService;
 
-    /**
-     * Constructs a CommitteeBatchCorrespondenceBase.java.
-     */
+
     public CommitteeBatchCorrespondenceBase() {
         setCommitteeBatchCorrespondenceDetails(new ArrayList<CommitteeBatchCorrespondenceDetailBase>());
     }

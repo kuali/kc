@@ -43,11 +43,7 @@ public class AwardCostShareAuditRuleTest extends KcIntegrationTestBase {
     private static final Integer COMMITMENT_AMOUNT = 10000;
     AwardCostShareAuditRule awardCostShareAuditRule;
     List<AwardCostShare> awardCostShares = new ArrayList<AwardCostShare>();
-    
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
+
     @Before
     public void setUp() throws Exception {
         awardCostShareAuditRule = new AwardCostShareAuditRule();
@@ -70,11 +66,7 @@ public class AwardCostShareAuditRuleTest extends KcIntegrationTestBase {
         GlobalVariables.setMessageMap(new MessageMap());
           
     }
-    
-    /**
-     * This method...
-     * @throws java.lang.Exception
-     */
+
     @After
     public void tearDown() throws Exception {
         awardCostShareAuditRule = null;

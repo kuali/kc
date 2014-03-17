@@ -25,9 +25,7 @@ import java.util.List;
  */
 public class FinIntEntityStatus extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2103009505440817096L;
 
     public static final String ACTIVE = "1";

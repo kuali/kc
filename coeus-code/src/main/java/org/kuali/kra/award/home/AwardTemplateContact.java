@@ -20,9 +20,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public class AwardTemplateContact extends KcPersistableBusinessObjectBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5168275576240665727L;
 
     private Integer templateContactId;

@@ -44,16 +44,12 @@ public class SavePersonnelAttachmentEvent extends PersonnelAttachmentEventBase {
         this(errorPathPrefix, (ProposalDevelopmentDocument) document, proposalPersonBiography);
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return SavePersonnelAttachmentRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((SavePersonnelAttachmentRule) rule).processSavePersonnelAttachmentBusinessRules(this);
     }

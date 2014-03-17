@@ -50,10 +50,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.*;
 public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelAuditRule.class);
     
-    /**
-     * 
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) document;
         boolean retval = true;
@@ -197,9 +194,6 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
         return getKeyPersonnelService().isInvestigator(person);
     }
         
-    /**
-     * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
-     */
     private boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
         return getKeyPersonnelService().hasPrincipalInvestigator(document);
     }

@@ -30,11 +30,7 @@ public class CommitteeScheduleStartAndEndDateRule extends KcTransactionalDocumen
 
     public static final String DOT = ".";
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule#processAddCommitteeScheduleRuleBusinessRules(
-     *      org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent)
-     */
+    @Override
     public boolean processRules(CommitteeScheduleStartAndEndDateEvent addCommitteeScheduleEvent) {
         boolean valid = true;
         

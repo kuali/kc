@@ -25,9 +25,7 @@ import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 public class AwardTemplateSyncRuleImpl implements AwardTemplateSyncRule {
 
     private ErrorReporter errorReporter;
-    /**
-     * @see org.kuali.kra.award.AwardTemplateSyncRule#processAwardTemplateSyncRules(org.kuali.kra.award.AwardTemplateSyncEvent)
-     */
+    @Override
     public boolean processAwardTemplateSyncRules(AwardTemplateSyncEvent awardTemplateSyncEvent) {
         Award award = awardTemplateSyncEvent.getAward();
         errorReporter = new ErrorReporter();

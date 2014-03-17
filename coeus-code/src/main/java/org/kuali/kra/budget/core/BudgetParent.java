@@ -23,9 +23,7 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import java.sql.Date;
 import java.util.List;
 
-/**
- * This class...
- */
+
 public interface BudgetParent {
     public String getBudgetStatus();
     public void setBudgetStatus(String budgetStatus);

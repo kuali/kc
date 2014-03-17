@@ -31,9 +31,7 @@ public class MessageOfTheDay extends KcPersistableBusinessObjectBase {
 
     private Long displayOrder;
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 5649376154094364142L;
 
     public Long getMessageOfTheDayId() {

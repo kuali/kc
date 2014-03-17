@@ -29,18 +29,14 @@ public class SimpleSequenceOwner implements SequenceOwner<SimpleSequenceOwner> {
     private String name;
     private Integer sequenceNumber;
     
-    /**
-     * Constructs a SequenceOwnerImpl.java.
-     */
+
     public SimpleSequenceOwner() {
         this.name = "SequenceOwner";
         sequenceNumber = 1;
         setSequenceOwnerId(new Random().nextLong());
     }
     
-    /**
-     * @return
-     */
+
     public String getName() {
         return name;
     }
@@ -59,37 +55,26 @@ public class SimpleSequenceOwner implements SequenceOwner<SimpleSequenceOwner> {
         this.sequenceNumber = sequenceNumber;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#getSequenceNumber()
-     */
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#setSequenceOwner(org.kuali.coeus.common.framework.sequence.owner.SequenceOwner)
-     */
+    @Override
     public void setSequenceOwner(SimpleSequenceOwner newOwner) {
        // do nothing - this is root sequence association
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate#getSequenceOwner()
-     */
+    @Override
     public SimpleSequenceOwner getSequenceOwner() {
        return this;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#incrementSequenceNumber()
-     */
+    @Override
     public void incrementSequenceNumber() {
         sequenceNumber++;
     }
     
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -107,9 +92,6 @@ public class SimpleSequenceOwner implements SequenceOwner<SimpleSequenceOwner> {
         this.sequenceOwnerId = sequenceOwnerId;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -139,9 +121,7 @@ public class SimpleSequenceOwner implements SequenceOwner<SimpleSequenceOwner> {
         return true;
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
-     */
+    @Override
     public void resetPersistenceState() {
        setSequenceOwnerId(null); 
     }
@@ -151,16 +131,12 @@ public class SimpleSequenceOwner implements SequenceOwner<SimpleSequenceOwner> {
         return String.format("%s [%d]", name, sequenceNumber);
     }
 
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getOwnerSequenceNumber()
-     */
+    @Override
     public Integer getOwnerSequenceNumber() {
         return null;
     }
     
-    /**
-     * @see org.kuali.coeus.common.framework.sequence.owner.SequenceOwner#getVersionNameField()
-     */
+    @Override
     public String getVersionNameField() {
         return "name";
     }

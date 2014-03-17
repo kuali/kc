@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
 
 public class ProtocolAmendRenewModule extends ProtocolAmendRenewModuleBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7713960731799777001L;
 
 }

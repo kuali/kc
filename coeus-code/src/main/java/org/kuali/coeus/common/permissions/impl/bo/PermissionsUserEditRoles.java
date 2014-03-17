@@ -108,9 +108,7 @@ public class PermissionsUserEditRoles extends BusinessObjectBase {
         }
     }
    
-    /**
-     * @see org.kuali.core.bo.BusinessObject#refresh()
-     */
+    @Override
     public void refresh() {
         // do nothing
     }

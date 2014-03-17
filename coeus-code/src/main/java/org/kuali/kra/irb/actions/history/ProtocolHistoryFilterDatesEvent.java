@@ -50,10 +50,6 @@ public class ProtocolHistoryFilterDatesEvent extends KcDocumentEventBaseExtensio
         return endDate;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension#getRule()
-     */
     @Override
     @SuppressWarnings("unchecked")
     public KcBusinessRule getRule() {

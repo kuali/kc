@@ -149,11 +149,7 @@ public class AwardReportTermRecipientRuleImpl extends KcTransactionalDocumentRul
         }
         return itemValid;
     }
-    
-    /**
-     * This method...
-     * @param awardReportTermRecipientItemForValidation TODO
-     */
+
     boolean validateContactAndOrganizationAreBothNotSelected(AwardReportTermRecipient awardReportTermRecipientItemForValidation) {
         boolean itemValid = !(awardReportTermRecipientItemForValidation.getContactId() != null 
                                 && awardReportTermRecipientItemForValidation.getRolodexId() != null);

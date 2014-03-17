@@ -26,9 +26,7 @@ import java.util.Map;
 
 public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperBase<InstitutionalProposalCustomData> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -716264183914346452L;
     
     private InstitutionalProposalForm institutionalProposalForm;
@@ -44,7 +42,7 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
 
     @Override
     public boolean canModifyCustomData() {
-        // TODO Auto-generated method stub
+
         return false;
     }
 

@@ -29,9 +29,7 @@ import java.sql.Date;
 public class CoiDisclosureUndisclosedEvents implements BusinessObject {
 
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 636845900013278880L;
     private String personId;
     private String disclosureEventType;

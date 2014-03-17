@@ -55,17 +55,10 @@ public final class AwardPersonUnitCreditSplit extends KcPersistableBusinessObjec
 
     private String invCreditTypeCode;
 
-    /**
-     * Default Constructor
-     */
+
     public AwardPersonUnitCreditSplit() {
     }
 
-    /**
-     * Convenience Constructor
-     * @param investigatorCreditType
-     * @param credit
-     */
     AwardPersonUnitCreditSplit(InvestigatorCreditType investigatorCreditType, KualiDecimal credit) {
         setInvestigatorCreditType(investigatorCreditType);
         setCredit(credit);
@@ -173,9 +166,7 @@ public final class AwardPersonUnitCreditSplit extends KcPersistableBusinessObjec
         this.credit = credit != null ? credit : new KualiDecimal(0);
     }
 
-    /**
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }

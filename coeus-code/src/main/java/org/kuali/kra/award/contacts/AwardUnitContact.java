@@ -47,9 +47,7 @@ public class AwardUnitContact extends AwardContact {
     private boolean defaultUnitContact;
 
 
-    /**
-     * Constructs a AwardUnitContact.java.
-     */
+
     public AwardUnitContact() {
         super();
     }
@@ -85,9 +83,6 @@ public class AwardUnitContact extends AwardContact {
         this.unitContactType = unitContactType;
     }
     
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContact#setPersonId(java.lang.String)
-     */
     @Override
     public void setPersonId(String personId) {    
         super.setPersonId(personId);
@@ -96,9 +91,6 @@ public class AwardUnitContact extends AwardContact {
         }
     }
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContact#setPerson(org.kuali.coeus.common.framework.person.KcPerson)
-     */
     @Override
     public void setPerson(KcPerson person) {
         super.setPerson(person);
@@ -133,18 +125,12 @@ public class AwardUnitContact extends AwardContact {
             return unitAdministratorUnitNumber;
         }
     }
-    
-    /**
-     * This method...
-     * @return
-     */
+
     protected BusinessObjectService getBusinessObjectService() {
         return (BusinessObjectService) KcServiceLocator.getService("businessObjectService");
     }
     
-    /**
-     * @return
-     */
+
     public UnitContactType getUnitContactType() {
         return unitContactType;
     }
@@ -215,16 +201,10 @@ public class AwardUnitContact extends AwardContact {
         this.unitContactType = contactType;
     }
 
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContact#getContactRoleType()
-     */
     @Override
     protected Class<?extends ContactRole> getContactRoleType() {
         return getUnitContactType() == UnitContactType.ADMINISTRATOR ? UnitAdministratorType.class : ContactType.class;
     }
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContact#getContactRoleTypeIdentifier()
-     */
     @Override
     protected String getContactRoleTypeIdentifier() {
         return  getUnitContactType() == UnitContactType.ADMINISTRATOR ? UNIT_ADMINISTRATOR_TYPE_CODE : CONTACT_TYPE_CODE;

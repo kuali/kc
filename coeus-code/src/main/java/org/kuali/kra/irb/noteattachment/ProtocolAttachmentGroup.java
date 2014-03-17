@@ -82,7 +82,6 @@ public class ProtocolAttachmentGroup extends ProtocolAttachmentGroupBase {
         this.description = description;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -92,7 +91,6 @@ public class ProtocolAttachmentGroup extends ProtocolAttachmentGroupBase {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

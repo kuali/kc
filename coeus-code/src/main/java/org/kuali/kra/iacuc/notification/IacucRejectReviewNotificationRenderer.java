@@ -26,9 +26,7 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 public class IacucRejectReviewNotificationRenderer extends IacucProtocolNotificationRenderer {
 
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8996340436089157540L;
     
     private String reason;
@@ -53,10 +51,6 @@ public class IacucRejectReviewNotificationRenderer extends IacucProtocolNotifica
         this.reason = reason;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.common.notification.impl.NotificationContext#replaceContextVariables(java.lang.String)
-     */
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();

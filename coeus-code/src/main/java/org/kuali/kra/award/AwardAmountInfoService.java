@@ -33,11 +33,6 @@ public interface AwardAmountInfoService {
     AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos);
     
     AwardAmountInfo fetchLastAwardAmountInfoForDocNum(Award award, String docNum);
-    
-    /**
-     * This method...
-     * @param awardAmountInfos
-     * @return
-     */
+
     int fetchIndexOfAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos);
 }

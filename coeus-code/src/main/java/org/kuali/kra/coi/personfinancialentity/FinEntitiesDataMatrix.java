@@ -26,9 +26,7 @@ import java.util.List;
  */
 public class FinEntitiesDataMatrix extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -7588988427003150929L;
 
     private String columnName;

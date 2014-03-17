@@ -28,10 +28,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class IacucCommitteeDecisionAbstainerRule extends CommitteeDecisionVoterRuleBase<IacucCommitteePerson> implements ExecuteCommitteeDecisionAbstainerRule<IacucCommitteeDecision> {
     
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionAbstainerRule#proccessCommitteeDecisionAbstainerRule(org.kuali.kra.irb.actions.decision.CommitteeDecision)
-     */
+    @Override
     public boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocumentBase document, IacucCommitteeDecision committeeDecision) {
         boolean retVal = true;
         if (!processVoter(committeeDecision.getNewAbstainer(), committeeDecision.getAbstainers(), committeeDecision.getRecused())) {

@@ -71,10 +71,7 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
         return result;
     }
      
-    /**
-     * 
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncUtilityService#getLogsFromAuditErrors(org.kuali.kra.award.home.Award, org.kuali.kra.award.home.Award)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public List<AwardSyncLog> getLogsFromAuditErrors(AwardSyncStatus awardStatus) {
         List<AwardSyncLog> result = new ArrayList<AwardSyncLog>();
@@ -109,10 +106,7 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
     }
     
 
-    /**
-     * 
-     * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncUtilityService#buildListForFYI(org.kuali.kra.award.document.AwardDocument)
-     */
+    @Override
     public List<String> buildListForFYI(AwardDocument awardDocument) throws WorkflowException {
 
         WorkflowDocument document = awardDocument.getDocumentHeader().getWorkflowDocument();

@@ -36,17 +36,13 @@ public class AddProposalSiteEvent extends BasicProposalSiteEvent {
         super("adding site to document " + getDocumentId(document), errorPathPrefix, document, proposalSite);
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return AddProposalSiteRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddProposalSiteRule) rule).processAddProposalSiteBusinessRules(this);
     }

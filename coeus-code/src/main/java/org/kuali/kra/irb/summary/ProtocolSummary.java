@@ -21,12 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProtocolSummary extends org.kuali.kra.protocol.summary.ProtocolSummary {
-    
-    
 
-/**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = -259451094188180892L;
     
     private List<ParticipantSummary> participants = new ArrayList<ParticipantSummary>();

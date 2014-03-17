@@ -23,9 +23,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 
 public class IacucCommittee extends CommitteeBase<IacucCommittee, CommonCommitteeDocument, IacucCommitteeSchedule> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 2031629954610125464L;
 
     @Override

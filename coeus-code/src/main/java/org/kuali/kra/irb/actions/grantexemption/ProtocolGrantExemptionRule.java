@@ -27,10 +27,7 @@ public class ProtocolGrantExemptionRule extends KcTransactionalDocumentRuleBase 
     private static final String APPROVAL_DATE_FIELD = "approvalDate";
     private static final String ACTION_DATE_FIELD = "actionDate";
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
-     */
+    @Override
     public boolean processRules(ProtocolGrantExemptionEvent event) {
         boolean isValid = true;
         

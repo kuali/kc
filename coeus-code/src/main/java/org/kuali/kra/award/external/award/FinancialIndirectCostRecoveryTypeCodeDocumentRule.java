@@ -33,37 +33,24 @@ import java.util.Map;
 public class FinancialIndirectCostRecoveryTypeCodeDocumentRule extends KcMaintenanceDocumentRuleBase {
     private BusinessObjectService businessObjectService;
 
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
+    @Override
 
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return isDocumentValidForSave(document);
     }
 
 
-    /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
     @Override
     public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         return isDocumentValidForSave(document);
     }
 
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
     @Override
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return isDocumentValidForSave(document);
     }
 
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#isDocumentValidForSave(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
+    @Override
     public boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean result = super.isDocumentValidForSave(document);
         final FinancialIndirectCostRecoveryTypeCode mapping = (FinancialIndirectCostRecoveryTypeCode) document.getNewMaintainableObject().getDataObject();

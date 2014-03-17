@@ -28,32 +28,21 @@ import java.util.Map;
 public class ValidPersonSignatureModuleMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     private static final String PERSON_SIGNATURE_ID_INVALID_ERROR_KEY = "error.invalid.personSignature.invalid.personSignatureId";
 
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-
+    @Override
     @SuppressWarnings("deprecation")
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return isPersonSignatureModuleValidForSave(document);
     }
 
 
-    /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
     @SuppressWarnings("deprecation")
     @Override
     public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         return isPersonSignatureModuleValidForSave(document);
     }
 
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    @SuppressWarnings("deprecation")
     @Override
+    @SuppressWarnings("deprecation")
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return isPersonSignatureModuleValidForSave(document);
     }

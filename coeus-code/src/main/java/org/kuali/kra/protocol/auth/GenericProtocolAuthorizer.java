@@ -78,7 +78,7 @@ public class GenericProtocolAuthorizer extends ProtocolAuthorizerBase implements
     private String genericTaskName;
 
     
-    /** {@inheritDoc} */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return canExecuteAction(task.getProtocol(), convertGenericTaskNameToProtocolActionType()) 
             && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);

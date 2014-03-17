@@ -70,7 +70,6 @@ public class IacucProtocolAttachmentServiceImpl extends ProtocolAttachmentServic
     }
 
     @Override
-    /** {@inheritDoc} */
     public Collection<ProtocolAttachmentTypeBase> getTypesForGroup(String code) {
         if (code == null) {
             throw new IllegalArgumentException("the code is null");

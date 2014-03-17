@@ -23,9 +23,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  */
 public class WithdrawSubmissionIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return canExecuteAction(task.getProtocol(), IacucProtocolActionType.IACUC_WITHDRAW_SUBMISSION) &&
                 (hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_IACUC_PROTOCOL)

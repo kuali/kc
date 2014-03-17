@@ -44,9 +44,7 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
     private ProposalDevelopmentService proposalDevelopmentService;
     private S2SUtilService s2sUtilService;
     
-    /**
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
 

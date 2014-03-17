@@ -60,9 +60,7 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
     }
 
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
+    @Override
     public boolean canOpen(Document document, Person user) {
         ProtocolOnlineReviewDocument protocolOnlineReviewDocument = (ProtocolOnlineReviewDocument) document;
         if (protocolOnlineReviewDocument.getProtocolOnlineReview() == null) {
@@ -95,50 +93,32 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canEdit(Document document, Person user) {
         return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MODIFY_PROTOCOL_ONLINEREVIEW) 
                || canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS); 
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canCopy(Document document, Person user) {
         return false;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canCancel(Document document, Person user) {
         return false;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canRoute(Document document, Person user) {
         return false;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canApprove(Document document, Person user) {
        return super.canApprove(document, user);

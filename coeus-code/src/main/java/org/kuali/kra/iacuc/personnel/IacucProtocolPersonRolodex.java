@@ -23,9 +23,7 @@ public class IacucProtocolPersonRolodex extends ProtocolPersonRolodexBase {
     // it seems all of these fields, or rather all these getter/setters serve only to provide compatibility with kcperson getters/setters
     // when displaying read-only contact information for non-employee memberships.
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 7383899899322228494L;
     
     private String userName;

@@ -63,7 +63,7 @@ public class CoiDisclosureUndisclosedEventsLookupableHelper extends KraLookupabl
             GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_SEARCH_INVALID_DATE);
             return false;
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_SEARCH_INVALID_DATE);
             return false;
         }
@@ -199,7 +199,7 @@ public class CoiDisclosureUndisclosedEventsLookupableHelper extends KraLookupabl
         try {
             cal.setTime(sdf.parse(dateInput));
         }catch(Exception ex) {
-            ex.printStackTrace();
+            LOG.error(ex.getMessage(), ex);
         }
         cal.add(Calendar.DATE, addDays); 
         return sdf.format(cal.getTime());        

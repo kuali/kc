@@ -63,7 +63,6 @@ public class IacucPainCategory extends KcPersistableBusinessObjectBase implement
         this.active = active;
     }
     
-    /**  {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -74,7 +73,6 @@ public class IacucPainCategory extends KcPersistableBusinessObjectBase implement
         return result;
     }
 
-    /**  {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

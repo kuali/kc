@@ -32,9 +32,7 @@ import java.util.List;
  */
 public class IacucProtocolOnlineReviewStatusValuesFinder extends IacucActionsKeyValuesBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5957014216543794243L;
 
     public List<KeyValue> getKeyValues() {

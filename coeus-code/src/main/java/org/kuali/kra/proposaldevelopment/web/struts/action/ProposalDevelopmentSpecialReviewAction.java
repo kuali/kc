@@ -161,11 +161,6 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#save(org.apache.struts.action.ActionMapping, 
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);

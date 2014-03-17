@@ -19,14 +19,10 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.util.List;
 
-/**
- * This class...
- */
+
 public class KcKrmsTermFunction extends KcPersistableBusinessObjectBase {
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 229744717657419313L;
     private Long kcKrmsTermFunctionId;
     private String krmsTermName;

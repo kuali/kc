@@ -18,13 +18,9 @@ package org.kuali.kra.proposaldevelopment.hierarchy.bo;
 import java.io.Serializable;
 
 
-/**
- * This class...
- */
+
 public class HierarchyProposalSummary implements Serializable {
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -4513320772280178341L;
 
     private String proposalNumber;

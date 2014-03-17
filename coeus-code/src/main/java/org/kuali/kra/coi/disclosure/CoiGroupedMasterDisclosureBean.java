@@ -29,9 +29,7 @@ import java.util.List;
  */
 public class CoiGroupedMasterDisclosureBean implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5710247175508316897L;
     
     private String disclosureEventType;

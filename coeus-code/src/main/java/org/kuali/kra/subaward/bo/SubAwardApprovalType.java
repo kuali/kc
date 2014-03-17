@@ -17,9 +17,7 @@ package org.kuali.kra.subaward.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-/**
- * This class is for defining subAwardApprovalType...
- */
+
 public class SubAwardApprovalType extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
@@ -28,9 +26,7 @@ public class SubAwardApprovalType extends KcPersistableBusinessObjectBase {
 
     private String description;
 
-    /**
-     * Constructs a SubAwardApprovalType.java.
-     */
+
     public SubAwardApprovalType() {
     }
 

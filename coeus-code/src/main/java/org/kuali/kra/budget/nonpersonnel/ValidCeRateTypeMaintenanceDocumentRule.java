@@ -31,25 +31,16 @@ import java.util.Map;
 
 public class ValidCeRateTypeMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
-    /**
-     * Constructs a ValidCeRateTypeMaintenanceDocumentRule.java.
-     */
+
     public ValidCeRateTypeMaintenanceDocumentRule() {
         super();
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */ 
+    @Override
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return checkRateTypeExist(document);
     }
     
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
     @Override
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return checkRateTypeExist(document);

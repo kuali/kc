@@ -18,9 +18,6 @@ package org.kuali.kra.protocol.auth;
 
 public abstract class CreateContinuationAuthorizerBase extends ContinuationAuthorizer {
 
-    /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
-     */
     @Override
     public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return !isAmendmentOrRenewalOrContinuation(task.getProtocol()) &&

@@ -27,9 +27,7 @@ import org.kuali.rice.krad.util.MessageMap;
 public class ProtocolExceptionRule extends KcTransactionalDocumentRuleBase implements AddProtocolExceptionRule {
     private static final String NEW_PROTOCOL_EXCEPTION_PATH = "iacucProtocolExceptionHelper.newIacucProtocolException";
 
-    /**
-     * @see org.kuali.kra.irb.protocol.reference.AddProtocolExceptionRule#processAddProtocolExceptionBusinessRules(org.kuali.kra.irb.protocol.reference.AddProtocolExceptionEvent)
-     */
+    @Override
     public boolean processAddProtocolExceptionBusinessRules(AddProtocolExceptionEvent addProtocolExceptionEvent) {
         
         boolean rulePassed = true;

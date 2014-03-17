@@ -55,9 +55,7 @@ import java.util.*;
  */
 public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol extends ProtocolBase> extends KraLookupableHelperServiceImpl {    
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 273532318463507554L;
     protected static final String AMEND_RENEW_PROTOCOL_LOOKUP_ACTION = "lookupActionAmendRenewProtocol";
     protected static final String REQUEST_PROTOCOL_ACTION = "lookupActionRequestProtocol";
@@ -234,7 +232,7 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
             GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
             return false;
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
             return false;
         }
@@ -252,10 +250,6 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
         return dictionaryValidationService;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
-     */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         return getCustomActions(businessObject, pkNames);

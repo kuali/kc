@@ -30,34 +30,34 @@ public class KcPeopleFlowTypeService implements PeopleFlowTypeService {
 
     @Override
     public List<String> filterToSelectableRoleIds(String kewTypeId, List<String> roleIds) {
-        // TODO Auto-generated method stub
+
         return roleIds;
     }
 
     @Override
     public Map<String, String> resolveRoleQualifiers(String kewTypeId, String roleId, Document document,
             DocumentContent documentContent) {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
     @Override
     public List<RemotableAttributeField> getAttributeFields(String kewTypeId) {
-        // TODO Auto-generated method stub
+
         return Collections.emptyList();
     }
 
     @Override
     public List<RemotableAttributeError> validateAttributes(String kewTypeId, Map<String, String> attributes)
             throws RiceIllegalArgumentException {
-        // TODO Auto-generated method stub
+
         return Collections.emptyList();
     }
 
     @Override
     public List<RemotableAttributeError> validateAttributesAgainstExisting(String kewTypeId, Map<String, String> newAttributes,
             Map<String, String> oldAttributes) throws RiceIllegalArgumentException {
-        // TODO Auto-generated method stub
+
         return Collections.emptyList();
     }
 

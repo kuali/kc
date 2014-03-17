@@ -24,9 +24,7 @@ import org.kuali.coeus.common.committee.impl.meeting.OtherPresentBeanBase;
  */
 public class OtherPresentBean extends OtherPresentBeanBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -2827619336606027054L;
 
     @Override

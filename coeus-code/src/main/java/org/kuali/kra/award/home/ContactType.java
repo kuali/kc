@@ -24,36 +24,22 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 public class ContactType extends KcPersistableBusinessObjectBase implements ContactRole {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 8720276596982712409L;
 
     private String contactTypeCode;
 
     private String description;
 
-    /**
-     * Constructs a ContactType.java
-     */
+
     public ContactType() {
     }
 
-    /**
-     * Convenience constructor
-     * @param contactTypeCode
-     * @param description
-     */
     public ContactType(String contactTypeCode, String description) {
         this.contactTypeCode = contactTypeCode;
         this.description = description;
     }
 
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public String getContactTypeCode() {
         return contactTypeCode;
     }
@@ -66,10 +52,7 @@ public class ContactType extends KcPersistableBusinessObjectBase implements Cont
         this.contactTypeCode = contactTypeCode;
     }
 
-    /**
-     * 
-     * @return
-     */
+
     public String getDescription() {
         return description;
     }
@@ -82,9 +65,7 @@ public class ContactType extends KcPersistableBusinessObjectBase implements Cont
         this.description = description;
     }
 
-    /**
-     * @see org.kuali.kra.award.home.ContactRole#getRoleDescription()
-     */
+    @Override
     public String getRoleDescription() {
         return description;
     }
@@ -119,9 +100,7 @@ public class ContactType extends KcPersistableBusinessObjectBase implements Cont
         return true;
     }
 
-    /**
-     * @see org.kuali.kra.award.home.ContactRole#getRoleCode()
-     */
+    @Override
     public String getRoleCode() {
         return getContactTypeCode();
     }

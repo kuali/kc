@@ -40,11 +40,7 @@ public class ProtocolApproveServiceImpl extends ProtocolApproveServiceImplBase i
     
     private ParameterService parameterService;
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.approve.ProtocolApproveService#grantFullApproval(org.kuali.kra.irb.Protocol, 
-     *      org.kuali.kra.irb.actions.approve.ProtocolApproveBean)
-     */
+    @Override
     public void grantFullApproval(ProtocolBase protocol, org.kuali.kra.protocol.actions.approve.ProtocolApproveBean actionBean) throws Exception {
         generateProtocolActionAndAttach(protocol, actionBean, ProtocolActionType.APPROVED);   
 
@@ -62,11 +58,7 @@ public class ProtocolApproveServiceImpl extends ProtocolApproveServiceImplBase i
         finalizeReviewsAndSave(protocol, ProtocolActionType.APPROVED, FULL_APPROVAL_FINALIZE_OLR_ANNOTATION);
     }  
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.approve.ProtocolApproveService#grantExpeditedApproval(org.kuali.kra.irb.Protocol, 
-     *      org.kuali.kra.irb.actions.approve.ProtocolApproveBean)
-     */
+    @Override
     public void grantExpeditedApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception {
         generateProtocolActionAndAttach(protocol, actionBean, ProtocolActionType.EXPEDITE_APPROVAL);
         

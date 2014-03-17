@@ -184,9 +184,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
         protocolForm.getActionHelper().prepareCommentsView();
     }
     
-    /**
-     * @see org.kuali.kra.protocol.actions.ProtocolActionRequestService#hasDocumentStateChanged(org.kuali.kra.protocol.ProtocolFormBase)
-     */
+    @Override
     public boolean hasDocumentStateChanged(ProtocolFormBase protocolForm) {
         boolean result = false;
         Map<String,Object> primaryKeys = new HashMap<String, Object>();

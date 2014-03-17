@@ -47,9 +47,7 @@ public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocume
         }
     }    
     
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
-     */
+    @Override
     public boolean canInitiate(String documentTypeName, Person user) {
         if (GlobalVariables.getUserSession().getObjectMap().get(ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY) != null) {
             GlobalVariables.getUserSession().removeObject(ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY);

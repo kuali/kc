@@ -66,9 +66,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
 
     private static final Log LOG = LogFactory.getLog(SponsorServiceImpl.class);
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.SponsorService#getSponsorName(java.lang.String)
-     */
+    @Override
     public String getSponsorName(String sponsorCode) {
         String sponsorName = null;
 
@@ -84,9 +82,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         return sponsorName;
     }
     
-    /**
-     * @see org.kuali.kra.service.SponsorService#getSponsor(java.lang.String)
-     */
+    @Override
     public Sponsor getSponsor(String sponsorCode) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(sponsorCode)) {
@@ -98,10 +94,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.service.SponsorService#getTopSponsorHierarchy()
-     */
+    @Override
     public String getTopSponsorHierarchy() {
 
        // KraServiceLocator.getService(UserRoleService.class).getUserRoles("abc", "abc");
@@ -504,10 +497,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         return matchingHierarchies > 0;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.service.SponsorService#getUniqueGroupingNames(java.lang.String, java.lang.Integer)
-     */
+    @Override
     public List<String> getUniqueGroupingNames(String hierarchyName, Integer level) {
        List<String> result = getSponsorHierarchyDao().getUniqueNamesAtLevel(hierarchyName, level);
        Collections.sort(result);

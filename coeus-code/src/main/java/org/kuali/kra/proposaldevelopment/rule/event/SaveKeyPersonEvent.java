@@ -78,16 +78,12 @@ public class SaveKeyPersonEvent extends KcDocumentEventBase {
         this(errorPathPrefix, (ProposalDevelopmentDocument) document);
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return SaveKeyPersonRule.class;
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         LOG.info("Calling processSaveKeyPersonBusinessRules on " + rule.getClass().getSimpleName());
         return ((SaveKeyPersonRule) rule).processSaveKeyPersonBusinessRules((ProposalDevelopmentDocument) getDocument());

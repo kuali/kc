@@ -19,9 +19,7 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatus;
 
 public class IacucProtocolOnlineReviewStatus extends ProtocolOnlineReviewStatus {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6720936742853314023L;
     
     public static final String FINAL_STATUS_CD = "F";

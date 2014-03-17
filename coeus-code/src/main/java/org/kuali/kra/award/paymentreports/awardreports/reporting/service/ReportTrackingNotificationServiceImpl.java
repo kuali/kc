@@ -45,9 +45,6 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         notifications = new ArrayList<ReportTrackingNotification>();
     }
     
-    /**
-     * @see org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationService#runReportTrackingNotifications()
-     */
     @Override
     public List<ReportTrackingNotificationDetails> runReportTrackingNotifications() {
         List<ReportTrackingNotificationDetails> resultDetails = new ArrayList<ReportTrackingNotificationDetails>();

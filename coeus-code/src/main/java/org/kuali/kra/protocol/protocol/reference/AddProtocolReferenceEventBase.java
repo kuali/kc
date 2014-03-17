@@ -46,16 +46,12 @@ public abstract class AddProtocolReferenceEventBase extends ProtocolReferenceEve
         this(errorPathPrefix, (ProtocolDocumentBase)document, protocolReferenceBean);
     } 
     
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class getRuleInterfaceClass() {
         return AddProtocolReferenceRule.class;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddProtocolReferenceRule)rule).processAddProtocolReferenceBusinessRules(this);
     }

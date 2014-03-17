@@ -28,9 +28,7 @@ public class CommitteeScheduleDeadlineDateRule extends KcTransactionalDocumentRu
     
     public static final String ID = "document.committeeList[0].committeeSchedules[%1$s].protocolSubDeadline";
     
-    /**
-     * @see org.kuali.coeus.common.committee.impl.rule.DeadlineCommitteeScheduleRule#processCommitteeScheduleDeadlineBusinessRules(org.kuali.coeus.common.committee.impl.rule.event.CommitteeScheduleDeadlineEvent)
-     */
+    @Override
     public boolean processRules(CommitteeScheduleDeadlineEvent deadlineCommitteeScheduleEvent) {
         
         boolean rulePassed = true;

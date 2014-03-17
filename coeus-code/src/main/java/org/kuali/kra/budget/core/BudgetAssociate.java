@@ -22,9 +22,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 public abstract class BudgetAssociate extends KcPersistableBusinessObjectBase implements BudgetAssociateInterface {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 3219654486879418421L;
 
     //    private Budget budget; 

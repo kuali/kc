@@ -32,9 +32,7 @@ import java.util.List;
 
 public class InstitutionalProposalPerson extends InstitutionalProposalContact implements PersonRolodex, AbstractProjectPerson {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -5406431014745059361L;
 
     private KualiDecimal academicYearEffort;
@@ -89,9 +87,6 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         institutionalProposalPersonUnit.setInstitutionalProposalPerson(this);
     }
 
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -124,9 +119,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         return creditSplits.get(index);
     }
 
-    /**
-     * @return
-     */
+
     public List<InstitutionalProposalPersonCreditSplit> getCreditSplits() {
         return creditSplits;
     }
@@ -187,9 +180,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.KEY_PERSON_CODE);
     }
 
-    /**
-     * @return
-     */
+
     public boolean isPrincipalInvestigator() {
         return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.PI_CODE);
     }
@@ -267,18 +258,12 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         return String.format("%s:%s", getContact().getIdentifier().toString(), getContact().getFullName());
     }
 
-    /**
-     * @see org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalContact#getContactRoleType()
-     */
     @SuppressWarnings("unchecked")
     @Override
     protected Class getContactRoleType() {
         return ProposalPersonRole.class;
     }
 
-    /**
-     * @see org.kuali.kra.institutionalproposal.contactsinstitutionalproposalContact#getContactRoleTypeIdentifier()
-     */
     @Override
     protected String getContactRoleTypeIdentifier() {
         return "proposalPersonRoleId";
@@ -305,7 +290,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         this.keyPersonRole = keyPersonRole;
     }
 
-    /** {@inheritDoc}  */
+    @Override
     public void resetPersistenceState() {
         this.setInstitutionalProposalContactId(null);
     }

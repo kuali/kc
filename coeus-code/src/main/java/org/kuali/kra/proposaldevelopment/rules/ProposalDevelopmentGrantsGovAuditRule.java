@@ -48,9 +48,7 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         return this.parameterService;
     }
     
-    /**
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-     */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
 

@@ -20,9 +20,7 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 
 public class AwardBudgetDocumentVersion extends BudgetDocumentVersion {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -9022861120797972660L;
     
     private BudgetParentDocument parentDocument;

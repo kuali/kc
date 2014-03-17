@@ -41,9 +41,7 @@ import java.util.Set;
  */
 public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
-    /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
-     */
+    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
                  
@@ -166,65 +164,43 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         return TaskGroupName.PROPOSAL_BUDGET;
     }
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
-     */
+    @Override
     public boolean canInitiate(String documentTypeName, Person user) {
         return true;
     }
     
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
+    @Override
     public boolean canOpen(Document document, Person user) {
         BudgetDocument budgetDocument = (BudgetDocument) document;
         return canExecuteBudgetTask(user.getPrincipalId(), budgetDocument, TaskName.VIEW_BUDGET);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canEdit(Document document, Person user) {
         return canExecuteBudgetTask(user.getPrincipalId(), (BudgetDocument) document, TaskName.MODIFY_BUDGET);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canCancel(Document document, Person user) {
         //KRACOEUS-3057 THE CANCEL BUTTON SHOULD ALWAYS BE DISABLED.
         return false; 
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canReload(Document document, Person user) {
         return canEdit(document, user);
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canRoute(Document document, Person user) {
         return true;
     }
     
-    /**
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
     @Override
     public boolean canCopy(Document document, Person user) {
         return false;

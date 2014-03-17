@@ -70,9 +70,7 @@ public class AddBudgetVersionEvent extends KcDocumentEventBase {
         logEvent();
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
+    @Override
     public Class<AddBudgetVersionRule> getRuleInterfaceClass() {
         return AddBudgetVersionRule.class;
     }
@@ -101,9 +99,7 @@ public class AddBudgetVersionEvent extends KcDocumentEventBase {
         LOG.debug(logMessage);
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         try {
             return getRuleInterfaceClass().cast(rule).processAddBudgetVersionName(this);

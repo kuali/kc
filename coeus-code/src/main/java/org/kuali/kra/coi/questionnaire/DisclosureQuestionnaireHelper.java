@@ -28,9 +28,7 @@ import java.util.ArrayList;
 
 public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = -8685872555239368202L;
     
     private CoiDisclosure coiDisclosure;

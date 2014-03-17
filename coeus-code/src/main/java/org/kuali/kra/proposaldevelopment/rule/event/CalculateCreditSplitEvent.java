@@ -73,12 +73,10 @@ public class CalculateCreditSplitEvent  extends KcDocumentEventBase {
     
     
     public Class getRuleInterfaceClass() {
-        // TODO Auto-generated method stub
+
         return CalculateCreditSplitRule.class;
     }
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
-     */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         LOG.info("Calling processCalculateCreditSplitBusinessRules on " + rule.getClass().getSimpleName());
         return ((CalculateCreditSplitRule) rule).processCalculateCreditSplitBusinessRules((ProposalDevelopmentDocument) getDocument());

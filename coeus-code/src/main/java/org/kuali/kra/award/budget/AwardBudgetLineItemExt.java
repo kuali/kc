@@ -20,14 +20,9 @@ import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 
-/**
- * This class...
- */
 public class AwardBudgetLineItemExt extends BudgetLineItem {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+
     private static final long serialVersionUID = 6909566795823678487L;
     private BudgetDecimal obligatedAmount;
     /**
@@ -38,10 +33,7 @@ public class AwardBudgetLineItemExt extends BudgetLineItem {
     public BudgetPersonnelDetails getNewBudgetPersonnelLineItem() {
         return new AwardBudgetPersonnelDetailsExt();
     }
-    /**
-     * 
-     * @see org.kuali.kra.budget.nonpersonnel.BudgetLineItem#getNewBudgetLineItemCalculatedAmount()
-     */
+    @Override
     public AbstractBudgetCalculatedAmount getNewBudgetLineItemCalculatedAmount() {
         return new AwardBudgetLineItemCalculatedAmountExt();
     }

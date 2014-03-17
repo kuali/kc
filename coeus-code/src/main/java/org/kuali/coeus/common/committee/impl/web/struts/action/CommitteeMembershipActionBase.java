@@ -60,9 +60,6 @@ public abstract class CommitteeMembershipActionBase extends CommitteeActionBase 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeMembershipActionBase.class);
 
     
-    /**
-     * @see org.kuali.coeus.common.committee.impl.web.struts.action.CommitteeActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -202,10 +199,6 @@ public abstract class CommitteeMembershipActionBase extends CommitteeActionBase 
         return mapping.findForward(MAPPING_BASIC);
     }
 
-    /**
-     * 
-     * @see org.kuali.core.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {

@@ -27,9 +27,7 @@ public class RecordCommitteeDecisionProtocolAuthorizer extends ProtocolAuthorize
 
     private KcWorkflowService kraWorkflowService;
 
-    /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
-     */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
                 canExecuteAction(task.getProtocol(), ProtocolActionType.RECORD_COMMITTEE_DECISION) && 

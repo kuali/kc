@@ -17,6 +17,8 @@ package org.kuali.kra.subaward.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.kra.award.home.Award;
@@ -46,6 +48,7 @@ import java.util.*;
  */
 public class SubAwardServiceImpl implements SubAwardService {
 
+    private static final Log LOG = LogFactory.getLog(SubAwardServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
@@ -169,7 +172,7 @@ public class SubAwardServiceImpl implements SubAwardService {
 		this.businessObjectService = businessObjectService;
 	}
 
-	/** {@inheritDoc} */
+    @Override
     public String getNextSubAwardCode() {
  Long nextAwardNumber = sequenceAccessorService.
  getNextAvailableSequenceNumber(Constants.SUBAWARD_SEQUENCE_SUBAWARD_CODE, SubAward.class);
@@ -270,7 +273,7 @@ public class SubAwardServiceImpl implements SubAwardService {
                 return (followUpDate.getMonth()+1) + "/" + (followUpDate.getDate()+1) + "/" + followUpDate.getYear();
                 
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
                 // something wasn't a number or a valid date element;
             }
         }

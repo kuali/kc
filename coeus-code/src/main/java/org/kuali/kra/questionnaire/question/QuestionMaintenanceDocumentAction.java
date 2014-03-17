@@ -252,7 +252,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
     @Override
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
+
         ActionForward forward = super.copy(mapping, form, request, response);
         MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) ((QuestionMaintenanceForm) form).getDocument();
         QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
