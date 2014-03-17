@@ -17,6 +17,10 @@
         support for MySQL, and Oracle.  They include both bootstrap and demo data.
     </description>
 
+    <prerequisites>
+        <maven>${require.maven.version}</maven>
+    </prerequisites>
+
     <properties>
         <copy.javaagent.off>true</copy.javaagent.off>
     </properties>

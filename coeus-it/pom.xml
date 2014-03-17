@@ -16,6 +16,10 @@
         The Kuali Coeus Integration Test module contains integration tests for the Kuali Coeus application.
     </description>
 
+    <prerequisites>
+        <maven>${require.maven.version}</maven>
+    </prerequisites>
+
     <properties>
         <surefire.skipTests>true</surefire.skipTests>
         <maven.skip.packaging>true</maven.skip.packaging>

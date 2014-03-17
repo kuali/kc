@@ -17,7 +17,7 @@ package org.kuali.kra.authorization;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionItem;
