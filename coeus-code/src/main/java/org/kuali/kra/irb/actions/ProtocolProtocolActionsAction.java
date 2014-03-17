@@ -72,6 +72,7 @@ import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.*;
 import org.kuali.kra.irb.actions.risklevel.*;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ValidProtocolActionAction;
@@ -1791,7 +1792,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     }
         
                     if (performAssignment) {
+                        if(StringUtils.equals(protocolSubmission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA)) {
+                            getProtocolAssignCmtSchedService().assignToCommitteeAndSchedulePostAgendaAssignment((Protocol) protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                        }else {
                         getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule((Protocol) protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                    }
                     }
                         
                 }

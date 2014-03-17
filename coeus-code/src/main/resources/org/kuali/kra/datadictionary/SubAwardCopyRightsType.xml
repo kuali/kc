@@ -8,7 +8,7 @@
 
   <bean id="SubAwardCopyRightsType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardCopyRightsType" />
-    <property name="objectLabel" value="SubAwardCopyRightsType"/>
+    <property name="objectLabel" value="Subaward Copyrights Type"/>
     <property name="lookupDefinition" >
       <ref bean="SubAwardCopyRightsType-lookupDefinition" />
     </property>
@@ -26,8 +26,8 @@
   <bean id="SubAwardCopyRightsType-copyRightTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="copyRightTypeCode" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="CopyRightTypeCode" />
-    <property name="shortLabel" value="CopyRightTypeCode" />
+    <property name="label" value="Copyright Type Code" />
+    <property name="shortLabel" value="Copyright Type Code" />
     <property name="maxLength" value="60" />
      <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -46,25 +46,25 @@
   <bean id="SubAwardCopyRightsType-copyRightTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="copyRightTypeDescription" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="CopyRightTypeDescription" />
-    <property name="shortLabel" value="CopyRightTypeDescription" />
+    <property name="label" value="Copyright Type Description" />
+    <property name="shortLabel" value="Copyright Type Description" />
     <property name="maxLength" value="60" />
      <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="60" />
     </property>
-    <property name="summary" value="CopyRightTypeDescription" />
+    <property name="summary" value="CopyrightTypeDescription" />
     <property name="description" value="copyRightTypeDescription" />    
   </bean>
   
    <bean id="SubAwardCopyRightsType-lookupDefinition" parent="SubAwardCopyRightsType-lookupDefinition-parentBean" />
 
   <bean id="SubAwardCopyRightsType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="SubAwardCopyRightsTypeLookup" />
+    <property name="title" value="Subaward Copyrights Type Lookup" />
      <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
     <property name="defaultSort" >

@@ -92,6 +92,9 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
             if (displayResubmission(currentStatus)) {
                 types.add(ProtocolSubmissionType.RESUBMISSION);
             }
+            if (displayNotifyIrb(currentStatus, pd.getProtocol())) {
+                types.add(ProtocolSubmissionType.NOTIFY_IRB);
+            }
         }
         return types;
     }
@@ -137,6 +140,13 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     
+    protected boolean displayNotifyIrb(String currentStatus, Protocol protocol) {
+        String validStatuses[] = { ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT };
+        String validSumissionStatuses[] = { ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE};        
+        String currentSubmissionStatus = protocol.getProtocolSubmission().getSubmissionStatusCode();
+        return validateCurrentStatus(currentStatus, validStatuses)  && validateCurrentSubmissionStatus(currentSubmissionStatus, validSumissionStatuses);
+    }
+    
     private boolean validateCurrentStatus(String currentStatus, String[] validStatuses) {
         for (String status : validStatuses) {
             if (StringUtils.equals(currentStatus, status)) {
@@ -145,4 +155,14 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
         }
         return false;
     }
+
+    protected boolean validateCurrentSubmissionStatus(String currentSubmissionStatus, String[] validSubmissionStatuses) {
+        for (String status : validSubmissionStatuses) {
+            if (StringUtils.equals(currentSubmissionStatus, status)) {
+                return true;
+            }
+        }
+        return false;
+    }    
+    
 }

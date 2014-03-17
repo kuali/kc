@@ -208,6 +208,29 @@
                       <kul:htmlControlAttribute property="document.subAwardList[0].totalAvailableAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAvailableAmount}" /> 
                 </td>
             </tr>  
+            
+            <tr>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.costType}" /></div></th>
+                <td>
+                      <kul:htmlControlAttribute property="document.subAwardList[0].costType" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.costType}" />
+                </td>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.executionDate}" /></div></th>
+                <td>
+                      <kul:htmlControlAttribute property="document.subAwardList[0].executionDate" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.executionDate}" datePicker="true" />
+                </td>
+            </tr>
+            
+            <tr>
+            <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.requisitionId}" /></div></th>
+                <td>
+                      <kul:htmlControlAttribute property="document.subAwardList[0].requisitionId" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.requisitionId}" />
+                </td>
+                 <th>&nbsp;</th>
+                <td>
+                      &nbsp;
+                </td>
+            </tr>
+            </tr>
         </table>
     </div>
 </kul:tab>

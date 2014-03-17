@@ -21,6 +21,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardService;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDao;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.schema.AwardReportingRequirementDocument;
@@ -137,10 +141,12 @@ public class ReportTrackingXmlStream implements XmlStream {
         }
         if(reportTracking.getBaseDate()!=null){
             reportingRequirement.setBaseDate(reportTracking.getBaseDate().toString());}
-        reportingRequirement.setCopyOSP(reportTracking.getOspDistributionCode());
+        reportingRequirement.setReportType(reportTracking.getReport().getDescription());
+        reportingRequirement.setCopyOSP(reportTracking.getDistribution().getDescription());
         setReportingRequirementsDetail(awardReporting,reportingRequirement,detailResults);
 
         reportReqList.add(reportingRequirement);
+        awardReporting.setCurrentDate(KcServiceLocator.getService(DateTimeService.class).getCurrentCalendar());
         awardReporting.setReportingReqsArray(
                 reportReqList.toArray(new ReportingRequirement[0]));
 
@@ -150,7 +156,26 @@ public class ReportTrackingXmlStream implements XmlStream {
         List<ReportingRequirementDetail>reportReqDetailList = new ArrayList<ReportingRequirementDetail>();
 
         for(ReportTracking reportTracking : detailResults){
-            ReportingRequirementDetail reportReqDetails = ReportingRequirementDetail.Factory.newInstance();
+            List<Award> awardList = KcServiceLocator.getService(AwardService.class).findAwardsForAwardNumber(reportTracking.getAwardNumber());
+            ReportingRequirementDetail reportReqDetails;
+            for (Award award : awardList){
+                List <AwardReportTermRecipient> recipientList = new ArrayList<AwardReportTermRecipient>();
+                if (!award.getAwardReportTermItems().isEmpty()){
+                    List<AwardReportTerm>  awardReportTermItems = award.getAwardReportTermItems();
+                    for (AwardReportTerm awardReportTerm :  awardReportTermItems){
+                        if ((reportTracking.getAwardReportTermId()).equals(awardReportTerm.getAwardReportTermId())){
+                            recipientList=awardReportTerm.getAwardReportTermRecipients();  }  
+                    }
+                    if(!recipientList.isEmpty()){
+                        for (AwardReportTermRecipient awardReportTermRecipient : recipientList) {
+                            reportReqDetails = ReportingRequirementDetail.Factory.newInstance();
+                            if ((reportTracking.getAwardReportTermId()).equals(awardReportTermRecipient.getAwardReportTerm().getAwardReportTermId())){
+                                reportReqDetails.setRecipientName(awardReportTermRecipient.getRolodex().getFullName());
+                                reportReqDetails.setRecipientOrganization(awardReportTermRecipient.getRolodex().getOrganization());
+                                reportReqDetails.setContact(awardReportTermRecipient.getContactType().getDescription());
+                                reportReqDetails.setAddress(awardReportTermRecipient.getRolodex().getAddressLine1()+""+awardReportTermRecipient.getRolodex().getAddressLine2()+""+awardReportTermRecipient.getRolodex().getAddressLine3());
+                            }
+                            
             reportReqDetails.setAwardNo(reportTracking.getAwardNumber());
             if(reportTracking.getLeadUnit()!=null){
                 reportReqDetails.setUnitNo(reportTracking.
@@ -158,7 +183,7 @@ public class ReportTrackingXmlStream implements XmlStream {
                 reportReqDetails.setUnitName(reportTracking.
                         getLeadUnit().getUnitName());
             }
-            reportReqDetails.setStatus(reportTracking.getStatusCode());
+                            reportReqDetails.setStatus(reportTracking.getReportStatus().getDescription());
             if (reportTracking.getDueDate() != null) {
                 reportReqDetails.setDueDate(reportTracking.getDueDate().toString());
             }
@@ -167,14 +192,52 @@ public class ReportTrackingXmlStream implements XmlStream {
             if(reportTracking.getOverdue()!=null){
                 reportReqDetails.setOverdueNo(reportTracking.getOverdue());}
             if (reportTracking.getActivityDate() != null) {
-                reportTracking.getActivityDate().toString();
+                                reportReqDetails.setActivityDate(reportTracking.getActivityDate().toString());
+                            }
+            
+            
+                            reportTracking.refreshReferenceObject("awardReportTermRecipient");
+                            if(reportTracking.getComments()!=null){
+                                reportReqDetails.setComments(reportTracking.getComments());}
+                            if(reportTracking.getPreparerName()!=null){
+                                reportReqDetails.setPersonName(reportTracking.getPreparerFullname());}
+                           
+                            reportReqDetailList.add(reportReqDetails);
+                        }
+                    }
+                    else  {
+                        reportReqDetails = ReportingRequirementDetail.Factory.newInstance();
+                        reportReqDetails.setAwardNo(reportTracking.getAwardNumber());
+                        if(reportTracking.getLeadUnit()!=null){
+                            reportReqDetails.setUnitNo(reportTracking.
+                            getLeadUnit().getUnitNumber());      
+                            reportReqDetails.setUnitName(reportTracking.
+                            getLeadUnit().getUnitName());
+                        }
+                        reportReqDetails.setStatus(reportTracking.getReportStatus().getDescription());
+                        if (reportTracking.getDueDate() != null) {
+                            reportReqDetails.setDueDate(reportTracking.getDueDate().toString());
             }
+
+                        reportReqDetails.setCopies(reportTracking.getItemCount());
+                        if(reportTracking.getOverdue()!=null){
+                            reportReqDetails.setOverdueNo(reportTracking.getOverdue());}
+                        if (reportTracking.getActivityDate() != null) {
+                            reportReqDetails.setActivityDate(reportTracking.getActivityDate().toString()); }
+       
+       
+                        reportTracking.refreshReferenceObject("awardReportTermRecipient");
+
             if(reportTracking.getComments()!=null){
                 reportReqDetails.setComments(reportTracking.getComments());}
             if(reportTracking.getPreparerName()!=null){
-                reportReqDetails.setPersonName(reportTracking.getPreparerName());}
+                            reportReqDetails.setPersonName(reportTracking.getPreparerFullname());}
 
             reportReqDetailList.add(reportReqDetails);
+                
+                    }
+                }
+            }
         }
         if(!reportReqDetailList.isEmpty()){
             reportingRequirement.setReportingReqDetailsArray(

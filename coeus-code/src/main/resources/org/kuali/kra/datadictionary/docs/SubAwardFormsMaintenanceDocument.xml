@@ -54,6 +54,8 @@
                     p:required="true" /> 				
                 <bean parent="MaintainableFieldDefinition" 
                     p:name="templateFile"/>
+                <bean parent="MaintainableFieldDefinition" 
+                    p:name="templateTypeCode"/>
             </list>
         </property>
     </bean>

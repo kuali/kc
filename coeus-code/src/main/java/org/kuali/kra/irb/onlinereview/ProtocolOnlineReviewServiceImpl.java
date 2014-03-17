@@ -27,6 +27,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
@@ -48,11 +49,14 @@ public class ProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewService
         ProtocolSubmission submission = (ProtocolSubmission)((Protocol) protocol).getProtocolSubmission();
         if (submission != null) {
             try {
-                isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()) || ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode()); 
+                isReviewable = StringUtils.isNotEmpty(submission.getScheduleId())  
+                        || ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode())
+                        || (ProtocolReviewType.FYI_TYPE_CODE.equalsIgnoreCase(submission.getProtocolReviewTypeCode()) && 
+                            ProtocolSubmissionType.NOTIFY_IRB.equalsIgnoreCase(submission.getProtocolSubmissionType().getSubmissionTypeCode())); 
                 isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
                         || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA));
                 ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
-                isReviewable &= getKraWorkflowService().isDocumentOnNode(protocolDocument, Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
+                isReviewable &= getKraWorkflowService().isCurrentNode(protocolDocument, Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
             } catch (WorkflowException e) {
                 String errorString = String.format("WorkflowException checking route node for creating new ProtocolOnlineReviewDocument " +
                 		"for protocol %s", submission.getProtocolNumber());

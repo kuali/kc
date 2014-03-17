@@ -629,12 +629,15 @@
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardApprovalType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardCloseout.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardContact.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/SubAwardCopyRightsType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardCustomData.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardForms.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardFundingSource.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubawardPersonMassChange.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/SubAwardReportType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardStatus.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/SubawardTemplateType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubcontractingExpenditureCategoryAmountsInDateRange.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/TbnPerson.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/TimeAndMoneyDocument.xml</value>
@@ -901,9 +904,13 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/SponsorTermTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SponsorTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardApprovalTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardCopyRightsTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardCostTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardFormsMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardInvoiceMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardReportTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardStatusMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardTemplateTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/TbnPersonMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/TrainingMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/TrainingStipendRateMaintenanceDocument.xml</value>
