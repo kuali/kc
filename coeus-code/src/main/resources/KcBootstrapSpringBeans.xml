@@ -41,9 +41,6 @@
         </property>
     </bean>
 
-    <!-- this thing is not going to work in embedded mode.  we cannot be overriding rice services generally -->
-    <!--<import resource="classpath:org/kuali/kra/RiceOverridesSpringBeans.xml" />-->
-
     <import resource="classpath:org/kuali/coeus/sys/impl/RiceBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/sys/impl/ModuleBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/core/ModuleBootstrapSpringBeans.xml"/>

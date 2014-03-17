@@ -51,6 +51,8 @@
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
         <commons-collections.version>3.2.1</commons-collections.version>
         <commons-collections4.version>4.0</commons-collections4.version>
+        <commons-fileupload.version>1.3.1</commons-fileupload.version>
+        <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-lang3.version>3.2.1</commons-lang3.version>
         <commons-net.version>3.3</commons-net.version>
@@ -97,7 +99,7 @@
         <org.eclipse.persistence.version>2.5.1</org.eclipse.persistence.version>
         <pdfbox.version>1.8.3</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.4.0-M5-r45020</rice.version>
+        <rice.version>2.4.0-M5-r45327</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.6.4</slf4j.version>
         <spring.version>3.2.3.RELEASE</spring.version>
@@ -407,13 +409,16 @@
                                             <exclude>org.glassfish.web:jstl-impl</exclude>
 
                                             <exclude>commons-collections:commons-collections</exclude>
+                                            <exclude>commons-fileupload:commons-fileupload</exclude>
                                         </excludes>
 
                                         <includes>
                                             <include>org.slf4j:*:${slf4j.version}</include>
                                             <include>net.sf.ehcache:*:${ehcache.version}:jar:runtime</include>
                                             <include>com.sun.xml.bind:jaxb-impl:${jaxb-impl.version}</include>
-                                            <exclude>commons-collections:commons-collections:${commons-collections.version}:jar:runtime</exclude>
+                                            <include>commons-collections:commons-collections:${commons-collections.version}:jar:runtime</include>
+                                            <!-- some versions of commons-fileupload have security exploits... only allow a specific version -->
+                                            <include>commons-fileupload:commons-fileupload:${commons-fileupload.version}</include>
                                         </includes>
                                     </bannedDependencies>
                                 </rules>
@@ -727,6 +732,18 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
 
             <dependency>
