@@ -926,20 +926,12 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 		return title;
 	}
 	private String getAgencyRoutingNumber(){
-	       String sponserProgramCode= pdDoc.getDevelopmentProposal().getAgencyProgramCode();
+		String sponserProgramCode= pdDoc.getDevelopmentProposal().getAgencyRoutingIdentifier();
 	       return sponserProgramCode;
 	    }
 
     private String getGGTrackingID() {
-
-        String grantsGovTrackingId = null;
-        InstitutionalProposalService institutionalProposalService = KcServiceLocator
-                .getService(InstitutionalProposalService.class);
-        if (institutionalProposalService.getInstitutionalProposal(pdDoc.getDevelopmentProposal().getProposalNumber()) != null) {
-            grantsGovTrackingId = s2sUtilService.getGgTrackingIdFromProposal(institutionalProposalService
-                    .getInstitutionalProposal(pdDoc.getDevelopmentProposal().getProposalNumber()));
-        }
-
+    	String grantsGovTrackingId = pdDoc.getDevelopmentProposal().getPrevGrantsGovTrackingID();
         return grantsGovTrackingId;
     }
 	/**
