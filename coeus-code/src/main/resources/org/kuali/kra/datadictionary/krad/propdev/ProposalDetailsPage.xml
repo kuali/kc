@@ -86,7 +86,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="proposalTypeCode"
-					p:order="50" />
+					p:order="10" />
  				<bean parent="Uif-InputField" p:propertyName="ownedByUnitNumberRestricted"
 					p:order="20" />
 				<bean parent="Uif-InputField" p:propertyName="activityTypeCode"
