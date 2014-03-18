@@ -155,12 +155,6 @@
 		</documentType>
 
 		<documentType>
-			<name>ProposalResponseMaintenanceDocument</name>
-			<description>Create a New Proposal Response</description>
-			<label>Proposal Response</label>
-			<parent>KcMaintenanceDocument</parent>
-		</documentType>
-		<documentType>
 
 			<name>KcMiscellaneousMaintenanceDocument</name>
 
@@ -522,12 +516,6 @@
 
 		</documentType>
 
-		<documentType>
-			<name>ProposalResponseMaintenanceDocument</name>
-			<description>Create a New Proposal Response</description>
-			<label>Proposal Response</label>
-			<parent>KcMaintenanceDocument</parent>
-		</documentType>
 		<documentType>
 
 			<name>KcMiscellaneousMaintenanceDocument</name>
