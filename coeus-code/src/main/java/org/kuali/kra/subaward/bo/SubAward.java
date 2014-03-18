@@ -122,7 +122,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     private AwardType subAwardType;
     private KcPerson kcPerson;
     private String subAwardSequenceStatus;
-    private static boolean newVersion;
+    private boolean newVersion;
     private KualiDecimal totalObligatedAmount ;
     private KualiDecimal totalAnticipatedAmount;
     private KualiDecimal totalAmountReleased;
