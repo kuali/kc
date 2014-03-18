@@ -28,7 +28,7 @@ public class NotifyIrbUnavailableAuthorizer extends ProtocolAuthorizer {
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL) &&
-               (isAmendmentOrRenewal(task.getProtocol()) ||
+                (isAmendmentOrRenewal(task.getProtocol()) || (isRequestForSuspension(task.getProtocol()) & !isIrbAdmin(userId)) ||
                 !canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFY_IRB));
     }
 }
