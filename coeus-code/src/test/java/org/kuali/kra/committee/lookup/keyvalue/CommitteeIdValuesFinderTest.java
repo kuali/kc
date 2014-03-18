@@ -33,10 +33,10 @@ import java.util.List;
 public class CommitteeIdValuesFinderTest {
 
     
-    private final String CMT_1_ID = "c1";
-    private final String CMT_2_ID = "c2";
-    private final String CMT_3_ID = "c3";
-    private final String CMT_4_ID = "c4";
+    private static final String CMT_1_ID = "c1";
+    private static final String CMT_2_ID = "c2";
+    private static final String CMT_3_ID = "c3";
+    private static final String CMT_4_ID = "c4";
     
     
     private static final String C1_LATEST_NAME = "c1Latest";
@@ -149,20 +149,20 @@ public class CommitteeIdValuesFinderTest {
     @Test
     public void testGetKeyValues(){
         Committee committee1 = new Committee();
-        committee1.setCommitteeId(this.CMT_1_ID);
-        committee1.setCommitteeName(this.C1_LATEST_NAME);
+        committee1.setCommitteeId(CMT_1_ID);
+        committee1.setCommitteeName(C1_LATEST_NAME);
         
         Committee committee2 = new Committee();
-        committee2.setCommitteeId(this.CMT_2_ID);
-        committee2.setCommitteeName(this.C2_LATEST_NAME);
+        committee2.setCommitteeId(CMT_2_ID);
+        committee2.setCommitteeName(C2_LATEST_NAME);
         
         Committee committee3 = new Committee();
-        committee3.setCommitteeId(this.CMT_3_ID);
-        committee3.setCommitteeName(this.C3_LATEST_NAME);
+        committee3.setCommitteeId(CMT_3_ID);
+        committee3.setCommitteeName(C3_LATEST_NAME);
         
         Committee committee4 = new Committee();
-        committee4.setCommitteeId(this.CMT_4_ID);
-        committee4.setCommitteeName(this.C4_LATEST_NAME);
+        committee4.setCommitteeId(CMT_4_ID);
+        committee4.setCommitteeName(C4_LATEST_NAME);
         
         final List<CommitteeBase> activeCommittees = new ArrayList<CommitteeBase>();
         activeCommittees.add(committee1);

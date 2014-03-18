@@ -1500,7 +1500,7 @@ public class AwardAction extends BudgetParentActionBase {
         retval.setQuestionId(questionId);
         retval.setQuestionType(CONFIRMATION_QUESTION);
 
-        String questionText = this.COMFIRMATION_PARAM_STRING;
+        String questionText = COMFIRMATION_PARAM_STRING;
         for (int i = 0; i < params.length; i++) {
             questionText = replace(questionText, "{" + i + "}", params[i]);
         }

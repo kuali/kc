@@ -192,6 +192,10 @@
         <kuali.ecl.license.url>http://maven.kuali.org/external/org/opensource/ecl/2.0/ecl-2.0.txt</kuali.ecl.license.url>
 
         <maven.skip.packaging>false</maven.skip.packaging>
+
+        <error_prone_core.version>1.1.1</error_prone_core.version>
+        <plexus-compiler-javac.version>2.3</plexus-compiler-javac.version>
+        <plexus-compiler-javac-errorprone.version>2.3</plexus-compiler-javac-errorprone.version>
     </properties>
 
     <build>
@@ -1782,6 +1786,46 @@
                 <db.artifactId>${oracle.artifactId}</db.artifactId>
                 <db.version>${oracle.version}</db.version>
             </properties>
+        </profile>
+
+        <!-- enables the error prone compiler for strict compilation-->
+        <profile>
+            <id>error-prone</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <version>${maven-compiler-plugin.version}</version>
+                            <configuration>
+                                <useIncrementalCompilation>false</useIncrementalCompilation>
+                                <source>${project.compile.source}</source>
+                                <target>${project.compile.target}</target>
+                                <compilerId>javac-with-errorprone</compilerId>
+                                <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                            </configuration>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>com.google.errorprone</groupId>
+                                    <artifactId>error_prone_core</artifactId>
+                                    <version>${error_prone_core.version}</version>
+                                </dependency>
+                                <dependency>
+                                    <groupId>org.codehaus.plexus</groupId>
+                                    <artifactId>plexus-compiler-javac</artifactId>
+                                    <version>${plexus-compiler-javac.version}</version>
+                                </dependency>
+                                <dependency>
+                                    <groupId>org.codehaus.plexus</groupId>
+                                    <artifactId>plexus-compiler-javac-errorprone</artifactId>
+                                    <version>${plexus-compiler-javac-errorprone.version}</version>
+                                </dependency>
+                            </dependencies>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
         </profile>
 
         <!-- copies the javaagent jar to the target directory such that the jar can be referred in the surefire config -->

@@ -76,7 +76,7 @@ public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
         //setProtocolRequiredFields(document);
         document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESCRIPTION);
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        errorMap.addToErrorPath(rule.DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(ProtocolDocumentRule.DOCUMENT_ERROR_PATH);
         dictionaryValidationService.validateDocumentAndUpdatableReferencesRecursively(document, 10,true,true);
         assertEquals(3, errorMap.getErrorMessages().size());
         assertError("document.protocolList[0].leadUnitNumber", RiceKeyConstants.ERROR_REQUIRED);
