@@ -37,6 +37,7 @@ public interface AwardService {
      * 
      * @deprecated The identifier for Award is a Long, but this method expects a String
      */
+    @Deprecated
     public Award getAward(String awardId);
 
     /**

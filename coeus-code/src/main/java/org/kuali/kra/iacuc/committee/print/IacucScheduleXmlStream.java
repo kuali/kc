@@ -548,11 +548,11 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 
 
     /**
-     * Sets the irbPrintXmlUtilService attribute value.
+     * Sets the printXmlUtilService attribute value.
      * 
-     * @param irbPrintXmlUtilService The irbPrintXmlUtilService to set.
+     * @param printXmlUtilService The printXmlUtilService to set.
      */
-    public void setPrintXmlUtilService(IacucPrintXmlUtilService PrintXmlUtilService) {
+    public void setPrintXmlUtilService(IacucPrintXmlUtilService printXmlUtilService) {
         this.printXmlUtilService = printXmlUtilService;
     }
 

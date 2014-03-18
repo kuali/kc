@@ -168,7 +168,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 //    private Integer sequenceOwnerSequenceNumber;
 
 
-    private static boolean newVersion;
+    private boolean newVersion;
 
 
     private Integer templateCode;

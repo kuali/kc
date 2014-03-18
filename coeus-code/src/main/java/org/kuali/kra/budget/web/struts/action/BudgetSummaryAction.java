@@ -112,7 +112,7 @@ public class BudgetSummaryAction extends BudgetAction {
                 reconcileFinalBudgetFlags(budgetForm);
                 setBudgetStatuses(budget.getBudgetDocument().getParentDocument());
             }
-            budget = budget;
+
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
                 GlobalVariables.setMessageMap(new MessageMap());
                 return confirm(buildSaveBudgetSummaryConfirmationQuestion(mapping, form, request, response,

@@ -195,7 +195,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImplBas
 
     @Override
     protected String[] getActionCodesArrayHook() {
-        return this.actionCodes;
+        return actionCodes;
     }
  
     
