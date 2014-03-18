@@ -67,7 +67,7 @@ public abstract class S2STestBase<T> extends KcUnitTestBase {
         generatorObject.setAuditErrors(errors);
         generatorObject.setAttachments(new ArrayList<AttachmentData>());
         XmlObject object=generatorObject.getFormObject(document);
-        getService(S2SValidatorService.class).validate(generatorObject.getFormObject(document), errors);
+        getService(S2SValidatorService.class).validate(object, errors);
         for (AuditError auditError : errors) {
             assertNull(auditError.getMessageKey()+":"+auditError.getErrorKey(),auditError.getErrorKey());
         }
