@@ -31,6 +31,12 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.kra.subaward.subawardrule.events.AddSubAwardAttachmentEvent;
+import org.kuali.kra.subaward.subawardrule.AddSubAwardAttachmentRule;
+import static org.kuali.kra.infrastructure.KeyConstants.SUBAWARD_ATTACHMENT_FILE_REQUIRED;
+import static org.kuali.kra.infrastructure.KeyConstants.SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
+import static org.kuali.kra.infrastructure.KeyConstants.SUBAWARD_ATTACHMENT_DESCRIPTION_REQUIRED;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Collections;
 
@@ -43,7 +49,8 @@ ResearchDocumentRuleBase implements SubAwardRule,
 SubAwardAmountInfoRule,
 SubAwardContactRule,
 SubAwardCloseoutRule,
-SubAwardFundingSourceRule {
+SubAwardFundingSourceRule,
+AddSubAwardAttachmentRule {
 
     private static final String STATUS_CODE = ".statusCode";
     private static final String SUBAWARD_TYPE_CODE = ".subAwardTypeCode";
@@ -66,7 +73,7 @@ SubAwardFundingSourceRule {
     
     private static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
     private static final String AMOUNT_PERIOD_OF_PERFORMANCE_START_DATE = "newSubAwardAmountInfo.periodofPerformanceStartDate";
-
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SubAwardDocumentRule.class);
     /**.
      * This method is for AddSubAwardBusinessRules
      * @param subAward
@@ -311,5 +318,31 @@ SubAwardFundingSourceRule {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;
+    }
+    /**
+     * @see org.kuali.kra.subaward.subawardrule.AddSubAwardAttachmentRule#processsAddSubawardAttachmentRule(org.kuali.kra.subaward.subawardrule.events.AddSubAwardAttachmentEvent)
+     */
+    public boolean processsAddSubawardAttachmentRule(AddSubAwardAttachmentEvent event) {
+        boolean valid = true;
+        
+        if( StringUtils.isBlank(event.getSubAwardAttachments().getSubAwardAttachmentTypeCode())) {
+            valid = false;
+            LOG.debug(SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
+            reportError("subAwardAttachmentFormBean.newAttachment.subAwardAttachmentTypeCode", SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
+        }
+        
+        if (StringUtils.isBlank(event.getSubAwardAttachments().getNewFile().getFileName()) ) {
+            valid = false;
+            LOG.debug(SUBAWARD_ATTACHMENT_FILE_REQUIRED);
+            reportError("subAwardAttachmentFormBean.newAttachment.newFile", SUBAWARD_ATTACHMENT_FILE_REQUIRED);
+    
+            }
+        if (StringUtils.isBlank(event.getSubAwardAttachments().getDescription()) ) {
+            valid = false;
+            LOG.debug(SUBAWARD_ATTACHMENT_DESCRIPTION_REQUIRED);
+            reportError("subAwardAttachmentFormBean.newAttachment.description", SUBAWARD_ATTACHMENT_DESCRIPTION_REQUIRED);
+    
+            }
+       return valid;
     }
 }

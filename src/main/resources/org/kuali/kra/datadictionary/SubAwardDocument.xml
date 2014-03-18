@@ -37,6 +37,11 @@
         </bean>
         
         <bean parent="HeaderNavigation">
+          <property name="headerTabDisplayName" value="Template Information"/>
+          <property name="headerTabNavigateTo" value="templateInformation"/>
+        </bean> 
+        
+        <bean parent="HeaderNavigation">
           <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KC-SUBAWARD" p:parameterName="subAwardActionsHelpUrl" p:parameterDetailType="Document"/>
           </property>

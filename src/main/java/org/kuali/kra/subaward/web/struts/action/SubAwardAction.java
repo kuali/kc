@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.subaward.web.struts.action;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -23,6 +28,8 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -37,6 +44,7 @@ import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -53,7 +61,6 @@ import javax.servlet.http.HttpServletResponse;
 public class SubAwardAction extends KraTransactionalDocumentActionBase{
 
     private transient SubAwardService subAwardService;
-
     /**
      * @see org.kuali.kra.web.struts.action.
      * KraTransactionalDocumentActionBase#execute(
@@ -247,6 +254,20 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
 
        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
    }
+   /**
+   *
+   * This method gets called upon navigation to template information tab.
+* @param mapping the ActionMapping
+    * @param form the ActionForm
+    * @param request the Request
+    * @param response the Response
+   * @return ActionForward
+   */
+   public ActionForward templateInformation(ActionMapping mapping, ActionForm form,
+           HttpServletRequest request, HttpServletResponse response) {
+
+        return mapping.findForward(Constants.MAPPING_TEMPLATE_PAGE);
+    }
    /**
    *
    * This method gets called upon navigation to amountReleased tab.
@@ -480,5 +501,12 @@ public ActionForward blanketApprove(ActionMapping mapping,
   protected KcNotificationService getNotificationService() {
       return KraServiceLocator.getService(KcNotificationService.class);
   }
+  /**
+   * 
+   * Handy method to stream the byte array to response object
+   * @param attachmentDataSource
+   * @param response
+   * @throws Exception
+   */
 
 }
