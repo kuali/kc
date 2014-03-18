@@ -34,6 +34,7 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.document.authorization.SubAwardTask;
 import org.kuali.kra.subaward.notification.SubAwardNotificationContext;
 import org.kuali.kra.subaward.service.SubAwardService;
+import org.kuali.kra.subaward.templateAttachments.SubAwardAttachmentFormBean;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -70,6 +71,17 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
     private MedusaBean medusaBean;
     private FormFile newFile;
     private int defaultFollowUpDayDifference = 0;
+    private SubAwardAttachmentFormBean subAwardAttachmentFormBean;
+    
+
+
+    public SubAwardAttachmentFormBean getSubAwardAttachmentFormBean() {
+        return subAwardAttachmentFormBean;
+    }
+
+    public void setSubAwardAttachmentFormBean(SubAwardAttachmentFormBean subAwardAttachmentFormBean) {
+        this.subAwardAttachmentFormBean = subAwardAttachmentFormBean;
+    }
 
     /**.
     * This is the Getter Method for newFile
@@ -209,6 +221,7 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
         newSubAwardAmountReleased = new SubAwardAmountReleased();
         newSubAwardAmountInfo = new SubAwardAmountInfo();
         notificationHelper = new NotificationHelper<SubAwardNotificationContext>();
+        subAwardAttachmentFormBean = new SubAwardAttachmentFormBean(this);
         
     }
 

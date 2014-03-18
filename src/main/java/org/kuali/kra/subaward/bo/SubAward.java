@@ -138,6 +138,43 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     private String modificationId;
     private Date performanceStartDate;
     private Date performanceEnddate;
+    private List<SubAwardAttachments> subAwardAttachments;
+    
+    
+    public List<SubAwardAttachments> getSubAwardAttachments() { 
+        if (this.subAwardAttachments == null) {
+            this.subAwardAttachments = new ArrayList<SubAwardAttachments>();
+        }
+
+        return this.subAwardAttachments;
+    }
+
+    public void setAttachments(List<SubAwardAttachments> attachments) {
+            this.subAwardAttachments = attachments;
+       }
+    /**
+     * Gets an attachment.
+     * @param index the index
+     * @return an attachment personnel
+     */
+    public SubAwardAttachments getSubAwardAttachment(int index) {
+        return this.subAwardAttachments.get(index);
+    }
+
+    /**
+     * add an attachment.
+     * @param attachment the attachment
+     * @throws IllegalArgumentException if attachment is null
+     */
+    public void addAttachment(SubAwardAttachments attachment) {
+        this.getSubAwardAttachments().add(attachment);
+        attachment.setSubAward(this);
+    }
+    /**.
+     * This is the Getter Method for rolodex
+     * @return Returns the rolodex.
+     */
+
 
     /**.
 	 * This is the Getter Method for rolodex
