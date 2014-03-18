@@ -2,7 +2,7 @@
 
   <bean id="SponsorMaintenanceDocument" parent="SponsorMaintenanceDocument-parentBean"/>
 
-  <bean id="SponsorMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="SponsorMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.Sponsor"/>
     <property name="maintainableClass" value="org.kuali.kra.bo.SponsorMaintainableImpl"/>
     <property name="maintainableSections">
@@ -15,9 +15,7 @@
         <value>sponsorCode</value>
       </list>
     </property>
-	<property name="allowsRecordDeletion" value="true" />
     <property name="documentTypeName" value="SponsorMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.rules.SponsorMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.proposaldevelopment.document.authorizer.SponsorDocumentAuthorizer"/>
     <property name="webScriptFiles">
         <list>
@@ -53,6 +51,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="sponsorTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="state"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
