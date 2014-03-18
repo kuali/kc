@@ -899,7 +899,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/SponsorFormTemplateMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SponsorHierarchyMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SponsorMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/SponsorSpecialMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SponsorTermMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SponsorTermTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SponsorTypeMaintenanceDocument.xml</value>
