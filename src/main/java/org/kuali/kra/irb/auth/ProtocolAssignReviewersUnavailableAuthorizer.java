@@ -63,22 +63,6 @@ public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthor
     }
     
     /**
-     * Find the submission.  It is the submission that is either currently pending or
-     * already submitted to a committee. 
-     * @param protocol
-     * @return
-     */
-    private ProtocolSubmission findSubmission(Protocol protocol) {
-        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
-                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                return (ProtocolSubmission) submission;
-            }
-        }
-        return null;
-    }
-    
-    /**
      * Is the submission expedited?
      * @param protocol
      * @return
