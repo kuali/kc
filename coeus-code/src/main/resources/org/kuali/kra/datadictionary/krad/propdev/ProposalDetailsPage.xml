@@ -86,7 +86,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="proposalTypeCode"
-					p:order="50" />
+					p:order="10" />
  				<bean parent="Uif-InputField" p:propertyName="ownedByUnitNumberRestricted"
 					p:order="20" />
 				<bean parent="Uif-InputField" p:propertyName="activityTypeCode"
@@ -96,11 +96,13 @@
 							p:hideCriteriaOnSearch="true" p:viewName="popup" />
 					</property>
 				</bean>
-				<bean parent="PropDev-DetailsPage-ProjectDatesField"/>
+				<bean parent="PropDev-DetailsPage-ProjectDatesField"
+                                        p:order="40" />
 				<bean parent="Uif-InputField" p:propertyName="title"
 					p:helperText="Give this proposal a title. Be detailed but concise."
-					p:order="40" />
-				<bean parent="PropDev-DetailsPage-SponsorField" p:order="50" />
+					p:order="50" />
+				<bean parent="PropDev-DetailsPage-SponsorField" 
+                                        p:order="60" />
 			</list>
 		</property>
 
