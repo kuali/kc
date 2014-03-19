@@ -19,11 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
@@ -36,7 +33,7 @@ public class ProtocolAssignReviewersAuthorizer extends ProtocolAuthorizer {
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
         return isOnNode(protocol) && isPendingOrSubmittedToCommittee(protocol) && 
-                (isInSchedule(protocol) || isExpeditedSubmission(protocol) || isNotifyIrbSubmission(protocol)) &&
+                (isInSchedule(protocol) || canPerformActionOnExpedited(protocol) || isNotifyIrbSubmission(protocol)) &&
                 hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 
@@ -64,17 +61,6 @@ public class ProtocolAssignReviewersAuthorizer extends ProtocolAuthorizer {
                !StringUtils.isBlank(submission.getCommitteeId()) &&
                !StringUtils.isBlank(submission.getScheduleId());
     }
-    
-    /**
-     * Is the submission expedited?
-     * @param protocol
-     * @return
-     */
-    private boolean isExpeditedSubmission(Protocol protocol) {
-        ProtocolSubmission submission = findSubmission(protocol);
-        return submission != null && ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode());
-    }
-    
     
     /**
      * Is the submission Notify IRB?

@@ -301,10 +301,14 @@
                                                          reason="The last protocol action must have been Record Committee Decision with the motion to disapprove. " />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Return for Specific Minor Revisions"
 				                                         canPerformAction="${KualiForm.actionHelper.canReturnForSMRUnavailable}"
-                                                         reason="The last protocol action must have been Record Committee Decision with the motion to specific minor revisions. " />
+                                                         reason="The last protocol action must have been Record Committee Decision with the motion to specific minor revisions. 
+                           	                                     <p>
+       	                                                 		 Protocol review type must be Expedited and Protocol must be assigned to committee and schedule." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Return for Substantive Revisions Required."
 				                                         canPerformAction="${KualiForm.actionHelper.canReturnForSRRUnavailable}"
-                                                         reason="The last protocol action must have been Record Committee Decision with the motion to substantive revisions required. " />
+                                                         reason="The last protocol action must have been Record Committee Decision with the motion to substantive revisions required.
+                           	                                     <p>
+       	                                                 		 Protocol review type must be Expedited and Protocol must be assigned to committee and schedule." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Notify IRB"
 				                                         canPerformAction="${KualiForm.actionHelper.canNotifyIrbUnavailable}"
 				                                         reason="Protocol can not be an amendment or renewal.
