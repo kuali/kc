@@ -492,7 +492,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonRole.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonUnit.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonYnq.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ProposalResponse.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalRoleState.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalRoleTemplate.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalSite.xml</value>
@@ -841,7 +840,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProposalChangedDataMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProposalColumnsToAlterMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProposalLocationTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/ProposalResponseMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProposalRoleTemplateMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProposalStatusMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProposalTypeMaintenanceDocument.xml</value>
