@@ -28,6 +28,7 @@ import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -64,12 +65,15 @@ import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -118,8 +122,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             //forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             //KRACOEUS-5064
-            PropDevWorkflowService workflowService = KcServiceLocator.getService(PropDevWorkflowService.class);
-            ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
+            ProposalDevelopmentApproverViewDO approverViewDO = populateApproverViewDO(proposalDevelopmentForm);
             proposalDevelopmentForm.setApproverViewDO(approverViewDO);           
             forward = mapping.findForward(Constants.MAPPING_PROPOSAL_SUMMARY_PAGE);
             forward = new ActionForward(forward.getPath()+ "?" + KRADConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KRADConstants.PARAMETER_DOC_ID));  
@@ -133,10 +136,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 rejectedDocument = documentRejectionService.isDocumentOnInitialNode(proposalDevelopmentForm.getDocument().getDocumentNumber());
             }
 
-            PropDevWorkflowService workflowService = KcServiceLocator.getService(PropDevWorkflowService.class);
-            if (workflowService.canPerformWorkflowAction(proposalDevelopmentForm.getProposalDevelopmentDocument()) && !rejectedDocument) {
+            if (canPerformWorkflowAction(proposalDevelopmentForm.getProposalDevelopmentDocument()) && !rejectedDocument) {
 
-                ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
+                ProposalDevelopmentApproverViewDO approverViewDO = populateApproverViewDO(proposalDevelopmentForm);
                 proposalDevelopmentForm.setApproverViewDO(approverViewDO);
                 
                 loadDocument(proposalDevelopmentForm);
@@ -186,6 +188,90 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         return hierarchyHelper;
     }
     
+   protected ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelopmentForm proposalDevelopmentForm) {
+
+       ProposalDevelopmentApproverViewDO approverViewDO = new ProposalDevelopmentApproverViewDO();
+       DevelopmentProposal proposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal();
+       Budget budget = getProposalDevelopmentService().getFinalBudget(proposal);
+
+       int numberOfCostShare = 0;
+       int numberOfCoPI = 0;
+
+       /* populate PI info */
+       List<CoPiInfoDO> coPiInfos = new ArrayList<CoPiInfoDO>();
+       coPiInfos = getProposalDevelopmentService().getCoPiPiInfo(proposal);
+       approverViewDO.setCoPiInfos(coPiInfos);
+       if (coPiInfos != null) {
+           numberOfCoPI = coPiInfos.size();
+       }
+
+       /* populate cost share info */
+       List<CostShareInfoDO> costShareInfos = new ArrayList<CostShareInfoDO>();
+       if (budget != null) {
+           costShareInfos = getProposalDevelopmentService().getCostShareInfo(budget);
+           approverViewDO.setCostShareInfos(costShareInfos);
+           if (costShareInfos != null) {
+               numberOfCostShare = costShareInfos.size();
+           }
+       }
+
+       /* populate budget cost info */
+       if (budget != null) {
+           approverViewDO.setDirectCost(budget.getTotalDirectCost());
+           approverViewDO.setIndirectCost(budget.getTotalIndirectCost());
+           approverViewDO.setTotalCost(budget.getTotalCost());
+       }
+
+       /* Fill the gap between CoPI number and Cost Share Number for JSP rendering purpose */
+       if (numberOfCoPI > numberOfCostShare) {
+           for (int i=0; i < numberOfCoPI - numberOfCostShare; i++) {
+               CostShareInfoDO costShareInfo = new CostShareInfoDO();
+               costShareInfos.add(costShareInfo);
+           }
+       } else if (numberOfCoPI < numberOfCostShare) {
+           for (int i=0; i < numberOfCostShare - numberOfCoPI; i++) {
+               CoPiInfoDO coPiInfo = new CoPiInfoDO();
+               coPiInfos.add(coPiInfo);
+           }
+       }
+
+       /* populate proposal info */
+       approverViewDO.setActivityType(proposal.getActivityType().getDescription());
+       approverViewDO.setDueDate(proposal.getDeadlineDate());
+       approverViewDO.setStartDate(proposal.getRequestedStartDateInitial());
+       approverViewDO.setEndDate(proposal.getRequestedEndDateInitial());
+       approverViewDO.setProjectTitle(proposal.getTitle());
+       approverViewDO.setLeadUnit(proposal.getOwnedByUnitNumber());
+       approverViewDO.setProposalNumber(proposal.getProposalNumber());
+       approverViewDO.setProposalType(proposal.getProposalType().getDescription());
+       approverViewDO.setSponsorName(proposal.getSponsorName());
+       approverViewDO.setPiName(proposal.getPrincipalInvestigatorName());
+
+       return approverViewDO;
+   }
+   
+   
+   /* Check to see if the current user can perform workflow action in proposal development document */
+   protected boolean canPerformWorkflowAction(ProposalDevelopmentDocument document) {
+
+       // Not from the doc handler, don't show the approver view
+       if (document.getDocumentHeader().getDocumentNumber() == null) {
+           return false;
+       }
+
+       KcTransactionalDocumentAuthorizerBase documentAuthorizer = 
+    		   (KcTransactionalDocumentAuthorizerBase) KNSServiceLocator.
+    		   getDocumentHelperService().getDocumentAuthorizer(document);
+       Person user = GlobalVariables.getUserSession().getPerson();
+       Set<String> documentActions = documentAuthorizer.getDocumentActions(document, user, null);
+
+       boolean canApprove= documentActions.contains(KRADConstants.KUALI_ACTION_CAN_APPROVE);
+       boolean canDisapprove = documentActions.contains(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE);
+
+       return canApprove || canDisapprove;
+   }
+
+   
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
