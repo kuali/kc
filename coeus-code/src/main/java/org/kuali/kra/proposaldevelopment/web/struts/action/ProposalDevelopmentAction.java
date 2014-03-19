@@ -74,6 +74,7 @@ import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -101,6 +102,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private ProposalDevelopmentService proposalDevelopmentService;
     private ProposalDevelopmentPrintingService proposalDevelopmentPrintingService;
     private ProposalRoleTemplateService proposalRoleTemplateService;
+    private DocumentHelperService documentHelperService;
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -260,8 +262,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
        }
 
        KcTransactionalDocumentAuthorizerBase documentAuthorizer = 
-    		   (KcTransactionalDocumentAuthorizerBase) KNSServiceLocator.
-    		   getDocumentHelperService().getDocumentAuthorizer(document);
+    		   (KcTransactionalDocumentAuthorizerBase) getDocumentHelperService().getDocumentAuthorizer(document);
+       
        Person user = GlobalVariables.getUserSession().getPerson();
        Set<String> documentActions = documentAuthorizer.getDocumentActions(document, user, null);
 
@@ -271,7 +273,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
        return canApprove || canDisapprove;
    }
 
-   
+   protected DocumentHelperService getDocumentHelperService()  {  
+       if (documentHelperService == null) 
+    	   documentHelperService =  KNSServiceLocator.getDocumentHelperService();
+       return documentHelperService;
+   }
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
