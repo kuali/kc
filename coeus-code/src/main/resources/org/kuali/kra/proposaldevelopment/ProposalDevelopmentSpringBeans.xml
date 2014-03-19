@@ -262,10 +262,6 @@
         <property name="serviceName" value="attachmentService" />
     </bean>
 
-    <bean id="documentHelperService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="documentHelperService" />
-    </bean>
-    
   <bean id="kcPersonLookupableHelperServiceTarget" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" lazy-init="true">
         <property name="serviceName" value="kcPersonLookupableHelperService" />
   </bean>
@@ -1001,9 +997,4 @@
 	<bean id="proposalDevelopmentPermissionsService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentPermissionsServiceImpl">
 		<property name="kraAuthorizationService" ref="kcAuthorizationService" />
 	</bean>
-
-    <bean id="propDevWorkflowService" class="org.kuali.kra.proposaldevelopment.service.impl.PropDevWorkflowServiceImpl">
-        <property name="proposalService" ref="proposalDevelopmentService" />
-        <property name="documentHelperService" ref="documentHelperService" />
-    </bean>
 </beans>
