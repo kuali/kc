@@ -18,12 +18,16 @@ package org.kuali.kra.irb.auth;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.auth.ProtocolAuthorizerBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * A Protocol Authorizer determines if a user can perform
@@ -110,4 +114,47 @@ public abstract class ProtocolAuthorizer extends ProtocolAuthorizerBase {
         return false;
     }
     
+    protected boolean canPerformActionOnExpeditedOrExempt(ProtocolSubmission lastSubmission, ProtocolAction lastAction) {
+        boolean canPerform = false;
+        if(isSubmissionValidForAction(lastSubmission)) {
+            canPerform = isExpeditedOrExempt(lastSubmission.getProtocolReviewType().getReviewTypeCode()) && ProtocolActionType.SUBMIT_TO_IRB.equals(lastAction.getProtocolActionTypeCode());
+        }
+        return canPerform;
+    }
+    
+    protected boolean canPerformActionOnExpedited(Protocol protocol) {
+        ProtocolSubmission submission = findSubmission(protocol);
+        boolean canPerform = false;
+        if(isSubmissionValidForAction(submission)) {
+            canPerform = isExpeditedSubmission(submission);
+        }
+        return canPerform;
+    }
+    
+    private boolean isSubmissionValidForAction(ProtocolSubmission submission) {
+        return ObjectUtils.isNotNull(submission.getCommitteeId()) && ObjectUtils.isNotNull(submission.getScheduleId());
+    }
+
+    private boolean isExpeditedOrExempt(String reviewTypeCode){
+        return isExpedited(reviewTypeCode) || isExempt(reviewTypeCode);
+    }
+    
+    private boolean isExpedited(String reviewTypeCode) {
+        return ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(reviewTypeCode);
+    }
+
+    private boolean isExempt(String reviewTypeCode) {
+        return ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE.equals(reviewTypeCode);
+    }
+    
+    /**
+     * Is the submission expedited?
+     * @param submission
+     * @return
+     */
+    private boolean isExpeditedSubmission(ProtocolSubmission submission) {
+        return submission != null && isExpedited(submission.getProtocolReviewTypeCode());
+    }
+
+
 }
