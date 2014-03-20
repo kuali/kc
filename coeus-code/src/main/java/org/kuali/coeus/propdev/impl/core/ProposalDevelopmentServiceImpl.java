@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -50,7 +50,6 @@ import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
@@ -889,7 +888,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
     
     /** 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#constructColumnsToAlterLookupMTCs(java.lang.String)
+     * @see org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService#constructColumnsToAlterLookupMTCs(java.lang.String)
      */
     public List<String> constructColumnsToAlterLookupMTCs(String proposalNumber) {
         Map<String,Object> filterMap = new HashMap<String,Object>();

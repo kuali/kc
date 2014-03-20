@@ -291,7 +291,7 @@
     </bean>
     
     <!-- Proposal Development Services -->
-	<bean id="proposalDevelopmentService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl">
+	<bean id="proposalDevelopmentService" class="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
         <property name="dataObjectService" ref="dataObjectService" />
 		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
