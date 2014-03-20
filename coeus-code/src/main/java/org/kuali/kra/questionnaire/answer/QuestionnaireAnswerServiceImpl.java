@@ -130,13 +130,14 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                         answerHeaderMap.get(questionnaireId).setActiveQuestionnaire(false);
                     }
                 }
+                answerHeaderMap.get(questionnaireId).setLabel(questionnaireUsage.getQuestionnaireLabel());
             }
             else {
 
                 if ((!moduleQuestionnaireBean.isFinalDoc() && getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()))
                         && questionnaireUsage.getQuestionnaire().isActive()) {
                     // filter out an not saved and usage is not include in current qn
-                    answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean));
+                    answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage, moduleQuestionnaireBean));
                 }
 
             }
@@ -155,7 +156,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (QuestionnaireUsage questionnaireUsage : usages) {
             if (questionnaireUsage.getQuestionnaire().getQuestionnaireId().equals(questionnaire.getQuestionnaireId())
                     && questionnaireUsage.getQuestionnaire().getSequenceNumber() > questionnaire.getSequenceNumber()) {
-                answerHeader = setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean);
+                answerHeader = setupAnswerForQuestionnaire(questionnaireUsage, moduleQuestionnaireBean);
             }
         }
         return answerHeader;
@@ -436,7 +437,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * initialize answer fields based on question
      */
-    protected AnswerHeader setupAnswerForQuestionnaire(Questionnaire questionnaire, ModuleQuestionnaireBean moduleQuestionnaireBean) {
+    protected AnswerHeader setupAnswerForQuestionnaire(QuestionnaireUsage questionnaireUsage, ModuleQuestionnaireBean moduleQuestionnaireBean) {
+    	Questionnaire questionnaire = questionnaireUsage.getQuestionnaire();
         AnswerHeader answerHeader = new AnswerHeader(moduleQuestionnaireBean, questionnaire.getQuestionnaireRefIdAsLong());
         answerHeader.setQuestionnaire(questionnaire);
         List<Answer> answers = new ArrayList<Answer>();
@@ -452,7 +454,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
         answerHeader.setAnswers(answers);
         setupChildAnswerIndicator(answerHeader);
-
+        answerHeader.setLabel(questionnaireUsage.getQuestionnaireLabel());
         return answerHeader;
     }   
 
