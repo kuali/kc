@@ -44,7 +44,7 @@ public class FormMappingLoader {
 
     private static Map<String, FormMappingInfo> bindings;
     private static Map<Integer, List<String>> sortedNameSpaces;
-    private static final String BINDING_FILE_NAME = "/S2SFormBinding.xml";
+    private static final String BINDING_FILE_NAME = "/org/kuali/kra/s2s/s2sform/S2SFormBinding.xml";
     private static final String BINDING_FILE_NAME_V2="/org/kuali/kra/s2s/s2sform/S2SFormBinding-V2.xml";
     private static final String NAMESPACE = "namespace";
     private static final String MAIN_CLASS = "mainClass";
@@ -61,7 +61,7 @@ public class FormMappingLoader {
      * This method is used to get the Form Information based on the given schema
      * 
      * @param nameSpace {@link String} namespace URL of the form
-     * @return {@link formMappingInfo}containing the namespace information
+     * @return {@link FormMappingInfo}containing the namespace information
      * @throws S2SGeneratorNotFoundException
      * 
      */
@@ -89,7 +89,7 @@ public class FormMappingLoader {
             	bindings = new Hashtable<String, FormMappingInfo>();
                 sortedNameSpaces = new TreeMap<Integer, List<String>>();
                 loadBindings(BINDING_FILE_NAME);
-                if((new FormMappingLoader().getClass().getResourceAsStream(BINDING_FILE_NAME_V2))!=null)
+                if((FormMappingLoader.class.getResourceAsStream(BINDING_FILE_NAME_V2))!=null)
                 loadBindings(BINDING_FILE_NAME_V2);
             }
         }
@@ -110,7 +110,7 @@ public class FormMappingLoader {
         	sortedNameSpaces.put(defaultSortIndex, new ArrayList<String>());
         try {
             builder = factory.newDocumentBuilder();
-            document = builder.parse(new FormMappingLoader().getClass().getResourceAsStream(BindingFile));
+            document = builder.parse(FormMappingLoader.class.getResourceAsStream(BindingFile));
         }
         catch (ParserConfigurationException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
