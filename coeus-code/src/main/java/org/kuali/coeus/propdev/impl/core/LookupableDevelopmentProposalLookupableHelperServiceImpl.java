@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.coeus.propdev.impl.core;
 
 import java.sql.Date;
 import java.util.ArrayList;
