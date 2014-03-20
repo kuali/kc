@@ -26,6 +26,7 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
@@ -72,7 +73,6 @@ import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentQuesti
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBean;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;

@@ -17,7 +17,7 @@
 		parent="Uif-TransactionalDocumentView"
 		p:formClass="org.kuali.kra.proposaldevelopment.web.krad.ProposalDevelopmentDocumentForm"
 		p:documentClass="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument"
-		p:viewHelperServiceClass="org.kuali.kra.proposaldevelopment.web.krad.ProposalDevelopmentViewHelperServiceImpl"
+		p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl"
 		p:viewName="initiate" p:stickyFooter="true" p:additionalScriptFiles="scripts/proposaldevelopment.js"
 		p:additionalCssFiles="css/proposaldevelopment.css" p:singlePageView="true">
 		<property name="header">

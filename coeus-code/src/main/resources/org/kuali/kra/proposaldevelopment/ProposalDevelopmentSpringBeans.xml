@@ -291,7 +291,7 @@
     </bean>
     
     <!-- Proposal Development Services -->
-	<bean id="proposalDevelopmentService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl">
+	<bean id="proposalDevelopmentService" class="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
         <property name="dataObjectService" ref="dataObjectService" />
 		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
@@ -312,7 +312,7 @@
 		<property name="lookupableHelperService" ref="proposalDevelopmentLookupableHelperService" />
 	</bean>
 	
-    <bean id="proposalDevelopmentLookupableHelperService" class="org.kuali.kra.proposaldevelopment.service.impl.DevelopmentProposalLookupableHelperServiceImpl" 
+    <bean id="proposalDevelopmentLookupableHelperService" class="org.kuali.coeus.propdev.impl.core.DevelopmentProposalLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype">
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
     </bean>
@@ -321,7 +321,7 @@
 		<property name="lookupableHelperService" ref="lookupableDevelopmentProposalLookupableHelperService" />
 	</bean>
     
-    <bean id="lookupableDevelopmentProposalLookupableHelperService" class="org.kuali.kra.proposaldevelopment.service.impl.LookupableDevelopmentProposalLookupableHelperServiceImpl" 
+    <bean id="lookupableDevelopmentProposalLookupableHelperService" class="org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposalLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype">
         <property name="proposalPersonDao" ref="proposalPersonDao" />
         <property name="businessObjectService" ref="businessObjectService" />
