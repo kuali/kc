@@ -3,15 +3,6 @@
 **/.settings
 **/target
 **/.idea
-**/coeus-code/coeus-code.iml
-**/coeus-db/coeus-db-sql/coeus-db-sql.iml
-**/coeus-db/coeus-db-xml/coeus-db-xml.iml
-**/coeus-db/coeus-db.iml
-**/coeus-form/coeus-form.iml
-**/coeus-help/coeus-help.iml
-**/coeus-it/coeus-it.iml
-**/coeus-tool/coeus-tool.iml
-**/coeus-webapp/coeus-webapp.iml
 **/coeus.iml
 **/.DS_Store
 **/Thumbs.db

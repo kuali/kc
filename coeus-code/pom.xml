@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
     <name>Kuali Coeus Code</name>
     <description>
-        The Kuali Coeus Code module contains the main source code and unit tests for the Kuali Coeus application.
+        The Kuali Coeus Code module contains the main source code (implementation and framework code) and unit tests for the Kuali Coeus application.
     </description>
 
     <prerequisites>
@@ -482,6 +482,12 @@
         <dependency>
             <groupId>org.kuali.db.ojb</groupId>
             <artifactId>db-ojb</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.coeus</groupId>
+            <artifactId>coeus-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
