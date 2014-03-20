@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.sponsor;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorHierarchy;
-import org.kuali.kra.dao.SponsorHierarchyDao;
+import org.kuali.coeus.common.framework.sponsor.SponsorService;
+import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
+import org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.SponsorService;
-import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;

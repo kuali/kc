@@ -16,10 +16,10 @@
 package org.kuali.kra.proposaldevelopment.printing.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.sponsor.SponsorHierarchy;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorForms;
+import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;

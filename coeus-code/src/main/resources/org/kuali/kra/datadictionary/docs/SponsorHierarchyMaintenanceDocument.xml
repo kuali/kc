@@ -3,7 +3,7 @@
   <bean id="SponsorHierarchyMaintenanceDocument" parent="SponsorHierarchyMaintenanceDocument-parentBean"/>
 
   <bean id="SponsorHierarchyMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.SponsorHierarchy"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
