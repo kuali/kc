@@ -994,7 +994,7 @@
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 	
-	<bean id="proposalDevelopmentPermissionsService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentPermissionsServiceImpl">
+	<bean id="proposalDevelopmentPermissionsService" class="org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsServiceImpl">
 		<property name="kraAuthorizationService" ref="kcAuthorizationService" />
 	</bean>
 </beans>
