@@ -45,7 +45,7 @@
 				<div align="left"> 
 					<kul:htmlControlAttribute property="sponsorTermFormHelper.newSponsorTerms[${index}].sponsorTermCode" attributeEntry="${sponsorTermAttributes.sponsorTermCode}"/>
 					<input type="hidden" name="document.keyValue${index}" value="${sponsorTermTypeKey}">
-					<kul:multipleValueLookup boClassName="org.kuali.kra.bo.SponsorTerm" 
+					<kul:multipleValueLookup boClassName="org.kuali.coeus.common.framework.sponsor.term.SponsorTerm" 
 					lookedUpCollectionName="newSponsorTerms"
               		lookupParameters="document.keyValue${index}:sponsorTermTypeCode"
               		anchor="${tabKey}"/>

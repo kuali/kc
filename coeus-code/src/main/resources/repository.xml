@@ -354,7 +354,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.bo.SponsorType" table="SPONSOR_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.framework.sponsor.SponsorType" table="SPONSOR_TYPE">
 		<field-descriptor name="sponsorTypeCode" column="SPONSOR_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
@@ -626,7 +626,7 @@
     	</reference-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.SponsorHierarchy" table="SPONSOR_HIERARCHY">
+	<class-descriptor class="org.kuali.coeus.common.framework.sponsor.SponsorHierarchy" table="SPONSOR_HIERARCHY">
 		<field-descriptor name="hierarchyName" column="HIERARCHY_NAME" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="level1" column="LEVEL1" jdbc-type="VARCHAR"/>
@@ -1111,7 +1111,7 @@
 
 <!--  resubmission enhancement -->		
  
-	<class-descriptor class="org.kuali.kra.bo.SponsorForms" table="SPONSOR_FORMS">
+	<class-descriptor class="org.kuali.coeus.common.framework.sponsor.form.SponsorForms" table="SPONSOR_FORMS">
 		<field-descriptor name="sponsorFormId" column="SPONSOR_FORM_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_SPONSOR_FORMS" autoincrement="true"/>
 		<field-descriptor name="packageName" column="PACKAGE_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="packageNumber" column="PACKAGE_NUMBER" jdbc-type="INTEGER"/>
@@ -1124,12 +1124,12 @@
 		<reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorCode"/> 
 		</reference-descriptor>
-        <collection-descriptor name="sponsorFormTemplates" proxy="true" element-class-ref="org.kuali.kra.bo.SponsorFormTemplateList" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <collection-descriptor name="sponsorFormTemplates" proxy="true" element-class-ref="org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
             <inverse-foreignkey field-ref="sponsorFormId"/>
         </collection-descriptor>
 	</class-descriptor>
  
-	<class-descriptor class="org.kuali.kra.bo.SponsorFormTemplate" table="SPONSOR_FORM_TEMPLATES">
+	<class-descriptor class="org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate" table="SPONSOR_FORM_TEMPLATES">
 		<field-descriptor name="sponsorFormTemplateId" column="SPONSOR_FORM_TEMPLATE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_SPONSOR_FORM_TEMPLATES" autoincrement="true"/>
 		<field-descriptor name="sponsorFormId" column="SPONSOR_FORM_ID" jdbc-type="BIGINT"/>
 		<field-descriptor name="attachmentContent" column="FORM_TEMPLATE" jdbc-type="CLOB" conversion="org.kuali.coeus.sys.framework.persistence.OjbBlobClobFieldConversion"/>
@@ -1141,12 +1141,12 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<reference-descriptor name="sponsorForms" class-ref="org.kuali.kra.bo.SponsorForms" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsorForms" class-ref="org.kuali.coeus.common.framework.sponsor.form.SponsorForms" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorFormId"/>
 		</reference-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.SponsorFormTemplateList" table="SPONSOR_FORM_TEMPLATES">
+	<class-descriptor class="org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList" table="SPONSOR_FORM_TEMPLATES">
 		<field-descriptor name="sponsorFormTemplateId" column="SPONSOR_FORM_TEMPLATE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_SPONSOR_FORM_TEMPLATES" autoincrement="true"/>
 		<field-descriptor name="sponsorFormId" column="SPONSOR_FORM_ID" jdbc-type="BIGINT"/>
 		<field-descriptor name="pageNumber" column="PAGE_NUMBER" jdbc-type="INTEGER"/>
@@ -1155,7 +1155,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<reference-descriptor name="sponsorForms" class-ref="org.kuali.kra.bo.SponsorForms" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsorForms" class-ref="org.kuali.coeus.common.framework.sponsor.form.SponsorForms" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorFormId"/>
 		</reference-descriptor>
 	</class-descriptor>

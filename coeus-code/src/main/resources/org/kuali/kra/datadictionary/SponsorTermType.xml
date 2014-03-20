@@ -17,7 +17,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="SponsorTermType" parent="SponsorTermType-parentBean"/>
 	<bean abstract="true" id="SponsorTermType-parentBean" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.bo.SponsorTermType"/>
+		<property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.term.SponsorTermType"/>
 		<property name="objectLabel" value="Sponsor Term Type"/>
 		<property name="inquiryDefinition">
 			<ref bean="SponsorTermType-inquiryDefinition"/>
@@ -109,7 +109,7 @@
 
   <bean id="SponsorTermType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Sponsor Term Type Code"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.SponsorTermType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.sponsor.term.SponsorTermType"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -150,7 +150,7 @@
 	</bean>
 
   <bean id="SponsorTermType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.SponsorTermType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.sponsor.term.SponsorTermType"/>
     <property name="headerText" value="Sponsor Term Type Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

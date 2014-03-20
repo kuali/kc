@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award;
 
+import org.kuali.coeus.common.framework.sponsor.term.SponsorTermType;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.AwardSponsorTerm;
-import org.kuali.kra.bo.SponsorTermType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.util.KeyValue;

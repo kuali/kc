@@ -3,7 +3,7 @@
   <bean id="SponsorFormTemplateMaintenanceDocument" parent="SponsorFormTemplateMaintenanceDocument-parentBean"/>
 
   <bean id="SponsorFormTemplateMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorFormTemplate"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

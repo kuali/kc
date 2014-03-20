@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.service;
 
-import org.kuali.kra.bo.SponsorTerm;
+import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.util.List;

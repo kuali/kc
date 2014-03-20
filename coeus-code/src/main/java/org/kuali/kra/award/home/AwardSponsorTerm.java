@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
-import org.kuali.kra.bo.SponsorTerm;
 
 
 /**
