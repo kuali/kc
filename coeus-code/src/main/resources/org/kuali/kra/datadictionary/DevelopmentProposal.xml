@@ -28,7 +28,6 @@
 				<ref bean="DevelopmentProposal-requestedEndDateInitial" />
 				<ref bean="DevelopmentProposal-activityTypeCode" />
 				<ref bean="DevelopmentProposal-ownedByUnitNumber" />
-				<ref bean="DevelopmentProposal-ownedByUnitNumberRestricted" />
 				<ref bean="DevelopmentProposal-ownedByUnit.unitName" />
 				<ref bean="DevelopmentProposal-proposalTypeCode" />
 				<ref bean="DevelopmentProposal-proposalType.description" />
@@ -234,8 +233,8 @@
     <property name="description" value="The sponsor name for the DevelopmentProposal."/>
 	</bean>
 
-  <bean id="DevelopmentProposal-requestedStartDateInitial" parent="DevelopmentProposal-requestedStartDateInitial-parentBean"/>
-  <bean id="DevelopmentProposal-requestedStartDateInitial-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <bean id="DevelopmentProposal-requestedStartDateInitial" parent="DevelopmentProposal-requestedStartDateInitial-parentBean"/>
+        <bean id="DevelopmentProposal-requestedStartDateInitial-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
 		<property name="name" value="requestedStartDateInitial" />
 		<property name="label" value="Project Start Date" />
 		<property name="shortLabel" value="Start Dt" />
@@ -245,7 +244,7 @@
 	</bean>
 
 	<bean id="DevelopmentProposal-requestedEndDateInitial" parent="DevelopmentProposal-requestedEndDateInitial-parentBean" />
-  <bean id="DevelopmentProposal-requestedEndDateInitial-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <bean id="DevelopmentProposal-requestedEndDateInitial-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
 		<property name="name" value="requestedEndDateInitial" />
 		<property name="label" value="Project End Date" />
 		<property name="shortLabel" value="End Dt" />
@@ -255,7 +254,7 @@
 	</bean>
 
 	<bean id="DevelopmentProposal-activityTypeCode" parent="DevelopmentProposal-activityTypeCode-parentBean" />
-  <bean id="DevelopmentProposal-activityTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <bean id="DevelopmentProposal-activityTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="activityTypeCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Activity Type" />
@@ -264,63 +263,45 @@
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
+                <property name="validCharactersConstraint">
+                        <bean parent="AlphaNumericPatternConstraint"/>
+                </property>
 		<property name="required" value="true" />
 		<property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ActivityType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="activityTypeCode" p:labelAttribute="description"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ActivityType"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="keyAttributeName" value="activityTypeCode"/>
-        <property name="labelAttributeName" value="description"/>
-      </bean>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
+                        <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ActivityType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="activityTypeCode" p:labelAttribute="description"/>
+                </property>
+                <property name="optionsFinder">
+                        <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+                                <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ActivityType"/>
+                                <property name="includeKeyInDescription" value="false"/>
+		                <property name="keyAttributeName" value="activityTypeCode"/>
+        		        <property name="labelAttributeName" value="description"/>
+			</bean>
+                </property>
+                <property name="controlField">
+      		        <bean parent="Uif-DropdownControl"/>
 		</property>
 		<property name="summary" value="Activity Type summary" />
-    <property name="description" value="The type of activity proposed, e.g. organized research, instruction, etc."/>
+                <property name="description" value="The type of activity proposed, e.g. organized research, instruction, etc."/>
 	</bean>
 
 	<bean id="DevelopmentProposal-ownedByUnitNumber" parent="DevelopmentProposal-ownedByUnitNumber-parentBean" />
 	<bean id="DevelopmentProposal-ownedByUnitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
 		<property name="name" value="ownedByUnitNumber" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Lead Unit" />
-		<property name="shortLabel" value="Lead Unit" />
-		<property name="maxLength" value="8" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint"/>
-    </property>
-		<property name="required" value="true" />
-		<property name="summary" value="Lead Unit (Owned by Unit)" />
-    <property name="description" value="The proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit."/>
-	</bean>
-	
-	<bean id="DevelopmentProposal-ownedByUnitNumberRestricted" parent="DevelopmentProposal-ownedByUnitNumberRestricted-parentBean" />
-	<bean id="DevelopmentProposal-ownedByUnitNumberRestricted-parentBean" abstract="true" parent="DevelopmentProposal-ownedByUnitNumber">
-		<property name="name" value="ownedByUnitNumberRestricted" />
 		<property name="required" value="true" />
 		<property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder"/>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder" p:includeKeyInLabel="false"/>
+		</property>
+		<property name="optionsFinder">
+			<bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder"/>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-DropdownControl"/>
 		</property>
 	</bean>
 	
 	<bean id="DevelopmentProposal-ownedByUnit.unitName" parent="DevelopmentProposal-ownedByUnit.unitName-parentBean" />
-  <bean id="DevelopmentProposal-ownedByUnit.unitName-parentBean" abstract="true" parent="AttributeDefinition">
+        <bean id="DevelopmentProposal-ownedByUnit.unitName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="ownedByUnit.unitName" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Lead Unit Name" />
@@ -329,23 +310,23 @@
 		<property name="validationPattern">
 			<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
 		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-		<property name="control">
+                <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint">
+                                <property name="allowWhitespace" value="true"/>
+                        </bean>
+                </property>
+                <property name="control">
 			<bean p:size="60" parent="TextControlDefinition" />
 		</property>
-    <property name="controlField">
-      <bean p:size="60" parent="Uif-TextControl"/>
-    </property>
+                <property name="controlField">
+                        <bean p:size="60" parent="Uif-TextControl"/>
+                </property>
 		<property name="summary" value="Lead Unit Name (Owned by Unit)." />
-    <property name="description" value="The proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit."/>
+                <property name="description" value="The proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit."/>
 	</bean>
 
 	<bean id="DevelopmentProposal-proposalTypeCode" parent="DevelopmentProposal-proposalTypeCode-parentBean" />
-  <bean id="DevelopmentProposal-proposalTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <bean id="DevelopmentProposal-proposalTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="proposalTypeCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Proposal Type" />
@@ -354,30 +335,30 @@
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-		<property name="required" value="true" />
-		<property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="proposalTypeCode" p:labelAttribute="description"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalType"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="keyAttributeName" value="proposalTypeCode"/>
-        <property name="labelAttributeName" value="description"/>
-      </bean>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-		</property>
-		<property name="summary" value="The Types that the Proposal Could be." />
-		<property name="description" value="The type of the proposal." />
+                <property name="validCharactersConstraint">
+                        <bean parent="AlphaNumericPatternConstraint"/>
+                </property>
+	        <property name="required" value="true" />
+        	<property name="control">
+                        <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="proposalTypeCode" p:labelAttribute="description"/>
+                </property>
+                <property name="optionsFinder">
+                        <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+                                <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalType"/>
+                                <property name="includeKeyInDescription" value="false"/>
+                                <property name="keyAttributeName" value="proposalTypeCode"/>
+                                <property name="labelAttributeName" value="description"/>
+                        </bean>
+                </property>
+                <property name="controlField">
+                        <bean parent="Uif-DropdownControl"/>
+                </property>
+	        <property name="summary" value="The Types that the Proposal Could be." />
+        	<property name="description" value="The type of the proposal." />
 	</bean>
 
 	<bean id="DevelopmentProposal-proposalType.description" parent="DevelopmentProposal-proposalType.description-parentBean" />
-  <bean id="DevelopmentProposal-proposalType.description-parentBean" abstract="true" parent="ProposalType-description">
+        <bean id="DevelopmentProposal-proposalType.description-parentBean" abstract="true" parent="ProposalType-description">
 		<property name="name" value="proposalType.description" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Proposal Type" />
@@ -388,26 +369,26 @@
 	</bean>
 
 	<bean id="DevelopmentProposal-currentAwardNumber" parent="DevelopmentProposal-currentAwardNumber-parentBean" />
-  <bean id="DevelopmentProposal-currentAwardNumber-parentBean" abstract="true" parent="Award-awardNumber-parentBean">
+        <bean id="DevelopmentProposal-currentAwardNumber-parentBean" abstract="true" parent="Award-awardNumber-parentBean">
 		<property name="name" value="currentAwardNumber" />
 		<property name="label" value="Award ID" />
 		<property name="shortLabel" value="Award ID" />
 		<property name="required" value="false" />
 		<property name="summary" value="The Sponsor Award Number for this Proposal." />
-    <property name="description" value="A unique institutionally assigned number of a previously funded application."/>
+                <property name="description" value="A unique institutionally assigned number of a previously funded application."/>
 		<property name="validationPattern">
-      <bean parent="RegexValidationPattern" p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" p:validationErrorMessageKey="error.missing"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="JavaClassPatternConstraint">
-        <property name="value" value="\d\d\d\d\d\d-\d\d\d\d\d"/>
-        <property name="messageKey" value="error.missing"/>
-      </bean>
+                        <bean parent="RegexValidationPattern" p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" p:validationErrorMessageKey="error.missing"/>
+                </property>
+                <property name="validCharactersConstraint">
+                        <bean parent="JavaClassPatternConstraint">
+                                <property name="value" value="\d\d\d\d\d\d-\d\d\d\d\d"/>
+                                <property name="messageKey" value="error.missing"/>
+                        </bean>
 		</property>
 	</bean>
 
 	<bean id="DevelopmentProposal-continuedFrom" parent="DevelopmentProposal-continuedFrom-parentBean" />
-  <bean id="DevelopmentProposal-continuedFrom-parentBean" abstract="true" parent="AttributeDefinition">
+        <bean id="DevelopmentProposal-continuedFrom-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="continuedFrom" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Original Institutional Proposal ID" />
@@ -1240,13 +1221,13 @@
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="proposalNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="proposalTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalTypeCode" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="proposalStateTypeCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="sponsor.sponsorName" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="ownedByUnitNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="ownedByUnitNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="ownedByUnit.unitName" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="currentAwardNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="opportunityIdForGG" parent="Uif-LookupCriteriaInputField"/>
