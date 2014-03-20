@@ -312,7 +312,7 @@
 		<property name="lookupableHelperService" ref="proposalDevelopmentLookupableHelperService" />
 	</bean>
 	
-    <bean id="proposalDevelopmentLookupableHelperService" class="org.kuali.kra.proposaldevelopment.service.impl.DevelopmentProposalLookupableHelperServiceImpl" 
+    <bean id="proposalDevelopmentLookupableHelperService" class="org.kuali.coeus.propdev.impl.core.DevelopmentProposalLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype">
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
     </bean>
