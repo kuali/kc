@@ -976,12 +976,12 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="sponsorTerm" class-ref="org.kuali.kra.bo.SponsorTerm" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsorTerm" class-ref="org.kuali.coeus.common.framework.sponsor.term.SponsorTerm" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorTermId"/> 
 		</reference-descriptor>	
 	</class-descriptor>
 	
-	 <class-descriptor class="org.kuali.kra.bo.SponsorTermType" table="SPONSOR_TERM_TYPE">
+	 <class-descriptor class="org.kuali.coeus.common.framework.sponsor.term.SponsorTermType" table="SPONSOR_TERM_TYPE">
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="sponsorTermTypeCode" column="SPONSOR_TERM_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
@@ -990,7 +990,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.SponsorTerm" table="SPONSOR_TERM">
+	<class-descriptor class="org.kuali.coeus.common.framework.sponsor.term.SponsorTerm" table="SPONSOR_TERM">
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="sponsorTermId" column="SPONSOR_TERM_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_SPONSOR_TERM" autoincrement="true"/>
@@ -999,7 +999,7 @@
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<reference-descriptor name="sponsorTermType" class-ref="org.kuali.kra.bo.SponsorTermType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsorTermType" class-ref="org.kuali.coeus.common.framework.sponsor.term.SponsorTermType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorTermTypeCode"/>
 		</reference-descriptor> 
 	</class-descriptor>
@@ -1015,7 +1015,7 @@
 		<reference-descriptor name="awardTemplate" class-ref="org.kuali.kra.award.home.AwardTemplate" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="templateCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="sponsorTerm" class-ref="org.kuali.kra.bo.SponsorTerm" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsorTerm" class-ref="org.kuali.coeus.common.framework.sponsor.term.SponsorTerm" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorTermId"/>
 		</reference-descriptor>
 	</class-descriptor>

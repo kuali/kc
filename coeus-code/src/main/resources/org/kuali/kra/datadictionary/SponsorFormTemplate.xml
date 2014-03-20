@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="SponsorFormTemplate" parent="SponsorFormTemplate-parentBean" />
   <bean id="SponsorFormTemplate-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorFormTemplate" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate" />
 		<property name="objectLabel" value="Sponsor Form Template" />
     <property name="inquiryDefinition" >
       <ref bean="SponsorFormTemplate-inquiryDefinition" />
@@ -152,7 +152,7 @@
 
   <bean id="SponsorFormTemplate-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Sponsor Form Templates"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.SponsorFormTemplate"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -201,7 +201,7 @@
   </bean>
 
   <bean id="SponsorFormTemplate-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.SponsorFormTemplate"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate"/>
     <property name="headerText" value="Sponsor Form Templates Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.printing.print;
 
-import org.kuali.kra.bo.SponsorFormTemplate;
+import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;

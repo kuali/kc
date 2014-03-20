@@ -16,8 +16,8 @@
 package org.kuali.kra.rules;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.sponsor.SponsorHierarchy;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 import org.kuali.rice.core.api.util.RiceKeyConstants;

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.io.Serializable;

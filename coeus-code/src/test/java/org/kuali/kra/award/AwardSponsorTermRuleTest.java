@@ -19,8 +19,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
 import org.kuali.kra.award.home.AwardSponsorTerm;
-import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 

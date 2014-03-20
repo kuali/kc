@@ -17,7 +17,7 @@ package org.kuali.kra.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kra.bo.SponsorHierarchy;
+import org.kuali.coeus.common.framework.sponsor.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;

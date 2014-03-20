@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.sponsor;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;

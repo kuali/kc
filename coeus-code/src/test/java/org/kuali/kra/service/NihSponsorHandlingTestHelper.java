@@ -1,7 +1,7 @@
 package org.kuali.kra.service;
 
 import org.junit.Assert;
-import org.kuali.kra.bo.SponsorHierarchy;
+import org.kuali.coeus.common.framework.sponsor.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.rice.krad.service.BusinessObjectService;

@@ -19,12 +19,12 @@ package org.kuali.kra.award.awardhierarchy.sync.helpers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
+import org.kuali.coeus.common.framework.sponsor.term.SponsorTermType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.home.AwardSponsorTerm;
-import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.kra.bo.SponsorTermType;
 import static org.junit.Assert.*;
 public class AwardSyncTermHelperTest extends AwardSyncHelperTestBase {
 

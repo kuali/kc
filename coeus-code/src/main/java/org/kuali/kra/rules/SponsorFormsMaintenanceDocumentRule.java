@@ -16,8 +16,8 @@
 package org.kuali.kra.rules;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.sponsor.form.SponsorForms;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
-import org.kuali.kra.bo.SponsorForms;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
