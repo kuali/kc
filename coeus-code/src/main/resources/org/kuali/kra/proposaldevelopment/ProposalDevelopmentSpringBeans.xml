@@ -321,7 +321,7 @@
 		<property name="lookupableHelperService" ref="lookupableDevelopmentProposalLookupableHelperService" />
 	</bean>
     
-    <bean id="lookupableDevelopmentProposalLookupableHelperService" class="org.kuali.kra.proposaldevelopment.service.impl.LookupableDevelopmentProposalLookupableHelperServiceImpl" 
+    <bean id="lookupableDevelopmentProposalLookupableHelperService" class="org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposalLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype">
         <property name="proposalPersonDao" ref="proposalPersonDao" />
         <property name="businessObjectService" ref="businessObjectService" />
