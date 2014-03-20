@@ -867,7 +867,7 @@
     </bean>
 
 	<bean id="proposalPermissionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
-		<property name="classname" value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentPermissionsAction" />
+		<property name="classname" value="org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsAction" />
 		<property name="mappings">
 			<map>
 				<entry key="addProposalUser">
