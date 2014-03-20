@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.dao.ojb;
+package org.kuali.coeus.common.impl.sponsor.hierarchy;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.coeus.common.framework.sponsor.SponsorHierarchy;
-import org.kuali.kra.dao.SponsorHierarchyDao;
+import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
@@ -43,7 +42,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
     
     /**
      * This is much faster than use 'businessobjectservice.findmatching, and then loop thru bo.
-     * @see org.kuali.kra.dao.SponsorHierarchyDao#getAllSponsors(java.lang.String)
+     * @see org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyDao#getAllSponsors(java.lang.String)
      */
     public Iterator getAllSponsors(String hierarchyName) {
         
@@ -58,7 +57,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
 
     /**
      * Appears to need to be transactional when this is called during the maint doc page rendering.
-     * @see org.kuali.kra.dao.SponsorHierarchyDao#getUniqueNamesAtLevel(java.lang.String, int)
+     * @see org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyDao#getUniqueNamesAtLevel(java.lang.String, int)
      */
     @Transactional
     public List<String> getUniqueNamesAtLevel(String hierarchyName, int depth) {

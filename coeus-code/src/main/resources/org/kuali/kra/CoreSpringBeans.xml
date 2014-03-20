@@ -1533,7 +1533,7 @@
 	      scope="prototype">
   	</bean>
     
-    <bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
+    <bean id="sponsorService" class="org.kuali.coeus.common.impl.sponsor.SponsorServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService" />
         <property name="sponsorHierarchyDao" ref="sponsorHierarchyDao" />
@@ -1546,7 +1546,7 @@
     <bean id="sponsorLookupableHelperService" class="org.kuali.kra.lookup.SponsorLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
           scope="prototype" />
 
-    <bean id="sponsorHierarchyDao" class="org.kuali.kra.dao.ojb.SponsorHierarchyDaoOjb" parent="platformAwareDao" />
+    <bean id="sponsorHierarchyDao" class="org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyDaoOjb" parent="platformAwareDao" />
     
     <bean id="unitLookupDao" class="org.kuali.coeus.common.impl.unit.UnitLookupDaoOjb" parent="platformAwareDao" />
     

@@ -626,7 +626,7 @@
     	</reference-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.coeus.common.framework.sponsor.SponsorHierarchy" table="SPONSOR_HIERARCHY">
+	<class-descriptor class="org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy" table="SPONSOR_HIERARCHY">
 		<field-descriptor name="hierarchyName" column="HIERARCHY_NAME" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="level1" column="LEVEL1" jdbc-type="VARCHAR"/>
