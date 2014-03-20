@@ -16,11 +16,11 @@
 package org.kuali.kra.proposaldevelopment.notification;
 
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
 import java.text.SimpleDateFormat;
 import java.util.Map;
