@@ -570,18 +570,9 @@ public class S2SPollingTask {
     }
 
     /**
-     * @param service the s2sService to set
+     * @param s2SService the s2sService to set
      */
     public void sets2SService(S2SService s2SService) {
         this.s2SService = s2SService;
     }
-
-    // /**
-    // * Sets the mailService attribute value.
-    // *
-    // * @param mailService The mailService to set.
-    // */
-    // public void setMailService(MailService mailService) {
-    // this.mailService = mailService;
-    // }
 }
