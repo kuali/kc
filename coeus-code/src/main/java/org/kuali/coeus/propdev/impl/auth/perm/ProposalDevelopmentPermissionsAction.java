@@ -29,7 +29,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalRoleState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalUserEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalUserEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.EditUserProposalRolesEvent;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
