@@ -31,10 +31,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-/**
- * 
- * This class implements a custom lookup for S2S Grants.gov Opportunity Lookup
- */
+
 @Transactional
 public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     
@@ -90,12 +87,7 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
         
         return columns;
     }
-    
-    /**
-     * 
-     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     * It calls the S2sService#searchOpportunity service to look up the opportunity
-     */
+
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         //LookupUtils.removeHiddenCriteriaFields( getBusinessObjectClass(), fieldValues );
         setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
