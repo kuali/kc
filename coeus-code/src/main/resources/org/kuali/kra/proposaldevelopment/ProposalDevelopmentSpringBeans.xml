@@ -438,7 +438,7 @@
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
     </bean>
     
-    <bean id="proposalRoleTemplateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalRoleTemplateServiceImpl">
+    <bean id="proposalRoleTemplateService" class="org.kuali.coeus.propdev.impl.auth.perm.ProposalRoleTemplateServiceImpl">
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="roleManagementService" ref="roleService" />
         <property name="proposalRoleService" ref="proposalRoleService" />
@@ -867,7 +867,7 @@
     </bean>
 
 	<bean id="proposalPermissionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
-		<property name="classname" value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentPermissionsAction" />
+		<property name="classname" value="org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsAction" />
 		<property name="mappings">
 			<map>
 				<entry key="addProposalUser">
@@ -994,7 +994,7 @@
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 	
-	<bean id="proposalDevelopmentPermissionsService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentPermissionsServiceImpl">
+	<bean id="proposalDevelopmentPermissionsService" class="org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsServiceImpl">
 		<property name="kraAuthorizationService" ref="kcAuthorizationService" />
 	</bean>
 </beans>
