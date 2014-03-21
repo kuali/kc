@@ -28,20 +28,36 @@ import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.*;
 
+@Component("sponsorService")
 public class SponsorServiceImpl implements SponsorService, Constants {
-    private SponsorHierarchyDao sponsorHierarchyDao;
-    private BusinessObjectService businessObjectService;
-    private ParameterService parameterService;
-
+	
+    private static final Log LOG = LogFactory.getLog(SponsorServiceImpl.class);
     private static final String sessionKey = "org.kuali.kra.service.impl.SponsorServiceImpl.actionList";
     private static final Integer HIERARCHY_MAX_HEIGHT = 10;
+	
+	@Autowired
+	@Qualifier("sponsorHierarchyDao")
+    private SponsorHierarchyDao sponsorHierarchyDao;
+	
+	@Autowired
+	@Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
+	
+	@Autowired
+	@Qualifier("parameterService")
+    private ParameterService parameterService;
+
     protected enum SponsorActionType {
         INSERT, UPDATE_NAME, UPDATE_SORT, DELETE;
     }
+    
     protected class SponsorAction {
         public SponsorActionType actionType;
         public String hierarchyName;
@@ -64,7 +80,6 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
     }
 
-    private static final Log LOG = LogFactory.getLog(SponsorServiceImpl.class);
     
     @Override
     public String getSponsorName(String sponsorCode) {
@@ -253,39 +268,6 @@ public class SponsorServiceImpl implements SponsorService, Constants {
 
         List sponsors = (List)businessObjectService.findMatching(SponsorHierarchy.class, fieldValues);
         businessObjectService.delete(sponsors);
-    }
-
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * @param parameterService
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    public SponsorHierarchyDao getSponsorHierarchyDao() {
-        return sponsorHierarchyDao;
-    }
-
-    public void setSponsorHierarchyDao(SponsorHierarchyDao sponsorHierarchyDao) {
-        this.sponsorHierarchyDao = sponsorHierarchyDao;
     }
 
     public String loadToSponsorHierachyMt(String hierarchyName) {
@@ -511,4 +493,42 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
         return valid;
     }
+
+    /**
+     * Gets the businessObjectService attribute.
+     * 
+     * @return Returns the businessObjectService.
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    protected ParameterService getParameterService() {
+    	return parameterService;
+    }
+
+    /**
+     * @param parameterService
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    protected SponsorHierarchyDao getSponsorHierarchyDao() {
+        return sponsorHierarchyDao;
+    }
+
+    protected void setSponsorHierarchyDao(SponsorHierarchyDao sponsorHierarchyDao) {
+        this.sponsorHierarchyDao = sponsorHierarchyDao;
+    }
+    
 }
