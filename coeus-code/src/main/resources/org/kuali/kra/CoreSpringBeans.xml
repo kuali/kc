@@ -31,17 +31,20 @@
 
     <!-- TODO: Consolidate these... i.e. <context:component-scan base-package="org.kuali.coeus.common.impl"/>  -->
     <!-- Currently adding only fully annotated services -->
-    <context:component-scan base-package="org.kuali.coeus.common.impl.mail"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.rolodex"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.person"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.version"/>
+	<context:component-scan base-package="org.kuali.coeus.common.notification.impl.service.impl"/>
+
     <context:component-scan base-package="org.kuali.coeus.common.impl.attachment"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.unit"/>
+    <context:component-scan base-package="org.kuali.coeus.common.impl.mail"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl.org"/>
+    <context:component-scan base-package="org.kuali.coeus.common.impl.person"/>
+    <context:component-scan base-package="org.kuali.coeus.common.impl.rolodex"/>
+    <context:component-scan base-package="org.kuali.coeus.common.impl.sponsor"/>
+    <context:component-scan base-package="org.kuali.coeus.common.impl.unit"/>
+    <context:component-scan base-package="org.kuali.coeus.common.impl.version"/>
+
 	<context:component-scan base-package="org.kuali.kra.service.impl"/>
     <context:component-scan base-package="org.kuali.kra.multicampus"/>
 
-	<context:component-scan base-package="org.kuali.coeus.common.notification.impl.service.impl"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
@@ -1532,12 +1535,6 @@
 	<bean id="rolodexLookupableHelperService" class="org.kuali.coeus.common.impl.rolodex.RolodexLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
 	      scope="prototype">
   	</bean>
-    
-    <bean id="sponsorService" class="org.kuali.coeus.common.impl.sponsor.SponsorServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="parameterService" ref="parameterService" />
-        <property name="sponsorHierarchyDao" ref="sponsorHierarchyDao" />
-    </bean>
     
     <bean id="sponsorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="sponsorLookupableHelperService" />
