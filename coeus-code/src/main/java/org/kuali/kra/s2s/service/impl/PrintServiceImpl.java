@@ -275,8 +275,6 @@ public class PrintServiceImpl implements PrintService {
 				continue;
 			}
 
-//			XmlObject formObject = s2sFormGenerator.getFormObject(formFragment);
-//			if (s2SValidatorService.validate(formObject, errors)) {
 				byte[] formXmlBytes = formFragment.xmlText().getBytes();
 				S2SFormPrint formPrintable = new S2SFormPrint();
 
@@ -290,7 +288,6 @@ public class PrintServiceImpl implements PrintService {
 				Map<String, byte[]> formXmlDataMap = new LinkedHashMap<String, byte[]>();
 				formXmlDataMap.put(info.getFormName(), formXmlBytes);
 				formPrintable.setXmlDataMap(formXmlDataMap);
-//				S2sAppSubmission submittedS2SAppSubmission = getLatestS2SAppSubmission(pdDoc);
 				S2sApplication s2sApplciation = getBusinessObjectService().findBySinglePrimaryKey(S2sApplication.class, pdDoc.getDevelopmentProposal().getProposalNumber());//submittedS2SAppSubmission.getS2sApplication();
 				List<S2sAppAttachments> attachmentList = s2sApplciation.getS2sAppAttachmentList();
 
@@ -479,22 +476,8 @@ public class PrintServiceImpl implements PrintService {
 
 	protected XmlObject getFormObject(GrantApplicationDocument submittedXml,
 			FormMappingInfo info) {
-		XmlObject formObject = null;
 		Forms forms = submittedXml.getGrantApplication().getForms();
 		return forms.newCursor().getObject();
-//		if (forms != null) {
-//			XmlCursor formCursor = forms.newCursor();
-//			formCursor.toNextToken();
-//			do {
-//				if (formCursor.getName().getNamespaceURI().equals(
-//						info.getNameSpace())) {
-//					formObject = formCursor.getObject();
-//					break;
-//				}
-//			} while (formCursor.toNextSibling());
-//		}
-		
-//		return formObject;
 	}
 
 	/**

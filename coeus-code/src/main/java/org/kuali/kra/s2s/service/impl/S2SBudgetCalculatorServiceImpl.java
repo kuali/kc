@@ -83,9 +83,6 @@ public class S2SBudgetCalculatorServiceImpl implements
     private static final String ROLE_GRADUATE_OTHER = "Other";
     private static final String ROLE_GRADUATE_OTHER_PROFESSIONALS = "Other Professionals";
     private static final String ROLE_GRADUATE_ALLOCATED_ADMIN_SUPPORT = "Allocated Admin Support";
-    // private static final String PERIOD_TYPE_ACADEMIC_MONTHS = "AP";
-    // private static final String PERIOD_TYPE_SUMMER_MONTHS = "SP";
-    // private static final String PERIOD_TYPE_CALENDAR_MONTHS = "CC";
     private static final String TARGET_CATEGORY_CODE_01 = "01";
     private static final String OTHER_DIRECT_COSTS = "Other Direct Costs";
     private static final String ALL_OTHER_COSTS = "All Other Costs";
@@ -114,21 +111,6 @@ public class S2SBudgetCalculatorServiceImpl implements
         this.parameterService = parameterService;
     }
 
-    public boolean isBudgetSummaryCostShareParameterValueEnabled(Budget budget) {
-        return budget.getSubmitCostSharingFlag();
-    }
-
-    // public boolean isBudgetCostShareParameterValueEnabled() {
-    //
-    // String parameterValue = null;
-    // try {
-    // parameterValue = this.parameterService.getParameterValue(
-    // BudgetDocument.class, Constants.ENABLE_COST_SHARE_SUBMIT);
-    // } catch (IllegalArgumentException e) {
-    // LOG.error("Parameter not found - " + Constants.ENABLE_COST_SHARE_SUBMIT, e);
-    // }
-    // return parameterValue==null?true:ONE_STRING.equals(parameterValue);
-    // }
     /**
      * 
      * This method does the budget related calculations for a given ProposalDevelopmentDocument and returns them in
@@ -800,9 +782,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             }
         }
         else{
-            // boolean lineItemMatched;
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                // lineItemMatched = false;
 
                 Map<String, String> categoryMap = new HashMap<String, String>();
                 categoryMap.put(KEY_TARGET_CATEGORY_CODE, category);
@@ -900,11 +880,6 @@ public class S2SBudgetCalculatorServiceImpl implements
                                             }
                                         }
                                     }
-                                    // if
-                                    // (personDetails.getLineItemNumber().equals(lineItem.getLineItemNumber()))
-                                    // {
-                                    // lineItemMatched = true;
-                                    // }
                                 }
                             }
                         }
@@ -1184,7 +1159,6 @@ public class S2SBudgetCalculatorServiceImpl implements
 
         BudgetDecimal totalTravelCostSharing = BudgetDecimal.ZERO;
         BudgetDecimal totalParticipantCostSharing = BudgetDecimal.ZERO;
-        int totalParticipantCount = 0;
 
         BudgetDecimal materialCost = BudgetDecimal.ZERO;
         BudgetDecimal materialCostSharing = BudgetDecimal.ZERO;
@@ -1327,7 +1301,6 @@ public class S2SBudgetCalculatorServiceImpl implements
                     totalParticipantCostSharing = totalParticipantCostSharing.add(costInfo.getCostSharing());
                 }
                 totalParticipantCost = totalParticipantCost.add(costInfo.getCost());
-                totalParticipantCount += costInfo.getQuantity();
             }
             else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_OTHER_DIRECT_COSTS_CATEGORY))) {
@@ -1834,22 +1807,6 @@ public class S2SBudgetCalculatorServiceImpl implements
         return isSeniorLineItem;
     }
 
-    protected boolean budgetPersonExistInProposalPersons(BudgetPerson budgetPerson, List<ProposalPerson> propPersons) {
-        for (ProposalPerson propPerson : propPersons) {
-            if (budgetPerson.getPersonId() != null) {
-                if (budgetPerson.getPersonId().equals(propPerson.getPersonId())) {
-                    return true;
-                }
-            }
-            else if (budgetPerson.getRolodexId() != null) {
-                if (budgetPerson.getRolodexId().equals(propPerson.getRolodexId())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     /**
      * This method determines whether a {@link ProposalPerson} is a Non MIT person
      * 
@@ -2125,35 +2082,6 @@ public class S2SBudgetCalculatorServiceImpl implements
             throw new S2SException(e);
         }
         return budgetDocument;
-    }
-
-    /**
-     * 
-     * This method gets the salary requested for a given proposal person.
-     * 
-     * @param pdDoc {@link ProposalDevelopmentDocument} from which salary needs to be fetched
-     * @param proposalPerson proposal person whose salary needs to be fetched
-     * 
-     * @return {@link BudgetDecimal} salary of proposal person
-     * @throws S2SException
-     */
-    public BudgetDecimal getProposalPersonSalary(ProposalDevelopmentDocument pdDoc, ProposalPerson proposalPerson)
-            throws S2SException {
-        BudgetDecimal salary = BudgetDecimal.ZERO;
-        BudgetDocument budgetDoc = getFinalBudgetVersion(pdDoc);
-        Budget budget = budgetDoc == null ? null : budgetDoc.getBudget();
-        if (budget != null) {
-            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-                for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                    for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
-                        if (s2SUtilService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
-                            salary = salary.add(budgetPersonnelDetails.getSalaryRequested());
-                        }
-                    }
-                }
-            }
-        }
-        return salary;
     }
 
     /**

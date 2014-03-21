@@ -30,13 +30,13 @@ import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint;
 import org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.print.QuestionnairePrint;
-import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -55,7 +55,6 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	private PrintCertificationPrint printCertificationPrint;
 	private ProposalSponsorFormsPrint proposalSponsorFormsPrint;
 	private PrintingService printingService;
-	private S2SUtilService s2SUtilService;
 	private BusinessObjectService businessObjectService;
 	private ParameterService parameterService;
 	private static final String SPONSOR_CODE_DB_KEY = "sponsorCode";
@@ -134,11 +133,9 @@ public class ProposalDevelopmentPrintingServiceImpl implements
         if (sponsorFormTemplates.isEmpty()) {
             Collection<SponsorFormTemplateList> clsponsorFormTemplates = getSponsorTemplatesList(sponsorCode);
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
-            if(!s2SUtilService
-                    .getParameterValue(Constants.LOCAL_PRINT_FORM_SPONSOR_CODE).equals(sponsorCode)){
-            String genericSponsorCode = s2SUtilService
-                    .getParameterValue(Constants.GENERIC_SPONSOR_CODE);
-            clsponsorFormTemplates = getSponsorTemplatesList(genericSponsorCode);
+            if(!parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.LOCAL_PRINT_FORM_SPONSOR_CODE).equals(sponsorCode)){
+                String genericSponsorCode = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.GENERIC_SPONSOR_CODE);
+                clsponsorFormTemplates = getSponsorTemplatesList(genericSponsorCode);
             }
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
         } else {
@@ -267,25 +264,6 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	public void setPrintCertificationPrint(
 			PrintCertificationPrint printCertificationPrint) {
 		this.printCertificationPrint = printCertificationPrint;
-	}
-
-	/**
-	 * Gets the s2SUtilService attribute.
-	 * 
-	 * @return Returns the s2SUtilService.
-	 */
-	public S2SUtilService getS2SUtilService() {
-		return s2SUtilService;
-	}
-
-	/**
-	 * Sets the s2SUtilService attribute value.
-	 * 
-	 * @param utilService
-	 *            The s2SUtilService to set.
-	 */
-	public void setS2SUtilService(S2SUtilService utilService) {
-		s2SUtilService = utilService;
 	}
 
 	/**

@@ -18,7 +18,6 @@ package org.kuali.kra.s2s.polling;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.rice.core.api.mail.MailMessage;
 
-//import org.kuali.core.mail.MailMessage;
 
 /**
  * 
