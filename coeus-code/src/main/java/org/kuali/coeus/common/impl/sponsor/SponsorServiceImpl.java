@@ -13,35 +13,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.sponsor;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.kra.bo.SponsorHierarchy;
-import org.kuali.kra.dao.SponsorHierarchyDao;
+import org.kuali.coeus.common.framework.sponsor.SponsorService;
+import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
+import org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.SponsorService;
-import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.*;
 
+@Component("sponsorService")
+@SuppressWarnings({"deprecation","unchecked"})
 public class SponsorServiceImpl implements SponsorService, Constants {
+	
+    private static final Log LOG = LogFactory.getLog(SponsorServiceImpl.class);
+    private static final String SESSION_KEY = SponsorServiceImpl.class.getName() + ".actionList";
+    private static final Integer HIERARCHY_MAX_HEIGHT = 10;
+	
+	@Autowired
+	@Qualifier("sponsorHierarchyDao")
     private SponsorHierarchyDao sponsorHierarchyDao;
+	
+	@Autowired
+	@Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+	
+	@Autowired
+	@Qualifier("parameterService")
     private ParameterService parameterService;
 
-    private static final String sessionKey = "org.kuali.kra.service.impl.SponsorServiceImpl.actionList";
-    private static final Integer HIERARCHY_MAX_HEIGHT = 10;
     protected enum SponsorActionType {
         INSERT, UPDATE_NAME, UPDATE_SORT, DELETE;
     }
+    
     protected class SponsorAction {
         public SponsorActionType actionType;
         public String hierarchyName;
@@ -64,7 +81,6 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
     }
 
-    private static final Log LOG = LogFactory.getLog(SponsorServiceImpl.class);
     
     @Override
     public String getSponsorName(String sponsorCode) {
@@ -255,39 +271,6 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         businessObjectService.delete(sponsors);
     }
 
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * @param parameterService
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    public SponsorHierarchyDao getSponsorHierarchyDao() {
-        return sponsorHierarchyDao;
-    }
-
-    public void setSponsorHierarchyDao(SponsorHierarchyDao sponsorHierarchyDao) {
-        this.sponsorHierarchyDao = sponsorHierarchyDao;
-    }
-
     public String loadToSponsorHierachyMt(String hierarchyName) {
 
         String sponsorCodes=Constants.EMPTY_STRING;
@@ -362,16 +345,16 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     
     @SuppressWarnings("unchecked")
     protected void addActionToBeSaved(SponsorAction action) {
-        List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(sessionKey);
+        List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(SESSION_KEY);
         if (actions == null) {
             actions = new ArrayList<SponsorAction>();
-            GlobalVariables.getUserSession().addObject(sessionKey, actions);
+            GlobalVariables.getUserSession().addObject(SESSION_KEY, actions);
         }
         actions.add(action);
     }
     
     public void executeActions() {
-        List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(sessionKey);
+        List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(SESSION_KEY);
         if (actions != null) {
             for (SponsorAction action : actions) {
                 if (action.actionType == SponsorActionType.INSERT) {
@@ -470,7 +453,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     }
     
     public void clearCurrentActions() {
-        GlobalVariables.getUserSession().removeObject(sessionKey);
+        GlobalVariables.getUserSession().removeObject(SESSION_KEY);
     }
 
 
@@ -511,4 +494,42 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
         return valid;
     }
+
+    /**
+     * Gets the businessObjectService attribute.
+     * 
+     * @return Returns the businessObjectService.
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    protected ParameterService getParameterService() {
+    	return parameterService;
+    }
+
+    /**
+     * @param parameterService
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    protected SponsorHierarchyDao getSponsorHierarchyDao() {
+        return sponsorHierarchyDao;
+    }
+
+    protected void setSponsorHierarchyDao(SponsorHierarchyDao sponsorHierarchyDao) {
+        this.sponsorHierarchyDao = sponsorHierarchyDao;
+    }
+    
 }

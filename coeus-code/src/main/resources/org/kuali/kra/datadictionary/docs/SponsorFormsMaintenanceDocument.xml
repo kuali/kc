@@ -3,7 +3,7 @@
   <bean id="SponsorFormsMaintenanceDocument" parent="SponsorFormsMaintenanceDocument-parentBean"/>
 
   <bean id="SponsorFormsMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorForms"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.form.SponsorForms"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -18,7 +18,7 @@
     
     
     
-    <property name="businessRulesClass" value="org.kuali.kra.rules.SponsorFormsMaintenanceDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.impl.sponsor.form.SponsorFormsMaintenanceDocumentRule"/>
     <property name="documentTypeName" value="SponsorFormsMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     

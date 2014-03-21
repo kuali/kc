@@ -100,7 +100,7 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
        <property name="control" >
-      <bean parent="HiddenControlDefinition" p:businessObjectClass="org.kuali.kra.bo.SponsorTerm" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="sponsorTermCode" p:labelAttribute="description"/>
+      <bean parent="HiddenControlDefinition" p:businessObjectClass="org.kuali.coeus.common.framework.sponsor.term.SponsorTerm" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="sponsorTermCode" p:labelAttribute="description"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-HiddenControl"/>
@@ -123,11 +123,11 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
 	    <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.SponsorTermType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="sponsorTermTypeCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.framework.sponsor.term.SponsorTermType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="sponsorTermTypeCode" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorTermType"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.term.SponsorTermType"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="includeBlankRow" value="false"/>
         <property name="keyAttributeName" value="sponsorTermTypeCode"/>
@@ -155,11 +155,11 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
 	    <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.SponsorTerm" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="description" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.framework.sponsor.term.SponsorTerm" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="description" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorTerm"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.term.SponsorTerm"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="includeBlankRow" value="false"/>
         <property name="keyAttributeName" value="description"/>
@@ -208,7 +208,7 @@
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.bo.SponsorTerm"
+	            p:businessObjectClass="org.kuali.coeus.common.framework.sponsor.term.SponsorTerm"
 	            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"

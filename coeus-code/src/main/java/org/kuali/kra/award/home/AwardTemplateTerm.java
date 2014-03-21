@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.SponsorTerm;
 
 public class AwardTemplateTerm extends KcPersistableBusinessObjectBase {
 

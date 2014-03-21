@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.service.impl;
 
-import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.kra.bo.SponsorTermType;
+import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
+import org.kuali.coeus.common.framework.sponsor.term.SponsorTermType;
 import org.kuali.kra.award.service.AwardSponsorTermService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;

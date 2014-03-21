@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service;
+package org.kuali.coeus.common.framework.sponsor;
 
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 
 import java.util.Collection;
