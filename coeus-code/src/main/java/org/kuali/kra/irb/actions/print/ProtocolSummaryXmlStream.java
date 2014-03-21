@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.permissions.impl.web.bean.AssignedRole;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -54,7 +55,6 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryXmlStreamBase;
-import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;

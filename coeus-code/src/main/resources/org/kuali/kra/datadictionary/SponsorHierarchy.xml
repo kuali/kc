@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="SponsorHierarchy" parent="SponsorHierarchy-parentBean" />
   <bean id="SponsorHierarchy-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorHierarchy" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy" />
     <property name="objectLabel" value="Sponsor Hierarchy" />
 	<property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KC-GEN" p:parameterName="sponsorGroupHierarchyName" p:parameterDetailType="A"/>
@@ -617,7 +617,7 @@
 
   <bean id="SponsorHierarchy-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Sponsor Hierarchy"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.SponsorHierarchy"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -718,7 +718,7 @@
   </bean>
 
   <bean id="SponsorHierarchy-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.SponsorHierarchy"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy"/>
     <property name="headerText" value="Sponsor Hierarchy Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

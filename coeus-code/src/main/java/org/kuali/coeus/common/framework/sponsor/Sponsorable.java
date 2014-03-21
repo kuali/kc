@@ -1,4 +1,4 @@
-package org.kuali.kra.service;
+package org.kuali.coeus.common.framework.sponsor;
 
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 

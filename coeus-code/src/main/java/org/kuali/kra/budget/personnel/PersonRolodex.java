@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.personnel;
 
+import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.service.Sponsorable;
 
 
 public interface PersonRolodex {
