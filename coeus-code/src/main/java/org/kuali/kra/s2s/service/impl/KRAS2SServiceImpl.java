@@ -36,8 +36,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -83,9 +81,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	private BusinessObjectService businessObjectService;
 	private DateTimeService dateTimeService;
 	private S2SFormGeneratorService s2SFormGeneratorService;
-	private S2SProposalValidatorService s2SProposalValidatorService;
 	private S2SUtilService s2SUtilService;
-	private PrintService printService;
 	private S2SValidatorService s2SValidatorService;
 	private ConfigurationService configurationService;
 	private static final String GRANTS_GOV_STATUS_ERROR = "ERROR";
@@ -127,9 +123,9 @@ public class KRAS2SServiceImpl implements S2SService {
 	}
 
 	/**
-	 * 
+	 *
 	 * This method returns the list of forms for a given opportunity
-	 * 
+	 *
 	 * @param opportunity
 	 * @return {@link List} of {@link S2sOppForms} which are included in the
 	 *         given {@link S2sOpportunity}
@@ -168,7 +164,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	/**
 	 * This method checks for the status of submission for the given
 	 * {@link ProposalDevelopmentDocument} on Grants.gov
-	 * 
+	 *
 	 * @param pdDoc
 	 *            for which status has to be checked
 	 * @return boolean, <code>true</code> if status has changed, false
@@ -325,11 +321,16 @@ public class KRAS2SServiceImpl implements S2SService {
 					.getGrantsGovApplicationStatus().toString());
 		}
 	}
-	
-	/**
-	 * @see org.kuali.kra.s2s.service.S2SService#populateSponsorProposalId(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.s2s.bo.S2sAppSubmission)
-	 */
-	public void populateSponsorProposalId(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission) {
+
+    /**
+     *
+     * Takes the appSubmission and proposal and if a federal tracking id has been specified, will
+     * set on both the proposal development doc and the related institutional proposal doc
+     * if there is not a sponsor proposal id already.
+     * @param pdDoc
+     * @param appSubmission
+     */
+	protected void populateSponsorProposalId(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission) {
 	    if (StringUtils.isNotBlank(appSubmission.getAgencyTrackingId())) {
 	        if (StringUtils.isBlank(pdDoc.getDevelopmentProposal().getSponsorProposalNumber())) {
 	            pdDoc.getDevelopmentProposal().setSponsorProposalNumber(appSubmission.getAgencyTrackingId());
@@ -572,13 +573,6 @@ public class KRAS2SServiceImpl implements S2SService {
 			}
 
 			appSubmission.setSubmissionNumber(submissionNumber);
-//			appList.add(appSubmission);
-			// appSubmission.setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
-			// appSubmission.setComments(S2SConstants.GRANTS_GOV_PROCESSING_MESSAGE);
-			// pdDoc.getDevelopmentProposal().setS2sAppSubmission(appList);
-//			List<PersistableBusinessObject> saveList = new ArrayList<PersistableBusinessObject>();
-//			saveList.add(appSubmission);
-//			saveList.add(application);
 
 			businessObjectService.save(appSubmission);
 			pdDoc.getDevelopmentProposal().refreshReferenceObject("s2sAppSubmission");
@@ -812,17 +806,6 @@ public class KRAS2SServiceImpl implements S2SService {
 	}
 
 	/**
-	 * 
-	 * Setter for {@link S2SProposalValidatorService}
-	 * 
-	 * @param s2SProposalValidatorService
-	 */
-	public void setS2SProposalValidatorService(
-			S2SProposalValidatorService s2SProposalValidatorService) {
-		this.s2SProposalValidatorService = s2SProposalValidatorService;
-	}
-
-	/**
 	 * Sets the s2sUtilService attribute value.
 	 * 
 	 * @param s2SUtilService
@@ -832,20 +815,6 @@ public class KRAS2SServiceImpl implements S2SService {
 		this.s2SUtilService = s2SUtilService;
 	}
 
-	/**
-	 * 
-	 * This method is used to print selected forms.
-	 * 
-	 * @param pdDoc
-	 *            Proposal Development Document.
-	 * @return AttachmentDataSource for the selected form.
-	 * @throws S2SException
-	 */
-	public AttachmentDataSource printForm(ProposalDevelopmentDocument pdDoc)
-			throws S2SException,PrintingException {
-		return printService.printForm(pdDoc);
-	}
-	
 	public File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
 	        throws IOException {
         String loggingDirectory = KcServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
@@ -866,40 +835,12 @@ public class KRAS2SServiceImpl implements S2SService {
 	}
 
 	/**
-	 * Gets the printService attribute.
-	 * 
-	 * @return Returns the printService.
-	 */
-	public PrintService getPrintService() {
-		return printService;
-	}
-
-	/**
-	 * Sets the printService attribute value.
-	 * 
-	 * @param printService
-	 *            The printService to set.
-	 */
-	public void setPrintService(PrintService printService) {
-		this.printService = printService;
-	}
-
-	/**
 	 * Gets the s2SFormGeneratorService attribute.
 	 * 
 	 * @return Returns the s2SFormGeneratorService.
 	 */
 	public S2SFormGeneratorService getS2SFormGeneratorService() {
 		return s2SFormGeneratorService;
-	}
-
-	/**
-	 * Gets the s2SProposalValidatorService attribute.
-	 * 
-	 * @return Returns the s2SProposalValidatorService.
-	 */
-	public S2SProposalValidatorService getS2SProposalValidatorService() {
-		return s2SProposalValidatorService;
 	}
 
 	/**

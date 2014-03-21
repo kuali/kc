@@ -24,9 +24,11 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,7 @@ import java.util.List;
 public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     protected S2SUtilService s2sUtilService;
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
+    protected ParameterService parameterService;
     protected static final String INDIRECT_COST_RATE_AGREEMENT_NONE = "NONE";
     protected static final String APPROVING_FEDERAL_AGENCY_OTHER = "Other";
     protected static final String APPROVING_FEDERAL_AGENCY_ED = "ED";
@@ -92,7 +95,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     public ED524BudgetBaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
-
+        parameterService = KcServiceLocator.getService(ParameterService.class);
         budgetCategoryMapListWithoutFilter = s2sBudgetCalculatorService.getBudgetCategoryMapList(new ArrayList<String>(),
                 new ArrayList<String>());
     }
@@ -286,7 +289,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
 
     protected String getAgencyName() {
         String agencyName = "";
-        String dhhs = s2sUtilService.getParameterValue(DHHS_AGREEMENT);
+        String dhhs = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, DHHS_AGREEMENT);
         if (dhhs != null) {
             if (dhhs.length() > 0) {
                 agencyName = AGENCY_VALUE;

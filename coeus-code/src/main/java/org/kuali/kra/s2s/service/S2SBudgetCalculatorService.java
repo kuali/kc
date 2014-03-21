@@ -83,19 +83,6 @@ public interface S2SBudgetCalculatorService {
 
     /**
      * 
-     * This method gets the salary requested for a given proposal person.
-     * 
-     * @param pdDoc {@link ProposalDevelopmentDocument} from which salary needs to be fetched
-     * @param proposalPerson proposal person whose salary needs to be fetched
-     * 
-     * @return {@link BudgetDecimal} salary of proposal person
-     * @throws S2SException
-     */
-    public BudgetDecimal getProposalPersonSalary(ProposalDevelopmentDocument pdDoc, ProposalPerson proposalPerson)
-            throws S2SException;
-
-    /**
-     * 
      * This method determines whether a {@link ProposalPerson} is a Non MIT person
      * 
      * @param proposalPerson ProposalPerson.

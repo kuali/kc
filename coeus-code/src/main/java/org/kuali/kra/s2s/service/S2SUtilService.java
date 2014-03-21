@@ -46,7 +46,7 @@ public interface S2SUtilService {
 	 * 
 	 * This method creates and returns Map of submission details like submission
 	 * type, description and Revision code
-	 * 
+	 *
 	 * @param pdDoc
 	 *            Proposal Development Document.
 	 * @return Map<String, String> Map of submission details.
@@ -55,7 +55,7 @@ public interface S2SUtilService {
 			ProposalDevelopmentDocument pdDoc);
 
 	/**
-	 * 
+	 *
 	 * This method populates and returns the Departmental Person object for a
 	 * given proposal document
 	 * 
@@ -114,42 +114,33 @@ public interface S2SUtilService {
 	 * @return
 	 */
 	String getGgTrackingIdFromProposal(InstitutionalProposal proposal);
-	
-	/**
-	 * 
-	 * This method fetches system constant parameters
-	 * 
-	 * @param parameter
-	 *            String for which value must be fetched
-	 * @return String System constant parameters.
-	 */
-	public String getParameterValue(String parameter);
-	/**
-	 * 
-	 * This method returns a {@link Calendar} whose date matches the date passed
-	 * as {@link String}
-	 * 
-	 * @param dateStr
-	 *            string for which the Calendar value has to be found.
-	 * @return Calendar calendar value corresponding to the date string.
-	 */
-	public Calendar convertDateStringToCalendar(String dateStr);
-	/**
-	 * 
-	 * This method is used to get current Calendar
-	 * 
-	 * @return {@link Calendar}
-	 */
-	public Calendar getCurrentCalendar();
-	/**
-	 * 
-	 * This method is used to get Calendar date
-	 * 
-	 * @param date(Date)
-	 *            date for which Calendar value has to be found.
-	 * @return cal(Calendar) calendar value corresponding to the date.
-	 */
-	public Calendar convertDateToCalendar(Date date);
+
+    /**
+     *
+     * This method returns a {@link Calendar} whose date matches the date passed
+     * as {@link String}
+     *
+     * @param dateStr
+     *            string for which the Calendar value has to be found.
+     * @return Calendar calendar value corresponding to the date string.
+     */
+    public Calendar convertDateStringToCalendar(String dateStr);
+    /**
+     *
+     * This method is used to get current Calendar
+     *
+     * @return {@link Calendar}
+     */
+    public Calendar getCurrentCalendar();
+    /**
+     *
+     * This method is used to get Calendar date
+     *
+     * @param date(Date)
+     *            date for which Calendar value has to be found.
+     * @return cal(Calendar) calendar value corresponding to the date.
+     */
+    public Calendar convertDateToCalendar(Date date);
 	/**
 	 * 
 	 * This method is to get division name using the OwnedByUnit and traversing
@@ -227,24 +218,7 @@ public interface S2SUtilService {
 	 */
 	public String getProperty(String key);
 
-	/**
-	 * This method converts String objects in the String array into a String
-	 * separated by commas and returns it.
-	 * 
-	 * @param stringArray
-	 * @return String created from StringArray
-	 */
-	public String convertStringArrayToString(String[] stringArray);
-	
-	/**
-	 * 
-	 * Converts String objects in a list into a String separated by commas
-	 * @param stringList
-	 * @return
-	 */
-	public String convertStringListToString(List<String> stringList);	
-
-	/**
+    /**
 	 * Finds all the Questionnaire Answers associates with provided
 	 * ProposalNumber and questionnaireId.
 	 * 
@@ -254,14 +228,7 @@ public interface S2SUtilService {
 	 * @return List of Questionnaire {@link Answer}.
 	 */
     public List<Answer> getQuestionnaireAnswers(DevelopmentProposal developmentProposal,String namespace,String formname);
-    /**
-     * 
-     * This method gets the answers from a questionnaire for a proposal person.
-     * @param pdDoc
-     * @param proposalPerson
-     * @return
-     */
-    public List<Answer> getQuestionnaireAnswersForPI(ProposalDevelopmentDocument pdDoc);
+
 	/**
 	 * Finds all the co-investigators associated with the provided pdDoc.
 	 * @param ProposalDevelopmentDocument
