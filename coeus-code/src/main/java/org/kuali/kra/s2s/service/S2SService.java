@@ -55,20 +55,20 @@ public interface S2SService {
 			String opportunityId, String competitionId) throws S2SException;
 
 	/**
-	 * 
+	 *
 	 * This method returns the list of forms for a given opportunity
-	 * 
+	 *
 	 * @param opportunity
 	 * @return {@link List}of {@link S2sOppForms} which are included in the
 	 *         given {@link S2sOpportunity}
-	 * @throws S2SException 
+	 * @throws S2SException
 	 */
 	public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2SException;
 
 	/**
 	 * This method checks for the status of submission for the given
 	 * {@link ProposalDevelopmentDocument} on Grants.gov
-	 * 
+	 *
 	 * @param pdDoc
 	 *            for which status has to be checked
 	 * @return boolean, <code>true</code> if status has changed, false
@@ -91,18 +91,6 @@ public interface S2SService {
 			throws S2SException;
 
 	/**
-	 * 
-	 * This method is used to print selected forms.
-	 * 
-	 * @param pdDoc
-	 *            Proposal Development Document.
-	 * @return AttachmentDataSource for the selected form.
-	 * @throws S2SException
-	 */
-	public AttachmentDataSource printForm(ProposalDevelopmentDocument pdDoc)
-			throws S2SException,PrintingException;
-
-	/**
 	 * Return the file saved to the local filesystem.
 	 * @param pdDoc
 	 * @return
@@ -110,10 +98,10 @@ public interface S2SService {
 	 */
     public File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
             throws IOException;
-	
+
 
 	/**
-	 * 
+	 *
 	 * This method is used to submit forms to the grants.guv
 	 * 
 	 * @param pdDoc
@@ -157,17 +145,7 @@ public interface S2SService {
 	 */
 	public void populateAppSubmission(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission,
 			ApplicationInfo ggApplication);
-	
-	/**
-	 * 
-	 * Takes the appSubmission and proposal and if a federal tracking id has been specified, will
-	 * set on both the proposal development doc and the related institutional proposal doc
-	 * if there is not a sponsor proposal id already.
-	 * @param pdDoc
-	 * @param appSubmission
-	 */
-	public void populateSponsorProposalId(ProposalDevelopmentDocument pdDoc, 
-	        S2sAppSubmission appSubmission);
+
 	
 	/**
 	 * This method fetches the application list from Grants.gov for a given

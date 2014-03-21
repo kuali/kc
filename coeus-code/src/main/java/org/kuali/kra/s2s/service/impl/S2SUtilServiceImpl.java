@@ -44,7 +44,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
-import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.kra.questionnaire.Questionnaire;
@@ -122,7 +121,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
     /**
      * This method creates and returns Map of submission details like submission type, description and Revision code
-     * 
+     *
      * @param pdDoc Proposal Development Document.
      * @return Map<String, String> Map of submission details.
      * @see org.kuali.kra.s2s.service.S2SUtilService#getSubmissionType(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
@@ -466,12 +465,11 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
     /**
      * This method fetches system constant parameters
-     * 
+     *
      * @param parameter String for which value must be fetched
      * @return String System constant parameters.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getParameterValue(java.lang.String)
      */
-    public String getParameterValue(String parameter) {
+    protected String getParameterValue(String parameter) {
         String parameterValue = null;
         try {
             parameterValue = this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, parameter);
@@ -546,9 +544,9 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
     /**
-     * 
+     *
      * This method is used to get current Calendar
-     * 
+     *
      * @return {@link Calendar}
      */
     public Calendar getCurrentCalendar() {
@@ -557,7 +555,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
     /**
      * This method is used to get Calendar date for the corresponding date object.
-     * 
+     *
      * @param date(Date) date for which Calendar value has to be found.
      * @return calendar value corresponding to the date.
      * @see org.kuali.kra.s2s.service.S2SUtilService#convertDateToCalendar(java.sql.Date)
@@ -781,34 +779,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         this.proposalDevelopmentService = proposalDevelopmentService;
     }
 
-
-    @Override
-    public String convertStringArrayToString(String[] stringArray) {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (stringArray != null && stringArray.length > 0) {
-            for (int i = 0; i < stringArray.length; i++) {
-                if (stringBuilder.length() > 0) {
-                    stringBuilder.append(", ");
-                }
-                stringBuilder.append(stringArray[i]);
-            }
-        }
-        return stringBuilder.toString();
-    }
-
-    public String convertStringListToString(List<String> stringList) {
-        String retVal = "";
-        if (stringList != null) {
-            for (int i = 0; i < stringList.size(); i++) {
-                retVal += stringList.get(i);
-                if (i != stringList.size() - 1) {
-                    retVal += ", ";
-                }
-            }
-        }
-        return retVal;
-    }
-
     /**
      * Finds all the Questionnaire Answers associates with provided ProposalNumber.
      * 
@@ -830,23 +800,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             for (AnswerHeader answerHeader : answerHeaderList) {
                 questionnaireAnswers.addAll(answerHeader.getAnswers());
             }
-        }
-        return questionnaireAnswers;
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getQuestionnaireAnswersForPerson(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
-     *      org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
-     */
-    public List<Answer> getQuestionnaireAnswersForPI(ProposalDevelopmentDocument pdDoc) {
-        List<Answer> questionnaireAnswers = new ArrayList<Answer>();
-        DevelopmentProposal proposal = pdDoc.getDevelopmentProposal();
-        ProposalPerson person = proposal.getPrincipalInvestigator();
-        ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(proposal, person);
-        List<AnswerHeader> headers = KcServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(bean);
-        for (AnswerHeader answerHeader : headers) {
-            questionnaireAnswers.addAll(answerHeader.getAnswers());
         }
         return questionnaireAnswers;
     }
