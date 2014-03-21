@@ -62,21 +62,12 @@ public class XPathExecutor {
 			return;
 		}
 		
-		
-       ByteArrayInputStream stream = null;
-		try {
-			stream = new ByteArrayInputStream(xml.getBytes());
-		
-		DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
-		dfactory.setNamespaceAware(true);
-		
-		setDoc( dfactory.newDocumentBuilder().parse(stream) );
 
-		}finally {
-			try{ stream.close(); }catch( Exception ex){}
+		try(ByteArrayInputStream stream = new ByteArrayInputStream(xml.getBytes())) {
+		    DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
+		    dfactory.setNamespaceAware(true);
+		    setDoc( dfactory.newDocumentBuilder().parse(stream) );
 		}
-		
-		
 	}
 
 	
