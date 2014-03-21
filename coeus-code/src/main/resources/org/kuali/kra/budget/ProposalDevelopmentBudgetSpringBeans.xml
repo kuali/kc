@@ -47,7 +47,7 @@
     <bean id="proposalBudgetNumberOfMonthsService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.ProposalBudgetNumberOfMonthsServiceImpl" >
     </bean>
     
-    <bean id="proposalStateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl">
+    <bean id="proposalStateService" class="org.kuali.coeus.propdev.impl.state.ProposalStateServiceImpl">
         <property name="proposalHierarchyService" ref="proposalHierarchyService" />
     </bean>
     
