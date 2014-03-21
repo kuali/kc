@@ -51,17 +51,6 @@ public interface S2SFormGenerator {
     
     /**
      * 
-     * This method creates an XML document using the APIs generated using XMLBEans by compiling the form's schema and returns it
-     * as XmlObject.
-     * 
-     * @param xmlObject
-     * @return XmlObject
-     */
-    
-//    public XmlObject getFormObject(XmlObject xmlObject);
-    
-    /**
-     * 
      */
     public List<AuditError> getAuditErrors(); 
 }

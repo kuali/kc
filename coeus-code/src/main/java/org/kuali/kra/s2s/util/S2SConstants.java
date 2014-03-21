@@ -31,9 +31,7 @@ public interface S2SConstants {
     public static final String FORMVERSION_2_0 = "2.0";
     public static final String FORMVERSION_2_1 = "2.1";
     public static final String SPONSOR = "S2S";
-    public static final String TASK_INFO = "taskInfo";
     public static final String VALUE_UNKNOWN = "Unknown";
-//    public static final String FEDERAL_ID_NOT_FOUND = "-1";
 
     public static final String KEY_REVISION_CODE = "revisionCode";
     public static final String KEY_REVISION_OTHER_DESCRIPTION = "revisionOtherDescription";
@@ -56,21 +54,14 @@ public interface S2SConstants {
     public static final String YNQ_STATE_REVIEW_DATA = "stateReviewData";
     public static final String YNQ_STATE_NOT_SELECTED = "Not Selected";
     public static final String YNQ_STATE_NOT_COVERED = "Not Covered";
-
-//    public static final String S2S_PROPERTY = "/S2SAuthentication.properties";
-    public static final int DEFAULT_SSL_PORT = 446;
     public static final String PROTOCOL_TYPE = "https";
-//    public static final String HOST = "host";
-//    public static final String PORT = "port";
 
     public static final String STATUS_GRANTS_GOV_SUBMISSION_ERROR = "S2S Submission Error";
     public static final String STATUS_AGENCY_TRACKING_NUMBER_ASSIGNED = "Agency Tracking Number Assigned";
     public static final String STATUS_NO_RESPONSE_FROM_GRANTS_GOV = "No response from S2S Server";
     public static final String GRANTS_GOV_STATUS_MESSAGE = "S2S Submission in Process";
     public static final String GRANTS_GOV_COMMENTS_MESSAGE = "Trying to submit to S2S";
-    public static final String GRANTS_GOV_SUBMISION_ERROR_MESSAGE="Error occured while submitting to S2S, Root Cause: ";
     public static final String GRANTS_GOV_SUBMISSION_MESSAGE="Submitted to S2S";
-    public static final String GRANTS_GOV_PROCESSING_MESSAGE="S2S is processing the request";
     public static final String GRANTS_GOV_STIPEND_ERROR_MESSAGE="A stipend budget line item is required equal to or greater than the trainee numbers and associated stipend levels indicated in the questionnaire.Currently the stipend value in the budget is in deficit by (amount) for Year period of the budget.";
     public static final String STATUS_RECEIVING = "Receiving";
     public static final String STATUS_RECEIVED = "Received";

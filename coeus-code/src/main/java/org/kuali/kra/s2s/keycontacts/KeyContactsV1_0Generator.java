@@ -31,6 +31,7 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -186,7 +187,7 @@ public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
         RoleOnProject roleOnProject = null;
         for (UnitAdministrator unitAdministrator : pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitAdministrators()) {            
             if (unitAdministrator.getUnitAdministratorTypeCode().equals(
-                        KcServiceLocator.getService(S2SUtilService.class).getParameterValue(PAYEE_CONTACT_TYPE))) {
+                        KcServiceLocator.getService(ParameterService.class).getParameterValueAsString(ProposalDevelopmentDocument.class, PAYEE_CONTACT_TYPE))) {
                 if (unitAdministrator.getPerson() != null) {
                     roleOnProject = RoleOnProject.Factory.newInstance();
                     

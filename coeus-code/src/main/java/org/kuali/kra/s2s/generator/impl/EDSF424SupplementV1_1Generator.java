@@ -26,6 +26,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -131,8 +132,8 @@ public class EDSF424SupplementV1_1Generator extends
 					    for (SpecialReviewExemption exemption : specialReview.getSpecialReviewExemptions()) {
 					        exemptionTypeCodes.add(exemption.getExemptionTypeCode());
 					    }
-						exemptionsNumber.setStringValue(s2sUtilService
-								.convertStringListToString(exemptionTypeCodes));
+						exemptionsNumber.setStringValue(CollectionUtils
+                                .toString(exemptionTypeCodes));
 					}
 					edsf424Supplement.setExemptionsNumber(exemptionsNumber);
 				} else {
@@ -164,8 +165,8 @@ public class EDSF424SupplementV1_1Generator extends
 					    for (SpecialReviewExemption exemption : specialReview.getSpecialReviewExemptions()) {
 					        exemptionTypeCodes.add(exemption.getExemptionTypeCode());
 					    }
-						exemptionsNumber.setStringValue(s2sUtilService
-								.convertStringListToString(exemptionTypeCodes));
+						exemptionsNumber.setStringValue(CollectionUtils
+								.toString(exemptionTypeCodes));
 						edsf424Supplement.setExemptionsNumber(exemptionsNumber);
 						//edsf424Supplement.setAssuranceNumber(null);
 			    	} else {

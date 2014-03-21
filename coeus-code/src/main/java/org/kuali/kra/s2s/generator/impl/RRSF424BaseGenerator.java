@@ -23,6 +23,7 @@ import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.service.Sponsorable;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -36,6 +37,7 @@ import java.util.Map;
 public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected S2SUtilService s2sUtilService;
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
+    protected ParameterService parameterService;
     private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
     protected static final String PRINCIPAL_INVESTIGATOR = "PI";
     protected static final int PRE_APPLICATION = 6;
@@ -63,6 +65,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     public RRSF424BaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
+        parameterService = KcServiceLocator.getService(ParameterService.class);
     }
 
     /**
@@ -72,7 +75,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
      * @return String contact type for the proposal
      */
     protected String getContactType() {
-        String contactType = s2sUtilService.getParameterValue(PROPOSAL_CONTACT_TYPE);
+        String contactType = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, PROPOSAL_CONTACT_TYPE);
         if (contactType == null || contactType.length() == 0) {
             contactType = CONTACT_TYPE_O;
         }

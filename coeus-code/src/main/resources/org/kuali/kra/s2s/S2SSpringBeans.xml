@@ -57,10 +57,6 @@
 	<bean id="s2SValidatorService"
 		class="org.kuali.kra.s2s.service.impl.S2SValidatorServiceImpl">
 	</bean>
-
-	<bean id="s2SProposalValidatorService"
-		class="org.kuali.kra.s2s.service.impl.S2SProposalValidatorServiceImpl">
-	</bean>
 	
 	
 	<bean id="s2SService"
@@ -71,17 +67,11 @@
 		<property name="s2SFormGeneratorService">
 			<ref bean="s2SFormGeneratorService" />
 		</property>
-		<property name="s2SProposalValidatorService">
-			<ref bean="s2SProposalValidatorService" />
-		</property>
 		<property name="s2SValidatorService">
 			<ref bean="s2SValidatorService" />
 		</property>
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />
-		</property>
-		<property name="printService">
-			<ref bean="printService" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
@@ -161,9 +151,12 @@
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />
 		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
+		<property name="dataObjectService">
+			<ref bean="dataObjectService" />
 		</property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
 		<property name="serviceHost" value="grants.gov.s2s.host"/>
 		<property name="servicePort" value="grants.gov.s2s.port"/>
 		<property name="s2sCertificateReader">
@@ -182,9 +175,12 @@
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />
 		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
+        <property name="dataObjectService">
+            <ref bean="dataObjectService" />
+        </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
 		<property name="serviceHost" value="research.gov.s2s.host"/>
 		<property name="servicePort" value="research.gov.s2s.port"/>
 		<property name="s2sCertificateReader">

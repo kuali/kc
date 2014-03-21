@@ -86,4 +86,17 @@ public final class CollectionUtils {
         }
         return map;
     }
+
+    public static String toString(List<String> stringList) {
+        String retVal = "";
+        if (stringList != null) {
+            for (int i = 0; i < stringList.size(); i++) {
+                retVal += stringList.get(i);
+                if (i != stringList.size() - 1) {
+                    retVal += ", ";
+                }
+            }
+        }
+        return retVal;
+    }
 }
