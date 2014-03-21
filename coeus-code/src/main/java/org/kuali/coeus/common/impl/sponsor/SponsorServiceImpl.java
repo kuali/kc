@@ -36,10 +36,11 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 @Component("sponsorService")
+@SuppressWarnings({"deprecation","unchecked"})
 public class SponsorServiceImpl implements SponsorService, Constants {
 	
     private static final Log LOG = LogFactory.getLog(SponsorServiceImpl.class);
-    private static final String sessionKey = "org.kuali.kra.service.impl.SponsorServiceImpl.actionList";
+    private static final String SESSION_KEY = SponsorServiceImpl.class.getName() + ".actionList";
     private static final Integer HIERARCHY_MAX_HEIGHT = 10;
 	
 	@Autowired
@@ -344,16 +345,16 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     
     @SuppressWarnings("unchecked")
     protected void addActionToBeSaved(SponsorAction action) {
-        List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(sessionKey);
+        List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(SESSION_KEY);
         if (actions == null) {
             actions = new ArrayList<SponsorAction>();
-            GlobalVariables.getUserSession().addObject(sessionKey, actions);
+            GlobalVariables.getUserSession().addObject(SESSION_KEY, actions);
         }
         actions.add(action);
     }
     
     public void executeActions() {
-        List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(sessionKey);
+        List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(SESSION_KEY);
         if (actions != null) {
             for (SponsorAction action : actions) {
                 if (action.actionType == SponsorActionType.INSERT) {
@@ -452,7 +453,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     }
     
     public void clearCurrentActions() {
-        GlobalVariables.getUserSession().removeObject(sessionKey);
+        GlobalVariables.getUserSession().removeObject(SESSION_KEY);
     }
 
 
