@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.web.struts.action;
+package org.kuali.coeus.common.impl.sponsor.hierarchy;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -28,8 +28,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.rules.SponsorHierarchyRule;
-import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
