@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.rules;
+package org.kuali.coeus.common.impl.sponsor.hierarchy;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -29,10 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SponsorHierarchyRule {
-    
-    public SponsorHierarchyRule() {
-    }
-    
     
     public boolean newHierarchyNameRequired(SponsorHierarchyForm sponsorHierarchyForm) {
         boolean valid = true;

@@ -27,7 +27,7 @@
 		<form-bean name="AwardHierarchyForm" type="org.kuali.kra.award.AwardHierarchyForm" />
 		<form-bean name="DocHandlerForm" type="org.kuali.rice.kew.routing.web.DocHandlerForm" />
 		<form-bean name="UnitHierarchyForm" type="org.kuali.kra.web.struts.form.UnitHierarchyForm" />
-		<form-bean name="SponsorHierarchyForm" type="org.kuali.kra.web.struts.form.SponsorHierarchyForm" />
+		<form-bean name="SponsorHierarchyForm" type="org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyForm" />
 		<form-bean name="ProtocolForm" type="org.kuali.kra.irb.ProtocolForm" />
 		<form-bean name="ResearchAreasForm" type="org.kuali.kra.irb.ResearchAreasForm" />
 		<form-bean name="CommitteeForm" type="org.kuali.kra.committee.web.struts.form.CommitteeForm" />
@@ -184,14 +184,14 @@
             <forward name="basic" path="/researchAreaSearch.jsp" />
         </action> -->
         
- 		<action path="/sponsorHierarchy" name="SponsorHierarchyForm" input="/SponsorHierarchyInit.jsp" type="org.kuali.kra.web.struts.action.SponsorHierarchyAction" scope="request">
+ 		<action path="/sponsorHierarchy" name="SponsorHierarchyForm" input="/SponsorHierarchyInit.jsp" type="org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyAction" scope="request">
             <forward name="copy" path="/SponsorHierarchyCopy.jsp" />
             <forward name="new" path="/SponsorHierarchyNew.jsp" />
             <forward name="basic" path="/sponsorHierarchyInit.jsp" />
             <forward name="maint" path="/sponsorHierarchyMaint.jsp" />
             <forward name="lookup" path="/sponsorLookup.jsp" />
         </action>
-        <action path="/sponsorLookup" name="SponsorHierarchyForm" type="org.kuali.kra.web.struts.action.SponsorHierarchyAction">
+        <action path="/sponsorLookup" name="SponsorHierarchyForm" type="org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyAction">
             <forward name="basic" path="/sponsorLookup.jsp" />
             <forward name="lookup" path="/sponsorLookup.jsp" />
         </action>
