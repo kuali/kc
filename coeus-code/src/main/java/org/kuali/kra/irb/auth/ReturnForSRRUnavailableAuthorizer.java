@@ -19,7 +19,6 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
 /**
@@ -45,18 +44,13 @@ public class ReturnForSRRUnavailableAuthorizer extends ProtocolAuthorizer {
             
             boolean exemptExpeditePerform = false;
             if (lastSubmission.getProtocolReviewType() != null){
-                exemptExpeditePerform =  isExpeditedOrExempt(lastSubmission.getProtocolReviewType().getReviewTypeCode()) && ProtocolActionType.SUBMIT_TO_IRB.equals(lastAction.getProtocolActionTypeCode());
+                exemptExpeditePerform =  canPerformActionOnExpeditedOrExempt(lastSubmission, lastAction);
             }
             
             canPerform = normalCanPerform || exemptExpeditePerform;
         }
         
         return canPerform;
-    }
-    
-    private boolean isExpeditedOrExempt(String reviewTypeCode){
-        return ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE.equals(reviewTypeCode) 
-        || ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(reviewTypeCode);
     }
     
 }

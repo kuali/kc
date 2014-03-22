@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:p="http://www.springframework.org/schema/p" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 
+ <bean id="SubAwardAttachments" parent="SubAwardAttachments-parentBean" />
+ <bean abstract="true" id="SubAwardAttachments-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardAttachments"/>
+		<property name="objectLabel" value="Subaward Attachments"/>
+		<property name="inquiryDefinition">
+			<ref bean="SubAwardAttachments-inquiryDefinition"/>
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="SubAwardAttachments-lookupDefinition"/>
+		</property>
+		<property name="titleAttribute" value="subAwardCode"/>
+		<property name="attributes">
+			<list>
+				<ref bean="SubAwardAttachments-subAwardCode"/>
+				<ref bean="SubAwardAttachments-attachmentId"/>
+				<ref bean="SubAwardAttachments-description"/>
+				<ref bean="SubAwardAttachmentst-subAwardAttachmentTypeCode" />
+				<ref bean="SubAwardAttachments-documentId" />
+				<ref bean="SubAwardAttachments-fileId"/>
+				<ref bean="SubAwardAttachments-fileName"/>
+				<ref bean="SubAwardAttachments-document"/>
+				<ref bean="SubAwardAttachments-mimeType"/>
+				<ref bean="SubAwardAttachments-subAwardId"/>
+				<ref bean="SubAwardAttachments-updateUser"/>
+				<ref bean="SubAwardAttachments-updateTimestamp"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Attribute Definitions -->
+	
+		<bean id="SubAwardAttachments-subAwardCode" parent="SubAwardAttachments-subAwardCode-parentBean"/>
+		<bean id="SubAwardAttachments-subAwardCode-parentBean" abstract="true" parent="AttributeDefinition">
+		    <property name="name" value="subAwardCode" />
+		    <property name="forceUppercase" value="false" />
+		    <property name="label" value="Subaward ID" />
+		    <property name="shortLabel" value="Subaward ID" />
+		    <property name="maxLength" value="22" />
+		    <property name="validationPattern" >
+		      <bean parent="NumericValidationPattern" />
+		    </property>
+		    <property name="required" value="true" />
+		    <property name="control" >
+		      <bean parent="TextControlDefinition" p:size="10" />
+		    </property>
+		    <property name="summary" value="Subaward ID" />
+		    <property name="description" value="Subaward ID" />    
+	   </bean>
+   
+	   <bean id="SubAwardAttachments-attachmentId" parent="SubAwardAttachments-attachmentId-parentBean" />
+	   <bean id="SubAwardAttachments-attachmentId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="attachmentId" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Attachment ID" />
+	    <property name="shortLabel" value="Attachment ID" />
+	    <property name="maxLength" value="15" />
+	    <property name="validationPattern" >
+	      <bean parent="NumericValidationPattern" />
+	    </property>
+	    <property name="required" value="false" />
+	    <property name="control" >
+	      <bean parent="TextControlDefinition"
+	            p:size="10" />
+	    </property>
+	    <property name="summary" value="Attachment ID" />
+	    <property name="description" value="Attachment ID" />    
+	  </bean>
+   
+    <bean id="SubAwardAttachments-description" parent="SubAwardAttachments-description-parentBean"/>
+	<bean abstract="true" id="SubAwardAttachments-description-parentBean" parent="AttributeDefinition">
+		<property name="name" value="description"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Description"/>
+		<property name="shortLabel" value="Description"/>
+		<property name="maxLength" value="200"/>
+		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+		<property name="control">
+			<bean p:size="30" parent="TextControlDefinition"/>
+		</property>
+		<property name="required" value="true" />
+		<property name="summary" value="Description"/>
+		<property name="description" value="Description"/>
+	</bean>
+	
+	<bean id="SubAwardAttachments-fileId" parent="SubAwardAttachments-fileId-parentBean" />
+    <bean id="SubAwardAttachments-fileId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="fileId" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="File ID" />
+	    <property name="shortLabel" value="File ID" />
+	    <property name="maxLength" value="150" />
+	    <property name="validationPattern" >
+	      <bean parent="AnyCharacterValidationPattern"
+	            	p:allowWhitespace="true" />
+	    </property>
+	    <property name="required" value="true" />
+	    <property name="control" >
+	      <bean parent="TextControlDefinition"
+	            p:size="30" />
+	    </property>
+	    <property name="summary" value="File ID" />
+	    <property name="description" value="File ID" />    
+   </bean> 
+   
+    <bean id="SubAwardAttachments-fileName" parent="SubAwardAttachments-fileName-parentBean" />
+    <bean id="SubAwardAttachments-fileName-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="fileName" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="File Name" />
+	    <property name="shortLabel" value="File Name" />
+	    <property name="maxLength" value="150" />
+	    <property name="validationPattern" >
+	      <bean parent="AnyCharacterValidationPattern"
+	            	p:allowWhitespace="true" />
+	    </property>
+	    <property name="required" value="false" />
+	    <property name="control" >
+	      <bean parent="TextControlDefinition"
+	            p:size="30" />
+	    </property>
+	    <property name="summary" value="File Name" />
+	    <property name="description" value="File Name" />    
+   </bean>
+   
+    <bean id="SubAwardAttachmentst-subAwardAttachmentTypeCode" parent="SubAwardAttachmentst-subAwardAttachmentTypeCode-parentBean" />
+	<bean id="SubAwardAttachmentst-subAwardAttachmentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="subAwardAttachmentTypeCode" />
+		<property name="label" value="Attachment Type" />
+        <property name="shortLabel" value="Attachment Type" />
+        <property name="summary" value="Attachment Type" />
+        <property name="description" value="Attachment Type" />
+         <property name="maxLength" value="3" />
+    	<property name="validationPattern" >
+      		<bean parent="NumericValidationPattern" />
+    	</property>
+    	<property name="required" value="true" />
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.subaward.bo.SubAwardAttachmentType"
+            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="subAwardAttachmentTypeCode"
+            p:labelAttribute="description" />
+    	</property>
+	</bean>
+	
+	<bean id="SubAwardAttachments-subAwardId" parent="SubAwardAttachments-subAwardId-parentBean" />
+  	<bean id="SubAwardAttachments-subAwardId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAwardId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Subaward ID" />
+    <property name="shortLabel" value="Subaward ID" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Subaward ID" />
+    <property name="description" value="Subaward ID" />    
+    </bean>
+   
+    <bean id="SubAwardAttachments-updateUser" parent="SubAwardAttachments-updateUser-parentBean" />
+	<bean id="SubAwardAttachments-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
+		<property name="name" value="updateUser" />
+		<property name="label" value="Updated By" />
+		<property name="shortLabel" value="Uploaded By" />
+	</bean>
+	
+	<bean id="SubAwardAttachments-updateTimestamp" parent="SubAwardAttachments-updateTimestamp-parentBean" />
+	<bean id="SubAwardAttachments-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp" >
+		<property name="name" value="updateTimestamp" />
+		<property name="label" value="Last Update" />
+		<property name="shortLabel" value="Posted Timestamp" />
+	</bean>
+	
+	<bean id="SubAwardAttachments-documentId" parent="SubAwardAttachments-documentId-parentBean" />
+	<bean id="SubAwardAttachments-documentId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="documentId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Document Id" />
+		<property name="shortLabel" value="Document Id" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="5" />
+		</property>
+		<property name="summary" value="Document Id" />
+		<property name="description" value="Document Id" />
+	</bean>
+	
+	 
+	<bean id="SubAwardAttachments-document" parent="SubAwardAttachments-document-parentBean" />
+    <bean id="SubAwardAttachments-document-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="document" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Document" />
+    <property name="shortLabel" value="Document" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Document" />
+    <property name="description" value="Document" />    
+  </bean>    
+  
+          
+     <bean id="SubAwardAttachments-mimeType" parent="SubAwardAttachments-mimeType-parentBean" />
+    <bean id="SubAwardAttachments-mimeType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="mimeType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Mime Type" />
+    <property name="shortLabel" value="Mime Type" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Mime Type" />
+    <property name="description" value="Mime Type" />    
+  </bean>     
+   
+  	<!-- Business Object Inquiry Definition -->
+	<bean id="SubAwardAttachments-inquiryDefinition" parent="SubAwardAttachments-inquiryDefinition-parentBean"/>
+	<bean abstract="true" id="SubAwardAttachments-inquiryDefinition-parentBean" parent="InquiryDefinition">
+		<property name="title" value="Subaward Attachments"/>
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Subaward Attachments"/>
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
+						<list>
+							<bean p:attributeName="subAwardCode" p:forceInquiry="true" parent="FieldDefinition"/>
+							<bean p:attributeName="attachmentId" parent="FieldDefinition"/>
+							<bean p:attributeName="description" parent="FieldDefinition"/>
+							<bean p:attributeName="fileId" parent="FieldDefinition"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	 </bean>
+	   <!-- Business Object Lookup Definition -->
+
+  <bean id="SubAwardAttachments-lookupDefinition" parent="SubAwardAttachments-lookupDefinition-parentBean" />
+
+  <bean id="SubAwardAttachments-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Subaward Attachments Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+            <bean p:attributeName="subAwardCode" p:forceInquiry="true" parent="FieldDefinition"/>
+			<bean p:attributeName="attachmentId" parent="FieldDefinition"/>
+			<bean p:attributeName="description" parent="FieldDefinition"/>
+			<bean p:attributeName="fileId" parent="FieldDefinition"/>
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>      
+            <bean p:attributeName="subAwardCode" p:forceInquiry="true" parent="FieldDefinition"/>
+			<bean p:attributeName="attachmentId" parent="FieldDefinition"/>
+			<bean p:attributeName="description" parent="FieldDefinition"/>
+			<bean p:attributeName="fileId" parent="FieldDefinition"/>
+      </list>
+    </property>
+  </bean>
+ </beans>

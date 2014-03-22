@@ -364,12 +364,10 @@
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignToAgendaAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignToAgenda" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignToAgendaUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignToAgendaUnavailable" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignCmtSchedAuthorizer" parent="parentProtocolAuthorizer">
@@ -384,12 +382,10 @@
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignReviewers" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignReviewersUnavailable" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersCmtSelAuthorizer" parent="parentProtocolAuthorizer">
