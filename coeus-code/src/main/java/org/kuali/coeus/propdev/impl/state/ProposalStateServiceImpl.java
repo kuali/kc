@@ -18,13 +18,20 @@ package org.kuali.coeus.propdev.impl.state;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * Proposal State Service Implementation.
  */
+
+@Component("proposalStateService")
 public class ProposalStateServiceImpl implements ProposalStateService {
     
-    private ProposalHierarchyService proposalHierarchyService;
+	@Autowired
+	@Qualifier("proposalHierarchyService")
+	private ProposalHierarchyService proposalHierarchyService;
     
     @Override
     public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged, boolean isRejectAction ) {
