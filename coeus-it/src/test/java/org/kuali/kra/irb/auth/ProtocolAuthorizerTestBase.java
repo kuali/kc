@@ -26,6 +26,7 @@ import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
@@ -42,6 +43,9 @@ public abstract class ProtocolAuthorizerTestBase extends KcIntegrationTestBase {
     
     protected static final String PROTOCOL_NUMBER = "0906000001";
     private static final String USERNAME = "quickstart";
+    
+    private static final String KC_PROTOCOL_NAMESPACE = "KC-PROTOCOL";
+    private static final String KC_UNIT_NAMESPACE = "KC-UNT";
     
     private Mockery context;
     
@@ -126,6 +130,10 @@ public abstract class ProtocolAuthorizerTestBase extends KcIntegrationTestBase {
     }
 
     protected KcAuthorizationService buildKraAuthorizationService(final ProtocolDocument protocolDocument, final String permissionConstant, final boolean hasPermission) {
+        return buildKraAuthorizationService (protocolDocument, permissionConstant, hasPermission, RoleConstants.PROTOCOL_AGGREGATOR, true);
+    }
+        
+    protected KcAuthorizationService buildKraAuthorizationService(final ProtocolDocument protocolDocument, final String permissionConstant, final boolean hasPermission, final String roleConstant, final boolean hasRole) {    
         final KcAuthorizationService service = context.mock(KcAuthorizationService.class);
         
         context.checking(new Expectations() {{
@@ -137,6 +145,14 @@ public abstract class ProtocolAuthorizerTestBase extends KcIntegrationTestBase {
             } else if (PermissionConstants.CREATE_RENEWAL.equals(permissionConstant) && !hasPermission) {
                 allowing(service).hasPermission(USERNAME, protocolDocument.getProtocol(), PermissionConstants.CREATE_ANY_RENEWAL); 
                 will(returnValue(hasPermission));
+            }
+            //set roles for appropriate namespace based on role passed in when admin role check is required in the authorizer
+            if(RoleConstants.PROTOCOL_AGGREGATOR.equals(roleConstant)) {
+                allowing(service).hasRole(USERNAME, KC_PROTOCOL_NAMESPACE, RoleConstants.PROTOCOL_AGGREGATOR); 
+                will(returnValue(hasRole));
+            } else if (RoleConstants.IRB_ADMINISTRATOR.equals(roleConstant)) {
+                allowing(service).hasRole(USERNAME, KC_UNIT_NAMESPACE, roleConstant); 
+                will(returnValue(hasRole));
             }
         }});
         
