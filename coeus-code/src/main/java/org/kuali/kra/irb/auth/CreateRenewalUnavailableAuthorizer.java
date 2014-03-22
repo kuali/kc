@@ -26,7 +26,7 @@ public class CreateRenewalUnavailableAuthorizer extends ProtocolAuthorizer {
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_RENEWAL) &&
-               (isAmendmentOrRenewal(task.getProtocol()) ||
-                !canExecuteAction(task.getProtocol(), ProtocolActionType.RENEWAL_CREATED));
+                (isAmendmentOrRenewal(task.getProtocol()) || (isRequestForSuspension(task.getProtocol()) & !isIrbAdmin(userId)) ||
+                 !canExecuteAction(task.getProtocol(), ProtocolActionType.RENEWAL_CREATED));
     }
 }

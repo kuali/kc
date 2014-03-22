@@ -42,8 +42,8 @@
     
     <bean id="SubAwardTemplateTypeMaintenanceDocument-EditSubAwardTemplateType" parent="SubAwardTemplateTypeMaintenanceDocument-EditSubAwardTemplateType-parentBean" />
     <bean id="SubAwardTemplateTypeMaintenanceDocument-EditSubAwardTemplateType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit SubAwardTemplateType Lookup" />
-        <property name="title" value="Edit SubAwardTemplateType Lookup" />
+        <property name="id" value="Edit Subaward Template Type" />
+        <property name="title" value="Edit Subaward Template Type" />
         <property name="maintainableItems" >
             <list>
             

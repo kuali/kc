@@ -45,7 +45,7 @@
     <bean id="SubAwardCopyRightsTypeMaintenanceDocument-EditSubAwardCopyRightsType" parent="SubAwardCopyRightsTypeMaintenanceDocument-EditSubAwardCopyRightsType-parentBean" />
     <bean id="SubAwardCopyRightsTypeMaintenanceDocument-EditSubAwardCopyRightsType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
         <property name="id" value="Edit SubAwardCopyRightsType" />
-        <property name="title" value="Edit SubAwardCopyRightsType" />
+        <property name="title" value="Edit Subaward Copyrights Type" />
         <property name="maintainableItems" >
             <list>
             

@@ -69,16 +69,35 @@
 		            </td>
 	            </tr>
                 <tr>
-                    <th width="15%"> 
-                        <div align="right">
-                            <nobr>
-                            <kul:htmlAttributeLabel attributeEntry="${attributes.submissionTypeCode}" />
-                            </nobr>
-                        </div>
-                    </th>
-                    <td>
-                        <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionBean.submissionTypeCode" attributeEntry="${attributes.submissionTypeCode}" />
-                    </td>
+	               <c:choose>
+	                    <c:when test="${KualiForm.actionHelper.protocolModifySubmissionBean.submissionTypeCode == '112'}">                      
+	                        <th width="15%"> 
+	                            <div align="right">
+	                                <kul:htmlAttributeLabel attributeEntry="${attributes.submissionTypeCode}" />
+	                            </div>
+	                        </th>
+	                        <td>
+	                            <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionBean.submissionTypeCode" 
+	                                                  attributeEntry="${attributes.submissionTypeCode}"
+	                                                  readOnly="${true}" />
+	                        </td>
+	                    </c:when>
+	                    <c:otherwise>
+                            <th width="15%"> 
+                                <div align="right">
+                                    <nobr>
+                                        <kul:htmlAttributeLabel attributeEntry="${attributes.submissionTypeCode}" />
+                                    </nobr>
+                                </div>
+                            </th>
+                            <td>
+                                <nobr>
+                                    <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionBean.submissionTypeCode" 
+                                                                       attributeEntry="${attributes.submissionTypeCode}" />
+                                </nobr>
+                            </td>
+	                    </c:otherwise>
+	                </c:choose>
                     <th width="20%"> 
                         <div align="right">
                             <nobr>
