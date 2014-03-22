@@ -51,31 +51,4 @@ public class ProtocolAssignToAgendaUnavailableAuthorizer extends ProtocolAuthori
         return ps != null && ps.getCommitteeSchedule() != null && ps.getCommitteeSchedule().getScheduledDate() != null;
     }
 
-    /**
-     * Find the submission. It is the submission that is either currently pending or already submitted to a committee.
-     * 
-     * @param protocol
-     * @return
-     */
-    private ProtocolSubmission findSubmission(Protocol protocol) {
-
-        // need to loop thru to find the last submission.
-        // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
-        ProtocolSubmission protocolSubmission = null;
-        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING)
-                    || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                protocolSubmission = (ProtocolSubmission) submission;
-            }
-        }
-        return protocolSubmission;
-    }
-
-    public KcWorkflowService getKraWorkflowService() {
-        return kraWorkflowService;
-    }
-
-    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
-        this.kraWorkflowService = kraWorkflowService;
-    }
 }

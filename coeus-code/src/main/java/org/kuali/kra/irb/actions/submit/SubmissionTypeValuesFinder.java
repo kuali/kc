@@ -92,6 +92,13 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
             if (displayResubmission(currentStatus)) {
                 types.add(ProtocolSubmissionType.RESUBMISSION);
             }
+            if (displayRequestForSuspension(currentStatus, pd.getProtocol())) {
+                //get all submission types from the table
+                Collection<ProtocolSubmissionType> submissionTypes = this.getKeyValuesService().findAll(ProtocolSubmissionType.class);
+                for (ProtocolSubmissionType submissionType : submissionTypes) {
+                    types.add(submissionType.getSubmissionTypeCode());
+                }
+            }
             if (displayNotifyIrb(currentStatus, pd.getProtocol())) {
                 types.add(ProtocolSubmissionType.NOTIFY_IRB);
             }
@@ -125,6 +132,11 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     private boolean displayContinuationWithAmendment(String currentStatus, Protocol protocol) {
         String validStatuses[] = { ProtocolStatus.WITHDRAWN, ProtocolStatus.RENEWAL_IN_PROGRESS, ProtocolStatus.SUBMITTED_TO_IRB };
         return validateCurrentStatus(currentStatus, validStatuses)  && hasRenewalProtocolNumber(protocol.getProtocolNumber());
+    }
+    
+    protected boolean displayRequestForSuspension(String currentStatus, Protocol protocol) {
+        String validStatuses[] = {  ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT};
+        return validateCurrentStatus(currentStatus, validStatuses) && wasRequestForSuspension(protocol.getProtocolSubmission());
     }
     
     private boolean hasAmmendmentProtocolNumber(String protocolNumber) {
@@ -165,4 +177,10 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
         return false;
     }    
     
+    private boolean wasRequestForSuspension(ProtocolSubmission protocolSubmission) {
+        if (ProtocolSubmissionType.REQUEST_FOR_SUSPENSION.equals(protocolSubmission.getSubmissionTypeCode())){
+            return true;
+        }
+        return false;
+    }
 }

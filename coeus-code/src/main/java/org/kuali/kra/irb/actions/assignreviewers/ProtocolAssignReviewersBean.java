@@ -61,10 +61,11 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements o
             String committeeId = submission.getCommitteeId();
             String scheduleId = submission.getScheduleId();
             
+            //reviwers list always needs to be emptied as it will be either left empty or re-populated
+            reviewers.clear();
             if (!StringUtils.equals(committeeId, currentCommitteeId) || !StringUtils.equals(scheduleId, currentScheduleId)) {
                 currentCommitteeId = committeeId;
                 currentScheduleId = scheduleId;
-                reviewers.clear();
                 //scheduleID present in this conditional so submit for review action will dynamically show/hide reviewers on that action panel
                 if (!StringUtils.isBlank(committeeId) && (!StringUtils.isBlank(scheduleId) || isExpeditedSubmission(submission))) {
                     populateReviewers(committeeId, scheduleId, submission);
