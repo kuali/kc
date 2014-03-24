@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans            http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="ProposalState" parent="ProposalState-parentBean"/>
     <bean abstract="true" id="ProposalState-parentBean" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalState"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.state.ProposalState"/>
 		<property name="objectLabel" value="Proposal State"/>
         <property name="inquiryDefinition">
             <ref bean="ProposalState-inquiryDefinition"/>
@@ -94,7 +94,7 @@
 
   <bean id="ProposalState-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Proposal State Type Code"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalState"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.state.ProposalState"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -138,7 +138,7 @@
     </bean>
 
   <bean id="ProposalState-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalState"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.state.ProposalState"/>
     <property name="headerText" value="Proposal State Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

@@ -120,7 +120,7 @@
         <reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="activityTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="proposalState" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalState" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="proposalState" class-ref="org.kuali.coeus.propdev.impl.state.ProposalState" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="proposalStateTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="proposalDocument" class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
