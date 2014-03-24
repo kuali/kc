@@ -1,6 +1,7 @@
-package org.kuali.kra.printing.xmlstream;
+package org.kuali.coeus.common.framework.print.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.print.service.CurrentAndPendingReportService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.customdata.AwardCustomData;
@@ -11,7 +12,6 @@ import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAnd
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.CurrentReportCEColumnNames;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.CurrentSupport;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.CurrentSupport.CurrentReportCEColomnValues;
-import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 

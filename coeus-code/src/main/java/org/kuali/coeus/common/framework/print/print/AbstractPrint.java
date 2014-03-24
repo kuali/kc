@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.printing.print;
+package org.kuali.coeus.common.framework.print.print;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.print.Printable;
+import org.kuali.coeus.common.framework.print.PrintingException;
+import org.kuali.coeus.common.framework.print.xmlstream.XmlStream;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.util.watermark.Watermarkable;
 
 import javax.xml.transform.Source;
@@ -136,7 +136,7 @@ public abstract class AbstractPrint implements Printable {
     }
 	/**
 	 * This method for checking watermark is enable or disable
-	 * @see org.kuali.kra.printing.Printable#isWatermarkEnabled()
+	 * @see org.kuali.coeus.common.framework.print.Printable#isWatermarkEnabled()
 	 */
     public boolean isWatermarkEnabled(){
         return false;

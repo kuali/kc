@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.printing.service.impl;
+package org.kuali.coeus.common.framework.print.service.impl;
 
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
@@ -25,12 +25,12 @@ import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.kuali.coeus.common.framework.print.Printable;
+import org.kuali.coeus.common.framework.print.PrintingException;
+import org.kuali.coeus.common.framework.print.print.PrintableAttachment;
+import org.kuali.coeus.common.framework.print.service.PrintingService;
+import org.kuali.coeus.common.framework.print.service.WatermarkService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.print.PrintableAttachment;
-import org.kuali.kra.printing.service.PrintingService;
-import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;

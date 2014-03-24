@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.actions.abandon;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.printing.PrintingException;
+import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;

@@ -530,7 +530,7 @@
 
     <!-- Current and Pending Report Services -->
     
-    <bean id="currentAndPendingReportService" class="org.kuali.kra.printing.service.impl.CurrentAndPendingReportServiceImpl" scope="prototype">
+    <bean id="currentAndPendingReportService" class="org.kuali.coeus.common.framework.print.service.impl.CurrentAndPendingReportServiceImpl" scope="prototype">
         <property name="currentReportDao" ref="currentReportDao" />
         <property name="pendingReportDao" ref="pendingReportDao" />
         <property name="currentProposalPrint" ref="currentProposalPrint" />
@@ -542,20 +542,20 @@
     
     <bean id="pendingReportDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.PendingReportDaoOjb" />
     
-    <bean id="currentProposalPrint" class="org.kuali.kra.printing.print.CurrentProposalPrint" scope="prototype">
+    <bean id="currentProposalPrint" class="org.kuali.coeus.common.framework.print.print.CurrentProposalPrint" scope="prototype">
         <property name="xmlStream" ref="currentProposalXmlStream" />
     </bean>
     
-    <bean id="pendingProposalPrint" class="org.kuali.kra.printing.print.PendingProposalPrint" scope="prototype">
+    <bean id="pendingProposalPrint" class="org.kuali.coeus.common.framework.print.print.PendingProposalPrint" scope="prototype">
         <property name="xmlStream" ref="pendingProposalXmlStream" />
     </bean>
 
-    <bean id="currentProposalXmlStream" class="org.kuali.kra.printing.xmlstream.CurrentProposalXmlStream">
+    <bean id="currentProposalXmlStream" class="org.kuali.coeus.common.framework.print.xmlstream.CurrentProposalXmlStream">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
     
-    <bean id="pendingProposalXmlStream" class="org.kuali.kra.printing.xmlstream.PendingProposalXmlStream">
+    <bean id="pendingProposalXmlStream" class="org.kuali.coeus.common.framework.print.xmlstream.PendingProposalXmlStream">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>

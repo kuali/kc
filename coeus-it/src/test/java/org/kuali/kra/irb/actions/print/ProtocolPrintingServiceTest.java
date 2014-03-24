@@ -16,8 +16,8 @@
 package org.kuali.kra.irb.actions.print;
 
 import org.junit.Test;
+import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.util.PrintingServiceTestBase;
 
 import static org.junit.Assert.assertTrue;
