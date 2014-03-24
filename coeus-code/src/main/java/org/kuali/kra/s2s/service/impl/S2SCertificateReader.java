@@ -17,10 +17,10 @@ package org.kuali.kra.s2s.service.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -45,8 +45,8 @@ public class S2SCertificateReader {
         if(keyStore!=null) return keyStore;
         try {
             keyStore = KeyStore.getInstance(jksType);
-            keyStore.load(new FileInputStream(getS2SUtilService().getProperty(keyStoreLocation)),
-                    getS2SUtilService().getProperty(keyStorePassword).toCharArray());
+            keyStore.load(new FileInputStream(getConfigurationService().getPropertyValueAsString(keyStoreLocation)),
+                    getConfigurationService().getPropertyValueAsString(keyStorePassword).toCharArray());
         }catch (KeyStoreException e) {
             keyStore = null;
             LOG.error("Error while creating Keystore with cert " +keyStoreLocation, e);
@@ -71,8 +71,8 @@ public class S2SCertificateReader {
         return keyStore;
     }
 
-    private static S2SUtilService getS2SUtilService() {
-        return KcServiceLocator.getService(S2SUtilService.class);
+    private static ConfigurationService getConfigurationService() {
+        return CoreApiServiceLocator.getKualiConfigurationService();
     }
 
     public KeyStore getTrustStore() throws S2SException{
@@ -80,8 +80,8 @@ public class S2SCertificateReader {
             return trustStore;
         try {
             trustStore = KeyStore.getInstance(jksType);
-            trustStore.load(new FileInputStream(getS2SUtilService().getProperty(trustStoreLocation)),
-                    getS2SUtilService().getProperty(trustStorePassword).toCharArray());
+            trustStore.load(new FileInputStream(getConfigurationService().getPropertyValueAsString(trustStoreLocation)),
+                    getConfigurationService().getPropertyValueAsString(trustStorePassword).toCharArray());
         }catch (KeyStoreException e) {
             trustStore = null;
             LOG.error("Error while creating Keystore with cert " +trustStoreLocation, e);

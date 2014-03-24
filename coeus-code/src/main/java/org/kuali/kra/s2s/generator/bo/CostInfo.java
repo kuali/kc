@@ -17,7 +17,6 @@ package org.kuali.kra.s2s.generator.bo;
 
 import org.kuali.kra.budget.BudgetDecimal;
 
-import java.util.LinkedHashMap;
 
 public class CostInfo {
 
@@ -28,11 +27,6 @@ public class CostInfo {
     private String description;
     private int quantity;
     private BudgetDecimal costSharing;
-
-
-    public CostInfo() {
-    }
-
 
     /**
      * Getter for property budgetPeriod
@@ -150,19 +144,5 @@ public class CostInfo {
 
     public void setCostSharing(BudgetDecimal costSharing) {
         this.costSharing = costSharing;
-    }
-
-
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("budgetPeriod", getBudgetPeriod());
-        hashMap.put("cost", getCost());
-        hashMap.put("category", getCategory());
-        hashMap.put("categoryType", getCategoryType());
-        hashMap.put("description", getDescription());
-        hashMap.put("quantity", getQuantity());
-        hashMap.put("costSharing", getCostSharing());
-
-        return hashMap;
     }
 }
