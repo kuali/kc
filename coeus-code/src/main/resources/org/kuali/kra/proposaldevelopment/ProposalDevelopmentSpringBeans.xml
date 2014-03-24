@@ -957,7 +957,7 @@
 	<bean id="proposalDevelopmentFactBuilderService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentFactBuilderServiceImpl">
 		  <property name="documentService" ref="documentService" />
 	</bean>
-    <bean id="propDevJavaFunctionKrmsTermService" class="org.kuali.kra.proposaldevelopment.service.impl.PropDevJavaFunctionKrmsTermServiceImpl">
+    <bean id="propDevJavaFunctionKrmsTermService" class="org.kuali.coeus.propdev.impl.krms.PropDevJavaFunctionKrmsTermServiceImpl">
     	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="unitService" ref="unitService" />
     	<property name="parameterService" ref="parameterService" />
