@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.person.attr;
+package org.kuali.coeus.common.framework.person.signature;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.person.KcPerson;

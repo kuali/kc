@@ -18,7 +18,7 @@ package org.kuali.kra.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.person.attr.PersonSignature;
+import org.kuali.coeus.common.framework.person.signature.PersonSignature;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;

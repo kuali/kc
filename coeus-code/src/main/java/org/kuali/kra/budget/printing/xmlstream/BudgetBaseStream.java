@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import org.kuali.coeus.common.framework.print.xmlstream.XmlStream;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.kra.printing.schema.GroupsType;
 import org.kuali.kra.printing.schema.ReportHeaderType;
 import org.kuali.kra.printing.schema.ReportPageType.CalculationMethodology;

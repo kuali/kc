@@ -13,24 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.print.print;
+package org.kuali.coeus.common.framework.person.signature;
 
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
-/**
- * 
- * This class populates the bytes of PDF document to be generated
- */
-public class PrintableAttachment extends AttachmentDataSource {
+public interface PersonSignatureService {
 
-    private static final long serialVersionUID = 1860670624193916246L;
-    private byte[] streamData;
+    /**
+     * 
+     * This method is to apply signature to the pdf document.
+     * In this method the input pdfBytes are merged with appropriate signature and 
+     * the result is returned.
+     * @param pdfBytes
+     * @return pdfFileData
+     * @throws Exception
+     */
+    byte[] applySignature(byte[] pdfBytes) throws Exception;
 
-    public byte[] getContent() {
-        return streamData;
-    }
-
-    public void setContent(byte[] streamData) {
-        this.streamData = streamData;
-    }
 }
