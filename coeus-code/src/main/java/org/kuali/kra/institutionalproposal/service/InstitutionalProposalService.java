@@ -66,7 +66,7 @@ public interface InstitutionalProposalService {
      * 
      * @param proposalNumber String
      * @return InstitutionalProposal, or null if a PENDING version is not found.
-     * @see org.kuali.kra.bo.versioning.VersionStatus
+     * @see org.kuali.coeus.common.framework.version.VersionStatus
      */
     InstitutionalProposal getPendingInstitutionalProposalVersion(String proposalNumber);
     
@@ -76,7 +76,7 @@ public interface InstitutionalProposalService {
      * 
      * @param proposalNumber String
      * @return InstitutionalProposal, or null if a ACTIVE version is not found.
-     * @see org.kuali.kra.bo.versioning.VersionStatus
+     * @see org.kuali.coeus.common.framework.version.VersionStatus
      */
     InstitutionalProposal getActiveInstitutionalProposalVersion(String proposalNumber);
     

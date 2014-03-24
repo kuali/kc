@@ -18,11 +18,11 @@ package org.kuali.kra.institutionalproposal.service.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.version.VersionException;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
@@ -160,7 +160,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * 
      * @param proposalNumber String
      * @return InstitutionalProposal, or null if a PENDING version is not found.
-     * @see org.kuali.kra.bo.versioning.VersionStatus
+     * @see org.kuali.coeus.common.framework.version.VersionStatus
      */
     public InstitutionalProposal getPendingInstitutionalProposalVersion(String proposalNumber) {
         return institutionalProposalVersioningService.getPendingInstitutionalProposalVersion(proposalNumber);
@@ -172,7 +172,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * 
      * @param proposalNumber String
      * @return InstitutionalProposal, or null if a ACTIVE version is not found.
-     * @see org.kuali.kra.bo.versioning.VersionStatus
+     * @see org.kuali.coeus.common.framework.version.VersionStatus
      */
     public InstitutionalProposal getActiveInstitutionalProposalVersion(String proposalNumber) {
         return institutionalProposalVersioningService.getActiveInstitutionalProposalVersion(proposalNumber);

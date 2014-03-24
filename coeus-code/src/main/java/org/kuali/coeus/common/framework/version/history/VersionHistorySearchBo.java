@@ -16,8 +16,8 @@
 package org.kuali.coeus.common.framework.version.history;
 
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.versioning.VersionStatus;
 
 import java.sql.Date;
 

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.timeandmoney.service;
 
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
 import org.kuali.kra.timeandmoney.TimeAndMoneyDocumentHistory;
