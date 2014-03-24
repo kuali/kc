@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.printing.util;
+package org.kuali.coeus.common.framework.print.util;
 
 import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
+import org.kuali.coeus.common.framework.print.service.CurrentAndPendingReportService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.award.printing.AwardPrintType;
@@ -25,7 +26,6 @@ import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintTy
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 import org.kuali.kra.irb.actions.print.ProtocolPrintType;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
-import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;

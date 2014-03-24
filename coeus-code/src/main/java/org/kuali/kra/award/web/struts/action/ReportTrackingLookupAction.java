@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
@@ -35,7 +36,6 @@ import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportT
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.printing.Printable;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.api.KewApiConstants;

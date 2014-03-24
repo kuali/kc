@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.printing.print;
+package org.kuali.coeus.common.framework.print.print;
 
-import org.kuali.kra.printing.service.CurrentAndPendingReportService;
-import org.kuali.kra.printing.util.PrintingUtils;
+import org.kuali.coeus.common.framework.print.service.CurrentAndPendingReportService;
+import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.kra.util.watermark.Watermarkable;
 
 import javax.xml.transform.Source;
@@ -56,7 +56,7 @@ public class CurrentProposalPrint extends AbstractPrint {
      }
      /**
       * This method for getting the watermark.
-      * @see org.kuali.kra.printing.Printable#getWatermarkable()
+      * @see org.kuali.coeus.common.framework.print.Printable#getWatermarkable()
       * return watermarkable
       */
      public Watermarkable getWatermarkable(){

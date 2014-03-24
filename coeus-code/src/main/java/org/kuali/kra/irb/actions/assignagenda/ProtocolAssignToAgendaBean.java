@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.actions.assignagenda;
 
+import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
-import org.kuali.kra.printing.Printable;
 
 /**
  * This class is really just a "form" for assigning a protocol to an agenda.
