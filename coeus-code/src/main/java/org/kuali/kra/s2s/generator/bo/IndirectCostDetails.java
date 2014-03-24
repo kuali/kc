@@ -17,7 +17,6 @@ package org.kuali.kra.s2s.generator.bo;
 
 import org.kuali.kra.budget.BudgetDecimal;
 
-import java.util.LinkedHashMap;
 
 public class IndirectCostDetails {
 
@@ -28,9 +27,6 @@ public class IndirectCostDetails {
     private BudgetDecimal funds;
     private BudgetDecimal baseCostSharing;
     private BudgetDecimal costSharing;
-
-    public IndirectCostDetails() {
-    }
 
     /**
      * Getter for property costType.
@@ -120,18 +116,5 @@ public class IndirectCostDetails {
 
     public void setCostSharing(BudgetDecimal costSharing) {
         this.costSharing = costSharing;
-    }
-
-
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("costType", getCostType());
-        hashMap.put("rate", getRate());
-        hashMap.put("base", getBase());
-        hashMap.put("funds", getFunds());
-        hashMap.put("baseCostSharing", getBaseCostSharing());
-        hashMap.put("costSharing", getCostSharing());
-
-        return hashMap;
     }
 }

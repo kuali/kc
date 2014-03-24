@@ -18,7 +18,6 @@ package org.kuali.kra.s2s.generator.bo;
 import org.kuali.kra.budget.BudgetDecimal;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class EquipmentInfo {
@@ -50,7 +49,7 @@ public class EquipmentInfo {
     /**
      * Setter for property cvEquipmentList.
      * 
-     * @param versionNumber New value of property versionNumber.
+     * @param cvEquipmentList New value of property cvEquipmentList.
      */
     public void setEquipmentList(List<CostInfo> cvEquipmentList) {
         this.cvEquipmentList = cvEquipmentList;
@@ -142,15 +141,5 @@ public class EquipmentInfo {
      */
     public void setTotalExtraNonFund(BudgetDecimal totalExtraNonFund) {
         this.totalExtraNonFund = totalExtraNonFund;
-    }
-
-
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("totalFund", getTotalFund());
-        hashMap.put("totalExtraFund", getTotalExtraFund());
-        hashMap.put("totalNonFund", getTotalNonFund());
-        hashMap.put("totalExtraNonFund", getTotalExtraNonFund());
-        return hashMap;
     }
 }

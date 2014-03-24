@@ -20,7 +20,6 @@ import org.kuali.kra.budget.BudgetDecimal;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class BudgetPeriodInfo {
@@ -81,9 +80,6 @@ public class BudgetPeriodInfo {
     private BudgetDecimal totalCompensationCostSharing;
     private BudgetDecimal totalDirectCostSharing;
     private BudgetDecimal totalIndirectCostSharing;
-
-
-
 
     public BudgetPeriodInfo() {
         keyPersons = new ArrayList<KeyPersonInfo>();
@@ -307,7 +303,7 @@ public class BudgetPeriodInfo {
     /**
      * Setter for property OtherPersonnelTotalNumber.
      * 
-     * @param OtherPersonnelTotalNumber New value of property OtherPersonnelTotalNumber.
+     * @param otherPersonnelTotalNumber New value of property OtherPersonnelTotalNumber.
      */
     public void setOtherPersonnelTotalNumber(BudgetDecimal otherPersonnelTotalNumber) {
         this.otherPersonnelTotalNumber = otherPersonnelTotalNumber;
@@ -380,7 +376,7 @@ public class BudgetPeriodInfo {
     /**
      * Setter for property extraEquipment..
      * 
-     * @param extraEquipment. New value of property extraEquipment..
+     * @param extraEquipment New value of property extraEquipment..
      */
     public void setExtraEquipment(List<EquipmentInfo> extraEquipment) {
         this.extraEquipment = extraEquipment;
@@ -847,57 +843,6 @@ public class BudgetPeriodInfo {
      */
     public void setPartTuitionCostSharing(BudgetDecimal partTuitionCostSharing) {
         this.partTuitionCostSharing = partTuitionCostSharing;
-    }
-
-    
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("proposalNumber", getProposalNumber());
-        hashMap.put("totalIndirectCostSharing", getTotalIndirectCostSharing());
-        hashMap.put("version", getTotalIndirectCostSharing());
-        hashMap.put("finalVersionFlag", getFinalVersionFlag());
-        hashMap.put("budgetPeriod", getBudgetPeriod());
-        hashMap.put("startDate", getStartDate());
-        hashMap.put("endDate", getEndDate());
-        hashMap.put("totalFundsKeyPersons", getTotalFundsKeyPersons());
-        hashMap.put("totalFundsAttachedKeyPersons", getTotalFundsAttachedKeyPersons());
-        hashMap.put("totalOtherPersonnelFunds", getTotalOtherPersonnelFunds());
-        hashMap.put("otherPersonnelTotalNumber", getOtherPersonnelTotalNumber());
-        hashMap.put("totalCompensation", getTotalCompensation());
-        hashMap.put("totalFundsEquipment", getTotalFundsEquipment());
-        hashMap.put("totalFundsAttachedEquipment", getTotalFundsAttachedEquipment());
-        hashMap.put("domesticTravelCost", getDomesticTravelCost());
-        hashMap.put("foreignTravelCost", getForeignTravelCost());
-        hashMap.put("totalTravelCost", getTotalTravelCost());
-        hashMap.put("partStipendCost", getpartStipendCost());
-        hashMap.put("partTravelCost", getpartTravelCost());
-        hashMap.put("partOtherCost", getpartOtherCost());
-        hashMap.put("partTuition", getPartTuition());
-        hashMap.put("partSubsistence", getPartSubsistence());
-        hashMap.put("participantCount", getparticipantCount());
-        hashMap.put("directCostsTotal", getDirectCostsTotal());
-        hashMap.put("indirectCosts", getIndirectCosts());
-        hashMap.put("cognizantFedAgency", getCognizantFedAgency());
-        hashMap.put("totalCosts", getTotalCosts());
-        hashMap.put("totalIndirectCost", getTotalIndirectCost());
-        hashMap.put("costSharingAmount", getCostSharingAmount());
-        hashMap.put("domesticTravelCostSharing", getDomesticTravelCostSharing());
-        hashMap.put("foreignTravelCostSharing", getForeignTravelCostSharing());
-        hashMap.put("totalTravelCostSharing", getTotalTravelCostSharing());
-        hashMap.put("partStipendCostSharing", getPartStipendCostSharing());
-        hashMap.put("partTravelCostSharing", getPartTravelCostSharing());
-        hashMap.put("partTuitionCostSharing", getPartTuitionCostSharing());
-        hashMap.put("partSubsistenceCostSharing", getPartSubsistenceCostSharing());
-        hashMap.put("partOtherCostSharing", getPartOtherCostSharing());
-        hashMap.put("totalNonFundsKeyPersons", getTotalNonFundsKeyPersons());
-        hashMap.put("totalNonFundsAttachedKeyPersons", getTotalNonFundsAttachedKeyPersons());
-        hashMap.put("totalOtherPersonnelNonFunds", getTotalOtherPersonnelNonFunds());
-        hashMap.put("totalCompensationCostSharing", getTotalCompensationCostSharing());
-        hashMap.put("totalDirectCostSharing", getTotalDirectCostSharing());
-        hashMap.put("totalIndirectCostSharing", getTotalIndirectCostSharing());
-
-
-        return hashMap;
     }
 
     /**
