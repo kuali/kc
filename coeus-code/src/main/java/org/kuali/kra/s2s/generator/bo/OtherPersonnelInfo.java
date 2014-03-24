@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.bo;
 
-import java.util.LinkedHashMap;
 
 
 
@@ -26,11 +25,6 @@ public class OtherPersonnelInfo {
     private int numberPersonnel;
     private String role;
     private CompensationInfo compensation;
-
-
-    public OtherPersonnelInfo() {
-    }
-
 
     /**
      * Getter for property numberPersonnel.
@@ -103,15 +97,5 @@ public class OtherPersonnelInfo {
      */
     public void setCompensation(CompensationInfo compensation) {
         this.compensation = compensation;
-    }
-
-
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("personnelType", getNumberPersonnel());
-        hashMap.put("numberPersonnel", getPersonnelType());
-        hashMap.put("role", getRole());
-
-        return hashMap;
     }
 }

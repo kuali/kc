@@ -20,8 +20,6 @@ import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Docume
 import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Document.RROtherProjectInfo13.*;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
@@ -55,9 +53,7 @@ public class RROtherProjectInfo_1_3_V1Generator extends
 		RROtherProjectInfoBaseGenerator {
 	private static final String HISTORIC_DESTIONATION_YNQ = "125";
 	private static final int NSF_DATAMGMNT_ATTAACHMENT = 200;
-	private static final String EMPTY_STRING = " ";
-	private static final Log LOG = LogFactory
-			.getLog(RROtherProjectInfo_1_3_V1Generator.class);
+
 	List<AnswerHeader> answerHeaders;
 
 	/*

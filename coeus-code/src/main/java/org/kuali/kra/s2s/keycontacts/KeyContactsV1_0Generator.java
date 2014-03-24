@@ -19,10 +19,7 @@ import gov.grants.apply.forms.keyContactsV10.KeyContactsDocument;
 import gov.grants.apply.forms.keyContactsV10.KeyContactsDocument.KeyContacts;
 import gov.grants.apply.forms.keyContactsV10.KeyContactsDocument.KeyContacts.RoleOnProject;
 import gov.grants.apply.system.globalLibraryV20.AddressDataType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -31,7 +28,6 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +37,6 @@ public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
     public static final String AUTHORIZED_REPRESENTATIVE = "auth";
     public static final String PRINCIPAL_INVESTIGATOR = "pi";
     public static final String ADMINISTRATIVE_CONTACT = "admin";
-    public static final String PAYEE_CONTACT_TYPE ="PAYEE_CONTACT_TYPE";
-    public static final String PAYEE = "payee";
-    
-    private static final Log LOG = LogFactory.getLog(KeyContactsV1_0Generator.class);    
     
     /**
      * 
@@ -175,45 +167,6 @@ public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
         }
         return roleOnProject;
     }
-    
-    /**
-     * 
-     * This method sets Payee  information.
-     * 
-     * @param roleOnProjectList (RoleOnProject).     
-     * @return RoleOnProject.
-     */
-    private RoleOnProject setPayee(List<RoleOnProject> roleOnProjectList) {
-        RoleOnProject roleOnProject = null;
-        for (UnitAdministrator unitAdministrator : pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitAdministrators()) {            
-            if (unitAdministrator.getUnitAdministratorTypeCode().equals(
-                        KcServiceLocator.getService(ParameterService.class).getParameterValueAsString(ProposalDevelopmentDocument.class, PAYEE_CONTACT_TYPE))) {
-                if (unitAdministrator.getPerson() != null) {
-                    roleOnProject = RoleOnProject.Factory.newInstance();
-                    
-                    roleOnProject.setContactName(globLibV20Generator
-                            .getHumanNameDataType(unitAdministrator.getPerson()));
-                    roleOnProject.setContactPhone(unitAdministrator.getPerson().getOfficePhone());
-                    if (unitAdministrator.getPerson().getFaxNumber() != null
-                            && !unitAdministrator.getPerson().getFaxNumber().equals("")) {
-                        roleOnProject.setContactFax(unitAdministrator.getPerson().getFaxNumber());
-                    }
-                    if (unitAdministrator.getPerson().getEmailAddress() != null
-                            && !unitAdministrator.getPerson().getEmailAddress().equals("")) {
-                        roleOnProject.setContactEmail(unitAdministrator.getPerson().getEmailAddress());
-                    }
-                    roleOnProject.setContactTitle(unitAdministrator.getPerson().getPrimaryTitle());
-                    roleOnProject.setContactAddress(globLibV20Generator
-                            .getAddressDataType(unitAdministrator.getPerson()));
-                    roleOnProject.setContactProjectRole(PAYEE);
-                }                               
-            }            
-        }
-        if (roleOnProject != null) {
-            roleOnProjectList.add(roleOnProject);
-        }
-        return  roleOnProject;
-    } 
 
     @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {

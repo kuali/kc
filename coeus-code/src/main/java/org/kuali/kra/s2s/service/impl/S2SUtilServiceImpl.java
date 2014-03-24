@@ -60,7 +60,6 @@ import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.CitizenshipTypeService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -85,7 +84,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private static final String FEDERAL_ID_COMES_FROM_CURRENT_AWARD = "FEDERAL_ID_COMES_FROM_CURRENT_AWARD";
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    private ConfigurationService kualiConfigurationService;
     private ParameterService parameterService;
     private ProposalDevelopmentService proposalDevelopmentService;
     private KcPersonService kcPersonService;
@@ -519,13 +517,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         return !StringUtils.isEmpty(proposalTypeCode) && (proposalTypeCode.equals(proposalTypeCodeNew));
     }
 
-
-    @Override
-    public String getProperty(String key) {
-        String value = kualiConfigurationService.getPropertyValueAsString(key);
-        return value == null ? "" : value;
-    }
-
     /**
      * This method returns a {@link Calendar} whose date matches the date passed as {@link String}
      * 
@@ -587,30 +578,12 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
     /**
-     * Gets the kualiConfigurationService attribute.
-     * 
-     * @return Returns the kualiConfigurationService.
-     */
-    public ConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
-    }
-
-    /**
      * Sets the ParameterService.
      * 
      * @param parameterService the parameter service.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * 
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
     }
 
     /**
@@ -657,9 +630,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
     /**
      * Finds all the Investigators associated with the provided pdDoc.
-     * 
-     * @param ProposalDevelopmentDocument
-     * @return
      */
     public List<ProposalPerson> getCoInvestigators(ProposalDevelopmentDocument pdDoc) {
         List<ProposalPerson> investigators = new ArrayList<ProposalPerson>();
@@ -675,9 +645,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
     /**
      * Finds all the key Person associated with the provided pdDoc.
-     * 
-     * @param ProposalDevelopmentDocument
-     * @return
      */
     public List<ProposalPerson> getKeyPersons(ProposalDevelopmentDocument pdDoc) {
         List<ProposalPerson> keyPersons = new ArrayList<ProposalPerson>();
@@ -716,7 +683,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * @param stateName Name of the state
      * @return State object matching the name.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getStateFromName(java.lang.String)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getStateFromName(java.lang.String, java.lang.String)
      */
     public State getStateFromName(String countryAlternateCode, String stateName) {
         Country country = getCountryFromCode(countryAlternateCode);
@@ -851,7 +818,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * This method is used to get the details of Contact person
      * 
      * @param pdDoc(ProposalDevelopmentDocument) proposal development document.
-     * @param contactType(String) for which the DepartmentalPerson has to be found.
      * @return depPerson(DepartmentalPerson) corresponding to the contact type.
      */
     public DepartmentalPerson getContactPerson(ProposalDevelopmentDocument pdDoc) {

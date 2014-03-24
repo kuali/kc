@@ -17,7 +17,6 @@ package org.kuali.kra.s2s.generator.bo;
 
 import org.kuali.kra.budget.BudgetDecimal;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,17 +63,11 @@ public class OtherDirectCostInfo {
     private int particpantTotalCount;
 
 
-    public OtherDirectCostInfo() {
-        // otherCosts = new ArrayList<otherCosts>();
-    }
-
-
     /**
      * Getter for property totalOtherDirect
      * 
      * @return Value of property totalOtherDirect.
      */
-
     public BudgetDecimal gettotalOtherDirect() {
         return totalOtherDirect;
     }
@@ -306,22 +299,6 @@ public class OtherDirectCostInfo {
     }
 
     /**
-     * Getter for property partStipendsCount
-     * 
-     * @return Value of property partStipendsCount.
-     */
-    // public int getPartStipendsCount() {
-    // return partStipendsCount;
-    // }
-    /**
-     * Setter for property partStipendsCount.
-     * 
-     * @param partStipendsCount New value of property partStipendsCount.
-     */
-    // public void setPartStipendsCount(int partStipendsCount) {
-    // this.partStipendsCount = partStipendsCount;
-    // }
-    /**
      * Getter for property partOther
      * 
      * @return Value of property partOther.
@@ -340,22 +317,6 @@ public class OtherDirectCostInfo {
     }
 
     /**
-     * Getter for property partOtherCount
-     * 
-     * @return Value of property partOtherCount.
-     */
-    // public int getPartOtherCount() {
-    // return partOtherCount;
-    // }
-    /**
-     * Setter for property partOtherCount.
-     * 
-     * @param partOtherCount New value of property partOtherCount.
-     */
-    // public void setPartOtherCount(int partOtherCount) {
-    // this.partOtherCount= partOtherCount;
-    // }
-    /**
      * Getter for property partTravel
      * 
      * @return Value of property partTravel.
@@ -373,23 +334,6 @@ public class OtherDirectCostInfo {
         this.partTravel = partTravel;
     }
 
-
-    /**
-     * Getter for property partTravelCount
-     * 
-     * @return Value of property partTravelCount.
-     */
-    // public int getPartTravelCount() {
-    // return partTravelCount;
-    // }
-    /**
-     * Setter for property partTravelCount.
-     * 
-     * @param partTravelCount New value of property partTravelCount.
-     */
-    // public void setPartTravelCount(int partTravelCount) {
-    // this.partTravelCount= partTravelCount;
-    // }
     /**
      * Getter for property participantTotal
      * 
@@ -420,7 +364,7 @@ public class OtherDirectCostInfo {
     /**
      * Setter for property participantTotalCount.
      * 
-     * @param participantTotalCount New value of property particpantTotalCount.
+     * @param particpantTotalCount New value of property particpantTotalCount.
      */
     public void setParticipantTotalCount(int particpantTotalCount) {
         this.particpantTotalCount = particpantTotalCount;
@@ -630,48 +574,6 @@ public class OtherDirectCostInfo {
      */
     public void setPartSubsistenceCostSharing(BudgetDecimal partSubsistenceCostSharing) {
         this.partSubsistenceCostSharing = partSubsistenceCostSharing;
-    }
-
-
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("materials", getmaterials());
-        hashMap.put("publications", getpublications());
-        hashMap.put("consultants", getConsultants());
-        hashMap.put("computer", getcomputer());
-        hashMap.put("subAwards", getsubAwards());
-        hashMap.put("equipRental", getEquipRental());
-        hashMap.put("alterations", getAlterations());
-        hashMap.put("totalOtherDirect", gettotalOtherDirect());
-        hashMap.put("domTravel", getDomTravel());
-        hashMap.put("foreignTravel", getForeignTravel());
-        hashMap.put("totTravel", getTotTravel());
-        hashMap.put("partTravel", getPartTravel());
-        hashMap.put("partStipends", getPartStipends());
-        hashMap.put("partOther", getPartOther());
-        hashMap.put("participantTotal", getParticipantTotal());
-        hashMap.put("partTuition", getPartTuition());
-        hashMap.put("partSubsistence", getPartSubsistence());
-        hashMap.put("materialsCostSharing", getMaterialsCostSharing());
-        hashMap.put("publicationsCostSharing", getPublicationsCostSharing());
-        hashMap.put("consultantsCostSharing", getConsultantsCostSharing());
-        hashMap.put("computerCostSharing", getComputerCostSharing());
-        hashMap.put("subAwardsCostSharing", getSubAwardsCostSharing());
-        hashMap.put("equipRentalCostSharing", getEquipRentalCostSharing());
-        hashMap.put("alterationsCostSharing", getAlterationsCostSharing());
-        hashMap.put("domTravelCostSharing", getForeignTravelCostSharing());
-        hashMap.put("foreignTravelCostSharing", getForeignTravelCostSharing());
-        hashMap.put("totTravelCostSharing", getTotTravelCostSharing());
-        hashMap.put("partStipendsCostSharing", getPartStipendsCostSharing());
-        hashMap.put("partTravelCostSharing", getPartTravelCostSharing());
-        hashMap.put("partOtherCostSharing", getPartOtherCostSharing());
-        hashMap.put("participantTotalCostSharing", getParticipantTotalCostSharing());
-        hashMap.put("totalOtherDirectCostSharing", getTotalOtherDirectCostSharing());
-        hashMap.put("partTuitionCostSharing", getPartTuitionCostSharing());
-        hashMap.put("partSubsistenceCostSharing", getPartSubsistenceCostSharing());
-        hashMap.put("particpantTotalCount", getParticpantTotalCount());
-
-        return hashMap;
     }
 
 }

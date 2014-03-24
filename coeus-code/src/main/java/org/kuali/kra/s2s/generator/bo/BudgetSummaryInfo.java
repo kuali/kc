@@ -67,12 +67,6 @@ public class BudgetSummaryInfo {
     private BudgetDecimal cumTotalDirectCostSharing = BudgetDecimal.ZERO;
     private BudgetDecimal cumTotalIndirectCostSharing = BudgetDecimal.ZERO;
 
-
-
-
-    public BudgetSummaryInfo() {
-    }
-
     /**
      * Getter for proposalNumber.
      * 
