@@ -14,20 +14,19 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
 <c:set var="subAwardAttachmentAttributes" value="${DataDictionary.SubAwardAttachments.attributes}" />
 <c:set var="subAwardAttachmentFormBean" value="${KualiForm.subAwardAttachmentFormBean}" />
 <c:set var="action" value="subAwardTemplateInformation" />
 <c:set var="attachments" value="${KualiForm.document.subAwardList[0].subAwardAttachments}"/>
 
-<kul:tab tabTitle="Attachments" tabItemCount="${fn:length(attachments)}" defaultOpen="false" tabErrorKey="subAwardAttachmentFormBean.newAttachment*,document.subAwardList[0].subAwardAttachments*" transparentBackground="true">
+<kul:tab tabTitle="Attachments" tabItemCount="${fn:length(attachments)}" defaultOpen="false" tabErrorKey="subAwardAttachmentFormBean.newAttachment*,document.subAwardList[0].subAwardAttachments*" transparentBackground="false" useRiceAuditMode="true">
 	
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Add Attachment</span>
    			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.subaward.bo.SubAwardAttachments" altText="help"/></span>
        </h3>
-        <table id="attachments-table" class="tab" cellpadding="4" cellspacing="0" summary="">
+        <table cellpadding="0" cellspacing="0" summary="">
          	<tr>
          	    <th>
          	    	&nbsp;
@@ -63,7 +62,6 @@
 					</div>
 				</th> 
              </tr>
-             
                 <c:if test="${!readOnly}">
                 <tbody class="addline">
 	             <tr>
@@ -114,7 +112,7 @@
 				</tr>
 				</tbody>
 			 </c:if> 
-			<%--  <c:out value="${KualiForm.document.subAwardList[0].newSubAwardAttachment}"/> --%>
+			 
 			<c:forEach var="attachment" items="${KualiForm.document.subAwardList[0].subAwardAttachments}" varStatus="itrStatus">
 				<tr>
 	         		<td>
@@ -133,18 +131,12 @@
 		            	</div>
 					</td>
 	       			<td align="left" valign="middle">
-	           			<%-- <div align="left" id="attachmentFileName${itrStatus.index}">
-	              			<kra:fileicon attachment="${attachment.file}"/>${attachment.file.name}
-	           			</div> --%>
 	           			<div id="replaceInstDiv${itrStatus.index}" style="display:block;">
-	           			<%-- <c:out value="${attachment.file.name}"/> --%>
 	           			<c:if test="${attachment.fileName!=null}"> 
 							<kra:fileicon attachment="${attachment}" />
 							 </c:if> 
-	                       <%-- <kra:fileicon attachment="${attachment.file}"/>${attachment.file.name} --%>
 					       <kul:htmlControlAttribute property="document.subAwardList[0].subAwardAttachments[${itrStatus.index}].fileName" 
 					       		readOnly="true" attributeEntry="${subAwardAttachmentAttributes.fileName}" />  
-					       		<%-- <kra:fileicon attachment="${attachment.file}"/>${attachment.file.name} --%>  
 				        </div>
 				        <div id="instFileDiv${itrStatus.index}" valign="middle" style="display:none;">
 				           	<html:file property="document.subAwardList[0].subAwardAttachments[${itrStatus.index}].newFile" />
@@ -181,5 +173,5 @@
 	         	</tr>
 			</c:forEach> 
 		</table> 
-     </div>		
+     </div>	
 </kul:tab>

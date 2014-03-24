@@ -70,6 +70,7 @@ AddSubAwardAttachmentRule {
     private static final String CLOSEOUT_TYPE_CODE="newSubAwardCloseout.closeoutTypeCode";
     private static final String DATE_REQUESTED = "newSubAwardCloseout.dateRequested";
     private static final String DATE_FLLOWUP = "newSubAwardCloseout.dateFollowup";
+    private static final String REPORT_TYPE = "subAwardAttachmentFormBean.newReport.subAwardReportTypeCode";
     
     private static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
     private static final String AMOUNT_PERIOD_OF_PERFORMANCE_START_DATE = "newSubAwardAmountInfo.periodofPerformanceStartDate";
@@ -344,5 +345,17 @@ AddSubAwardAttachmentRule {
     
             }
        return valid;
+    }
+    public boolean processsAddSubawardReportRule(SubAwardReports subAwardReports) {
+        boolean valid = true;
+        
+        if(subAwardReports==null 
+                || subAwardReports.getSubAwardReportTypeCode()==null){
+            valid = false;            
+            reportError(REPORT_TYPE
+                    , KeyConstants.ERROR_REQUIRED_SUBAWARD_REPORT_TYPE_CODE);
+        }
+        return valid;
+        
     }
 }

@@ -154,7 +154,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      * @return newFile.
      */
     public FormFile getNewFile() {
-        return newFile;
+        return this.newFile;
     }
     /**
      * Sets the  newFile.
@@ -354,7 +354,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      * This sets the update time stamp only if it hasn't already been set.
      * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#setUpdateTimestamp(java.sql.Timestamp)
      */
-    @Override
+    @Override 
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
         if (getUpdateTimestamp() == null) {
             super.setUpdateTimestamp(updateTimestamp);
