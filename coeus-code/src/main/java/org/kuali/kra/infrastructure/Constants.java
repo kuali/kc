@@ -774,6 +774,7 @@ public interface Constants {
     public static final String MAPPING_SUBAWARD_PAGE = "subAward";
     public static final String MAPPING_FUNDING_SOURCE_PAGE = "fundingSource";
     public static final String MAPPING_FINANCIAL_PAGE ="financial";
+    public static final String MAPPING_TEMPLATE_PAGE ="templateInformation";
     public static final String MAPPING_AMOUNT_RELEASED_PAGE="amountReleased";
     public static final String MAPPING_CONTACTS_PAGE="contacts";
     public static final String MAPPING_CLOSEOUT_PAGE="closeout";

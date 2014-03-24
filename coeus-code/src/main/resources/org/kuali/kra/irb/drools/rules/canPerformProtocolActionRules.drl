@@ -425,6 +425,14 @@ then
     setAction(protocolAction, true);
 end
 
+rule "Rule 3 -  Modify Protocol Submission"
+salience 100
+when
+    protocolAction : ProtocolActionMapping(actionTypeCode == "309", protocolStatusCode == "200", submissionStatusCode in ("102"))
+then    
+    setAction(protocolAction, true);
+end
+
 rule "Defer"
 salience 100
 when

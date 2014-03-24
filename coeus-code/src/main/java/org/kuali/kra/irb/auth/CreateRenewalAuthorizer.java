@@ -25,9 +25,11 @@ public class CreateRenewalAuthorizer extends ProtocolAuthorizer {
 
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return !isAmendmentOrRenewal(task.getProtocol()) &&
-               canExecuteAction(task.getProtocol(), ProtocolActionType.RENEWAL_CREATED) &&
-               (hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_RENEWAL)
-                    || hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_ANY_RENEWAL));
+        
+        return  !isAmendmentOrRenewal(task.getProtocol()) &&
+                canExecuteAction(task.getProtocol(), ProtocolActionType.RENEWAL_CREATED) &&
+                (hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_RENEWAL) 
+                    || hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_ANY_RENEWAL)) &&
+                !(isRequestForSuspension(task.getProtocol()) & !isIrbAdmin(userId));
     }
 }

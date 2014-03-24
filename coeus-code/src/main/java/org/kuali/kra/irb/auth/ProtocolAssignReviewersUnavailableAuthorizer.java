@@ -20,11 +20,8 @@ import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
@@ -38,7 +35,7 @@ public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthor
         Protocol protocol = task.getProtocol();
         return (!kraWorkflowService.isCurrentNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) ||
                 !isPendingOrSubmittedToCommittee(protocol) ||
-                !(isInSchedule(protocol) || isExpeditedSubmission(protocol) || isNotifyIrbSubmission(protocol))) &&
+                !(isInSchedule(protocol) || canPerformActionOnExpedited(protocol) || isNotifyIrbSubmission(protocol))) &&
                hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 
@@ -63,39 +60,6 @@ public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthor
                !StringUtils.isBlank(submission.getScheduleId());
     }
     
-    /**
-     * Find the submission.  It is the submission that is either currently pending or
-     * already submitted to a committee. 
-     * @param protocol
-     * @return
-     */
-    private ProtocolSubmission findSubmission(Protocol protocol) {
-        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
-                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                return (ProtocolSubmission) submission;
-            }
-        }
-        return null;
-    }
-    
-    /**
-     * Is the submission expedited?
-     * @param protocol
-     * @return
-     */
-    private boolean isExpeditedSubmission(Protocol protocol) {
-        ProtocolSubmission submission = findSubmission(protocol);
-        return submission != null && ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode());
-    }
-
-    public KcWorkflowService getKraWorkflowService() {
-        return kraWorkflowService;
-    }
-
-    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
-        this.kraWorkflowService = kraWorkflowService;
-    }
     /**
      * Is the submission Notify IRB?
      * @param protocol

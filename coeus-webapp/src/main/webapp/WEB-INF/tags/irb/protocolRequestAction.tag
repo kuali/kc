@@ -301,15 +301,21 @@
                                                          reason="The last protocol action must have been Record Committee Decision with the motion to disapprove. " />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Return for Specific Minor Revisions"
 				                                         canPerformAction="${KualiForm.actionHelper.canReturnForSMRUnavailable}"
-                                                         reason="The last protocol action must have been Record Committee Decision with the motion to specific minor revisions. " />
+                                                         reason="The last protocol action must have been Record Committee Decision with the motion to specific minor revisions. 
+                           	                                     <p>
+       	                                                 		 Protocol review type must be Expedited and Protocol must be assigned to committee and schedule." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Return for Substantive Revisions Required."
 				                                         canPerformAction="${KualiForm.actionHelper.canReturnForSRRUnavailable}"
-                                                         reason="The last protocol action must have been Record Committee Decision with the motion to substantive revisions required. " />
+                                                         reason="The last protocol action must have been Record Committee Decision with the motion to substantive revisions required.
+                           	                                     <p>
+       	                                                 		 Protocol review type must be Expedited and Protocol must be assigned to committee and schedule." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Notify IRB"
 				                                         canPerformAction="${KualiForm.actionHelper.canNotifyIrbUnavailable}"
 				                                         reason="Protocol can not be an amendment or renewal.
 				                                                 <p>
-				                                                 Protocol status is In Progress, Submitted To IRB, Specific Minor Revisions Required, Defered, Amendment In Progress or Renewal In Progress." />
+				                                                 Protocol status is In Progress, Submitted To IRB, Specific Minor Revisions Required, Defered, Amendment In Progress or Renewal In Progress.
+				                                                 <p>
+				                                                 Submission type cannot be Request for Suspension for principal investigator." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Notify Committee"
 				                                         canPerformAction="${KualiForm.actionHelper.canNotifyCommitteeUnavailable}"
 				                                         reason="Protocol review type must be Expedited.
@@ -328,7 +334,9 @@
 				                                         canPerformAction="${KualiForm.actionHelper.canCreateAmendmentUnavailable}"
 				                                         reason="Protocol can not be an amendment or renewal.
 				                                                 <p>
-				                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IRB, or Suspended by DSMB." />
+				                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IRB, or Suspended by DSMB.
+				                                                 <p>
+				                                                 Submission type cannot be Request for Suspension for principal investigator." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Modify Amendment Sections"
 				                                         canPerformAction="${KualiForm.actionHelper.canModifyAmendmentSectionsUnavailable}"
 				                                         reason="Protocol must be be an amendment or renewal.
@@ -338,12 +346,16 @@
 				                                         canPerformAction="${KualiForm.actionHelper.canCreateRenewalUnavailable && KualiForm.actionHelper.canCreateAmendmentUnavailable}"
 				                                         reason="Protocol can not be an amendment or renewal.
 				                                                 <p>
-				                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IRB, or Suspended by DSMB." />
+				                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IRB, or Suspended by DSMB.
+				                                                 <p>
+				                                                 Submission type cannot be Request for Suspension for principal investigator." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Create Renewal without Amendment"
 				                                         canPerformAction="${KualiForm.actionHelper.canCreateRenewalUnavailable}"
 				                                         reason="Protocol can not be an amendment or renewal.
 				                                                 <p>
-				                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IRB, Suspended by DSMB, or Expired." />
+				                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IRB, Suspended by DSMB, or Expired.
+				                                                 <p>
+				                                                 Submission type cannot be Request for Suspension for principal investigator." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Request To Close"
 	                                                     canPerformAction="${KualiForm.actionHelper.canRequestCloseUnavailable}"
 				                                         reason="Protocol can not be an amendment or renewal.

@@ -45,7 +45,7 @@
     <bean id="SubAwardCostTypeMaintenanceDocument-EditSubAwardCostType" parent="SubAwardCostTypeMaintenanceDocument-EditSubAwardCostType-parentBean" />
     <bean id="SubAwardCostTypeMaintenanceDocument-EditSubAwardCostType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
         <property name="id" value="Edit SubAwardCostType" />
-        <property name="title" value="Edit SubAwardCostType" />
+        <property name="title" value="Edit Subaward Cost Type" />
         <property name="maintainableItems" >
             <list>
             
