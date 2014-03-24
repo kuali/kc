@@ -17,6 +17,7 @@ package org.kuali.kra.irb.auth;
 
 import org.junit.Test;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -49,7 +50,7 @@ public class CreateRenewalAuthorizerTest extends ProtocolAuthorizerTestBase {
     @Override
     protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
         ProtocolAuthorizer authorizer = new CreateRenewalAuthorizer();
-        authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.CREATE_RENEWAL, hasPermission));
+        authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.CREATE_RENEWAL, hasPermission, RoleConstants.IRB_ADMINISTRATOR, true));
         authorizer.setProtocolActionService(buildProtocolActionService(ProtocolActionType.RENEWAL_CREATED, protocolDocument, isActionAllowed));
         return authorizer;
     }

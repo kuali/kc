@@ -629,6 +629,8 @@
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardAmountInfo.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardAmountReleased.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardApprovalType.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/SubAwardAttachmentType.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/SubAwardAttachments.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardCloseout.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardContact.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardCopyRightsType.xml</value>
@@ -904,6 +906,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/SponsorTermTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SponsorTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardApprovalTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardAttachmentTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardCopyRightsTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardCostTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardFormsMaintenanceDocument.xml</value>

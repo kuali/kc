@@ -103,17 +103,22 @@
     <property name="shortLabel" value="Obligated Amount" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2"
+            p:allowNegative="true" />
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+      <bean parent="FloatingPointPatternConstraint"/>
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
+		<bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
     </property>
     <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
+      <bean p:size="16" parent="Uif-CurrencyTextControl" p:maxLength="22"/>
     </property>
     <property name="summary" value="Obligated Amount" />
     <property name="description" value="Obligated Amount" />    
@@ -154,17 +159,21 @@
     <property name="shortLabel" value="Anticipated Amount" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+     <bean parent="FixedPointValidationPattern"
+            p:precision="10"
+            p:scale="2" />
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+      <bean parent="FloatingPointPatternConstraint"/>
     </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
+   <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
     </property>
     <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
+      <bean p:size="10" parent="Uif-CurrencyTextControl" p:maxLength="22"/>
     </property>
     <property name="summary" value="Anticipated Amount" />
     <property name="description" value="Anticipated Amount" />    

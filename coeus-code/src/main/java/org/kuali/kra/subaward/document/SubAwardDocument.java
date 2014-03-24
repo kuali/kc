@@ -167,6 +167,7 @@ public class SubAwardDocument extends KcTransactionalDocumentBase
         managedLists.add(subAward.getSubAwardFundingSourceList());
         managedLists.add(subAward.getSubAwardContactsList());
         managedLists.add(subAward.getSubAwardCloseoutList());
+        managedLists.add(subAward.getSubAwardAttachments());
         return managedLists;
     }
     
