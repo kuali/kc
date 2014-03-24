@@ -18,7 +18,6 @@ package org.kuali.kra.s2s.generator.bo;
 import org.kuali.kra.budget.BudgetDecimal;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class IndirectCostInfo {
@@ -82,14 +81,5 @@ public class IndirectCostInfo {
      */
     public void setTotalIndirectCostSharing(BudgetDecimal totalIndirectCostSharing) {
         this.totalIndirectCostSharing = totalIndirectCostSharing;
-    }
-
-
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("totalIndirectCosts", getTotalIndirectCosts());
-        hashMap.put("totalIndirectCostSharing", getTotalIndirectCostSharing());
-
-        return hashMap;
     }
 }

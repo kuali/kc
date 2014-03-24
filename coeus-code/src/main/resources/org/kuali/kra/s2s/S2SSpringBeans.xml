@@ -104,9 +104,6 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
@@ -157,6 +154,9 @@
         <property name="parameterService">
             <ref bean="parameterService" />
         </property>
+        <property name="configurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
 		<property name="serviceHost" value="grants.gov.s2s.host"/>
 		<property name="servicePort" value="grants.gov.s2s.port"/>
 		<property name="s2sCertificateReader">
@@ -180,6 +180,9 @@
         </property>
         <property name="parameterService">
             <ref bean="parameterService" />
+        </property>
+        <property name="configurationService">
+            <ref bean="kualiConfigurationService" />
         </property>
 		<property name="serviceHost" value="research.gov.s2s.host"/>
 		<property name="servicePort" value="research.gov.s2s.port"/>

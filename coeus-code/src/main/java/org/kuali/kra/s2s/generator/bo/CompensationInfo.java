@@ -17,7 +17,6 @@ package org.kuali.kra.s2s.generator.bo;
 
 import org.kuali.kra.budget.BudgetDecimal;
 
-import java.util.LinkedHashMap;
 
 public class CompensationInfo {
 
@@ -31,10 +30,6 @@ public class CompensationInfo {
     private BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
     private BudgetDecimal fringeCostSharing = BudgetDecimal.ZERO;
     private BudgetDecimal nonFundsRequested = BudgetDecimal.ZERO;
-
-
-    public CompensationInfo() {
-    }
 
     /**
      * Getter for property calendarMonths.
@@ -185,21 +180,5 @@ public class CompensationInfo {
 
     public void setFringeCostSharing(BudgetDecimal fringeCostSharing) {
         this.fringeCostSharing = fringeCostSharing;
-    }
-
-
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("calendarMonths", getCalendarMonths());
-        hashMap.put("academicMonths", getAcademicMonths());
-        hashMap.put("summerMonths", getSummerMonths());
-        hashMap.put("requestedSalary", getRequestedSalary());
-        hashMap.put("fringe", getFringe());
-        hashMap.put("fundsRequested", getFundsRequested());
-        hashMap.put("baseSalary", getBaseSalary());
-        hashMap.put("costSharingAmount", getCostSharingAmount());
-        hashMap.put("fringeCostSharing", getFringeCostSharing());
-        hashMap.put("nonFundsRequested", getNonFundsRequested());
-        return hashMap;
     }
 }

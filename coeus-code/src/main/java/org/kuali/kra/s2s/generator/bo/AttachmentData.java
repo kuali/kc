@@ -28,10 +28,6 @@ public class AttachmentData {
     private String contentType;
     private String hashValue;
 
-    /** Creates a new instance of AttachmentBean */
-    public AttachmentData() {
-    }
-
     /**
      * Getter for property FileName.
      * @return Value of property FileName.
@@ -58,7 +54,7 @@ public class AttachmentData {
 
     /**
      * Setter for property contentId.
-     * @param ContentId New value of property contentId.
+     * @param contentId New value of property contentId.
      */
     public void setContentId(java.lang.String contentId) {
         this.contentId = contentId;
