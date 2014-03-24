@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.dao;
+package org.kuali.coeus.common.impl.version.history;
 
 import org.kuali.rice.krad.bo.BusinessObject;
 
