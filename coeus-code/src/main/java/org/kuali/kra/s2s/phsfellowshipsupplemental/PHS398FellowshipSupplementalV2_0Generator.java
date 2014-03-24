@@ -758,34 +758,8 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
     }
 
     /**
-     * This method is used to set Narrative Data to ResearchTrainingPlan XMLObject based on NarrativeTypeCode.
-     * 
-     * @param researchTrainingPlan
-     */
-    private Sponsors setSponsorsInfo() {
-        Sponsors sponsors = Sponsors.Factory.newInstance();
-        AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            int typeCode = Integer.parseInt(narrative.getNarrativeTypeCode());
-            if ((narrative.getNarrativeTypeCode() != null) && (typeCode == SPONSOR_COSPONSOR)) {
-                attachedFileDataType = getAttachedFileType(narrative);
-                if (attachedFileDataType == null) {
-                    continue;
-                }
-                SponsorCosponsorInformation sponsorCosponsorInfo = SponsorCosponsorInformation.Factory.newInstance();
-                sponsorCosponsorInfo.setAttFile(attachedFileDataType);
-                sponsors.setSponsorCosponsorInformation(sponsorCosponsorInfo);
-                break;
-            }
-        }
-        return sponsors;
-    }
-
-
-    /**
      * This method is used to set HumanSubjectInvoved and VertebrateAnimalUsed XMLObject Data.
      * 
-     * @param developmentProposal
      * @param researchTrainingPlan
      */
     private void setHumanSubjectInvolvedAndVertebrateAnimalUsed(ResearchTrainingPlan researchTrainingPlan) {
@@ -955,24 +929,19 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
         TypeOfApplication.Enum typeOfApplication = null;
         if (proposalTypeCode != null) {
-            if (proposalTypeCode.equals(ProposalDevelopmentUtils
-                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM))) {
+            if (proposalTypeCode.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM))) {
                 typeOfApplication = TypeOfApplication.NEW;
             }
-            else if (proposalTypeCode.equals(ProposalDevelopmentUtils
-                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM))) {
+            else if (proposalTypeCode.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM))) {
                 typeOfApplication = TypeOfApplication.CONTINUATION;
             }
-            else if (proposalTypeCode.equals(ProposalDevelopmentUtils
-                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM))) {
+            else if (proposalTypeCode.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM))) {
                 typeOfApplication = TypeOfApplication.REVISION;
             }
-            else if (proposalTypeCode.equals(ProposalDevelopmentUtils
-                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM))) {
+            else if (proposalTypeCode.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM))) {
                 typeOfApplication = TypeOfApplication.RENEWAL;
             }
-            else if (proposalTypeCode.equals(ProposalDevelopmentUtils
-                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
+            else if (proposalTypeCode.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
                 typeOfApplication = TypeOfApplication.RESUBMISSION;
             }
             else if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_NEW7)) {
@@ -1035,7 +1004,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
     }
 
     /**
-     * This method creates {@link XmlObject} of type {@link PHSFellowshipSupplementalDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type {@link PHSFellowshipSupplemental20Document} by populating data from the given
      * {@link ProposalDevelopmentDocument}
      * 
      * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created

@@ -36,6 +36,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
@@ -44,6 +45,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -61,14 +63,18 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	private DepartmentalPerson aorInfo;
 	private String stateReviewDate = null;
 
+    protected ParameterService parameterService;
+
+    public SF424V1_0Generator() {
+        parameterService = KcServiceLocator.getService(ParameterService.class);
+    }
+
 	/**
 	 * 
 	 * This method returns GrantApplicationDocument object based on proposal
 	 * development document which contains the GrantApplication information for
 	 * a particular proposal
-	 * 
-	 * @param proposalDevelopmentDocument
-	 *            (ProposalDevelopmentDocument)
+	 *
 	 * @return grantApplicationDocument {@link XmlObject} of type
 	 *         GrantApplicationDocument.
 	 */
@@ -85,9 +91,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	 * This method gets GrantApplicationType for the form . GrantApplicationType
 	 * includes information regarding SubmissionTypeCode
 	 * ApplicationTypeCode,Revision,AgencyName,StateID,CFDANumber,SubmittingOrganization,AuthorizedRepresentative.
-	 * 
-	 * @param proposalDevelopmentDocument
-	 *            (ProposalDevelopmentDocument)
+	 *
 	 * @return GrantApplicationType application details.
 	 */
 	private GrantApplicationType getGrantApplicationType() {
@@ -111,7 +115,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
 			int proposalTypeCode = Integer.parseInt(pdDoc
 					.getDevelopmentProposal().getProposalTypeCode());
-			if (proposalTypeCode < Integer.parseInt(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+			if (proposalTypeCode < Integer.parseInt(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
                     ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
 				applicationTypeCodeDataType = ApplicationTypeCodeType.Enum
 						.forInt(proposalTypeCode);
@@ -209,9 +213,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	 * 
 	 * This method returns StateReviewCode status for the
 	 * application.StateReviewCode can be Not covered,Not reviewed
-	 * 
-	 * @param proposalDevelopmentDocument
-	 *            (ProposalDevelopmentDocument)
+	 *
 	 * @return stateType (StateReviewCodeType.Enum) revision details.
 	 */
     private StateReviewCodeType.Enum getStateReviewCode() {
@@ -251,9 +253,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	 * This method returns the AuthorizedRepresentative details such as
 	 * FirstName,MiddleName,LastName,EmailAddress TelephoneNumber,FaxNumber and
 	 * RepresentativeTitle
-	 * 
-	 * @param proposalDevelopmentDocument
-	 *            (ProposalDevelopmentDocument)
+	 *
 	 * @return AuthorizedRepresentative authorized representative details.
 	 */
 	private AuthorizedRepresentative getAuthorizedRepresentative() {
@@ -296,9 +296,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	 * FederalEstimatedAmount,LocalEstimatedAmount
 	 * ProgramIncomeEstimatedAmount,OtherEstimatedAmount and
 	 * TotalEstimatedAmount
-	 * 
-	 * @param proposalDevelopmentDocument
-	 *            (ProposalDevelopmentDocument)
+	 *
 	 * @return Budget total estimated budget details.
 	 * @throws S2SException
 	 */
@@ -350,9 +348,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	 * This method gets AuthorizedRepresentative (principal investigator)
 	 * contact informations which includes FirstName
 	 * MiddleName,LastName,EmailAddress,TelephoneNumber and FaxNumber
-	 * 
-	 * @param proposalDevelopmentDocument
-	 *            (ProposalDevelopmentDocument)
+	 *
 	 * @return Contact principal investigator contact details.
 	 */
 	private Contact getContact() {
@@ -387,9 +383,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	 * This method gets all the informations related to the project. Project
 	 * informations are ProjectTitle,Location, ProposedStartDate,ProposedEndDate
 	 * and CongressionalDistrict.
-	 * 
-	 * @param proposalDevelopmentDocument
-	 *            (ProposalDevelopmentDocument)
+	 *
 	 * @return project (Project)
 	 */
 	private Project getProject() {
@@ -423,9 +417,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	 * details like CongressionalDistrict
 	 * DelinquentFederalDebtIndicator,OrganizationName,DUNSID,DepartmentName,DivisionName,ApplicantID,ApplicantTypeCode
 	 * Organization details,OrganizationIdentifyingInformation and Address
-	 * 
-	 * @param proposalDevelopmentDocument
-	 *            (ProposalDevelopmentDocument)
+	 *
 	 * @return submittingOrganization(SubmittingOrganization) organization
 	 *         details.
 	 */
@@ -524,9 +516,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	 * Gets the Applicant type code information for the particular applicant.It
 	 * returns enumeration value for the code such as State
 	 * Government,Non-profit Organization,Native American Tribal Government etc.
-	 * 
-	 * @param proposalDevelopmentDocument
-	 *            (ProposalDevelopmentDocument)
+	 *
 	 * @return applicantTypeCode(ApplicantTypeCodeType.Enum) corresponding to
 	 *         the organization type code.
 	 */
@@ -636,7 +626,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		String submissionType = null;
 		String suffix;
 
-		if (ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+		if (parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
                 ProposalDevelopmentUtils.ACTIVITY_TYPE_CODE_CONSTRUCTION_PARM).equals(pdDoc
 				.getDevelopmentProposal().getActivityTypeCode())) {
 			suffix = ACTIVITY_TYPE_CODE_LS_SUFFIX_CONSTRUCTION;
@@ -648,7 +638,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 						.getS2sSubmissionTypeCode() != null) {
 			pdDoc.getDevelopmentProposal().getS2sOpportunity()
 					.refreshNonUpdateableReferences();
-			if (ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+			if (parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
 			        ProposalDevelopmentUtils.S2S_SUBMISSION_TYPE_CODE_NOTSELECTED_PARM).equals(
 			                pdDoc.getDevelopmentProposal().getS2sOpportunity()
 					.getS2sSubmissionType().getS2sSubmissionTypeCode())) {
