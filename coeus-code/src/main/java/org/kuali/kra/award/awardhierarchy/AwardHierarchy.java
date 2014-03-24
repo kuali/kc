@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
+import org.kuali.coeus.common.framework.version.history.VersionHistory;
+import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;

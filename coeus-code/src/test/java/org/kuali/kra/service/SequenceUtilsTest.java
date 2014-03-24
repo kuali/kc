@@ -20,8 +20,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.framework.version.VersionException;
+import org.kuali.coeus.common.impl.version.SequenceUtils;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.service.impl.SequenceUtils;
 import org.kuali.kra.service.impl.versioningartifacts.SimpleSequenceOwner;
 
 import java.io.Serializable;

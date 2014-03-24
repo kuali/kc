@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.award.version.service.impl;
 
+import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.coeus.common.framework.version.history.VersionHistory;
+import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.version.service.AwardVersionService;
-import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.service.VersionHistoryService;
 
 import java.util.List;
 

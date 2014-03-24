@@ -16,10 +16,10 @@
 package org.kuali.kra.subaward.lookup;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.version.history.VersionHistory;
+import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
-import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.document.SubAwardDocument;

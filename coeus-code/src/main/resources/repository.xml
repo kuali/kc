@@ -1256,7 +1256,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.versioning.VersionHistory" table="VERSION_HISTORY">
+	<class-descriptor class="org.kuali.coeus.common.framework.version.history.VersionHistory" table="VERSION_HISTORY">
 		<field-descriptor name="versionHistoryId" column="VERSION_HISTORY_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_VERSION_HISTORY_ID" autoincrement="true"/>
 		<field-descriptor name="sequenceOwnerClassName" column="SEQ_OWNER_CLASS_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceOwnerVersionNameField" column="SEQ_OWNER_VERSION_NAME_FIELD" jdbc-type="VARCHAR" />
@@ -1270,7 +1270,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.bo.versioning.VersionHistorySearchBo" table="VERSION_HISTORY">
+	<class-descriptor class="org.kuali.coeus.common.framework.version.history.VersionHistorySearchBo" table="VERSION_HISTORY">
 		<field-descriptor name="sequenceOwnerVersionNameValue" column="SEQ_OWNER_VERSION_NAME_VALUE" jdbc-type="VARCHAR"  primarykey="true"/>
 		<field-descriptor name="sequenceOwnerSequenceNumber" column="SEQ_OWNER_SEQ_NUMBER" jdbc-type="INTEGER"  primarykey="true"/>
 		<field-descriptor name="sequenceOwnerClassName" column="SEQ_OWNER_CLASS_NAME" jdbc-type="VARCHAR" />

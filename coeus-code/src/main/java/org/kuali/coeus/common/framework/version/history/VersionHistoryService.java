@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service;
+package org.kuali.coeus.common.framework.version.history;
 
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
-import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 
 import java.util.List;
 
