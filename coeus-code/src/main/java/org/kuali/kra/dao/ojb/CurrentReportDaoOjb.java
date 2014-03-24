@@ -1,14 +1,14 @@
 package org.kuali.kra.dao.ojb;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.kuali.coeus.common.framework.version.history.VersionHistory;
+import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.dao.CurrentReportDao;
-import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.*;

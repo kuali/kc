@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.dao.ojb;
+package org.kuali.coeus.common.impl.version.history;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.dao.VersionHistoryLookupDao;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -57,9 +56,7 @@ public class VersionHistoryLookupDaoOjb extends LookupDaoOjb  implements Version
         }else {
             retval = getCollectionCriteriaFromMap(checkBusinessObjectClass(sequenceOwnerClass), fieldValues);   
         }
-//        retval.addPathClass("versionHistory", VersionHistory.class);
-//        retval.addEqualToField("sequenceOwnerVersionNameValue", "versionHistory.sequenceOwnerVersionNameValue");
-//        retval.addEqualToField("sequenceOwnerSequenceNumber", "versionHistory.sequenceOwnerSequenceNumber");
+
         retval.addEqualTo("versionHistory.sequenceOwnerClassName", sequenceOwnerClass.getName());
         List<String> statuses = new ArrayList<String>(2);
         statuses.add("ACTIVE");
