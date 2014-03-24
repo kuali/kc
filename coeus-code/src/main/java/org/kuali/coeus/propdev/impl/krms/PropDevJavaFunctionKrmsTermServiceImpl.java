@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
@@ -57,17 +58,49 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+
+@Component("propDevJavaFunctionKrmsTermService")
 public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements PropDevJavaFunctionKrmsTermService {
     private static final int INT_PERMANENT_RESIDENT_OF_U_S_PENDING = 4;
+    @Autowired
     private DateTimeService dateTimeService;
     private static final Log LOG = LogFactory.getLog(PropDevJavaFunctionKrmsTermServiceImpl.class);
     
+    @Override
+    @Autowired
+    public void setUnitService(@Qualifier("unitService")UnitService unitService) {
+        super.setUnitService(unitService);
+    }
+
+    @Override
+    @Autowired
+    public void setParameterService(@Qualifier("parameterService")ParameterService parameterService) {
+        super.setParameterService(parameterService);
+    }
+
+    @Override
+    @Autowired
+    public void setDocumentService(@Qualifier("documentService")DocumentService documentService) {
+        super.setDocumentService(documentService);
+    }
+    
+    @Override
+    @Autowired
+    public void setBusinessObjectService(@Qualifier("businessObjectService")BusinessObjectService businessObjectService) {
+        super.setBusinessObjectService(businessObjectService);
+    }
     /**
      * 
      * This method checks if the formName is included in the given proposal
