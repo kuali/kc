@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
-import org.kuali.kra.printing.util.PrintingUtils;
+import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;

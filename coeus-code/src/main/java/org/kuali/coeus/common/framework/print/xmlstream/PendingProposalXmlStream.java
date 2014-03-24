@@ -1,6 +1,7 @@
-package org.kuali.kra.printing.xmlstream;
+package org.kuali.coeus.common.framework.print.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.print.service.CurrentAndPendingReportService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
@@ -10,7 +11,6 @@ import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAnd
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingReportCEColumnNames;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport.PendingReportCEColomnValues;
-import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 
 import java.util.*;
 

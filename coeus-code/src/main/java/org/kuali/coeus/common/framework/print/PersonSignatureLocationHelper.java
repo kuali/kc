@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.printing;
+package org.kuali.coeus.common.framework.print;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.util.PDFTextStripper;

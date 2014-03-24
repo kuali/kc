@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.printing.service;
+package org.kuali.coeus.common.framework.print.service;
 
-import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
+import org.kuali.coeus.common.framework.print.Printable;
+import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 import java.util.List;

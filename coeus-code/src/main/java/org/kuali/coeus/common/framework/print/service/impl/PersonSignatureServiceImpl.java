@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.printing.service.impl;
+package org.kuali.coeus.common.framework.print.service.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,9 +25,9 @@ import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.graphics.xobject.PDJpeg;
 import org.kuali.coeus.common.framework.person.attr.PersonSignature;
 import org.kuali.coeus.common.framework.person.attr.PersonSignatureModule;
-import org.kuali.kra.printing.PersonSignatureLocationHelper;
-import org.kuali.kra.printing.PersonSignaturePrintHelper;
-import org.kuali.kra.printing.service.PersonSignatureService;
+import org.kuali.coeus.common.framework.print.PersonSignatureLocationHelper;
+import org.kuali.coeus.common.framework.print.PersonSignaturePrintHelper;
+import org.kuali.coeus.common.framework.print.service.PersonSignatureService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;

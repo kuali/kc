@@ -1,8 +1,8 @@
-package org.kuali.kra.printing.print;
+package org.kuali.coeus.common.framework.print.print;
 
+import org.kuali.coeus.common.framework.print.Printable;
+import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.util.watermark.Watermarkable;
 
 import javax.xml.transform.Source;
@@ -68,7 +68,7 @@ public class GenericPrintable implements Printable {
      }
      /**
       * This method for getting the watermark.
-      * @see org.kuali.kra.printing.Printable#getWatermarkable()
+      * @see org.kuali.coeus.common.framework.print.Printable#getWatermarkable()
       * return watermarkable
       */
      public Watermarkable getWatermarkable(){

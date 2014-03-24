@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.printing.service.impl;
+package org.kuali.coeus.common.framework.print.service.impl;
 
 import com.lowagie.text.*;
 import com.lowagie.text.Image;
@@ -21,7 +21,7 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.printing.service.WatermarkService;
+import org.kuali.coeus.common.framework.print.service.WatermarkService;
 import org.kuali.kra.util.watermark.WatermarkBean;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.questionnaire.printing;
 
+import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.printing.Printable;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 
 import java.util.List;

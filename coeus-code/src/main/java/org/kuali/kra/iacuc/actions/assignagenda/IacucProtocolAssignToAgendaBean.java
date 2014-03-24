@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.assignagenda;
 
+import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -22,7 +23,6 @@ import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.printing.Printable;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
 
 /**

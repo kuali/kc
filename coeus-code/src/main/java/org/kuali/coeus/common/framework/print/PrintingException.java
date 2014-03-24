@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.printing;
+package org.kuali.coeus.common.framework.print;
 
 /**
  * This is an Exception class and is used to encapsulate all errors thrown

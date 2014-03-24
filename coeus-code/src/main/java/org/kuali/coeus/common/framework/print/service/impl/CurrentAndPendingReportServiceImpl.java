@@ -1,16 +1,16 @@
-package org.kuali.kra.printing.service.impl;
+package org.kuali.coeus.common.framework.print.service.impl;
 
+import org.kuali.coeus.common.framework.print.PrintingException;
+import org.kuali.coeus.common.framework.print.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.print.CurrentProposalPrint;
+import org.kuali.coeus.common.framework.print.print.PendingProposalPrint;
+import org.kuali.coeus.common.framework.print.service.CurrentAndPendingReportService;
+import org.kuali.coeus.common.framework.print.service.PrintingService;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.dao.CurrentReportDao;
 import org.kuali.kra.dao.PendingReportDao;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.print.CurrentProposalPrint;
-import org.kuali.kra.printing.print.PendingProposalPrint;
-import org.kuali.kra.printing.service.CurrentAndPendingReportService;
-import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.springframework.transaction.annotation.Transactional;
 
