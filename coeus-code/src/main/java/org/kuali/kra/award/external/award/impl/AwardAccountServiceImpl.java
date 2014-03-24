@@ -17,9 +17,9 @@ package org.kuali.kra.award.external.award.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.award.external.award.AwardAccountDTO;
 import org.kuali.kra.award.external.award.AwardAccountService;
 import org.kuali.kra.infrastructure.Constants;

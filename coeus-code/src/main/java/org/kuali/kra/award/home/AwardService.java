@@ -16,8 +16,8 @@
 package org.kuali.kra.award.home;
 
 import org.kuali.coeus.common.framework.version.VersionException;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.List;

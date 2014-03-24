@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.framework.version.history;
 
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
-import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 
 import java.util.List;
 
