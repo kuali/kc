@@ -26,7 +26,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.service.PrintingService;
+import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;

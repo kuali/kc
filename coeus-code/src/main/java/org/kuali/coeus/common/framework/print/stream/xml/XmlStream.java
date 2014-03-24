@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.print.xmlstream;
+package org.kuali.coeus.common.framework.print.stream.xml;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.PrintingException;

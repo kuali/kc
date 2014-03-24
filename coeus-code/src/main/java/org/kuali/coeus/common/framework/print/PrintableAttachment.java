@@ -15,35 +15,22 @@
  */
 package org.kuali.coeus.common.framework.print;
 
-public class PersonSignaturePrintHelper {
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
-    private float signatureTag;
-    private float coordinateX;
-    private float coordinateY;
-    
-    public float getSignatureTag() {
-        return signatureTag;
-    }
-    
-    public void setSignatureTag(float signatureTag) {
-        this.signatureTag = signatureTag;
-    }
-    
-    public float getCoordinateX() {
-        return coordinateX;
+/**
+ * 
+ * This class populates the bytes of PDF document to be generated
+ */
+public class PrintableAttachment extends AttachmentDataSource {
+
+    private static final long serialVersionUID = 1860670624193916246L;
+    private byte[] streamData;
+
+    public byte[] getContent() {
+        return streamData;
     }
 
-    public void setCoordinateX(float coordinateX) {
-        this.coordinateX = coordinateX;
+    public void setContent(byte[] streamData) {
+        this.streamData = streamData;
     }
-    
-    public float getCoordinateY() {
-        return coordinateY;
-    }
-    
-    public void setCoordinateY(float coordinateY) {
-        this.coordinateY = coordinateY;
-    }
-    
-    
 }

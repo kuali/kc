@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.correspondence;
 
-import org.kuali.coeus.common.framework.print.service.PersonSignatureService;
+import org.kuali.coeus.common.framework.person.signature.PersonSignatureService;
 import org.kuali.kra.irb.actions.print.IrbPersonSignatureService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImplBase;

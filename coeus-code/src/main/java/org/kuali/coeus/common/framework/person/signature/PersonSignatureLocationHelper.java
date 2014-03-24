@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.coeus.common.framework.print;
+package org.kuali.coeus.common.framework.person.signature;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.util.PDFTextStripper;

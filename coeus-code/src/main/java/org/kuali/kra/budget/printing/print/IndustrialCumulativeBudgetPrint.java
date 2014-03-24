@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.printing.print;
 
-import org.kuali.coeus.common.framework.print.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 

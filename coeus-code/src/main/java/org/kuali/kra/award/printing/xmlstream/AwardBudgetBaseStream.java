@@ -16,8 +16,8 @@
 
 package org.kuali.kra.award.printing.xmlstream;
 
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
-import org.kuali.coeus.common.framework.print.xmlstream.XmlStream;
 import org.kuali.kra.printing.schema.AwardTransactionType;
 import org.kuali.kra.printing.schema.AwardType.AwardTransactionInfo;
 import org.kuali.kra.printing.schema.SchoolInfoType2;

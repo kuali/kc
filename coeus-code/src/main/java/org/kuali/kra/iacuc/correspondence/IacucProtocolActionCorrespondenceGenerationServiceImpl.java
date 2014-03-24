@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
-import org.kuali.coeus.common.framework.print.service.PersonSignatureService;
+import org.kuali.coeus.common.framework.person.signature.PersonSignatureService;
 import org.kuali.kra.iacuc.actions.print.IacucPersonSignatureService;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImplBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;

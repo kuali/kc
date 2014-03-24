@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.impl.person.attr;
+package org.kuali.coeus.common.impl.person.signature;
 
-import org.kuali.coeus.common.framework.person.attr.PersonSignature;
+import org.kuali.coeus.common.framework.person.signature.PersonSignature;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;

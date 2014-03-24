@@ -1,6 +1,5 @@
-package org.kuali.coeus.common.framework.print.service;
+package org.kuali.coeus.common.framework.print;
 
-import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.coi.service.impl;
 
+import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.print.AbstractPrint;
-import org.kuali.coeus.common.framework.print.service.PrintingService;
+import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.print.CoiCertificationPrint;
 import org.kuali.kra.coi.print.CoiReportType;
