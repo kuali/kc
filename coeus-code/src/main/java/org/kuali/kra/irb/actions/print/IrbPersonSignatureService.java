@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.print;
 
-import org.kuali.coeus.common.framework.print.service.PersonSignatureService;
+import org.kuali.coeus.common.framework.person.signature.PersonSignatureService;
 
 public interface IrbPersonSignatureService extends PersonSignatureService {
 

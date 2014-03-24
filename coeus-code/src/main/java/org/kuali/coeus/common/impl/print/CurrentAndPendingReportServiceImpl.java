@@ -1,11 +1,11 @@
-package org.kuali.coeus.common.framework.print.service.impl;
+package org.kuali.coeus.common.impl.print;
 
+import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.CurrentAndPendingReportService;
+import org.kuali.coeus.common.framework.print.CurrentProposalPrint;
+import org.kuali.coeus.common.framework.print.PendingProposalPrint;
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.print.AbstractPrint;
-import org.kuali.coeus.common.framework.print.print.CurrentProposalPrint;
-import org.kuali.coeus.common.framework.print.print.PendingProposalPrint;
-import org.kuali.coeus.common.framework.print.service.CurrentAndPendingReportService;
-import org.kuali.coeus.common.framework.print.service.PrintingService;
+import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.dao.CurrentReportDao;

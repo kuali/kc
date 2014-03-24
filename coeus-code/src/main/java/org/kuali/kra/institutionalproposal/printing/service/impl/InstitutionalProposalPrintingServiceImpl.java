@@ -1,8 +1,8 @@
 package org.kuali.kra.institutionalproposal.printing.service.impl;
 
+import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.print.AbstractPrint;
-import org.kuali.coeus.common.framework.print.service.PrintingService;
+import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.questionnaire.print;
 
-import org.kuali.coeus.common.framework.print.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 
 import javax.xml.transform.Source;

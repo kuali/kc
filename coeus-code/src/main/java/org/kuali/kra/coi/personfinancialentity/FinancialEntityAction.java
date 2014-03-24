@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
-import org.kuali.coeus.common.framework.print.service.WatermarkService;
+import org.kuali.coeus.common.framework.print.WatermarkService;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;

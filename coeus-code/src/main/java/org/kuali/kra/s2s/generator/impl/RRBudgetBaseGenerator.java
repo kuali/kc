@@ -22,9 +22,9 @@ import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKey
 import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons.Compensation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.print.GenericPrintable;
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.print.GenericPrintable;
-import org.kuali.coeus.common.framework.print.service.PrintingService;
+import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;

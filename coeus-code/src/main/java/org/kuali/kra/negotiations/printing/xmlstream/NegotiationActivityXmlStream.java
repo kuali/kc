@@ -16,7 +16,7 @@
 package org.kuali.kra.negotiations.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.print.xmlstream.XmlStream;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;

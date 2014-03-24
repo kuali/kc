@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.actions.print;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.print.xmlstream.PrintBaseXmlStream;
+import org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.util.Map;

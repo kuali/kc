@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi.service;
 
+import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.print.AbstractPrint;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.print.CoiReportType;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;

@@ -16,10 +16,10 @@
 package org.kuali.kra.proposaldevelopment.printing.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.print.AbstractPrint;
-import org.kuali.coeus.common.framework.print.service.PrintingService;
+import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorForms;

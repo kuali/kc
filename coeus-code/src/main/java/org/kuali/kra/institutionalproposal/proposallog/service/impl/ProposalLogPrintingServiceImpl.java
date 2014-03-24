@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.service.impl;
 
+import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.print.AbstractPrint;
-import org.kuali.coeus.common.framework.print.service.PrintingService;
+import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogPrint;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;

@@ -1,7 +1,5 @@
-package org.kuali.coeus.common.framework.print.print;
+package org.kuali.coeus.common.framework.print;
 
-import org.kuali.coeus.common.framework.print.Printable;
-import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.util.watermark.Watermarkable;
 

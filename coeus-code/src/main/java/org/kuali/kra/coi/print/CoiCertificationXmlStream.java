@@ -21,7 +21,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.xmlstream.XmlStream;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDiscDetail;

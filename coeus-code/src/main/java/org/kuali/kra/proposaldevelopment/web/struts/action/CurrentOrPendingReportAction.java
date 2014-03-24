@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.common.framework.print.service.CurrentAndPendingReportService;
+import org.kuali.coeus.common.framework.print.CurrentAndPendingReportService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;

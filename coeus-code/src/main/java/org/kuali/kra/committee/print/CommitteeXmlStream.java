@@ -28,7 +28,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeResearchAreaBase;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.print.xmlstream.PrintBaseXmlStream;
+import org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;

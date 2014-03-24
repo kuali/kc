@@ -39,7 +39,7 @@ import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.print.xmlstream.PrintBaseXmlStream;
+import org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.unit.Unit;

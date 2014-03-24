@@ -21,10 +21,10 @@ import java.util.List;
 
 import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
 import org.kuali.coeus.common.committee.impl.print.TemplatePrintBase;
+import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.print.AbstractPrint;
-import org.kuali.coeus.common.framework.print.service.impl.PrintingServiceImpl;
+import org.kuali.coeus.common.impl.print.PrintingServiceImpl;
 import org.kuali.kra.committee.print.*;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
