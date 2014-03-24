@@ -180,6 +180,7 @@ implements  Copyable, SessionDocument, KrmsRulesContext {
         managedLists.add(subAward.getSubAwardContactsList());
         managedLists.add(subAward.getSubAwardCloseoutList());
         managedLists.add(subAward.getSubAwardAttachments());
+        managedLists.add(subAward.getSubAwardReportList());
         return managedLists;
     }
     

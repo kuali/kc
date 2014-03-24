@@ -14,9 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ page language="java" %> 
-
-<link href="kr/css/kuali.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="css/kuali.css" type="text/css" />
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -28,15 +26,16 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="templateInformation">
   	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+
 <div align="right"><kul:help documentTypeName="SubAwardDocument" pageName="Template Information" /></div>
-<div id="workarea">
-<%-- <kra-sub:subAwardTemplate/> --%>
+
+<div id="workarea"> 
+<kra-sub:subAwardReport/>
 <kra-sub:subAwardAttachment/>
 <kul:panelFooter/>
 </div>
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
- <script language="javascript" src="scripts/kuali_application.js"></script>
 
 
 </kul:documentPage>

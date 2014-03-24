@@ -22,6 +22,8 @@ public class SubAwardReportType extends KraPersistableBusinessObjectBase{
     private Integer subAwardReportTypeCode;
     
     private String description;
+    
+    private String sortId;
 
     public Integer getSubAwardReportTypeCode() {
         return subAwardReportTypeCode;
@@ -37,6 +39,22 @@ public class SubAwardReportType extends KraPersistableBusinessObjectBase{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * Gets the sortId attribute. 
+     * @return Returns the sortId.
+     */
+    public String getSortId() {
+        return sortId;
+    }
+
+    /**
+     * Sets the sortId attribute value.
+     * @param sortId The sortId to set.
+     */
+    public void setSortId(String sortId) {
+        this.sortId = sortId;
     }
     
 
