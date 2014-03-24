@@ -22,7 +22,6 @@ import org.kuali.coeus.common.framework.sequence.associate.SeparatelySequenceabl
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersioningService;
-import org.kuali.kra.service.impl.SequenceUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
