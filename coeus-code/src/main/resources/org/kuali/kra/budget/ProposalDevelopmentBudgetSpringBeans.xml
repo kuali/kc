@@ -23,6 +23,7 @@
                            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:annotation-config />
+    <context:component-scan base-package="org.kuali.coeus.propdev.impl.state"/>
 
     <bean id="budgetCalculationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="budgetCalculationService" />
@@ -45,10 +46,6 @@
     </bean>
     
     <bean id="proposalBudgetNumberOfMonthsService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.ProposalBudgetNumberOfMonthsServiceImpl" >
-    </bean>
-    
-    <bean id="proposalStateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl">
-        <property name="proposalHierarchyService" ref="proposalHierarchyService" />
     </bean>
     
     <!-- Proposal Development Budget Task Authorizers -->

@@ -908,11 +908,11 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
 		<property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalState" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="stateTypeCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.propdev.impl.state.ProposalState" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="stateTypeCode" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalState"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.state.ProposalState"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="keyAttributeName" value="stateTypeCode"/>
         <property name="labelAttributeName" value="description"/>
