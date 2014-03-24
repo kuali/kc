@@ -128,7 +128,7 @@ public class FormMappingInfo{
     /**
      * Setter for property beanName.
      * 
-     * @param beanName New value of property beanName.
+     * @param pkgname New value of property beanName.
      */
 
     public void setPkgName(String pkgname) {
