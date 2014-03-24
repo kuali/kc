@@ -17,10 +17,10 @@ package org.kuali.kra.award.awardhierarchy;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.coeus.common.framework.version.history.VersionHistory;
+import org.kuali.coeus.common.impl.version.history.VersionHistoryServiceImpl;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.service.impl.VersionHistoryServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;

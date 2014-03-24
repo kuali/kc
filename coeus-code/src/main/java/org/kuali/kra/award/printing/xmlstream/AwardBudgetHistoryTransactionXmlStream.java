@@ -17,6 +17,7 @@ package org.kuali.kra.award.printing.xmlstream;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.AwardPrintParameters;
@@ -26,7 +27,6 @@ import org.kuali.kra.printing.schema.AwardNoticeDocument;
 import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice;
 import org.kuali.kra.printing.schema.AwardType;
 import org.kuali.kra.printing.schema.AwardType.AwardAmountInfo;
-import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.util.*;

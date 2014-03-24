@@ -16,8 +16,8 @@
 package org.kuali.kra.subaward.service;
 
 import org.kuali.coeus.common.framework.version.VersionException;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;

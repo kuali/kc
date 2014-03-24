@@ -13,8 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo.versioning;
+package org.kuali.coeus.common.impl.version.history;
 
-public enum VersionStatus {
-    ACTIVE, ARCHIVED, CANCELED, PENDING
+import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.List;
+import java.util.Map;
+
+public interface VersionHistoryLookupDao {
+    public List<? extends BusinessObject> getSequenceOwnerSearchResults(Class sequenceOwnerClass,Map fieldValues, boolean usePrimaryKeys);
+
 }
