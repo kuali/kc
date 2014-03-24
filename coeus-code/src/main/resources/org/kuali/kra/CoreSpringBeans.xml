@@ -1611,9 +1611,6 @@
           p:localServiceName="unitRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />  
     
-    <bean id="versionHistoryService" class="org.kuali.coeus.common.impl.version.history.VersionHistoryServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
     <bean id="versionHistoryLookupDao" parent="platformAwareDao" class="org.kuali.coeus.common.impl.version.history.VersionHistoryLookupDaoOjb">
     </bean>
     
