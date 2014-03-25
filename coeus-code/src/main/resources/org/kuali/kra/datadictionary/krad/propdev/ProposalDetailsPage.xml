@@ -136,7 +136,7 @@
 						<entry key="delay" value="1" />
 						<entry key="html" value="true" />
 						<entry key="select"
-							value="function(event, ui) { ProposalDevelopmentMethods.sponsorSuggestSelect(event, ui); return false; }" />
+							value="function(event, ui) { Kc.PropDev.sponsorSuggestSelect(event, ui); return false; }" />
 					</map>
 				</property>
 				<property name="suggestQuery">
@@ -152,7 +152,7 @@
 		</property>
 		<property name="control">
 			<bean parent="Uif-TextControl"
-				p:onBlurScript="ProposalDevelopmentMethods.updateSponsorName(jQuery(this).val(), jQuery(this).parent().find('.informationalText'));" />
+				p:onBlurScript="Kc.PropDev.updateSponsorName(jQuery(this).val(), jQuery(this).parent().find('.informationalText'));" />
 		</property>
 	</bean>
 

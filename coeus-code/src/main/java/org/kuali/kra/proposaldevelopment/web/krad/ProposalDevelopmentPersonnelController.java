@@ -18,13 +18,11 @@ package org.kuali.kra.proposaldevelopment.web.krad;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.krad.service.impl.LookupCriteriaGenerator;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,9 +40,13 @@ import java.util.List;
 @Controller
 public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentControllerBase {
    
+	@Autowired
+	@Qualifier("kcPersonLookupableHelperService")
     private LookupableHelperService kcPersonLookupableHelperService;
-    private LookupCriteriaGenerator lookupCriteriaGenerator;
-    private KeyPersonnelService keyPersonnelService;
+	
+    @Autowired
+    @Qualifier("keyPersonnelService")
+	private KeyPersonnelService keyPersonnelService;
     
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
     public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
@@ -106,6 +108,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
            }
        }
        newProposalPerson.setProposalPersonRoleId(form.getAddKeyPersonHelper().getPersonRole());
+       newProposalPerson.setMultiplePi(form.getAddKeyPersonHelper().getMultiplePi());
+       newProposalPerson.setProjectRole(form.getAddKeyPersonHelper().getKeyPersonProjectRole());
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
        form.getAddKeyPersonHelper().reset();
        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
@@ -113,14 +117,9 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
    
 
     protected LookupableHelperService getKcPersonLookupableHelperService() {
-        if (kcPersonLookupableHelperService == null) {
-            kcPersonLookupableHelperService = KcServiceLocator.getService("kcPersonLookupableHelperService");
-        }
         return kcPersonLookupableHelperService;
     }
     
-    @Autowired
-    @Qualifier("kcPersonLookupableHelperService")
     public void setKcPersonLookupableHelperService(LookupableHelperService kcPersonLookupableHelperService) {
         this.kcPersonLookupableHelperService = kcPersonLookupableHelperService;
     }
@@ -129,20 +128,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         return keyPersonnelService;
     }
 
-    @Autowired
-    @Qualifier("keyPersonnelService")
     public void setKeyPersonnelService(KeyPersonnelService keyPersonnelService) {
         this.keyPersonnelService = keyPersonnelService;
-    }
-
-    protected LookupCriteriaGenerator getLookupCriteriaGenerator() {
-        return lookupCriteriaGenerator;
-    }
-
-    @Autowired
-    @Qualifier("lookupCriteriaGenerator")
-    public void setLookupCriteriaGenerator(LookupCriteriaGenerator lookupCriteriaGenerator) {
-        this.lookupCriteriaGenerator = lookupCriteriaGenerator;
     }
    
 }
