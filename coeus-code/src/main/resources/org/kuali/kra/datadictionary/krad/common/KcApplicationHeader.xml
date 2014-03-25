@@ -27,10 +27,15 @@
 
 	<bean id="Kc-ApplicationHeader-NavigationBar" parent="Kc-ApplicationHeader-NavigationBar-parentBean" />
 	<bean id="Kc-ApplicationHeader-NavigationBar-parentBean" abstract="true"
-		parent="Uif-NavigationBar" p:brandImageUrl.baseUrl="@{#ConfigProperties['application.url']}/kc-krad"
-		p:brandImageUrl.controllerMapping="/landingPage">
-		<property name="brandImage">
-			<bean parent="Kc-Header-ApplicationLogo" />
+		parent="Uif-NavigationBar">
+		<property name="brandImageLink">
+			<bean parent="Uif-ActionLink">
+				<property name="actionUrl">
+					<bean parent="Uif-Url" p:baseUrl="@{#ConfigProperties['application.url']}/kc-krad"
+						p:controllerMapping="/landingPage"/>
+				</property>
+				<property name="actionImage" ref="Kc-Header-ApplicationLogo"/>
+			</bean>
 		</property>
 		<property name="items">
 			<list>

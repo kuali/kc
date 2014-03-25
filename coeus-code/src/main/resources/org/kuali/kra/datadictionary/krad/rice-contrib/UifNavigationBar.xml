@@ -15,8 +15,5 @@
 	<bean id="Uif-NavigationBar" parent="Uif-NavigationBar-parentBean"
 		class="org.kuali.rice.krad.uif.element.NavigationBarCustomLink">
     	<property name="template" value="/WEB-INF/ftl/krad/components/element/navigationBar.ftl"/>
-    	<property name="brandImageUrl">
-    		<bean parent="Uif-Url" />
-    	</property>		
 	</bean>
 </beans>
