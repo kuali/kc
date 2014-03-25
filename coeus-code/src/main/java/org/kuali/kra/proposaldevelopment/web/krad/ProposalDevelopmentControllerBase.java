@@ -31,6 +31,7 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
+import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -76,7 +77,11 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("proposalRoleTemplateService")
     private ProposalRoleTemplateService proposalRoleTemplateService;
-    
+
+    @Autowired
+    @Qualifier("lookupService")
+    private LookupService lookupService;
+
     protected DocumentFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalDevelopmentDocumentForm();
     }
@@ -231,4 +236,11 @@ public abstract class ProposalDevelopmentControllerBase {
 		this.proposalRoleTemplateService = proposalRoleTemplateService;
 	}    
     
+	protected LookupService getLookupService() {
+		return lookupService;
+	}
+
+	public void setLookupService(LookupService lookupService) {
+		this.lookupService = lookupService;
+	}
 }

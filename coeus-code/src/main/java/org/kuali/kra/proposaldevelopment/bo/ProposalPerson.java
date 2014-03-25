@@ -412,7 +412,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     public void setFullName(String fullName) {
         this.fullName = fullName;
         setSimpleName(getFullName());
-        setSimpleName(getSimpleName().toLowerCase());
+        setSimpleName(StringUtils.lowerCase(getSimpleName()));
         setSimpleName(StringUtils.deleteWhitespace(getSimpleName()));
         setSimpleName(StringUtils.remove(getSimpleName(), '.'));
     }
