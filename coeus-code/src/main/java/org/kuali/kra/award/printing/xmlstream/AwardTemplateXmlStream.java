@@ -19,6 +19,8 @@ package org.kuali.kra.award.printing.xmlstream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
+import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
@@ -33,8 +35,6 @@ import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.ContactType;
 import org.kuali.kra.printing.schema.ReportTermDetailsType.MailCopies;
 import org.kuali.kra.printing.schema.TemplateDocument.Template;
-import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

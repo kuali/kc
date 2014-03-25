@@ -19,6 +19,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
@@ -40,7 +41,6 @@ import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractRepor
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.CompanyInfo;
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ContractorType;
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ReportingPeriod;
-import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;

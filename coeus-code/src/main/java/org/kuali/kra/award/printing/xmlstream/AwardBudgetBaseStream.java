@@ -16,14 +16,14 @@
 
 package org.kuali.kra.award.printing.xmlstream;
 
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
+import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.kra.printing.schema.AwardTransactionType;
 import org.kuali.kra.printing.schema.AwardType.AwardTransactionInfo;
 import org.kuali.kra.printing.schema.SchoolInfoType2;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;

@@ -35,13 +35,13 @@ import org.kuali.coeus.common.committee.impl.rule.event.CommitteeActionPrintComm
 import org.kuali.coeus.common.committee.impl.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
 import org.kuali.coeus.common.committee.impl.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.coeus.common.committee.impl.web.struts.form.CommitteeFormBase;
+import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.Printable;
+import org.kuali.coeus.common.framework.print.PrintingException;
+import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.kra.common.printing.CorrespondencePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 import javax.servlet.http.HttpServletRequest;

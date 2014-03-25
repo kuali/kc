@@ -16,10 +16,10 @@
 package org.kuali.kra.questionnaire.printing;
 
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
+import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.Printable;
+import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;

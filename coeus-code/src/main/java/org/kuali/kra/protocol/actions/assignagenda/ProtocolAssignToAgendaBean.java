@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.assignagenda;
 
-import org.kuali.kra.printing.Printable;
+import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 
 import java.io.Serializable;
