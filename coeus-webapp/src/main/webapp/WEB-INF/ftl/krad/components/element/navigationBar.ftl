@@ -32,17 +32,21 @@
                     <span class="icon-reorder"></span>
                 </button>
 
-                <a class="navbar-brand" href="${element.brandImageUrl.href}">
-                    <div class="logoBrand">
-                        <h1>
-                            <#if element.brandImage?? && element.brandImage.render>
-                                <@krad.template component=element.brandImage/>
-                            <#else>
-                                ${element.brandText!}
-                            </#if>
-                        </h1>
-                    </div>
-                </a>
+				<div class="logoBrand">
+	            	<h1>
+						<#if element.brandImageLink?? && element.brandImageLink.render>
+							<@krad.template component=element.brandImageLink/>
+						<#else>
+			                <a class="navbar-brand" href="#">
+			                    <#if element.brandImage?? && element.brandImage.render>
+	                                <@krad.template component=element.brandImage/>
+	                            <#else>
+	                                ${element.brandText!}
+	                            </#if>
+			                </a>
+	    		        </#if>
+					</h1>
+				</div>        
             </div>
 
             <@krad.template component=element.navigationBarGroup/>
