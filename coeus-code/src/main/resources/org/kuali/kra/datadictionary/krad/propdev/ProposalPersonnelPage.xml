@@ -71,7 +71,7 @@
 	<bean id="PropDev-PersonnelPage-WizardButton-Continue" parent="PropDev-PersonnelPage-WizardButton-Continue-parentBean" />
 	<bean id="PropDev-PersonnelPage-WizardButton-Continue-parentBean"
 		abstract="true" parent="PropDev-PersonnelPage-WizardButton"
-		p:actionLabel="Continue..." />
+		p:actionLabel="Continue..." p:preSubmitCall="return Kc.PropDev.Personnel.validateWizard('PropDev-PersonnelPage-Wizard');"/>
 
 	<bean id="PropDev-PersonnelPage-WizardButton-Back" parent="PropDev-PersonnelPage-WizardButton-Back-parentBean" />
 	<bean id="PropDev-PersonnelPage-WizardButton-Back-parentBean"
@@ -109,7 +109,19 @@
 					p:dictionaryAttributeName="campusCode" />
 				<bean parent="PropDev-PersonnelPage-WizardInputField"
 					p:propertyName="lookupFieldValues['active']" p:order="90"
-					p:dictionaryAttributeName="active" />
+					p:dictionaryAttributeName="active">
+					<property name="control">
+						<bean parent="Uif-HorizontalRadioControl">
+							<property name="options">
+								<list>
+									<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
+									<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
+									<bean parent="Uif-KeyLabelPair" p:key="" p:value="Both" />
+								</list>
+							</property>
+						</bean>
+					</property>
+				</bean>
 			</list>
 		</property>
 		<property name="footer">
@@ -162,6 +174,7 @@
 						<bean parent="PropDev-PersonnelPage-WizardButton-Back"
 							p:actionParameters="PropDev-PersonnelPage-Wizard.step:0" p:order="10" />
 						<bean parent="PropDev-PersonnelPage-WizardButton-Continue"
+							p:preSubmitCall="return Kc.PropDev.Personnel.verifyCollectionRadioButtons('PropDev-PersonnelPage-Wizard', 'input[type=&quot;radio&quot;]')"
 							p:actionParameters="PropDev-PersonnelPage-Wizard.step:2" p:order="20" />
 					</list>
 				</property>
@@ -189,7 +202,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="selected"
-					p:label="" p:readOnly="false" p:order="10">
+					p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
 					<property name="control">
 						<bean parent="Uif-VerticalRadioControl">
 							<property name="options">
@@ -200,7 +213,7 @@
 						</bean>
 					</property>
 					<property name="onClickScript"
-						value="ProposalDevelopmentMethods.unselectCollectionRadioButtons(this, &quot;input[name$='selected']&quot;);" />
+						value="Kc.PropDev.Personnel.unselectCollectionRadioButtons(this, &quot;input[name$='selected']&quot;);" />
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="fullName"
 					p:label="Name" p:readOnly="true" p:order="20" />
@@ -212,10 +225,10 @@
 
 	<bean id="PropDev-PersonnelPage-WizardPage3" parent="PropDev-PersonnelPage-WizardPage3-parentBean" />
 	<bean id="PropDev-PersonnelPage-WizardPage3-parentBean" abstract="true"
-		parent="Uif-CssGridSection">
+		parent="Uif-CssGridSection" p:header.headerText="Assign a role">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:fieldLabel.renderColon="true"
+				<bean parent="Uif-InputField" p:required="true"
 					p:propertyName="personRole" p:label="Assign a role"
 					p:order="10">
 					<property name="control">
@@ -226,13 +239,18 @@
 							class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="includeInProposalBudget"
-					p:order="20">
+				<bean parent="Uif-InputField" p:propertyName="multiplePi"
+					p:progressiveRender="@{#fp.personRole == 'T(org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole).COI_CODE'}" p:order="20">
 					<property name="control">
-						<bean parent="Uif-CheckboxControl" p:checked="true"
-							p:checkboxLabel="Yes, include in this proposal's budget" />
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this proposal has mutliple PI's." />
 					</property>
 				</bean>
+				<bean parent="Uif-InputField"
+					p:propertyName="keyPersonProjectRole"
+					p:dictionaryObjectEntry="org.kuali.kra.proposaldevelopment.bo.ProposalPerson"
+					p:dictionaryAttributeName="projectRole" p:required="true"
+					p:label="Key Person's role will be" p:progressiveRender="@{#fp.personRole == 'T(org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole).KEY_PERSON_CODE'}"
+					p:order="30" />
 			</list>
 		</property>
 		<property name="footer">
