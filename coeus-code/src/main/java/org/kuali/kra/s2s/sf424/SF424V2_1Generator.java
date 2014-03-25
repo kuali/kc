@@ -72,7 +72,6 @@ public class SF424V2_1Generator extends SF424BaseGenerator {
 
     private DepartmentalPerson aorInfo = null;
     private String applicantTypeOtherSpecify = null;
-    private String federalDebtExp;
     private String stateReviewDate = null;
     private String strReview = null;
     private static final String ORGANIZATION_YNQ_ANSWER_YES = "Y";
@@ -391,7 +390,6 @@ public class SF424V2_1Generator extends SF424BaseGenerator {
                             yesNo = YesNoDataType.N_NO;
                         }
                     }
-                    federalDebtExp = orgYnq.getExplanation();
                 }
             }
         }

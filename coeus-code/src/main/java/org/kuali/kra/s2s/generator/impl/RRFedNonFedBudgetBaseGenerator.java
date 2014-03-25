@@ -69,6 +69,7 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
         budgetService = KcServiceLocator.getService(BudgetService.class);
+        documentService = KcServiceLocator.getService(DocumentService.class);
     }
     
     /**
@@ -138,12 +139,12 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
         }
         return valid;
     }
-    
+
     /**
      * @return the documentService
      */
     public DocumentService getDocumentService() {
-        return KcServiceLocator.getService(DocumentService.class);
+        return documentService;
     }
 
     /**
