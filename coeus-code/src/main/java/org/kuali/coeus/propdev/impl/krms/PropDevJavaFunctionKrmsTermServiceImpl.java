@@ -33,7 +33,7 @@ import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+//import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.budget.core.Budget;
@@ -74,11 +74,19 @@ import org.springframework.stereotype.Component;
 @Component("propDevJavaFunctionKrmsTermService")
 public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements PropDevJavaFunctionKrmsTermService {
     private static final int INT_PERMANENT_RESIDENT_OF_U_S_PENDING = 4;
-    @Autowired
-    private DateTimeService dateTimeService;
-    private static final Log LOG = LogFactory.getLog(PropDevJavaFunctionKrmsTermServiceImpl.class);
     
-    @Override
+    @Autowired
+    @Qualifier("dateTimeService")
+    private DateTimeService dateTimeService;
+    
+    
+    @Autowired
+    @Qualifier("questionnaireAnswerService")
+    private QuestionnaireAnswerService questionnaireAnswerService;
+    
+    private static final Log LOG = LogFactory.getLog(PropDevJavaFunctionKrmsTermServiceImpl.class);
+
+	@Override
     @Autowired
     public void setUnitService(@Qualifier("unitService")UnitService unitService) {
         super.setUnitService(unitService);
@@ -919,11 +927,10 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      */
     @Override
     public String investigatorKeyPersonCertificationRule(DevelopmentProposal developmentProposal) {
-        QuestionnaireAnswerService questionnaireService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         for (ProposalPerson person : developmentProposal.getProposalPersons()) {
             ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean = 
                 new ProposalPersonModuleQuestionnaireBean(developmentProposal, person);
-            List<AnswerHeader> answerHeaders = questionnaireService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+            List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
             for (AnswerHeader ah : answerHeaders) {
                 if (!ah.getCompleted()) {
                     return FALSE;
@@ -1195,5 +1202,15 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+    
+    public QuestionnaireAnswerService getQuestionnaireAnswerService() {
+		return questionnaireAnswerService;
+	}
+
+	public void setQuestionnaireAnswerService(
+			QuestionnaireAnswerService questionnaireAnswerService) {
+		this.questionnaireAnswerService = questionnaireAnswerService;
+	}
+
 
 }
