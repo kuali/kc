@@ -87,7 +87,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 				.newInstance();
 		RRSF42412 rrsf42412 = RRSF42412.Factory.newInstance();
 		rrsf42412.setFormVersion(S2SConstants.FORMVERSION_1_2);
-		rrsf42412.setSubmittedDate(s2sUtilService.getCurrentCalendar());
+		rrsf42412.setSubmittedDate(Calendar.getInstance());
 		if(getSubmissionTypeCode() != null){
 			rrsf42412.setSubmissionTypeCode(SubmissionTypeDataType.Enum.forInt(Integer.parseInt(getSubmissionTypeCode())));
 		}
@@ -116,7 +116,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		rrsf42412.setStateReview(getStateReview());
 		rrsf42412.setAORInfo(getAORInfoType());
 		rrsf42412.setAORSignature(getAORSignature());
-		rrsf42412.setAORSignedDate(s2sUtilService.getCurrentCalendar());
+		rrsf42412.setAORSignedDate(Calendar.getInstance());
 		setPreApplicationAttachment(rrsf42412);
 		setSFLLLAttachment(rrsf42412);
 		rrSF424Document.setRRSF42412(rrsf42412);

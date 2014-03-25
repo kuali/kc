@@ -173,7 +173,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                 }
             }
         }
-        sf424V2.setDateReceived(s2sUtilService.getCurrentCalendar());
+        sf424V2.setDateReceived(Calendar.getInstance());
         sf424V2.setApplicantID(pdDoc.getDevelopmentProposal().getProposalNumber());
 		String federalId = s2sUtilService.getFederalId(pdDoc);
 		if (federalId != null) {
@@ -424,7 +424,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         sf424V2.setAuthorizedRepresentativeEmail(aorInfo.getEmailAddress());
         sf424V2.setAuthorizedRepresentativeFax(aorInfo.getFaxNumber());
         sf424V2.setAORSignature(aorInfo.getFullName());
-        sf424V2.setDateSigned(s2sUtilService.getCurrentCalendar());
+        sf424V2.setDateSigned(Calendar.getInstance());
         return sf424V2;
     }
 

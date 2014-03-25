@@ -36,7 +36,6 @@ import java.util.Map;
  * 
  */
 public class S2SPollingTaskTest extends KcIntegrationTestBase {
-	private DateTimeService dateTimeService = null;
 	private BusinessObjectService businessObjectService = null;
 	private S2SService s2sService = null;
 
@@ -44,14 +43,12 @@ public class S2SPollingTaskTest extends KcIntegrationTestBase {
 	public void setUp() throws Exception {
 		businessObjectService = KcServiceLocator
 				.getService(BusinessObjectService.class);
-		dateTimeService = KcServiceLocator.getService(DateTimeService.class);
 		s2sService = KcServiceLocator.getService(S2SService.class);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		businessObjectService = null;
-		dateTimeService = null;
 		s2sService = null;
 	}
 
@@ -59,7 +56,6 @@ public class S2SPollingTaskTest extends KcIntegrationTestBase {
 	public void tests2sPolling() {
 		S2SPollingTask s2sPollingTask = new S2SPollingTask();
 		s2sPollingTask.setBusinessObjectService(businessObjectService);
-		s2sPollingTask.setDateTimeService(dateTimeService);
 		s2sPollingTask.sets2SService(s2sService);
 		s2sPollingTask.setStopPollInterval("4320");
 		s2sPollingTask.setMailInterval("20");

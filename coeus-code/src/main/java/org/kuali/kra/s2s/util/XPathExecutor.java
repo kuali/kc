@@ -27,7 +27,6 @@ public class XPathExecutor {
 	/**
 	 * Method evaulates the XPath expression against the xml string.
 	 * Currently utilizing a DOM implementation.
-	 * @param xml
 	 * @param xPath
 	 * @return first node value returned
 	 * @throws Exception
