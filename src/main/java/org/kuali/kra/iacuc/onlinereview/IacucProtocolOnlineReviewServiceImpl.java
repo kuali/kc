@@ -23,6 +23,8 @@ import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -49,11 +51,11 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
   
     public boolean isProtocolInStateToBeReviewed(ProtocolBase protocol) {
         boolean isReviewable = false;
-        ProtocolSubmissionBase submission = protocol.getProtocolSubmission();
+        ProtocolSubmissionBase submission = (IacucProtocolSubmission)((IacucProtocol)protocol).getProtocolSubmission();
         
         if (submission != null) {
             try {
-                isReviewable = StringUtils.isNotEmpty(submission.getScheduleId());
+                isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()) || StringUtils.equals(submission.getProtocolSubmissionType().getSubmissionTypeCode(), IacucProtocolSubmissionType.NOTIFY_IACUC);
                 isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
                         || StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.IN_AGENDA));
                 ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());

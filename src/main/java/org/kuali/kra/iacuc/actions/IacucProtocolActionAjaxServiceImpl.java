@@ -19,6 +19,7 @@ package org.kuali.kra.iacuc.actions;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionAjaxServiceImplBase;
@@ -67,6 +68,31 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
          * no reviewers should be assigned if schedule not chosen.
          */
         if (!StringUtils.isBlank(scheduleId)) {
+            // filter out the protocol personnel; they cannot be reviewers on their own protocol
+            List<CommitteeMembershipBase> filteredMembers = protocol.filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(
+                    committeeId, scheduleId));
+            
+            for (CommitteeMembershipBase filteredMember : filteredMembers) {
+                if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
+                    ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
+                } else {
+                    ajaxList.append(filteredMember.getRolodexId() + ";" + filteredMember.getPersonName() + ";Y;");
+                }
+            }
+        }
+        return clipLastChar(ajaxList);
+    }
+    
+    public String getModifySubmissionProtocolReviewers(String protocolId, String committeeId, String scheduleId, String protocolReviewTypeCode) {
+        StringBuffer ajaxList = new StringBuffer();
+
+        HashMap<String, String> criteria = new HashMap<String, String>();
+        criteria.put("protocolId", protocolId);
+        ProtocolBase protocol = (ProtocolBase) (getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, criteria));        
+        /*
+         * no reviewers should be assigned if schedule not chosen for a Full committee review
+         */
+        if ( !(StringUtils.isBlank(scheduleId) & StringUtils.equals(protocolReviewTypeCode, IacucProtocolReviewType.FULL_COMMITTEE_REVIEW)) ) {
             // filter out the protocol personnel; they cannot be reviewers on their own protocol
             List<CommitteeMembershipBase> filteredMembers = protocol.filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(
                     committeeId, scheduleId));

@@ -274,7 +274,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
             boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, false, submission);
             boolean isUserIacucAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IACUC Administrator"); 
             onlineReviewTabEnabled = (isUserOnlineReviewer || isUserIacucAdmin) 
-                    && onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
+                    && onlineReviewService.isProtocolInStateToBeReviewed((IacucProtocol)getProtocolDocument().getProtocol());
         }
         
             //We have to copy the HeaderNavigation elements into a new collection as the 

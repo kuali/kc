@@ -20,6 +20,7 @@ import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -96,43 +97,47 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
         if (submission != null) {
             // whenever submission is not null, we will show the cmt and schedule chosen for the last submission
             IacucProtocolForm iacucProtocolForm = (IacucProtocolForm)getActionHelper().getProtocolForm();
+            reviewers.clear();
             if (iacucProtocolForm.isReinitializeModifySubmissionFields()) {
                 iacucProtocolForm.setReinitializeModifySubmissionFields(false);
                 committeeId = submission.getCommitteeId();
                 scheduleId = submission.getScheduleId();
-                reviewers.clear();
-            }
-
-            /*
-             * need to build only if committee was chosen in the last submission
-             */
-            if (!StringUtils.isBlank(committeeId) && reviewers.isEmpty()) {
-                /*
-                 * no reviewers should be assigned if schedule not chosen.
-                 */
-                if (!StringUtils.isBlank(scheduleId)) {
-                    List<CommitteeMembershipBase> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
-                    for (CommitteeMembershipBase member : members) {
-                        reviewers.add(new IacucProtocolReviewerBean(member));
-                    }
-    
-                    for (ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
-                        if (review.isActive()) {
-                            for (ProtocolReviewerBeanBase reviewerBean : reviewers) {
-                                if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
-                                    reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
-                                    break;
-                                }
-                            }
-                        }
-                    }
+                 
+                if (!StringUtils.isBlank(scheduleId) && !StringUtils.isBlank(committeeId)) {
+                    //this condition automatically deals with a full committee review requiring a schedule date when obtaining reviewers
+                    populateReviewers(committeeId, scheduleId, submission);
                 }
-                else {
-                    reviewers.clear();
+            }
+            
+            //committeeId and scheduleId may not have changed but submission review type could have
+            //get reviewers based solely on committeeId letting scheduleId be null when submission review type is not a full committee review            
+            if (!StringUtils.isBlank(committeeId) && !isFullCommmitteeReview(submission)) {
+                populateReviewers(committeeId, scheduleId, submission);
+            }              
+        }   
+    }    
+    
+    private boolean isFullCommmitteeReview(ProtocolSubmissionBase submission) {
+        return submission != null && IacucProtocolReviewType.FULL_COMMITTEE_REVIEW.equals(submission.getProtocolReviewTypeCode());
+    }
+    
+    private void populateReviewers(String committeeId, String scheduleId, ProtocolSubmissionBase submission) {
+        List<CommitteeMembershipBase> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
+        for (CommitteeMembershipBase member : members) {
+            reviewers.add(new IacucProtocolReviewerBean(member));
+        }
+
+        for (ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
+            if (review.isActive()) {
+                for (ProtocolReviewerBeanBase reviewerBean : reviewers) {
+                    if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
+                        reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
+                        break;
+                    }
                 }
             }
         }
-    }    
+    }
     
     public void setReviewers(List<ProtocolReviewerBeanBase> reviewers) {
         this.reviewers = reviewers;

@@ -23,6 +23,8 @@
 <script language="javascript" src="dwr/interface/ProtocolActionAjaxService.js"></script>
 <script language="javascript" src="dwr/interface/IacucProtocolActionAjaxService.js"></script>
 <c:set var="docNumber" value="${KualiForm.document.protocol.protocolNumber}" />
+<c:set var="fullCommitteeReview" value="<%=org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType.FULL_COMMITTEE_REVIEW%>" />
+<c:set var="notifyIacucSubmissionType" value="<%=org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType.NOTIFY_IACUC%>" />
 
 
 <kra:permission value="${KualiForm.actionHelper.canModifyProtocolSubmission}">
@@ -42,7 +44,13 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
 	                </th>
 	                <td style="width : 150px">               
                        	<html:select styleId="actionHelper.iacucProtocolModifySubmissionBean.committeeId" property="actionHelper.iacucProtocolModifySubmissionBean.committeeId" 
-                       	onchange="loadScheduleDates('actionHelper.iacucProtocolModifySubmissionBean.committeeId', '${docNumber}', 'actionHelper.iacucProtocolModifySubmissionBean.scheduleId');" >                               
+                       	onchange="loadScheduleDates('actionHelper.iacucProtocolModifySubmissionBean.committeeId', '${docNumber}', 'actionHelper.iacucProtocolModifySubmissionBean.scheduleId');
+                       	          protocolModifySubmissionReviewers('getModifySubmissionProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 
+                                                                    'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, 
+                                                                    'iacucProtocolModifySubmissionBean', 'actionHelper.iacucProtocolModifySubmissionBean.protocolReviewTypeCode'); 
+                                  setModifySubmissionDefaultReviewerTypeCode('getModifySubmissionProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 
+                                                                             'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, 
+                                                                             'iacucProtocolModifySubmissionBean', 'actionHelper.iacucProtocolModifySubmissionBean.protocolReviewTypeCode');" >                              
                             <c:forEach items="${KualiForm.actionHelper.modifySubmissionActionCommitteeIdByUnitKeyValues}" var="option" >
                                 <c:choose>                      
                                     <c:when test="${KualiForm.actionHelper.iacucProtocolModifySubmissionBean.committeeId == option.key}">
@@ -63,27 +71,46 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
                         <td>
 		                	<nobr>
 		                    	<kul:htmlControlAttribute property="actionHelper.iacucProtocolModifySubmissionBean.scheduleId" 
-				                                	      attributeEntry="${attributes.scheduleId}"
-				                                    	  onchange="protocolDisplayReviewers('getProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 
-				                                    	  'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, 
-				                                    	  'iacucProtocolModifySubmissionBean'); 
-				                                    	  setDefaultReviewerTypeCode('getProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 
-				                                    	  'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, 
-				                                    	  'iacucProtocolModifySubmissionBean')" />
+				                                	      attributeEntry="${attributes.scheduleId}" 
+				                                	      onchange="protocolModifySubmissionReviewers('getModifySubmissionProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 
+                                                                                                      'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, 
+                                                                                                      'iacucProtocolModifySubmissionBean', 'actionHelper.iacucProtocolModifySubmissionBean.protocolReviewTypeCode'); 
+                                                                   setModifySubmissionDefaultReviewerTypeCode('getModifySubmissionProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 
+                                                                                              'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, 
+                                                                                              'iacucProtocolModifySubmissionBean', 'actionHelper.iacucProtocolModifySubmissionBean.protocolReviewTypeCode');"/>
 		                    </nobr>
 		               </td>
                 </tr>
                 <tr>
-                    <th width="15%"> 
-                        <div align="right">
-                            <nobr>
-                            <kul:htmlAttributeLabel attributeEntry="${attributes.submissionTypeCode}" />
-                            </nobr>
-                        </div>
-                    </th>
-                    <td>
-                        <kul:htmlControlAttribute property="actionHelper.iacucProtocolModifySubmissionBean.submissionTypeCode" attributeEntry="${attributes.submissionTypeCode}" />
-                    </td>
+                    <c:choose>
+                        <c:when test="${KualiForm.actionHelper.iacucProtocolModifySubmissionBean.submissionTypeCode == notifyIacucSubmissionType }">                      
+                            <th width="15%"> 
+                                <div align="right">
+                                    <kul:htmlAttributeLabel attributeEntry="${attributes.submissionTypeCode}" />
+                                </div>
+                            </th>
+                            <td>
+                                <kul:htmlControlAttribute property="actionHelper.iacucProtocolModifySubmissionBean.submissionTypeCode" 
+                                                      attributeEntry="${attributes.submissionTypeCode}"
+                                                      readOnly="true" />
+                            </td>
+                        </c:when>
+                        <c:otherwise>
+                            <th width="15%"> 
+                                <div align="right">
+                                    <nobr>
+                                        <kul:htmlAttributeLabel attributeEntry="${attributes.submissionTypeCode}" />
+                                    </nobr>
+                                </div>
+                            </th>
+                            <td>
+                                <nobr>
+                                    <kul:htmlControlAttribute property="actionHelper.iacucProtocolModifySubmissionBean.submissionTypeCode" 
+                                                                       attributeEntry="${attributes.submissionTypeCode}" />
+                                </nobr>
+                            </td>
+                        </c:otherwise>
+                    </c:choose>
                     <th width="20%"> 
                         <div align="right">
                             <nobr>
@@ -94,7 +121,13 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
                     <td>
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.iacucProtocolModifySubmissionBean.protocolReviewTypeCode" 
-                                                  attributeEntry="${attributes.protocolReviewTypeCode}" />
+                                                  attributeEntry="${attributes.protocolReviewTypeCode}" 
+                                                  onchange="protocolModifySubmissionReviewers('getModifySubmissionProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 
+                                                                                              'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, 
+                                                                                              'iacucProtocolModifySubmissionBean', 'actionHelper.iacucProtocolModifySubmissionBean.protocolReviewTypeCode'); 
+                                                           setModifySubmissionDefaultReviewerTypeCode('getModifySubmissionProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 
+                                                                                      'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, 
+                                                                                      'iacucProtocolModifySubmissionBean', 'actionHelper.iacucProtocolModifySubmissionBean.protocolReviewTypeCode');"/>
                         </nobr>
                     </td>
                 </tr>
@@ -127,9 +160,12 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
                                 <!-- Assign reviewers part -->
                 
                   <c:choose>
-		                    <c:when test="${empty KualiForm.actionHelper.iacucProtocolModifySubmissionBean.scheduleId}">
+		                    <c:when test="${empty KualiForm.actionHelper.iacucProtocolModifySubmissionBean.committeeId}">
 		                        <tr id="reviewers" style="display: none">
 		                    </c:when>
+		                    <c:when test="${empty KualiForm.actionHelper.iacucProtocolModifySubmissionBean.scheduleId and KualiForm.actionHelper.iacucProtocolModifySubmissionBean.protocolReviewTypeCode == fullCommitteeReview}">
+                                <tr id="reviewers" style="display: none">
+                            </c:when>
 		                    <c:otherwise>
 		                        <tr id="reviewers">
 		                    </c:otherwise>

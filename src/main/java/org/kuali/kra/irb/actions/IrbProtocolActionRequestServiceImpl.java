@@ -1164,17 +1164,6 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
             ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.NOTIFY_IRB, "Notify IRB");
             returnPath = getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IrbConstants.PROTOCOL_ACTIONS_TAB);
         }
-        
-        //We need to update the modify submission bean with the new submission data
-        protocolForm.getProtocolDocument().getProtocol().refreshReferenceObject("protocolSubmissions");
-        ProtocolModifySubmissionBean modifySubmissionBean = protocolForm.getActionHelper().getProtocolModifySubmissionBean();
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();        
-        modifySubmissionBean.setSubmissionTypeCode(protocol.getProtocolSubmission().getSubmissionTypeCode());
-        modifySubmissionBean.setSubmissionQualifierTypeCode(protocol.getProtocolSubmission().getSubmissionTypeQualifierCode());
-        modifySubmissionBean.setProtocolReviewTypeCode(protocol.getProtocolSubmission().getProtocolReviewTypeCode());
-        
-        //Assign to Committee and Schedule sub-panel Committee drop down needs to reflect the Committee value just selected
-        protocolForm.getActionHelper().getAssignCmtSchedBean().init();       
         return returnPath;
     }
     

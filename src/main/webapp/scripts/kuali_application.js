@@ -2556,6 +2556,59 @@ function setDefaultReviewerTypeCode(methodToCall, committeeId, scheduleId, proto
 	);
 }
 
+function setModifySubmissionDefaultReviewerTypeCode(methodToCall, committeeId, scheduleId, protocolId, beanName, protocolReviewTypeCode) {	
+	var reviewerBean = "actionHelper." + beanName + ".reviewer[";			
+	var cmtId = dwr.util.getValue(committeeId); 
+	var schedId = $j(jq_escape(scheduleId)).attr("value");
+	var reviewTypeCode = $j(jq_escape(protocolReviewTypeCode)).attr("value");
+	var queryString = "&committeeId="+cmtId+"&scheduleId=" + schedId+"&protocolId="+protocolId+"&protocolReviewTypeCode="+reviewTypeCode;
+	callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
+			function(jQueyrData) {
+				reviewersReturned = $j(jQueyrData).find('#ret_value').html();
+				getProtocolReviewerTypes(reviewersReturned, beanName);
+				
+				var reviewersArr = reviewersReturned.split(";");
+				
+				var defaultReviewTyper;
+				//just to note, this will probably be higher than the actual number of reviewers, but is a good number to loop through.
+   			var numberOfRevierwers = reviewersArr.length;
+   			var dwrReply = {
+   					callback:function(data) {
+   						if ( data != null ) {	
+   							defaultReviewTyper = data;
+   						} else {
+   							defaultReviewTyper = '';
+   						}
+   						
+   						for (i=0; i<numberOfRevierwers; i++) {
+					  		var selectField = document.getElementsByName(reviewerBean + i + '].reviewerTypeCode')[0];
+					  		if (selectField != null) {
+						  		for (j=0; j<selectField.length; j++) {
+						  			if (selectField.options[j].value == defaultReviewTyper) {
+						  				selectField.options[j].setAttribute("selected", "selected");
+						  				selectField.selectedIndex = j;
+						  			}
+						  		}
+					  		}
+					  		
+					  	}
+   					},
+   					errorHandler:function( errorMessage ) {	
+   						window.status = errorMessage;
+   						window.alert('C data: unknown, there is an error: ' + errorMessage);
+   						defaultReviewTyper = '';
+   					}
+   			};
+   			IacucProtocolActionAjaxService.getDefaultCommitteeReviewTypeCode(dwrReply);
+   			return defaultReviewTyper;
+				
+			},
+			function(error) {
+				alert("error is" + error);
+			}
+	);
+}
+
 function protocolDisplayReviewers(methodToCall, committeeId, scheduleId, protocolId, beanName) {
 	var cmtId = dwr.util.getValue(committeeId); 
 	var schedId = $j(jq_escape(scheduleId)).attr("value");
@@ -2564,6 +2617,30 @@ function protocolDisplayReviewers(methodToCall, committeeId, scheduleId, protoco
     }
     else {
     	var queryString = "&committeeId="+cmtId+"&scheduleId=" + schedId+"&protocolId="+protocolId;
+    	callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
+    			function(data) {
+    				reviewersReturned = $j(data).find('#ret_value').html();
+					getProtocolReviewerTypes(reviewersReturned, beanName);
+    				
+    			},
+    			function(error) {
+    				alert("error is" + error);
+    			}
+    	);
+	}
+}
+
+function protocolModifySubmissionReviewers(methodToCall, committeeId, scheduleId, protocolId, beanName, protocolReviewTypeCode) {
+	var cmtId = dwr.util.getValue(committeeId); 
+	var schedId = $j(jq_escape(scheduleId)).attr("value");
+	var reviewTypeCode = dwr.util.getValue(protocolReviewTypeCode);
+
+	if ( (committeeId == "select" || cmtId == "" ) ||
+    	 (reviewTypeCode == "3" && (schedId == "" || scheduleId == "select")) ) {
+    	document.getElementById("reviewers").style.display = 'none';
+    }
+    else {
+    	var queryString = "&committeeId="+cmtId+"&scheduleId=" + schedId+"&protocolId="+protocolId+"&protocolReviewTypeCode="+reviewTypeCode;
     	callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
     			function(data) {
     				reviewersReturned = $j(data).find('#ret_value').html();
