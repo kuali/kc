@@ -78,6 +78,7 @@
  
 	<context:annotation-config />
 	<context:component-scan base-package="org.kuali.kra.proposaldevelopment.web.krad"/> 
+        <context:component-scan base-package="org.kuali.coeus.propdev.impl"/>
     
     <bean id="transactionalDocumentControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="transactionalDocumentControllerService"/>
@@ -954,17 +955,6 @@
 		</property>
 	</bean>
 	
-	<bean id="proposalDevelopmentFactBuilderService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentFactBuilderServiceImpl">
-		  <property name="documentService" ref="documentService" />
-	</bean>
-    <bean id="propDevJavaFunctionKrmsTermService" class="org.kuali.kra.proposaldevelopment.service.impl.PropDevJavaFunctionKrmsTermServiceImpl">
-    	<property name="businessObjectService" ref="businessObjectService" />
-    	<property name="unitService" ref="unitService" />
-    	<property name="parameterService" ref="parameterService" />
-    	<property name="documentService" ref="documentService" />
-        <property name="dateTimeService" ref="dateTimeService" />
-    </bean>
-
     <bean id="countryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="countryService" />
     </bean>
