@@ -18,7 +18,6 @@ package org.kuali.kra.s2s.generator.impl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Calendar;
@@ -31,7 +30,6 @@ import java.util.Calendar;
  */
 
 public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
-	protected DateTimeService dateTimeService;
 	protected static final String QUESTION_ID_BEGIN_INVESTIGATOR = "12";
 	protected static final String QUESTION_ID_EXPLORATORY_RESEARCH = "14";
 	protected static final String QUESTION_ID_HISTORIC_PLACES = "G6";
@@ -63,7 +61,6 @@ public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
 	 * Constructs a NSFCoverPageBaseGenerator.java.
 	 */
 	public NSFCoverPageBaseGenerator() {
-		dateTimeService = KcServiceLocator.getService(DateTimeService.class);
 		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
 		businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
 	}
@@ -78,7 +75,7 @@ public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
 	 * @return calendar value corresponding to the year(String) passed.
 	 */
 	public Calendar getYearAsCalendar(String year) {
-		Calendar calendar = dateTimeService.getCurrentCalendar();
+		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.MILLISECOND, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MINUTE, 0);

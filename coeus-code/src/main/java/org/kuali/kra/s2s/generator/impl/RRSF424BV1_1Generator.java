@@ -27,7 +27,8 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.core.api.datetime.DateTimeService;
+
+import java.util.Calendar;
 
 
 public class RRSF424BV1_1Generator extends S2SBaseFormGenerator {
@@ -44,11 +45,8 @@ public class RRSF424BV1_1Generator extends S2SBaseFormGenerator {
         ProposalSite applicantOrganization = propDevFormBean.getApplicantOrganization();
         rrSF424B.setApplicantOrganizationName(applicantOrganization.getOrganization().getOrganizationName());
         rrSF424B.setAuthorizedRepresentative(getAuthorizedRepresentative(proposalDevelopmentDocument));
-        rrSF424B.setSubmittedDate(getDateTimeService().getCurrentCalendar());
+        rrSF424B.setSubmittedDate(Calendar.getInstance());
         return assurcesDocument;
-    }
-    private DateTimeService getDateTimeService() {
-        return KcServiceLocator.getService(DateTimeService.class);
     }
     /**
      * 

@@ -33,13 +33,11 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class SF424BV1_1Generator extends SF424BaseGenerator {
 
-
     /**
      * 
      * This method returns AssurancesDocument object based on proposal development document which contains all the information for a
      * particular proposal
      * 
-     * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
      * @return assuranceDocument {@link XmlObject} of type AssurancesDocument.
      */
     private AssurancesDocument getAssurance() {
@@ -54,7 +52,6 @@ public class SF424BV1_1Generator extends SF424BaseGenerator {
      * This method gets AssuranceType details based on proposal development document.AssuranceType type includes details like
      * ProgramType,AuthorizedRepresentative,ApplicantOrganizationName.
      * 
-     * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
      * @return AssuranceType object containing information about ApplicantOrganizationName,ProgramType,AuthorizedRepresentative
      */
     private AssuranceType getAssuranceType() {
@@ -74,7 +71,6 @@ public class SF424BV1_1Generator extends SF424BaseGenerator {
      * 
      * This method gets AuthorizedRepresentative details RepresentativeTitle based on ProposalDevelopmentDocument.
      * 
-     * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
      * @return AuthorizedRepresentative authorized representative title.
      */
     private AuthorizedRepresentative getAuthorizedRepresentative() {
