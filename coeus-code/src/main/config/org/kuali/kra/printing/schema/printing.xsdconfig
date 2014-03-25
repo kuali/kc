@@ -8,7 +8,7 @@
     default package xmlbeans would have used without the ##any declaration.
     -->
     <xb:namespace uri="##any">
-        <xb:package>org.kuali.coeus.common.framework.print.schema</xb:package>
+        <xb:package>org.kuali.kra.printing.schema</xb:package>
     </xb:namespace>
 
     <xb:namespace uri="http://irb.mit.edu/irbnamespace">
