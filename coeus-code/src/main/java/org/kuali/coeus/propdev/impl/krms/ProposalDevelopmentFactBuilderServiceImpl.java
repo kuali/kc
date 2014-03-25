@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.coeus.propdev.impl.krms;
 
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
@@ -37,9 +37,17 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import java.io.ByteArrayInputStream;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+
+@Component("proposalDevelopmentFactBuilderService")
 public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper {
     
-    private DocumentService documentService;
+	@Autowired
+	@Qualifier("documentService")
+	private DocumentService documentService;
     
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
         String documentNumber = getElementValue(docContent, "//document/documentNumber");
