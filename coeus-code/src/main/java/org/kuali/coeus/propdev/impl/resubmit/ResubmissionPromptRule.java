@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule;
+package org.kuali.coeus.propdev.impl.resubmit;
 
-import org.kuali.kra.proposaldevelopment.rule.event.ResubmissionRuleEvent;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**

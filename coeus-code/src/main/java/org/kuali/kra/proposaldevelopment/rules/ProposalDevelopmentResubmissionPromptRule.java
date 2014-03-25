@@ -17,8 +17,8 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.rule.ResubmissionPromptRule;
-import org.kuali.kra.proposaldevelopment.rule.event.ResubmissionRuleEvent;
+import org.kuali.coeus.propdev.impl.resubmit.ResubmissionPromptRule;
+import org.kuali.coeus.propdev.impl.resubmit.ResubmissionRuleEvent;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**
