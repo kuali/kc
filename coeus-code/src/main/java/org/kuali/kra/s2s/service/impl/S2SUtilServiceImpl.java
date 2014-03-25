@@ -60,7 +60,6 @@ import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.CitizenshipTypeService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -83,7 +82,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
     private static final String FEDERAL_ID_COMES_FROM_CURRENT_AWARD = "FEDERAL_ID_COMES_FROM_CURRENT_AWARD";
     private BusinessObjectService businessObjectService;
-    private DateTimeService dateTimeService;
     private ParameterService parameterService;
     private ProposalDevelopmentService proposalDevelopmentService;
     private KcPersonService kcPersonService;
@@ -527,21 +525,11 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public Calendar convertDateStringToCalendar(String dateStr) {
         Calendar calendar = null;
         if (dateStr != null) {
-            calendar = dateTimeService.getCurrentCalendar();
+            calendar = Calendar.getInstance();
             calendar.set(Integer.parseInt(dateStr.substring(6, 10)), Integer.parseInt(dateStr.substring(0, 2)) - 1,
                     Integer.parseInt(dateStr.substring(3, 5)));
         }
         return calendar;
-    }
-
-    /**
-     *
-     * This method is used to get current Calendar
-     *
-     * @return {@link Calendar}
-     */
-    public Calendar getCurrentCalendar() {
-        return dateTimeService.getCurrentCalendar();
     }
 
     /**
@@ -554,7 +542,8 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public Calendar convertDateToCalendar(Date date) {
         Calendar calendar = null;
         if (date != null) {
-            calendar = dateTimeService.getCalendar(date);
+            calendar = Calendar.getInstance();
+            calendar.setTime(date);
         }
         return calendar;
     }
@@ -566,15 +555,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Sets the dateTimeService attribute value.
-     * 
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 
     /**
@@ -1159,7 +1139,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
     public String removeTimezoneFactor(String applicationXmlText) {
-        Calendar cal = dateTimeService.getCurrentCalendar();
+        Calendar cal = Calendar.getInstance();
         int dstOffsetMilli = cal.get(Calendar.DST_OFFSET);
         int zoneOffsetMilli = cal.get(Calendar.ZONE_OFFSET);
         zoneOffsetMilli = cal.getTimeZone().useDaylightTime()?zoneOffsetMilli+dstOffsetMilli:zoneOffsetMilli;

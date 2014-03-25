@@ -48,6 +48,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Map;
 
 /**
@@ -109,8 +110,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 					.forString(submissionTypeCode);
 			grantApplicationType.setSubmissionTypeCode(submissionType);
 		}
-		grantApplicationType.setSubmittedDate(s2sUtilService
-				.getCurrentCalendar());
+		grantApplicationType.setSubmittedDate(Calendar.getInstance());
 		ApplicationTypeCodeType.Enum applicationTypeCodeDataType = null;
 		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
 			int proposalTypeCode = Integer.parseInt(pdDoc
@@ -204,7 +204,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		grantApplicationType.setAuthorizedRepresentativeSignature(aorInfo
 				.getFullName());
 
-		grantApplicationType.setSignedDate(s2sUtilService.getCurrentCalendar());
+		grantApplicationType.setSignedDate(Calendar.getInstance());
 		grantApplicationType.setCoreSchemaVersion(CORE_SCHEMA_VERSION_1_0);
 		return grantApplicationType;
 	}
@@ -675,7 +675,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	 * generator type and returns back the document of that generator type.
 	 * 
 	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
+	 *ProposalDevelopmentResubmissionAction            which needs to be converted to the document type of the
 	 *            required generator
 	 * @return {@link XmlObject} document of the required generator type
 	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)

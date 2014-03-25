@@ -26,7 +26,6 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -50,7 +49,6 @@ public class S2SPollingTask {
     private static final Log LOG = LogFactory.getLog(S2SPollingTask.class);
     private final List<String> lstStatus = new ArrayList<String>();
     private final Map<String, String> sortMsgKeyMap = new Hashtable<String, String>();
-    private DateTimeService dateTimeService = null;
     private BusinessObjectService businessObjectService = null;
     private S2SService s2SService = null;
 
@@ -101,7 +99,7 @@ public class S2SPollingTask {
      * @return boolean
      */
     private boolean getSubmissionDateValidity(S2sAppSubmission appSubmission) {
-        Calendar lastModifiedDate = dateTimeService.getCurrentCalendar();
+        Calendar lastModifiedDate = Calendar.getInstance();
         long stopPollingIntervalMillis = Integer.parseInt(this.getStopPollInterval()) * 60 * 60 * 1000L;
         if (appSubmission.getLastModifiedDate() != null) {
             lastModifiedDate.setTimeInMillis(appSubmission.getLastModifiedDate().getTime());
@@ -110,7 +108,7 @@ public class S2SPollingTask {
             lastModifiedDate.setTimeInMillis(appSubmission.getReceivedDate().getTime());
         }
 
-        return (dateTimeService.getCurrentDate().getTime() - lastModifiedDate.getTimeInMillis() < stopPollingIntervalMillis);
+        return (new Date().getTime() - lastModifiedDate.getTimeInMillis() < stopPollingIntervalMillis);
     }
 
     /**
@@ -177,7 +175,7 @@ public class S2SPollingTask {
             SubmissionData localSubInfo = submissions.next();
             S2sAppSubmission appSubmission = localSubInfo.getS2sAppSubmission();
             Timestamp oldLastNotiDate = appSubmission.getLastNotifiedDate();
-            Timestamp today = dateTimeService.getCurrentTimestamp();
+            Timestamp today = new Timestamp(new Date().getTime());
             boolean updateFlag = false;
             boolean sendEmailFlag = false;
             boolean statusChanged = false;
@@ -218,15 +216,15 @@ public class S2SPollingTask {
             String sortId = SORT_ID_Z;
             Timestamp lastNotifiedDate = appSubmission.getLastNotifiedDate();
             Timestamp statusChangedDate = appSubmission.getLastModifiedDate();
-            Calendar lastNotifiedDateCal = dateTimeService.getCurrentCalendar();
+            Calendar lastNotifiedDateCal = Calendar.getInstance();
             if (lastNotifiedDate != null) {
                 lastNotifiedDateCal.setTimeInMillis(lastNotifiedDate.getTime());
             }
-            Calendar statusChangedDateCal = dateTimeService.getCurrentCalendar();
+            Calendar statusChangedDateCal = Calendar.getInstance();
             if (statusChangedDate != null) {
                 statusChangedDateCal.setTimeInMillis(statusChangedDate.getTime());
             }
-            Calendar recDateCal = dateTimeService.getCurrentCalendar();
+            Calendar recDateCal = Calendar.getInstance();
             recDateCal.setTimeInMillis(appSubmission.getReceivedDate().getTime());
 
             if (statusChanged) {
@@ -412,21 +410,21 @@ public class S2SPollingTask {
             S2sAppSubmission appSubmission = submissionData.getS2sAppSubmission();
             Timestamp lastNotifiedDate = appSubmission.getLastNotifiedDate();
             Timestamp statusChangedDate = appSubmission.getLastModifiedDate();
-            Calendar lastNotifiedDateCal = dateTimeService.getCurrentCalendar();
+            Calendar lastNotifiedDateCal = Calendar.getInstance();
 
             if (lastNotifiedDate != null) {
                 lastNotifiedDateCal.setTimeInMillis(lastNotifiedDate.getTime());
             }
-            Calendar statusChangedDateCal = dateTimeService.getCurrentCalendar();
+            Calendar statusChangedDateCal = Calendar.getInstance();
             if (statusChangedDate != null) {
                 statusChangedDateCal.setTimeInMillis(statusChangedDate.getTime());
             }
-            Calendar recDateCal = dateTimeService.getCurrentCalendar();
+            Calendar recDateCal = Calendar.getInstance();
             recDateCal.setTimeInMillis(appSubmission.getReceivedDate().getTime());
 
             long lastModifiedTime = statusChangedDate == null ? appSubmission.getReceivedDate().getTime() : statusChangedDate
                     .getTime();
-            Timestamp today = dateTimeService.getCurrentTimestamp();
+            Timestamp today = new Timestamp(new Date().getTime());
             long delta = today.getTime() - lastModifiedTime;
             double deltaHrs = ((double) Math.round((delta / (1000.0d * 60.0d * 60.0d)) * Math.pow(10.0, 2))) / 100;
 
@@ -551,14 +549,6 @@ public class S2SPollingTask {
         this.mailInterval = mailInterval;
     }
 
-    /**
-     * Sets the dateTimeService attribute value.
-     * 
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
 
     /**
      * Sets the businessObjectService attribute value.

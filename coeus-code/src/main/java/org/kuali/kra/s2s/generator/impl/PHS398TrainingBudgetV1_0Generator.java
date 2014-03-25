@@ -13,6 +13,7 @@ import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocume
 import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument.PHS398TrainingBudget.BudgetType;
 import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetYearDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -44,7 +45,6 @@ import org.kuali.kra.s2s.generator.bo.IndirectCostDetails;
 import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -77,7 +77,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private static final String STIPEND_AMOUNT = "amount";
     private static final String BUDGET_PERIOD = "period";
     private S2SBudgetCalculatorService s2sBudgetCalculatorService;
-    private DateTimeService dateTimeService;
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private static final int PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130 = 130;
@@ -102,7 +101,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     /** Creates a new instance of PHS398TrainingBudgetV1_0Generator */
     public PHS398TrainingBudgetV1_0Generator() {
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
-        dateTimeService = KcServiceLocator.getService(DateTimeService.class);
         parameterService = KcServiceLocator.getService(ParameterService.class);
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
     }
@@ -200,8 +198,8 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             phs398TrainingBudgetYearDataType.setOtherTuitionAndFeesRequested(getBudgetPeriodCost(budgetPeriod,
                     TUITION_OTHER_COST_ELEMENTS).bigDecimalValue());
 
-            phs398TrainingBudgetYearDataType.setPeriodEndDate(dateTimeService.getCalendar(budgetPeriod.getEndDate()));
-            phs398TrainingBudgetYearDataType.setPeriodStartDate(dateTimeService.getCalendar(budgetPeriod.getStartDate()));
+            phs398TrainingBudgetYearDataType.setPeriodEndDate(DateUtils.toCalendar(budgetPeriod.getEndDate()));
+            phs398TrainingBudgetYearDataType.setPeriodStartDate(DateUtils.toCalendar(budgetPeriod.getStartDate()));
 
 
             /******************************

@@ -125,13 +125,7 @@ public interface S2SUtilService {
      * @return Calendar calendar value corresponding to the date string.
      */
     public Calendar convertDateStringToCalendar(String dateStr);
-    /**
-     *
-     * This method is used to get current Calendar
-     *
-     * @return {@link Calendar}
-     */
-    public Calendar getCurrentCalendar();
+
     /**
      *
      * This method is used to get Calendar date

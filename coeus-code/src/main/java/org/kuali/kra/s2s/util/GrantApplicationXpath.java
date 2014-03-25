@@ -11,9 +11,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import javax.xml.transform.TransformerException;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 
 /**
  * Grant application Xpath class.

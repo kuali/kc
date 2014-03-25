@@ -35,6 +35,7 @@ import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -231,7 +232,7 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
             }
         }
         signatureBlock.setSignature(aorInfo.getFullName());
-        signatureBlock.setSignedDate(s2sUtilService.getCurrentCalendar());
+        signatureBlock.setSignedDate(Calendar.getInstance());
         return signatureBlock;
     }
 

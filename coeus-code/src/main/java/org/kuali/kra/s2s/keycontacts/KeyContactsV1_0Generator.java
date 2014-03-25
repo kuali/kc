@@ -21,7 +21,6 @@ import gov.grants.apply.forms.keyContactsV10.KeyContactsDocument.KeyContacts.Rol
 import gov.grants.apply.system.globalLibraryV20.AddressDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -101,71 +100,6 @@ public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
         if (roleOnProject != null) {
             roleOnProjectList.add(roleOnProject);
         }
-    }    
-    
-    /**
-     * 
-     * This method sets Principal Investigator information.
-     * 
-     * @param roleOnProjectList (RoleOnProject).     
-     * @return RoleOnProject.
-     */
-    private RoleOnProject setPrincipalInvestigator(List<RoleOnProject> roleOnProjectList) {
-        RoleOnProject roleOnProject = null;
-        
-        ProposalPerson proposalPerson  = KcServiceLocator.getService(S2SUtilService.class).getPrincipalInvestigator(pdDoc);
-        if (proposalPerson != null) {
-            roleOnProject = RoleOnProject.Factory.newInstance();
-            
-            roleOnProject.setContactName(globLibV20Generator.getHumanNameDataType(proposalPerson));
-            roleOnProject.setContactTitle(proposalPerson.getPrimaryTitle());
-            roleOnProject.setContactProjectRole(PRINCIPAL_INVESTIGATOR);
-            roleOnProject.setContactFax(proposalPerson.getFaxNumber());
-            roleOnProject.setContactEmail(proposalPerson.getEmailAddress());
-            roleOnProject.setContactPhone(proposalPerson.getPhoneNumber());
-                    
-            AddressDataType address = (AddressDataType) globLibV20Generator.getAddressDataType(proposalPerson);
-            roleOnProject.setContactAddress(address); 
-        }
-        if (roleOnProject != null) {
-            roleOnProjectList.add(roleOnProject);
-        }
-        return roleOnProject;
-    }
-    
-    /**
-     * 
-     * This method sets Administrative Contact information.
-     * 
-     * @param roleOnProjectList (RoleOnProject).     
-     * @return RoleOnProject.
-     */
-    private RoleOnProject setAdministrativeContact(List<RoleOnProject> roleOnProjectList) {
-        RoleOnProject roleOnProject = null;
-        DepartmentalPerson contactPerson = KcServiceLocator.getService(S2SUtilService.class).getContactPerson(pdDoc);
-        if (contactPerson != null) {
-            roleOnProject = RoleOnProject.Factory.newInstance();
-            
-            roleOnProject.setContactName(globLibV20Generator
-                    .getHumanNameDataType(contactPerson));
-            roleOnProject.setContactPhone(contactPerson.getOfficePhone());
-            if (contactPerson.getFaxNumber() != null
-                    && !contactPerson.getFaxNumber().equals("")) {
-                roleOnProject.setContactFax(contactPerson.getFaxNumber());
-            }
-            if (contactPerson.getEmailAddress() != null
-                    && !contactPerson.getEmailAddress().equals("")) {
-                roleOnProject.setContactEmail(contactPerson.getEmailAddress());
-            }
-            roleOnProject.setContactTitle(contactPerson.getPrimaryTitle());
-            roleOnProject.setContactAddress(globLibV20Generator
-                    .getAddressDataType(contactPerson));
-            roleOnProject.setContactProjectRole(ADMINISTRATIVE_CONTACT);
-        }
-        if (roleOnProject != null) {
-            roleOnProjectList.add(roleOnProject);
-        }
-        return roleOnProject;
     }
 
     @Override

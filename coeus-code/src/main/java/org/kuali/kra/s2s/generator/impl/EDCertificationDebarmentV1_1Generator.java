@@ -28,6 +28,8 @@ import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 
+import java.util.Calendar;
+
 /**
  * Class for generating the XML object for grants.gov EDcertificationDebarmentV1_1. Form is generated using XMLBean classes and is
  * based on EDCertificationDebarment schema.
@@ -90,7 +92,7 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
         certificationDebarment.setAuthorizedRepresentativeTitle(authorizedRepresentativeTitle);
         certificationDebarment.setAuthorizedRepresentativeName(globLibV20Generator.getHumanNameDataType(departmentalPerson));
         certificationDebarment.setAuthorizedRepresentativeSignature(authorizedRepresentativeSignature);
-        certificationDebarment.setSubmittedDate(s2sUtilService.getCurrentCalendar());
+        certificationDebarment.setSubmittedDate(Calendar.getInstance());
         AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null

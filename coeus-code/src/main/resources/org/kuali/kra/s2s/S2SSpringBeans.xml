@@ -73,9 +73,6 @@
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 		<property name="configurationService" ref="kualiConfigurationService"/>
 	</bean>
 
@@ -100,9 +97,6 @@
 		class="org.kuali.kra.s2s.service.impl.S2SUtilServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
 		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
@@ -203,9 +197,6 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 		<property name="s2SService" >
   			<ref bean="s2SService"/>
   		</property>
@@ -230,9 +221,6 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 		<property name="s2SService" >
   			<ref bean="s2SService"/>
   		</property>
@@ -254,9 +242,6 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 		<property name="s2SService" >
   			<ref bean="s2SService"/>
   		</property>
@@ -277,9 +262,6 @@
 		class="org.kuali.kra.s2s.polling.S2SPollingTask">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
 		</property>
 		<property name="s2SService" >
   			<ref bean="s2SService"/>
