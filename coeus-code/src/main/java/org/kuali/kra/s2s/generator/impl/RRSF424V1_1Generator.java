@@ -57,10 +57,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class for generating the XML object for grants.gov RRSF424V1_0. Form is
@@ -95,7 +92,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 					.forString(devProp.getS2sOpportunity()
 							.getS2sSubmissionType().getDescription()));
 		}
-		rrsf424.setSubmittedDate(s2sUtilService.getCurrentCalendar());
+		rrsf424.setSubmittedDate(Calendar.getInstance());
 		Organization applicantOrganization = devProp.getApplicantOrganization()
 				.getOrganization();
 		if (applicantOrganization != null
@@ -184,7 +181,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         } else {
             rrsf424.setAORSignature("");
         }
-        rrsf424.setAORSignedDate(s2sUtilService.getCurrentCalendar());
+        rrsf424.setAORSignedDate(Calendar.getInstance());
         rrSF424Document.setRRSF424(rrsf424);
         return rrSF424Document;
     }

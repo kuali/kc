@@ -46,7 +46,6 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -87,7 +86,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 				.newInstance();
 		RRSF42420 rrsf42420 = RRSF42420.Factory.newInstance();
 		rrsf42420.setFormVersion(S2SConstants.FORMVERSION_2_0);
-		rrsf42420.setSubmittedDate(s2sUtilService.getCurrentCalendar());
+		rrsf42420.setSubmittedDate(Calendar.getInstance());
 		if(getSubmissionTypeCode() != null){
 		    rrsf42420.setSubmissionTypeCode(SubmissionTypeDataType.Enum.forInt(Integer.parseInt(getSubmissionTypeCode())));
 		}
@@ -119,7 +118,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 		rrsf42420.setStateReview(getStateReview());
 		rrsf42420.setAORInfo(getAORInfoType());
 		rrsf42420.setAORSignature(getAORSignature());
-		rrsf42420.setAORSignedDate(s2sUtilService.getCurrentCalendar());
+		rrsf42420.setAORSignedDate(Calendar.getInstance());
 		setPreApplicationAttachment(rrsf42420);
 		setSFLLLAttachment(rrsf42420);
 		setCoverLetterAttachment(rrsf42420);

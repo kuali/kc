@@ -25,6 +25,8 @@ import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 
+import java.util.Calendar;
+
 /**
  * 
  * This class is used to generate XML Document object for grants.gov CD511V1.1. This form is generated using XMLBean API's generated
@@ -76,7 +78,7 @@ public class CD511V1_1Generator extends S2SBaseFormGenerator {
         // As per Coeus,CD511-V1.1 data analysis file said:
         // if this application is submitted through Grants.gov leave signature to blank
         cd511.setSignature("  ");
-        cd511.setSubmittedDate(s2sUtilService.getCurrentCalendar());
+        cd511.setSubmittedDate(Calendar.getInstance());
         cd511Document.setCD511(cd511);
         return cd511Document;
     }

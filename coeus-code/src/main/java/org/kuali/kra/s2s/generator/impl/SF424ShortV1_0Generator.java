@@ -33,6 +33,7 @@ import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,7 +120,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
                 sf424Short.setCFDAProgramTitle(pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle());
             }
         }
-        sf424Short.setDateReceived(s2sUtilService.getCurrentCalendar());
+        sf424Short.setDateReceived(Calendar.getInstance());
         S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         if (s2sOpportunity != null) {
             s2sOpportunity.refreshNonUpdateableReferences();
@@ -241,7 +242,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
             }
         }
         sf424Short.setAuthorizedRepresentativeSignature(aorInfo.getFullName());
-        sf424Short.setAuthorizedRepresentativeDateSigned(s2sUtilService.getCurrentCalendar());
+        sf424Short.setAuthorizedRepresentativeDateSigned(Calendar.getInstance());
         sf424ShortDocument.setSF424Short(sf424Short);
         return sf424ShortDocument;
     }

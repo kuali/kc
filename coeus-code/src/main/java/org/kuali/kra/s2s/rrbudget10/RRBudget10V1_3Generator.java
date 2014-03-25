@@ -437,7 +437,7 @@ public class RRBudget10V1_3Generator extends RRBudgetBaseGenerator {
      * OtherDirectCosts details in BudgetYearDataType based on BudgetPeriodInfo
      * for the RRBudget1013.
      * 
-     * @param OtherDirectCosts otherDirectCosts xmlObject
+     * @param otherDirectCosts otherDirectCosts xmlObject
      * @param periodInfo
      *            (BudgetPeriodInfo) budget period entry.
      */

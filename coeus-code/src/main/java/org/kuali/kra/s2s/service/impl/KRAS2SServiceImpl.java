@@ -51,7 +51,6 @@ import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.OpportunitySchemaParser;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -79,7 +78,6 @@ import java.util.*;
 public class KRAS2SServiceImpl implements S2SService {
 	private static final Log LOG = LogFactory.getLog(KRAS2SServiceImpl.class);
 	private BusinessObjectService businessObjectService;
-	private DateTimeService dateTimeService;
 	private S2SFormGeneratorService s2SFormGeneratorService;
 	private S2SUtilService s2SUtilService;
 	private S2SValidatorService s2SValidatorService;
@@ -292,7 +290,7 @@ public class KRAS2SServiceImpl implements S2SService {
 
 	/**
 	 * This method populates the {@link S2sAppSubmission} BO with details from
-	 * {@link ApplicationInformationType}
+	 * {@link ProposalDevelopmentDocument}
 	 * 
 	 * @param appSubmission
 	 * @param ggApplication
@@ -368,7 +366,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 *         opportunities for the corresponding parameters.
 	 * @throws S2SException
 	 * @see org.kuali.kra.s2s.service.S2SService#searchOpportunity(java.lang.String,
-	 *      java.lang.String, java.lang.String)
+	 *      java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public List<S2sOpportunity> searchOpportunity(String providerCode, String cfdaNumber,
 			String opportunityId, String competitionId) throws S2SException {
@@ -749,8 +747,8 @@ public class KRAS2SServiceImpl implements S2SService {
 	/**
 	 * This method convert OpportunityInformationType to OpportunityInfo
 	 * 
-	 * @param oppInfoType
-	 *            {OpportunityInformationType}
+	 * @param providerCode
+	 *
 	 * @return OpportunityInfo containing Opportunity information corresponding
 	 *         to the OpportunityInformationType object.
 	 */
@@ -859,25 +857,6 @@ public class KRAS2SServiceImpl implements S2SService {
 	 */
 	public BusinessObjectService getBusinessObjectService() {
 		return businessObjectService;
-	}
-
-	/**
-	 * Gets the dateTimeService attribute.
-	 * 
-	 * @return Returns the dateTimeService.
-	 */
-	public DateTimeService getDateTimeService() {
-		return dateTimeService;
-	}
-
-	/**
-	 * Sets the dateTimeService attribute value.
-	 * 
-	 * @param dateTimeService
-	 *            The dateTimeService to set.
-	 */
-	public void setDateTimeService(DateTimeService dateTimeService) {
-		this.dateTimeService = dateTimeService;
 	}
 
 	/**

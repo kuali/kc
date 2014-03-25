@@ -16,13 +16,16 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class will contain all common features that will be used in generators
@@ -91,12 +94,15 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 	protected static final Integer QUESTIONNAIRE_ID_1025 = 1025;
 
 	protected S2SUtilService s2sUtilService = null;
+    protected ParameterService parameterService;
 
 	/**
 	 * Constructs a NSFApplicationChecklistBaseGenerator.java.
 	 */
 	public NSFApplicationChecklistBaseGenerator() {
-		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+
+        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+        parameterService = KcServiceLocator.getService(ParameterService.class);
 	}
 
 	/**
@@ -121,8 +127,8 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			String proposaltypecode = pdDoc.getDevelopmentProposal()
 					.getProposalTypeCode();
 			if (proposaltypecode != null
-					&& (proposaltypecode.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-					        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM)) || proposaltypecode
+					&& (proposaltypecode.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM)) || proposaltypecode
 							.equals(PROPOSAL_TYPE_CODE_8))) {
 				answer = ANSWER_YES;
 			} else {
@@ -156,10 +162,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			String proposaltypecode = pdDoc.getDevelopmentProposal()
 					.getProposalTypeCode();
 			if (proposaltypecode != null
-					&& (proposaltypecode.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-		                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM)) || proposaltypecode
-							.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-				                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM)))) {
+					&& (proposaltypecode.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM)) || proposaltypecode
+							.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM)))) {
 				answer = ANSWER_NO;
 			} else {
 				answer = ANSWER_YES;
@@ -241,8 +247,8 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 				proposaltypecode = pdDoc.getDevelopmentProposal()
 						.getProposalTypeCode();
 			}
-			if (ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-			        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM).equals(proposaltypecode)) {
+			if (parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM).equals(proposaltypecode)) {
 				answer = ANSWER_YES;
 			} else {
 				answer = ANSWER_NA;

@@ -22,8 +22,7 @@ import gov.grants.apply.system.globalV10.HashValueDocument.HashValue;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.xml.security.exceptions.Base64DecodingException;
-import org.apache.xml.security.utils.Base64;
+import org.apache.xmlbeans.impl.util.Base64;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
@@ -121,10 +120,6 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     /**
      * 
      * Generates the contentId or href for narrative attachments in S2S
-     * @param type
-     * @param moduleNumber
-     * @param desc
-     * @return
      */
     public String createContentId(Narrative narrative) {
         String retVal = "N-" + narrative.getModuleNumber();
@@ -184,15 +179,11 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      * @return hashValue (HashValue)
      * 
      */
-    private synchronized static HashValue createHashValue(String hashValueStr) {
+    private synchronized static HashValue createHashValue(byte[] hashValueStr) {
         HashValue hashValue = null;
         hashValue = HashValue.Factory.newInstance();
         hashValue.setHashAlgorithm(S2SConstants.HASH_ALGORITHM);
-        try {
-            hashValue.setByteArrayValue(org.apache.xml.security.utils.Base64.decode(hashValueStr));
-        }
-        catch (Base64DecodingException e) {
-        }
+        hashValue.setByteArrayValue(Base64.decode(hashValueStr));
         return hashValue;
     }
 
@@ -203,8 +194,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      * @param attachment
      * @return Base64.encode(rawDigest) (String)
      */
-    protected final static String computeAttachmentHash(byte[] attachment) {
-        org.apache.xml.security.Init.init();
+    protected final static byte[] computeAttachmentHash(byte[] attachment) {
         MessageDigest messageDigester;
         try {
             messageDigester = MessageDigest.getInstance(S2SConstants.HASH_ALGORITHM);
@@ -212,8 +202,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
             return Base64.encode(rawDigest);
         }
         catch (NoSuchAlgorithmException e) {
-            LOG.error(e.getMessage(), e);
-            return "";
+            throw new RuntimeException(e);
         }
     }
 
@@ -412,7 +401,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     
     /**
      * Sort the attachments.
-     * @param byteArrayInputStream.
+     * @param byteArrayInputStream
      */
     public void sortAttachments(ByteArrayInputStream byteArrayInputStream)  {
         List<String> attachmentNameList = new ArrayList<String> ();

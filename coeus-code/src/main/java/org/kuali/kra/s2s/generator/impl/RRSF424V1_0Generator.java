@@ -53,6 +53,7 @@ import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Map;
 
 /**
@@ -88,7 +89,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 							.getS2sOpportunity().getS2sSubmissionType()
 							.getDescription()));
 		}
-		rrsf424.setSubmittedDate(s2sUtilService.getCurrentCalendar());
+		rrsf424.setSubmittedDate(Calendar.getInstance());
 		Rolodex rolodex = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization().getRolodex();
 		if (rolodex != null) {
@@ -175,7 +176,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 		} else {
 			rrsf424.setAORSignature("");
 		}
-		rrsf424.setAORSignedDate(s2sUtilService.getCurrentCalendar());
+		rrsf424.setAORSignedDate(Calendar.getInstance());
 		rrSF424Document.setRRSF424(rrsf424);
 		return rrSF424Document;
 	}
@@ -315,7 +316,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 	 *
 	 * This method is used to get Contact person information
 	 *
-	 * @param rolodex(Rolodex)
+	 * @param rolodexOrganization
 	 * @return ContactPersonInfo corresponding to the Rolodex object.
 	 */
 	private ContactPersonInfo getContactInfo(Rolodex rolodexOrganization) {

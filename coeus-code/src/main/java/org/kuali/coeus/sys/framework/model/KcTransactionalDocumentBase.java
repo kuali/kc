@@ -29,7 +29,6 @@ import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.service.CustomAttributeService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -87,10 +86,8 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
         if (updateUser.length() > 60) {
             updateUser = updateUser.substring(0, 60);
         }
-        setUpdateTimestamp((KcServiceLocator.getService(DateTimeService.class)).getCurrentTimestamp());
+        setUpdateTimestamp(new java.sql.Timestamp(new Date().getTime()));
         setUpdateUser(updateUser);
-        //CustomAttributeService customAttributeService = this.getService(CustomAttributeService.class);
-        //customAttributeService.saveCustomAttributeValues(this);
         if (this.getVersionNumber() == null) {
             this.setVersionNumber(new Long(0));
         }
@@ -281,17 +278,6 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
         return new ArrayList<RolePersons>();
     }
 
-    /**
-     * Lookups and returns a service class.  This method can be overriden for easier unit testing.
-     * 
-     * @param <T> the type of service.
-     * @param serviceClass the service class.
-     * @return the service.
-     */
-/*    protected <T> T getService(Class<T> serviceClass) {
-        return KraServiceLocator.getService(serviceClass);
-    }
-*/
     public abstract String getDocumentTypeCode();
 
     public boolean isViewOnly() {
