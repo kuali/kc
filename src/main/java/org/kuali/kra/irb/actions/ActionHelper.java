@@ -437,7 +437,9 @@ public class ActionHelper extends ActionHelperBase {
     public void prepareView() throws Exception {
         
         super.prepareView();
+        assignCmtSchedBean.init();
         prepareAssignCommitteeScheduleActionView();
+        prepareModifySubmissionRequestActionView();
         prepareNotifyIrbActionView();
        
         protocolAssignReviewersBean.prepareView();
@@ -542,6 +544,21 @@ public class ActionHelper extends ActionHelperBase {
         }
     }    
     
+    //This method was created to deal with assign to committee and schedule action panel going away and 
+    //being replaced by the modify submission request action panel but all of the underlying assign to 
+    //committee and schedule processing and data beans being left in place.  
+    private void prepareModifySubmissionRequestActionView() {
+        protocolModifySubmissionBean.prepareView();
+        canModifyProtocolSubmission = hasCanModifySubmissionPermission();
+        canModifyProtocolSubmissionUnavailable = hasCanModifySubmissionUnavailablePermission();
+        // Initialize the assign committee key values (expensive call) only after checking the conditions for the display of the committee selection
+        if(canModifyProtocolSubmission) {
+            // pass in the current committee id and the doc route status to the committee finder service
+            Collection<? extends CommitteeBase<?, ?, ?>> committees = 
+                getCommitteeIdByUnitValuesFinderService().getAssignmentCommittees(null, getDocRouteStatus(), assignCmtSchedBean.getCommitteeId());
+            assignCmtSchedActionCommitteeIdByUnitKeyValues = getKeyValuesForCommitteeSelection(committees);
+        }
+    }
     
     /**
      * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
