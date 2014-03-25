@@ -35,7 +35,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentControllerBase {
@@ -76,6 +78,11 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
    public ModelAndView performPersonnelSearch(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        form.getAddKeyPersonHelper().getResults().clear();
+       for (Map.Entry<String, String> entry : form.getAddKeyPersonHelper().getLookupFieldValues().entrySet()) {
+			if (entry.getValue() == null) {
+				entry.setValue("");
+			}
+       }
        if (StringUtils.equals(form.getAddKeyPersonHelper().getPersonType(), "E")) {
           List<KcPerson> results = (List<KcPerson>) getKcPersonLookupableHelperService().getSearchResults(form.getAddKeyPersonHelper().getLookupFieldValues());
           for (KcPerson person: results) {
@@ -86,7 +93,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
               form.getAddKeyPersonHelper().getResults().add(newPerson);
           }
        } else {
-           Collection<Rolodex> results = (Collection<Rolodex>) this.getLegacyDataAdapter().findMatching(Rolodex.class, form.getAddKeyPersonHelper().getLookupFieldValues());
+           Collection<Rolodex> results = getLookupService().findCollectionBySearchHelper(Rolodex.class, form.getAddKeyPersonHelper().getLookupFieldValues(), Collections.EMPTY_LIST, false, 100);
            for (Rolodex rolodex : results) {
                ProposalPerson newPerson = new ProposalPerson();
                newPerson.setRolodexId(rolodex.getRolodexId());
