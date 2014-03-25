@@ -22,7 +22,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -148,9 +147,8 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 				throw new PrintingException(e.getMessage(), e);
 			}
 		}
-		DateTimeService dateTimeService = KcServiceLocator
-				.getService(DateTimeService.class);
-		Calendar calendar = dateTimeService.getCurrentCalendar();
+
+		Calendar calendar = Calendar.getInstance();
 		DateFormat dateFormat = new SimpleDateFormat("M/d/yy h:mm a");
 		String dateString = dateFormat.format(calendar.getTime());
 		StringBuilder footerPhStr = new StringBuilder();

@@ -255,7 +255,7 @@
     <bean id="kcKrmsJavaFunctionTermService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kcKrmsJavaFunctionTermService"/>
     </bean>
-    <bean id="s2SService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+    <bean id="s2SService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="s2SService"/>
     </bean> 
     
@@ -929,13 +929,6 @@
 						<property name="taskName" value="hierarchyChildWorkflowAction" />
 					</bean>
 				</entry>
-				<!-- 
-				<entry key="cancel"> 
-				    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
-				        <property name="taskName" value="hierarchyChildWorkflowAction" />
-				    </bean>
-				</entry>
-				-->
 				<entry key="blanketApprove">
 					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
 						<property name="taskName" value="hierarchyChildWorkflowAction" />

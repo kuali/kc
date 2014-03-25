@@ -9,7 +9,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -33,7 +32,6 @@ public class S2sOpportunityLookupable extends LookupableImpl {
     private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupable.class);
 
     private S2SService s2SService;
-    private DateTimeService dateTimeService;
 
     @Override
     public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
@@ -92,13 +90,5 @@ public class S2sOpportunityLookupable extends LookupableImpl {
         }
 
         return s2SService;
-    }
-
-    public DateTimeService getDateTimeService() {
-        if (dateTimeService == null) {
-            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
-        }
-
-        return dateTimeService;
     }
 }
