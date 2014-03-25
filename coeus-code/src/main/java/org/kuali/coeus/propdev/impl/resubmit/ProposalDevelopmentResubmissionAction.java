@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.action;
+package org.kuali.coeus.propdev.impl.resubmit;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -24,6 +24,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
+import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -52,10 +53,8 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             HttpServletResponse response) throws Exception {
 
         ActionForward nextWebPage = null;
-        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        int i=0;
         
         ProposalCopyCriteria criteria = proposalDevelopmentForm.getCopyCriteria();
         
@@ -68,7 +67,7 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
         else {
         // Use the Copy Service to copy the proposal.
 
-        ProposalCopyService proposalCopyService = (ProposalCopyService) KcServiceLocator.getService("proposalCopyService");
+        ProposalCopyService proposalCopyService = getProposalCopyService();
         if (proposalCopyService == null) {
 
             // Something bad happened. The errors are in the Global Error Map
@@ -80,7 +79,7 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             String originalProposalId = doc.getDevelopmentProposal().getProposalNumber();
             String newDocId = proposalCopyService.copyProposal(doc, criteria);
             WorkflowDocument originalWFDoc= doc.getDocumentHeader().getWorkflowDocument();
-            KcServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
+            getPessimisticLockService().releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
             DocumentService docService = KRADServiceLocatorWeb.getDocumentService();
             // Switch over to the new proposal development document and
             // go to the Proposal web page.
@@ -109,6 +108,14 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
     @Override
     protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
+    }
+    
+    protected ProposalCopyService getProposalCopyService() {
+        return (ProposalCopyService) getService("proposalCopyService");
+    }
+    
+    protected PessimisticLockService getPessimisticLockService() {
+        return getService(PessimisticLockService.class);
     }
 }
     
