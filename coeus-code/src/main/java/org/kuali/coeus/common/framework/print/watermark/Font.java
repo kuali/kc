@@ -20,7 +20,7 @@
  * and open the template in the editor.
  */
 
-package org.kuali.kra.util.watermark;
+package org.kuali.coeus.common.framework.print.watermark;
 
 
 import com.lowagie.text.pdf.BaseFont;
