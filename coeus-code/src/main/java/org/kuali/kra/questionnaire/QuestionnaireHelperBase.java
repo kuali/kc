@@ -38,6 +38,8 @@ public abstract class QuestionnaireHelperBase implements Serializable {
     protected static final String UPDATE_WITH_NO_ANSWER_COPY = "1";
     private boolean answerQuestionnaire = false;
     private List<AnswerHeader> answerHeaders;
+    /** @deprecated user AnswerHeader.label instead of headerLabels */
+    @Deprecated
     private List<String> headerLabels;
     transient private QuestionnaireAnswerService questionnaireAnswerService;
 
@@ -48,19 +50,26 @@ public abstract class QuestionnaireHelperBase implements Serializable {
 
 
     /**
+     * @deprecated
      * set up the tab labels for each questionnaire 
+     * use AnswerHeader.label instead and questionnaireService will populate that field so it is not necessary to reset header labels
      */
+    @Deprecated
     public void resetHeaderLabels() {
         List<String> labels = new ArrayList<String>();
         for (AnswerHeader answerHeader : answerHeaders) {
-            labels.add(getQuestionnaireLabel(answerHeader.getQuestionnaire().getQuestionnaireUsages(), answerHeader.getModuleSubItemCode()));
+        	String label = getQuestionnaireLabel(answerHeader.getQuestionnaire().getQuestionnaireUsages(), answerHeader.getModuleSubItemCode()); 
+            labels.add(label);
+            answerHeader.setLabel(label);
         }
         setHeaderLabels(labels);     
     }
    
-    /*
+    /**
+     * @deprecated
      * get questionnaire display label from the appropriate questionnaire usage
      */
+    @Deprecated
     protected String getQuestionnaireLabel(List<QuestionnaireUsage> usages, String moduleSubItemCode) {
         if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
             Collections.sort((List<QuestionnaireUsage>) usages);
@@ -169,10 +178,14 @@ public abstract class QuestionnaireHelperBase implements Serializable {
         this.answerHeaders = answerHeaders;
     }
 
+    /** @deprecated */
+    @Deprecated
     public List<String> getHeaderLabels() {
         return headerLabels;
     }
 
+    /** @deprecated */
+    @Deprecated
     public void setHeaderLabels(List<String> headerLabels) {
         this.headerLabels = headerLabels;
     }

@@ -64,9 +64,9 @@ public class AnswerHeader extends KcPersistableBusinessObjectBase implements Ina
 
     private boolean notUpdated = false;
 
-    private transient boolean activeQuestionnaire = true;
+    private boolean activeQuestionnaire = true;
     
-    private transient String label;
+    private String label;
 
     public AnswerHeader() {
         super();

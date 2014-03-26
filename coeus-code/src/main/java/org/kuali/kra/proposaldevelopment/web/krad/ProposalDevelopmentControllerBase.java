@@ -21,7 +21,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalRoleTemplateService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -32,6 +31,7 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
+import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -74,6 +74,14 @@ public abstract class ProposalDevelopmentControllerBase {
     @Qualifier("legacyDataAdapter")
     private LegacyDataAdapter legacyDataAdapter;
     
+    @Autowired
+    @Qualifier("proposalRoleTemplateService")
+    private ProposalRoleTemplateService proposalRoleTemplateService;
+
+    @Autowired
+    @Qualifier("lookupService")
+    private LookupService lookupService;
+
     protected DocumentFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalDevelopmentDocumentForm();
     }
@@ -97,8 +105,6 @@ public abstract class ProposalDevelopmentControllerBase {
              kraAuthorizationService.addRole(userId, RoleConstants.AGGREGATOR, doc);
          
          // Add the users defined in the role templates for the proposal's lead unit
-         
-         ProposalRoleTemplateService proposalRoleTemplateService = KcServiceLocator.getService(ProposalRoleTemplateService.class);
          proposalRoleTemplateService.addUsers(doc);
      }
      
@@ -213,12 +219,28 @@ public abstract class ProposalDevelopmentControllerBase {
         this.documentService = documentService;
     }
 
-    public LegacyDataAdapter getLegacyDataAdapter() {
+    protected LegacyDataAdapter getLegacyDataAdapter() {
         return legacyDataAdapter;
     }
 
     public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
         this.legacyDataAdapter = legacyDataAdapter;
-    }    
+    }
+
+	protected ProposalRoleTemplateService getProposalRoleTemplateService() {
+		return proposalRoleTemplateService;
+	}
+
+	public void setProposalRoleTemplateService(
+			ProposalRoleTemplateService proposalRoleTemplateService) {
+		this.proposalRoleTemplateService = proposalRoleTemplateService;
+	}    
     
+	protected LookupService getLookupService() {
+		return lookupService;
+	}
+
+	public void setLookupService(LookupService lookupService) {
+		this.lookupService = lookupService;
+	}
 }
