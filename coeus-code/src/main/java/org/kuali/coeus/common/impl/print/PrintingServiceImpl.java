@@ -38,8 +38,8 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import javax.xml.transform.*;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
-import java.awt.*;
 import java.io.*;
+import java.awt.Color;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -50,6 +50,7 @@ import java.util.List;
  * object to generate XML, fetch XSL style-sheets, then transforms the XML to a PDF after applying the style sheet.
  * 
  */
+@org.springframework.stereotype.Component
 public class PrintingServiceImpl implements PrintingService {
 
 
@@ -57,7 +58,6 @@ public class PrintingServiceImpl implements PrintingService {
 
     private DateTimeService dateTimeService = null;
     private WatermarkService watermarkService;
-
     private ConfigurationService kualiConfigurationService;
 
 
@@ -200,7 +200,6 @@ public class PrintingServiceImpl implements PrintingService {
 
         printablePdf = new PrintableAttachment();
         byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList, headerFooterRequired);
-        Printable printableArtifactObject;
         /*
          * if(printableArtifactList!=null && printableArtifactList.size()>0){ printableArtifactObject =
          * printableArtifactList.get(0); try { if(printableArtifactObject.isWatermarkEnabled()){ mergedPdfBytes =

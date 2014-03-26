@@ -18,7 +18,8 @@
  * For set the watermark text,font, status etc.
  */
 
-package org.kuali.kra.util.watermark;
+package org.kuali.coeus.common.framework.print.watermark;
+
 
 import com.lowagie.text.Image;
 

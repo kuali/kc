@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.framework.print.watermark;
 
-import org.kuali.kra.util.watermark.WatermarkBean;
 
 
 /**

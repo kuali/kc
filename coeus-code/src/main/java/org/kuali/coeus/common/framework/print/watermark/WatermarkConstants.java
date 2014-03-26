@@ -19,10 +19,11 @@
  * constants used for Watermark Settings
  */
  
-package org.kuali.kra.util.watermark;
+package org.kuali.coeus.common.framework.print.watermark;
 
 
 import java.awt.*;
+
 /**
  * 
  * This interface is used to store all constants for 

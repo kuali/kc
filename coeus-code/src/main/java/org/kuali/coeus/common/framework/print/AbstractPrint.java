@@ -17,8 +17,8 @@ package org.kuali.coeus.common.framework.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
+import org.kuali.coeus.common.framework.print.watermark.Watermarkable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.util.watermark.Watermarkable;
 
 import javax.xml.transform.Source;
 import java.io.InputStream;

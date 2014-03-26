@@ -1618,7 +1618,7 @@
     </bean>
     
     
-    <bean id="watermarkService" class="org.kuali.coeus.common.impl.print.WatermarkServiceImpl" />
+    <bean id="watermarkService" class="org.kuali.coeus.common.impl.print.watermark.WatermarkServiceImpl" />
     
     <bean id="ynqService" class="org.kuali.kra.service.impl.YnqServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />

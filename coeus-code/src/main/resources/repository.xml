@@ -1349,7 +1349,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />    
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.Watermark" table="WATERMARK">
+	<class-descriptor class="org.kuali.coeus.common.framework.print.watermark.Watermark" table="WATERMARK">
 		<field-descriptor name="watermarkId" column="WATERMARK_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQUENCE_WATERMARK_ID" autoincrement="true"/>
 		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="watermarkText" column="WATERMARK_TEXT" jdbc-type="VARCHAR" />
