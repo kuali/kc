@@ -1,11 +1,10 @@
-package org.kuali.coeus.common.impl.print;
+package org.kuali.coeus.common.proposal.impl.report;
 
 import org.kuali.coeus.common.framework.print.AbstractPrint;
-import org.kuali.coeus.common.framework.print.CurrentAndPendingReportService;
-import org.kuali.coeus.common.framework.print.CurrentProposalPrint;
-import org.kuali.coeus.common.framework.print.PendingProposalPrint;
+import org.kuali.coeus.common.framework.print.PrintConstants;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
+import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportService;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.dao.CurrentReportDao;
@@ -72,12 +71,12 @@ public class CurrentAndPendingReportServiceImpl implements CurrentAndPendingRepo
             String reportName, Map<String, Object> reportParameters) throws PrintingException {
         AttachmentDataSource source = null;
         AbstractPrint printable = null;
-        if (reportName.equals(CURRENT_REPORT_TYPE)) {
-            reportParameters.put(CURRENT_REPORT_BEANS_KEY, loadCurrentReportData((String)reportParameters.get(PERSON_ID_KEY)));
+        if (reportName.equals(PrintConstants.CURRENT_REPORT_TYPE)) {
+            reportParameters.put(PrintConstants.CURRENT_REPORT_BEANS_KEY, loadCurrentReportData((String)reportParameters.get(PrintConstants.PERSON_ID_KEY)));
             printable = currentProposalPrint;
         } else if (reportName
-                .equals(PENDING_REPORT_TYPE)) {
-            reportParameters.put(PENDING_REPORT_BEANS_KEY, loadPendingReportData((String)reportParameters.get(PERSON_ID_KEY)));
+                .equals(PrintConstants.PENDING_REPORT_TYPE)) {
+            reportParameters.put(PrintConstants.PENDING_REPORT_BEANS_KEY, loadPendingReportData((String)reportParameters.get(PrintConstants.PERSON_ID_KEY)));
             printable = pendingProposalPrint;
         }
         printable.setPrintableBusinessObject(null);

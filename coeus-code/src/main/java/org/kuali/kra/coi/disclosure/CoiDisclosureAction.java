@@ -25,7 +25,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.Printable;
-import org.kuali.coeus.common.framework.print.WatermarkService;
+import org.kuali.coeus.common.framework.print.watermark.WatermarkService;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.controller.SysFrameworkControllerConstants;

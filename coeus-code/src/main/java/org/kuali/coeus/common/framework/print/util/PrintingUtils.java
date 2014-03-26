@@ -16,7 +16,8 @@
 package org.kuali.coeus.common.framework.print.util;
 
 import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
-import org.kuali.coeus.common.framework.print.CurrentAndPendingReportService;
+import org.kuali.coeus.common.framework.print.PrintConstants;
+import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.award.printing.AwardPrintType;
@@ -185,10 +186,10 @@ public class PrintingUtils {
 						.getBudgetPrintType())) {
 			xsl = XSL_BUDGET_COSTSHARING_SUMMARY;
 		} else if (reportType
-				.equals(CurrentAndPendingReportService.CURRENT_REPORT_TYPE)) {
+				.equals(PrintConstants.CURRENT_REPORT_TYPE)) {
 			xsl = XSL_CURRENT_REPORT;
 		} else if (reportType
-				.equals(CurrentAndPendingReportService.PENDING_REPORT_TYPE)) {
+				.equals(PrintConstants.PENDING_REPORT_TYPE)) {
 			xsl = XSL_PENDING_REPORT;
 		} else if (reportType
 				.equals(InstitutionalProposalPrintType.INSTITUTIONAL_PROPOSAL_REPORT

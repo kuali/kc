@@ -1,7 +1,7 @@
-package org.kuali.coeus.common.framework.print.stream.xml;
+package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.print.CurrentAndPendingReportService;
+import org.kuali.coeus.common.framework.print.PrintConstants;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
@@ -44,17 +44,17 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 		CurrentAndPendingSupportDocument currentAndPendingSupportDocument=CurrentAndPendingSupportDocument.Factory.newInstance();
 		CurrentAndPendingSupport currentAndPendingSupport = CurrentAndPendingSupport.Factory
 				.newInstance();
-		List<PendingReportBean> pendingReportBeans = (List<PendingReportBean>)reportParameters.get(CurrentAndPendingReportService.PENDING_REPORT_BEANS_KEY);
+		List<PendingReportBean> pendingReportBeans = (List<PendingReportBean>)reportParameters.get(PrintConstants.PENDING_REPORT_BEANS_KEY);
        
         PendingReportCEColumnNames pendingReportCEColumnNames =getPendingSupportCustomColumnName(pendingReportBeans);
         
         PendingSupport[] pendingSupports = getPendingSupportInformation(pendingReportBeans);
         
-        currentAndPendingSupport.setPersonName((String)reportParameters.get(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY));
+        currentAndPendingSupport.setPersonName((String)reportParameters.get(PrintConstants.REPORT_PERSON_NAME_KEY));
         currentAndPendingSupport.setPendingSupportArray(pendingSupports);
         currentAndPendingSupport.setPendingReportCEColumnNames(pendingReportCEColumnNames);
         currentAndPendingSupportDocument.setCurrentAndPendingSupport(currentAndPendingSupport);
-        xmlObjectList.put(CurrentAndPendingReportService.PENDING_REPORT_TYPE, currentAndPendingSupportDocument);
+        xmlObjectList.put(PrintConstants.PENDING_REPORT_TYPE, currentAndPendingSupportDocument);
 		return xmlObjectList;
 	}
 
