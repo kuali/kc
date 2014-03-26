@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+			
+	<bean id="PropDev-SponsorProgramInfoPage" parent="PropDev-SponsorProgramInfoPage-parentBean" p:header.headerText="Sponsor &amp; Program Information" />
+	<bean id="PropDev-SponsorProgramInfoPage-parentBean" parent="Uif-DocumentPage">
+		<property name="items">
+			<list>
+				<bean parent="PropDev-SponsorProgramInfo-DefaultDetailsSection" p:order="10" />
+			</list>
+		</property>
+		<property name="header">
+			<bean parent="Uif-PageHeader"  />
+		</property>
+		<property name="footer">
+			<null />
+		</property>
+	</bean>
+		
+	<bean id="PropDev-SponsorProgramInfo-DefaultDetailsSection" parent="PropDev-SponsorProgramInfo-DefaultDetailsSection-parentBean" />
+	<bean id="PropDev-SponsorProgramInfo-DefaultDetailsSection-parentBean" abstract="true"
+		parent="Uif-CssGridSection-1FieldLabelColumn"
+		p:fieldBindingObjectPath="document.developmentProposal">
+		<property name="items">
+			<list>
+				<bean parent="PropDev-SponsorProgramInfo-DateSection" p:order="10" />
+				<bean parent="Uif-InputField" p:propertyName="deadlineType"
+				p:order="20" />
+				<bean parent="Uif-InputField" p:propertyName="noticeOfOpportunityCode" p:enableAutoQuickfinder="false"
+				p:order="30" />
+				<bean parent="Uif-InputField" p:propertyName="programAnnouncementNumber" p:readOnly="@{document.developmentProposal.s2sOpportunity != null}"
+				p:order="40" />
+				<bean parent="Uif-InputField" p:propertyName="cfdaNumber" p:readOnly="@{document.developmentProposal.s2sOpportunity != null}"
+				p:order="50" />
+				<bean parent="PropDev-SponsorProgramInfo-SubawardSection" 
+				p:order="60" />
+				<bean parent="Uif-InputField" p:propertyName="sponsorProposalNumber"
+				p:order="70" />
+				<bean parent="Uif-InputField" p:propertyName="nsfCode"
+				p:order="80" />
+				<bean parent="Uif-InputField" p:propertyName="anticipatedAwardTypeCode" p:enableAutoQuickfinder="false"
+				p:order="90" />
+				<bean parent="Uif-InputField" p:propertyName="programAnnouncementTitle" p:readOnly="@{document.developmentProposal.s2sOpportunity != null}"
+				p:order="100" />
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="PropDev-SponsorProgramInfo-SubawardSection" parent="PropDev-SponsorProgramInfo-SubawardSection-parentBean" />
+	<bean id="PropDev-SponsorProgramInfo-SubawardSection-parentBean"
+		abstract="true" parent="Uif-CssGridFieldGroup" p:label="Subawards" p:required="true">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="subcontracts"
+							p:fieldLabel.render="false">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this proposal includes subaward(s)" />
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="PropDev-SponsorProgramInfo-DateSection" parent="PropDev-SponsorProgramInfo-DateSection-parentBean" />
+	<bean id="PropDev-SponsorProgramInfo-DateSection-parentBean"
+		abstract="true" parent="Uif-CssGridFieldGroup" p:label="Sponsor deadline"
+		p:required="true">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="deadlineDate"
+					p:colSpan="6" p:fieldLabel.render="false">
+					<property name="control">
+						<bean parent="Uif-DateControlOnFocus" p:watermarkText="mm/dd/yyyy" />
+					</property>
+					<property name="postInputAddons">
+						<list>
+							<bean parent="Uif-Message" p:messageText="at"
+								p:wrapperCssClasses="input-group-msg" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="deadlineTime" p:colSpan="6" p:fieldLabel.render="false">
+					<property name="control">
+				           <bean parent="Uif-TextControl" p:textExpand="false" p:watermarkText="hh:mm"/>
+				    </property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>
