@@ -28,9 +28,11 @@ import java.math.BigDecimal;
  * with the new value.
  */
 public final class ScaleThreeDecimal extends AbstractDecimal<ScaleThreeDecimal> {
+
     private static final long serialVersionUID = -1132481837308782665L;
     
     public static final int SCALE = 3;
+
     public static final ScaleThreeDecimal ZERO = new ScaleThreeDecimal(0.000);
 
     /**
@@ -40,11 +42,7 @@ public final class ScaleThreeDecimal extends AbstractDecimal<ScaleThreeDecimal> 
         super();
     }
 
-    public ScaleThreeDecimal(BigDecimal value) {
-        super(value, SCALE);
-    }
-
-    public ScaleThreeDecimal(double value) {
+    public ScaleThreeDecimal(String value) {
         super(value, SCALE);
     }
 
@@ -52,23 +50,27 @@ public final class ScaleThreeDecimal extends AbstractDecimal<ScaleThreeDecimal> 
         super(value, SCALE);
     }
 
-    public ScaleThreeDecimal(String value) {
+    public ScaleThreeDecimal(double value) {
         super(value, SCALE);
     }
 
-    protected ScaleThreeDecimal(BigDecimal value, int scale) {
+    public ScaleThreeDecimal(BigDecimal value) {
+        super(value, SCALE);
+    }
+
+    private ScaleThreeDecimal(String value, int scale) {
         super(value, scale);
     }
 
-    protected ScaleThreeDecimal(double value, int scale) {
+    private ScaleThreeDecimal(int value, int scale) {
         super(value, scale);
     }
 
-    protected ScaleThreeDecimal(int value, int scale) {
+    private ScaleThreeDecimal(double value, int scale) {
         super(value, scale);
     }
 
-    protected ScaleThreeDecimal(String value, int scale) {
+    private ScaleThreeDecimal(BigDecimal value, int scale) {
         super(value, scale);
     }
 
@@ -83,13 +85,13 @@ public final class ScaleThreeDecimal extends AbstractDecimal<ScaleThreeDecimal> 
     }
 
     @Override
-    protected ScaleThreeDecimal newInstance(BigDecimal value) {
-        return new ScaleThreeDecimal(value);
+    protected ScaleThreeDecimal newInstance(double value, int scale) {
+        return new ScaleThreeDecimal(value, scale);
     }
 
     @Override
-    protected ScaleThreeDecimal newInstance(double value, int scale) {
-        return new ScaleThreeDecimal(value, scale);
+    protected ScaleThreeDecimal newInstance(BigDecimal value) {
+        return new ScaleThreeDecimal(value);
     }
 
     @Override

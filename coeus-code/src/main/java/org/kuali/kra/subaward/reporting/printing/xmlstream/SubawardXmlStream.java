@@ -161,7 +161,7 @@ public class SubawardXmlStream implements XmlStream {
             md++;
         int result = yd + md;
         projectDuration = new ScaleTwoDecimal(result);
-        return projectDuration.setScale(0).bigDecimalValue();
+        return projectDuration.bigDecimalValue().setScale(0);
     }
 
     public void setAdminActivity(SubcontractReports subcontractReports) {

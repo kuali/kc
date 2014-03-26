@@ -36,7 +36,7 @@ public class DecimalScaleTwoTest {
     public void divideTest() throws Exception{
         ScaleTwoDecimal op1 = new ScaleTwoDecimal(100);
         ScaleTwoDecimal op2 = new ScaleTwoDecimal(365);
-        Assert.assertEquals(op1.divide(op2),new ScaleTwoDecimal(100d/365d));
+        Assert.assertEquals(op1.divide(op2, false),new ScaleTwoDecimal(100d/365d));
     }
 
     @Test
@@ -49,6 +49,6 @@ public class DecimalScaleTwoTest {
     public void divide1Test() throws Exception{
         ScaleTwoDecimal op1 = new ScaleTwoDecimal(100);
         ScaleTwoDecimal op2 = new ScaleTwoDecimal(3);
-        Assert.assertEquals(op1.divide(op2),new ScaleTwoDecimal(100d/3d));
+        Assert.assertEquals(op1.divide(op2, false),new ScaleTwoDecimal(100d/3d));
     }
 }

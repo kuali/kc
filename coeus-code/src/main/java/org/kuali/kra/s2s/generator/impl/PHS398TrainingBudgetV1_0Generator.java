@@ -1110,7 +1110,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         if(!filteredTrainingStipendRates.isEmpty()){
             filteredTrainingStipendRates.sort("effectiveDate",false);
             TrainingStipendRate trainingStipendRate = filteredTrainingStipendRates.get(0);
-            stipendCost = trainingStipendRate.getStipendRate().multiply(new ScaleTwoDecimal(numPeople));
+            stipendCost = trainingStipendRate.getStipendRate().multiply(new ScaleTwoDecimal(numPeople), false);
         }
         return stipendCost.bigDecimalValue();
     }

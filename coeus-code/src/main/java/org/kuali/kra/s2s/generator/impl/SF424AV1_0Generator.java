@@ -343,8 +343,8 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
                 }
                 if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_1) {
                     totalFedCost = budgetPeriod.getTotalCost();
-                    totalFedEstimation = totalFedCost.divide(new ScaleTwoDecimal(4));
-                    costShareEstimation = costSharing.divide(new ScaleTwoDecimal(4));
+                    totalFedEstimation = totalFedCost.divide(new ScaleTwoDecimal(4), false);
+                    costShareEstimation = costSharing.divide(new ScaleTwoDecimal(4), false);
                     totalEstimation = totalFedEstimation.add(costShareEstimation);                    
                 }
             }

@@ -368,9 +368,9 @@ public class BudgetPeriodCalculator {
         // If the lineItemCost <> 0, set multifactor to TotalCost divided by lineItemCost otherwise multifactor is TotalCost divided
         // by 10000
         if (!lineItemCost.equals(ScaleTwoDecimal.ZERO)) {
-            multifactor = totalCost.divide(lineItemCost);
+            multifactor = totalCost.divide(lineItemCost, false);
         }else {
-            multifactor = totalCost.divide(new ScaleTwoDecimal(10000));
+            multifactor = totalCost.divide(new ScaleTwoDecimal(10000), false);
             budgetDetailBean.setLineItemCost(ScaleTwoDecimal.ZERO);
             calculate(budget, budgetPeriodBean);
             totalCost = ScaleTwoDecimal.ZERO;
@@ -382,7 +382,7 @@ public class BudgetPeriodCalculator {
         }
 
         // Set New Cost
-        ScaleTwoDecimal newCost = lineItemCost.add((difference.divide(multifactor)));
+        ScaleTwoDecimal newCost = lineItemCost.add((difference.divide(multifactor, false)));
         budgetDetailBean.setLineItemCost(newCost);
         calculate(budget, budgetPeriodBean);
 
@@ -430,9 +430,9 @@ public class BudgetPeriodCalculator {
         // If the lineItemCost <> 0, set multifactor to TotalCost divided by lineItemCost otherwise multifactor is TotalCost divided
         // by 10000
         if (!lineItemCost.equals(ScaleTwoDecimal.ZERO)) {
-            multifactor = totalCost.divide(lineItemCost);
+            multifactor = totalCost.divide(lineItemCost, false);
         }else {
-            multifactor = totalCost.divide(new ScaleTwoDecimal(10000));
+            multifactor = totalCost.divide(new ScaleTwoDecimal(10000), false);
             budgetDetailBean.setLineItemCost(ScaleTwoDecimal.ZERO);
             calculate(budget, budgetPeriodBean);
             totalCost = ScaleTwoDecimal.ZERO;
@@ -444,7 +444,7 @@ public class BudgetPeriodCalculator {
         }
 
         // Set New Cost
-        ScaleTwoDecimal newCost = lineItemCost.add((difference.divide(multifactor)));
+        ScaleTwoDecimal newCost = lineItemCost.add((difference.divide(multifactor, false)));
         budgetDetailBean.setLineItemCost(newCost);
         calculate(budget, budgetPeriodBean);
     }
