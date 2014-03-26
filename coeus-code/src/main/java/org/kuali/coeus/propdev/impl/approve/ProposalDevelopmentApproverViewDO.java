@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.bo;
+package org.kuali.coeus.propdev.impl.approve;
 
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.proposaldevelopment.bo.CoPiInfoDO;
+import org.kuali.kra.proposaldevelopment.bo.CostShareInfoDO;
 
 import java.io.Serializable;
 import java.sql.Date;
