@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.withdraw;
 
-import org.kuali.kra.printing.PrintingException;
+import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolVersionService;

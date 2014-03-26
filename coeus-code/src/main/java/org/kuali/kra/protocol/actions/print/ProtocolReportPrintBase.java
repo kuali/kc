@@ -16,9 +16,9 @@
 package org.kuali.kra.protocol.actions.print;
 
 import org.drools.core.util.StringUtils;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.kra.util.watermark.Watermarkable;
+import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.util.PrintingUtils;
+import org.kuali.coeus.common.framework.print.watermark.Watermarkable;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;

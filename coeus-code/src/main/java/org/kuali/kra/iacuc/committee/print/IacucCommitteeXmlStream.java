@@ -34,9 +34,9 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeResearchAreaBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
-import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 
 import java.math.BigInteger;

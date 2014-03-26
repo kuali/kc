@@ -16,11 +16,11 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.print.watermark.Watermark;
+import org.kuali.coeus.common.framework.print.watermark.WatermarkConstants;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Watermark;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;

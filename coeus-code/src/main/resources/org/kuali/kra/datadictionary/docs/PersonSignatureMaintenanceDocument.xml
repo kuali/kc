@@ -21,8 +21,8 @@
 
     <bean id="PersonSignatureMaintenanceDocument" parent="PersonSignatureMaintenanceDocument-parentBean" />
     <bean id="PersonSignatureMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.attr.PersonSignature" />
-        <property name="maintainableClass" value="org.kuali.coeus.common.impl.person.attr.PersonSignatureMaintainableImpl" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.signature.PersonSignature" />
+        <property name="maintainableClass" value="org.kuali.coeus.common.impl.person.signature.PersonSignatureMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
                 <ref bean="PersonSignatureMaintenanceDocument-EditPersonSignature" />

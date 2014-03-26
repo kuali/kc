@@ -16,8 +16,8 @@
 package org.kuali.kra.irb.actions.print;
 
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.impl.person.signature.PersonSignatureServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.printing.service.impl.PersonSignatureServiceImpl;
 
 public class IrbPersonSignatureServiceImpl extends PersonSignatureServiceImpl implements IrbPersonSignatureService {
 

@@ -19,6 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.print.PrintConstants;
+import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportService;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -33,7 +35,6 @@ import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNot
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
-import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -126,9 +127,9 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
 			HttpServletResponse response) throws Exception {
 		ReportHelperBean helper = ((ReportHelperBeanContainer) form)
 				.getReportHelperBean();
-		request.setAttribute(CurrentAndPendingReportService.CURRENT_REPORT_ROWS_KEY, helper
+		request.setAttribute(PrintConstants.CURRENT_REPORT_ROWS_KEY, helper
 				.prepareCurrentReport());
-		request.setAttribute(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper
+		request.setAttribute(PrintConstants.REPORT_PERSON_NAME_KEY, helper
 				.getTargetPersonName());
 		return mapping.findForward(Constants.MAPPING_BASIC);
 	}
@@ -142,9 +143,9 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
 			HttpServletResponse response) throws Exception {
 		ReportHelperBean helper = ((ReportHelperBeanContainer) form)
 				.getReportHelperBean();
-		request.setAttribute(CurrentAndPendingReportService.PENDING_REPORT_ROWS_KEY, helper
+		request.setAttribute(PrintConstants.PENDING_REPORT_ROWS_KEY, helper
 				.preparePendingReport());
-		request.setAttribute(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper
+		request.setAttribute(PrintConstants.REPORT_PERSON_NAME_KEY, helper
 				.getTargetPersonName());
 		return mapping.findForward(Constants.MAPPING_BASIC);
 	}
@@ -165,10 +166,10 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
                 .getService(CurrentAndPendingReportService.class);
         ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        reportParameters.put(CurrentAndPendingReportService.PERSON_ID_KEY, helper.getPersonId());
-        reportParameters.put(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        reportParameters.put(PrintConstants.PERSON_ID_KEY, helper.getPersonId());
+        reportParameters.put(PrintConstants.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
         AttachmentDataSource dataStream = currentAndPendingReportService.printCurrentAndPendingSupportReport(
-                CurrentAndPendingReportService.CURRENT_REPORT_TYPE, reportParameters);
+                PrintConstants.CURRENT_REPORT_TYPE, reportParameters);
         streamToResponse(dataStream.getContent(), dataStream.getFileName(), null, response);
         return null;
     }
@@ -182,10 +183,10 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
                 .getService(CurrentAndPendingReportService.class);
         ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        reportParameters.put(CurrentAndPendingReportService.PERSON_ID_KEY, helper.getPersonId());
-        reportParameters.put(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        reportParameters.put(PrintConstants.PERSON_ID_KEY, helper.getPersonId());
+        reportParameters.put(PrintConstants.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
         AttachmentDataSource dataStream = currentAndPendingReportService.printCurrentAndPendingSupportReport(
-                CurrentAndPendingReportService.PENDING_REPORT_TYPE, reportParameters);
+                PrintConstants.PENDING_REPORT_TYPE, reportParameters);
         streamToResponse(dataStream.getContent(), dataStream.getFileName(), null, response);
         return null;
     }

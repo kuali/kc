@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.committee.print;
 
+import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
-import org.kuali.kra.printing.print.AbstractPrint;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;

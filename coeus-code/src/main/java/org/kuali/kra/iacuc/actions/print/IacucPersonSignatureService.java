@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
-import org.kuali.kra.printing.service.PersonSignatureService;
+import org.kuali.coeus.common.framework.person.signature.PersonSignatureService;
 
 public interface IacucPersonSignatureService extends PersonSignatureService {
 

@@ -1,9 +1,9 @@
 package org.kuali.kra.s2s.printing.print;
 
+import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.PrintingException;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.xmlstream.XmlStream;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;

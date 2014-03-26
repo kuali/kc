@@ -16,9 +16,9 @@
 package org.kuali.coeus.common.committee.impl.print.service;
 
 import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
-import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.Printable;
+import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 import java.util.List;

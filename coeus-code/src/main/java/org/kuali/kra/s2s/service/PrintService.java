@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.s2s.service;
 
+import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
-import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;

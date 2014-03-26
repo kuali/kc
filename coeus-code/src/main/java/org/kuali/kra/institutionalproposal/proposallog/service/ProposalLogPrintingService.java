@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.service;
 
+import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
-import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 public interface ProposalLogPrintingService {

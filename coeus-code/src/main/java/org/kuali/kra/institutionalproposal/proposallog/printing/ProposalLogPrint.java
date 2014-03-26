@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.printing;
 
+import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.util.PrintingUtils;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;
