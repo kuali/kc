@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.coi.service.impl;
 
+import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.Printable;
+import org.kuali.coeus.common.framework.print.PrintingException;
+import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.print.CoiCertificationPrint;
 import org.kuali.kra.coi.print.CoiReportType;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 import java.io.UnsupportedEncodingException;

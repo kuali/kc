@@ -16,8 +16,8 @@
 package org.kuali.kra.committee.print;
 
 import org.kuali.coeus.common.committee.impl.print.TemplatePrintBase;
+import org.kuali.coeus.common.framework.print.watermark.Watermarkable;
 import org.kuali.kra.irb.actions.print.ProtocolPrintWatermark;
-import org.kuali.kra.util.watermark.Watermarkable;
 
 /**
  * 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import org.kuali.kra.util.watermark.WatermarkConstants;
+import org.kuali.coeus.common.framework.print.watermark.WatermarkConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;

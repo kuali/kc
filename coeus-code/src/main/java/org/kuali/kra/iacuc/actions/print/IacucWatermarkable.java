@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
-import org.kuali.kra.util.watermark.Watermarkable;
+import org.kuali.coeus.common.framework.print.watermark.Watermarkable;
 
 public interface IacucWatermarkable extends Watermarkable {
 

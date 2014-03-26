@@ -22,8 +22,8 @@ import java.util.List;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.util.PrintingUtils;
+import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 
 public class CorrespondencePrint extends AbstractPrint {
     private static final long serialVersionUID = -5905174316529503137L;

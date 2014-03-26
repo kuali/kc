@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.printing.xmlstream;
 
-import org.kuali.kra.printing.xmlstream.XmlStream;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

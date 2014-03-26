@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.committee.impl.print;
 
-import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
 

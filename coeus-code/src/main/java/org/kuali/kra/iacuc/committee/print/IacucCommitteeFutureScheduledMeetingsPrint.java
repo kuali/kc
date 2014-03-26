@@ -16,8 +16,8 @@
 package org.kuali.kra.iacuc.committee.print;
 
 import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.util.PrintingUtils;
+import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;

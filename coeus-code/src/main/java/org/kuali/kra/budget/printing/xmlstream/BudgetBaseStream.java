@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.kra.printing.schema.GroupsType;
 import org.kuali.kra.printing.schema.ReportHeaderType;
 import org.kuali.kra.printing.schema.ReportPageType.CalculationMethodology;
@@ -37,7 +38,6 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.budget.printing.util.ReportTypeVO;
 import org.kuali.kra.budget.rates.RateType;
-import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

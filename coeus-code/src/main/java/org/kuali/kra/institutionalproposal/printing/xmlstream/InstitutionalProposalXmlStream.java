@@ -17,6 +17,7 @@ package org.kuali.kra.institutionalproposal.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -41,7 +42,6 @@ import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSp
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.InstituteProposalDocument.InstituteProposal;
-import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
