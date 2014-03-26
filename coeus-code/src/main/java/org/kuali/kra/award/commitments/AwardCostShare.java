@@ -19,7 +19,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.bo.CostShareType;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
@@ -36,19 +36,19 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     private String projectPeriod;
 
-    private KualiDecimal costSharePercentage;
+    private ScaleTwoDecimal costSharePercentage;
 
     private Integer costShareTypeCode;
 
     private Date verificationDate;
 
-    private KualiDecimal costShareMet;
+    private ScaleTwoDecimal costShareMet;
 
     private String source;
 
     private String destination;
 
-    private KualiDecimal commitmentAmount;
+    private ScaleTwoDecimal commitmentAmount;
 
     private CostShareType costShareType;
 
@@ -97,11 +97,11 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         this.projectPeriod = projectPeriod;
     }
 
-    public KualiDecimal getCostSharePercentage() {
+    public ScaleTwoDecimal getCostSharePercentage() {
         return costSharePercentage;
     }
 
-    public void setCostSharePercentage(KualiDecimal costSharePercentage) {
+    public void setCostSharePercentage(ScaleTwoDecimal costSharePercentage) {
         this.costSharePercentage = costSharePercentage;
     }
 
@@ -121,11 +121,11 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
         this.destination = destination;
     }
 
-    public KualiDecimal getCommitmentAmount() {
+    public ScaleTwoDecimal getCommitmentAmount() {
         return commitmentAmount;
     }
 
-    public void setCommitmentAmount(KualiDecimal commitmentAmount) {
+    public void setCommitmentAmount(ScaleTwoDecimal commitmentAmount) {
         this.commitmentAmount = commitmentAmount;
     }
 
@@ -142,7 +142,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     }
 
     @Override
-    public KualiDecimal getAmount() {
+    public ScaleTwoDecimal getAmount() {
         return getCommitmentAmount();
     }
 
@@ -219,7 +219,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
      * Gets the costShareMet attribute. 
      * @return Returns the costShareMet.
      */
-    public KualiDecimal getCostShareMet() {
+    public ScaleTwoDecimal getCostShareMet() {
         return costShareMet;
     }
 
@@ -227,7 +227,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
      * Sets the costShareMet attribute value.
      * @param costShareMet The costShareMet to set.
      */
-    public void setCostShareMet(KualiDecimal costShareMet) {
+    public void setCostShareMet(ScaleTwoDecimal costShareMet) {
         this.costShareMet = costShareMet;
     }
 

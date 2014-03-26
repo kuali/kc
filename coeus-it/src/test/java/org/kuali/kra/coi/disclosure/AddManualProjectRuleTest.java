@@ -21,7 +21,7 @@ import org.kuali.kra.coi.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,7 +43,7 @@ public class AddManualProjectRuleTest extends KcIntegrationTestBase {
                 coiDisclProject.setShortTextField1("test project role");
                 coiDisclProject.setLongTextField1("test sponsor");
 
-                coiDisclProject.setNumberField1(new KualiDecimal(1000.00));
+                coiDisclProject.setNumberField1(new ScaleTwoDecimal(1000.00));
                 coiDisclProject.setDateField1(new java.sql.Date(new Date().getTime()));
                 CoiDisclosure coiDisclosure = new CoiDisclosure();
                 coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
@@ -141,7 +141,7 @@ public class AddManualProjectRuleTest extends KcIntegrationTestBase {
                 coiDisclProject.setLongTextField2("sponsor");
                 coiDisclProject.setLongTextField3("purpose");
 
-                coiDisclProject.setNumberField1(new KualiDecimal(1000));
+                coiDisclProject.setNumberField1(new ScaleTwoDecimal(1000));
                 coiDisclProject.setDateField1(new java.sql.Date(new Date().getTime()));
                 Date dt = DateUtils.addDays(new Date(), 10);
                 coiDisclProject.setDateField2(new java.sql.Date(dt.getTime()));

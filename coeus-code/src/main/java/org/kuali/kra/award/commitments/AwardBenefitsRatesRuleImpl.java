@@ -22,7 +22,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -136,7 +136,7 @@ public class AwardBenefitsRatesRuleImpl extends KcTransactionalDocumentRuleBase 
      * @return
      */
     @SuppressWarnings("unchecked")
-    Collection<ValidRates> getValidRates(KualiDecimal specialEbRateOnCampus, KualiDecimal specialEbRateOffCampus){
+    Collection<ValidRates> getValidRates(ScaleTwoDecimal specialEbRateOnCampus, ScaleTwoDecimal specialEbRateOffCampus){
         Map<String, Object> rateValues = new HashMap<String, Object>();
         rateValues.put(ON_CAMPUS_RATE, specialEbRateOnCampus);
         rateValues.put(OFF_CAMPUS_RATE, specialEbRateOffCampus);
@@ -160,7 +160,7 @@ public class AwardBenefitsRatesRuleImpl extends KcTransactionalDocumentRuleBase 
      * @return
      */
     @SuppressWarnings("unchecked")
-    Collection<ValidRates> getValidRatesforSingleRate(String rateType,KualiDecimal benefitRate){
+    Collection<ValidRates> getValidRatesforSingleRate(String rateType,ScaleTwoDecimal benefitRate){
         Map<String, Object> rateValues = new HashMap<String, Object>();
         rateValues.put(rateType, benefitRate);
        

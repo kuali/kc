@@ -23,7 +23,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -45,11 +45,11 @@ public class AwardCostShareRuleTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
         awardCostShareRule = new AwardCostShareRuleImpl();
         awardCostShare = new AwardCostShare();
-        awardCostShare.setCostSharePercentage(new KualiDecimal(PERCENTAGE));
+        awardCostShare.setCostSharePercentage(new ScaleTwoDecimal(PERCENTAGE));
         awardCostShare.setProjectPeriod(TEST_FISCAL_YEAR);
         awardCostShare.setDestination(TEST_DESTINATION);
         awardCostShare.setSource(TEST_SOURCE);
-        awardCostShare.setCommitmentAmount(new KualiDecimal(COMMITMENT_AMOUNT));
+        awardCostShare.setCommitmentAmount(new ScaleTwoDecimal(COMMITMENT_AMOUNT));
         GlobalVariables.setMessageMap(new MessageMap());
           
     }

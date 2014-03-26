@@ -18,7 +18,7 @@ package org.kuali.kra.award.contacts;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
@@ -31,7 +31,7 @@ public class AwardPersonUnitCreditSplitRuleEvent extends KcDocumentEventBase {
     private static final Log LOG = LogFactory.getLog(AwardPersonUnitCreditSplitRuleEvent.class);
     
     private AwardPerson projectPerson;
-    private Map<String, KualiDecimal> totalsByCreditSplitType;
+    private Map<String, ScaleTwoDecimal> totalsByCreditSplitType;
     
     /**
      * Constructs a AwardPersonCreditSplitRuleEvent
@@ -40,7 +40,7 @@ public class AwardPersonUnitCreditSplitRuleEvent extends KcDocumentEventBase {
      * @param document
      */
     public AwardPersonUnitCreditSplitRuleEvent(Document document, AwardPerson projectPerson, 
-                                                Map<String, KualiDecimal> totalsByCreditSplitType) {
+                                                Map<String, ScaleTwoDecimal> totalsByCreditSplitType) {
         super("Credit splits invalid", "document.awardList[0].creditSplits.*", document);
         this.projectPerson = projectPerson;
         this.totalsByCreditSplitType =  totalsByCreditSplitType;
@@ -63,7 +63,7 @@ public class AwardPersonUnitCreditSplitRuleEvent extends KcDocumentEventBase {
      * Gets the totalsByCreditSplitType attribute. 
      * @return Returns the totalsByCreditSplitType.
      */
-    public Map<String, KualiDecimal> getTotalsByCreditSplitType() {
+    public Map<String, ScaleTwoDecimal> getTotalsByCreditSplitType() {
         return totalsByCreditSplitType;
     }
 

@@ -16,7 +16,7 @@
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
@@ -34,13 +34,13 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
 
     private Integer budgetPeriod;
     
-    private BudgetDecimal directCost = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal directCost = ScaleTwoDecimal.ZERO;
     
-    private BudgetDecimal indirectCost = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal indirectCost = ScaleTwoDecimal.ZERO;
     
-    private BudgetDecimal costShare = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal costShare = ScaleTwoDecimal.ZERO;
     
-    private BudgetDecimal totalCost = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
     
     private transient boolean amountsModified = false;
 
@@ -70,33 +70,33 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
         this.budgetPeriod = budgetPeriod;
     }
 
-    public BudgetDecimal getDirectCost() {
+    public ScaleTwoDecimal getDirectCost() {
         return directCost;
     }
 
-    public void setDirectCost(BudgetDecimal directCost) {
+    public void setDirectCost(ScaleTwoDecimal directCost) {
         if (!ObjectUtils.equals(this.directCost, directCost)) {
             amountsModified = true;
         }
         this.directCost = directCost;
     }
 
-    public BudgetDecimal getIndirectCost() {
+    public ScaleTwoDecimal getIndirectCost() {
         return indirectCost;
     }
 
-    public void setIndirectCost(BudgetDecimal indirectCost) {
+    public void setIndirectCost(ScaleTwoDecimal indirectCost) {
         if (!ObjectUtils.equals(this.indirectCost, indirectCost)) {
             amountsModified = true;
         }        
         this.indirectCost = indirectCost;
     }
 
-    public BudgetDecimal getCostShare() {
+    public ScaleTwoDecimal getCostShare() {
         return costShare;
     }
 
-    public void setCostShare(BudgetDecimal costShare) {
+    public void setCostShare(ScaleTwoDecimal costShare) {
         if (!ObjectUtils.equals(this.costShare, costShare)) {
             amountsModified = true;
         }        
@@ -111,11 +111,11 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
         this.budgetId = budgetId;
     }
 
-    public BudgetDecimal getTotalCost() {
+    public ScaleTwoDecimal getTotalCost() {
         return totalCost;
     }
 
-    public void setTotalCost(BudgetDecimal totalCost) {
+    public void setTotalCost(ScaleTwoDecimal totalCost) {
         this.totalCost = totalCost;
     }
 
@@ -128,9 +128,9 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
     }
     
     public void computeTotal() {
-        BudgetDecimal total = getDirectCost() == null ? BudgetDecimal.ZERO : getDirectCost();
-        total = total.add(getIndirectCost() == null ? BudgetDecimal.ZERO : getIndirectCost());
-        total = total.add(getCostShare() == null ? BudgetDecimal.ZERO : getCostShare());
+        ScaleTwoDecimal total = getDirectCost() == null ? ScaleTwoDecimal.ZERO : getDirectCost();
+        total = total.add(getIndirectCost() == null ? ScaleTwoDecimal.ZERO : getIndirectCost());
+        total = total.add(getCostShare() == null ? ScaleTwoDecimal.ZERO : getCostShare());
         setTotalCost(total);
     }
 

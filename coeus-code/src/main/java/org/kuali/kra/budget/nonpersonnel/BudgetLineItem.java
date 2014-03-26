@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
@@ -44,7 +44,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     private boolean hiddenInHierarchy;
     
     private transient boolean displayTotalDetail;
-    private transient BudgetDecimal objectTotal;
+    private transient ScaleTwoDecimal objectTotal;
 
     public BudgetLineItem() {
         super();
@@ -52,7 +52,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
         budgetRateAndBaseList = new ArrayList<BudgetRateAndBase>();
         displayTotalDetail = false;
-        objectTotal = new BudgetDecimal(0);
+        objectTotal = new ScaleTwoDecimal(0);
     }
 
     public List<BudgetPersonnelDetails> getBudgetPersonnelDetailsList() {
@@ -194,11 +194,11 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         this.displayTotalDetail = displayTotalDetail;
     }
 
-    public BudgetDecimal getObjectTotal() {
+    public ScaleTwoDecimal getObjectTotal() {
         return objectTotal;
     }
 
-    public void setObjectTotal(BudgetDecimal objectTotal) {
+    public void setObjectTotal(ScaleTwoDecimal objectTotal) {
         this.objectTotal = objectTotal;
     }
 

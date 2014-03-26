@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.rates.RateClass;
 
@@ -38,13 +38,13 @@ public abstract class AbstractBudgetRateAndBase extends BudgetAssociate {
 
     private String rateTypeCode;
 
-    private BudgetDecimal appliedRate;
+    private ScaleTwoDecimal appliedRate;
 
-    private BudgetDecimal baseCostSharing;
+    private ScaleTwoDecimal baseCostSharing;
 
-    private BudgetDecimal calculatedCost;
+    private ScaleTwoDecimal calculatedCost;
 
-    private BudgetDecimal calculatedCostSharing;
+    private ScaleTwoDecimal calculatedCostSharing;
 
     private Date endDate;
 
@@ -94,35 +94,35 @@ public abstract class AbstractBudgetRateAndBase extends BudgetAssociate {
         this.rateTypeCode = rateTypeCode;
     }
 
-    public BudgetDecimal getAppliedRate() {
-        return BudgetDecimal.returnZeroIfNull(appliedRate);
+    public ScaleTwoDecimal getAppliedRate() {
+        return ScaleTwoDecimal.returnZeroIfNull(appliedRate);
     }
 
-    public void setAppliedRate(BudgetDecimal appliedRate) {
+    public void setAppliedRate(ScaleTwoDecimal appliedRate) {
         this.appliedRate = appliedRate;
     }
 
-    public BudgetDecimal getBaseCostSharing() {
-        return BudgetDecimal.returnZeroIfNull(baseCostSharing);
+    public ScaleTwoDecimal getBaseCostSharing() {
+        return ScaleTwoDecimal.returnZeroIfNull(baseCostSharing);
     }
 
-    public void setBaseCostSharing(BudgetDecimal baseCostSharing) {
+    public void setBaseCostSharing(ScaleTwoDecimal baseCostSharing) {
         this.baseCostSharing = baseCostSharing;
     }
 
-    public BudgetDecimal getCalculatedCost() {
+    public ScaleTwoDecimal getCalculatedCost() {
         return calculatedCost;
     }
 
-    public void setCalculatedCost(BudgetDecimal calculatedCost) {
+    public void setCalculatedCost(ScaleTwoDecimal calculatedCost) {
         this.calculatedCost = calculatedCost;
     }
 
-    public BudgetDecimal getCalculatedCostSharing() {
+    public ScaleTwoDecimal getCalculatedCostSharing() {
         return calculatedCostSharing;
     }
 
-    public void setCalculatedCostSharing(BudgetDecimal calculatedCostSharing) {
+    public void setCalculatedCostSharing(ScaleTwoDecimal calculatedCostSharing) {
         this.calculatedCostSharing = calculatedCostSharing;
     }
 

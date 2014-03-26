@@ -16,7 +16,7 @@
 package org.kuali.kra.award.home;
 
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
 
@@ -35,17 +35,17 @@ public class AwardAmountInfo extends AwardAssociate {
 
     private String timeAndMoneyDocumentNumber;
 
-    private KualiDecimal anticipatedTotalAmount;
+    private ScaleTwoDecimal anticipatedTotalAmount;
 
-    private KualiDecimal antDistributableAmount;
+    private ScaleTwoDecimal antDistributableAmount;
 
     private Date finalExpirationDate;
 
     private Date currentFundEffectiveDate;
 
-    private KualiDecimal amountObligatedToDate;
+    private ScaleTwoDecimal amountObligatedToDate;
 
-    private KualiDecimal obliDistributableAmount;
+    private ScaleTwoDecimal obliDistributableAmount;
 
     private Date obligationExpirationDate;
 
@@ -53,25 +53,25 @@ public class AwardAmountInfo extends AwardAssociate {
 
     private boolean eomProcessFlag;
 
-    private KualiDecimal anticipatedChange;
+    private ScaleTwoDecimal anticipatedChange;
 
-    private KualiDecimal obligatedChange;
+    private ScaleTwoDecimal obligatedChange;
 
-    private KualiDecimal obligatedChangeDirect;
+    private ScaleTwoDecimal obligatedChangeDirect;
 
-    private KualiDecimal obligatedChangeIndirect;
+    private ScaleTwoDecimal obligatedChangeIndirect;
 
-    private KualiDecimal anticipatedChangeDirect;
+    private ScaleTwoDecimal anticipatedChangeDirect;
 
-    private KualiDecimal anticipatedChangeIndirect;
+    private ScaleTwoDecimal anticipatedChangeIndirect;
 
-    private KualiDecimal anticipatedTotalDirect;
+    private ScaleTwoDecimal anticipatedTotalDirect;
 
-    private KualiDecimal anticipatedTotalIndirect;
+    private ScaleTwoDecimal anticipatedTotalIndirect;
 
-    private KualiDecimal obligatedTotalDirect;
+    private ScaleTwoDecimal obligatedTotalDirect;
 
-    private KualiDecimal obligatedTotalIndirect;
+    private ScaleTwoDecimal obligatedTotalIndirect;
 
     private Integer transactionDetailItemsLength;
 
@@ -80,14 +80,14 @@ public class AwardAmountInfo extends AwardAssociate {
     // private AwardBudgetInfo awardBudgetInfo;   
     // private AwardAmtFnaDistribution awardAmtFnaDistribution;   
     public AwardAmountInfo() {
-        setAnticipatedTotalDirect(new KualiDecimal(0.00));
-        setAnticipatedTotalIndirect(new KualiDecimal(0.00));
-        setObligatedTotalDirect(new KualiDecimal(0.00));
-        setObligatedTotalIndirect(new KualiDecimal(0.00));
-        setAnticipatedTotalAmount(new KualiDecimal(0.00));
-        setAmountObligatedToDate(new KualiDecimal(0.00));
-        setObliDistributableAmount(new KualiDecimal(0.00));
-        setAntDistributableAmount(new KualiDecimal(0.00));
+        setAnticipatedTotalDirect(new ScaleTwoDecimal(0.00));
+        setAnticipatedTotalIndirect(new ScaleTwoDecimal(0.00));
+        setObligatedTotalDirect(new ScaleTwoDecimal(0.00));
+        setObligatedTotalIndirect(new ScaleTwoDecimal(0.00));
+        setAnticipatedTotalAmount(new ScaleTwoDecimal(0.00));
+        setAmountObligatedToDate(new ScaleTwoDecimal(0.00));
+        setObliDistributableAmount(new ScaleTwoDecimal(0.00));
+        setAntDistributableAmount(new ScaleTwoDecimal(0.00));
     }
 
     public Long getAwardAmountInfoId() {
@@ -98,11 +98,11 @@ public class AwardAmountInfo extends AwardAssociate {
         this.awardAmountInfoId = awardAmountInfoId;
     }
 
-    public KualiDecimal getAnticipatedTotalAmount() {
+    public ScaleTwoDecimal getAnticipatedTotalAmount() {
         return anticipatedTotalAmount;
     }
 
-    public void setAnticipatedTotalAmount(KualiDecimal anticipatedTotalAmount) {
+    public void setAnticipatedTotalAmount(ScaleTwoDecimal anticipatedTotalAmount) {
         this.anticipatedTotalAmount = anticipatedTotalAmount;
         if (!(getAward() == null)) {
             if (getAward().getAwardAmountInfos().size() == 1 && getAward().getSequenceNumber() == 1) {
@@ -111,11 +111,11 @@ public class AwardAmountInfo extends AwardAssociate {
         }
     }
 
-    public KualiDecimal getAntDistributableAmount() {
+    public ScaleTwoDecimal getAntDistributableAmount() {
         return antDistributableAmount;
     }
 
-    public void setAntDistributableAmount(KualiDecimal antDistributableAmount) {
+    public void setAntDistributableAmount(ScaleTwoDecimal antDistributableAmount) {
         this.antDistributableAmount = antDistributableAmount;
     }
 
@@ -135,11 +135,11 @@ public class AwardAmountInfo extends AwardAssociate {
         this.currentFundEffectiveDate = currentFundEffectiveDate;
     }
 
-    public KualiDecimal getAmountObligatedToDate() {
+    public ScaleTwoDecimal getAmountObligatedToDate() {
         return amountObligatedToDate;
     }
 
-    public void setAmountObligatedToDate(KualiDecimal amountObligatedToDate) {
+    public void setAmountObligatedToDate(ScaleTwoDecimal amountObligatedToDate) {
         this.amountObligatedToDate = amountObligatedToDate;
         if (!(getAward() == null)) {
             if (getAward().getAwardAmountInfos().size() == 1 && getAward().getSequenceNumber() == 1) {
@@ -148,11 +148,11 @@ public class AwardAmountInfo extends AwardAssociate {
         }
     }
 
-    public KualiDecimal getObliDistributableAmount() {
+    public ScaleTwoDecimal getObliDistributableAmount() {
         return obliDistributableAmount;
     }
 
-    public void setObliDistributableAmount(KualiDecimal obliDistributableAmount) {
+    public void setObliDistributableAmount(ScaleTwoDecimal obliDistributableAmount) {
         this.obliDistributableAmount = obliDistributableAmount;
     }
 
@@ -188,83 +188,83 @@ public class AwardAmountInfo extends AwardAssociate {
         this.eomProcessFlag = eomProcessFlag;
     }
 
-    public KualiDecimal getAnticipatedChange() {
+    public ScaleTwoDecimal getAnticipatedChange() {
         return anticipatedChange;
     }
 
-    public void setAnticipatedChange(KualiDecimal anticipatedChange) {
+    public void setAnticipatedChange(ScaleTwoDecimal anticipatedChange) {
         this.anticipatedChange = anticipatedChange;
     }
 
-    public KualiDecimal getObligatedChange() {
+    public ScaleTwoDecimal getObligatedChange() {
         return obligatedChange;
     }
 
-    public void setObligatedChange(KualiDecimal obligatedChange) {
+    public void setObligatedChange(ScaleTwoDecimal obligatedChange) {
         this.obligatedChange = obligatedChange;
     }
 
-    public KualiDecimal getObligatedChangeDirect() {
+    public ScaleTwoDecimal getObligatedChangeDirect() {
         return obligatedChangeDirect;
     }
 
-    public void setObligatedChangeDirect(KualiDecimal obligatedChangeDirect) {
+    public void setObligatedChangeDirect(ScaleTwoDecimal obligatedChangeDirect) {
         this.obligatedChangeDirect = obligatedChangeDirect;
     }
 
-    public KualiDecimal getObligatedChangeIndirect() {
+    public ScaleTwoDecimal getObligatedChangeIndirect() {
         return obligatedChangeIndirect;
     }
 
-    public void setObligatedChangeIndirect(KualiDecimal obligatedChangeIndirect) {
+    public void setObligatedChangeIndirect(ScaleTwoDecimal obligatedChangeIndirect) {
         this.obligatedChangeIndirect = obligatedChangeIndirect;
     }
 
-    public KualiDecimal getAnticipatedChangeDirect() {
+    public ScaleTwoDecimal getAnticipatedChangeDirect() {
         return anticipatedChangeDirect;
     }
 
-    public void setAnticipatedChangeDirect(KualiDecimal anticipatedChangeDirect) {
+    public void setAnticipatedChangeDirect(ScaleTwoDecimal anticipatedChangeDirect) {
         this.anticipatedChangeDirect = anticipatedChangeDirect;
     }
 
-    public KualiDecimal getAnticipatedChangeIndirect() {
+    public ScaleTwoDecimal getAnticipatedChangeIndirect() {
         return anticipatedChangeIndirect;
     }
 
-    public void setAnticipatedChangeIndirect(KualiDecimal anticipatedChangeIndirect) {
+    public void setAnticipatedChangeIndirect(ScaleTwoDecimal anticipatedChangeIndirect) {
         this.anticipatedChangeIndirect = anticipatedChangeIndirect;
     }
 
-    public KualiDecimal getAnticipatedTotalDirect() {
+    public ScaleTwoDecimal getAnticipatedTotalDirect() {
         return anticipatedTotalDirect;
     }
 
-    public void setAnticipatedTotalDirect(KualiDecimal anticipatedTotalDirect) {
+    public void setAnticipatedTotalDirect(ScaleTwoDecimal anticipatedTotalDirect) {
         this.anticipatedTotalDirect = anticipatedTotalDirect;
     }
 
-    public KualiDecimal getAnticipatedTotalIndirect() {
+    public ScaleTwoDecimal getAnticipatedTotalIndirect() {
         return anticipatedTotalIndirect;
     }
 
-    public void setAnticipatedTotalIndirect(KualiDecimal anticipatedTotalIndirect) {
+    public void setAnticipatedTotalIndirect(ScaleTwoDecimal anticipatedTotalIndirect) {
         this.anticipatedTotalIndirect = anticipatedTotalIndirect;
     }
 
-    public KualiDecimal getObligatedTotalDirect() {
+    public ScaleTwoDecimal getObligatedTotalDirect() {
         return obligatedTotalDirect;
     }
 
-    public void setObligatedTotalDirect(KualiDecimal obligatedTotalDirect) {
+    public void setObligatedTotalDirect(ScaleTwoDecimal obligatedTotalDirect) {
         this.obligatedTotalDirect = obligatedTotalDirect;
     }
 
-    public KualiDecimal getObligatedTotalIndirect() {
+    public ScaleTwoDecimal getObligatedTotalIndirect() {
         return obligatedTotalIndirect;
     }
 
-    public void setObligatedTotalIndirect(KualiDecimal obligatedTotalIndirect) {
+    public void setObligatedTotalIndirect(ScaleTwoDecimal obligatedTotalIndirect) {
         this.obligatedTotalIndirect = obligatedTotalIndirect;
     }
 
@@ -337,12 +337,12 @@ public class AwardAmountInfo extends AwardAssociate {
     }
     
     public void resetChangeValues() {
-        setObligatedChange(new KualiDecimal(0));
-        setObligatedChangeDirect(new KualiDecimal(0));
-        setObligatedChangeIndirect(new KualiDecimal(0));
-        setAnticipatedChange(new KualiDecimal(0));
-        setAnticipatedChangeDirect(new KualiDecimal(0));
-        setAnticipatedChangeIndirect(new KualiDecimal(0));
+        setObligatedChange(new ScaleTwoDecimal(0));
+        setObligatedChangeDirect(new ScaleTwoDecimal(0));
+        setObligatedChangeIndirect(new ScaleTwoDecimal(0));
+        setAnticipatedChange(new ScaleTwoDecimal(0));
+        setAnticipatedChangeDirect(new ScaleTwoDecimal(0));
+        setAnticipatedChangeIndirect(new ScaleTwoDecimal(0));
     }
 
 //TODO: For debugging, to be taken out eventually

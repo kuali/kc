@@ -20,7 +20,7 @@ import org.kuali.coeus.common.framework.attachment.KcAttachment;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.subaward.service.SubAwardService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.bo.PersistableAttachment;
 
@@ -36,7 +36,7 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAtta
 
     private static final long serialVersionUID = 1L;
     private Integer subAwardAmtReleasedId;
-    private KualiDecimal amountReleased;
+    private ScaleTwoDecimal amountReleased;
     private Date effectiveDate;
     private String comments;
     private String invoiceNumber;
@@ -144,14 +144,14 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAtta
      * Get the amountReleased.
      * @return the amountReleased.
      */
-    public KualiDecimal getAmountReleased() {
+    public ScaleTwoDecimal getAmountReleased() {
         return amountReleased;
     }
     /**
      * Set the amountReleased..
      * @param amountReleased the amountReleased to be set
      */
-    public void setAmountReleased(KualiDecimal amountReleased) {
+    public void setAmountReleased(ScaleTwoDecimal amountReleased) {
         this.amountReleased = amountReleased;
     }
     /**

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.rates.BudgetLaRate;
 import org.kuali.kra.budget.rates.BudgetRate;
@@ -27,13 +27,13 @@ import org.kuali.kra.budget.rates.BudgetRate;
  */
 public class BreakUpInterval{
     private Boundary boundary; 
-    private BudgetDecimal underRecovery; 
+    private ScaleTwoDecimal underRecovery;
     private QueryList<BudgetRate> breakupIntervalRates; 
     private QueryList<BudgetLaRate> breakUpIntervalLaRates; 
     private QueryList<RateAndCost> breakupCalculatedAmounts;  
 
-    private BudgetDecimal applicableAmt = BudgetDecimal.ZERO; 
-    private BudgetDecimal applicableAmtCostSharing = BudgetDecimal.ZERO; 
+    private ScaleTwoDecimal applicableAmt = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal applicableAmtCostSharing = ScaleTwoDecimal.ZERO;
     private BudgetRate uRRatesBean;
 
 
@@ -68,14 +68,14 @@ public class BreakUpInterval{
     /** Getter for property underRecovery.
      * @return Value of property underRecovery.
      */
-    public BudgetDecimal getUnderRecovery() {
-        return underRecovery==null?BudgetDecimal.ZERO:underRecovery;
+    public ScaleTwoDecimal getUnderRecovery() {
+        return underRecovery==null? ScaleTwoDecimal.ZERO:underRecovery;
     }
     
     /** Setter for property underRecovery.
      * @param underRecovery New value of property underRecovery.
      */
-    public void setUnderRecovery(BudgetDecimal underRecovery) {
+    public void setUnderRecovery(ScaleTwoDecimal underRecovery) {
         this.underRecovery = underRecovery;
     }
     
@@ -125,7 +125,7 @@ public class BreakUpInterval{
      * @return Value of property applicableAmt.
      *
      */
-    public BudgetDecimal getApplicableAmt() {
+    public ScaleTwoDecimal getApplicableAmt() {
         return applicableAmt;
     }
     
@@ -133,7 +133,7 @@ public class BreakUpInterval{
      * @param applicableAmt New value of property applicableAmt.
      *
      */
-    public void setApplicableAmt(BudgetDecimal applicableAmt) {
+    public void setApplicableAmt(ScaleTwoDecimal applicableAmt) {
         this.applicableAmt = applicableAmt;
     }
     
@@ -141,7 +141,7 @@ public class BreakUpInterval{
      * @return Value of property applicableAmtCostSharing.
      *
      */
-    public BudgetDecimal getApplicableAmtCostSharing() {
+    public ScaleTwoDecimal getApplicableAmtCostSharing() {
         return applicableAmtCostSharing;
     }
     
@@ -149,7 +149,7 @@ public class BreakUpInterval{
      * @param applicableAmtCostSharing New value of property applicableAmtCostSharing.
      *
      */
-    public void setApplicableAmtCostSharing(BudgetDecimal applicableAmtCostSharing) {
+    public void setApplicableAmtCostSharing(ScaleTwoDecimal applicableAmtCostSharing) {
         this.applicableAmtCostSharing = applicableAmtCostSharing;
     }
     

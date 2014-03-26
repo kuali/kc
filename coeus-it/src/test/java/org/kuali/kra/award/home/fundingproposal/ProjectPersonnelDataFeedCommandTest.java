@@ -29,7 +29,7 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnitCreditSplit;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,7 +48,7 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         unit2.setUnitNumber("BL-BL");
     }
     
-    protected InstitutionalProposalPerson generateIPPerson(String personId, String personName, String roleCode, KualiDecimal creditSplit) {
+    protected InstitutionalProposalPerson generateIPPerson(String personId, String personName, String roleCode, ScaleTwoDecimal creditSplit) {
         InstitutionalProposalPerson retval = new InstitutionalProposalPerson();
         retval.setPersonId(personId);
         retval.setFullName(personName);
@@ -64,7 +64,7 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         return retval;
     }
     
-    protected InstitutionalProposalPersonUnit generateIPUnit(Unit unit, boolean leadUnit, KualiDecimal creditSplit) {
+    protected InstitutionalProposalPersonUnit generateIPUnit(Unit unit, boolean leadUnit, ScaleTwoDecimal creditSplit) {
         InstitutionalProposalPersonUnit ipUnit = new InstitutionalProposalPersonUnit();
         ipUnit.setUnit(unit);
         ipUnit.setUnitNumber(unit.getUnitNumber());
@@ -80,7 +80,7 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         return ipUnit;
     }
     
-    protected AwardPerson generateAwardPerson(String personId, String personName, String roleCode, KualiDecimal creditSplit) {
+    protected AwardPerson generateAwardPerson(String personId, String personName, String roleCode, ScaleTwoDecimal creditSplit) {
         AwardPerson retval = new AwardPerson();
         retval.setPersonId(personId);
         retval.setFullName(personName);
@@ -94,7 +94,7 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         return retval;
     }
     
-    protected AwardPersonUnit generateAwardUnit(Unit unit, boolean leadUnit, KualiDecimal creditSplit) {
+    protected AwardPersonUnit generateAwardUnit(Unit unit, boolean leadUnit, ScaleTwoDecimal creditSplit) {
         AwardPersonUnit awardUnit = new AwardPersonUnit();
         awardUnit.setUnitNumber(unit.getUnitNumber());
         awardUnit.setUnit(unit);
@@ -124,11 +124,11 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
     
     @Test
     public void testFeedNewAward() {
-        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, new KualiDecimal(50.00));
-        ipPerson1.add(generateIPUnit(unit1, true, new KualiDecimal(100.00)));
-        InstitutionalProposalPerson ipPerson2 = generateIPPerson("10000000002", "Number 2", ContactRole.COI_CODE, new KualiDecimal(50.00));
-        ipPerson2.add(generateIPUnit(unit1, false, new KualiDecimal(50.00)));
-        ipPerson2.add(generateIPUnit(unit2, false, new KualiDecimal(50.00)));
+        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, new ScaleTwoDecimal(50.00));
+        ipPerson1.add(generateIPUnit(unit1, true, new ScaleTwoDecimal(100.00)));
+        InstitutionalProposalPerson ipPerson2 = generateIPPerson("10000000002", "Number 2", ContactRole.COI_CODE, new ScaleTwoDecimal(50.00));
+        ipPerson2.add(generateIPUnit(unit1, false, new ScaleTwoDecimal(50.00)));
+        ipPerson2.add(generateIPUnit(unit2, false, new ScaleTwoDecimal(50.00)));
         proposal.add(ipPerson1);
         proposal.add(ipPerson2);
         ProjectPersonnelDataFeedCommand command = new ProjectPersonnelDataFeedCommand(award, proposal, FundingProposalMergeType.NEWAWARD);
@@ -146,34 +146,34 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
     
     @Test
     public void testTypicalMerge() {
-        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, new KualiDecimal(50.00));
-        ipPerson1.add(generateIPUnit(unit1, true, new KualiDecimal(100.00)));
-        InstitutionalProposalPerson  ipPerson2 = generateIPPerson("10000000002", "Number 2", ContactRole.COI_CODE, new KualiDecimal(50.00));
-        ipPerson2.add(generateIPUnit(unit1, false, new KualiDecimal(50.00)));
-        ipPerson2.add(generateIPUnit(unit2, false, new KualiDecimal(50.00)));
+        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, new ScaleTwoDecimal(50.00));
+        ipPerson1.add(generateIPUnit(unit1, true, new ScaleTwoDecimal(100.00)));
+        InstitutionalProposalPerson  ipPerson2 = generateIPPerson("10000000002", "Number 2", ContactRole.COI_CODE, new ScaleTwoDecimal(50.00));
+        ipPerson2.add(generateIPUnit(unit1, false, new ScaleTwoDecimal(50.00)));
+        ipPerson2.add(generateIPUnit(unit2, false, new ScaleTwoDecimal(50.00)));
         proposal.add(ipPerson1);
         proposal.add(ipPerson2);
-        AwardPerson awardPerson1 = generateAwardPerson("10000000003", "Number 3", ContactRole.PI_CODE, new KualiDecimal(80.00));
-        awardPerson1.add(generateAwardUnit(unit1, true, new KualiDecimal(100.00)));
-        AwardPerson awardPerson2 = generateAwardPerson("10000000002", "Number 2", ContactRole.COI_CODE, new KualiDecimal(20.00));
-        awardPerson2.add(generateAwardUnit(unit1, false, new KualiDecimal(100.00)));
+        AwardPerson awardPerson1 = generateAwardPerson("10000000003", "Number 3", ContactRole.PI_CODE, new ScaleTwoDecimal(80.00));
+        awardPerson1.add(generateAwardUnit(unit1, true, new ScaleTwoDecimal(100.00)));
+        AwardPerson awardPerson2 = generateAwardPerson("10000000002", "Number 2", ContactRole.COI_CODE, new ScaleTwoDecimal(20.00));
+        awardPerson2.add(generateAwardUnit(unit1, false, new ScaleTwoDecimal(100.00)));
         award.add(awardPerson1);
         award.add(awardPerson2);
         ProjectPersonnelDataFeedCommand command = new ProjectPersonnelDataFeedCommand(award, proposal, FundingProposalMergeType.MERGE);
         command.performDataFeed();
         assertEquals(3, award.getProjectPersons().size());
         AwardPerson person1 = findAwardPerson(awardPerson1.getPersonId());
-        assertEquals(new KualiDecimal(80.00), person1.getCreditSplit(0).getCredit());
+        assertEquals(new ScaleTwoDecimal(80.00), person1.getCreditSplit(0).getCredit());
         assertTrue(person1.getUnit(0).isLeadUnit());
-        assertEquals(new KualiDecimal(100.00), person1.getUnit(0).getCreditSplit(0).getCredit());
+        assertEquals(new ScaleTwoDecimal(100.00), person1.getUnit(0).getCreditSplit(0).getCredit());
         AwardPerson person2 = findAwardPerson(awardPerson2.getPersonId());
-        assertEquals(new KualiDecimal(70.00), person2.getCreditSplit(0).getCredit());
+        assertEquals(new ScaleTwoDecimal(70.00), person2.getCreditSplit(0).getCredit());
         assertEquals(2, person2.getUnits().size());
         AwardPersonUnit tempUnit = findPersonUnit(person2, unit1.getUnitNumber());
-        assertEquals(new KualiDecimal(150.00), tempUnit.getCreditSplit(0).getCredit());
+        assertEquals(new ScaleTwoDecimal(150.00), tempUnit.getCreditSplit(0).getCredit());
         assertFalse(tempUnit.isLeadUnit());
         tempUnit = findPersonUnit(person2, unit2.getUnitNumber());
-        assertEquals(new KualiDecimal(50.00), tempUnit.getCreditSplit(0).getCredit());
+        assertEquals(new ScaleTwoDecimal(50.00), tempUnit.getCreditSplit(0).getCredit());
         
         AwardPerson person3 = findAwardPerson(ipPerson1.getPersonId());
         assertEquals(ContactRole.COI_CODE, person3.getRoleCode());
@@ -182,27 +182,27 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
     
     @Test
     public void testDuplicateMerge() {
-        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, new KualiDecimal(50.00));
-        ipPerson1.add(generateIPUnit(unit1, true, new KualiDecimal(100.00)));
+        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, new ScaleTwoDecimal(50.00));
+        ipPerson1.add(generateIPUnit(unit1, true, new ScaleTwoDecimal(100.00)));
         proposal.add(ipPerson1);
-        AwardPerson awardPerson1 = generateAwardPerson("10000000001", "Number 1", ContactRole.PI_CODE, new KualiDecimal(50.00));
-        awardPerson1.add(generateAwardUnit(unit1, true, new KualiDecimal(100.00)));
+        AwardPerson awardPerson1 = generateAwardPerson("10000000001", "Number 1", ContactRole.PI_CODE, new ScaleTwoDecimal(50.00));
+        awardPerson1.add(generateAwardUnit(unit1, true, new ScaleTwoDecimal(100.00)));
         award.add(awardPerson1);
         ProjectPersonnelDataFeedCommand command = new ProjectPersonnelDataFeedCommand(award, proposal, FundingProposalMergeType.MERGE);
         command.performDataFeed();
         assertEquals(1, award.getProjectPersons().size());
-        assertEquals(new KualiDecimal(50.00), awardPerson1.getCreditSplit(0).getCredit());
+        assertEquals(new ScaleTwoDecimal(50.00), awardPerson1.getCreditSplit(0).getCredit());
         assertTrue(awardPerson1.getUnit(0).isLeadUnit());
-        assertEquals(new KualiDecimal(100.00), awardPerson1.getUnit(0).getCreditSplit(0).getCredit());
+        assertEquals(new ScaleTwoDecimal(100.00), awardPerson1.getUnit(0).getCreditSplit(0).getCredit());
     }
     
     @Test
     public void testTypicalReplace() {
-        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, new KualiDecimal(50.00));
-        ipPerson1.add(generateIPUnit(unit1, true, new KualiDecimal(100.00)));
+        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, new ScaleTwoDecimal(50.00));
+        ipPerson1.add(generateIPUnit(unit1, true, new ScaleTwoDecimal(100.00)));
         proposal.add(ipPerson1);
-        AwardPerson awardPerson1 = generateAwardPerson("10000000003", "Number 1", ContactRole.PI_CODE, new KualiDecimal(50.00));
-        awardPerson1.add(generateAwardUnit(unit1, true, new KualiDecimal(100.00)));
+        AwardPerson awardPerson1 = generateAwardPerson("10000000003", "Number 1", ContactRole.PI_CODE, new ScaleTwoDecimal(50.00));
+        awardPerson1.add(generateAwardUnit(unit1, true, new ScaleTwoDecimal(100.00)));
         award.add(awardPerson1);
         ProjectPersonnelDataFeedCommand command = new ProjectPersonnelDataFeedCommand(award, proposal, FundingProposalMergeType.REPLACE);
         command.performDataFeed();
@@ -223,21 +223,21 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         ipPerson2.add(generateIPUnit(unit2, false, null));
         proposal.add(ipPerson1);
         proposal.add(ipPerson2);
-        AwardPerson awardPerson1 = generateAwardPerson("10000000003", "Number 3", ContactRole.PI_CODE, new KualiDecimal(80.00));
-        awardPerson1.add(generateAwardUnit(unit1, true, new KualiDecimal(100.00)));
-        AwardPerson awardPerson2 = generateAwardPerson("10000000002", "Number 2", ContactRole.COI_CODE, new KualiDecimal(20.00));
-        awardPerson2.add(generateAwardUnit(unit1, false, new KualiDecimal(100.00)));
+        AwardPerson awardPerson1 = generateAwardPerson("10000000003", "Number 3", ContactRole.PI_CODE, new ScaleTwoDecimal(80.00));
+        awardPerson1.add(generateAwardUnit(unit1, true, new ScaleTwoDecimal(100.00)));
+        AwardPerson awardPerson2 = generateAwardPerson("10000000002", "Number 2", ContactRole.COI_CODE, new ScaleTwoDecimal(20.00));
+        awardPerson2.add(generateAwardUnit(unit1, false, new ScaleTwoDecimal(100.00)));
         award.add(awardPerson1);
         award.add(awardPerson2);
         ProjectPersonnelDataFeedCommand command = new ProjectPersonnelDataFeedCommand(award, proposal, FundingProposalMergeType.REPLACE);
         command.performDataFeed();
         assertEquals(3, award.getProjectPersons().size());
         AwardPerson person1 = findAwardPerson(awardPerson1.getPersonId());
-        assertEquals(new KualiDecimal(80.00), person1.getCreditSplit(0).getCredit());
+        assertEquals(new ScaleTwoDecimal(80.00), person1.getCreditSplit(0).getCredit());
         assertTrue(person1.getUnit(0).isLeadUnit());
-        assertEquals(new KualiDecimal(100.00), person1.getUnit(0).getCreditSplit(0).getCredit());
+        assertEquals(new ScaleTwoDecimal(100.00), person1.getUnit(0).getCreditSplit(0).getCredit());
         AwardPerson person2 = findAwardPerson(awardPerson2.getPersonId());
-        assertEquals(new KualiDecimal(20.00), person2.getCreditSplit(0).getCredit());
+        assertEquals(new ScaleTwoDecimal(20.00), person2.getCreditSplit(0).getCredit());
         assertEquals(2, person2.getUnits().size());
         
         AwardPerson person3 = findAwardPerson(ipPerson1.getPersonId());

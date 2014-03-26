@@ -17,8 +17,8 @@ package org.kuali.kra.budget.calculator;
 
 
 import org.junit.Test;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.rates.BudgetLaRate;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.RateClass;
@@ -58,10 +58,10 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
         validateResults(rateAndCost6,5,1,250,50);
     }
     private void validateResults(RateAndCost rateAndCost, double calculatedCost, double calculatedCostSharing, double baseAmount, double baseCostSharing) {
-        assertEquals(rateAndCost.getCalculatedCost(),new BudgetDecimal(calculatedCost));
-        assertEquals(rateAndCost.getCalculatedCostSharing(),new BudgetDecimal(calculatedCostSharing));
-        assertEquals(rateAndCost.getBaseAmount(),new BudgetDecimal(baseAmount));
-        assertEquals(rateAndCost.getBaseCostSharingAmount(),new BudgetDecimal(baseCostSharing));
+        assertEquals(rateAndCost.getCalculatedCost(),new ScaleTwoDecimal(calculatedCost));
+        assertEquals(rateAndCost.getCalculatedCostSharing(),new ScaleTwoDecimal(calculatedCostSharing));
+        assertEquals(rateAndCost.getBaseAmount(),new ScaleTwoDecimal(baseAmount));
+        assertEquals(rateAndCost.getBaseCostSharingAmount(),new ScaleTwoDecimal(baseCostSharing));
     }
     
     @Test
@@ -93,7 +93,7 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
         BreakUpInterval bi1 = createBreakupInterval();
         bi1.setURRatesBean(getBudgetRate("1",40,1L,"2011",40,true,"1","2","O","07/01/2009","000001"));
         KcServiceLocator.getService(BreakupIntervalService.class).calculate(bi1);
-        assertEquals(bi1.getUnderRecovery(), new BudgetDecimal(-810.0));
+        assertEquals(bi1.getUnderRecovery(), new ScaleTwoDecimal(-810.0));
     }
     @Test
     public void testCalculateUnderrecoveryWithApplyFlag() {
@@ -101,13 +101,13 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
         RateAndCost ohRateItem = bi.getRateAndCosts().get(0);
         ohRateItem.setApplyRateFlag(false);
         KcServiceLocator.getService(BreakupIntervalService.class).calculate(bi);
-        assertEquals(bi.getUnderRecovery(), new BudgetDecimal(4050.00));
+        assertEquals(bi.getUnderRecovery(), new ScaleTwoDecimal(4050.00));
     }
 
     private BreakUpInterval createBreakupInterval() {
         BreakUpInterval bi1  = new BreakUpInterval();
-        bi1.setApplicableAmt(new BudgetDecimal(5000));
-        bi1.setApplicableAmtCostSharing(new BudgetDecimal(1000));
+        bi1.setApplicableAmt(new ScaleTwoDecimal(5000));
+        bi1.setApplicableAmtCostSharing(new ScaleTwoDecimal(1000));
         bi1.setBoundary(new Boundary(getDate("01/01/2010"),getDate("06/30/2010")));
         bi1.setBudgetPeriod(1);
         bi1.setBudgetId(1L);
@@ -125,9 +125,9 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
         rateCost.setRateClassType(rateClassType);
         rateCost.setRateClassCode(rateClassCode);
         rateCost.setRateTypeCode(rateTypeCode);
-        rateCost.setAppliedRate(new BudgetDecimal(rate));
-        rateCost.setCalculatedCost(BudgetDecimal.ZERO);
-        rateCost.setCalculatedCostSharing(BudgetDecimal.ZERO);
+        rateCost.setAppliedRate(new ScaleTwoDecimal(rate));
+        rateCost.setCalculatedCost(ScaleTwoDecimal.ZERO);
+        rateCost.setCalculatedCostSharing(ScaleTwoDecimal.ZERO);
         return rateCost;
     }
 
@@ -186,10 +186,10 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
                                     double instRate,boolean campFlag,String rcCode,String rtCode,String rct,String stDate,String unitNumber) {
         BudgetRate br1 = new BudgetRate();
         br1.setActivityTypeCode(actCode);
-        br1.setApplicableRate(new BudgetDecimal(rate));
+        br1.setApplicableRate(new ScaleTwoDecimal(rate));
         br1.setBudgetId(bgtId);
         br1.setFiscalYear(year);
-        br1.setInstituteRate(new BudgetDecimal(instRate));
+        br1.setInstituteRate(new ScaleTwoDecimal(instRate));
         br1.setOnOffCampusFlag(campFlag);
         br1.setRateClassCode(rcCode);
         br1.setRateTypeCode(rtCode);
@@ -210,10 +210,10 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
     private BudgetLaRate getBudgetLaRate(double rate,Long bgtId,String year,
             double instRate,boolean campFlag,String rcCode,String rtCode,String rct,String stDate,String unitNumber) {
         BudgetLaRate br1 = new BudgetLaRate();
-        br1.setApplicableRate(new BudgetDecimal(rate));
+        br1.setApplicableRate(new ScaleTwoDecimal(rate));
         br1.setBudgetId(bgtId);
         br1.setFiscalYear(year);
-        br1.setInstituteRate(new BudgetDecimal(instRate));
+        br1.setInstituteRate(new ScaleTwoDecimal(instRate));
         br1.setOnOffCampusFlag(campFlag);
         br1.setRateClassCode(rcCode);
         br1.setRateTypeCode(rtCode);

@@ -18,7 +18,7 @@ package org.kuali.kra.award.home.approvedsubawards;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 /**
  * This class is the Business Object representation of an Award Approved Subaward
@@ -34,12 +34,12 @@ public class AwardApprovedSubaward extends AwardAssociate implements ValuableIte
 
     private String organizationName;
 
-    private KualiDecimal amount;
+    private ScaleTwoDecimal amount;
 
     private Organization organization;
 
     public AwardApprovedSubaward() {
-        setAmount(new KualiDecimal(0.00));
+        setAmount(new ScaleTwoDecimal(0.00));
     }
 
     public Long getAwardApprovedSubawardId() {
@@ -90,11 +90,11 @@ public class AwardApprovedSubaward extends AwardAssociate implements ValuableIte
         this.organization = organization;
     }
 
-    public KualiDecimal getAmount() {
+    public ScaleTwoDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(KualiDecimal amount) {
+    public void setAmount(ScaleTwoDecimal amount) {
         this.amount = amount;
     }
 

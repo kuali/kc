@@ -19,7 +19,7 @@ import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.*;
@@ -76,7 +76,7 @@ public enum ProposalPersonFixture {
 
             for (ProposalUnitCreditSplit creditSplit : person.getUnit(0).getCreditSplits()) {
                 if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                    creditSplit.setCredit(new KualiDecimal(50.00));
+                    creditSplit.setCredit(new ScaleTwoDecimal(50.00));
                 }
             }
         }        
@@ -94,7 +94,7 @@ public enum ProposalPersonFixture {
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
             super.populatePerson(document, person);
             
-            person.getCreditSplit(0).setCredit(new KualiDecimal(200.00));
+            person.getCreditSplit(0).setCredit(new ScaleTwoDecimal(200.00));
             
         }        
     },
@@ -112,7 +112,7 @@ public enum ProposalPersonFixture {
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
             super.populatePerson(document, person);
             
-            person.getCreditSplit(0).setCredit(new KualiDecimal(-10.00));
+            person.getCreditSplit(0).setCredit(new ScaleTwoDecimal(-10.00));
         }        
     },
     /**
@@ -128,7 +128,7 @@ public enum ProposalPersonFixture {
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
             super.populatePerson(document, person);
             
-            person.getUnit(0).getCreditSplit(0).setCredit(new KualiDecimal(200.00));
+            person.getUnit(0).getCreditSplit(0).setCredit(new ScaleTwoDecimal(200.00));
         }        
     },
     /**
@@ -144,7 +144,7 @@ public enum ProposalPersonFixture {
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
             super.populatePerson(document, person);
             
-            person.getUnit(0).getCreditSplit(0).setCredit(new KualiDecimal(-10.00));
+            person.getUnit(0).getCreditSplit(0).setCredit(new ScaleTwoDecimal(-10.00));
         }        
     },
     JTESTER_CO_INVESTIGATOR("10000000001", CO_INVESTIGATOR_ROLE),
@@ -168,7 +168,7 @@ public enum ProposalPersonFixture {
         retval.setPersonId(personId);
         getService(PersonEditableService.class).populateContactFieldsFromPersonId(retval);
         retval.setProposalPersonRoleId(roleId);
-        retval.setPercentageEffort(new KualiDecimal(100.0));
+        retval.setPercentageEffort(new ScaleTwoDecimal(100.0));
         return retval;
     }
     
@@ -187,7 +187,7 @@ public enum ProposalPersonFixture {
         for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
             creditSplit.refreshReferenceObject("investigatorCreditType");
             if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                creditSplit.setCredit(new KualiDecimal(100.00));
+                creditSplit.setCredit(new ScaleTwoDecimal(100.00));
             }
         }
         
@@ -195,7 +195,7 @@ public enum ProposalPersonFixture {
             for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
                 creditSplit.refreshReferenceObject("investigatorCreditType");
                 if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                    creditSplit.setCredit(new KualiDecimal(100.00));
+                    creditSplit.setCredit(new ScaleTwoDecimal(100.00));
                 }
             }
         }

@@ -28,11 +28,11 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.kra.infrastructure.Constants;
@@ -928,8 +928,8 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * @return number of months between the start date and end date.
      */
-    public BudgetDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
-        BudgetDecimal monthCount = BudgetDecimal.ZERO;
+    public ScaleTwoDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
+        ScaleTwoDecimal monthCount = ScaleTwoDecimal.ZERO;
         int fullMonthCount = 0;
 
         Calendar startDate = Calendar.getInstance();
@@ -948,17 +948,17 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         endDate.clear(Calendar.MILLISECOND);
 
         if (startDate.after(endDate)) {
-            return BudgetDecimal.ZERO;
+            return ScaleTwoDecimal.ZERO;
         }
         int startMonthDays = startDate.getActualMaximum(Calendar.DATE) - startDate.get(Calendar.DATE);
         startMonthDays++;
         int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
-        BudgetDecimal startMonthFraction = new BudgetDecimal(startMonthDays).divide(new BudgetDecimal(startMonthMaxDays));
+        ScaleTwoDecimal startMonthFraction = new ScaleTwoDecimal(startMonthDays).divide(new ScaleTwoDecimal(startMonthMaxDays));
 
         int endMonthDays = endDate.get(Calendar.DATE);
         int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
 
-        BudgetDecimal endMonthFraction = new BudgetDecimal(endMonthDays).divide(new BudgetDecimal(endMonthMaxDays));
+        ScaleTwoDecimal endMonthFraction = new ScaleTwoDecimal(endMonthDays).divide(new ScaleTwoDecimal(endMonthMaxDays));
 
         startDate.set(Calendar.DATE, 1);
         endDate.set(Calendar.DATE, 1);
@@ -968,7 +968,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             fullMonthCount++;
         }
         fullMonthCount = fullMonthCount - 1;
-        monthCount = monthCount.add(new BudgetDecimal(fullMonthCount)).add(startMonthFraction).add(endMonthFraction);
+        monthCount = monthCount.add(new ScaleTwoDecimal(fullMonthCount)).add(startMonthFraction).add(endMonthFraction);
         return monthCount;
     }
 

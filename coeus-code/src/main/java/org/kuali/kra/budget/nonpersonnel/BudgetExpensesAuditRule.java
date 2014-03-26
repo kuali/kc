@@ -18,7 +18,7 @@ package org.kuali.kra.budget.nonpersonnel;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -47,7 +47,7 @@ public class BudgetExpensesAuditRule extends KcTransactionalDocumentRuleBase imp
         BudgetDocument budgetDocument = (BudgetDocument) document;
         boolean retval = true;
         int i = 0;
-        if ( budgetDocument.getBudget().getTotalCostLimit().isGreaterThan(new BudgetDecimal(0)) &&
+        if ( budgetDocument.getBudget().getTotalCostLimit().isGreaterThan(new ScaleTwoDecimal(0)) &&
                 budgetDocument.getBudget().getTotalCost().isGreaterThan(budgetDocument.getBudget().getTotalCostLimit()) ) {
             String key = "budgetParametersOverviewWarnings";
             AuditCluster auditCluster = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(key);
@@ -64,7 +64,7 @@ public class BudgetExpensesAuditRule extends KcTransactionalDocumentRuleBase imp
             
         }
        for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
-            if(budgetPeriod.getTotalCostLimit().isGreaterThan(new BudgetDecimal(0)) && budgetPeriod.getTotalCost().isGreaterThan(budgetPeriod.getTotalCostLimit())){            
+            if(budgetPeriod.getTotalCostLimit().isGreaterThan(new ScaleTwoDecimal(0)) && budgetPeriod.getTotalCost().isGreaterThan(budgetPeriod.getTotalCostLimit())){
                 String key = "budgetPeriodProjectDateAuditWarnings";
                 AuditCluster auditCluster = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(key);
                 if (auditCluster == null) {
@@ -112,7 +112,7 @@ public class BudgetExpensesAuditRule extends KcTransactionalDocumentRuleBase imp
                         retval=false;
 
                     }
-                    if (budgetPersonnelDetails.getBudgetPerson().getCalculationBase().equals(BudgetDecimal.ZERO)) {
+                    if (budgetPersonnelDetails.getBudgetPerson().getCalculationBase().equals(ScaleTwoDecimal.ZERO)) {
                         String key = "budgetPersonnelBudgetAuditWarnings"+budgetPeriod.getBudgetPeriod();
                         AuditCluster auditCluster = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(key);
                         if (auditCluster == null) {

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.modular;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.rates.RateClass;
 
@@ -32,18 +32,18 @@ public class BudgetModularIdc extends BudgetAssociate {
 
     private String description;
 
-    private BudgetDecimal idcRate;
+    private ScaleTwoDecimal idcRate;
 
-    private BudgetDecimal idcBase;
+    private ScaleTwoDecimal idcBase;
 
-    private BudgetDecimal fundsRequested;
+    private ScaleTwoDecimal fundsRequested;
 
     private RateClass rateClass;
 
     public BudgetModularIdc() {
-        idcRate = new BudgetDecimal(0.0);
-        idcBase = new BudgetDecimal(0.0);
-        fundsRequested = new BudgetDecimal(0.0);
+        idcRate = new ScaleTwoDecimal(0.0);
+        idcBase = new ScaleTwoDecimal(0.0);
+        fundsRequested = new ScaleTwoDecimal(0.0);
     }
 
     public Integer getBudgetPeriod() {
@@ -62,27 +62,27 @@ public class BudgetModularIdc extends BudgetAssociate {
         this.description = description;
     }
 
-    public BudgetDecimal getFundsRequested() {
+    public ScaleTwoDecimal getFundsRequested() {
         return fundsRequested;
     }
 
-    public void setFundsRequested(BudgetDecimal fundsRequested) {
+    public void setFundsRequested(ScaleTwoDecimal fundsRequested) {
         this.fundsRequested = fundsRequested;
     }
 
-    public BudgetDecimal getIdcBase() {
+    public ScaleTwoDecimal getIdcBase() {
         return idcBase;
     }
 
-    public void setIdcBase(BudgetDecimal idcBase) {
+    public void setIdcBase(ScaleTwoDecimal idcBase) {
         this.idcBase = idcBase;
     }
 
-    public BudgetDecimal getIdcRate() {
+    public ScaleTwoDecimal getIdcRate() {
         return idcRate;
     }
 
-    public void setIdcRate(BudgetDecimal idcRate) {
+    public void setIdcRate(ScaleTwoDecimal idcRate) {
         this.idcRate = idcRate;
     }
 
@@ -103,7 +103,7 @@ public class BudgetModularIdc extends BudgetAssociate {
     }
 
     public void calculateFundsRequested() {
-        BudgetDecimal fundsRequested = new BudgetDecimal(0);
+        ScaleTwoDecimal fundsRequested = new ScaleTwoDecimal(0);
         if (this.getIdcBase() != null && this.getIdcRate() != null) {
             fundsRequested = this.getIdcBase().percentage(this.getIdcRate());
         }

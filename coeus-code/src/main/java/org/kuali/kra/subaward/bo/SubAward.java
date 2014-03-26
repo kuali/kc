@@ -37,7 +37,7 @@ import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.util.AutoPopulatingList;
 
@@ -123,10 +123,10 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     private KcPerson kcPerson;
     private String subAwardSequenceStatus;
     private boolean newVersion;
-    private KualiDecimal totalObligatedAmount ;
-    private KualiDecimal totalAnticipatedAmount;
-    private KualiDecimal totalAmountReleased;
-    private KualiDecimal totalAvailableAmount;
+    private ScaleTwoDecimal totalObligatedAmount ;
+    private ScaleTwoDecimal totalAnticipatedAmount;
+    private ScaleTwoDecimal totalAmountReleased;
+    private ScaleTwoDecimal totalAvailableAmount;
     private transient String docIdStatus;
     private transient String lastUpdate;
     private String awardNumber;
@@ -1092,7 +1092,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 * This is the Getter Method for totalObligatedAmount
 	 * @return Returns the totalObligatedAmount.
 	 */
-	public KualiDecimal getTotalObligatedAmount() {
+	public ScaleTwoDecimal getTotalObligatedAmount() {
 		return totalObligatedAmount;
 	}
 
@@ -1116,7 +1116,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 * This is the Setter Method for totalObligatedAmount
 	 * @param totalObligatedAmount The totalObligatedAmount to set.
 	 */
-	public void setTotalObligatedAmount(KualiDecimal totalObligatedAmount) {
+	public void setTotalObligatedAmount(ScaleTwoDecimal totalObligatedAmount) {
 		this.totalObligatedAmount = totalObligatedAmount;
 	}
 
@@ -1124,7 +1124,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 * This is the Getter Method for totalAnticipatedAmount
 	 * @return Returns the totalAnticipatedAmount.
 	 */
-	public KualiDecimal getTotalAnticipatedAmount() {
+	public ScaleTwoDecimal getTotalAnticipatedAmount() {
 		return totalAnticipatedAmount;
 	}
 
@@ -1132,7 +1132,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 * This is the Setter Method for totalAnticipatedAmount
 	 * @param totalAnticipatedAmount The totalAnticipatedAmount to set.
 	 */
-	public void setTotalAnticipatedAmount(KualiDecimal totalAnticipatedAmount) {
+	public void setTotalAnticipatedAmount(ScaleTwoDecimal totalAnticipatedAmount) {
 		this.totalAnticipatedAmount = totalAnticipatedAmount;
 	}
 
@@ -1140,7 +1140,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 * This is the Getter Method for totalAmountReleased
 	 * @return Returns the totalAmountReleased.
 	 */
-	public KualiDecimal getTotalAmountReleased() {
+	public ScaleTwoDecimal getTotalAmountReleased() {
 		return totalAmountReleased;
 	}
 
@@ -1148,7 +1148,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 * This is the Setter Method for totalAmountReleased
 	 * @param totalAmountReleased The totalAmountReleased to set.
 	 */
-	public void setTotalAmountReleased(KualiDecimal totalAmountReleased) {
+	public void setTotalAmountReleased(ScaleTwoDecimal totalAmountReleased) {
 		this.totalAmountReleased = totalAmountReleased;
 	}
 
@@ -1156,7 +1156,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 * This is the Getter Method for totalAvailableAmount
 	 * @return Returns the totalAvailableAmount.
 	 */
-	public KualiDecimal getTotalAvailableAmount() {
+	public ScaleTwoDecimal getTotalAvailableAmount() {
 		return totalAvailableAmount;
 	}
 
@@ -1164,7 +1164,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 * This is the Setter Method for totalAvailableAmount
 	 * @param totalAvailableAmount The totalAvailableAmount to set.
 	 */
-	public void setTotalAvailableAmount(KualiDecimal totalAvailableAmount) {
+	public void setTotalAvailableAmount(ScaleTwoDecimal totalAvailableAmount) {
 		this.totalAvailableAmount = totalAvailableAmount;
 	}
 

@@ -20,7 +20,7 @@ import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachment;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -43,13 +43,13 @@ public class SubAwardAmountInfo extends
     
     private Integer lineNumber;
 
-    private KualiDecimal obligatedAmount;
+    private ScaleTwoDecimal obligatedAmount;
 
-    private KualiDecimal obligatedChange;
+    private ScaleTwoDecimal obligatedChange;
 
-    private KualiDecimal anticipatedAmount;
+    private ScaleTwoDecimal anticipatedAmount;
 
-    private KualiDecimal anticipatedChange;
+    private ScaleTwoDecimal anticipatedChange;
 
     private Date effectiveDate;
 
@@ -237,56 +237,56 @@ public class SubAwardAmountInfo extends
      * Gets the obligatedAmount.
      * @return obligatedAmount.
      */
-    public KualiDecimal getObligatedAmount() {
+    public ScaleTwoDecimal getObligatedAmount() {
         return obligatedAmount;
     }
     /**
      * Sets the  obligatedAmount attribute value.
      * @param obligatedAmount The obligatedAmount to set.
      */
-    public void setObligatedAmount(KualiDecimal obligatedAmount) {
+    public void setObligatedAmount(ScaleTwoDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
     }
     /**
      * Gets the obligatedChange.
      * @return obligatedChange.
      */
-    public KualiDecimal getObligatedChange() {
+    public ScaleTwoDecimal getObligatedChange() {
         return obligatedChange;
     }
     /**
      * Sets the  obligatedChange attribute value.
      * @param obligatedChange The obligatedChange to set.
      */
-    public void setObligatedChange(KualiDecimal obligatedChange) {
+    public void setObligatedChange(ScaleTwoDecimal obligatedChange) {
         this.obligatedChange = obligatedChange;
     }
     /**
      * Gets the anticipatedAmount.
      * @return anticipatedAmount.
      */
-    public KualiDecimal getAnticipatedAmount() {
+    public ScaleTwoDecimal getAnticipatedAmount() {
         return anticipatedAmount;
     }
     /**
      * Sets the  anticipatedAmount attribute value.
      * @param anticipatedAmount The anticipatedAmount to set.
      */
-    public void setAnticipatedAmount(KualiDecimal anticipatedAmount) {
+    public void setAnticipatedAmount(ScaleTwoDecimal anticipatedAmount) {
         this.anticipatedAmount = anticipatedAmount;
     }
     /**
      * Gets the anticipatedChange.
      * @return anticipatedChange.
      */
-    public KualiDecimal getAnticipatedChange() {
+    public ScaleTwoDecimal getAnticipatedChange() {
         return anticipatedChange;
     }
     /**
      * Sets the  anticipatedChange attribute value.
      * @param anticipatedChange The anticipatedChange to set.
      */
-    public void setAnticipatedChange(KualiDecimal anticipatedChange) {
+    public void setAnticipatedChange(ScaleTwoDecimal anticipatedChange) {
         this.anticipatedChange = anticipatedChange;
     }
 

@@ -16,8 +16,8 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -178,11 +178,11 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             hmbudgetinfo = new HashMap();
             PHS398TrainingBudgetYearDataType phs398TrainingBudgetYearDataType = trainingBudgetType.addNewBudgetYear();
-            BudgetDecimal trainingTraveCost = getBudgetPeriodCost(budgetPeriod,TRAINEE_TRAVEL_COST_ELEMENTS);
+            ScaleTwoDecimal trainingTraveCost = getBudgetPeriodCost(budgetPeriod,TRAINEE_TRAVEL_COST_ELEMENTS);
             phs398TrainingBudgetYearDataType.setTraineeTravelRequested(trainingTraveCost.bigDecimalValue());
-            BudgetDecimal trainingCost = getBudgetPeriodCost(budgetPeriod,TRAINING_REL_COST_ELEMENTS);
+            ScaleTwoDecimal trainingCost = getBudgetPeriodCost(budgetPeriod,TRAINING_REL_COST_ELEMENTS);
             phs398TrainingBudgetYearDataType.setTrainingRelatedExpensesRequested(trainingCost.bigDecimalValue());
-            BudgetDecimal consTrainingCost = getBudgetPeriodCost(budgetPeriod,SUBCONTRACT_COST_ELEMENTS);
+            ScaleTwoDecimal consTrainingCost = getBudgetPeriodCost(budgetPeriod,SUBCONTRACT_COST_ELEMENTS);
             phs398TrainingBudgetYearDataType.setConsortiumTrainingCostsRequested(consTrainingCost.bigDecimalValue());
 
             phs398TrainingBudgetYearDataType.setPostdocNonDegreeTuitionAndFeesRequested(getBudgetPeriodCost(budgetPeriod,
@@ -1005,8 +1005,8 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         }
     }
 
-    private BudgetDecimal getBudgetPeriodCost(BudgetPeriod budgetPeriod, String costType) {
-        BudgetDecimal totalLineItemCost = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal getBudgetPeriodCost(BudgetPeriod budgetPeriod, String costType) {
+        ScaleTwoDecimal totalLineItemCost = ScaleTwoDecimal.ZERO;
         String costElementsStrValue = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, costType);
         String[] costElements = costElementsStrValue.split(",");
         for (int i = 0; i < costElements.length; i++) {
@@ -1096,7 +1096,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
           return Arrays.asList(getPreDocParentQuestionsForPeriod(budgetPeriod)).contains(questionnaireQuestion.getParentQuestionNumber());
     }
     private BigDecimal getStipendAmount(BudgetPeriod budgetPeriod, String careerLevel, int experienceLevel, int numPeople) {
-        BudgetDecimal stipendCost = BudgetDecimal.ZERO;
+        ScaleTwoDecimal stipendCost = ScaleTwoDecimal.ZERO;
         List<TrainingStipendRate> trainingStipendRates = (List<TrainingStipendRate>)businessObjectService.findAll(TrainingStipendRate.class);
         QueryList<TrainingStipendRate> trainingStipendRatesQueryList = new QueryList<TrainingStipendRate>(trainingStipendRates);
         Equals eqStartDate = new Equals("effectiveDate",budgetPeriod.getStartDate());
@@ -1110,7 +1110,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         if(!filteredTrainingStipendRates.isEmpty()){
             filteredTrainingStipendRates.sort("effectiveDate",false);
             TrainingStipendRate trainingStipendRate = filteredTrainingStipendRates.get(0);
-            stipendCost = trainingStipendRate.getStipendRate().multiply(new BudgetDecimal(numPeople));
+            stipendCost = trainingStipendRate.getStipendRate().multiply(new ScaleTwoDecimal(numPeople));
         }
         return stipendCost.bigDecimalValue();
     }

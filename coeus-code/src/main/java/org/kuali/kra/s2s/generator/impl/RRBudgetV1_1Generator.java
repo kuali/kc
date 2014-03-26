@@ -40,8 +40,8 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -562,7 +562,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 	private Other getOtherPTSupportCosts(BudgetPeriodInfo periodInfo) {
 		Other other = Other.Factory.newInstance();
 		other.setDescription(OTHERCOST_DESCRIPTION);
-		BudgetDecimal otherCost = BudgetDecimal.ZERO;
+		ScaleTwoDecimal otherCost = ScaleTwoDecimal.ZERO;
 		if (periodInfo != null && periodInfo.getpartOtherCost() != null) {
 			otherCost = periodInfo.getpartOtherCost();
 		}
@@ -769,7 +769,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 				&& periodInfo.getEquipment().size() > 0) {
 			// Evaluating Equipments.
 			List<EquipmentList> equipmentArrayList = new ArrayList<EquipmentList>();
-			BudgetDecimal totalFund = BudgetDecimal.ZERO;
+			ScaleTwoDecimal totalFund = ScaleTwoDecimal.ZERO;
 			for (CostInfo costInfo : periodInfo.getEquipment().get(0)
 					.getEquipmentList()) {
 				EquipmentList equipmentList = EquipmentList.Factory.newInstance();
@@ -783,7 +783,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 
 			// Evaluating Extra Equipments.
 			List<CostInfo> extraEquipmentArrayList = new ArrayList<CostInfo>();
-			BudgetDecimal totalExtraEquipFund = BudgetDecimal.ZERO;
+			ScaleTwoDecimal totalExtraEquipFund = ScaleTwoDecimal.ZERO;
 			for(CostInfo costInfo:periodInfo.getEquipment().get(0).getExtraEquipmentList()){
 				extraEquipmentArrayList.add(costInfo);
 				totalExtraEquipFund = totalExtraEquipFund.add(costInfo.getCost());
@@ -1056,7 +1056,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 	private KeyPersons getKeyPersons(BudgetPeriodInfo periodInfo) {
 
 		KeyPersons keyPersons = KeyPersons.Factory.newInstance();
-		BudgetDecimal extraFunds = BudgetDecimal.ZERO;
+		ScaleTwoDecimal extraFunds = ScaleTwoDecimal.ZERO;
 		if (periodInfo != null) {
 			if (periodInfo.getKeyPersons() != null) {
 			    List<KeyPersonDataType> keyPersonList = new ArrayList<KeyPersonDataType>();
@@ -1169,7 +1169,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 		KeyPersonCompensationDataType compensation = KeyPersonCompensationDataType.Factory
 				.newInstance();
 		BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
-        BudgetDecimal baseSalaryByPeriod; 
+        ScaleTwoDecimal baseSalaryByPeriod;
 		if (keyPerson != null) {
 			compensation.setAcademicMonths(keyPerson.getAcademicMonths()
 					.bigDecimalValue());

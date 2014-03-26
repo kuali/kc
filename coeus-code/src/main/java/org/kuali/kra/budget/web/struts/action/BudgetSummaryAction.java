@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -463,14 +463,11 @@ public class BudgetSummaryAction extends BudgetAction {
      * @param budget
      */
     private void updateTotalCost(Budget budget) {
-        BudgetDecimal totalDirectCost = BudgetDecimal.ZERO;
-        BudgetDecimal totalIndirectCost = BudgetDecimal.ZERO;
-        BudgetDecimal totalCost = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totalDirectCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalIndirectCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-//            if (budgetPeriod.getTotalDirectCost().isGreaterThan(BudgetDecimal.ZERO)
-//                    || budgetPeriod.getTotalIndirectCost().isGreaterThan(BudgetDecimal.ZERO)) {
-                budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
-//            }
+            budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
             totalDirectCost = totalDirectCost.add(budgetPeriod.getTotalDirectCost());
             totalIndirectCost = totalIndirectCost.add(budgetPeriod.getTotalIndirectCost());
             totalCost = totalCost.add(budgetPeriod.getTotalCost());

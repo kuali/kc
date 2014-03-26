@@ -22,7 +22,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.timeandmoney.service.AwardFnaDistributionService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 import java.sql.Date;
@@ -236,7 +236,7 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
      */
     private boolean isDirectCostValidOnExistingDistribution(AwardDirectFandADistribution thisAwardDirectFandADistribution) {
         boolean valid = true;
-        KualiDecimal directCost = thisAwardDirectFandADistribution.getDirectCost();
+        ScaleTwoDecimal directCost = thisAwardDirectFandADistribution.getDirectCost();
         if (directCost == null){
             valid = false;
             reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+DIRECT_COST_REQUIRED, 
@@ -255,9 +255,9 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
             return true;
         }
         boolean valid = false;
-        KualiDecimal awardAnticipatedTotal = KualiDecimal.ZERO;
-        KualiDecimal calculatedFNAAmount = KualiDecimal.ZERO;
-        KualiDecimal calculatedDirAmount = KualiDecimal.ZERO;
+        ScaleTwoDecimal awardAnticipatedTotal = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal calculatedFNAAmount = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal calculatedDirAmount = ScaleTwoDecimal.ZERO;
         if (awardDirectFandADistributions.size() > 0) {
             awardAnticipatedTotal = awardDirectFandADistributions.get(0).getAward().getAnticipatedTotal();
             for (AwardDirectFandADistribution awardDirectFandADistribution : thisAwardDirectFandADistributions) {
@@ -300,7 +300,7 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
      */
     private boolean isIndirectCostValidOnExistingDistribution(AwardDirectFandADistribution thisAwardDirectFandADistribution) {
         boolean valid = true;
-        KualiDecimal indirectCost = thisAwardDirectFandADistribution.getIndirectCost();
+        ScaleTwoDecimal indirectCost = thisAwardDirectFandADistribution.getIndirectCost();
         if (indirectCost == null){
             valid = false;
             reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INDIRECT_COST_REQUIRED, 
@@ -320,7 +320,7 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
      */
     private boolean isDirectCostValid() {
         boolean valid = true;
-        KualiDecimal directCost = awardDirectFandADistribution.getDirectCost();
+        ScaleTwoDecimal directCost = awardDirectFandADistribution.getDirectCost();
         if (directCost == null){
             valid = false;
             reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+DIRECT_COST_REQUIRED, 
@@ -340,7 +340,7 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
      */
     private boolean isIndirectCostValid() {
         boolean valid = true;
-        KualiDecimal indirectCost = awardDirectFandADistribution.getIndirectCost();
+        ScaleTwoDecimal indirectCost = awardDirectFandADistribution.getIndirectCost();
         if (indirectCost == null){
             valid = false;
             reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INDIRECT_COST_REQUIRED, 

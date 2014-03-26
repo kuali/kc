@@ -27,7 +27,7 @@ import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.ContactRoleFixtureFactory;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +91,7 @@ public class AwardTest {
     
     private AwardApprovedEquipment createValuableItem(double amount) {
         AwardApprovedEquipment item = new AwardApprovedEquipment();
-        item.setAmount(new KualiDecimal(amount));
+        item.setAmount(new ScaleTwoDecimal(amount));
         return item;
     }
     

@@ -83,7 +83,7 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -877,10 +877,10 @@ public class AwardAction extends BudgetParentActionBase {
         } else {
             transactionDetail.setAnticipatedAmount(rootAward.getAnticipatedTotal());
             transactionDetail.setAnticipatedDirectAmount(rootAward.getAnticipatedTotal());
-            transactionDetail.setAnticipatedIndirectAmount(new KualiDecimal(0));
+            transactionDetail.setAnticipatedIndirectAmount(new ScaleTwoDecimal(0));
             transactionDetail.setObligatedAmount(rootAward.getObligatedTotal());
             transactionDetail.setObligatedDirectAmount(rootAward.getObligatedTotal());
-            transactionDetail.setObligatedIndirectAmount(new KualiDecimal(0));
+            transactionDetail.setObligatedIndirectAmount(new ScaleTwoDecimal(0));
         }
         transactionDetail.setAwardNumber(rootAward.getAwardNumber());
         transactionDetail.setTransactionId(new Long(0));

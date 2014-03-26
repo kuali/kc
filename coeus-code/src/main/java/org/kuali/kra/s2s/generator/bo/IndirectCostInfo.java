@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.bo;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,8 @@ public class IndirectCostInfo {
 
 
     private List<IndirectCostDetails> indirectCostDetails;
-    private BudgetDecimal totalIndirectCosts;
-    private BudgetDecimal totalIndirectCostSharing;
+    private ScaleTwoDecimal totalIndirectCosts;
+    private ScaleTwoDecimal totalIndirectCostSharing;
 
 
     public IndirectCostInfo() {
@@ -51,7 +51,7 @@ public class IndirectCostInfo {
      * 
      * @return Value of property totalIndirectCosts.
      */
-    public BudgetDecimal getTotalIndirectCosts() {
+    public ScaleTwoDecimal getTotalIndirectCosts() {
         return totalIndirectCosts;
     }
 
@@ -60,7 +60,7 @@ public class IndirectCostInfo {
      * 
      * @param totalIndirectCosts New value of property totalIndirectCosts.
      */
-    public void setTotalIndirectCosts(BudgetDecimal totalIndirectCosts) {
+    public void setTotalIndirectCosts(ScaleTwoDecimal totalIndirectCosts) {
         this.totalIndirectCosts = totalIndirectCosts;
     }
 
@@ -70,7 +70,7 @@ public class IndirectCostInfo {
      * 
      * @return Value of property totalIndirectCostSharing.
      */
-    public BudgetDecimal getTotalIndirectCostSharing() {
+    public ScaleTwoDecimal getTotalIndirectCostSharing() {
         return totalIndirectCostSharing;
     }
 
@@ -79,7 +79,7 @@ public class IndirectCostInfo {
      * 
      * @param totalIndirectCostSharing New value of property totalIndirectCostSharing.
      */
-    public void setTotalIndirectCostSharing(BudgetDecimal totalIndirectCostSharing) {
+    public void setTotalIndirectCostSharing(ScaleTwoDecimal totalIndirectCostSharing) {
         this.totalIndirectCostSharing = totalIndirectCostSharing;
     }
 }

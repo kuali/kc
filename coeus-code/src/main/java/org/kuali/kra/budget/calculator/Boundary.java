@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.calculator;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 
 import java.util.Calendar;
@@ -33,8 +33,8 @@ public class Boundary {
     private Date endDate; 
     private Calendar calendar = Calendar.getInstance();
     private DateTimeService dateTimeService;
-    private BudgetDecimal applicableCost;
-    private BudgetDecimal applicableCostSharing;
+    private ScaleTwoDecimal applicableCost;
+    private ScaleTwoDecimal applicableCostSharing;
     
 
     public  Boundary() {
@@ -175,15 +175,15 @@ public class Boundary {
      * Gets the applicableCost attribute. 
      * @return Returns the applicableCost.
      */
-    public BudgetDecimal getApplicableCost() {
-        return applicableCost==null?BudgetDecimal.ZERO:applicableCost;
+    public ScaleTwoDecimal getApplicableCost() {
+        return applicableCost==null? ScaleTwoDecimal.ZERO:applicableCost;
     }
 
     /**
      * Sets the applicableCost attribute value.
      * @param applicableCost The applicableCost to set.
      */
-    public void setApplicableCost(BudgetDecimal applicableCost) {
+    public void setApplicableCost(ScaleTwoDecimal applicableCost) {
         this.applicableCost = applicableCost;
     }
 
@@ -191,7 +191,7 @@ public class Boundary {
      * Gets the applicableCostSharing attribute. 
      * @return Returns the applicableCostSharing.
      */
-    public BudgetDecimal getApplicableCostSharing() {
+    public ScaleTwoDecimal getApplicableCostSharing() {
         return applicableCostSharing;
     }
 
@@ -199,7 +199,7 @@ public class Boundary {
      * Sets the applicableCostSharing attribute value.
      * @param applicableCostSharing The applicableCostSharing to set.
      */
-    public void setApplicableCostSharing(BudgetDecimal applicableCostSharing) {
+    public void setApplicableCostSharing(ScaleTwoDecimal applicableCostSharing) {
         this.applicableCostSharing = applicableCostSharing;
     }
     

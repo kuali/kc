@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -209,7 +209,7 @@ public final class BudgetModularTotalDirectCostRule {
                     positiveCount = (positiveCount != -1) ? positiveCount : 0;
                     
                     if (budgetModular != null) {
-                        final BudgetDecimal tdc = budgetModular.getTotalDirectCost();
+                        final ScaleTwoDecimal tdc = budgetModular.getTotalDirectCost();
                         if (tdc.isPositive()) {
                             positiveCount++;
                         } else {

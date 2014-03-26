@@ -17,8 +17,8 @@ package org.kuali.kra.budget.printing.xmlstream;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -310,9 +310,9 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 			if (reportTypeMap.containsKey(cumulativeBudgetSalaryKey)) {
 				continue;
 			}
-			BudgetDecimal vacationRate = BudgetDecimal.ZERO;
-			BudgetDecimal empBenefitRate = BudgetDecimal.ZERO;
-			BudgetDecimal fringe = BudgetDecimal.ZERO;
+			ScaleTwoDecimal vacationRate = ScaleTwoDecimal.ZERO;
+			ScaleTwoDecimal empBenefitRate = ScaleTwoDecimal.ZERO;
+			ScaleTwoDecimal fringe = ScaleTwoDecimal.ZERO;
 			for (ReportTypeVO tempReportTypeVO : reportTypeVOList) {
 				String cumulativeBudgetSalaryTempKey = getKeyForBudgetSalarySummary(tempReportTypeVO);
 				if (cumulativeBudgetSalaryTempKey
@@ -341,8 +341,8 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	 * reportType from passed parameters
 	 */
 	private ReportType getReportTypeForCumulativeBudgetSalary(
-			BudgetDecimal vacationRate, BudgetDecimal empBenefitRate,
-			BudgetDecimal fringe, ReportTypeVO reportTypeVO) {
+			ScaleTwoDecimal vacationRate, ScaleTwoDecimal empBenefitRate,
+			ScaleTwoDecimal fringe, ReportTypeVO reportTypeVO) {
 		ReportType reportType = ReportType.Factory.newInstance();
 		reportType.setStartDate(reportTypeVO.getStartDate().toString());
 		reportType.setEndDate(reportTypeVO.getEndDate().toString());
@@ -371,7 +371,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	private SubReportType getBudgetCumulativeSummaryNonPersonnel() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
-		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
+		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		String categoryDesc = OTHER_DIRECT_COSTS;
 		String costElementDesc = ALLOCATED_LAB_EXPENSE;
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
@@ -422,7 +422,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 			if (reportTypeMap.containsKey(cumulativeNonPersKey)) {
 				continue;
 			}
-			BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
+			ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 			for (ReportTypeVO reportTypeVO1 : tempReportTypeVOList) {
 				String cumulativeNonPersTempKey = reportTypeVO1
 						.getCostElementDesc();
@@ -443,7 +443,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	 * parameters data to reportType
 	 */
 	private ReportType getReportTypeForBudgetCumulativeNonPersonnel(
-			BudgetDecimal calculatedCost, ReportTypeVO reportTypeVO) {
+			ScaleTwoDecimal calculatedCost, ReportTypeVO reportTypeVO) {
 		ReportType reportType = ReportType.Factory.newInstance();
 		reportType.setBudgetCategoryDescription(reportTypeVO
 				.getBudgetCategoryDesc());
@@ -475,8 +475,8 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	private SubReportType getBudgetCumulativeIDCForReport() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
-		BudgetDecimal calculatedCostForOn = BudgetDecimal.ZERO;
-		BudgetDecimal calculatedCostForOff = BudgetDecimal.ZERO;
+		ScaleTwoDecimal calculatedCostForOn = ScaleTwoDecimal.ZERO;
+		ScaleTwoDecimal calculatedCostForOff = ScaleTwoDecimal.ZERO;
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			for (BudgetLineItem budgetLineItem : budgetPeriod
 					.getBudgetLineItems()) {
@@ -493,12 +493,12 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 				}
 			}
 		}
-		if (!calculatedCostForOn.equals(BudgetDecimal.ZERO)) {
+		if (!calculatedCostForOn.equals(ScaleTwoDecimal.ZERO)) {
 			ReportType reportTypeForOn = getReportTypeForBudgetIndirectCostsForReport(
 					Boolean.TRUE, calculatedCostForOn, null);
 			reportTypeList.add(reportTypeForOn);
 		}
-		if (!calculatedCostForOff.equals(BudgetDecimal.ZERO)) {
+		if (!calculatedCostForOff.equals(ScaleTwoDecimal.ZERO)) {
 			ReportType reportTypeForOff = getReportTypeForBudgetIndirectCostsForReport(
 					Boolean.FALSE, calculatedCostForOff, null);
 			reportTypeList.add(reportTypeForOff);
@@ -517,7 +517,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		int sortId;
 		String categoryDesc = null;
-		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
+		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		if (budget.getBudgetLaRates().size() > 0) {
 			sortId = 1;
 			categoryDesc = ALLOCATED_ADMINISTRATIVE_SUPPORT;
@@ -554,8 +554,8 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	 * for BudgetExclusionsSortId4 based on RateClassType LAB_ALLOCATION
 	 * 
 	 */
-	private BudgetDecimal getCalculatedCostForBudgetExclusionsSortId4ForCumulativeReport() {
-		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
+	private ScaleTwoDecimal getCalculatedCostForBudgetExclusionsSortId4ForCumulativeReport() {
+		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			this.budgetPeriod = budgetPeriod;
 			calculatedCost = calculatedCost
@@ -586,8 +586,8 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	 * BudgetLineItem and iterate through each budgetRateAndBase for
 	 * BudgetOHExclusionsSortId2 based on RateClassCode and RateTypeCode
 	 */
-	private BudgetDecimal getCalculatedCostForBudgetOHExclusionsSortId2ForCumulativeReport() {
-		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
+	private ScaleTwoDecimal getCalculatedCostForBudgetOHExclusionsSortId2ForCumulativeReport() {
+		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			this.budgetPeriod = budgetPeriod;
 			calculatedCost = calculatedCost
@@ -601,8 +601,8 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	 * BudgetLineItem and iterate through each budgetRateAndBase for
 	 * BudgetExclusionsSortId1 based on RateClassType LA_WITH_EB_VA
 	 */
-	private BudgetDecimal getCalculatedCostForBudgetExclusionsSortId1ForCumulativeReport() {
-		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
+	private ScaleTwoDecimal getCalculatedCostForBudgetExclusionsSortId1ForCumulativeReport() {
+		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			this.budgetPeriod = budgetPeriod;
 			calculatedCost = calculatedCost
@@ -621,7 +621,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		int sortId;
 		String categoryDesc = null;
-		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
+		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		if (budget.getBudgetLaRates().size() > 0) {
 			sortId = 1;
 			categoryDesc = ALLOCATED_ADMINISTRATIVE_SUPPORT;
@@ -668,8 +668,8 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	 * BudgetLAExclusionsSortId2 based on RateClassType EMPLOYEE_BENEFITS and
 	 * VACATION
 	 */
-	private BudgetDecimal getCalculatedCostForBudgetLAExclusionsSortId2ForCumulativeReport() {
-		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
+	private ScaleTwoDecimal getCalculatedCostForBudgetLAExclusionsSortId2ForCumulativeReport() {
+		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			this.budgetPeriod = budgetPeriod;
 			calculatedCost = calculatedCost

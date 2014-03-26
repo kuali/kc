@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
 
@@ -48,21 +48,21 @@ public class SubAwardDocumentRuleTest extends KcIntegrationTestBase {
         subAward.setSubAwardTypeCode(1);
         subAward.setRequisitionerId("1");
         subAward.setPurchaseOrderNum("1"); 
-        subAward.setTotalAmountReleased(KualiDecimal.ZERO);
-        subAward.setTotalAnticipatedAmount(KualiDecimal.ZERO);
-        subAward.setTotalAvailableAmount(KualiDecimal.ZERO);
-        subAward.setTotalObligatedAmount(KualiDecimal.ZERO);
+        subAward.setTotalAmountReleased(ScaleTwoDecimal.ZERO);
+        subAward.setTotalAnticipatedAmount(ScaleTwoDecimal.ZERO);
+        subAward.setTotalAvailableAmount(ScaleTwoDecimal.ZERO);
+        subAward.setTotalObligatedAmount(ScaleTwoDecimal.ZERO);
         
         subAwardAmountInfo = new SubAwardAmountInfo(); 
         subAwardAmountInfo.setEffectiveDate(new Date(System.currentTimeMillis()));  
-        subAwardAmountInfo.setObligatedChange(new KualiDecimal(150));
-        subAwardAmountInfo.setAnticipatedChange(new KualiDecimal(200));
+        subAwardAmountInfo.setObligatedChange(new ScaleTwoDecimal(150));
+        subAwardAmountInfo.setAnticipatedChange(new ScaleTwoDecimal(200));
         subAwardAmountReleased = new SubAwardAmountReleased();
         subAwardAmountReleased.setInvoiceNumber("1") ;
         subAwardAmountReleased.setStartDate(new Date(System.currentTimeMillis()));
         subAwardAmountReleased.setEndDate(new Date(System.currentTimeMillis()));
         subAwardAmountReleased.setEffectiveDate(new Date(System.currentTimeMillis()));
-        subAwardAmountReleased.setAmountReleased(new KualiDecimal(100));  
+        subAwardAmountReleased.setAmountReleased(new ScaleTwoDecimal(100));
         
         subAwardContact = new SubAwardContact();
         subAwardContact.setRolodexId(1);

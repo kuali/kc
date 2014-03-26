@@ -19,7 +19,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -116,9 +116,9 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
         return label;
     }*/
 
-    private boolean validatePercentage(KualiDecimal percentage) {
+    private boolean validatePercentage(ScaleTwoDecimal percentage) {
         boolean isValid = true;
-        if (percentage != null && percentage.isLessThan(new KualiDecimal(0))) {
+        if (percentage != null && percentage.isLessThan(new ScaleTwoDecimal(0))) {
             isValid = false;
             this.reportError(fieldStarter + ".costSharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE_RANGE);
         }
@@ -143,22 +143,22 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
         return isValid;
     }
 
-    private boolean validateCommitmentAmount(KualiDecimal commitmentAmount) {
+    private boolean validateCommitmentAmount(ScaleTwoDecimal commitmentAmount) {
         boolean isValid = true;
         String commitmentAmountField = fieldStarter + ".commitmentAmount";
         if (commitmentAmount == null) {
             isValid = false;
             this.reportError(commitmentAmountField, KeyConstants.ERROR_COST_SHARE_COMMITMENT_AMOUNT_REQUIRED);
-        } else if (commitmentAmount.isLessThan(new KualiDecimal(0))) {
+        } else if (commitmentAmount.isLessThan(new ScaleTwoDecimal(0))) {
             isValid = false;
             this.reportError(commitmentAmountField, KeyConstants.ERROR_COST_SHARE_COMMITMENT_AMOUNT_INVALID, new String[] { commitmentAmount.toString() });
         }
         return isValid;
     }
 
-    private boolean validateCostShareMet(KualiDecimal costShareMet) {
+    private boolean validateCostShareMet(ScaleTwoDecimal costShareMet) {
         boolean isValid = true;
-        if (costShareMet != null && costShareMet.isLessThan(new KualiDecimal(0))) {
+        if (costShareMet != null && costShareMet.isLessThan(new ScaleTwoDecimal(0))) {
             isValid = false;
             this.reportError(fieldStarter + ".costShareMet", KeyConstants.ERROR_COST_SHARE_MET_INVALID, new String[] { costShareMet.toString() });
         }

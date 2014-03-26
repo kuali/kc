@@ -20,7 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -56,20 +56,20 @@ public class AwardFandARateAuditRuleTest {
         award = new Award();
         
         awardFandaRate1 = new AwardFandaRate();
-        awardFandaRate1.setApplicableFandaRate(new KualiDecimal(5));
+        awardFandaRate1.setApplicableFandaRate(new ScaleTwoDecimal(5));
         awardFandaRate1.setFiscalYear("2008");
         awardFandaRate1.setFandaRateTypeCode("5");
         awardFandaRate1.setOnCampusFlag("N");
-        awardFandaRate1.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
+        awardFandaRate1.setUnderrecoveryOfIndirectCost(new ScaleTwoDecimal(1000));
         awardFandaRate1.setStartDate(new Date(new Long("1183316613046")));        
         awardFandaRate1.setEndDate(new Date(new Long("1214852613046")));
         
         awardFandaRate2 = new AwardFandaRate();
-        awardFandaRate2.setApplicableFandaRate(new KualiDecimal(5));
+        awardFandaRate2.setApplicableFandaRate(new ScaleTwoDecimal(5));
         awardFandaRate2.setFiscalYear("2008");
         awardFandaRate2.setFandaRateTypeCode("5");
         awardFandaRate2.setOnCampusFlag("F");
-        awardFandaRate2.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
+        awardFandaRate2.setUnderrecoveryOfIndirectCost(new ScaleTwoDecimal(1000));
         awardFandaRate2.setStartDate(new Date(new Long("1183316613046")));        
         awardFandaRate2.setEndDate(new Date(new Long("1214852613046")));
         award.add(awardFandaRate1);

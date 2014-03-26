@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.approve;
+package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.proposaldevelopment.bo.CoPiInfoDO;
 import org.kuali.kra.proposaldevelopment.bo.CostShareInfoDO;
 
@@ -31,9 +31,9 @@ public class ProposalDevelopmentApproverViewDO implements Serializable  {
     String projectTitle;
     String proposalNumber;
     String proposalType;
-    BudgetDecimal directCost;
-    BudgetDecimal indirectCost;
-    BudgetDecimal totalCost;
+    ScaleTwoDecimal directCost;
+    ScaleTwoDecimal indirectCost;
+    ScaleTwoDecimal totalCost;
     Date dueDate;
     Date startDate;
     Date endDate;

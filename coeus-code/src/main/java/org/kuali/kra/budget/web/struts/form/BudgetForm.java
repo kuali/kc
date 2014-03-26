@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
@@ -91,7 +91,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     
     private BudgetJustificationWrapper budgetJustificationWrapper;
     
-    private BudgetDecimal costSharingAmount;
+    private ScaleTwoDecimal costSharingAmount;
     
     private List<ExtraButton> extraTopButtons;
 
@@ -553,11 +553,11 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         this.budgetModularSummary = budgetModularSummary;
     }        
     
-    public BudgetDecimal getCostSharingAmount() {
+    public ScaleTwoDecimal getCostSharingAmount() {
         return costSharingAmount;
     }
 
-    public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+    public void setCostSharingAmount(ScaleTwoDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
     }
     

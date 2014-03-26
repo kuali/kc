@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.distributionincome;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -57,7 +57,7 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
         boolean retval = true;
         
         // Forces full allocation of unrecovered f and a
-        if (budget.getUnallocatedUnrecoveredFandA().isGreaterThan(BudgetDecimal.ZERO) && budget.isUnrecoveredFandAEnforced()) {
+        if (budget.getUnallocatedUnrecoveredFandA().isGreaterThan(ScaleTwoDecimal.ZERO) && budget.isUnrecoveredFandAEnforced()) {
             retval = false;
             if (unrecoveredFandAs.size() ==0) {
                 getAuditErrors().add(new AuditError("document.budget.budgetUnrecoveredFandA",

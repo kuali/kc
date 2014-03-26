@@ -9,7 +9,7 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
@@ -52,10 +52,10 @@ public class InstitutionalProposalBoLite extends KcPersistableBusinessObjectBase
     
 	private String title;
 	
-    private KualiDecimal totalDirectCostInitial;
-    private KualiDecimal totalDirectCostTotal;
-    private KualiDecimal totalIndirectCostInitial;
-    private KualiDecimal totalIndirectCostTotal;
+    private ScaleTwoDecimal totalDirectCostInitial;
+    private ScaleTwoDecimal totalDirectCostTotal;
+    private ScaleTwoDecimal totalIndirectCostInitial;
+    private ScaleTwoDecimal totalIndirectCostTotal;
     
     private Integer statusCode;
     
@@ -153,35 +153,35 @@ public class InstitutionalProposalBoLite extends KcPersistableBusinessObjectBase
 		this.requestedEndDateTotal = requestedEndDateTotal;
 	}
 	
-	public KualiDecimal getTotalDirectCostInitial() {
+	public ScaleTwoDecimal getTotalDirectCostInitial() {
 		return totalDirectCostInitial;
 	}
 
-	public void setTotalDirectCostInitial(KualiDecimal totalDirectCostInitial) {
+	public void setTotalDirectCostInitial(ScaleTwoDecimal totalDirectCostInitial) {
 		this.totalDirectCostInitial = totalDirectCostInitial;
 	}
 
-	public KualiDecimal getTotalDirectCostTotal() {
+	public ScaleTwoDecimal getTotalDirectCostTotal() {
 		return totalDirectCostTotal;
 	}
 
-	public void setTotalDirectCostTotal(KualiDecimal totalDirectCostTotal) {
+	public void setTotalDirectCostTotal(ScaleTwoDecimal totalDirectCostTotal) {
 		this.totalDirectCostTotal = totalDirectCostTotal;
 	}
 
-	public KualiDecimal getTotalIndirectCostInitial() {
+	public ScaleTwoDecimal getTotalIndirectCostInitial() {
 		return totalIndirectCostInitial;
 	}
 
-	public void setTotalIndirectCostInitial(KualiDecimal totalIndirectCostInitial) {
+	public void setTotalIndirectCostInitial(ScaleTwoDecimal totalIndirectCostInitial) {
 		this.totalIndirectCostInitial = totalIndirectCostInitial;
 	}
 
-	public KualiDecimal getTotalIndirectCostTotal() {
+	public ScaleTwoDecimal getTotalIndirectCostTotal() {
 		return totalIndirectCostTotal;
 	}
 
-	public void setTotalIndirectCostTotal(KualiDecimal totalIndirectCostTotal) {
+	public void setTotalIndirectCostTotal(ScaleTwoDecimal totalIndirectCostTotal) {
 		this.totalIndirectCostTotal = totalIndirectCostTotal;
 	}
 
@@ -193,15 +193,15 @@ public class InstitutionalProposalBoLite extends KcPersistableBusinessObjectBase
 		this.title = title;
 	}
 
-	public KualiDecimal getTotalInitialCost() {
-        KualiDecimal returnValue = new KualiDecimal(0);
+	public ScaleTwoDecimal getTotalInitialCost() {
+        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0);
         returnValue = returnValue.add(totalDirectCostInitial);
         returnValue = returnValue.add(totalIndirectCostInitial);
         return returnValue;
     }
 	
-	public KualiDecimal getTotalCost() {
-        KualiDecimal returnValue = new KualiDecimal(0);
+	public ScaleTwoDecimal getTotalCost() {
+        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0);
         returnValue = returnValue.add(totalDirectCostTotal);
         returnValue = returnValue.add(totalIndirectCostTotal);
         return returnValue;

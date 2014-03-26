@@ -23,7 +23,7 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
@@ -236,7 +236,7 @@ public class AwardBudgetForm extends BudgetForm {
      * This method returns the obligated total for this award budget, which is getPreviousObligatedTotal().add(getObligatedChange()).
      * @return
      */
-    public BudgetDecimal getObligatedTotal() {
+    public ScaleTwoDecimal getObligatedTotal() {
         // getPreviousObligatedTotal + getObligatedChange
         return getPreviousObligatedTotal().add(getObligatedChange());
     }
@@ -246,7 +246,7 @@ public class AwardBudgetForm extends BudgetForm {
      * This method returns the previous budget's obligation amount.
      * @return
      */
-    public BudgetDecimal getPreviousObligatedTotal() {
+    public ScaleTwoDecimal getPreviousObligatedTotal() {
         //sum up all the previous changes
         AwardBudgetExt awardBudgetExt = this.getAwardBudgetDocument().getAwardBudget();
         AwardDocument ad = (AwardDocument) this.getAwardBudgetDocument().getParentDocument();
@@ -265,13 +265,13 @@ public class AwardBudgetForm extends BudgetForm {
      * @param allBudgets
      * @return
      */
-    protected BudgetDecimal getSumOfAllPreviousBudgetChanges(AwardBudgetExt curentAwardBudgetExt, List<Budget> allBudgets) {
+    protected ScaleTwoDecimal getSumOfAllPreviousBudgetChanges(AwardBudgetExt curentAwardBudgetExt, List<Budget> allBudgets) {
         if (curentAwardBudgetExt != null && curentAwardBudgetExt.getPrevBudget() != null) {
-            BudgetDecimal previousTotalCost = curentAwardBudgetExt.getPrevBudget().getTotalCostLimit();
+            ScaleTwoDecimal previousTotalCost = curentAwardBudgetExt.getPrevBudget().getTotalCostLimit();
             AwardBudgetExt previousAwardBudget = findAwardBudgetExt(curentAwardBudgetExt.getPrevBudget().getBudgetId(), allBudgets);
             return previousTotalCost.add(getSumOfAllPreviousBudgetChanges(previousAwardBudget, allBudgets));
         }
-        return BudgetDecimal.ZERO;
+        return ScaleTwoDecimal.ZERO;
     }
     
     /**
@@ -295,13 +295,13 @@ public class AwardBudgetForm extends BudgetForm {
      * This method returns the difference in the obligation total between this budget, and the previous.
      * @return
      */
-    public BudgetDecimal getObligatedChange() {
+    public ScaleTwoDecimal getObligatedChange() {
         //return getObligatedTotal().subtract(getPreviousObligatedTotal());
         AwardBudgetExt budget = this.getAwardBudgetDocument().getAwardBudget();
         if (budget != null && budget.getTotalCostLimit() != null) {
             return budget.getTotalCostLimit();
         } else {
-            return BudgetDecimal.ZERO;
+            return ScaleTwoDecimal.ZERO;
         }
     }
 }

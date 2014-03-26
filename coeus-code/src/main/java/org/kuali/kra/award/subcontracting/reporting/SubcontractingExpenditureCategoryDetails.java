@@ -16,7 +16,7 @@
 package org.kuali.kra.award.subcontracting.reporting;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
 
@@ -28,7 +28,7 @@ public class SubcontractingExpenditureCategoryDetails extends KcPersistableBusin
     
     private Long id;
     private String awardNumber;
-    private KualiDecimal amount;
+    private ScaleTwoDecimal amount;
     private Date fiscalPeriod;
     
     private boolean largeBusiness;
@@ -57,11 +57,11 @@ public class SubcontractingExpenditureCategoryDetails extends KcPersistableBusin
         return awardNumber;
     }
 
-    public void setAmount(KualiDecimal amount) {
+    public void setAmount(ScaleTwoDecimal amount) {
         this.amount = amount;
     }
 
-    public KualiDecimal getAmount() {
+    public ScaleTwoDecimal getAmount() {
         return amount;
     }
 

@@ -23,7 +23,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.coeus.sys.framework.util.DateUtils;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.Calendar;
 
@@ -81,7 +81,7 @@ public class BudgetProjectIncomeTest {
     private BudgetProjectIncome createBudgetProjectIncome(BudgetPeriod budgetPeriod, double amount) {
         BudgetProjectIncome budgetProjectIncome = new BudgetProjectIncome();        
         budgetProjectIncome.setBudgetPeriodNumber(budgetPeriod.getBudgetPeriod());
-        budgetProjectIncome.setProjectIncome(new KualiDecimal(amount));
+        budgetProjectIncome.setProjectIncome(new ScaleTwoDecimal(amount));
         return budgetProjectIncome;
     }
     

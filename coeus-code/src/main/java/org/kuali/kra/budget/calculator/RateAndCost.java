@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 /**
  * Holds all the calculated amounts for a rate class - rate type combination for each
@@ -36,12 +36,12 @@ public class RateAndCost{
     private String rateClassCode; 
     private String rateTypeCode; 
     private Boolean applyRateFlag;  
-    private BudgetDecimal appliedRate;
-    private BudgetDecimal calculatedCost; 
-    private BudgetDecimal calculatedCostSharing; 
-    private BudgetDecimal underRecovery; 
-    private BudgetDecimal baseAmount;
-    private BudgetDecimal baseCostSharingAmount;
+    private ScaleTwoDecimal appliedRate;
+    private ScaleTwoDecimal calculatedCost;
+    private ScaleTwoDecimal calculatedCostSharing;
+    private ScaleTwoDecimal underRecovery;
+    private ScaleTwoDecimal baseAmount;
+    private ScaleTwoDecimal baseCostSharingAmount;
     private boolean calculated;
 
     /** Getter for property rateClassCode.
@@ -89,28 +89,28 @@ public class RateAndCost{
     /** Getter for property calculatedCost.
      * @return Value of property calculatedCost.
      */
-    public BudgetDecimal getCalculatedCost() {
+    public ScaleTwoDecimal getCalculatedCost() {
         return calculatedCost;
     }
     
     /** Setter for property calculatedCost.
      * @param calculatedCost New value of property calculatedCost.
      */
-    public void setCalculatedCost(BudgetDecimal calculatedCost) {
+    public void setCalculatedCost(ScaleTwoDecimal calculatedCost) {
         this.calculatedCost = calculatedCost;
     }
     
     /** Getter for property calculatedCostSharing.
      * @return Value of property calculatedCostSharing.
      */
-    public BudgetDecimal getCalculatedCostSharing() {
+    public ScaleTwoDecimal getCalculatedCostSharing() {
         return calculatedCostSharing;
     }
     
     /** Setter for property calculatedCostSharing.
      * @param calculatedCostSharing New value of property calculatedCostSharing.
      */
-    public void setCalculatedCostSharing(BudgetDecimal calculatedCostSharing) {
+    public void setCalculatedCostSharing(ScaleTwoDecimal calculatedCostSharing) {
         this.calculatedCostSharing = calculatedCostSharing;
     }
     
@@ -131,14 +131,14 @@ public class RateAndCost{
     /** Getter for property underRecovery.
      * @return Value of property underRecovery.
      */
-    public BudgetDecimal getUnderRecovery() {
-        return underRecovery==null?BudgetDecimal.ZERO:underRecovery;
+    public ScaleTwoDecimal getUnderRecovery() {
+        return underRecovery==null? ScaleTwoDecimal.ZERO:underRecovery;
     }
     
     /** Setter for property underRecovery.
      * @param underRecovery New value of property underRecovery.
      */
-    public void setUnderRecovery(BudgetDecimal underRecovery) {
+    public void setUnderRecovery(ScaleTwoDecimal underRecovery) {
         this.underRecovery = underRecovery;
     }
     
@@ -146,7 +146,7 @@ public class RateAndCost{
      * @return Value of property appliedRate.
      *
      */
-    public BudgetDecimal getAppliedRate() {
+    public ScaleTwoDecimal getAppliedRate() {
         return appliedRate;
     }
     
@@ -154,7 +154,7 @@ public class RateAndCost{
      * @param appliedRate New value of property appliedRate.
      *
      */
-    public void setAppliedRate(BudgetDecimal appliedRate) {
+    public void setAppliedRate(ScaleTwoDecimal appliedRate) {
         this.appliedRate = appliedRate;
     }
     
@@ -173,15 +173,15 @@ public class RateAndCost{
      * Getter for property baseAmount.
      * @return Value of property baseAmount.
      */
-    public BudgetDecimal getBaseAmount() {
-        return baseAmount==null?BudgetDecimal.ZERO:baseAmount;
+    public ScaleTwoDecimal getBaseAmount() {
+        return baseAmount==null? ScaleTwoDecimal.ZERO:baseAmount;
     }
     
     /**
      * Setter for property baseAmount.
      * @param baseAmount New value of property baseAmount.
      */
-    public void setBaseAmount(BudgetDecimal baseAmount) {
+    public void setBaseAmount(ScaleTwoDecimal baseAmount) {
         this.baseAmount = baseAmount;
     }
 
@@ -189,15 +189,15 @@ public class RateAndCost{
      * Gets the baseCostSharingAmount attribute. 
      * @return Returns the baseCostSharingAmount.
      */
-    public BudgetDecimal getBaseCostSharingAmount() {
-        return baseCostSharingAmount==null?BudgetDecimal.ZERO:baseCostSharingAmount;
+    public ScaleTwoDecimal getBaseCostSharingAmount() {
+        return baseCostSharingAmount==null? ScaleTwoDecimal.ZERO:baseCostSharingAmount;
     }
 
     /**
      * Sets the baseCostSharingAmount attribute value.
      * @param baseCostSharingAmount The baseCostSharingAmount to set.
      */
-    public void setBaseCostSharingAmount(BudgetDecimal baseCostSharingAmount) {
+    public void setBaseCostSharingAmount(ScaleTwoDecimal baseCostSharingAmount) {
         this.baseCostSharingAmount = baseCostSharingAmount;
     }
 

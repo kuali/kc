@@ -18,11 +18,11 @@ package org.kuali.kra.budget.core;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.api.model.ScaleThreeDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent;
@@ -47,7 +47,7 @@ import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetNumberOfMonthsService;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -118,13 +118,13 @@ public class Budget extends BudgetVersionOverview {
 
     private List<RateClassType> rateClassTypes;
 
-    private SortedMap<CostElement, List<BudgetDecimal>> objectCodeTotals;
+    private SortedMap<CostElement, List<ScaleTwoDecimal>> objectCodeTotals;
 
-    private SortedMap<RateType, List<BudgetDecimal>> calculatedExpenseTotals;
+    private SortedMap<RateType, List<ScaleTwoDecimal>> calculatedExpenseTotals;
 
-    private SortedMap<RateType, List<BudgetDecimal>> personnelCalculatedExpenseTotals;
+    private SortedMap<RateType, List<ScaleTwoDecimal>> personnelCalculatedExpenseTotals;
 
-    private SortedMap<RateType, List<BudgetDecimal>> nonPersonnelCalculatedExpenseTotals;
+    private SortedMap<RateType, List<ScaleTwoDecimal>> nonPersonnelCalculatedExpenseTotals;
 
     private List<KeyValue> budgetCategoryTypeCodes;
 
@@ -132,11 +132,11 @@ public class Budget extends BudgetVersionOverview {
 
     private SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodePersonnelList;
 
-    private SortedMap<String, List<BudgetDecimal>> objectCodePersonnelSalaryTotals;
+    private SortedMap<String, List<ScaleTwoDecimal>> objectCodePersonnelSalaryTotals;
 
-    private SortedMap<String, List<BudgetDecimal>> objectCodePersonnelFringeTotals;
+    private SortedMap<String, List<ScaleTwoDecimal>> objectCodePersonnelFringeTotals;
 
-    private SortedMap<String, List<BudgetDecimal>> budgetSummaryTotals;
+    private SortedMap<String, List<ScaleTwoDecimal>> budgetSummaryTotals;
 
     private List<BudgetPrintForm> budgetPrintForms;
 
@@ -272,8 +272,8 @@ public class Budget extends BudgetVersionOverview {
      * This method does what its name says
      * @return List of project totals for each budget period, where budget period 1 total is stored in list's 0th element
      */
-    public List<KualiDecimal> getProjectIncomePeriodTotalsForEachBudgetPeriod() {
-        Map<Integer, KualiDecimal> incomes = mapProjectIncomeTotalsToBudgetPeriodNumbers();
+    public List<ScaleTwoDecimal> getProjectIncomePeriodTotalsForEachBudgetPeriod() {
+        Map<Integer, ScaleTwoDecimal> incomes = mapProjectIncomeTotalsToBudgetPeriodNumbers();
         return findProjectIncomeTotalsForBudgetPeriods(incomes);
     }
 
@@ -333,8 +333,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
 
-    public BudgetDecimal getAllocatedCostSharing() {
-        BudgetDecimal costShareTotal = new BudgetDecimal(0.0);
+    public ScaleTwoDecimal getAllocatedCostSharing() {
+        ScaleTwoDecimal costShareTotal = new ScaleTwoDecimal(0.0);
         for (BudgetCostShare budgetCostShare : getBudgetCostShares()) {
             if (budgetCostShare.getShareAmount() != null) {
                 costShareTotal = costShareTotal.add(budgetCostShare.getShareAmount());
@@ -344,8 +344,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
 
-    public BudgetDecimal getAllocatedUnrecoveredFandA() {
-        BudgetDecimal allocatedUnrecoveredFandA = BudgetDecimal.ZERO;
+    public ScaleTwoDecimal getAllocatedUnrecoveredFandA() {
+        ScaleTwoDecimal allocatedUnrecoveredFandA = ScaleTwoDecimal.ZERO;
         for (BudgetUnrecoveredFandA unrecoveredFandA : getBudgetUnrecoveredFandAs()) {
             if (unrecoveredFandA.getAmount() != null) {
                 allocatedUnrecoveredFandA = allocatedUnrecoveredFandA.add(unrecoveredFandA.getAmount());
@@ -355,8 +355,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
 
-    public KualiDecimal getProjectIncomeTotal() {
-        KualiDecimal projectIncomeTotal = new KualiDecimal(0.0);
+    public ScaleTwoDecimal getProjectIncomeTotal() {
+        ScaleTwoDecimal projectIncomeTotal = new ScaleTwoDecimal(0.0);
         for (BudgetProjectIncome budgetProjectIncome : budgetProjectIncomes) {
             if (budgetProjectIncome.getProjectIncome() != null) {
                 projectIncomeTotal = projectIncomeTotal.add(budgetProjectIncome.getProjectIncome());
@@ -365,11 +365,11 @@ public class Budget extends BudgetVersionOverview {
         return projectIncomeTotal;
     }
 
-    public BudgetDecimal getUnallocatedCostSharing() {
+    public ScaleTwoDecimal getUnallocatedCostSharing() {
         return getAvailableCostSharing().subtract(getAllocatedCostSharing());
     }
 
-    public BudgetDecimal getUnallocatedUnrecoveredFandA() {
+    public ScaleTwoDecimal getUnallocatedUnrecoveredFandA() {
         return getAvailableUnrecoveredFandA().subtract(getAllocatedUnrecoveredFandA());
     }
 
@@ -786,25 +786,25 @@ public class Budget extends BudgetVersionOverview {
         getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(this);
     }
 
-    public SortedMap<CostElement, List<BudgetDecimal>> getObjectCodeTotals() {
+    public SortedMap<CostElement, List<ScaleTwoDecimal>> getObjectCodeTotals() {
         return objectCodeTotals;
     }
 
-    public void setObjectCodeTotals(SortedMap<CostElement, List<BudgetDecimal>> objectCodeTotals) {
+    public void setObjectCodeTotals(SortedMap<CostElement, List<ScaleTwoDecimal>> objectCodeTotals) {
         this.objectCodeTotals = objectCodeTotals;
     }
 
-    public SortedMap<RateType, List<BudgetDecimal>> getCalculatedExpenseTotals() {
+    public SortedMap<RateType, List<ScaleTwoDecimal>> getCalculatedExpenseTotals() {
         return calculatedExpenseTotals;
     }
 
-    public void setCalculatedExpenseTotals(SortedMap<RateType, List<BudgetDecimal>> calculatedExpenseTotals) {
+    public void setCalculatedExpenseTotals(SortedMap<RateType, List<ScaleTwoDecimal>> calculatedExpenseTotals) {
         this.calculatedExpenseTotals = calculatedExpenseTotals;
     }
 
 
-    public BudgetDecimal getAvailableCostSharing() {
-        BudgetDecimal availableCostShare = BudgetDecimal.ZERO;
+    public ScaleTwoDecimal getAvailableCostSharing() {
+        ScaleTwoDecimal availableCostShare = ScaleTwoDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
             if (budgetPeriod.getCostSharingAmount() != null) {
                 availableCostShare = availableCostShare.add(budgetPeriod.getCostSharingAmount());
@@ -814,8 +814,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
 
-    public BudgetDecimal getAvailableUnrecoveredFandA() {
-        BudgetDecimal availableUnrecoveredFandA = BudgetDecimal.ZERO;
+    public ScaleTwoDecimal getAvailableUnrecoveredFandA() {
+        ScaleTwoDecimal availableUnrecoveredFandA = ScaleTwoDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
             if (budgetPeriod.getUnderrecoveryAmount() != null) {
                 availableUnrecoveredFandA = availableUnrecoveredFandA.add(budgetPeriod.getUnderrecoveryAmount());
@@ -829,8 +829,8 @@ public class Budget extends BudgetVersionOverview {
      * @param fiscalYear
      * @return
      */
-    public BudgetDecimal findCostSharingForFiscalYear(Integer fiscalYear) {
-        BudgetDecimal costSharing = BudgetDecimal.ZERO;
+    public ScaleTwoDecimal findCostSharingForFiscalYear(Integer fiscalYear) {
+        ScaleTwoDecimal costSharing = ScaleTwoDecimal.ZERO;
         List<FiscalYearSummary> costShareFiscalYears = findCostShareTotalsForBudgetPeriods(mapBudgetPeriodsToFiscalYears());
         for (FiscalYearSummary costShareFiscalYear : costShareFiscalYears) {
             if (costShareFiscalYear.fiscalYear == fiscalYear) {
@@ -846,8 +846,8 @@ public class Budget extends BudgetVersionOverview {
      * @param fiscalYear
      * @return
      */
-    public BudgetDecimal findUnrecoveredFandAForFiscalYear(Integer fiscalYear) {
-        BudgetDecimal unrecoveredFandA = BudgetDecimal.ZERO;
+    public ScaleTwoDecimal findUnrecoveredFandAForFiscalYear(Integer fiscalYear) {
+        ScaleTwoDecimal unrecoveredFandA = ScaleTwoDecimal.ZERO;
         List<FiscalYearSummary> fiscalYearSummaries = findCostShareTotalsForBudgetPeriods(mapBudgetPeriodsToFiscalYears());
         for (FiscalYearSummary fiscalYearSummary : fiscalYearSummaries) {
             if (fiscalYearSummary.getFiscalYear() == fiscalYear) {
@@ -948,10 +948,10 @@ public class Budget extends BudgetVersionOverview {
     private FiscalYearApplicableRate findApplicableRatesForFiscalYear(Integer fiscalYear) {
         String unrecoveredFandARateClassCode = getUrRateClassCode();
         if (unrecoveredFandARateClassCode == null || unrecoveredFandARateClassCode.trim().length() == 0) {
-            return new FiscalYearApplicableRate(fiscalYear, RateDecimal.ZERO_RATE, RateDecimal.ZERO_RATE);
+            return new FiscalYearApplicableRate(fiscalYear, ScaleThreeDecimal.ZERO, ScaleThreeDecimal.ZERO);
         } else {
-            RateDecimal offCampusRate = findApplicableRateForRateClassCode(fiscalYear, unrecoveredFandARateClassCode, false);
-            RateDecimal onCampusRate = findApplicableRateForRateClassCode(fiscalYear, unrecoveredFandARateClassCode, true);
+            ScaleThreeDecimal offCampusRate = findApplicableRateForRateClassCode(fiscalYear, unrecoveredFandARateClassCode, false);
+            ScaleThreeDecimal onCampusRate = findApplicableRateForRateClassCode(fiscalYear, unrecoveredFandARateClassCode, true);
             return new FiscalYearApplicableRate(fiscalYear, onCampusRate, offCampusRate);
         }
     }
@@ -963,11 +963,11 @@ public class Budget extends BudgetVersionOverview {
      * @param findOnCampusRate
      * @return
      */
-    private RateDecimal findApplicableRateForRateClassCode(Integer fiscalYear, String unrecoveredFandARateClassCode, boolean findOnCampusRate) {
-        RateDecimal applicableRate = RateDecimal.ZERO_RATE;
+    private ScaleThreeDecimal findApplicableRateForRateClassCode(Integer fiscalYear, String unrecoveredFandARateClassCode, boolean findOnCampusRate) {
+        ScaleThreeDecimal applicableRate = ScaleThreeDecimal.ZERO;
         for (BudgetRate budgetRate : getBudgetRates()) {
             if (Integer.valueOf(budgetRate.getFiscalYear()).equals(fiscalYear) && budgetRate.getRateClassCode().equalsIgnoreCase(unrecoveredFandARateClassCode) && findOnCampusRate == budgetRate.getOnOffCampusFlag()) {
-                applicableRate = new RateDecimal(budgetRate.getApplicableRate().bigDecimalValue());
+                applicableRate = new ScaleThreeDecimal(budgetRate.getApplicableRate().bigDecimalValue());
                 break;
             }
         }
@@ -982,8 +982,8 @@ public class Budget extends BudgetVersionOverview {
     private List<FiscalYearSummary> findCostShareTotalsForBudgetPeriods(Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears) {
         List<FiscalYearSummary> fiscalYearSummaries = new ArrayList<FiscalYearSummary>();
         for (Map.Entry<Integer, List<BudgetPeriod>> entry : budgetPeriodFiscalYears.entrySet()) {
-            BudgetDecimal fiscalYearCostShareAmount = BudgetDecimal.ZERO;
-            BudgetDecimal fiscalYearUnrecoveredFandA = BudgetDecimal.ZERO;
+            ScaleTwoDecimal fiscalYearCostShareAmount = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal fiscalYearUnrecoveredFandA = ScaleTwoDecimal.ZERO;
             List<BudgetPeriod> budgetPeriodsInFiscalYear = entry.getValue();
             for (BudgetPeriod budgetPeriod : budgetPeriodsInFiscalYear) {
                 fiscalYearCostShareAmount = fiscalYearCostShareAmount.add(budgetPeriod.getCostSharingAmount());
@@ -999,12 +999,12 @@ public class Budget extends BudgetVersionOverview {
      * @param incomes
      * @return
      */
-    private List<KualiDecimal> findProjectIncomeTotalsForBudgetPeriods(Map<Integer, KualiDecimal> incomes) {
-        List<KualiDecimal> periodIncomeTotals = new ArrayList<KualiDecimal>(budgetPeriods.size());
+    private List<ScaleTwoDecimal> findProjectIncomeTotalsForBudgetPeriods(Map<Integer, ScaleTwoDecimal> incomes) {
+        List<ScaleTwoDecimal> periodIncomeTotals = new ArrayList<ScaleTwoDecimal>(budgetPeriods.size());
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            KualiDecimal periodIncomeTotal = incomes.get(budgetPeriod.getBudgetPeriod());
+            ScaleTwoDecimal periodIncomeTotal = incomes.get(budgetPeriod.getBudgetPeriod());
             if (periodIncomeTotal == null) {
-                periodIncomeTotal = KualiDecimal.ZERO;
+                periodIncomeTotal = ScaleTwoDecimal.ZERO;
             }
             periodIncomeTotals.add(periodIncomeTotal);
         }
@@ -1046,11 +1046,11 @@ public class Budget extends BudgetVersionOverview {
     }
 
 
-    private Map<Integer, KualiDecimal> mapProjectIncomeTotalsToBudgetPeriodNumbers() {
-        Map<Integer, KualiDecimal> budgetPeriodProjectIncomeMap = new TreeMap<Integer, KualiDecimal>();
+    private Map<Integer, ScaleTwoDecimal> mapProjectIncomeTotalsToBudgetPeriodNumbers() {
+        Map<Integer, ScaleTwoDecimal> budgetPeriodProjectIncomeMap = new TreeMap<Integer, ScaleTwoDecimal>();
         for (BudgetProjectIncome budgetProjectIncome : budgetProjectIncomes) {
             Integer budgetPeriodNumber = budgetProjectIncome.getBudgetPeriodNumber();
-            KualiDecimal amount = budgetPeriodProjectIncomeMap.get(budgetPeriodNumber);
+            ScaleTwoDecimal amount = budgetPeriodProjectIncomeMap.get(budgetPeriodNumber);
             amount = (amount == null) ? budgetProjectIncome.getProjectIncome() : amount.add(budgetProjectIncome.getProjectIncome());
             budgetPeriodProjectIncomeMap.put(budgetPeriodNumber, amount);
         }
@@ -1080,9 +1080,9 @@ public class Budget extends BudgetVersionOverview {
 
         private Integer fiscalYear;
 
-        private RateDecimal onCampusApplicableRate;
+        private ScaleThreeDecimal onCampusApplicableRate;
 
-        private RateDecimal offCampusApplicableRate;
+        private ScaleThreeDecimal offCampusApplicableRate;
 
         /**
          * Constructs a FiscalYearApplicableRate.java.
@@ -1090,7 +1090,7 @@ public class Budget extends BudgetVersionOverview {
          * @param onCampusApplicableRate
          * @param offCampusApplicableRate
          */
-        public FiscalYearApplicableRate(Integer fiscalYear, RateDecimal onCampusApplicableRate, RateDecimal offCampusApplicableRate) {
+        public FiscalYearApplicableRate(Integer fiscalYear, ScaleThreeDecimal onCampusApplicableRate, ScaleThreeDecimal offCampusApplicableRate) {
             this.fiscalYear = fiscalYear;
             this.onCampusApplicableRate = onCampusApplicableRate;
             this.offCampusApplicableRate = offCampusApplicableRate;
@@ -1100,11 +1100,11 @@ public class Budget extends BudgetVersionOverview {
             return fiscalYear;
         }
 
-        public RateDecimal getOnCampusApplicableRate() {
+        public ScaleThreeDecimal getOnCampusApplicableRate() {
             return onCampusApplicableRate;
         }
 
-        public RateDecimal getOffCampusApplicableRate() {
+        public ScaleThreeDecimal getOffCampusApplicableRate() {
             return offCampusApplicableRate;
         }
     }
@@ -1118,9 +1118,9 @@ public class Budget extends BudgetVersionOverview {
 
         private BudgetPeriod assignedBudgetPeriod;
 
-        private BudgetDecimal costShare;
+        private ScaleTwoDecimal costShare;
 
-        private BudgetDecimal unrecoveredFandA;
+        private ScaleTwoDecimal unrecoveredFandA;
 
         private FiscalYearApplicableRate fiscalYearRates;
 
@@ -1133,7 +1133,7 @@ public class Budget extends BudgetVersionOverview {
          * @param unrecoveredFandA
          * @param fiscalYearRates
          */
-        public FiscalYearSummary(BudgetPeriod assignedBudgetPeriod, int fiscalYear, BudgetDecimal costShare, BudgetDecimal unrecoveredFandA, FiscalYearApplicableRate fiscalYearRates) {
+        public FiscalYearSummary(BudgetPeriod assignedBudgetPeriod, int fiscalYear, ScaleTwoDecimal costShare, ScaleTwoDecimal unrecoveredFandA, FiscalYearApplicableRate fiscalYearRates) {
             super();
             this.assignedBudgetPeriod = assignedBudgetPeriod;
             this.fiscalYear = fiscalYear;
@@ -1150,7 +1150,7 @@ public class Budget extends BudgetVersionOverview {
             return assignedBudgetPeriod;
         }
 
-        public BudgetDecimal getCostShare() {
+        public ScaleTwoDecimal getCostShare() {
             return costShare;
         }
 
@@ -1158,7 +1158,7 @@ public class Budget extends BudgetVersionOverview {
             return fiscalYearRates;
         }
 
-        public BudgetDecimal getUnrecoveredFandA() {
+        public ScaleTwoDecimal getUnrecoveredFandA() {
             return unrecoveredFandA;
         }
     }
@@ -1263,43 +1263,43 @@ public class Budget extends BudgetVersionOverview {
         this.objectCodePersonnelList = objectCodePersonnelList;
     }
 
-    public SortedMap<String, List<BudgetDecimal>> getObjectCodePersonnelSalaryTotals() {
+    public SortedMap<String, List<ScaleTwoDecimal>> getObjectCodePersonnelSalaryTotals() {
         return objectCodePersonnelSalaryTotals;
     }
 
-    public void setObjectCodePersonnelSalaryTotals(SortedMap<String, List<BudgetDecimal>> objectCodePersonnelSalaryTotals) {
+    public void setObjectCodePersonnelSalaryTotals(SortedMap<String, List<ScaleTwoDecimal>> objectCodePersonnelSalaryTotals) {
         this.objectCodePersonnelSalaryTotals = objectCodePersonnelSalaryTotals;
     }
 
-    public SortedMap<String, List<BudgetDecimal>> getObjectCodePersonnelFringeTotals() {
+    public SortedMap<String, List<ScaleTwoDecimal>> getObjectCodePersonnelFringeTotals() {
         return objectCodePersonnelFringeTotals;
     }
 
-    public void setObjectCodePersonnelFringeTotals(SortedMap<String, List<BudgetDecimal>> objectCodePersonnelFringeTotals) {
+    public void setObjectCodePersonnelFringeTotals(SortedMap<String, List<ScaleTwoDecimal>> objectCodePersonnelFringeTotals) {
         this.objectCodePersonnelFringeTotals = objectCodePersonnelFringeTotals;
     }
 
-    public SortedMap<RateType, List<BudgetDecimal>> getPersonnelCalculatedExpenseTotals() {
+    public SortedMap<RateType, List<ScaleTwoDecimal>> getPersonnelCalculatedExpenseTotals() {
         return personnelCalculatedExpenseTotals;
     }
 
-    public void setPersonnelCalculatedExpenseTotals(SortedMap<RateType, List<BudgetDecimal>> personnelCalculatedExpenseTotals) {
+    public void setPersonnelCalculatedExpenseTotals(SortedMap<RateType, List<ScaleTwoDecimal>> personnelCalculatedExpenseTotals) {
         this.personnelCalculatedExpenseTotals = personnelCalculatedExpenseTotals;
     }
 
-    public SortedMap<RateType, List<BudgetDecimal>> getNonPersonnelCalculatedExpenseTotals() {
+    public SortedMap<RateType, List<ScaleTwoDecimal>> getNonPersonnelCalculatedExpenseTotals() {
         return nonPersonnelCalculatedExpenseTotals;
     }
 
-    public void setNonPersonnelCalculatedExpenseTotals(SortedMap<RateType, List<BudgetDecimal>> nonPersonnelCalculatedExpenseTotals) {
+    public void setNonPersonnelCalculatedExpenseTotals(SortedMap<RateType, List<ScaleTwoDecimal>> nonPersonnelCalculatedExpenseTotals) {
         this.nonPersonnelCalculatedExpenseTotals = nonPersonnelCalculatedExpenseTotals;
     }
 
-    public SortedMap<String, List<BudgetDecimal>> getBudgetSummaryTotals() {
+    public SortedMap<String, List<ScaleTwoDecimal>> getBudgetSummaryTotals() {
         return budgetSummaryTotals;
     }
 
-    public void setBudgetSummaryTotals(SortedMap<String, List<BudgetDecimal>> budgetSummaryTotals) {
+    public void setBudgetSummaryTotals(SortedMap<String, List<ScaleTwoDecimal>> budgetSummaryTotals) {
         this.budgetSummaryTotals = budgetSummaryTotals;
     }
 
@@ -1307,8 +1307,8 @@ public class Budget extends BudgetVersionOverview {
      * Gets the Underreovery Amount for all budget periods.
      * @return the amount.
      */
-    public final BudgetDecimal getSumUnderreoveryAmountFromPeriods() {
-        BudgetDecimal amount = BudgetDecimal.ZERO;
+    public final ScaleTwoDecimal getSumUnderreoveryAmountFromPeriods() {
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {
             amount = amount.add(period.getUnderrecoveryAmount());
         }
@@ -1319,8 +1319,8 @@ public class Budget extends BudgetVersionOverview {
      * Gets the sum of the CostSharing Amount for all budget periods.
      * @return the amount
      */
-    public final BudgetDecimal getSumCostSharingAmountFromPeriods() {
-        BudgetDecimal amount = BudgetDecimal.ZERO;
+    public final ScaleTwoDecimal getSumCostSharingAmountFromPeriods() {
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {
             amount = amount.add(period.getCostSharingAmount());
         }
@@ -1331,8 +1331,8 @@ public class Budget extends BudgetVersionOverview {
      * Gets the sum of the Direct Cost Amount for all budget periods.
      * @return the amount
      */
-    public BudgetDecimal getSumDirectCostAmountFromPeriods() {
-        BudgetDecimal amount = BudgetDecimal.ZERO;
+    public ScaleTwoDecimal getSumDirectCostAmountFromPeriods() {
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {
             amount = amount.add(period.getTotalDirectCost());
         }
@@ -1343,8 +1343,8 @@ public class Budget extends BudgetVersionOverview {
      * Gets the sum of the Indirect Cost Amount for all budget periods.
      * @return the amount
      */
-    public final BudgetDecimal getSumIndirectCostAmountFromPeriods() {
-        BudgetDecimal amount = BudgetDecimal.ZERO;
+    public final ScaleTwoDecimal getSumIndirectCostAmountFromPeriods() {
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {
             amount = amount.add(period.getTotalIndirectCost());
         }
@@ -1355,8 +1355,8 @@ public class Budget extends BudgetVersionOverview {
      * Gets the sum of the Total Cost Amount for all budget periods.
      * @return the amount
      */
-    public final BudgetDecimal getSumTotalCostAmountFromPeriods() {
-        BudgetDecimal amount = BudgetDecimal.ZERO;
+    public final ScaleTwoDecimal getSumTotalCostAmountFromPeriods() {
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {
             amount = amount.add(period.getTotalCost());
         }

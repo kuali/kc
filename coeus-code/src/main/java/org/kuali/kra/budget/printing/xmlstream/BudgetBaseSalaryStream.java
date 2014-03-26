@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.printing.schema.BudgetPeriodData;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
 import org.kuali.kra.printing.schema.SalaryType;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -121,7 +121,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	 */
 	protected SalaryType getSalaryTypeXmlObject(String costElementDesc,
 			String costElementCode, String name,
-			BudgetPeriodData[] budgetPeriodArray, BudgetDecimal total) {
+			BudgetPeriodData[] budgetPeriodArray, ScaleTwoDecimal total) {
 		SalaryType salaryType = SalaryType.Factory.newInstance();
 		if (costElementDesc != null) {
 			salaryType.setCostElementDesc(costElementDesc);
@@ -229,7 +229,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			BudgetDataPeriodVO budgetDataPeriodVO = new BudgetDataPeriodVO();
 			budgetDataPeriodVO.setBudgetPeriodId(++budgetPeriodDataId);
-			BudgetDecimal periodCost = BudgetDecimal.ZERO;
+			ScaleTwoDecimal periodCost = ScaleTwoDecimal.ZERO;
 			for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
 				if (lineItem.getCostElementBO() != null
 						&& lineItem.getCostElementBO().getDescription() != null
@@ -329,7 +329,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			BudgetDataPeriodVO budgetPeriodVO = new BudgetDataPeriodVO();
 			budgetPeriodVO.setBudgetPeriodId(++budgetPeriodDataId);
-			BudgetDecimal periodCost = BudgetDecimal.ZERO;
+			ScaleTwoDecimal periodCost = ScaleTwoDecimal.ZERO;
 			for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
 				String budgetCategoryType = getBudgetCategoryTypeCode(budgetLineItem);
 				if (includeNonPersonnel || isPersonnel(budgetCategoryType)) {
@@ -401,13 +401,13 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	protected List<SalaryType> getListOfSalaryTypeXmlObjects(
 			List<SalaryTypeVO> salaryTypeVoList) {
 		List<SalaryType> salaryTypeList = new ArrayList<SalaryType>();
-		Map<Integer, BudgetDecimal> budgetPeriodWiseTotalMap = new HashMap<Integer, BudgetDecimal>();
+		Map<Integer, ScaleTwoDecimal> budgetPeriodWiseTotalMap = new HashMap<Integer, ScaleTwoDecimal>();
 		if (!salaryTypeVoList.isEmpty()) {
 			for (SalaryTypeVO salaryTypeVO : salaryTypeVoList) {
 				BudgetPeriodData[] budgetPeriodArray = null;
 				List<BudgetDataPeriodVO> budgetDataPeriodVOs = salaryTypeVO.getBudgetPeriodVOs();
 				if (budgetDataPeriodVOs != null) {
-					BudgetDecimal total = BudgetDecimal.ZERO;
+					ScaleTwoDecimal total = ScaleTwoDecimal.ZERO;
 					budgetPeriodArray = getBudgetDataPeriodXmlObjects(budgetDataPeriodVOs, budgetPeriodWiseTotalMap);
 					total = getTotalForCostElementOfAllPeriodsCost(budgetDataPeriodVOs);
 					salaryTypeVO.setTotal(total);
@@ -437,15 +437,15 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	 * irrespective of cost element.
 	 */
 	private void setTotalForPeriodWise(List<SalaryType> salaryTypeList,
-			Map<Integer, BudgetDecimal> budgetPeriodWiseTotalMap) {
+			Map<Integer, ScaleTwoDecimal> budgetPeriodWiseTotalMap) {
 		BudgetPeriodData[] budgetPeriodArray = null;
-		BudgetDecimal budgetSalaryTotal = BudgetDecimal.ZERO;
+		ScaleTwoDecimal budgetSalaryTotal = ScaleTwoDecimal.ZERO;
 		if (!budgetPeriodWiseTotalMap.isEmpty()) {
 			List<BudgetPeriodData> budgetPeriodList = new ArrayList<BudgetPeriodData>();
 			for (Integer periodId : budgetPeriodWiseTotalMap.keySet()) {
 				BudgetPeriodData budgetPeriodData = BudgetPeriodData.Factory.newInstance();
 				budgetPeriodData.setBudgetPeriodID(periodId);
-				BudgetDecimal periodCost = budgetPeriodWiseTotalMap.get(periodId);
+				ScaleTwoDecimal periodCost = budgetPeriodWiseTotalMap.get(periodId);
 				budgetPeriodData.setPeriodCost(periodCost.bigDecimalValue());
 				budgetSalaryTotal = budgetSalaryTotal.add(periodCost);
 				budgetPeriodList.add(budgetPeriodData);
@@ -460,9 +460,9 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	 * This method will calculate the total for cost element of all periods
 	 * period cost.
 	 */
-	private BudgetDecimal getTotalForCostElementOfAllPeriodsCost(
+	private ScaleTwoDecimal getTotalForCostElementOfAllPeriodsCost(
 			List<BudgetDataPeriodVO> budgetDataPeriodVOs) {
-		BudgetDecimal total = BudgetDecimal.ZERO;
+		ScaleTwoDecimal total = ScaleTwoDecimal.ZERO;
 		for (BudgetDataPeriodVO budgetDataPeriodVO : budgetDataPeriodVOs) {
 			total = total.add(budgetDataPeriodVO.getPeriodCost());
 		}
@@ -475,17 +475,17 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	 */
 	private BudgetPeriodData[] getBudgetDataPeriodXmlObjects(
 			List<BudgetDataPeriodVO> budgetDataPeriods,
-			Map<Integer, BudgetDecimal> budgetPeriodWiseTotalMap) {
+			Map<Integer, ScaleTwoDecimal> budgetPeriodWiseTotalMap) {
 		List<BudgetPeriodData> budgetPeriodList = null;
 		budgetPeriodList = new ArrayList<BudgetPeriodData>();
 		for (BudgetDataPeriodVO budgetPeriodVO : budgetDataPeriods) {
 			BudgetPeriodData budgetPeriodData = BudgetPeriodData.Factory.newInstance();
 			int budgetPeriodId = budgetPeriodVO.getBudgetPeriodId();
 			budgetPeriodData.setBudgetPeriodID(budgetPeriodId);
-			BudgetDecimal periodCost = budgetPeriodVO.getPeriodCost();
+			ScaleTwoDecimal periodCost = budgetPeriodVO.getPeriodCost();
 			budgetPeriodData.setPeriodCost(periodCost.bigDecimalValue());
 			if (budgetPeriodWiseTotalMap.containsKey(budgetPeriodId)) {
-				BudgetDecimal periodTotal = budgetPeriodWiseTotalMap.get(budgetPeriodId);
+				ScaleTwoDecimal periodTotal = budgetPeriodWiseTotalMap.get(budgetPeriodId);
 				periodTotal = periodTotal.add(periodCost);
 				budgetPeriodWiseTotalMap.put(budgetPeriodId, periodTotal);
 			} else {

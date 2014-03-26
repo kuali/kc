@@ -16,7 +16,7 @@
 package org.kuali.kra.award.subcontracting.reporting;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 public abstract class SubcontractingExpenditureCategoryAmountsBase extends KcPersistableBusinessObjectBase {
 
@@ -26,25 +26,25 @@ public abstract class SubcontractingExpenditureCategoryAmountsBase extends KcPer
     // the primary key field
     private String awardNumber;
     
-    private KualiDecimal largeBusinessExpenditureAmount;
-    private KualiDecimal smallBusinessExpenditureAmount;
-    private KualiDecimal womanOwnedExpenditureAmount;
-    private KualiDecimal eightADisadvantageExpenditureAmount; 
-    private KualiDecimal hubZoneExpenditureAmount;
-    private KualiDecimal veteranOwnedExpenditureAmount; 
-    private KualiDecimal serviceDisabledVeteranOwnedExpenditureAmount; 
-    private KualiDecimal historicalBlackCollegeExpenditureAmount;
+    private ScaleTwoDecimal largeBusinessExpenditureAmount;
+    private ScaleTwoDecimal smallBusinessExpenditureAmount;
+    private ScaleTwoDecimal womanOwnedExpenditureAmount;
+    private ScaleTwoDecimal eightADisadvantageExpenditureAmount;
+    private ScaleTwoDecimal hubZoneExpenditureAmount;
+    private ScaleTwoDecimal veteranOwnedExpenditureAmount;
+    private ScaleTwoDecimal serviceDisabledVeteranOwnedExpenditureAmount;
+    private ScaleTwoDecimal historicalBlackCollegeExpenditureAmount;
     
     public SubcontractingExpenditureCategoryAmountsBase() {
         // initialize all amounts to zero to avoid NPEs
-        this.largeBusinessExpenditureAmount = new KualiDecimal(0.00);
-        this.smallBusinessExpenditureAmount = new KualiDecimal(0.00);
-        this.womanOwnedExpenditureAmount = new KualiDecimal(0.00);
-        this.setEightADisadvantageExpenditureAmount(new KualiDecimal(0.00));
-        this.hubZoneExpenditureAmount = new KualiDecimal(0.00);
-        this.veteranOwnedExpenditureAmount = new KualiDecimal(0.00);
-        this.serviceDisabledVeteranOwnedExpenditureAmount = new KualiDecimal(0.00);
-        this.historicalBlackCollegeExpenditureAmount = new KualiDecimal(0.00);
+        this.largeBusinessExpenditureAmount = new ScaleTwoDecimal(0.00);
+        this.smallBusinessExpenditureAmount = new ScaleTwoDecimal(0.00);
+        this.womanOwnedExpenditureAmount = new ScaleTwoDecimal(0.00);
+        this.setEightADisadvantageExpenditureAmount(new ScaleTwoDecimal(0.00));
+        this.hubZoneExpenditureAmount = new ScaleTwoDecimal(0.00);
+        this.veteranOwnedExpenditureAmount = new ScaleTwoDecimal(0.00);
+        this.serviceDisabledVeteranOwnedExpenditureAmount = new ScaleTwoDecimal(0.00);
+        this.historicalBlackCollegeExpenditureAmount = new ScaleTwoDecimal(0.00);
     }
 
 
@@ -58,114 +58,114 @@ public abstract class SubcontractingExpenditureCategoryAmountsBase extends KcPer
 
     
 
-    public KualiDecimal getLargeBusinessExpenditureAmount() {
+    public ScaleTwoDecimal getLargeBusinessExpenditureAmount() {
         return largeBusinessExpenditureAmount;
     }
 
-    public void setLargeBusinessExpenditureAmount(KualiDecimal largeBusinessExpenditureAmount) {
+    public void setLargeBusinessExpenditureAmount(ScaleTwoDecimal largeBusinessExpenditureAmount) {
         this.largeBusinessExpenditureAmount = largeBusinessExpenditureAmount;
     }
 
-    public void addToLargeBusinessExpenditureAmount(KualiDecimal amount) {
+    public void addToLargeBusinessExpenditureAmount(ScaleTwoDecimal amount) {
         this.largeBusinessExpenditureAmount = largeBusinessExpenditureAmount.add(replaceNullWithZero(amount));
     }
 
     
     
-    public KualiDecimal getSmallBusinessExpenditureAmount() {
+    public ScaleTwoDecimal getSmallBusinessExpenditureAmount() {
         return smallBusinessExpenditureAmount;
     }
 
-    public void setSmallBusinessExpenditureAmount(KualiDecimal smallBusinessExpenditureAmount) {
+    public void setSmallBusinessExpenditureAmount(ScaleTwoDecimal smallBusinessExpenditureAmount) {
         this.smallBusinessExpenditureAmount = smallBusinessExpenditureAmount;
     }
 
-    public void addToSmallBusinessExpenditureAmount(KualiDecimal amount) {
+    public void addToSmallBusinessExpenditureAmount(ScaleTwoDecimal amount) {
         this.smallBusinessExpenditureAmount = smallBusinessExpenditureAmount.add(replaceNullWithZero(amount));
     }
 
     
     
-    public KualiDecimal getWomanOwnedExpenditureAmount() {
+    public ScaleTwoDecimal getWomanOwnedExpenditureAmount() {
         return womanOwnedExpenditureAmount;
     }
 
-    public void setWomanOwnedExpenditureAmount(KualiDecimal womanOwnedExpenditureAmount) {
+    public void setWomanOwnedExpenditureAmount(ScaleTwoDecimal womanOwnedExpenditureAmount) {
         this.womanOwnedExpenditureAmount = womanOwnedExpenditureAmount;
     }
     
-    public void addToWomanOwnedExpenditureAmount(KualiDecimal amount) {
+    public void addToWomanOwnedExpenditureAmount(ScaleTwoDecimal amount) {
         this.womanOwnedExpenditureAmount = womanOwnedExpenditureAmount.add(replaceNullWithZero(amount));
     }
     
     
     
-    public KualiDecimal getEightADisadvantageExpenditureAmount() {
+    public ScaleTwoDecimal getEightADisadvantageExpenditureAmount() {
         return eightADisadvantageExpenditureAmount;
     }
     
-    public void setEightADisadvantageExpenditureAmount(KualiDecimal eightADisadvantageExpenditureAmount) {
+    public void setEightADisadvantageExpenditureAmount(ScaleTwoDecimal eightADisadvantageExpenditureAmount) {
         this.eightADisadvantageExpenditureAmount = eightADisadvantageExpenditureAmount;
     }
     
-    public void addToEightADisadvantageExpenditureAmount(KualiDecimal amount) {
+    public void addToEightADisadvantageExpenditureAmount(ScaleTwoDecimal amount) {
         this.eightADisadvantageExpenditureAmount = eightADisadvantageExpenditureAmount.add(replaceNullWithZero(amount));
     }
    
     
 
 
-    public KualiDecimal getHubZoneExpenditureAmount() {
+    public ScaleTwoDecimal getHubZoneExpenditureAmount() {
         return hubZoneExpenditureAmount;
     }
 
-    public void setHubZoneExpenditureAmount(KualiDecimal hubZoneExpenditureAmount) {
+    public void setHubZoneExpenditureAmount(ScaleTwoDecimal hubZoneExpenditureAmount) {
         this.hubZoneExpenditureAmount = hubZoneExpenditureAmount;
     }
 
-    public void addToHubZoneExpenditureAmount(KualiDecimal amount) {
+    public void addToHubZoneExpenditureAmount(ScaleTwoDecimal amount) {
         this.hubZoneExpenditureAmount = hubZoneExpenditureAmount.add(replaceNullWithZero(amount));
     }
 
     
     
-    public KualiDecimal getVeteranOwnedExpenditureAmount() {
+    public ScaleTwoDecimal getVeteranOwnedExpenditureAmount() {
         return veteranOwnedExpenditureAmount;
     }
 
-    public void setVeteranOwnedExpenditureAmount(KualiDecimal veteranOwnedExpenditureAmount) {
+    public void setVeteranOwnedExpenditureAmount(ScaleTwoDecimal veteranOwnedExpenditureAmount) {
         this.veteranOwnedExpenditureAmount = veteranOwnedExpenditureAmount;
     }
 
-    public void addToVeteranOwnedExpenditureAmount(KualiDecimal amount) {
+    public void addToVeteranOwnedExpenditureAmount(ScaleTwoDecimal amount) {
         this.veteranOwnedExpenditureAmount = veteranOwnedExpenditureAmount.add(replaceNullWithZero(amount));
     }
 
     
     
-    public KualiDecimal getServiceDisabledVeteranOwnedExpenditureAmount() {
+    public ScaleTwoDecimal getServiceDisabledVeteranOwnedExpenditureAmount() {
         return serviceDisabledVeteranOwnedExpenditureAmount;
     }
 
-    public void setServiceDisabledVeteranOwnedExpenditureAmount(KualiDecimal serviceDisabledVeteranOwnedExpenditureAmount) {
+    public void setServiceDisabledVeteranOwnedExpenditureAmount(ScaleTwoDecimal serviceDisabledVeteranOwnedExpenditureAmount) {
         this.serviceDisabledVeteranOwnedExpenditureAmount = serviceDisabledVeteranOwnedExpenditureAmount;
     }
 
-    public void addToServiceDisabledVeteranOwnedExpenditureAmount(KualiDecimal amount) {
+    public void addToServiceDisabledVeteranOwnedExpenditureAmount(ScaleTwoDecimal amount) {
         this.serviceDisabledVeteranOwnedExpenditureAmount = serviceDisabledVeteranOwnedExpenditureAmount.add(replaceNullWithZero(amount));
     }
     
 
     
-    public KualiDecimal getHistoricalBlackCollegeExpenditureAmount() {
+    public ScaleTwoDecimal getHistoricalBlackCollegeExpenditureAmount() {
         return historicalBlackCollegeExpenditureAmount;
     }
 
-    public void setHistoricalBlackCollegeExpenditureAmount(KualiDecimal historicalBlackCollegeExpenditureAmount) {
+    public void setHistoricalBlackCollegeExpenditureAmount(ScaleTwoDecimal historicalBlackCollegeExpenditureAmount) {
         this.historicalBlackCollegeExpenditureAmount = historicalBlackCollegeExpenditureAmount;
     }
 
-    public void addToHistoricalBlackCollegeExpenditureAmount(KualiDecimal amount) {
+    public void addToHistoricalBlackCollegeExpenditureAmount(ScaleTwoDecimal amount) {
         this.historicalBlackCollegeExpenditureAmount = historicalBlackCollegeExpenditureAmount.add(replaceNullWithZero(amount));
     }
     
@@ -174,8 +174,8 @@ public abstract class SubcontractingExpenditureCategoryAmountsBase extends KcPer
      * This method calculates the total amount for small and large business expenditure amounts
      * @return The total value
      */
-    public KualiDecimal getTotalBusinessExpenditureAmount() {
-        KualiDecimal returnVal = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getTotalBusinessExpenditureAmount() {
+        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
         returnVal = returnVal.add(replaceNullWithZero(getSmallBusinessExpenditureAmount()));
         returnVal = returnVal.add(replaceNullWithZero(getLargeBusinessExpenditureAmount()));
         return returnVal;
@@ -183,8 +183,8 @@ public abstract class SubcontractingExpenditureCategoryAmountsBase extends KcPer
 
     
 
-    private KualiDecimal replaceNullWithZero(KualiDecimal amount) {
-        KualiDecimal retVal = new KualiDecimal(0.00);
+    private ScaleTwoDecimal replaceNullWithZero(ScaleTwoDecimal amount) {
+        ScaleTwoDecimal retVal = new ScaleTwoDecimal(0.00);
         if(amount != null) {
             retVal = amount;
         }

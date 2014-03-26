@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -40,8 +40,8 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_TOTAL_CREDIT_SPLIT
  */
 public class CreditSplitValidator {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidator.class);
-    private static final KualiDecimal CREDIT_UPBOUND = new KualiDecimal(100.00);
-    private static final KualiDecimal CREDIT_LOWBOUND = KualiDecimal.ZERO;
+    private static final ScaleTwoDecimal CREDIT_UPBOUND = new ScaleTwoDecimal(100.00);
+    private static final ScaleTwoDecimal CREDIT_LOWBOUND = ScaleTwoDecimal.ZERO;
     
     private static final String VALIDATING_MESSAGE = "Validating ";
     private static final String VALIDATING_CT_MESSAGE = "Validating credit type ";
@@ -85,7 +85,7 @@ public class CreditSplitValidator {
     public boolean validate(Collection<ProposalPerson> investigators, InvestigatorCreditType creditType) {
         boolean retval = true;
         
-        DecimalHolder investigatorCreditTotal = new DecimalHolder(KualiDecimal.ZERO);
+        DecimalHolder investigatorCreditTotal = new DecimalHolder(ScaleTwoDecimal.ZERO);
 
         if (!validateCreditSplitable(investigators.iterator(), creditType, investigatorCreditTotal)) {
             addAuditError(ERROR_TOTAL_CREDIT_SPLIT_UPBOUND, creditType.getDescription());                    
@@ -95,7 +95,7 @@ public class CreditSplitValidator {
         LOG.info(INV_VALIDATION_MESSAGE + retval);
 
         for (ProposalPerson investigator : investigators) {
-            DecimalHolder unitCreditTotal = new DecimalHolder(KualiDecimal.ZERO);
+            DecimalHolder unitCreditTotal = new DecimalHolder(ScaleTwoDecimal.ZERO);
             
             if (!validateCreditSplitable(investigator.getUnits().iterator(), creditType, unitCreditTotal)) {
                 addAuditError(ERROR_CREDIT_SPLIT_UPBOUND, creditType.getDescription(), getCreditSplitableName(investigator));
@@ -126,7 +126,7 @@ public class CreditSplitValidator {
         CreditSplitable splitable = splitable_it.next();
         LOG.info(VALIDATING_MESSAGE + getCreditSplitableName(splitable));
      
-        DecimalHolder lesserCummulative = new DecimalHolder(KualiDecimal.ZERO);        
+        DecimalHolder lesserCummulative = new DecimalHolder(ScaleTwoDecimal.ZERO);
         retval &= validateCreditSplit(splitable.getCreditSplits().iterator(), creditType, lesserCummulative);
      
         greaterCummulative.add(lesserCummulative);
@@ -142,7 +142,7 @@ public class CreditSplitValidator {
      * @param total value of the credit split
      * @return <code>false</code> if the credit split total is anything other than 100.00 or 0.00; otherwise, return <code>true</code> 
      */
-    private boolean isCreditSplitTotalValid(KualiDecimal total) {
+    private boolean isCreditSplitTotalValid(ScaleTwoDecimal total) {
         return (CREDIT_UPBOUND.compareTo(total) == 0 || CREDIT_LOWBOUND.compareTo(total) > 0);
     }
 
@@ -176,7 +176,7 @@ public class CreditSplitValidator {
      * @param value of the credit split to validate
      * @return <code>false</code> if negative or greater than 100.00
      */
-    protected boolean isCreditSplitValid(KualiDecimal value) {
+    protected boolean isCreditSplitValid(ScaleTwoDecimal value) {
         boolean retval = true;
         
         // Validate that the current credit split isn't greater than 100% or less than 0%
@@ -234,43 +234,43 @@ public class CreditSplitValidator {
     }
     
     /**
-     * A class for holding a <code>{@link KualiDecimal}</code> instance. There is no way to add to
-     * or modify the value of a <code>{@link KualiDecimal}</code> without changing its reference; therefore,
-     * pointing to a new instance. This causes a problem where a <code>{@link KualiDecimal}</code> instance
+     * A class for holding a <code>{@link ScaleTwoDecimal}</code> instance. There is no way to add to
+     * or modify the value of a <code>{@link ScaleTwoDecimal}</code> without changing its reference; therefore,
+     * pointing to a new instance. This causes a problem where a <code>{@link ScaleTwoDecimal}</code> instance
      * is used in a memento pattern.<br/>
      * <br/>
      * <code>{@link DecimalHolder}</code> is created to handle that case. <code>{@link DecimalHolder}</code> becomes
-     * the memento for a changing <code>{@link KualiDecimal}</code> instance.
+     * the memento for a changing <code>{@link ScaleTwoDecimal}</code> instance.
      * 
-     * @see KualiDecimal
+     * @see ScaleTwoDecimal
      */
     final class DecimalHolder implements Comparable<DecimalHolder> {
-        private KualiDecimal value;
+        private ScaleTwoDecimal value;
         
         /**
-         * Create a <code>{@link DecimalHolder}</code> from a <code>{@link KualiDecimal}</code>.
+         * Create a <code>{@link DecimalHolder}</code> from a <code>{@link ScaleTwoDecimal}</code>.
          * 
-         * @param val a <code>{@link KualiDecimal}</code> instance
+         * @param val a <code>{@link ScaleTwoDecimal}</code> instance
          */
-        public DecimalHolder(KualiDecimal val) {
+        public DecimalHolder(ScaleTwoDecimal val) {
             value = val;
         }
 
         /**
-         * Get the contained <code>{@link KualiDecimal}</code> instance.
+         * Get the contained <code>{@link ScaleTwoDecimal}</code> instance.
          * 
-         * @return KualiDecimal
+         * @return ScaleTwoDecimal
          */
-        public KualiDecimal getValue() {
+        public ScaleTwoDecimal getValue() {
             return value;
         }
 
-        public void setValue(KualiDecimal value) {
+        public void setValue(ScaleTwoDecimal value) {
             this.value = value;
         }
         
         
-        public void add(KualiDecimal val) {
+        public void add(ScaleTwoDecimal val) {
             value = value.add(val);
         }
         

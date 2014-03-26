@@ -27,7 +27,7 @@ import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -228,7 +228,7 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
     
     private boolean validateAwardTotalCostLimit(PendingTransaction pendingTransaction, Award award) {
         AwardAmountInfo awardAmountInfo = award.getLastAwardAmountInfo();
-        KualiDecimal obliDistributableAmount = awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount());
+        ScaleTwoDecimal obliDistributableAmount = awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount());
         if (award.getTotalCostBudgetLimit() != null
                 && award.getTotalCostBudgetLimit().isGreaterThan(obliDistributableAmount)) {
             reportWarning(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.WARNING_TRANSACTION_OBLI_LESS_THAN_BUDGET_LIMIT, new String[]{award.getAwardNumber()});
@@ -337,17 +337,17 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
 
     public boolean processParameterEnabledRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai, TimeAndMoneyDocument doc) {
         boolean valid = true;
-        KualiDecimal obligatedDirectChange = awardHierarchyNode.getObligatedTotalDirect().subtract(aai.getObligatedTotalDirect());
-        KualiDecimal obligatedIndirectChange = awardHierarchyNode.getObligatedTotalIndirect().subtract(aai.getObligatedTotalIndirect());
-        KualiDecimal anticipatedDirectChange = awardHierarchyNode.getAnticipatedTotalDirect().subtract(aai.getAnticipatedTotalDirect());
-        KualiDecimal anticipatedIndirectChange = awardHierarchyNode.getAnticipatedTotalIndirect().subtract(aai.getAnticipatedTotalIndirect());
+        ScaleTwoDecimal obligatedDirectChange = awardHierarchyNode.getObligatedTotalDirect().subtract(aai.getObligatedTotalDirect());
+        ScaleTwoDecimal obligatedIndirectChange = awardHierarchyNode.getObligatedTotalIndirect().subtract(aai.getObligatedTotalIndirect());
+        ScaleTwoDecimal anticipatedDirectChange = awardHierarchyNode.getAnticipatedTotalDirect().subtract(aai.getAnticipatedTotalDirect());
+        ScaleTwoDecimal anticipatedIndirectChange = awardHierarchyNode.getAnticipatedTotalIndirect().subtract(aai.getAnticipatedTotalIndirect());
         
         boolean obligatedTotalChanged = awardHierarchyNode.getObligatedTotalDirect().add(awardHierarchyNode.getObligatedTotalIndirect()).isNonZero();
         boolean anticipatedTotalChanged = awardHierarchyNode.getAnticipatedTotalDirect().add(awardHierarchyNode.getAnticipatedTotalIndirect()).isNonZero();
         //if totals change and net effect of changes result in reduction of one total with increase of other, we need to report error.
         if(obligatedTotalChanged || anticipatedTotalChanged) {
-            KualiDecimal obligatedNetEffect = awardHierarchyNode.getObligatedTotalDirect().add(awardHierarchyNode.getObligatedTotalIndirect());
-            KualiDecimal anticipatedNetEffect = awardHierarchyNode.getAnticipatedTotalDirect().add(awardHierarchyNode.getAnticipatedTotalIndirect());
+            ScaleTwoDecimal obligatedNetEffect = awardHierarchyNode.getObligatedTotalDirect().add(awardHierarchyNode.getObligatedTotalIndirect());
+            ScaleTwoDecimal anticipatedNetEffect = awardHierarchyNode.getAnticipatedTotalDirect().add(awardHierarchyNode.getAnticipatedTotalIndirect());
             if((obligatedNetEffect.isNegative() && anticipatedNetEffect.isPositive()) ||
                     (obligatedNetEffect.isPositive() && anticipatedNetEffect.isNegative())) {
                 reportError(TOTALS, KeyConstants.ERROR_NET_TOTALS_TRANSACTION);
@@ -372,8 +372,8 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
                     }
             }
         }
-        KualiDecimal obligatedTotal = new KualiDecimal(0);
-        KualiDecimal anticipatedTotal= new KualiDecimal(0);
+        ScaleTwoDecimal obligatedTotal = new ScaleTwoDecimal(0);
+        ScaleTwoDecimal anticipatedTotal= new ScaleTwoDecimal(0);
         obligatedTotal = obligatedTotal.add(awardHierarchyNode.getObligatedTotalDirect());
         obligatedTotal = obligatedTotal.add(awardHierarchyNode.getObligatedTotalIndirect());
         anticipatedTotal = anticipatedTotal.add(awardHierarchyNode.getAnticipatedTotalDirect());
@@ -383,7 +383,7 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
             reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_ANTICIPATED_AMOUNT);
             valid = false;
         }
-        if (awardHierarchyNode.getAmountObligatedToDate().isLessThan(KualiDecimal.ZERO)) {
+        if (awardHierarchyNode.getAmountObligatedToDate().isLessThan(ScaleTwoDecimal.ZERO)) {
             reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_OBLIGATED_AMOUNT_NEGATIVE);
             valid = false;
         }
@@ -393,8 +393,8 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
 
     public boolean processParameterDisabledRules(AwardHierarchyNode awardHierarchyNode, AwardAmountInfo aai, TimeAndMoneyDocument doc) {
         boolean valid = true;
-        KualiDecimal obligatedChange = awardHierarchyNode.getAmountObligatedToDate().subtract(aai.getAmountObligatedToDate());
-        KualiDecimal anticipatedChange = awardHierarchyNode.getAnticipatedTotalAmount().subtract(aai.getAnticipatedTotalAmount());
+        ScaleTwoDecimal obligatedChange = awardHierarchyNode.getAmountObligatedToDate().subtract(aai.getAmountObligatedToDate());
+        ScaleTwoDecimal anticipatedChange = awardHierarchyNode.getAnticipatedTotalAmount().subtract(aai.getAnticipatedTotalAmount());
         if ((obligatedChange.isPositive() && anticipatedChange.isNegative()) ||
                 obligatedChange.isNegative() && anticipatedChange.isPositive()) {
             reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_NET_TOTALS_TRANSACTION);
@@ -404,11 +404,11 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
             reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_ANTICIPATED_AMOUNT);
             valid = false;
         }
-        if (awardHierarchyNode.getAmountObligatedToDate().isLessThan(KualiDecimal.ZERO)) {
+        if (awardHierarchyNode.getAmountObligatedToDate().isLessThan(ScaleTwoDecimal.ZERO)) {
             reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_OBLIGATED_AMOUNT_NEGATIVE);
             valid = false;
         }
-        if (awardHierarchyNode.getAnticipatedTotalAmount().isLessThan(KualiDecimal.ZERO)) {
+        if (awardHierarchyNode.getAnticipatedTotalAmount().isLessThan(ScaleTwoDecimal.ZERO)) {
             reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_ANTICIPATED_AMOUNT_NEGATIVE);
             valid = false;            
         }
