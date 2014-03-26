@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.modular;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 
 import java.util.ArrayList;
@@ -27,25 +27,25 @@ public class BudgetModular extends BudgetAssociate {
 
     private Integer budgetPeriod;
 
-    private BudgetDecimal directCostLessConsortiumFna;
+    private ScaleTwoDecimal directCostLessConsortiumFna;
 
-    private BudgetDecimal consortiumFna;
+    private ScaleTwoDecimal consortiumFna;
 
-    private BudgetDecimal totalDirectCost;
+    private ScaleTwoDecimal totalDirectCost;
 
     // Derived properties 
-    private BudgetDecimal totalRequestedCost;
+    private ScaleTwoDecimal totalRequestedCost;
 
-    private BudgetDecimal totalFnaRequested;
+    private ScaleTwoDecimal totalFnaRequested;
 
     private List<BudgetModularIdc> budgetModularIdcs;
 
     public BudgetModular() {
         super();
         budgetModularIdcs = new ArrayList<BudgetModularIdc>();
-        directCostLessConsortiumFna = new BudgetDecimal(0);
-        consortiumFna = new BudgetDecimal(0);
-        totalDirectCost = new BudgetDecimal(0);
+        directCostLessConsortiumFna = new ScaleTwoDecimal(0);
+        consortiumFna = new ScaleTwoDecimal(0);
+        totalDirectCost = new ScaleTwoDecimal(0);
     }
 
     public BudgetModular(Long budgetId, Integer budgetPeriod) {
@@ -64,43 +64,43 @@ public class BudgetModular extends BudgetAssociate {
         this.budgetPeriod = budgetPeriod;
     }
 
-    public BudgetDecimal getConsortiumFna() {
+    public ScaleTwoDecimal getConsortiumFna() {
         return consortiumFna;
     }
 
-    public void setConsortiumFna(BudgetDecimal consortiumFna) {
+    public void setConsortiumFna(ScaleTwoDecimal consortiumFna) {
         this.consortiumFna = consortiumFna;
     }
 
-    public BudgetDecimal getDirectCostLessConsortiumFna() {
+    public ScaleTwoDecimal getDirectCostLessConsortiumFna() {
         return directCostLessConsortiumFna;
     }
 
-    public void setDirectCostLessConsortiumFna(BudgetDecimal directCostLessConsortiumFna) {
+    public void setDirectCostLessConsortiumFna(ScaleTwoDecimal directCostLessConsortiumFna) {
         this.directCostLessConsortiumFna = directCostLessConsortiumFna;
     }
 
-    public BudgetDecimal getTotalDirectCost() {
+    public ScaleTwoDecimal getTotalDirectCost() {
         return totalDirectCost;
     }
 
-    public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
+    public void setTotalDirectCost(ScaleTwoDecimal totalDirectCost) {
         this.totalDirectCost = totalDirectCost;
     }
 
-    public BudgetDecimal getTotalFnaRequested() {
+    public ScaleTwoDecimal getTotalFnaRequested() {
         return totalFnaRequested;
     }
 
-    public void setTotalFnaRequested(BudgetDecimal totalFnaRequested) {
+    public void setTotalFnaRequested(ScaleTwoDecimal totalFnaRequested) {
         this.totalFnaRequested = totalFnaRequested;
     }
 
-    public BudgetDecimal getTotalRequestedCost() {
+    public ScaleTwoDecimal getTotalRequestedCost() {
         return totalRequestedCost;
     }
 
-    public void setTotalRequestedCost(BudgetDecimal totalRequestedCost) {
+    public void setTotalRequestedCost(ScaleTwoDecimal totalRequestedCost) {
         this.totalRequestedCost = totalRequestedCost;
     }
 
@@ -126,7 +126,7 @@ public class BudgetModular extends BudgetAssociate {
     }
 
     public void calculateTotalDirectCost() {
-        BudgetDecimal totalDirectCost = new BudgetDecimal(0);
+        ScaleTwoDecimal totalDirectCost = new ScaleTwoDecimal(0);
         if (this.getDirectCostLessConsortiumFna() != null) {
             totalDirectCost = totalDirectCost.add(this.getDirectCostLessConsortiumFna());
         }
@@ -137,7 +137,7 @@ public class BudgetModular extends BudgetAssociate {
     }
 
     public void calculateTotalFnaRequested() {
-        BudgetDecimal fnaRequested = new BudgetDecimal(0);
+        ScaleTwoDecimal fnaRequested = new ScaleTwoDecimal(0);
         for (BudgetModularIdc budgetModularIdc : this.getBudgetModularIdcs()) {
             budgetModularIdc.calculateFundsRequested();
             if (budgetModularIdc.getFundsRequested() != null) {
@@ -148,7 +148,7 @@ public class BudgetModular extends BudgetAssociate {
     }
 
     public void calculateTotalRequestedCost() {
-        BudgetDecimal requestedCost = new BudgetDecimal(0);
+        ScaleTwoDecimal requestedCost = new ScaleTwoDecimal(0);
         if (this.getTotalDirectCost() != null) {
             requestedCost = requestedCost.add(this.getTotalDirectCost());
         }

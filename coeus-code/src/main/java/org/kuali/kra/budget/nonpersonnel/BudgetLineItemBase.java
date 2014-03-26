@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.budget.core.BudgetService;
@@ -49,11 +49,11 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
 
     private String costElement;
 
-    private BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
 
     private Date endDate;
 
-    private BudgetDecimal lineItemCost = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal lineItemCost = ScaleTwoDecimal.ZERO;
 
     private String lineItemDescription;
 
@@ -61,7 +61,7 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
 
     private Date startDate;
 
-    private BudgetDecimal underrecoveryAmount = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal underrecoveryAmount = ScaleTwoDecimal.ZERO;
 
     private String budgetCategoryCode;
 
@@ -69,9 +69,9 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
 
     private Integer quantity;
 
-    private BudgetDecimal directCost;
+    private ScaleTwoDecimal directCost;
 
-    private BudgetDecimal indirectCost;
+    private ScaleTwoDecimal indirectCost;
 
     private BudgetCategory budgetCategory;
 
@@ -81,7 +81,7 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
 
     private CostElement costElementBO;
 
-    private BudgetDecimal totalCostSharingAmount;
+    private ScaleTwoDecimal totalCostSharingAmount;
 
     private boolean validToApplyInRate;
 
@@ -122,15 +122,15 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
      * Gets the directCost attribute. 
      * @return Returns the directCost.
      */
-    public BudgetDecimal getDirectCost() {
-        return BudgetDecimal.returnZeroIfNull(directCost);
+    public ScaleTwoDecimal getDirectCost() {
+        return ScaleTwoDecimal.returnZeroIfNull(directCost);
     }
 
     /**
      * Sets the directCost attribute value.
      * @param directCost The directCost to set.
      */
-    public void setDirectCost(BudgetDecimal directCost) {
+    public void setDirectCost(ScaleTwoDecimal directCost) {
         this.directCost = directCost;
     }
 
@@ -138,15 +138,15 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
      * Gets the indirectCost attribute. 
      * @return Returns the indirectCost.
      */
-    public BudgetDecimal getIndirectCost() {
-        return BudgetDecimal.returnZeroIfNull(indirectCost);
+    public ScaleTwoDecimal getIndirectCost() {
+        return ScaleTwoDecimal.returnZeroIfNull(indirectCost);
     }
 
     /**
      * Sets the indirectCost attribute value.
      * @param indirectCost The indirectCost to set.
      */
-    public void setIndirectCost(BudgetDecimal indirectCost) {
+    public void setIndirectCost(ScaleTwoDecimal indirectCost) {
         this.indirectCost = indirectCost;
     }
 
@@ -206,11 +206,11 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
         this.costElement = costElement;
     }
 
-    public BudgetDecimal getCostSharingAmount() {
-        return BudgetDecimal.returnZeroIfNull(costSharingAmount);
+    public ScaleTwoDecimal getCostSharingAmount() {
+        return ScaleTwoDecimal.returnZeroIfNull(costSharingAmount);
     }
 
-    public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+    public void setCostSharingAmount(ScaleTwoDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
     }
 
@@ -222,11 +222,11 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
         this.endDate = endDate;
     }
 
-    public BudgetDecimal getLineItemCost() {
-        return BudgetDecimal.returnZeroIfNull(lineItemCost);
+    public ScaleTwoDecimal getLineItemCost() {
+        return ScaleTwoDecimal.returnZeroIfNull(lineItemCost);
     }
 
-    public void setLineItemCost(BudgetDecimal lineItemCost) {
+    public void setLineItemCost(ScaleTwoDecimal lineItemCost) {
         this.lineItemCost = lineItemCost;
     }
 
@@ -270,11 +270,11 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
         this.startDate = startDate;
     }
 
-    public BudgetDecimal getUnderrecoveryAmount() {
-        return BudgetDecimal.returnZeroIfNull(underrecoveryAmount);
+    public ScaleTwoDecimal getUnderrecoveryAmount() {
+        return ScaleTwoDecimal.returnZeroIfNull(underrecoveryAmount);
     }
 
-    public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
+    public void setUnderrecoveryAmount(ScaleTwoDecimal underrecoveryAmount) {
         this.underrecoveryAmount = underrecoveryAmount;
     }
 
@@ -294,11 +294,11 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
         this.costElementBO = costElementBO;
     }
 
-    public BudgetDecimal getTotalCostSharingAmount() {
-        return BudgetDecimal.returnZeroIfNull(totalCostSharingAmount);
+    public ScaleTwoDecimal getTotalCostSharingAmount() {
+        return ScaleTwoDecimal.returnZeroIfNull(totalCostSharingAmount);
     }
 
-    public void setTotalCostSharingAmount(BudgetDecimal totalCostSharingAmount) {
+    public void setTotalCostSharingAmount(ScaleTwoDecimal totalCostSharingAmount) {
         this.totalCostSharingAmount = totalCostSharingAmount;
     }
 

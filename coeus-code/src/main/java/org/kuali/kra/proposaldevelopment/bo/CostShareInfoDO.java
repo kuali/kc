@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.io.Serializable;
 
 public class CostShareInfoDO implements Serializable {
 
     private String costShareUnit;
-    private BudgetDecimal costShareAmount;
+    private ScaleTwoDecimal costShareAmount;
     
     public String getCostShareUnit() {
         return costShareUnit;
@@ -30,10 +30,10 @@ public class CostShareInfoDO implements Serializable {
     public void setCostShareUnit(String costShareUnit) {
         this.costShareUnit = costShareUnit;
     }
-    public BudgetDecimal getCostShareAmount() {
+    public ScaleTwoDecimal getCostShareAmount() {
         return costShareAmount;
     }
-    public void setCostShareAmount(BudgetDecimal costShareAmount) {
+    public void setCostShareAmount(ScaleTwoDecimal costShareAmount) {
         this.costShareAmount = costShareAmount;
     }
     

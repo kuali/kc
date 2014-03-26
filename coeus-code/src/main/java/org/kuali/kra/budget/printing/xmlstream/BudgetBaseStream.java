@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.kra.printing.schema.GroupsType;
 import org.kuali.kra.printing.schema.ReportHeaderType;
@@ -26,7 +27,6 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.InstituteLaRate;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.ValidCalcType;
 import org.kuali.kra.budget.core.Budget;

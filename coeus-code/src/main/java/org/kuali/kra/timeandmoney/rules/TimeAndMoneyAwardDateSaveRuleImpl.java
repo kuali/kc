@@ -28,7 +28,7 @@ import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -60,7 +60,7 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends KcTransactionalDocumentRu
             Date obligatedEndDate = awardHierarchyNode.getValue().getObligationExpirationDate();
             Date projectEndDate = awardHierarchyNode.getValue().getFinalExpirationDate();
             Date projectStartDate = aai.getAward().getAwardEffectiveDate();
-            KualiDecimal obligatedTotal = awardHierarchyNode.getValue().getAmountObligatedToDate();
+            ScaleTwoDecimal obligatedTotal = awardHierarchyNode.getValue().getAmountObligatedToDate();
             
             MessageMap errorMap = GlobalVariables.getMessageMap();
             String fieldStarter =  "awardHierarchyNodeItems[" + (i + 1);
@@ -90,7 +90,7 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends KcTransactionalDocumentRu
             valid = valid && validateProjectStartBeforeProjectEnd && validateObligationStartBeforeObligationEnd && validateProjectStartBeforeObligationStart 
                     && validateProjectStartBeforeObligationEnd && validateObligationStartBeforeProjectEnd && validateObligationEndBeforeProjectEnd;
             
-            if (obligatedTotal != null && obligatedTotal.isGreaterThan(new KualiDecimal(0))) {
+            if (obligatedTotal != null && obligatedTotal.isGreaterThan(new ScaleTwoDecimal(0))) {
                 if (obligatedStartDate == null) {
                     if ("1".equals(getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"))) {
                         reportError(currentFundEffectiveField, KeyConstants.ERROR_AWARD_EFFECTIVE_DATE_TOTAL);

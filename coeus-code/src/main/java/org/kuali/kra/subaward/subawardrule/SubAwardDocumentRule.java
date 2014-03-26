@@ -28,7 +28,7 @@ import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -166,7 +166,7 @@ AddSubAwardAttachmentRule {
         rulePassed &= getDictionaryValidationService().isBusinessObjectValid(amountInfo); 
         GlobalVariables.getMessageMap().removeFromErrorPath("newSubAwardAmountInfo");
         
-        KualiDecimal obligatedAmount = subAward.getTotalObligatedAmount();
+        ScaleTwoDecimal obligatedAmount = subAward.getTotalObligatedAmount();
         if (amountInfo.getObligatedChange() != null) {
             obligatedAmount = obligatedAmount.add(amountInfo.getObligatedChange());
             if (obligatedAmount.isNegative()) {
@@ -174,7 +174,7 @@ AddSubAwardAttachmentRule {
                 reportError(AMOUNT_INFO_OBLIGATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE); 
             }
         }
-        KualiDecimal anticipatedAmount = subAward.getTotalAnticipatedAmount();
+        ScaleTwoDecimal anticipatedAmount = subAward.getTotalAnticipatedAmount();
         if (amountInfo.getAnticipatedChange() != null) {
             anticipatedAmount = anticipatedAmount.add(amountInfo.getAnticipatedChange());
             if (anticipatedAmount.isNegative()) {

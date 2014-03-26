@@ -21,7 +21,7 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -40,7 +40,7 @@ public class AwardFandaRate extends AwardAssociate {
 
     private Long awardFandaRateId;
 
-    private KualiDecimal applicableFandaRate;
+    private ScaleTwoDecimal applicableFandaRate;
 
     private String fandaRateTypeCode;
 
@@ -48,7 +48,7 @@ public class AwardFandaRate extends AwardAssociate {
 
     private String onCampusFlag;
 
-    private KualiDecimal underrecoveryOfIndirectCost;
+    private ScaleTwoDecimal underrecoveryOfIndirectCost;
 
     private String sourceAccount;
 
@@ -70,7 +70,7 @@ public class AwardFandaRate extends AwardAssociate {
         this.awardFandaRateId = awardFandaRateId;
     }
 
-    public KualiDecimal getApplicableFandaRate() {
+    public ScaleTwoDecimal getApplicableFandaRate() {
         return applicableFandaRate;
     }
 
@@ -79,7 +79,7 @@ public class AwardFandaRate extends AwardAssociate {
         this.awardFandaRateId = null;
     }
 
-    public void setApplicableFandaRate(KualiDecimal applicableFandaRate) {
+    public void setApplicableFandaRate(ScaleTwoDecimal applicableFandaRate) {
         this.applicableFandaRate = applicableFandaRate;
     }
 
@@ -111,7 +111,7 @@ public class AwardFandaRate extends AwardAssociate {
         this.onCampusFlag = onCampusFlag;
     }
 
-    public KualiDecimal getUnderrecoveryOfIndirectCost() {
+    public ScaleTwoDecimal getUnderrecoveryOfIndirectCost() {
         return underrecoveryOfIndirectCost;
     }
     
@@ -119,7 +119,7 @@ public class AwardFandaRate extends AwardAssociate {
         return underrecoveryOfIndirectCost != null ? underrecoveryOfIndirectCost.longValue() : 0;
     }
 
-    public void setUnderrecoveryOfIndirectCost(KualiDecimal underrecoveryOfIndirectCost) {
+    public void setUnderrecoveryOfIndirectCost(ScaleTwoDecimal underrecoveryOfIndirectCost) {
         this.underrecoveryOfIndirectCost = underrecoveryOfIndirectCost;
     }
 

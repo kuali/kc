@@ -74,8 +74,8 @@ function collapseAll() {
                 <th width="14%"><div align="center">Previous Budget</div></th>
                 <th width="14%"><div align="center">Budget Total</div></th>
              </tr>
-             <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals['personnelSalaryTotals'] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.currentSummaryTotals['personnelSalaryTotals'])}" />
-             <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals['personnelSalaryTotals'] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.previousSummaryTotals['personnelSalaryTotals'])}" />
+             <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals['personnelSalaryTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentSummaryTotals['personnelSalaryTotals'])}" />
+             <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals['personnelSalaryTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousSummaryTotals['personnelSalaryTotals'])}" />
              <c:set var="total" value="${curTotal + prevTotal}" />
              <c:set var="personnelObjectCodes" value="${budgetSummary.combinedPersonnelObjectCodes}"/>
              <c:set var="hasItems" value="${not empty personnelObjectCodes}"/>
@@ -95,8 +95,8 @@ function collapseAll() {
 			 
 			 <tbody id="G${anchorIndex}" class="expandableArea" style="display: none;">
 			 <c:forEach var="objectCode" items="${personnelObjectCodes}">
-			    <c:set var="currentTotal" value="${budgetSummary.currentObjectCodeTotals[objectCode] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.currentObjectCodeTotals[objectCode])}"/>
-			    <c:set var="previousTotal" value="${budgetSummary.previousObjectCodeTotals[objectCode] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.previousObjectCodeTotals[objectCode])}"/>
+			    <c:set var="currentTotal" value="${budgetSummary.currentObjectCodeTotals[objectCode] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentObjectCodeTotals[objectCode])}"/>
+			    <c:set var="previousTotal" value="${budgetSummary.previousObjectCodeTotals[objectCode] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousObjectCodeTotals[objectCode])}"/>
 			    <c:set var="total" value="${currentTotal + previousTotal}"/>
 			 	<tr>
 			 		<td>&nbsp;</td>
@@ -111,8 +111,8 @@ function collapseAll() {
 			<c:set var="anchorIndex" value="${anchorIndex+1}"/>
 			
 			<!-- Fringe -->
-             <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals['personnelFringeTotals'] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.currentSummaryTotals['personnelFringeTotals'])}" />
-             <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals['personnelFringeTotals'] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.previousSummaryTotals['personnelFringeTotals'])}" />
+             <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals['personnelFringeTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentSummaryTotals['personnelFringeTotals'])}" />
+             <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals['personnelFringeTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousSummaryTotals['personnelFringeTotals'])}" />
              <c:set var="total" value="${curTotal + prevTotal}" />
 			 <tr>
 			   <td colspan="2" class="tab-subhead">
@@ -128,8 +128,8 @@ function collapseAll() {
 			 
 			 <tbody id="G${anchorIndex}" class="expandableArea" style="display: none;">
 			 <c:forEach var="objectCode" items="${personnelObjectCodes}">
-			    <c:set var="currentTotal" value="${budgetSummary.currentObjectCodePersonnelFringeTotals[objectCode.costElement] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.currentObjectCodePersonnelFringeTotals[objectCode.costElement])}"/>
-			    <c:set var="previousTotal" value="${budgetSummary.previousObjectCodePersonnelFringeTotals[objectCode.costElement] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.previousObjectCodePersonnelFringeTotals[objectCode.costElement])}"/>
+			    <c:set var="currentTotal" value="${budgetSummary.currentObjectCodePersonnelFringeTotals[objectCode.costElement] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentObjectCodePersonnelFringeTotals[objectCode.costElement])}"/>
+			    <c:set var="previousTotal" value="${budgetSummary.previousObjectCodePersonnelFringeTotals[objectCode.costElement] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousObjectCodePersonnelFringeTotals[objectCode.costElement])}"/>
 			    <c:set var="total" value="${currentTotal + previousTotal}"/>
 			 	<tr>
 			 		<td>&nbsp;</td>
@@ -144,8 +144,8 @@ function collapseAll() {
 			<c:set var="anchorIndex" value="${anchorIndex+1}"/>		
 			
 			<!-- Calc Direct Costs for Personnel -->
-			 <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals['personnelCalculatedExpenseSummaryTotals'] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.currentSummaryTotals['personnelCalculatedExpenseSummaryTotals'])}" />
-             <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals['personnelCalculatedExpenseSummaryTotals'] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.previousSummaryTotals['personnelCalculatedExpenseSummaryTotals'])}" />
+			 <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals['personnelCalculatedExpenseSummaryTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentSummaryTotals['personnelCalculatedExpenseSummaryTotals'])}" />
+             <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals['personnelCalculatedExpenseSummaryTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousSummaryTotals['personnelCalculatedExpenseSummaryTotals'])}" />
              <c:set var="total" value="${curTotal + prevTotal}" />
              <c:set var="calcRates" value="${budgetSummary.combinedPersonnelCalculatedExpenseRates}"/>
              <c:set var="hasItems" value="${not empty calcRates}"/>
@@ -163,8 +163,8 @@ function collapseAll() {
 			 
 			 <tbody id="G${anchorIndex}" class="expandableArea" style="display: none;">
 			 <c:forEach var="rate" items="${calcRates}">
-			    <c:set var="currentTotal" value="${budgetSummary.currentPersonnelCalculatedExpenseTotals[rate] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.currentPersonnelCalculatedExpenseTotals[rate])}"/>
-			    <c:set var="previousTotal" value="${budgetSummary.previousPersonnelCalculatedExpenseTotals[rate] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.previousPersonnelCalculatedExpenseTotals[rate])}"/>
+			    <c:set var="currentTotal" value="${budgetSummary.currentPersonnelCalculatedExpenseTotals[rate] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentPersonnelCalculatedExpenseTotals[rate])}"/>
+			    <c:set var="previousTotal" value="${budgetSummary.previousPersonnelCalculatedExpenseTotals[rate] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousPersonnelCalculatedExpenseTotals[rate])}"/>
 			    <c:set var="total" value="${currentTotal + previousTotal}"/>
 			 	<tr>
 			 		<td>&nbsp;</td>
@@ -178,8 +178,8 @@ function collapseAll() {
 			</tbody>
 			<c:set var="anchorIndex" value="${anchorIndex+1}"/>		
               
-            <c:set var="currentTotal" value="${krabfn:getBigDecimal(budgetSummary.currentPersonnelTotal)}"/>
-            <c:set var="previousTotal" value="${krabfn:getBigDecimal(budgetSummary.previousPersonnelTotal)}"/>
+            <c:set var="currentTotal" value="${krafn:getBigDecimal(budgetSummary.currentPersonnelTotal)}"/>
+            <c:set var="previousTotal" value="${krafn:getBigDecimal(budgetSummary.previousPersonnelTotal)}"/>
             <c:set var="total" value="${currentTotal + previousTotal}"/>
             <!-- Personnel Subtotals -->
             <tr>
@@ -207,8 +207,8 @@ function collapseAll() {
 			 <c:set var="catType" value="${objectCodeByTypeEntry.key}"/>
 			 <c:set var="objCodes" value="${objectCodeByTypeEntry.value}"/>
 			 <c:if test="${catType.budgetCategoryTypeCode ne 'P'}">
-			 <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals[catType.budgetCategoryTypeCode] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.currentSummaryTotals[catType.budgetCategoryTypeCode])}" />
-             <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals[catType.budgetCategoryTypeCode] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.previousSummaryTotals[catType.budgetCategoryTypeCode])}" />
+			 <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals[catType.budgetCategoryTypeCode] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentSummaryTotals[catType.budgetCategoryTypeCode])}" />
+             <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals[catType.budgetCategoryTypeCode] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousSummaryTotals[catType.budgetCategoryTypeCode])}" />
              <c:set var="total" value="${curTotal + prevTotal}" />
              <c:set var="currentNonPersonnelTotal" value="${currentNonPersonnelTotal + curTotal}"/>
              <c:set var="previousNonPersonnelTotal" value="${previousNonPersonnelTotal + prevTotal}"/>
@@ -228,8 +228,8 @@ function collapseAll() {
 			 <tbody id="G${anchorIndex}" class="expandableArea" style="display: none;">
 			 <c:forEach var="objectCode" items="${objCodes}">
 			   <c:if test="${objectCode.costElement ne KualiForm.proposalHierarchyIndirectObjectCode}">
-			    <c:set var="currentTotal" value="${budgetSummary.currentObjectCodeTotals[objectCode] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.currentObjectCodeTotals[objectCode])}"/>
-			    <c:set var="previousTotal" value="${budgetSummary.previousObjectCodeTotals[objectCode] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.previousObjectCodeTotals[objectCode])}"/>
+			    <c:set var="currentTotal" value="${budgetSummary.currentObjectCodeTotals[objectCode] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentObjectCodeTotals[objectCode])}"/>
+			    <c:set var="previousTotal" value="${budgetSummary.previousObjectCodeTotals[objectCode] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousObjectCodeTotals[objectCode])}"/>
 			    <c:set var="total" value="${currentTotal + previousTotal}"/>
 			 	<tr>
 			 		<td>${objectCode.costElement}</td>
@@ -247,8 +247,8 @@ function collapseAll() {
 		  </c:forEach>
 		  
 			<!-- Calc Direct Costs for Non-Personnel -->
-			 <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals'] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.currentSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals'])}" />
-             <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals'] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.previousSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals'])}" />
+			 <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals'])}" />
+             <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals'] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals'])}" />
              <c:set var="total" value="${curTotal + prevTotal}" />
              <c:set var="currentNonPersonnelTotal" value="${currentNonPersonnelTotal + curTotal}"/>
              <c:set var="previousNonPersonnelTotal" value="${previousNonPersonnelTotal + prevTotal}"/>
@@ -268,8 +268,8 @@ function collapseAll() {
 			 
 			 <tbody id="G${anchorIndex}" class="expandableArea" style="display: none;">
 			 <c:forEach var="rate" items="${calcRates}">
-			    <c:set var="currentTotal" value="${budgetSummary.currentNonPersonnelCalculatedExpenseTotals[rate] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.currentNonPersonnelCalculatedExpenseTotals[rate])}"/>
-			    <c:set var="previousTotal" value="${budgetSummary.previousNonPersonnelCalculatedExpenseTotals[rate] == null ? 0.00 : krabfn:getBigDecimal(budgetSummary.previousNonPersonnelCalculatedExpenseTotals[rate])}"/>
+			    <c:set var="currentTotal" value="${budgetSummary.currentNonPersonnelCalculatedExpenseTotals[rate] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentNonPersonnelCalculatedExpenseTotals[rate])}"/>
+			    <c:set var="previousTotal" value="${budgetSummary.previousNonPersonnelCalculatedExpenseTotals[rate] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousNonPersonnelCalculatedExpenseTotals[rate])}"/>
 			    <c:set var="total" value="${currentTotal + previousTotal}"/>
 			 	<tr>
 			 		<td>&nbsp;</td>
@@ -297,8 +297,8 @@ function collapseAll() {
                   <td colspan="${numOfCols}" class="subhead"><span class="subhead-left"> Totals&nbsp;</span> </td>
             </tr>
             <tr>
-              <c:set var="curDirect" value="${krabfn:getBigDecimal(budgetSummary.currentBudget.totalDirectCost)}"/>
-              <c:set var="prevDirect" value="${krabfn:getBigDecimal(budgetSummary.previousBudget.totalDirectCost)}"/>
+              <c:set var="curDirect" value="${krafn:getBigDecimal(budgetSummary.currentBudget.totalDirectCost)}"/>
+              <c:set var="prevDirect" value="${krafn:getBigDecimal(budgetSummary.previousBudget.totalDirectCost)}"/>
               <td colspan="2" class="infoline" style="text-align:right;"><strong>TOTAL DIRECT COSTS</strong></td>
               <td class="infoline" style="text-align:right;"><strong><kul:htmlControlAttribute property="awardBudgetLimitsBean.directCostBudgetLimit" attributeEntry="${budgetLimitAttributes.limit}" styleClass="amount" readOnly="${readOnly}"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
@@ -306,8 +306,8 @@ function collapseAll() {
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect + prevDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
             </tr>
             <tr>
-              <c:set var="curDirect" value="${krabfn:getBigDecimal(budgetSummary.currentBudget.totalIndirectCost)}"/>
-              <c:set var="prevDirect" value="${krabfn:getBigDecimal(budgetSummary.previousBudget.totalIndirectCost)}"/>
+              <c:set var="curDirect" value="${krafn:getBigDecimal(budgetSummary.currentBudget.totalIndirectCost)}"/>
+              <c:set var="prevDirect" value="${krafn:getBigDecimal(budgetSummary.previousBudget.totalIndirectCost)}"/>
               <td colspan="2" class="infoline" style="text-align:right;"><strong>TOTAL F&A COSTS</strong></td>
               <td class="infoline" style="text-align:right;"><strong><kul:htmlControlAttribute property="awardBudgetLimitsBean.indirectCostBudgetLimit" attributeEntry="${budgetLimitAttributes.limit}" styleClass="amount" readOnly="${readOnly}"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
@@ -315,8 +315,8 @@ function collapseAll() {
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect + prevDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>
             </tr> 
             <tr>
-              <c:set var="curDirect" value="${krabfn:getBigDecimal(budgetSummary.currentBudget.totalCost)}"/>
-              <c:set var="prevDirect" value="${krabfn:getBigDecimal(budgetSummary.previousBudget.totalCost)}"/>
+              <c:set var="curDirect" value="${krafn:getBigDecimal(budgetSummary.currentBudget.totalCost)}"/>
+              <c:set var="prevDirect" value="${krafn:getBigDecimal(budgetSummary.previousBudget.totalCost)}"/>
               <td colspan="2" class="infoline" style="text-align:right;"><strong>TOTAL COSTS</strong></td>
               <td class="infoline" style="text-align:right;"><strong><kul:htmlControlAttribute property="awardBudgetLimitsBean.totalCostBudgetLimit" attributeEntry="${budgetLimitAttributes.limit}" styleClass="amount" readOnly="${readOnly}"/></strong></td>
               <td class="infoline" style="text-align:right;"><strong><fmt:formatNumber value="${curDirect}" type="currency" currencySymbol="$"  minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></strong></td>

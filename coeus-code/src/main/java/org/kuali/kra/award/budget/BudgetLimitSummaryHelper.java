@@ -16,7 +16,7 @@
 package org.kuali.kra.award.budget;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.rates.RateType;
@@ -73,7 +73,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Map<CostElement, BudgetDecimal> getCurrentObjectCodeTotals() {
+    public Map<CostElement, ScaleTwoDecimal> getCurrentObjectCodeTotals() {
         return getCurrentBudget().getObjectCodeBudgetTotals();
     }
     
@@ -82,7 +82,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Map<CostElement, BudgetDecimal> getPreviousObjectCodeTotals() {
+    public Map<CostElement, ScaleTwoDecimal> getPreviousObjectCodeTotals() {
         return getPreviousBudget().getObjectCodeBudgetTotals();
     }
     
@@ -91,7 +91,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Map<String, BudgetDecimal> getCurrentSummaryTotals() {
+    public Map<String, ScaleTwoDecimal> getCurrentSummaryTotals() {
         return getCurrentBudget().getTotalBudgetSummaryTotals();
     }    
 
@@ -100,7 +100,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Map<String, BudgetDecimal> getPreviousSummaryTotals() {
+    public Map<String, ScaleTwoDecimal> getPreviousSummaryTotals() {
         return getPreviousBudget().getTotalBudgetSummaryTotals();
     }  
     
@@ -109,7 +109,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Map<String, BudgetDecimal> getCurrentObjectCodePersonnelFringeTotals() {
+    public Map<String, ScaleTwoDecimal> getCurrentObjectCodePersonnelFringeTotals() {
         return getCurrentBudget().getObjectCodePersonnelFringeBudgetTotals();
     }
     
@@ -118,7 +118,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Map<String, BudgetDecimal> getPreviousObjectCodePersonnelFringeTotals() {
+    public Map<String, ScaleTwoDecimal> getPreviousObjectCodePersonnelFringeTotals() {
         return getPreviousBudget().getObjectCodePersonnelFringeBudgetTotals();
     }
     
@@ -146,7 +146,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Map<RateType, BudgetDecimal> getCurrentPersonnelCalculatedExpenseTotals() {
+    public Map<RateType, ScaleTwoDecimal> getCurrentPersonnelCalculatedExpenseTotals() {
         return getCurrentBudget().getPersonnelCalculatedExpenseBudgetTotals();
     }     
     
@@ -155,7 +155,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Map<RateType, BudgetDecimal> getPreviousPersonnelCalculatedExpenseTotals() {
+    public Map<RateType, ScaleTwoDecimal> getPreviousPersonnelCalculatedExpenseTotals() {
         return getPreviousBudget().getPersonnelCalculatedExpenseBudgetTotals();
     }
     
@@ -183,7 +183,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Map<RateType, BudgetDecimal> getCurrentNonPersonnelCalculatedExpenseTotals() {
+    public Map<RateType, ScaleTwoDecimal> getCurrentNonPersonnelCalculatedExpenseTotals() {
         return getCurrentBudget().getNonPersonnelCalculatedExpenseBudgetTotals();        
     }
     
@@ -192,7 +192,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Map<RateType, BudgetDecimal> getPreviousNonPersonnelCalculatedExpenseTotals() {
+    public Map<RateType, ScaleTwoDecimal> getPreviousNonPersonnelCalculatedExpenseTotals() {
         return getPreviousBudget().getNonPersonnelCalculatedExpenseBudgetTotals();        
     }
     
@@ -200,9 +200,9 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * Sums the personnel totals for the current budget.
      * @return
      */
-    public BudgetDecimal getCurrentPersonnelTotal() {
-        Map<String, BudgetDecimal> summaryTotals = getCurrentSummaryTotals();
-        BudgetDecimal total = BudgetDecimal.ZERO;
+    public ScaleTwoDecimal getCurrentPersonnelTotal() {
+        Map<String, ScaleTwoDecimal> summaryTotals = getCurrentSummaryTotals();
+        ScaleTwoDecimal total = ScaleTwoDecimal.ZERO;
         total = total.add(summaryTotals.get("personnelSalaryTotals"));
         total = total.add(summaryTotals.get("personnelFringeTotals"));
         total = total.add(summaryTotals.get("personnelCalculatedExpenseSummaryTotals"));
@@ -213,9 +213,9 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * Sums the personnel totals for the previous budget.
      * @return
      */
-    public BudgetDecimal getPreviousPersonnelTotal() {
-        Map<String, BudgetDecimal> summaryTotals = getPreviousSummaryTotals();
-        BudgetDecimal total = BudgetDecimal.ZERO;
+    public ScaleTwoDecimal getPreviousPersonnelTotal() {
+        Map<String, ScaleTwoDecimal> summaryTotals = getPreviousSummaryTotals();
+        ScaleTwoDecimal total = ScaleTwoDecimal.ZERO;
         total = total.add(summaryTotals.get("personnelSalaryTotals"));
         total = total.add(summaryTotals.get("personnelFringeTotals"));
         total = total.add(summaryTotals.get("personnelCalculatedExpenseSummaryTotals"));

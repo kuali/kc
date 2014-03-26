@@ -32,7 +32,7 @@ import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -197,9 +197,9 @@ public class SubAwardServiceImpl implements SubAwardService {
 
         List<SubAwardAmountInfo> subAwardAmountInfoList = subAward.getSubAwardAmountInfoList();
         List<SubAwardAmountReleased> subAwardAmountReleasedList = subAward.getSubAwardAmountReleasedList();
-        KualiDecimal totalObligatedAmount = new KualiDecimal(0.00);
-        KualiDecimal totalAnticipatedAmount = new KualiDecimal(0.00);
-        KualiDecimal totalAmountReleased = new KualiDecimal(0.00);
+        ScaleTwoDecimal totalObligatedAmount = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal totalAnticipatedAmount = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal totalAmountReleased = new ScaleTwoDecimal(0.00);
         if (subAwardAmountInfoList != null && subAwardAmountInfoList.size() > 0) {
             for (SubAwardAmountInfo subAwardAmountInfo: subAwardAmountInfoList) {
                 if (subAwardAmountInfo.getObligatedChange() != null) {

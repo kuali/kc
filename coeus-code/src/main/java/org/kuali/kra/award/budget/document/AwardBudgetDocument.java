@@ -25,7 +25,7 @@ import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.commitments.FandaRateType;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -54,7 +54,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     private static final String AWARD_BUDGET_DOCUMENT_TYPE_CODE = "ABGT";
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardBudgetDocument.class);
     
-    private BudgetDecimal obligatedTotal;
+    private ScaleTwoDecimal obligatedTotal;
 
     private transient BudgetParentDocument<Award> newestBudgetParentDocument;
     private transient AwardBudgetService awardBudgetService;
@@ -67,7 +67,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         Award award = getParentDocument().getBudgetParent();
         this.setCurrentAward(award);
         AwardBudgetExt awardBudget = getAwardBudget();
-        awardBudget.setObligatedTotal(new BudgetDecimal(award.getBudgetTotalCostLimit().bigDecimalValue()));
+        awardBudget.setObligatedTotal(new ScaleTwoDecimal(award.getBudgetTotalCostLimit().bigDecimalValue()));
         List<BudgetRate> budgetRates = awardBudget.getBudgetRates();
         populateBudgetRateTypes(awardBudget,budgetRates);
     }
@@ -157,7 +157,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
      * Gets the obligatedAmount attribute. 
      * @return Returns the obligatedAmount.
      */
-    public BudgetDecimal getObligatedTotal() {
+    public ScaleTwoDecimal getObligatedTotal() {
         return obligatedTotal;
     }
 
@@ -165,7 +165,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
      * Sets the obligatedAmount attribute value.
      * @param obligatedAmount The obligatedAmount to set.
      */
-    public void setObligatedTotal(BudgetDecimal obligatedTotal) {
+    public void setObligatedTotal(ScaleTwoDecimal obligatedTotal) {
         this.obligatedTotal = obligatedTotal;
     }
     

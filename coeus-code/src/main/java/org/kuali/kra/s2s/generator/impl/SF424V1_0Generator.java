@@ -37,7 +37,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -328,7 +328,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 				}
 			}
 			budget.setProgramIncomeEstimatedAmount(projectIncome);
-			BudgetDecimal totalEstimatedAmount = BudgetDecimal.ZERO;
+			ScaleTwoDecimal totalEstimatedAmount = ScaleTwoDecimal.ZERO;
 			if (budgetDoc.getTotalCost() != null) {
 				totalEstimatedAmount = totalEstimatedAmount.add(budgetDoc
 						.getTotalCost());

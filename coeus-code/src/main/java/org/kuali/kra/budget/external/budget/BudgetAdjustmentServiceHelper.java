@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.external.budget;
 
 import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.rates.RateType;
 
@@ -26,16 +26,16 @@ import java.util.SortedMap;
 
 public interface BudgetAdjustmentServiceHelper {
 
-    HashMap<String, BudgetDecimal> getNonPersonnelCost(Budget currentBudget, AwardBudgetExt previousBudget);
+    HashMap<String, ScaleTwoDecimal> getNonPersonnelCost(Budget currentBudget, AwardBudgetExt previousBudget);
     
-    SortedMap<RateType, BudgetDecimal> getNonPersonnelCalculatedDirectCost(Budget currentBudget, AwardBudgetExt previousBudget);
+    SortedMap<RateType, ScaleTwoDecimal> getNonPersonnelCalculatedDirectCost(Budget currentBudget, AwardBudgetExt previousBudget);
     
-    Map<RateClassRateType, BudgetDecimal> getIndirectCost(Budget currentBudget, AwardBudgetExt previousBudget);
+    Map<RateClassRateType, ScaleTwoDecimal> getIndirectCost(Budget currentBudget, AwardBudgetExt previousBudget);
     
-    Map<RateClassRateType, BudgetDecimal> getPersonnelCalculatedDirectCost(Budget currentBudget, AwardBudgetExt previousBudget);
+    Map<RateClassRateType, ScaleTwoDecimal> getPersonnelCalculatedDirectCost(Budget currentBudget, AwardBudgetExt previousBudget);
 
-    Map<RateClassRateType, BudgetDecimal> getPersonnelFringeCost(Budget currentBudget, AwardBudgetExt previousBudget);
+    Map<RateClassRateType, ScaleTwoDecimal> getPersonnelFringeCost(Budget currentBudget, AwardBudgetExt previousBudget);
     
-    SortedMap<String, BudgetDecimal> getPersonnelSalaryCost(Budget currentBudget, AwardBudgetExt previousBudget) throws Exception;
+    SortedMap<String, ScaleTwoDecimal> getPersonnelSalaryCost(Budget currentBudget, AwardBudgetExt previousBudget) throws Exception;
 
 }

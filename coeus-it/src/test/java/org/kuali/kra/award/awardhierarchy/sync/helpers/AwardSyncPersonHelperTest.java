@@ -24,7 +24,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import static org.junit.Assert.*;
 public class AwardSyncPersonHelperTest extends AwardSyncHelperTestBase {
     
@@ -42,8 +42,8 @@ public class AwardSyncPersonHelperTest extends AwardSyncHelperTestBase {
     public void setUp() throws Exception {
         super.setUp();
         person = new AwardPerson();
-        person.setAcademicYearEffort(new KualiDecimal(100.00));
-        person.setCalendarYearEffort(new KualiDecimal(100.00));
+        person.setAcademicYearEffort(new ScaleTwoDecimal(100.00));
+        person.setCalendarYearEffort(new ScaleTwoDecimal(100.00));
         person.setRoleCode("PI");
         person.setFaculty(false);
         person.setPersonId("10000000001");

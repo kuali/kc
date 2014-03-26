@@ -17,7 +17,7 @@ package org.kuali.kra.subaward.bo;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
 
@@ -40,7 +40,7 @@ public class SubAwardFundingSource extends SubAwardAssociate {
 
     private Award award;
 
-    private KualiDecimal amountObligatedToDate;
+    private ScaleTwoDecimal amountObligatedToDate;
 
     private Date obligationExpirationDate;
 
@@ -216,7 +216,7 @@ public class SubAwardFundingSource extends SubAwardAssociate {
 	 * This is the Getter Method for amountObligatedToDate
 	 * @return Returns the amountObligatedToDate.
 	 */
-	public KualiDecimal getAmountObligatedToDate() {
+	public ScaleTwoDecimal getAmountObligatedToDate() {
 		return amountObligatedToDate;
 	}
 
@@ -224,7 +224,7 @@ public class SubAwardFundingSource extends SubAwardAssociate {
 	 * This is the Setter Method for amountObligatedToDate
 	 * @param amountObligatedToDate The amountObligatedToDate to set.
 	 */
-	public void setAmountObligatedToDate(KualiDecimal amountObligatedToDate) {
+	public void setAmountObligatedToDate(ScaleTwoDecimal amountObligatedToDate) {
 		this.amountObligatedToDate = amountObligatedToDate;
 	}
 

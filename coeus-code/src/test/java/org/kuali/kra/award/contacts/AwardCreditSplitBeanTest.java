@@ -26,7 +26,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.*;
 
@@ -38,7 +38,7 @@ public class AwardCreditSplitBeanTest {
     
     private Award award;
     private AwardCreditSplitBean bean;
-    private static final KualiDecimal MAX_VALUE = new KualiDecimal("100.00");
+    private static final ScaleTwoDecimal MAX_VALUE = new ScaleTwoDecimal("100.00");
     private static final String ERROR_MSG_PATTERN = "Error on Person : %s Role: %s: %s";
 
     @SuppressWarnings("serial")
@@ -63,23 +63,23 @@ public class AwardCreditSplitBeanTest {
     
     @Test
     public void testCalculatingCreditSplitTotals_PersonTotals_NonZero() {
-        Map<String, KualiDecimal> expectedTotals = initializeCreditSplitTotalsForAllPersons();
-        Map<String, Map<String, KualiDecimal>> results = bean.calculateCreditSplitTotals();
-        Map<String, KualiDecimal> personCreditSplitTotalsByCreditSplitType = results.get(AwardCreditSplitBean.PERSON_TOTALS_KEY);
+        Map<String, ScaleTwoDecimal> expectedTotals = initializeCreditSplitTotalsForAllPersons();
+        Map<String, Map<String, ScaleTwoDecimal>> results = bean.calculateCreditSplitTotals();
+        Map<String, ScaleTwoDecimal> personCreditSplitTotalsByCreditSplitType = results.get(AwardCreditSplitBean.PERSON_TOTALS_KEY);
         for(InvestigatorCreditType creditSplitType: bean.loadInvestigatorCreditTypes()) {
             String creditTypeCode = creditSplitType.getInvCreditTypeCode();
-            KualiDecimal total = personCreditSplitTotalsByCreditSplitType.get(creditTypeCode);
-            KualiDecimal expectedTotal = expectedTotals.get(creditTypeCode);
+            ScaleTwoDecimal total = personCreditSplitTotalsByCreditSplitType.get(creditTypeCode);
+            ScaleTwoDecimal expectedTotal = expectedTotals.get(creditTypeCode);
             Assert.assertEquals(createInvalidTotalMessage(creditSplitType.getDescription()), expectedTotal.doubleValue(), total.doubleValue(), DELTA);
         }        
     }
     
     @Test
     public void testCalculatingCreditSplitTotals_PersonTotals_Zero() {
-        Map<String, Map<String, KualiDecimal>> results = bean.calculateCreditSplitTotals();
-        Map<String, KualiDecimal> personCreditSplitTotalsByCreditSplitType = results.get(AwardCreditSplitBean.PERSON_TOTALS_KEY);
+        Map<String, Map<String, ScaleTwoDecimal>> results = bean.calculateCreditSplitTotals();
+        Map<String, ScaleTwoDecimal> personCreditSplitTotalsByCreditSplitType = results.get(AwardCreditSplitBean.PERSON_TOTALS_KEY);
         for(String creditSplitType: personCreditSplitTotalsByCreditSplitType.keySet()) {
-            KualiDecimal total = personCreditSplitTotalsByCreditSplitType.get(creditSplitType);
+            ScaleTwoDecimal total = personCreditSplitTotalsByCreditSplitType.get(creditSplitType);
             Assert.assertEquals(0.0, total.doubleValue(), DELTA);
         }        
     }
@@ -97,11 +97,11 @@ public class AwardCreditSplitBeanTest {
 
     @Test
     public void testCalculatingCreditSplitTotals_PersonUnitTotals_Zero() {
-        Map<String, Map<String, KualiDecimal>> results = bean.calculateCreditSplitTotals();
+        Map<String, Map<String, ScaleTwoDecimal>> results = bean.calculateCreditSplitTotals();
         for(AwardPerson ap: award.getProjectPersons()) {
-            Map<String, KualiDecimal> personUnitCreditSplitTotalsByCreditSplitType = results.get(ap.getFullName());
+            Map<String, ScaleTwoDecimal> personUnitCreditSplitTotalsByCreditSplitType = results.get(ap.getFullName());
             for(String creditSplitType: personUnitCreditSplitTotalsByCreditSplitType.keySet()) {
-                KualiDecimal total = personUnitCreditSplitTotalsByCreditSplitType.get(creditSplitType);
+                ScaleTwoDecimal total = personUnitCreditSplitTotalsByCreditSplitType.get(creditSplitType);
                 Assert.assertEquals(0.0, total.doubleValue(), DELTA);
             }
         }
@@ -154,10 +154,10 @@ public class AwardCreditSplitBeanTest {
         return types;
     }
 
-    private Map<String, KualiDecimal> initializeCreditSplitTotalsForAllPersons() {
-        Map<String, KualiDecimal> expectedTotals = new HashMap<String, KualiDecimal>();
+    private Map<String, ScaleTwoDecimal> initializeCreditSplitTotalsForAllPersons() {
+        Map<String, ScaleTwoDecimal> expectedTotals = new HashMap<String, ScaleTwoDecimal>();
 
-        KualiDecimal creditSplitValue = MAX_VALUE.divide(new KualiDecimal(award.getProjectPersons().size()));
+        ScaleTwoDecimal creditSplitValue = MAX_VALUE.divide(new ScaleTwoDecimal(award.getProjectPersons().size()));
         for(InvestigatorCreditType creditType: bean.loadInvestigatorCreditTypes()) {
             for(AwardPerson p: award.getProjectPersons()) {
                 AwardPersonCreditSplit personCreditSplit = new AwardPersonCreditSplit(creditType, creditSplitValue);
@@ -168,16 +168,16 @@ public class AwardCreditSplitBeanTest {
         return expectedTotals;
     }
 
-    private Map<String, Map<String, KualiDecimal>> initializeCreditSplitTotalsForEachPersonUnit() {
-        Map<String, Map<String, KualiDecimal>> personMapOfUnitCreditSplitTotals = new HashMap<String, Map<String, KualiDecimal>>(); 
-        Map<String, KualiDecimal> expectedPersonUnitCreditSplitTotals = new HashMap<String, KualiDecimal>();
+    private Map<String, Map<String, ScaleTwoDecimal>> initializeCreditSplitTotalsForEachPersonUnit() {
+        Map<String, Map<String, ScaleTwoDecimal>> personMapOfUnitCreditSplitTotals = new HashMap<String, Map<String, ScaleTwoDecimal>>();
+        Map<String, ScaleTwoDecimal> expectedPersonUnitCreditSplitTotals = new HashMap<String, ScaleTwoDecimal>();
 
         Collection<InvestigatorCreditType> creditSplitTypes = bean.loadInvestigatorCreditTypes();
         for(AwardPerson p: award.getProjectPersons()) {
             for(InvestigatorCreditType creditType: creditSplitTypes) {
                 List<AwardPersonUnit> units = p.getUnits();
                 if(units.size() > 0) {
-                    KualiDecimal creditSplitValue = MAX_VALUE.divide(new KualiDecimal(units.size()));
+                    ScaleTwoDecimal creditSplitValue = MAX_VALUE.divide(new ScaleTwoDecimal(units.size()));
                     for(AwardPersonUnit apu: units) {
                         apu.add(new AwardPersonUnitCreditSplit(creditType, creditSplitValue));
                     }
@@ -197,15 +197,15 @@ public class AwardCreditSplitBeanTest {
     }
 
     private void verifyPersonUnitTotals() {
-        Map<String, Map<String, KualiDecimal>> expectedPersonUnitCreditSplitTotals = initializeCreditSplitTotalsForEachPersonUnit();
-        Map<String, Map<String, KualiDecimal>> results = bean.calculateCreditSplitTotals();
+        Map<String, Map<String, ScaleTwoDecimal>> expectedPersonUnitCreditSplitTotals = initializeCreditSplitTotalsForEachPersonUnit();
+        Map<String, Map<String, ScaleTwoDecimal>> results = bean.calculateCreditSplitTotals();
         for(AwardPerson p: award.getProjectPersons()) {
             String fullName = p.getFullName();
-            Map<String, KualiDecimal> personUnitCreditSplitTotalsByCreditSplitType = results.get(fullName);
+            Map<String, ScaleTwoDecimal> personUnitCreditSplitTotalsByCreditSplitType = results.get(fullName);
             for(InvestigatorCreditType creditSplitType: bean.loadInvestigatorCreditTypes()) {
                 String invCreditTypeCode = creditSplitType.getInvCreditTypeCode();
-                KualiDecimal total = personUnitCreditSplitTotalsByCreditSplitType.get(invCreditTypeCode);
-                KualiDecimal expectedValue = expectedPersonUnitCreditSplitTotals.get(fullName).get(invCreditTypeCode);
+                ScaleTwoDecimal total = personUnitCreditSplitTotalsByCreditSplitType.get(invCreditTypeCode);
+                ScaleTwoDecimal expectedValue = expectedPersonUnitCreditSplitTotals.get(fullName).get(invCreditTypeCode);
                 Assert.assertEquals(createErrorMessage(p, creditSplitType), expectedValue.doubleValue(), total.doubleValue(), DELTA);
             }
         }

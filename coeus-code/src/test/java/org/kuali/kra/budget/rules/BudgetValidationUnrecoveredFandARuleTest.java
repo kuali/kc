@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandARuleImpl;
 import org.kuali.kra.budget.distributionincome.BudgetValidationUnrecoveredFandAEvent;
@@ -28,8 +28,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
 public class BudgetValidationUnrecoveredFandARuleTest {
-    private static final BudgetDecimal AMOUNT = new BudgetDecimal(100.00);
-    private static final BudgetDecimal APPLICABLE_RATE = new BudgetDecimal(19.87);
+    private static final ScaleTwoDecimal AMOUNT = new ScaleTwoDecimal(100.00);
+    private static final ScaleTwoDecimal APPLICABLE_RATE = new ScaleTwoDecimal(19.87);
     private final String ON_CAMPUS = "Y";
     private static final int BUDGET_FISCAL_YEAR = 2008;
     private static final String SOURCE_ACCOUNT = "12345A";

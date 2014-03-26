@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.home;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 /**
  * This interface defines a simple behavior for valuable items
@@ -24,5 +24,5 @@ public interface ValuableItem {
     /**
      * @return This method returns the value (amount) of the valuable item
      */
-    public KualiDecimal getAmount();
+    public ScaleTwoDecimal getAmount();
 }

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.core;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -160,7 +160,7 @@ public interface BudgetService<T extends BudgetParent>  {
     
     public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId);
     
-    public BudgetDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo keyPerson );
+    public ScaleTwoDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo keyPerson );
     
     public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod);
     

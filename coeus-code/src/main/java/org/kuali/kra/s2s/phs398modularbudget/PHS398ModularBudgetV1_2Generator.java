@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -43,11 +43,11 @@ PHS398ModularBudgetBaseGenerator{
 	private static final Log LOG = LogFactory
 	.getLog(PHS398ModularBudgetV1_1Generator.class);
 
-	private BudgetDecimal cumulativeConsortiumFandA = BudgetDecimal.ZERO;
-	private BudgetDecimal cumulativeDirectCostLessConsortiumFandA = BudgetDecimal.ZERO;
-	private BudgetDecimal cumulativeTotalFundsRequestedDirectCosts = BudgetDecimal.ZERO;
-	private BudgetDecimal cumulativeTotalFundsRequestedDirectIndirectCosts = BudgetDecimal.ZERO;
-	private BudgetDecimal cumulativeTotalFundsRequestedIndirectCost = BudgetDecimal.ZERO;
+	private ScaleTwoDecimal cumulativeConsortiumFandA = ScaleTwoDecimal.ZERO;
+	private ScaleTwoDecimal cumulativeDirectCostLessConsortiumFandA = ScaleTwoDecimal.ZERO;
+	private ScaleTwoDecimal cumulativeTotalFundsRequestedDirectCosts = ScaleTwoDecimal.ZERO;
+	private ScaleTwoDecimal cumulativeTotalFundsRequestedDirectIndirectCosts = ScaleTwoDecimal.ZERO;
+	private ScaleTwoDecimal cumulativeTotalFundsRequestedIndirectCost = ScaleTwoDecimal.ZERO;
 
 	/**
 	 * 
@@ -205,13 +205,13 @@ PHS398ModularBudgetBaseGenerator{
 	            DirectCost directCost = DirectCost.Factory.newInstance();
 	            IndirectCost indirectCost = IndirectCost.Factory.newInstance();
 
-	            BudgetDecimal consortiumFandA = BudgetDecimal.ZERO;
-	            BudgetDecimal directCostLessConsortiumFandA = BudgetDecimal.ZERO;
-	            BudgetDecimal totalDirectCosts = BudgetDecimal.ZERO;
-	            BudgetDecimal bdTotalIndirectCost = BudgetDecimal.ZERO;
-	            BudgetDecimal bdCost = BudgetDecimal.ZERO;
-	            BudgetDecimal bdBaseCost = BudgetDecimal.ZERO;
-	            BudgetDecimal bdRate = BudgetDecimal.ZERO;
+	            ScaleTwoDecimal consortiumFandA = ScaleTwoDecimal.ZERO;
+	            ScaleTwoDecimal directCostLessConsortiumFandA = ScaleTwoDecimal.ZERO;
+	            ScaleTwoDecimal totalDirectCosts = ScaleTwoDecimal.ZERO;
+	            ScaleTwoDecimal bdTotalIndirectCost = ScaleTwoDecimal.ZERO;
+	            ScaleTwoDecimal bdCost = ScaleTwoDecimal.ZERO;
+	            ScaleTwoDecimal bdBaseCost = ScaleTwoDecimal.ZERO;
+	            ScaleTwoDecimal bdRate = ScaleTwoDecimal.ZERO;
 	            String costType = null;
 
 
@@ -233,7 +233,7 @@ PHS398ModularBudgetBaseGenerator{
 	            // TotalDirectAndIndirectCost
 	            BudgetModular budgetModular = budgetPeriod.getBudgetModular();
 	            if (budgetModular != null) {
-	                BudgetDecimal totalCost = getTotalCost(budgetModular);
+	                ScaleTwoDecimal totalCost = getTotalCost(budgetModular);
 	                period.setTotalFundsRequestedDirectIndirectCosts(totalCost
 	                        .bigDecimalValue());
 	                cumulativeTotalFundsRequestedDirectIndirectCosts = cumulativeTotalFundsRequestedDirectIndirectCosts

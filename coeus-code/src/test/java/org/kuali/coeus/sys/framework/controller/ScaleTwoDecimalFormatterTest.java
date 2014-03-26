@@ -13,29 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.infrastructure;
+package org.kuali.coeus.sys.framework.controller;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.RateDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.controller.GlobalFormatterRegistry;
 import org.kuali.rice.core.web.format.FormatException;
 
 import java.math.BigDecimal;
 
-public class RateDecimalFormatterTest {
+public class ScaleTwoDecimalFormatterTest {
 
-    private static final String ALPHANUMERIC_VALUE = "98.efg";
-    private static final String ALPHA_VALUE = "ab.cde";
-    private static final String TEST_NUMBER_AS_STRING = "98.765";
-    private static final double TEST_NUMBER = 98.765;
+    private static final String ALPHA_NUMERIC_VALUE = "1000.ef";
+    private static final String ALPHA_VALUE = "abcd.ef";
+    private static final String TEST_NUMBER_AS_STRING = "987654321.09";
+    private static final double TEST_NUMBER = 987654321.09;
     
-    private RateDecimalFormatter formatter;
+    private GlobalFormatterRegistry.ScaleTwoDecimalFormatter formatter;
 
     @Before
     public void setUp() {
-        formatter = new RateDecimalFormatter();
+        formatter = new GlobalFormatterRegistry.ScaleTwoDecimalFormatter();
     }
     
     @After
@@ -44,18 +45,18 @@ public class RateDecimalFormatterTest {
     }
     
     @Test
-    public void testConvertingFromStringToRateDecimal_GoodData() {
-        RateDecimal rateDecimal = new RateDecimal(new BigDecimal(TEST_NUMBER));
-        Assert.assertEquals(rateDecimal, formatter.convertToObject(TEST_NUMBER_AS_STRING));
+    public void testConvertingFromStringToScaleTwoDecimal_GoodData() {
+        ScaleTwoDecimal scaleTwoDecimal = new ScaleTwoDecimal(new BigDecimal(TEST_NUMBER));
+        Assert.assertEquals(scaleTwoDecimal, formatter.convertToObject(TEST_NUMBER_AS_STRING));
     }
     
     @Test(expected=FormatException.class)
-    public void testConvertingFromStringToBudgetDecimal_AllBadData() {
+    public void testConvertingFromStringToScaleTwoDecimal_AllBadData() {
         formatter.convertToObject(ALPHA_VALUE);
     }
     
     @Test(expected=FormatException.class)
-    public void testConvertingFromStringToBudgetDecimal_MixedBadData() {
-        formatter.convertToObject(ALPHANUMERIC_VALUE);
+    public void testConvertingFromStringToScaleTwoDecimal_MixedBadData() {
+        formatter.convertToObject(ALPHA_NUMERIC_VALUE);
     }
 }

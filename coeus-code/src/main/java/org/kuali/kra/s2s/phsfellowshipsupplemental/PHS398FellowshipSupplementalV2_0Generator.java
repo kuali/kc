@@ -36,8 +36,8 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -480,9 +480,9 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         if (budgetDoc == null) {
             return;
         }
-        BudgetDecimal tuitionTotal = BudgetDecimal.ZERO;
+        ScaleTwoDecimal tuitionTotal = ScaleTwoDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : budgetDoc.getBudget().getBudgetPeriods()) {
-            BudgetDecimal tuition = BudgetDecimal.ZERO;
+            ScaleTwoDecimal tuition = ScaleTwoDecimal.ZERO;
             for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
                 if (getCostElementsByParam(TUITION_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
                     tuition = tuition.add(budgetLineItem.getLineItemCost());
@@ -513,7 +513,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
             }
         }
         budget.setTuitionRequestedTotal(tuitionTotal.bigDecimalValue());
-        if (!tuitionTotal.equals(BudgetDecimal.ZERO)) {
+        if (!tuitionTotal.equals(ScaleTwoDecimal.ZERO)) {
             budget.setTuitionAndFeesRequested(YesNoDataType.Y_YES);
         }
     }
@@ -550,8 +550,8 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         BudgetDocument budgetDoc = getBudgetDocument();
         if (budgetDoc != null) {
             org.kuali.kra.budget.core.Budget pBudget = budgetDoc.getBudget();
-            BudgetDecimal sumOfLineItemCost = BudgetDecimal.ZERO;
-            BudgetDecimal numberOfMonths = BudgetDecimal.ZERO;
+            ScaleTwoDecimal sumOfLineItemCost = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
             for (BudgetPeriod budgetPeriod : pBudget.getBudgetPeriods()) {
                 if (budgetPeriod.getBudgetPeriod() == 1) {
                     for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
@@ -959,8 +959,8 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
      * 
      * @return number of months between the start date and end date.
      */
-    private BudgetDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
-        BudgetDecimal monthCount = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
+        ScaleTwoDecimal monthCount = ScaleTwoDecimal.ZERO;
         int fullMonthCount = 0;
 
         Calendar startDate = Calendar.getInstance();
@@ -979,17 +979,17 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         endDate.clear(Calendar.MILLISECOND);
 
         if (startDate.after(endDate)) {
-            return BudgetDecimal.ZERO;
+            return ScaleTwoDecimal.ZERO;
         }
         int startMonthDays = startDate.getActualMaximum(Calendar.DATE) - startDate.get(Calendar.DATE);
         startMonthDays++;
         int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
-        BudgetDecimal startMonthFraction = new BudgetDecimal(startMonthDays).divide(new BudgetDecimal(startMonthMaxDays));
+        ScaleTwoDecimal startMonthFraction = new ScaleTwoDecimal(startMonthDays).divide(new ScaleTwoDecimal(startMonthMaxDays), false);
 
         int endMonthDays = endDate.get(Calendar.DATE);
         int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
 
-        BudgetDecimal endMonthFraction = new BudgetDecimal(endMonthDays).divide(new BudgetDecimal(endMonthMaxDays));
+        ScaleTwoDecimal endMonthFraction = new ScaleTwoDecimal(endMonthDays).divide(new ScaleTwoDecimal(endMonthMaxDays), false);
 
         startDate.set(Calendar.DATE, 1);
         endDate.set(Calendar.DATE, 1);
@@ -999,7 +999,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
             fullMonthCount++;
         }
         fullMonthCount = fullMonthCount - 1;
-        monthCount = monthCount.add(new BudgetDecimal(fullMonthCount)).add(startMonthFraction).add(endMonthFraction);
+        monthCount = monthCount.add(new ScaleTwoDecimal(fullMonthCount)).add(startMonthFraction).add(endMonthFraction);
         return monthCount;
     }
 

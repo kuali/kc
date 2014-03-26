@@ -16,6 +16,9 @@
         The Kuali Coeus API module contains service apis for the Kuali Coeus application.
     </description>
 
+    <!-- IMPORTANT: The api module should not have any dependencies third-party or otherwise.
+                    Especially not on Kuali Rice or other modules of Kuali Coeus -->
+
     <prerequisites>
         <maven>${require.maven.version}</maven>
     </prerequisites>

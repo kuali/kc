@@ -18,7 +18,7 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
@@ -114,7 +114,7 @@ public class AwardApprovedEquipmentRuleImpl extends KcTransactionalDocumentRuleB
      * @return
      */
     boolean isAmountValid(String errorPath, AwardApprovedEquipment equipmentItem, MinimumCapitalizationInfo minimumCapitalization) {
-        KualiDecimal amount = equipmentItem.getAmount();
+        ScaleTwoDecimal amount = equipmentItem.getAmount();
         boolean amountValid = amount != null && amount.doubleValue() >= minimumCapitalization.getAmount();
         if(!amountValid) {
             reportSoftError(APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY, KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_VALID, 

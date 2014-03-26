@@ -17,7 +17,7 @@ package org.kuali.kra.timeandmoney;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
 
@@ -27,14 +27,14 @@ public class AwardHierarchyNode extends AwardHierarchy {
     private Date obligationExpirationDate;
     private Date finalExpirationDate;
     private Date projectStartDate;
-    private KualiDecimal anticipatedTotalAmount; 
-    private KualiDecimal anticipatedTotalDirect; 
-    private KualiDecimal anticipatedTotalIndirect; 
-    private KualiDecimal antDistributableAmount;
-    private KualiDecimal amountObligatedToDate; 
-    private KualiDecimal obligatedTotalDirect; 
-    private KualiDecimal obligatedTotalIndirect; 
-    private KualiDecimal obliDistributableAmount;
+    private ScaleTwoDecimal anticipatedTotalAmount;
+    private ScaleTwoDecimal anticipatedTotalDirect;
+    private ScaleTwoDecimal anticipatedTotalIndirect;
+    private ScaleTwoDecimal antDistributableAmount;
+    private ScaleTwoDecimal amountObligatedToDate;
+    private ScaleTwoDecimal obligatedTotalDirect;
+    private ScaleTwoDecimal obligatedTotalIndirect;
+    private ScaleTwoDecimal obliDistributableAmount;
     private String leadUnitName;
     private String principalInvestigatorName;
     private String accountNumber;
@@ -50,14 +50,14 @@ public class AwardHierarchyNode extends AwardHierarchy {
     
 
     public AwardHierarchyNode() {
-        anticipatedTotalAmount = new KualiDecimal("0");
-        antDistributableAmount = new KualiDecimal("0");
-        amountObligatedToDate = new KualiDecimal("0");
-        obliDistributableAmount = new KualiDecimal("0");
-        anticipatedTotalDirect = new KualiDecimal("0");
-        anticipatedTotalIndirect = new KualiDecimal("0");
-        obligatedTotalDirect = new KualiDecimal("0");
-        obligatedTotalIndirect = new KualiDecimal("0");
+        anticipatedTotalAmount = new ScaleTwoDecimal("0");
+        antDistributableAmount = new ScaleTwoDecimal("0");
+        amountObligatedToDate = new ScaleTwoDecimal("0");
+        obliDistributableAmount = new ScaleTwoDecimal("0");
+        anticipatedTotalDirect = new ScaleTwoDecimal("0");
+        anticipatedTotalIndirect = new ScaleTwoDecimal("0");
+        obligatedTotalDirect = new ScaleTwoDecimal("0");
+        obligatedTotalIndirect = new ScaleTwoDecimal("0");
     }
 
     /**
@@ -112,9 +112,9 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * Gets the anticipatedTotalAmount attribute. 
      * @return Returns the anticipatedTotalAmount.
      */
-    public KualiDecimal getAnticipatedTotalAmount() {
+    public ScaleTwoDecimal getAnticipatedTotalAmount() {
         if(anticipatedTotalAmount == null){
-            setAnticipatedTotalAmount(new KualiDecimal(0));
+            setAnticipatedTotalAmount(new ScaleTwoDecimal(0));
         }
         return anticipatedTotalAmount;
     }
@@ -123,7 +123,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * Sets the anticipatedTotalAmount attribute value.
      * @param anticipatedTotalAmount The anticipatedTotalAmount to set.
      */
-    public void setAnticipatedTotalAmount(KualiDecimal anticipatedTotalAmount) {
+    public void setAnticipatedTotalAmount(ScaleTwoDecimal anticipatedTotalAmount) {
         this.anticipatedTotalAmount = anticipatedTotalAmount;
     }
 
@@ -131,9 +131,9 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * Gets the antDistributableAmount attribute. 
      * @return Returns the antDistributableAmount.
      */
-    public KualiDecimal getAntDistributableAmount() {
+    public ScaleTwoDecimal getAntDistributableAmount() {
         if(antDistributableAmount == null){
-            setAntDistributableAmount(new KualiDecimal(0));
+            setAntDistributableAmount(new ScaleTwoDecimal(0));
         }
         return antDistributableAmount;
     }
@@ -146,7 +146,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * Sets the antDistributableAmount attribute value.
      * @param antDistributableAmount The antDistributableAmount to set.
      */
-    public void setAntDistributableAmount(KualiDecimal antDistributableAmount) {
+    public void setAntDistributableAmount(ScaleTwoDecimal antDistributableAmount) {
         this.antDistributableAmount = antDistributableAmount;
     }
 
@@ -154,9 +154,9 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * Gets the amountObligatedToDate attribute. 
      * @return Returns the amountObligatedToDate.
      */
-    public KualiDecimal getAmountObligatedToDate() {
+    public ScaleTwoDecimal getAmountObligatedToDate() {
         if(amountObligatedToDate == null){
-            setAmountObligatedToDate(new KualiDecimal(0));
+            setAmountObligatedToDate(new ScaleTwoDecimal(0));
         }
         return amountObligatedToDate;
     }
@@ -165,7 +165,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * Sets the amountObligatedToDate attribute value.
      * @param amountObligatedToDate The amountObligatedToDate to set.
      */
-    public void setAmountObligatedToDate(KualiDecimal amountObligatedToDate) {
+    public void setAmountObligatedToDate(ScaleTwoDecimal amountObligatedToDate) {
         this.amountObligatedToDate = amountObligatedToDate;
     }
 
@@ -173,9 +173,9 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * Gets the obliDistributableAmount attribute. 
      * @return Returns the obliDistributableAmount.
      */
-    public KualiDecimal getObliDistributableAmount() {
+    public ScaleTwoDecimal getObliDistributableAmount() {
         if(obliDistributableAmount == null){
-            setObliDistributableAmount(new KualiDecimal(0));
+            setObliDistributableAmount(new ScaleTwoDecimal(0));
         }
         return obliDistributableAmount;
         //return getAward().calculateObligatedDistributedAmountTotal();
@@ -185,7 +185,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * Sets the obliDistributableAmount attribute value.
      * @param obliDistributableAmount The obliDistributableAmount to set.
      */
-    public void setObliDistributableAmount(KualiDecimal obliDistributableAmount) {
+    public void setObliDistributableAmount(ScaleTwoDecimal obliDistributableAmount) {
         this.obliDistributableAmount = obliDistributableAmount;
     }
 
@@ -275,15 +275,15 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * Gets the anticipatedTotalDirect attribute. 
      * @return Returns the anticipatedTotalDirect.
      */
-    public KualiDecimal getAnticipatedTotalDirect() {
-        return (anticipatedTotalDirect != null) ? anticipatedTotalDirect : new KualiDecimal(0.0);
+    public ScaleTwoDecimal getAnticipatedTotalDirect() {
+        return (anticipatedTotalDirect != null) ? anticipatedTotalDirect : new ScaleTwoDecimal(0.0);
     }
 
     /**
      * Sets the anticipatedTotalDirect attribute value.
      * @param anticipatedTotalDirect The anticipatedTotalDirect to set.
      */
-    public void setAnticipatedTotalDirect(KualiDecimal anticipatedTotalDirect) {
+    public void setAnticipatedTotalDirect(ScaleTwoDecimal anticipatedTotalDirect) {
         this.anticipatedTotalDirect = anticipatedTotalDirect;
     }
 
@@ -291,15 +291,15 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * Gets the anticipatedTotalIndirect attribute. 
      * @return Returns the anticipatedTotalIndirect.
      */
-    public KualiDecimal getAnticipatedTotalIndirect() {
-        return (anticipatedTotalIndirect != null) ? anticipatedTotalIndirect : new KualiDecimal(0.0);
+    public ScaleTwoDecimal getAnticipatedTotalIndirect() {
+        return (anticipatedTotalIndirect != null) ? anticipatedTotalIndirect : new ScaleTwoDecimal(0.0);
     }
 
     /**
      * Sets the anticipatedTotalIndirect attribute value.
      * @param anticipatedTotalIndirect The anticipatedTotalIndirect to set.
      */
-    public void setAnticipatedTotalIndirect(KualiDecimal anticipatedTotalIndirect) {
+    public void setAnticipatedTotalIndirect(ScaleTwoDecimal anticipatedTotalIndirect) {
         this.anticipatedTotalIndirect = anticipatedTotalIndirect;
     }
 
@@ -307,15 +307,15 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * Gets the obligatedTotalDirect attribute. 
      * @return Returns the obligatedTotalDirect.
      */
-    public KualiDecimal getObligatedTotalDirect() {
-        return (obligatedTotalDirect != null) ? obligatedTotalDirect : new KualiDecimal(0.0);
+    public ScaleTwoDecimal getObligatedTotalDirect() {
+        return (obligatedTotalDirect != null) ? obligatedTotalDirect : new ScaleTwoDecimal(0.0);
     }
 
     /**
      * Sets the obligatedTotalDirect attribute value.
      * @param obligatedTotalDirect The obligatedTotalDirect to set.
      */
-    public void setObligatedTotalDirect(KualiDecimal obligatedTotalDirect) {
+    public void setObligatedTotalDirect(ScaleTwoDecimal obligatedTotalDirect) {
         this.obligatedTotalDirect = obligatedTotalDirect;
     }
 
@@ -323,15 +323,15 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * Gets the obligatedTotalIndirect attribute. 
      * @return Returns the obligatedTotalIndirect.
      */
-    public KualiDecimal getObligatedTotalIndirect() {
-        return (obligatedTotalIndirect != null) ? obligatedTotalIndirect : new KualiDecimal(0.0);
+    public ScaleTwoDecimal getObligatedTotalIndirect() {
+        return (obligatedTotalIndirect != null) ? obligatedTotalIndirect : new ScaleTwoDecimal(0.0);
     }
 
     /**
      * Sets the obligatedTotalIndirect attribute value.
      * @param obligatedTotalIndirect The obligatedTotalIndirect to set.
      */
-    public void setObligatedTotalIndirect(KualiDecimal obligatedTotalIndirect) {
+    public void setObligatedTotalIndirect(ScaleTwoDecimal obligatedTotalIndirect) {
         this.obligatedTotalIndirect = obligatedTotalIndirect;
     }
 

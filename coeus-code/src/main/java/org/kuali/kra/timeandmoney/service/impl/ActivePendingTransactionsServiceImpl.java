@@ -29,7 +29,7 @@ import org.kuali.kra.timeandmoney.history.TransactionDetailType;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.UserSession;
@@ -836,8 +836,8 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
-        newAwardAmountInfo.setObligatedChange(new KualiDecimal(0));
-        newAwardAmountInfo.setAnticipatedChange(new KualiDecimal(0));
+        newAwardAmountInfo.setObligatedChange(new ScaleTwoDecimal(0));
+        newAwardAmountInfo.setAnticipatedChange(new ScaleTwoDecimal(0));
        //add transaction amounts to the AmountInfo
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().add(pendingTransaction.getObligatedAmount()));
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
@@ -897,8 +897,8 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
-        newAwardAmountInfo.setObligatedChange(new KualiDecimal(0));
-        newAwardAmountInfo.setAnticipatedChange(new KualiDecimal(0));
+        newAwardAmountInfo.setObligatedChange(new ScaleTwoDecimal(0));
+        newAwardAmountInfo.setAnticipatedChange(new ScaleTwoDecimal(0));
        //subtract transaction amounts from distributable
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()));
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
@@ -938,8 +938,8 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
-        newAwardAmountInfo.setObligatedChange(new KualiDecimal(0).subtract(pendingTransaction.getObligatedAmount()));
-        newAwardAmountInfo.setAnticipatedChange(new KualiDecimal(0).subtract(pendingTransaction.getAnticipatedAmount()));
+        newAwardAmountInfo.setObligatedChange(new ScaleTwoDecimal(0).subtract(pendingTransaction.getObligatedAmount()));
+        newAwardAmountInfo.setAnticipatedChange(new ScaleTwoDecimal(0).subtract(pendingTransaction.getAnticipatedAmount()));
        //subtract transaction amounts from distributable
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()));
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate().subtract(pendingTransaction.getObligatedAmount()));
@@ -949,10 +949,10 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount().subtract(pendingTransaction.getAnticipatedAmount()));
         newAwardAmountInfo.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect().subtract(pendingTransaction.getAnticipatedDirectAmount()));
         newAwardAmountInfo.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect().subtract(pendingTransaction.getAnticipatedIndirectAmount()));
-        newAwardAmountInfo.setObligatedChangeDirect(new KualiDecimal(0).subtract(pendingTransaction.getObligatedDirectAmount()));
-        newAwardAmountInfo.setObligatedChangeIndirect(new KualiDecimal(0).subtract(pendingTransaction.getObligatedIndirectAmount()));
-        newAwardAmountInfo.setAnticipatedChangeDirect(new KualiDecimal(0).subtract(pendingTransaction.getAnticipatedDirectAmount()));
-        newAwardAmountInfo.setAnticipatedChangeIndirect(new KualiDecimal(0).subtract(pendingTransaction.getAnticipatedIndirectAmount()));
+        newAwardAmountInfo.setObligatedChangeDirect(new ScaleTwoDecimal(0).subtract(pendingTransaction.getObligatedDirectAmount()));
+        newAwardAmountInfo.setObligatedChangeIndirect(new ScaleTwoDecimal(0).subtract(pendingTransaction.getObligatedIndirectAmount()));
+        newAwardAmountInfo.setAnticipatedChangeDirect(new ScaleTwoDecimal(0).subtract(pendingTransaction.getAnticipatedDirectAmount()));
+        newAwardAmountInfo.setAnticipatedChangeIndirect(new ScaleTwoDecimal(0).subtract(pendingTransaction.getAnticipatedIndirectAmount()));
         
         //updateAmountFields(updateAmounts, addOrSubtract, pendingTransaction, awardAmountInfo, newAwardAmountInfo);
         
@@ -1037,8 +1037,8 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
-        newAwardAmountInfo.setObligatedChange(new KualiDecimal(0).subtract(pendingTransaction.getObligatedAmount()));
-        newAwardAmountInfo.setAnticipatedChange(new KualiDecimal(0).subtract(pendingTransaction.getAnticipatedAmount()));
+        newAwardAmountInfo.setObligatedChange(new ScaleTwoDecimal(0).subtract(pendingTransaction.getObligatedAmount()));
+        newAwardAmountInfo.setAnticipatedChange(new ScaleTwoDecimal(0).subtract(pendingTransaction.getAnticipatedAmount()));
        //add transaction amounts to the AmountInfo
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate().subtract(pendingTransaction.getObligatedAmount()));
@@ -1048,10 +1048,10 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount().subtract(pendingTransaction.getAnticipatedAmount()));
         newAwardAmountInfo.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect().subtract(pendingTransaction.getAnticipatedDirectAmount()));
         newAwardAmountInfo.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect().subtract(pendingTransaction.getAnticipatedIndirectAmount()));
-        newAwardAmountInfo.setObligatedChangeDirect(new KualiDecimal(0).subtract(pendingTransaction.getObligatedDirectAmount()));
-        newAwardAmountInfo.setObligatedChangeIndirect(new KualiDecimal(0).subtract(pendingTransaction.getObligatedIndirectAmount()));
-        newAwardAmountInfo.setAnticipatedChangeDirect(new KualiDecimal(0).subtract(pendingTransaction.getAnticipatedDirectAmount()));
-        newAwardAmountInfo.setAnticipatedChangeIndirect(new KualiDecimal(0).subtract(pendingTransaction.getAnticipatedIndirectAmount()));
+        newAwardAmountInfo.setObligatedChangeDirect(new ScaleTwoDecimal(0).subtract(pendingTransaction.getObligatedDirectAmount()));
+        newAwardAmountInfo.setObligatedChangeIndirect(new ScaleTwoDecimal(0).subtract(pendingTransaction.getObligatedIndirectAmount()));
+        newAwardAmountInfo.setAnticipatedChangeDirect(new ScaleTwoDecimal(0).subtract(pendingTransaction.getAnticipatedDirectAmount()));
+        newAwardAmountInfo.setAnticipatedChangeIndirect(new ScaleTwoDecimal(0).subtract(pendingTransaction.getAnticipatedIndirectAmount()));
         
         addAwardAmountTransaction(newAwardAmountInfo.getAwardNumber(), awardAmountTransactionItems, newAwardAmountTransaction, documentNumber);
 
@@ -1064,9 +1064,9 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param awardAmountInfo
      * @param totalPendingAnticipated
      */
-    protected void validateAntiDistributableAmount(PendingTransaction pendingTransaction, AwardAmountInfo awardAmountInfo, KualiDecimal totalPendingAnticipated){
+    protected void validateAntiDistributableAmount(PendingTransaction pendingTransaction, AwardAmountInfo awardAmountInfo, ScaleTwoDecimal totalPendingAnticipated){
         if(pendingTransaction.getAnticipatedAmount()!=null){
-            if(awardAmountInfo.getAntDistributableAmount().subtract(pendingTransaction.getAnticipatedAmount().add(totalPendingAnticipated)).isLessThan(new KualiDecimal(0))){
+            if(awardAmountInfo.getAntDistributableAmount().subtract(pendingTransaction.getAnticipatedAmount().add(totalPendingAnticipated)).isLessThan(new ScaleTwoDecimal(0))){
                 throw new RuntimeException("Insufficient Anticipated Money");
             }
         }
@@ -1134,8 +1134,8 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * addOrSubtract true means the value should be added and false means value should be subtracted.
      * 
      */
-    protected KualiDecimal processAmounts(KualiDecimal value1, KualiDecimal value2, boolean addOrSubtract, boolean updateAmounts){
-        KualiDecimal returnValue;
+    protected ScaleTwoDecimal processAmounts(ScaleTwoDecimal value1, ScaleTwoDecimal value2, boolean addOrSubtract, boolean updateAmounts){
+        ScaleTwoDecimal returnValue;
         if(updateAmounts){
             if(addOrSubtract){
                 if(value1!=null){

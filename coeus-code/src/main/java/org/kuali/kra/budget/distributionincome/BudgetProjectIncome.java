@@ -17,7 +17,7 @@ package org.kuali.kra.budget.distributionincome;
 
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 /**
  * 
@@ -36,7 +36,7 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent im
 
     private String description;
 
-    private KualiDecimal projectIncome;
+    private ScaleTwoDecimal projectIncome;
 
     private String hierarchyProposalNumber;
 
@@ -50,7 +50,7 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent im
         return description;
     }
 
-    public KualiDecimal getProjectIncome() {
+    public ScaleTwoDecimal getProjectIncome() {
         return projectIncome;
     }
 
@@ -62,7 +62,7 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent im
         this.description = description;
     }
 
-    public void setProjectIncome(KualiDecimal income) {
+    public void setProjectIncome(ScaleTwoDecimal income) {
         this.projectIncome = income;
     }
 

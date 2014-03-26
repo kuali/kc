@@ -27,7 +27,7 @@ import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardAmountTransactionSaveEvent;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -72,8 +72,8 @@ public class TimeAndMoneyAwardAmountTransactionRuleImpl extends KcTransactionalD
                     AwardAmountInfo aai = getAwardAmountInfoService().fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
                     Date obligatedStartDate = aai.getCurrentFundEffectiveDate();
                     Date obligatedEndDate = aai.getObligationExpirationDate();
-                    KualiDecimal obligatedTotal = aai.getAmountObligatedToDate();
-                    KualiDecimal anticipatedTotal = aai.getAnticipatedTotalAmount();                    
+                    ScaleTwoDecimal obligatedTotal = aai.getAmountObligatedToDate();
+                    ScaleTwoDecimal anticipatedTotal = aai.getAnticipatedTotalAmount();
                     for (PendingTransaction pendingTransaction: timeAndMoneyDocument.getPendingTransactions()) {
                         if (!pendingTransaction.getProcessedFlag().booleanValue()) {
                             if (StringUtils.equals(pendingTransaction.getSourceAwardNumber(), award.getAwardNumber())) {

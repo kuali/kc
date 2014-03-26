@@ -15,16 +15,23 @@
  */
 package org.kuali.coeus.sys.framework.controller;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionServlet;
 import org.apache.struts.action.PlugIn;
 import org.apache.struts.config.ModuleConfig;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.RateDecimal;
-import org.kuali.kra.budget.infrastructure.BudgetDecimalFormatter;
-import org.kuali.kra.infrastructure.RateDecimalFormatter;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.api.model.ScaleThreeDecimal;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.web.format.BigDecimalFormatter;
+import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.core.web.format.Formatter;
 
 import javax.servlet.ServletException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,8 +54,8 @@ public class GlobalFormatterRegistry implements PlugIn {
     private static final Map<Class<?>, Class<? extends Formatter>> KC_FORMATTERS;
     static {
         final Map<Class<?>, Class<? extends Formatter>> temp = new HashMap<Class<?>, Class<? extends Formatter>>();
-        temp.put(BudgetDecimal.class, BudgetDecimalFormatter.class);
-        temp.put(RateDecimal.class, RateDecimalFormatter.class);
+        temp.put(ScaleTwoDecimal.class, ScaleTwoDecimalFormatter.class);
+        temp.put(ScaleThreeDecimal.class, ScaleThreeDecimalFormatter.class);
         
         KC_FORMATTERS = Collections.unmodifiableMap(temp);
     }
@@ -94,5 +101,80 @@ public class GlobalFormatterRegistry implements PlugIn {
         }
         
         previousRegisters.clear();
+    }
+
+    public static class ScaleThreeDecimalFormatter extends BigDecimalFormatter {
+        private static final long serialVersionUID = 4658319828434873892L;
+
+        /**
+         * Overidden to create a {@link ScaleThreeDecimal} from a String
+         */
+        @Override
+        protected Object convertToObject(String target) {
+            return new ScaleThreeDecimal((BigDecimal)super.convertToObject(target));
+        }
+
+        @Override
+        public Object format(Object obj) {
+            return super.format(super.convertToObject(obj.toString()));
+        }
+    }
+
+    /**
+     * This class makes a {@link ScaleTwoDecimal} from a String
+     */
+    public static class ScaleTwoDecimalFormatter extends BigDecimalFormatter {
+        private static final long serialVersionUID = 8395988033199649377L;
+        private static Log LOG = LogFactory.getLog(ScaleTwoDecimalFormatter.class);
+
+        public ScaleTwoDecimalFormatter() {
+            super();
+        }
+
+        @Override
+        protected Object convertToObject(String target) {
+
+            return new ScaleTwoDecimal(((BigDecimal)super.convertToObject(target)));
+        }
+
+
+        /**
+         * Returns a string representation of its argument formatted as a currency value.
+         */
+        @Override
+        public Object format(Object obj) {
+
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("format '" + obj + "'");
+            }
+
+            if (obj == null)
+                return null;
+
+            NumberFormat formatter = NumberFormat.getNumberInstance();
+            ((DecimalFormat) formatter).setParseBigDecimal(true);
+            ((DecimalFormat) formatter).setDecimalSeparatorAlwaysShown(true);
+            String string;
+
+            try {
+                ScaleTwoDecimal number = (ScaleTwoDecimal) obj;
+                string = formatter.format(number.doubleValue());
+            }
+            catch (IllegalArgumentException|ClassCastException e) {
+                throw new FormatException("formatting", RiceKeyConstants.ERROR_BIG_DECIMAL, obj.toString(), e);
+            }
+
+            if (obj.toString().length() > 15) {
+                return obj.toString();
+            }
+            if (StringUtils.isNotBlank(string)) {
+                if (string.indexOf(".") == string.length() - 1) {
+                    string = string +"00";
+                } else if (string.indexOf(".") == string.length() - 2) {
+                    string = string +"0";
+                }
+            }
+            return string;
+        }
     }
 }

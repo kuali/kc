@@ -29,5 +29,13 @@
         <function-signature>java.util.List getOptionList(java.lang.String, java.util.Map)</function-signature>
         <example>&lt;c:forEach items="${krafn:getOptionList()}"&gt;></example>
     </function>
+
+    <function>
+        <description>Coerces the type of ScaleTwoDecimal to a BigDecimal</description>
+        <name>getBigDecimal</name>
+        <function-class>org.kuali.coeus.sys.framework.view.JstlFunctions</function-class>
+        <function-signature>java.math.BigDecimal getBigDecimal(org.kuali.coeus.sys.api.model.ScaleTwoDecimal)</function-signature>
+        <example>&lt;c:set var="cumTotalCost" value="${cumTotalCost + krafn:getBigDecimal(budgetPeriodObj.totalCost)}" /"&gt;</example>
+    </function>
     
 </taglib>

@@ -23,7 +23,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -43,8 +43,8 @@ public class AwardCreditSplitBean implements Serializable {
     private static Log LOGGER = LogFactory.getLog(AwardCreditSplitBean.class);
     private static final String YES = "Y";
     private static final String AWARD_CREDIT_SPLIT_PARM_NAME = "award.creditsplit.enabled";
-    private static final KualiDecimal ZERO_VALUE = new KualiDecimal(0);
-    private static final KualiDecimal MAX_VALUE = new KualiDecimal(100.00);
+    private static final ScaleTwoDecimal ZERO_VALUE = new ScaleTwoDecimal(0);
+    private static final ScaleTwoDecimal MAX_VALUE = new ScaleTwoDecimal(100.00);
     
     private AwardForm awardForm;
     private AwardDocument awardDocument;
@@ -79,7 +79,7 @@ public class AwardCreditSplitBean implements Serializable {
      * This method returns the map of credit types to award personnel totals
      * @return
      */
-    public Map<String, KualiDecimal> getPersonsTotalsMap() {
+    public Map<String, ScaleTwoDecimal> getPersonsTotalsMap() {
         return calculateCreditSplitTotals().get(PERSON_TOTALS_KEY);
     }
     
@@ -137,7 +137,7 @@ public class AwardCreditSplitBean implements Serializable {
     /**
      * @return The totals map which contains the unit totals 
      */
-    public Map<String, Map<String, KualiDecimal>> getUnitTotalsMap() {
+    public Map<String, Map<String, ScaleTwoDecimal>> getUnitTotalsMap() {
         return calculateCreditSplitTotals();
     }
     
@@ -161,7 +161,7 @@ public class AwardCreditSplitBean implements Serializable {
     public boolean recalculateCreditSplit() {
         boolean noErrors = true;
         if(isAwardCreditsLimitApplicable()) {
-            Map<String, Map<String, KualiDecimal>> totalsMap = calculateCreditSplitTotals();
+            Map<String, Map<String, ScaleTwoDecimal>> totalsMap = calculateCreditSplitTotals();
             noErrors = checkIfPersonTotalsAreValid(totalsMap);
             noErrors &= checkIfPersonUnitsTotalsAreValid(totalsMap);
         }
@@ -201,8 +201,8 @@ public class AwardCreditSplitBean implements Serializable {
      * @return Map
      * 
      */
-    Map<String, Map<String, KualiDecimal>> calculateCreditSplitTotals() {
-        Map<String, Map<String, KualiDecimal>> allCreditSplitTotals = new HashMap<String, Map<String, KualiDecimal>>();
+    Map<String, Map<String, ScaleTwoDecimal>> calculateCreditSplitTotals() {
+        Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals = new HashMap<String, Map<String, ScaleTwoDecimal>>();
         calculatePersonTotals(allCreditSplitTotals);
         calculatePersonUnitTotals(allCreditSplitTotals);
         
@@ -240,9 +240,9 @@ public class AwardCreditSplitBean implements Serializable {
      * @param personCreditSplitTotalMap
      */
     private void calculatePersonTotalForCreditSplitType(AwardPerson projectPerson, InvestigatorCreditType creditType, 
-                                                            Map<String, KualiDecimal> personCreditSplitTotalMap) {
+                                                            Map<String, ScaleTwoDecimal> personCreditSplitTotalMap) {
         String creditTypeCode = creditType.getInvCreditTypeCode();
-        KualiDecimal personsTotalCredit = personCreditSplitTotalMap.get(creditTypeCode);
+        ScaleTwoDecimal personsTotalCredit = personCreditSplitTotalMap.get(creditTypeCode);
 
         if (personsTotalCredit == null) {
             personsTotalCredit = ZERO_VALUE;                    
@@ -260,9 +260,9 @@ public class AwardCreditSplitBean implements Serializable {
      * @param creditTypes
      * @param allCreditSplitTotals
      */
-    private void calculatePersonTotals(Map<String, Map<String, KualiDecimal>> allCreditSplitTotals) {
+    private void calculatePersonTotals(Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals) {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
-        Map<String, KualiDecimal> personCreditSplitTotalMap = initializePersonCreditSplitTotalMap(allCreditSplitTotals);        
+        Map<String, ScaleTwoDecimal> personCreditSplitTotalMap = initializePersonCreditSplitTotalMap(allCreditSplitTotals);
         for (AwardPerson projectPerson : getProjectPersons()) {
             for (InvestigatorCreditType creditType : creditTypes) {                
                 calculatePersonTotalForCreditSplitType(projectPerson, creditType, personCreditSplitTotalMap);
@@ -273,20 +273,20 @@ public class AwardCreditSplitBean implements Serializable {
     /*
      * @param allCreditSplitTotals
      */
-    private void calculatePersonUnitTotals(Map<String, Map<String, KualiDecimal>> allCreditSplitTotals) {
+    private void calculatePersonUnitTotals(Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals) {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         for (AwardPerson projectPerson : getProjectPersons()) {
             String personKey = getPersonKey(projectPerson);
-            Map<String, KualiDecimal> personUnitCreditTotals = allCreditSplitTotals.get(personKey);
+            Map<String, ScaleTwoDecimal> personUnitCreditTotals = allCreditSplitTotals.get(personKey);
             
             if (personUnitCreditTotals == null) {
-                personUnitCreditTotals = new HashMap<String, KualiDecimal>();
+                personUnitCreditTotals = new HashMap<String, ScaleTwoDecimal>();
                 allCreditSplitTotals.put(personKey, personUnitCreditTotals);
             }
 
             for (InvestigatorCreditType creditType : creditTypes) {                
                 String creditTypeCode = creditType.getInvCreditTypeCode();
-                KualiDecimal totalCredit = personUnitCreditTotals.get(creditTypeCode);
+                ScaleTwoDecimal totalCredit = personUnitCreditTotals.get(creditTypeCode);
                 personUnitCreditTotals.put(creditTypeCode, totalCredit != null ? totalCredit : ZERO_VALUE);
             }
 
@@ -298,13 +298,13 @@ public class AwardCreditSplitBean implements Serializable {
      * @param projectPerson
      * @param personUnitCreditTotals
      */
-    private void calculateUnitCreditSplitTotals(AwardPerson projectPerson, Map<String, KualiDecimal> personUnitCreditTotals) {
+    private void calculateUnitCreditSplitTotals(AwardPerson projectPerson, Map<String, ScaleTwoDecimal> personUnitCreditTotals) {
         if(projectPerson.isKeyPerson() && projectPerson.getUnits().size() == 0) {
             handleKeyPersonWithNoUnits(personUnitCreditTotals);
         } else {
             for (AwardPersonUnit unit : projectPerson.getUnits()) {
                 for (CreditSplit creditSplit : unit.getCreditSplits()) {
-                    KualiDecimal totalCredit = personUnitCreditTotals.get(creditSplit.getInvCreditTypeCode());
+                    ScaleTwoDecimal totalCredit = personUnitCreditTotals.get(creditSplit.getInvCreditTypeCode());
 
                     if (totalCredit == null) {
                         totalCredit = ZERO_VALUE;
@@ -319,20 +319,20 @@ public class AwardCreditSplitBean implements Serializable {
      * A keyPerson may have no associated unit. To satisfy the validation checks, we apply this workaround to set the unit credit split type totals to 100.00 
      * @param personUnitCreditTotals
      */
-    private void handleKeyPersonWithNoUnits(Map<String, KualiDecimal> personUnitCreditTotals) {
+    private void handleKeyPersonWithNoUnits(Map<String, ScaleTwoDecimal> personUnitCreditTotals) {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         for(InvestigatorCreditType creditType: creditTypes) {
             personUnitCreditTotals.put(creditType.getInvCreditTypeCode(), MAX_VALUE);
         }
     }
 
-    private boolean  checkIfPersonTotalsAreValid(Map<String, Map<String, KualiDecimal>> totalsMap) {
+    private boolean  checkIfPersonTotalsAreValid(Map<String, Map<String, ScaleTwoDecimal>> totalsMap) {
         AwardPersonCreditSplitRule rule = new AwardPersonCreditSplitRuleImpl();
         AwardPersonCreditSplitRuleEvent event = new AwardPersonCreditSplitRuleEvent(awardDocument, totalsMap.get(PERSON_TOTALS_KEY));
         return rule.checkAwardPersonCreditSplitTotals(event);
     }
     
-    private boolean checkIfPersonUnitsTotalsAreValid(Map<String, Map<String, KualiDecimal>> totalsMap) {        
+    private boolean checkIfPersonUnitsTotalsAreValid(Map<String, Map<String, ScaleTwoDecimal>> totalsMap) {
         AwardPersonUnitCreditSplitRule rule = new AwardPersonUnitCreditSplitRuleImpl();
         
         boolean success = true;
@@ -386,11 +386,11 @@ public class AwardCreditSplitBean implements Serializable {
      * @param allCreditSplitTotals
      * @return
      */
-    private Map<String, KualiDecimal> initializePersonCreditSplitTotalMap(Map<String, Map<String, KualiDecimal>> allCreditSplitTotals) {
-        Map<String, KualiDecimal> personCreditTypeTotals = allCreditSplitTotals.get(PERSON_TOTALS_KEY);
+    private Map<String, ScaleTwoDecimal> initializePersonCreditSplitTotalMap(Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals) {
+        Map<String, ScaleTwoDecimal> personCreditTypeTotals = allCreditSplitTotals.get(PERSON_TOTALS_KEY);
         
         if (personCreditTypeTotals == null) {
-            personCreditTypeTotals = new HashMap<String, KualiDecimal>();
+            personCreditTypeTotals = new HashMap<String, ScaleTwoDecimal>();
             allCreditSplitTotals.put(PERSON_TOTALS_KEY, personCreditTypeTotals);
         }
         return personCreditTypeTotals;

@@ -20,8 +20,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.data.jpa.converters.KualiDecimalConverter;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -50,8 +50,8 @@ public final class ProposalPersonCreditSplit extends KcPersistableBusinessObject
     private String invCreditTypeCode;
 
     @Column(name = "CREDIT")
-    @Convert(converter = KualiDecimalConverter.class)
-    private KualiDecimal credit;
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal credit;
 
     @ManyToOne(targetEntity = InvestigatorCreditType.class)
     @JoinColumn(name = "INV_CREDIT_TYPE_CODE", referencedColumnName = "INV_CREDIT_TYPE_CODE", insertable = false, updatable = false)
@@ -134,8 +134,8 @@ public final class ProposalPersonCreditSplit extends KcPersistableBusinessObject
      *
      * @return the value of credit
      */
-    public KualiDecimal getCredit() {
-        return this.credit == null ? new KualiDecimal(0) : this.credit;
+    public ScaleTwoDecimal getCredit() {
+        return this.credit == null ? new ScaleTwoDecimal(0) : this.credit;
     }
 
     /**
@@ -143,7 +143,7 @@ public final class ProposalPersonCreditSplit extends KcPersistableBusinessObject
      *
      * @param argCredit Value to assign to this.credit
      */
-    public void setCredit(KualiDecimal argCredit) {
+    public void setCredit(ScaleTwoDecimal argCredit) {
         this.credit = argCredit;
     }
 

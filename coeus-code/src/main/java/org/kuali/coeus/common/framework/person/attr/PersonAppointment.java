@@ -17,7 +17,7 @@ package org.kuali.coeus.common.framework.person.attr;
 
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.personnel.AppointmentType;
 import org.kuali.kra.budget.personnel.JobCode;
 
@@ -57,7 +57,7 @@ public class PersonAppointment extends KcPersistableBusinessObjectBase {
 
     private JobCode jobCodeRef;
 
-    private BudgetDecimal salary;
+    private ScaleTwoDecimal salary;
 
     public String getPersonId() {
         return personId;
@@ -139,11 +139,11 @@ public class PersonAppointment extends KcPersistableBusinessObjectBase {
         this.jobCodeRef = jobCodeRef;
     }
 
-    public BudgetDecimal getSalary() {
+    public ScaleTwoDecimal getSalary() {
         return salary;
     }
 
-    public void setSalary(BudgetDecimal salary) {
+    public void setSalary(ScaleTwoDecimal salary) {
         this.salary = salary;
     }
 

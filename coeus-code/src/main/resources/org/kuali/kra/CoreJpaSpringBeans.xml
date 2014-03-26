@@ -61,7 +61,7 @@
         <value>org.kuali.coeus.common.framework.person</value>
         <value>org.kuali.coeus.common.framework.unit</value>
         <!--converters -->
-        <value>org.kuali.kra.budget</value>
+        <value>org.kuali.coeus.sys.framework.persistence</value>
         <value>org.kuali.rice.krad.data.jpa.converters</value>
         <value>org.kuali.kra.infrastructure</value>
 

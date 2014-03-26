@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.approve;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.proposaldevelopment.bo.CoPiInfoDO;
 import org.kuali.kra.proposaldevelopment.bo.CostShareInfoDO;
 
@@ -31,9 +31,9 @@ public class ProposalDevelopmentApproverViewDO implements Serializable  {
     String projectTitle;
     String proposalNumber;
     String proposalType;
-    BudgetDecimal directCost;
-    BudgetDecimal indirectCost;
-    BudgetDecimal totalCost;
+    ScaleTwoDecimal directCost;
+    ScaleTwoDecimal indirectCost;
+    ScaleTwoDecimal totalCost;
     Date dueDate;
     Date startDate;
     Date endDate;
@@ -64,22 +64,22 @@ public class ProposalDevelopmentApproverViewDO implements Serializable  {
     public void setProposalType(String proposalType) {
         this.proposalType = proposalType;
     }
-    public BudgetDecimal getDirectCost() {
+    public ScaleTwoDecimal getDirectCost() {
         return directCost;
     }
-    public void setDirectCost(BudgetDecimal directCost) {
+    public void setDirectCost(ScaleTwoDecimal directCost) {
         this.directCost = directCost;
     }
-    public BudgetDecimal getIndirectCost() {
+    public ScaleTwoDecimal getIndirectCost() {
         return indirectCost;
     }
-    public void setIndirectCost(BudgetDecimal indirectCost) {
+    public void setIndirectCost(ScaleTwoDecimal indirectCost) {
         this.indirectCost = indirectCost;
     }
-    public BudgetDecimal getTotalCost() {
+    public ScaleTwoDecimal getTotalCost() {
         return totalCost;
     }
-    public void setTotalCost(BudgetDecimal totalCost) {
+    public void setTotalCost(ScaleTwoDecimal totalCost) {
         this.totalCost = totalCost;
     }
     public Date getDueDate() {

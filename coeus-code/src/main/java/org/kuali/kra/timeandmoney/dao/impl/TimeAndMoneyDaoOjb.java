@@ -19,7 +19,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.accesslayer.LookupException;
 import org.kuali.kra.timeandmoney.dao.TimeAndMoneyDao;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import java.math.BigDecimal;
@@ -52,11 +52,11 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
                 timeAndMoneyActionSummary.setNoticeDate(rs.getDate(1));
                 timeAndMoneyActionSummary.setTransactionType(rs.getString(2));
                 if(rs.getObject(5)!=null){
-                    timeAndMoneyActionSummary.setChangeAmount(new KualiDecimal((BigDecimal)rs.getObject(5)));    
+                    timeAndMoneyActionSummary.setChangeAmount(new ScaleTwoDecimal((BigDecimal)rs.getObject(5)));
 
                 }
                 if(rs.getObject(6)!=null){
-                    timeAndMoneyActionSummary.setObligationCumulative(new KualiDecimal((BigDecimal)rs.getObject(6)));    
+                    timeAndMoneyActionSummary.setObligationCumulative(new ScaleTwoDecimal((BigDecimal)rs.getObject(6)));
                 }
                 timeAndMoneyActionSummary.setObligationEndDate(rs.getDate(7));
                 timeAndMoneyActionSummary.setObligationStartDate(rs.getDate(8));

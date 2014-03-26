@@ -1,6 +1,6 @@
 package org.kuali.kra.budget.printing.util;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class SalaryTypeVO {
 	private String costElement;
 	private String costElementCode;
 	private String name;
-	private BudgetDecimal total;
+	private ScaleTwoDecimal total;
 	private List<BudgetDataPeriodVO> budgetPeriodVOs;
 
 	public String getCostElement() {
@@ -38,11 +38,11 @@ public class SalaryTypeVO {
 		this.name = name;
 	}
 
-	public BudgetDecimal getTotal() {
+	public ScaleTwoDecimal getTotal() {
 		return total;
 	}
 
-	public void setTotal(BudgetDecimal total) {
+	public void setTotal(ScaleTwoDecimal total) {
 		this.total = total;
 	}
 

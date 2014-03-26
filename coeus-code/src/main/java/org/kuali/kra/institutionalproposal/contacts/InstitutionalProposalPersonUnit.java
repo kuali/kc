@@ -23,7 +23,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
@@ -120,7 +120,7 @@ public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObject
     public void initializeDefaultCreditSplits() {
         List<InvestigatorCreditType> creditTypes = (List<InvestigatorCreditType>) this.getBusinessObjectService().findAll(InvestigatorCreditType.class);
         for (InvestigatorCreditType creditType : creditTypes) {
-            InstitutionalProposalPersonUnitCreditSplit creditSplit = new InstitutionalProposalPersonUnitCreditSplit(creditType, new KualiDecimal(0));
+            InstitutionalProposalPersonUnitCreditSplit creditSplit = new InstitutionalProposalPersonUnitCreditSplit(creditType, new ScaleTwoDecimal(0));
             this.add(creditSplit);
         }
     }

@@ -38,8 +38,8 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -202,9 +202,9 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 
 		if (budget != null) {
 			if (budget.getModularBudgetFlag()) {
-				BudgetDecimal fundsRequested = BudgetDecimal.ZERO;
-				BudgetDecimal totalDirectCost = BudgetDecimal.ZERO;
-				BudgetDecimal totalCost = BudgetDecimal.ZERO;
+				ScaleTwoDecimal fundsRequested = ScaleTwoDecimal.ZERO;
+				ScaleTwoDecimal totalDirectCost = ScaleTwoDecimal.ZERO;
+				ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
 				// get modular budget amounts instead of budget detail amounts
 				for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 					totalDirectCost = totalDirectCost.add(budgetPeriod
@@ -221,7 +221,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 				budget.setTotalCost(totalCost);
 			}
 
-			BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
+			ScaleTwoDecimal fedNonFedCost = ScaleTwoDecimal.ZERO;
 			fedNonFedCost = fedNonFedCost.add(budget.getTotalCost());
 			fedNonFedCost = fedNonFedCost.add(budget.getCostSharingAmount());
 

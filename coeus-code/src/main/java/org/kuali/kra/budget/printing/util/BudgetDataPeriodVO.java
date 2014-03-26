@@ -1,10 +1,10 @@
 package org.kuali.kra.budget.printing.util;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 public class BudgetDataPeriodVO {
 	private int budgetPeriodId;
-	private BudgetDecimal periodCost;
+	private ScaleTwoDecimal periodCost;
 
 	public int getBudgetPeriodId() {
 		return budgetPeriodId;
@@ -14,11 +14,11 @@ public class BudgetDataPeriodVO {
 		this.budgetPeriodId = budgetPeriofId;
 	}
 
-	public BudgetDecimal getPeriodCost() {
+	public ScaleTwoDecimal getPeriodCost() {
 		return periodCost;
 	}
 
-	public void setPeriodCost(BudgetDecimal periodCost) {
+	public void setPeriodCost(ScaleTwoDecimal periodCost) {
 		this.periodCost = periodCost;
 	}
 }

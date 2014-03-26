@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -48,20 +48,20 @@ public class AwardCostShareAuditRuleTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
         awardCostShareAuditRule = new AwardCostShareAuditRule();
         AwardCostShare awardCostShare = new AwardCostShare();
-        awardCostShare.setCostSharePercentage(new KualiDecimal(PERCENTAGE));
+        awardCostShare.setCostSharePercentage(new ScaleTwoDecimal(PERCENTAGE));
         awardCostShare.setCostShareTypeCode(TEST_COST_SHARE_TYPE);
         awardCostShare.setProjectPeriod(TEST_FISCAL_YEAR);
         awardCostShare.setDestination(TEST_DESTINATION);
         awardCostShare.setSource(TEST_SOURCE);
-        awardCostShare.setCommitmentAmount(new KualiDecimal(COMMITMENT_AMOUNT));
+        awardCostShare.setCommitmentAmount(new ScaleTwoDecimal(COMMITMENT_AMOUNT));
         awardCostShares.add(awardCostShare);
         awardCostShare = new AwardCostShare();
-        awardCostShare.setCostSharePercentage(new KualiDecimal(PERCENTAGE));
+        awardCostShare.setCostSharePercentage(new ScaleTwoDecimal(PERCENTAGE));
         awardCostShare.setCostShareTypeCode(TEST_COST_SHARE_TYPE);
         awardCostShare.setProjectPeriod(TEST_FISCAL_YEAR_2);
         awardCostShare.setDestination(TEST_DESTINATION);
         awardCostShare.setSource(TEST_SOURCE);
-        awardCostShare.setCommitmentAmount(new KualiDecimal(COMMITMENT_AMOUNT));
+        awardCostShare.setCommitmentAmount(new ScaleTwoDecimal(COMMITMENT_AMOUNT));
         awardCostShares.add(awardCostShare);
         GlobalVariables.setMessageMap(new MessageMap());
           

@@ -19,8 +19,8 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -264,7 +264,7 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 			if (reportTypeMap.containsKey(reportTypeKey)) {
 				continue;
 			}
-			BudgetDecimal salary = BudgetDecimal.ZERO;
+			ScaleTwoDecimal salary = ScaleTwoDecimal.ZERO;
 			for (ReportTypeVO tempReportTypeVO : reportTypeVOList) {
 				String reportTypeTempKey = getKeyForIndustrialBudget(tempReportTypeVO);
 				if (reportTypeTempKey.equals(reportTypeKey)) {
@@ -283,7 +283,7 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 	 * reportType from passed parameters
 	 */
 	private ReportType getReportTypeForIndustrialBudgetSalary(
-			BudgetDecimal salary, ReportTypeVO reportTypeVO) {
+			ScaleTwoDecimal salary, ReportTypeVO reportTypeVO) {
 		ReportType reportType = ReportType.Factory.newInstance();
 		reportType.setStartDate(DateFormatUtils.format(reportTypeVO.getStartDate(), DATE_FORMAT_MMDDYY));
 		reportType.setEndDate(DateFormatUtils.format(reportTypeVO.getEndDate(), DATE_FORMAT_MMDDYY));
@@ -324,7 +324,7 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 	private SubReportType getIndustrialBudgetSummaryNonPersonnel() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
-		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
+		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		if (getUnitNumber() > 0) {
 			String categoryDesc = OTHER_DIRECT_COSTS;
 			String costElementDesc = ALLOCATED_LAB_EXPENSE;
@@ -381,7 +381,7 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 			if (reportTypeMap.containsKey(industrialBudgetNonPersKey)) {
 				continue;
 			}
-			BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
+			ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 			for (ReportTypeVO reportTypeVO1 : tempReportTypeVOList) {
 				String industrialBudgetNonPersTempKey = reportTypeVO1
 						.getCostElementDesc();
@@ -403,7 +403,7 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 	 * parameters data to reportType
 	 */
 	private ReportType getReportTypeForIndustrialNonPersonnel(
-			BudgetDecimal calculatedCost, ReportTypeVO reportTypeVO) {
+			ScaleTwoDecimal calculatedCost, ReportTypeVO reportTypeVO) {
 		ReportType reportType = ReportType.Factory.newInstance();
 		reportType.setBudgetCategoryDescription(reportTypeVO
 				.getBudgetCategoryDesc());

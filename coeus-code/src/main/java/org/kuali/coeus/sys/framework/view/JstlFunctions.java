@@ -16,8 +16,10 @@
 package org.kuali.coeus.sys.framework.view;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -72,6 +74,20 @@ public final class JstlFunctions {
     @SuppressWarnings("unchecked")
     public static List getOptionList(String valuesFinderClassName, Map params) {
         return setupValuesFinder(valuesFinderClassName, (Map<String, Object>) params).getKeyValues();
+    }
+
+    /**
+     * Returns the BigDecimal value wrapped inside the given ScaleTwoDecimal in order to get correct type coercion for Jetty.
+     * Here is an example of how the code is used in a JSP/tag file:
+     * <code>
+     * <c:set var="cumTotalCost" value="${cumTotalCost + krafn:getBigDecimal(budgetPeriodObj.totalCost)}" />
+     * </code>
+     *
+     * @param scaleTwoDecimal
+     * @return
+     */
+    public static BigDecimal getBigDecimal(ScaleTwoDecimal scaleTwoDecimal) {
+        return scaleTwoDecimal.bigDecimalValue();
     }
     
     /**

@@ -16,7 +16,7 @@
 package org.kuali.kra.award.home;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 /**
  * 
@@ -29,9 +29,9 @@ public class ValidRates extends KcPersistableBusinessObjectBase {
 
     private Integer validRatesId;
 
-    private KualiDecimal onCampusRate;
+    private ScaleTwoDecimal onCampusRate;
 
-    private KualiDecimal offCampusRate;
+    private ScaleTwoDecimal offCampusRate;
 
     private String rateClassType;
 
@@ -59,19 +59,19 @@ public class ValidRates extends KcPersistableBusinessObjectBase {
         this.validRatesId = validRatesId;
     }
 
-    public KualiDecimal getOnCampusRate() {
+    public ScaleTwoDecimal getOnCampusRate() {
         return onCampusRate;
     }
 
-    public void setOnCampusRate(KualiDecimal onCampusRate) {
+    public void setOnCampusRate(ScaleTwoDecimal onCampusRate) {
         this.onCampusRate = onCampusRate;
     }
 
-    public KualiDecimal getOffCampusRate() {
+    public ScaleTwoDecimal getOffCampusRate() {
         return offCampusRate;
     }
 
-    public void setOffCampusRate(KualiDecimal offCampusRate) {
+    public void setOffCampusRate(ScaleTwoDecimal offCampusRate) {
         this.offCampusRate = offCampusRate;
     }
 

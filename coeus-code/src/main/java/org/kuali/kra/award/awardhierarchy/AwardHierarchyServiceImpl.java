@@ -48,7 +48,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -654,12 +654,12 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNode.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
             awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
             // we need to add in the pending transactions that are a result of changing totals in single-node view
-            KualiDecimal obligatedTotal = awardAmountInfo.getAmountObligatedToDate();
-            KualiDecimal obligatedTotalDirect = awardAmountInfo.getObligatedTotalDirect();
-            KualiDecimal obligatedTotalIndirect = awardAmountInfo.getObligatedTotalIndirect();
-            KualiDecimal anticipatedTotalAmount = awardAmountInfo.getAnticipatedTotalAmount();
-            KualiDecimal anticipatedTotalDirect = awardAmountInfo.getAnticipatedTotalDirect();
-            KualiDecimal anticipatedTotalIndirect = awardAmountInfo.getAnticipatedTotalIndirect();
+            ScaleTwoDecimal obligatedTotal = awardAmountInfo.getAmountObligatedToDate();
+            ScaleTwoDecimal obligatedTotalDirect = awardAmountInfo.getObligatedTotalDirect();
+            ScaleTwoDecimal obligatedTotalIndirect = awardAmountInfo.getObligatedTotalIndirect();
+            ScaleTwoDecimal anticipatedTotalAmount = awardAmountInfo.getAnticipatedTotalAmount();
+            ScaleTwoDecimal anticipatedTotalDirect = awardAmountInfo.getAnticipatedTotalDirect();
+            ScaleTwoDecimal anticipatedTotalIndirect = awardAmountInfo.getAnticipatedTotalIndirect();
             for (PendingTransaction pendingTransaction: timeAndMoneyDocument.getPendingTransactions()){
                 if (pendingTransaction.getProcessedFlag() == false && pendingTransaction.isSingleNodeTransaction()) {
                     obligatedTotal = obligatedTotal.add(pendingTransaction.getObligatedAmount());

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.budget.parameters;
 
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
@@ -41,21 +41,21 @@ public class BudgetPeriod extends BudgetAssociate {
 
     private String comments;
 
-    private BudgetDecimal costSharingAmount;
+    private ScaleTwoDecimal costSharingAmount;
 
     private Date endDate;
 
     private Date startDate;
 
-    private BudgetDecimal totalCost;
+    private ScaleTwoDecimal totalCost;
 
-    private BudgetDecimal totalCostLimit;
+    private ScaleTwoDecimal totalCostLimit;
 
-    private BudgetDecimal totalDirectCost;
+    private ScaleTwoDecimal totalDirectCost;
 
-    private BudgetDecimal totalIndirectCost;
+    private ScaleTwoDecimal totalIndirectCost;
 
-    private BudgetDecimal underrecoveryAmount;
+    private ScaleTwoDecimal underrecoveryAmount;
 
     private List<BudgetLineItem> budgetLineItems;
     
@@ -63,7 +63,7 @@ public class BudgetPeriod extends BudgetAssociate {
 
     // expences total for 'totals' page 
     // if 'totalCost' is intended for 'totals' page, then this is not needed 
-    private BudgetDecimal expenseTotal;
+    private ScaleTwoDecimal expenseTotal;
 
     private Date oldEndDate;
 
@@ -80,7 +80,7 @@ public class BudgetPeriod extends BudgetAssociate {
 
     private Integer institutionalProposalVersion;
 
-    private BudgetDecimal directCostLimit;
+    private ScaleTwoDecimal directCostLimit;
     
 
     // This is a BO and hence will not be shared between threads. dateFormatter here is thread safe. 
@@ -122,11 +122,11 @@ public class BudgetPeriod extends BudgetAssociate {
         this.comments = comments;
     }
 
-    public BudgetDecimal getCostSharingAmount() {
-        return costSharingAmount == null ? BudgetDecimal.ZERO : costSharingAmount;
+    public ScaleTwoDecimal getCostSharingAmount() {
+        return costSharingAmount == null ? ScaleTwoDecimal.ZERO : costSharingAmount;
     }
 
-    public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+    public void setCostSharingAmount(ScaleTwoDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
     }
 
@@ -146,43 +146,43 @@ public class BudgetPeriod extends BudgetAssociate {
         this.startDate = startDate;
     }
 
-    public BudgetDecimal getTotalCost() {
-        return totalCost == null ? new BudgetDecimal(0) : totalCost;
+    public ScaleTwoDecimal getTotalCost() {
+        return totalCost == null ? new ScaleTwoDecimal(0) : totalCost;
     }
 
-    public void setTotalCost(BudgetDecimal totalCost) {
+    public void setTotalCost(ScaleTwoDecimal totalCost) {
         this.totalCost = totalCost;
     }
 
-    public BudgetDecimal getTotalCostLimit() {
-        return totalCostLimit == null ? new BudgetDecimal(0) : totalCostLimit;
+    public ScaleTwoDecimal getTotalCostLimit() {
+        return totalCostLimit == null ? new ScaleTwoDecimal(0) : totalCostLimit;
     }
 
-    public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
+    public void setTotalCostLimit(ScaleTwoDecimal totalCostLimit) {
         this.totalCostLimit = totalCostLimit;
     }
 
-    public BudgetDecimal getTotalDirectCost() {
-        return totalDirectCost == null ? new BudgetDecimal(0) : totalDirectCost;
+    public ScaleTwoDecimal getTotalDirectCost() {
+        return totalDirectCost == null ? new ScaleTwoDecimal(0) : totalDirectCost;
     }
 
-    public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
+    public void setTotalDirectCost(ScaleTwoDecimal totalDirectCost) {
         this.totalDirectCost = totalDirectCost;
     }
 
-    public BudgetDecimal getTotalIndirectCost() {
-        return totalIndirectCost == null ? new BudgetDecimal(0) : totalIndirectCost;
+    public ScaleTwoDecimal getTotalIndirectCost() {
+        return totalIndirectCost == null ? new ScaleTwoDecimal(0) : totalIndirectCost;
     }
 
-    public void setTotalIndirectCost(BudgetDecimal totalIndirectCost) {
+    public void setTotalIndirectCost(ScaleTwoDecimal totalIndirectCost) {
         this.totalIndirectCost = totalIndirectCost;
     }
 
-    public BudgetDecimal getUnderrecoveryAmount() {
-        return underrecoveryAmount == null ? new BudgetDecimal(0) : underrecoveryAmount;
+    public ScaleTwoDecimal getUnderrecoveryAmount() {
+        return underrecoveryAmount == null ? new ScaleTwoDecimal(0) : underrecoveryAmount;
     }
 
-    public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
+    public void setUnderrecoveryAmount(ScaleTwoDecimal underrecoveryAmount) {
         this.underrecoveryAmount = underrecoveryAmount;
     }
 
@@ -238,11 +238,11 @@ public class BudgetPeriod extends BudgetAssociate {
         return budgetLineItems != null && budgetLineItems.size() > 0;
     }
 
-    public BudgetDecimal getExpenseTotal() {
+    public ScaleTwoDecimal getExpenseTotal() {
         return expenseTotal;
     }
 
-    public void setExpenseTotal(BudgetDecimal expenseTotal) {
+    public void setExpenseTotal(ScaleTwoDecimal expenseTotal) {
         this.expenseTotal = expenseTotal;
     }
 
@@ -325,8 +325,8 @@ public class BudgetPeriod extends BudgetAssociate {
      * @param lineItems the budget line items
      * @return the amount.
      */
-    public final BudgetDecimal getSumUnderreoveryAmountFromLineItems() {
-        BudgetDecimal amount = BudgetDecimal.ZERO;
+    public final ScaleTwoDecimal getSumUnderreoveryAmountFromLineItems() {
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
             amount = amount.add(lineItem.getUnderrecoveryAmount());
         }
@@ -337,8 +337,8 @@ public class BudgetPeriod extends BudgetAssociate {
      * Gets the sum of the CostSharing Amount for all line items.
      * @return the amount
      */
-    public final BudgetDecimal getSumCostSharingAmountFromLineItems() {
-        BudgetDecimal amount = BudgetDecimal.ZERO;
+    public final ScaleTwoDecimal getSumCostSharingAmountFromLineItems() {
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
             amount = amount.add(lineItem.getCostSharingAmount());
         }
@@ -349,8 +349,8 @@ public class BudgetPeriod extends BudgetAssociate {
      * Gets the sum of the Total CostSharing Amount for all line items.
      * @return the amount
      */
-    public final BudgetDecimal getSumTotalCostSharingAmountFromLineItems() {
-        BudgetDecimal amount = BudgetDecimal.ZERO;
+    public final ScaleTwoDecimal getSumTotalCostSharingAmountFromLineItems() {
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
             amount = amount.add(lineItem.getTotalCostSharingAmount());
         }
@@ -361,8 +361,8 @@ public class BudgetPeriod extends BudgetAssociate {
      * Gets the sum of the Direct Cost Amount for all line items.
      * @return the amount
      */
-    public final BudgetDecimal getSumDirectCostAmountFromLineItems() {
-        BudgetDecimal amount = BudgetDecimal.ZERO;
+    public final ScaleTwoDecimal getSumDirectCostAmountFromLineItems() {
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
             amount = amount.add(lineItem.getDirectCost());
         }
@@ -373,8 +373,8 @@ public class BudgetPeriod extends BudgetAssociate {
      * Gets the sum of the Indirect Cost Amount for all line items.
      * @return the amount
      */
-    public final BudgetDecimal getSumIndirectCostAmountFromLineItems() {
-        BudgetDecimal amount = BudgetDecimal.ZERO;
+    public final ScaleTwoDecimal getSumIndirectCostAmountFromLineItems() {
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
             amount = amount.add(lineItem.getIndirectCost());
         }
@@ -385,7 +385,7 @@ public class BudgetPeriod extends BudgetAssociate {
      * Gets the sum of the Total Cost Amount for all line items.
      * @return the amount
      */
-    public final BudgetDecimal getSumTotalCostAmountFromLineItems() {
+    public final ScaleTwoDecimal getSumTotalCostAmountFromLineItems() {
         return this.getSumDirectCostAmountFromLineItems().add(this.getSumIndirectCostAmountFromLineItems());
     }
 
@@ -441,15 +441,15 @@ public class BudgetPeriod extends BudgetAssociate {
      * Gets the directCostLimit attribute. 
      * @return Returns the directCostLimit.
      */
-    public BudgetDecimal getDirectCostLimit() {
-        return directCostLimit == null ? BudgetDecimal.ZERO : directCostLimit;
+    public ScaleTwoDecimal getDirectCostLimit() {
+        return directCostLimit == null ? ScaleTwoDecimal.ZERO : directCostLimit;
     }
 
     /**
      * Sets the directCostLimit attribute value.
      * @param directCostLimit The directCostLimit to set.
      */
-    public void setDirectCostLimit(BudgetDecimal directCostLimit) {
+    public void setDirectCostLimit(ScaleTwoDecimal directCostLimit) {
         this.directCostLimit = directCostLimit;
     }
     

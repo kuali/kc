@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.nonpersonnel;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.rates.RateClass;
@@ -36,9 +36,9 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
 
     private Boolean applyRateFlag;
 
-    private BudgetDecimal calculatedCost;
+    private ScaleTwoDecimal calculatedCost;
 
-    private BudgetDecimal calculatedCostSharing;
+    private ScaleTwoDecimal calculatedCostSharing;
 
     private String rateClassType;
 
@@ -117,19 +117,19 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
         this.applyRateFlag = applyRateFlag;
     }
 
-    public BudgetDecimal getCalculatedCost() {
+    public ScaleTwoDecimal getCalculatedCost() {
         return calculatedCost;
     }
 
-    public void setCalculatedCost(BudgetDecimal calculatedCost) {
+    public void setCalculatedCost(ScaleTwoDecimal calculatedCost) {
         this.calculatedCost = calculatedCost;
     }
 
-    public BudgetDecimal getCalculatedCostSharing() {
+    public ScaleTwoDecimal getCalculatedCostSharing() {
         return calculatedCostSharing;
     }
 
-    public void setCalculatedCostSharing(BudgetDecimal calculatedCostSharing) {
+    public void setCalculatedCostSharing(ScaleTwoDecimal calculatedCostSharing) {
         this.calculatedCostSharing = calculatedCostSharing;
     }
 

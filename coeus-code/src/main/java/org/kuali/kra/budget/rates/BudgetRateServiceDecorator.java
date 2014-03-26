@@ -19,7 +19,7 @@ import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.InstituteRate;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
@@ -33,7 +33,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.ArrayList;
@@ -102,20 +102,20 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
 
     private List<InstituteRate> createAwardEBInstituteRates(Award award) {
         List<InstituteRate> awardEBInstituteRates = new ArrayList<InstituteRate>();
-        KualiDecimal specialEbRateOnCampus = award.getSpecialEbRateOnCampus();
+        ScaleTwoDecimal specialEbRateOnCampus = award.getSpecialEbRateOnCampus();
         if(specialEbRateOnCampus!=null){
             awardEBInstituteRates.add(createEBInstituteRate(award,specialEbRateOnCampus,Boolean.TRUE));
         }
-        KualiDecimal specialEbRateOffCampus = award.getSpecialEbRateOffCampus();
+        ScaleTwoDecimal specialEbRateOffCampus = award.getSpecialEbRateOffCampus();
         if(specialEbRateOffCampus!=null){
             awardEBInstituteRates.add(createEBInstituteRate(award,specialEbRateOffCampus,Boolean.FALSE));
         }
         return awardEBInstituteRates;
     }
 
-    private InstituteRate createEBInstituteRate(Award award, KualiDecimal specialEbRate, Boolean onCampusFlag) {
+    private InstituteRate createEBInstituteRate(Award award, ScaleTwoDecimal specialEbRate, Boolean onCampusFlag) {
         InstituteRate awardInstituteRate = new InstituteRate();
-        BudgetDecimal applicableRate = new BudgetDecimal(specialEbRate.bigDecimalValue());
+        ScaleTwoDecimal applicableRate = new ScaleTwoDecimal(specialEbRate.bigDecimalValue());
         awardInstituteRate.setActivityTypeCode(award.getActivityTypeCode());
         awardInstituteRate.setStartDate(award.getRequestedStartDateInitial());
         Calendar cal = Calendar.getInstance();
@@ -146,7 +146,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
 
     private InstituteRate createAwardFnAInstitueRate(AwardFandaRate awardFnARate,Award award, Collection<InstituteRate> instituteRates) {
         InstituteRate awardInstituteRate = filterInstituteRate(awardFnARate,award,instituteRates);
-        BudgetDecimal applicableRate = new BudgetDecimal(awardFnARate.getApplicableFandaRate().bigDecimalValue());
+        ScaleTwoDecimal applicableRate = new ScaleTwoDecimal(awardFnARate.getApplicableFandaRate().bigDecimalValue());
         awardInstituteRate.setActivityTypeCode(award.getActivityTypeCode());
         awardInstituteRate.setStartDate(awardFnARate.getStartDate());
         awardInstituteRate.setFiscalYear(awardFnARate.getFiscalYear());
@@ -269,7 +269,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
             
         }
         Equals eqEbRateClassType = new Equals("rateClassType",RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-        KualiDecimal specialEbRateOnCampus = award.getSpecialEbRateOnCampus();
+        ScaleTwoDecimal specialEbRateOnCampus = award.getSpecialEbRateOnCampus();
         if(specialEbRateOnCampus!=null){
             Equals eqOnCampus = new Equals("onOffCampusFlag",Boolean.TRUE);
             And onCampusEbRateClassType = new And(eqEbRateClassType,eqOnCampus);
@@ -280,7 +280,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
                 ratesOutOfSync = !budgetEbOnCampusRate.getApplicableRate().bigDecimalValue().equals(specialEbRateOnCampus.bigDecimalValue());
             }
         }
-        KualiDecimal specialEbRateOffCampus = award.getSpecialEbRateOffCampus();
+        ScaleTwoDecimal specialEbRateOffCampus = award.getSpecialEbRateOffCampus();
         if(!ratesOutOfSync && specialEbRateOffCampus!=null){
             Equals eqOffCampus = new Equals("onOffCampusFlag",Boolean.FALSE);
             And offCampusEbRateClassType = new And(eqEbRateClassType,eqOffCampus);
