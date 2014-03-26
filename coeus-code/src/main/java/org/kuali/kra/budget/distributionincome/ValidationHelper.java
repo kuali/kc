@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.StringUtils;
 
@@ -56,7 +56,7 @@ public class ValidationHelper {
         return empty;
     }
 
-    public boolean checkValuePositive(KualiDecimal projectIncome, String errorProperty, String errorKey, String... parms) {
+    public boolean checkValuePositive(ScaleTwoDecimal projectIncome, String errorProperty, String errorKey, String... parms) {
         boolean success = projectIncome.isPositive(); 
         if(!success) {
             GlobalVariables.getMessageMap().putError(errorProperty, errorKey, parms);

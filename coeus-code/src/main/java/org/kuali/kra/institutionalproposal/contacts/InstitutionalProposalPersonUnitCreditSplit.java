@@ -21,7 +21,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -39,7 +39,7 @@ public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBus
 
     private InstitutionalProposalPersonUnit institutionalProposalPersonUnit;
 
-    private KualiDecimal credit = new KualiDecimal(0);
+    private ScaleTwoDecimal credit = new ScaleTwoDecimal(0);
 
     private InvestigatorCreditType investigatorCreditType;
 
@@ -52,7 +52,7 @@ public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBus
     public InstitutionalProposalPersonUnitCreditSplit() {
     }
 
-    InstitutionalProposalPersonUnitCreditSplit(InvestigatorCreditType investigatorCreditType, KualiDecimal credit) {
+    InstitutionalProposalPersonUnitCreditSplit(InvestigatorCreditType investigatorCreditType, ScaleTwoDecimal credit) {
         setInvestigatorCreditType(investigatorCreditType);
         setCredit(credit);
     }
@@ -146,7 +146,7 @@ public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBus
      *
      * @return the value of credit
      */
-    public KualiDecimal getCredit() {
+    public ScaleTwoDecimal getCredit() {
         return this.credit;
     }
 
@@ -155,8 +155,8 @@ public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBus
      *
      * @param argCredit Value to assign to this.credit
      */
-    public void setCredit(KualiDecimal credit) {
-        this.credit = credit != null ? credit : new KualiDecimal(0);
+    public void setCredit(ScaleTwoDecimal credit) {
+        this.credit = credit != null ? credit : new ScaleTwoDecimal(0);
     }
 
 

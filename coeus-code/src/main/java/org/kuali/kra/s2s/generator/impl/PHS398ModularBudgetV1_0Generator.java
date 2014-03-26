@@ -44,7 +44,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -72,11 +72,11 @@ public class PHS398ModularBudgetV1_0Generator extends
 	private static final Log LOG = LogFactory
 			.getLog(PHS398ModularBudgetV1_0Generator.class);
 
-	private BudgetDecimal cumulativeConsortiumFandA = BudgetDecimal.ZERO;
-	private BudgetDecimal cumulativeDirectCostLessConsortiumFandA = BudgetDecimal.ZERO;
-	private BudgetDecimal cumulativeTotalFundsRequestedDirectCosts = BudgetDecimal.ZERO;
-	private BudgetDecimal cumulativeTotalFundsRequestedDirectIndirectCosts = BudgetDecimal.ZERO;
-	private BudgetDecimal cumulativeTotalFundsRequestedIndirectCost = BudgetDecimal.ZERO;
+	private ScaleTwoDecimal cumulativeConsortiumFandA = ScaleTwoDecimal.ZERO;
+	private ScaleTwoDecimal cumulativeDirectCostLessConsortiumFandA = ScaleTwoDecimal.ZERO;
+	private ScaleTwoDecimal cumulativeTotalFundsRequestedDirectCosts = ScaleTwoDecimal.ZERO;
+	private ScaleTwoDecimal cumulativeTotalFundsRequestedDirectIndirectCosts = ScaleTwoDecimal.ZERO;
+	private ScaleTwoDecimal cumulativeTotalFundsRequestedIndirectCost = ScaleTwoDecimal.ZERO;
 
 	/**
 	 * 
@@ -241,13 +241,13 @@ public class PHS398ModularBudgetV1_0Generator extends
 		DirectCost directCost = DirectCost.Factory.newInstance();
 		IndirectCost indirectCost = IndirectCost.Factory.newInstance();
 
-		BudgetDecimal consortiumFandA = BudgetDecimal.ZERO;
-		BudgetDecimal directCostLessConsortiumFandA = BudgetDecimal.ZERO;
-		BudgetDecimal totalDirectCosts = BudgetDecimal.ZERO;
-		BudgetDecimal bdTotalIndirectCost = BudgetDecimal.ZERO;
-		BudgetDecimal bdCost = BudgetDecimal.ZERO;
-		BudgetDecimal bdBaseCost = BudgetDecimal.ZERO;
-		BudgetDecimal bdRate = BudgetDecimal.ZERO;
+		ScaleTwoDecimal consortiumFandA = ScaleTwoDecimal.ZERO;
+		ScaleTwoDecimal directCostLessConsortiumFandA = ScaleTwoDecimal.ZERO;
+		ScaleTwoDecimal totalDirectCosts = ScaleTwoDecimal.ZERO;
+		ScaleTwoDecimal bdTotalIndirectCost = ScaleTwoDecimal.ZERO;
+		ScaleTwoDecimal bdCost = ScaleTwoDecimal.ZERO;
+		ScaleTwoDecimal bdBaseCost = ScaleTwoDecimal.ZERO;
+		ScaleTwoDecimal bdRate = ScaleTwoDecimal.ZERO;
 		String costType = null;
 
 		// BudgetPeriod
@@ -272,7 +272,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 		// TotalDirectAndIndirectCost
 		BudgetModular budgetModular = budgetPeriod.getBudgetModular();
 		if (budgetModular != null) {
-			BudgetDecimal totalCost = getTotalCost(budgetModular);
+			ScaleTwoDecimal totalCost = getTotalCost(budgetModular);
 			periods.setTotalFundsRequestedDirectIndirectCosts(totalCost
 					.bigDecimalValue());
 			cumulativeTotalFundsRequestedDirectIndirectCosts = cumulativeTotalFundsRequestedDirectIndirectCosts
@@ -374,7 +374,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 		DirectCost2 directCost2 = DirectCost2.Factory.newInstance();
 		IndirectCost2 indirectCost2 = IndirectCost2.Factory.newInstance();
 
-		BudgetDecimal bdTotalIndirectCost = BudgetDecimal.ZERO;
+		ScaleTwoDecimal bdTotalIndirectCost = ScaleTwoDecimal.ZERO;
 
 		// BudgetPeriod
 		periods2.setBudgetPeriod2(2);
@@ -398,14 +398,14 @@ public class PHS398ModularBudgetV1_0Generator extends
 
 		// DirectCosts
 		if (budgetModular != null) {
-			BudgetDecimal totalCost = getTotalCost(budgetModular);
+			ScaleTwoDecimal totalCost = getTotalCost(budgetModular);
 			periods2.setTotalFundsRequestedDirectIndirectCosts2(totalCost
 					.bigDecimalValue());
 			cumulativeTotalFundsRequestedDirectIndirectCosts = cumulativeTotalFundsRequestedDirectIndirectCosts
 					.add(totalCost);
 
 			if (budgetModular.getConsortiumFna() != null) {
-				BudgetDecimal consortiumFandA = budgetModular
+				ScaleTwoDecimal consortiumFandA = budgetModular
 						.getConsortiumFna();
 				directCost2.setConsortiumFandA2(consortiumFandA
 						.bigDecimalValue());
@@ -413,7 +413,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 						.add(consortiumFandA);
 			}
 			if (budgetModular.getDirectCostLessConsortiumFna() != null) {
-				BudgetDecimal directCostLessConsortiumFandA = budgetModular
+				ScaleTwoDecimal directCostLessConsortiumFandA = budgetModular
 						.getDirectCostLessConsortiumFna();
 				directCost2
 						.setDirectCostLessConsortiumFandA2(directCostLessConsortiumFandA
@@ -422,7 +422,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 						.add(directCostLessConsortiumFandA);
 			}
 			if (budgetModular.getTotalDirectCost() != null) {
-				BudgetDecimal totalDirectCosts = budgetModular
+				ScaleTwoDecimal totalDirectCosts = budgetModular
 						.getTotalDirectCost();
 				directCost2.setTotalFundsRequestedDirectCosts2(totalDirectCosts
 						.bigDecimalValue());
@@ -431,9 +431,9 @@ public class PHS398ModularBudgetV1_0Generator extends
 			}
 
 			// IndirectCosts
-			BudgetDecimal bdCost = null;
-			BudgetDecimal bdBaseCost = null;
-			BudgetDecimal bdRate = null;
+			ScaleTwoDecimal bdCost = null;
+			ScaleTwoDecimal bdBaseCost = null;
+			ScaleTwoDecimal bdRate = null;
 			String costType = null;
 
 			IndirectCostItems2[] indirectCostItems2Array = null;
@@ -517,7 +517,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 		DirectCost3 directCost3 = DirectCost3.Factory.newInstance();
 		IndirectCost3 indirectCost3 = IndirectCost3.Factory.newInstance();
 
-		BudgetDecimal bdTotalIndirectCost = BudgetDecimal.ZERO;
+		ScaleTwoDecimal bdTotalIndirectCost = ScaleTwoDecimal.ZERO;
 
 		// BudgetPeriod
 		periods3.setBudgetPeriod3(3);
@@ -541,13 +541,13 @@ public class PHS398ModularBudgetV1_0Generator extends
 
 		// DirectCosts
 		if (budgetModular != null) {
-			BudgetDecimal totalCost = getTotalCost(budgetModular);
+			ScaleTwoDecimal totalCost = getTotalCost(budgetModular);
 			periods3.setTotalFundsRequestedDirectIndirectCosts3(totalCost
 					.bigDecimalValue());
 			cumulativeTotalFundsRequestedDirectIndirectCosts = cumulativeTotalFundsRequestedDirectIndirectCosts
 					.add(totalCost);
 			if (budgetModular.getConsortiumFna() != null) {
-				BudgetDecimal consortiumFandA = budgetModular
+				ScaleTwoDecimal consortiumFandA = budgetModular
 						.getConsortiumFna();
 				directCost3.setConsortiumFandA3(consortiumFandA
 						.bigDecimalValue());
@@ -555,7 +555,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 						.add(consortiumFandA);
 			}
 			if (budgetModular.getDirectCostLessConsortiumFna() != null) {
-				BudgetDecimal directCostLessConsortiumFandA = budgetModular
+				ScaleTwoDecimal directCostLessConsortiumFandA = budgetModular
 						.getDirectCostLessConsortiumFna();
 				directCost3
 						.setDirectCostLessConsortiumFandA3(directCostLessConsortiumFandA
@@ -564,7 +564,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 						.add(directCostLessConsortiumFandA);
 			}
 			if (budgetModular.getTotalDirectCost() != null) {
-				BudgetDecimal totalDirectCosts = budgetModular
+				ScaleTwoDecimal totalDirectCosts = budgetModular
 						.getTotalDirectCost();
 				directCost3.setTotalFundsRequestedDirectCosts3(totalDirectCosts
 						.bigDecimalValue());
@@ -573,9 +573,9 @@ public class PHS398ModularBudgetV1_0Generator extends
 			}
 
 			// IndirectCosts
-			BudgetDecimal bdCost = null;
-			BudgetDecimal bdBaseCost = null;
-			BudgetDecimal bdRate = null;
+			ScaleTwoDecimal bdCost = null;
+			ScaleTwoDecimal bdBaseCost = null;
+			ScaleTwoDecimal bdRate = null;
 			String costType = null;
 
 			IndirectCostItems3[] indirectCostItems3Array = null;
@@ -657,7 +657,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 		DirectCost4 directCost4 = DirectCost4.Factory.newInstance();
 		IndirectCost4 indirectCost4 = IndirectCost4.Factory.newInstance();
 
-		BudgetDecimal bdTotalIndirectCost = BudgetDecimal.ZERO;
+		ScaleTwoDecimal bdTotalIndirectCost = ScaleTwoDecimal.ZERO;
 		// BudgetPeriod
 		periods4.setBudgetPeriod4(4);
 
@@ -680,14 +680,14 @@ public class PHS398ModularBudgetV1_0Generator extends
 
 		// DirectCosts
 		if (budgetModular != null) {
-			BudgetDecimal totalCost = getTotalCost(budgetModular);
+			ScaleTwoDecimal totalCost = getTotalCost(budgetModular);
 			periods4.setTotalFundsRequestedDirectIndirectCosts4(totalCost
 					.bigDecimalValue());
 			cumulativeTotalFundsRequestedDirectIndirectCosts = cumulativeTotalFundsRequestedDirectIndirectCosts
 					.add(totalCost);
 
 			if (budgetModular.getConsortiumFna() != null) {
-				BudgetDecimal consortiumFandA = budgetModular
+				ScaleTwoDecimal consortiumFandA = budgetModular
 						.getConsortiumFna();
 				directCost4.setConsortiumFandA4(consortiumFandA
 						.bigDecimalValue());
@@ -695,7 +695,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 						.add(consortiumFandA);
 			}
 			if (budgetModular.getDirectCostLessConsortiumFna() != null) {
-				BudgetDecimal directCostLessConsortiumFandA = budgetModular
+				ScaleTwoDecimal directCostLessConsortiumFandA = budgetModular
 						.getDirectCostLessConsortiumFna();
 				directCost4
 						.setDirectCostLessConsortiumFandA4(directCostLessConsortiumFandA
@@ -704,7 +704,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 						.add(directCostLessConsortiumFandA);
 			}
 			if (budgetModular.getTotalDirectCost() != null) {
-				BudgetDecimal totalDirectCosts = budgetModular
+				ScaleTwoDecimal totalDirectCosts = budgetModular
 						.getTotalDirectCost();
 				directCost4.setTotalFundsRequestedDirectCosts4(totalDirectCosts
 						.bigDecimalValue());
@@ -712,9 +712,9 @@ public class PHS398ModularBudgetV1_0Generator extends
 						.add(totalDirectCosts);
 			}
 			// IndirectCosts
-			BudgetDecimal bdCost = null;
-			BudgetDecimal bdBaseCost = null;
-			BudgetDecimal bdRate = null;
+			ScaleTwoDecimal bdCost = null;
+			ScaleTwoDecimal bdBaseCost = null;
+			ScaleTwoDecimal bdRate = null;
 			String costType = null;
 
 			IndirectCostItems4[] indirectCostItems4Array = null;
@@ -819,13 +819,13 @@ public class PHS398ModularBudgetV1_0Generator extends
 
 		// DirectCosts
 		if (budgetModular != null) {
-			BudgetDecimal totalCost = getTotalCost(budgetModular);
+			ScaleTwoDecimal totalCost = getTotalCost(budgetModular);
 			periods5.setTotalFundsRequestedDirectIndirectCosts5(totalCost
 					.bigDecimalValue());
 			cumulativeTotalFundsRequestedDirectIndirectCosts = cumulativeTotalFundsRequestedDirectIndirectCosts
 					.add(totalCost);
 			if (budgetModular.getConsortiumFna() != null) {
-				BudgetDecimal consortiumFandA = budgetModular
+				ScaleTwoDecimal consortiumFandA = budgetModular
 						.getConsortiumFna();
 				directCost5.setConsortiumFandA5(consortiumFandA
 						.bigDecimalValue());
@@ -833,7 +833,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 						.add(consortiumFandA);
 			}
 			if (budgetModular.getDirectCostLessConsortiumFna() != null) {
-				BudgetDecimal directCostLessConsortiumFandA = budgetModular
+				ScaleTwoDecimal directCostLessConsortiumFandA = budgetModular
 						.getDirectCostLessConsortiumFna();
 				directCost5
 						.setDirectCostLessConsortiumFandA5(directCostLessConsortiumFandA
@@ -842,7 +842,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 						.add(directCostLessConsortiumFandA);
 			}
 			if (budgetModular.getTotalDirectCost() != null) {
-				BudgetDecimal totalDirectCosts = budgetModular
+				ScaleTwoDecimal totalDirectCosts = budgetModular
 						.getTotalDirectCost();
 				directCost5.setTotalFundsRequestedDirectCosts5(totalDirectCosts
 						.bigDecimalValue());
@@ -853,10 +853,10 @@ public class PHS398ModularBudgetV1_0Generator extends
 		periods5.setDirectCost5(directCost5);
 
 		// IndirectCosts
-		BudgetDecimal bdTotalIndirectCost = BudgetDecimal.ZERO;
-		BudgetDecimal bdCost = null;
-		BudgetDecimal bdBaseCost = null;
-		BudgetDecimal bdRate = null;
+		ScaleTwoDecimal bdTotalIndirectCost = ScaleTwoDecimal.ZERO;
+		ScaleTwoDecimal bdCost = null;
+		ScaleTwoDecimal bdBaseCost = null;
+		ScaleTwoDecimal bdRate = null;
 		String costType = null;
 
 		IndirectCostItems5[] indirectCostItems5Array = null;

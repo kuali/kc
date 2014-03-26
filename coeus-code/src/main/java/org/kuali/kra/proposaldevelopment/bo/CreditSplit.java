@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
@@ -29,9 +29,9 @@ public interface CreditSplit {
     /**
      * Get the value of the split
      *
-     * @return KualiDecimal
+     * @return ScaleTwoDecimal
      */ 
-    public KualiDecimal getCredit();
+    public ScaleTwoDecimal getCredit();
 
     /**
      * Gets the value of invCreditTypeCode

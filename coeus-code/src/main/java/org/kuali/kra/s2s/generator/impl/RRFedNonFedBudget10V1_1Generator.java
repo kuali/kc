@@ -39,7 +39,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -143,8 +143,8 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
      */
     private void setBudgetYearDataType(RRFedNonFedBudget10 rrFedNonFedBudget,BudgetPeriodInfo periodInfo) {
 
-        BudgetDecimal totalDirectCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal totalIndirectCostSharing = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totalDirectCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalIndirectCostSharing = ScaleTwoDecimal.ZERO;
         BudgetYearDataType budgetYear = rrFedNonFedBudget.addNewBudgetYear();
         if (periodInfo != null) {
             budgetYear.setBudgetPeriodStartDate(s2sUtilService.convertDateToCalendar(periodInfo.getStartDate()));
@@ -234,7 +234,7 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
      */
     private BudgetSummary getBudgetSummary(BudgetSummaryInfo budgetSummaryData) {
 
-        BudgetDecimal cumTotalDirectCostSharing = BudgetDecimal.ZERO;
+        ScaleTwoDecimal cumTotalDirectCostSharing = ScaleTwoDecimal.ZERO;
         BudgetSummary budgetSummary = BudgetSummary.Factory.newInstance();
         SummaryDataType summarySeniorKey = SummaryDataType.Factory.newInstance();
         SummaryDataType summaryPersonnel = SummaryDataType.Factory.newInstance();
@@ -1685,7 +1685,7 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
 
         KeyPersonCompensationDataType keyPersonCompensation = KeyPersonCompensationDataType.Factory.newInstance();
         BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
-        BudgetDecimal baseSalaryByPeriod;
+        ScaleTwoDecimal baseSalaryByPeriod;
         if (keyPerson != null) {
             if (keyPerson.getAcademicMonths() != null) {
                 keyPersonCompensation.setAcademicMonths(keyPerson.getAcademicMonths().bigDecimalValue());

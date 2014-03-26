@@ -23,7 +23,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.award.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -84,7 +84,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     protected String buildJavascriptRecord(String awardNumber, AwardHierarchyNode aNode) {
         StringBuilder sb = new StringBuilder();
         SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_MM_DD_YYYY);
-        Formatter formatter = Formatter.getFormatter(KualiDecimal.class);
+        Formatter formatter = Formatter.getFormatter(ScaleTwoDecimal.class);
         sb.append("{");
         appendJson(sb, "awardNumber", awardNumber);
         sb.append(",");
@@ -153,7 +153,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         
         if(aNode!=null){
             SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_MM_DD_YYYY);
-            Formatter formatter = Formatter.getFormatter(KualiDecimal.class);       
+            Formatter formatter = Formatter.getFormatter(ScaleTwoDecimal.class);
             
             sb.append(awardNumber);
             appendString(aNode.getAccountNumber(), sb, COLUMN_CODE);

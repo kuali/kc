@@ -29,7 +29,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -45,7 +45,7 @@ public class ApprovedForeignTravelBeanTest extends KcIntegrationTestBase {
     private static final String DESTINATION_NAME = "Tokyo, Japan";
     private static final Date START_DATE = new Date(new GregorianCalendar(2009, Calendar.JUNE, 1).getTimeInMillis());
     private static final Date END_DATE = new Date(new GregorianCalendar(2009, Calendar.JUNE, 10).getTimeInMillis());
-    private static final KualiDecimal TRIP_AMOUNT = new KualiDecimal(6000.00);
+    private static final ScaleTwoDecimal TRIP_AMOUNT = new ScaleTwoDecimal(6000.00);
     private static final String TRAVELER_NAME_WAS_NULL = "Traveler name was null";
     private static final String TRAVELER_NAME_WAS_INCORRECT_PATTERN = "Traveler name was incorrect: %s";
 

@@ -17,7 +17,7 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.ValuableItem;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 /**
  * This class handles the Award Special Approval for Approved Equipment
@@ -34,7 +34,7 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
 
     private String model;
 
-    private KualiDecimal amount;
+    private ScaleTwoDecimal amount;
 
 
     public AwardApprovedEquipment() {
@@ -46,7 +46,7 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
         this.vendor = vendor;
         this.model = model;
         this.item = item;
-        this.amount = new KualiDecimal(amount);
+        this.amount = new ScaleTwoDecimal(amount);
     }
 
     /**
@@ -85,7 +85,7 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
      * Gets the amount attribute. 
      * @return Returns the amount.
      */
-    public KualiDecimal getAmount() {
+    public ScaleTwoDecimal getAmount() {
         return amount;
     }
 
@@ -125,7 +125,7 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
      * Sets the amount attribute value.
      * @param amount The amount to set.
      */
-    public void setAmount(final KualiDecimal amount) {
+    public void setAmount(final ScaleTwoDecimal amount) {
         this.amount = amount;
     }
 
@@ -134,7 +134,7 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
      * @param amount
      */
     public void setAmount(final double amount) {
-        this.amount = new KualiDecimal(amount);
+        this.amount = new ScaleTwoDecimal(amount);
     }
 
     @Override

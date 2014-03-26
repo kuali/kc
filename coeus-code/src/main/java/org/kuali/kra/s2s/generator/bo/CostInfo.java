@@ -15,18 +15,18 @@
  */
 package org.kuali.kra.s2s.generator.bo;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 
 public class CostInfo {
 
     private int budgetPeriod;
-    private BudgetDecimal cost;
+    private ScaleTwoDecimal cost;
     private String category;
     private String categoryType;
     private String description;
     private int quantity;
-    private BudgetDecimal costSharing;
+    private ScaleTwoDecimal costSharing;
 
     /**
      * Getter for property budgetPeriod
@@ -52,7 +52,7 @@ public class CostInfo {
      * 
      * @return Value of property cost.
      */
-    public BudgetDecimal getCost() {
+    public ScaleTwoDecimal getCost() {
         return cost;
     }
 
@@ -61,7 +61,7 @@ public class CostInfo {
      * 
      * @param cost New value of property cost.
      */
-    public void setCost(BudgetDecimal cost) {
+    public void setCost(ScaleTwoDecimal cost) {
         this.cost = cost;
     }
 
@@ -138,11 +138,11 @@ public class CostInfo {
     }
 
     // start add costSaring for fedNonFedBudget repport
-    public BudgetDecimal getCostSharing() {
-        return costSharing==null?BudgetDecimal.ZERO:costSharing;
+    public ScaleTwoDecimal getCostSharing() {
+        return costSharing==null? ScaleTwoDecimal.ZERO:costSharing;
     }
 
-    public void setCostSharing(BudgetDecimal costSharing) {
+    public void setCostSharing(ScaleTwoDecimal costSharing) {
         this.costSharing = costSharing;
     }
 }

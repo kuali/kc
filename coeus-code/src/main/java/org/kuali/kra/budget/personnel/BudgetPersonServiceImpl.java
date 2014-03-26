@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -181,7 +181,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         }
         
         if (ObjectUtils.isNull(budgetPerson.getCalculationBase())) {
-            budgetPerson.setCalculationBase(new BudgetDecimal(this.parameterService.getParameterValueAsString(
+            budgetPerson.setCalculationBase(new ScaleTwoDecimal(this.parameterService.getParameterValueAsString(
                     BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
         }
         

@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.rates;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
 
@@ -28,7 +28,7 @@ public class TrainingStipendRate extends KcPersistableBusinessObjectBase {
 
     private int experienceLevel;
 
-    private BudgetDecimal stipendRate;
+    private ScaleTwoDecimal stipendRate;
 
     private Date effectiveDate;
 
@@ -58,11 +58,11 @@ public class TrainingStipendRate extends KcPersistableBusinessObjectBase {
         this.experienceLevel = level;
     }
 
-    public BudgetDecimal getStipendRate() {
+    public ScaleTwoDecimal getStipendRate() {
         return stipendRate;
     }
 
-    public void setStipendRate(BudgetDecimal rate) {
+    public void setStipendRate(ScaleTwoDecimal rate) {
         this.stipendRate = rate;
     }
 

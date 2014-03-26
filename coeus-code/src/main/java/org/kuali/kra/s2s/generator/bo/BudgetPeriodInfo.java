@@ -16,7 +16,7 @@
 package org.kuali.kra.s2s.generator.bo;
 
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -38,48 +38,48 @@ public class BudgetPeriodInfo {
     private Date endDate;
     private List<KeyPersonInfo> keyPersons;
     private List<KeyPersonInfo> extraKeyPersons;
-    private BudgetDecimal totalFundsKeyPersons;
-    private BudgetDecimal totalFundsAttachedKeyPersons;
+    private ScaleTwoDecimal totalFundsKeyPersons;
+    private ScaleTwoDecimal totalFundsAttachedKeyPersons;
     private List<OtherPersonnelInfo> otherPersonnel;
-    private BudgetDecimal totalOtherPersonnelFunds;
-    private BudgetDecimal otherPersonnelTotalNumber;
-    private BudgetDecimal totalCompensation;
+    private ScaleTwoDecimal totalOtherPersonnelFunds;
+    private ScaleTwoDecimal otherPersonnelTotalNumber;
+    private ScaleTwoDecimal totalCompensation;
     private List<EquipmentInfo> equipment;
     private List<EquipmentInfo> extraEquipment;
-    private BudgetDecimal totalFundsEquipment;
-    private BudgetDecimal totalFundsAttachedEquipment;
-    private BudgetDecimal domesticTravelCost;
-    private BudgetDecimal foreignTravelCost;
-    private BudgetDecimal totalTravelCost;
-    private BudgetDecimal partStipendCost;
-    private BudgetDecimal partTravelCost;
-    private BudgetDecimal partOtherCost;
-    private BudgetDecimal partTuition;
-    private BudgetDecimal partSubsistence;
+    private ScaleTwoDecimal totalFundsEquipment;
+    private ScaleTwoDecimal totalFundsAttachedEquipment;
+    private ScaleTwoDecimal domesticTravelCost;
+    private ScaleTwoDecimal foreignTravelCost;
+    private ScaleTwoDecimal totalTravelCost;
+    private ScaleTwoDecimal partStipendCost;
+    private ScaleTwoDecimal partTravelCost;
+    private ScaleTwoDecimal partOtherCost;
+    private ScaleTwoDecimal partTuition;
+    private ScaleTwoDecimal partSubsistence;
     private int participantCount;
     private List<OtherDirectCostInfo> otherDirectCosts;
-    private BudgetDecimal directCostsTotal;
+    private ScaleTwoDecimal directCostsTotal;
     private IndirectCostInfo indirectCosts;
     private String cognizantFedAgency;
-    private BudgetDecimal totalCosts;
-    private BudgetDecimal totalIndirectCost;
+    private ScaleTwoDecimal totalCosts;
+    private ScaleTwoDecimal totalIndirectCost;
     private int lineItemCount;
 
-    private BudgetDecimal costSharingAmount;
-    private BudgetDecimal domesticTravelCostSharing;
-    private BudgetDecimal foreignTravelCostSharing;
-    private BudgetDecimal totalTravelCostSharing;
-    private BudgetDecimal partStipendCostSharing;
-    private BudgetDecimal partTravelCostSharing;
-    private BudgetDecimal partTuitionCostSharing;
-    private BudgetDecimal partSubsistenceCostSharing;
-    private BudgetDecimal partOtherCostSharing;
-    private BudgetDecimal totalNonFundsKeyPersons;
-    private BudgetDecimal totalNonFundsAttachedKeyPersons;
-    private BudgetDecimal totalOtherPersonnelNonFunds;
-    private BudgetDecimal totalCompensationCostSharing;
-    private BudgetDecimal totalDirectCostSharing;
-    private BudgetDecimal totalIndirectCostSharing;
+    private ScaleTwoDecimal costSharingAmount;
+    private ScaleTwoDecimal domesticTravelCostSharing;
+    private ScaleTwoDecimal foreignTravelCostSharing;
+    private ScaleTwoDecimal totalTravelCostSharing;
+    private ScaleTwoDecimal partStipendCostSharing;
+    private ScaleTwoDecimal partTravelCostSharing;
+    private ScaleTwoDecimal partTuitionCostSharing;
+    private ScaleTwoDecimal partSubsistenceCostSharing;
+    private ScaleTwoDecimal partOtherCostSharing;
+    private ScaleTwoDecimal totalNonFundsKeyPersons;
+    private ScaleTwoDecimal totalNonFundsAttachedKeyPersons;
+    private ScaleTwoDecimal totalOtherPersonnelNonFunds;
+    private ScaleTwoDecimal totalCompensationCostSharing;
+    private ScaleTwoDecimal totalDirectCostSharing;
+    private ScaleTwoDecimal totalIndirectCostSharing;
 
     public BudgetPeriodInfo() {
         keyPersons = new ArrayList<KeyPersonInfo>();
@@ -242,7 +242,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property totalFundsKeyPersons.
      */
-    public BudgetDecimal getTotalFundsKeyPersons() {
+    public ScaleTwoDecimal getTotalFundsKeyPersons() {
         return totalFundsKeyPersons;
     }
 
@@ -251,7 +251,7 @@ public class BudgetPeriodInfo {
      * 
      * @param totalFundsKeyPersons New value of property totalFundsKeyPersons.
      */
-    public void setTotalFundsKeyPersons(BudgetDecimal totalFundsKeyPersons) {
+    public void setTotalFundsKeyPersons(ScaleTwoDecimal totalFundsKeyPersons) {
         this.totalFundsKeyPersons = totalFundsKeyPersons;
     }
 
@@ -260,7 +260,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property totalFundsAttachedKeyPersons.
      */
-    public BudgetDecimal getTotalFundsAttachedKeyPersons() {
+    public ScaleTwoDecimal getTotalFundsAttachedKeyPersons() {
         return totalFundsAttachedKeyPersons;
     }
 
@@ -269,7 +269,7 @@ public class BudgetPeriodInfo {
      * 
      * @param totalFundsAttachedKeyPersons New value of property totalFundsAttachedKeyPersons.
      */
-    public void setTotalFundsAttachedKeyPersons(BudgetDecimal totalFundsAttachedKeyPersons) {
+    public void setTotalFundsAttachedKeyPersons(ScaleTwoDecimal totalFundsAttachedKeyPersons) {
         this.totalFundsAttachedKeyPersons = totalFundsAttachedKeyPersons;
     }
 
@@ -278,7 +278,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property totalOtherPersonnelFunds.
      */
-    public BudgetDecimal getTotalOtherPersonnelFunds() {
+    public ScaleTwoDecimal getTotalOtherPersonnelFunds() {
         return totalOtherPersonnelFunds;
     }
 
@@ -287,7 +287,7 @@ public class BudgetPeriodInfo {
      * 
      * @param totalOtherPersonnelFunds New value of property totalOtherPersonnelFunds.
      */
-    public void setTotalOtherPersonnelFunds(BudgetDecimal totalOtherPersonnelFunds) {
+    public void setTotalOtherPersonnelFunds(ScaleTwoDecimal totalOtherPersonnelFunds) {
         this.totalOtherPersonnelFunds = totalOtherPersonnelFunds;
     }
 
@@ -296,7 +296,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property OtherPersonnelTotalNumber.
      */
-    public BudgetDecimal getOtherPersonnelTotalNumber() {
+    public ScaleTwoDecimal getOtherPersonnelTotalNumber() {
         return otherPersonnelTotalNumber;
     }
 
@@ -305,7 +305,7 @@ public class BudgetPeriodInfo {
      * 
      * @param otherPersonnelTotalNumber New value of property OtherPersonnelTotalNumber.
      */
-    public void setOtherPersonnelTotalNumber(BudgetDecimal otherPersonnelTotalNumber) {
+    public void setOtherPersonnelTotalNumber(ScaleTwoDecimal otherPersonnelTotalNumber) {
         this.otherPersonnelTotalNumber = otherPersonnelTotalNumber;
     }
 
@@ -333,7 +333,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property totalCompensation.
      */
-    public BudgetDecimal getTotalCompensation() {
+    public ScaleTwoDecimal getTotalCompensation() {
         return totalCompensation;
     }
 
@@ -342,7 +342,7 @@ public class BudgetPeriodInfo {
      * 
      * @param totalCompensation New value of property totalCompensation.
      */
-    public void setTotalCompensation(BudgetDecimal totalCompensation) {
+    public void setTotalCompensation(ScaleTwoDecimal totalCompensation) {
         this.totalCompensation = totalCompensation;
     }
 
@@ -388,7 +388,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property domesticTravelCost.
      */
-    public BudgetDecimal getDomesticTravelCost() {
+    public ScaleTwoDecimal getDomesticTravelCost() {
         return domesticTravelCost;
     }
 
@@ -397,7 +397,7 @@ public class BudgetPeriodInfo {
      * 
      * @param domesticTravelCost New value of property domesticTravelCost.
      */
-    public void setDomesticTravelCost(BudgetDecimal domesticTravelCost) {
+    public void setDomesticTravelCost(ScaleTwoDecimal domesticTravelCost) {
         this.domesticTravelCost = domesticTravelCost;
     }
 
@@ -406,7 +406,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property foreignTravelCost.
      */
-    public BudgetDecimal getForeignTravelCost() {
+    public ScaleTwoDecimal getForeignTravelCost() {
         return foreignTravelCost;
     }
 
@@ -415,7 +415,7 @@ public class BudgetPeriodInfo {
      * 
      * @param foreignTravelCost New value of property foreignTravelCost.
      */
-    public void setForeignTravelCost(BudgetDecimal foreignTravelCost) {
+    public void setForeignTravelCost(ScaleTwoDecimal foreignTravelCost) {
         this.foreignTravelCost = foreignTravelCost;
     }
 
@@ -424,7 +424,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property totalTravelCost.
      */
-    public BudgetDecimal getTotalTravelCost() {
+    public ScaleTwoDecimal getTotalTravelCost() {
         return totalTravelCost;
     }
 
@@ -433,7 +433,7 @@ public class BudgetPeriodInfo {
      * 
      * @param totalTravelCost New value of property totalTravelCost.
      */
-    public void setTotalTravelCost(BudgetDecimal totalTravelCost) {
+    public void setTotalTravelCost(ScaleTwoDecimal totalTravelCost) {
         this.totalTravelCost = totalTravelCost;
     }
 
@@ -443,7 +443,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property partOtherCost.
      */
-    public BudgetDecimal getpartOtherCost() {
+    public ScaleTwoDecimal getpartOtherCost() {
         return partOtherCost;
     }
 
@@ -452,7 +452,7 @@ public class BudgetPeriodInfo {
      * 
      * @param partOtherCost New value of property partOtherCost.
      */
-    public void setpartOtherCost(BudgetDecimal partOtherCost) {
+    public void setpartOtherCost(ScaleTwoDecimal partOtherCost) {
         this.partOtherCost = partOtherCost;
     }
 
@@ -479,7 +479,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property partTravelCost.
      */
-    public BudgetDecimal getpartTravelCost() {
+    public ScaleTwoDecimal getpartTravelCost() {
         return partTravelCost;
     }
 
@@ -488,7 +488,7 @@ public class BudgetPeriodInfo {
      * 
      * @param partTravelCost New value of property partTravelCost.
      */
-    public void setpartTravelCost(BudgetDecimal partTravelCost) {
+    public void setpartTravelCost(ScaleTwoDecimal partTravelCost) {
         this.partTravelCost = partTravelCost;
     }
 
@@ -498,7 +498,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property partStipendCost.
      */
-    public BudgetDecimal getpartStipendCost() {
+    public ScaleTwoDecimal getpartStipendCost() {
         return partStipendCost;
     }
 
@@ -507,7 +507,7 @@ public class BudgetPeriodInfo {
      * 
      * @param partStipendCost New value of property partStipendCost.
      */
-    public void setpartStipendCost(BudgetDecimal partStipendCost) {
+    public void setpartStipendCost(ScaleTwoDecimal partStipendCost) {
         this.partStipendCost = partStipendCost;
     }
 
@@ -535,7 +535,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property directCostsTotal.
      */
-    public BudgetDecimal getDirectCostsTotal() {
+    public ScaleTwoDecimal getDirectCostsTotal() {
         return directCostsTotal;
     }
 
@@ -544,7 +544,7 @@ public class BudgetPeriodInfo {
      * 
      * @param directCostsTotal New value of property directCostsTotal.
      */
-    public void setDirectCostsTotal(BudgetDecimal directCostsTotal) {
+    public void setDirectCostsTotal(ScaleTwoDecimal directCostsTotal) {
         this.directCostsTotal = directCostsTotal;
     }
 
@@ -590,7 +590,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property totalCosts.
      */
-    public BudgetDecimal getTotalCosts() {
+    public ScaleTwoDecimal getTotalCosts() {
         return totalCosts;
     }
 
@@ -599,7 +599,7 @@ public class BudgetPeriodInfo {
      * 
      * @param totalCosts New value of property totalCosts.
      */
-    public void setTotalCosts(BudgetDecimal totalCosts) {
+    public void setTotalCosts(ScaleTwoDecimal totalCosts) {
         this.totalCosts = totalCosts;
     }
 
@@ -609,8 +609,8 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property costSharingAmount.
      */
-    public BudgetDecimal getCostSharingAmount() {
-        return costSharingAmount==null?BudgetDecimal.ZERO:costSharingAmount;
+    public ScaleTwoDecimal getCostSharingAmount() {
+        return costSharingAmount==null? ScaleTwoDecimal.ZERO:costSharingAmount;
     }
 
     /**
@@ -618,103 +618,103 @@ public class BudgetPeriodInfo {
      * 
      * @param costSharingAmount New value of property costSharingAmount.
      */
-    public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+    public void setCostSharingAmount(ScaleTwoDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
     }
 
-    public BudgetDecimal getDomesticTravelCostSharing() {
-        return domesticTravelCostSharing==null?BudgetDecimal.ZERO:domesticTravelCostSharing;
+    public ScaleTwoDecimal getDomesticTravelCostSharing() {
+        return domesticTravelCostSharing==null? ScaleTwoDecimal.ZERO:domesticTravelCostSharing;
     }
 
-    public void setDomesticTravelCostSharing(BudgetDecimal domesticTravelCostSharing) {
+    public void setDomesticTravelCostSharing(ScaleTwoDecimal domesticTravelCostSharing) {
         this.domesticTravelCostSharing = domesticTravelCostSharing;
     }
 
-    public BudgetDecimal getForeignTravelCostSharing() {
-        return foreignTravelCostSharing==null?BudgetDecimal.ZERO:foreignTravelCostSharing;
+    public ScaleTwoDecimal getForeignTravelCostSharing() {
+        return foreignTravelCostSharing==null? ScaleTwoDecimal.ZERO:foreignTravelCostSharing;
     }
 
-    public void setForeignTravelCostSharing(BudgetDecimal foreignTravelCostSharing) {
+    public void setForeignTravelCostSharing(ScaleTwoDecimal foreignTravelCostSharing) {
         this.foreignTravelCostSharing = foreignTravelCostSharing;
     }
 
-    public BudgetDecimal getTotalTravelCostSharing() {
-        return totalTravelCostSharing==null?BudgetDecimal.ZERO:totalTravelCostSharing;
+    public ScaleTwoDecimal getTotalTravelCostSharing() {
+        return totalTravelCostSharing==null? ScaleTwoDecimal.ZERO:totalTravelCostSharing;
     }
 
-    public void setTotalTravelCostSharing(BudgetDecimal totalTravelCostSharing) {
+    public void setTotalTravelCostSharing(ScaleTwoDecimal totalTravelCostSharing) {
         this.totalTravelCostSharing = totalTravelCostSharing;
     }
 
-    public BudgetDecimal getPartStipendCostSharing() {
-        return partStipendCostSharing==null?BudgetDecimal.ZERO:partStipendCostSharing;
+    public ScaleTwoDecimal getPartStipendCostSharing() {
+        return partStipendCostSharing==null? ScaleTwoDecimal.ZERO:partStipendCostSharing;
     }
 
-    public void setPartStipendCostSharing(BudgetDecimal partStipendCostSharing) {
+    public void setPartStipendCostSharing(ScaleTwoDecimal partStipendCostSharing) {
         this.partStipendCostSharing = partStipendCostSharing;
     }
 
-    public BudgetDecimal getPartTravelCostSharing() {
-        return partTravelCostSharing==null?BudgetDecimal.ZERO:partTravelCostSharing;
+    public ScaleTwoDecimal getPartTravelCostSharing() {
+        return partTravelCostSharing==null? ScaleTwoDecimal.ZERO:partTravelCostSharing;
     }
 
-    public void setPartTravelCostSharing(BudgetDecimal partTravelCostSharing) {
+    public void setPartTravelCostSharing(ScaleTwoDecimal partTravelCostSharing) {
         this.partTravelCostSharing = partTravelCostSharing;
     }
 
-    public BudgetDecimal getPartOtherCostSharing() {
-        return partOtherCostSharing==null?BudgetDecimal.ZERO:partOtherCostSharing;
+    public ScaleTwoDecimal getPartOtherCostSharing() {
+        return partOtherCostSharing==null? ScaleTwoDecimal.ZERO:partOtherCostSharing;
     }
 
-    public void setPartOtherCostSharing(BudgetDecimal partOtherCostSharing) {
+    public void setPartOtherCostSharing(ScaleTwoDecimal partOtherCostSharing) {
         this.partOtherCostSharing = partOtherCostSharing;
     }
 
-    public BudgetDecimal getTotalNonFundsKeyPersons() {
+    public ScaleTwoDecimal getTotalNonFundsKeyPersons() {
         return totalNonFundsKeyPersons;
     }
 
-    public void setTotalNonFundsKeyPersons(BudgetDecimal totalNonFundsKeyPersons) {
+    public void setTotalNonFundsKeyPersons(ScaleTwoDecimal totalNonFundsKeyPersons) {
         this.totalNonFundsKeyPersons = totalNonFundsKeyPersons;
     }
 
-    public BudgetDecimal getTotalNonFundsAttachedKeyPersons() {
+    public ScaleTwoDecimal getTotalNonFundsAttachedKeyPersons() {
         return totalNonFundsAttachedKeyPersons;
     }
 
-    public void setTotalNonFundsAttachedKeyPersons(BudgetDecimal totalNonFundsAttachedKeyPersons) {
+    public void setTotalNonFundsAttachedKeyPersons(ScaleTwoDecimal totalNonFundsAttachedKeyPersons) {
         this.totalNonFundsAttachedKeyPersons = totalNonFundsAttachedKeyPersons;
     }
 
-    public BudgetDecimal getTotalOtherPersonnelNonFunds() {
+    public ScaleTwoDecimal getTotalOtherPersonnelNonFunds() {
         return totalOtherPersonnelNonFunds;
     }
 
-    public void setTotalOtherPersonnelNonFunds(BudgetDecimal totalOtherPersonnelNonFunds) {
+    public void setTotalOtherPersonnelNonFunds(ScaleTwoDecimal totalOtherPersonnelNonFunds) {
         this.totalOtherPersonnelNonFunds = totalOtherPersonnelNonFunds;
     }
 
-    public BudgetDecimal getTotalCompensationCostSharing() {
-        return totalCompensationCostSharing==null?BudgetDecimal.ZERO:totalCompensationCostSharing;
+    public ScaleTwoDecimal getTotalCompensationCostSharing() {
+        return totalCompensationCostSharing==null? ScaleTwoDecimal.ZERO:totalCompensationCostSharing;
     }
 
-    public void setTotalCompensationCostSharing(BudgetDecimal totalCompensationCostSharing) {
+    public void setTotalCompensationCostSharing(ScaleTwoDecimal totalCompensationCostSharing) {
         this.totalCompensationCostSharing = totalCompensationCostSharing;
     }
 
-    public BudgetDecimal getTotalDirectCostSharing() {
-        return totalDirectCostSharing==null?BudgetDecimal.ZERO:totalDirectCostSharing;
+    public ScaleTwoDecimal getTotalDirectCostSharing() {
+        return totalDirectCostSharing==null? ScaleTwoDecimal.ZERO:totalDirectCostSharing;
     }
 
-    public void setTotalDirectCostSharing(BudgetDecimal totalDirectCostSharing) {
+    public void setTotalDirectCostSharing(ScaleTwoDecimal totalDirectCostSharing) {
         this.totalDirectCostSharing = totalDirectCostSharing;
     }
 
-    public BudgetDecimal getTotalIndirectCostSharing() {
-        return totalIndirectCostSharing==null?BudgetDecimal.ZERO:totalIndirectCostSharing;
+    public ScaleTwoDecimal getTotalIndirectCostSharing() {
+        return totalIndirectCostSharing==null? ScaleTwoDecimal.ZERO:totalIndirectCostSharing;
     }
 
-    public void setTotalIndirectCostSharing(BudgetDecimal totalIndirectCostSharing) {
+    public void setTotalIndirectCostSharing(ScaleTwoDecimal totalIndirectCostSharing) {
         this.totalIndirectCostSharing = totalIndirectCostSharing;
     }
 
@@ -724,7 +724,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property totalFundsEquipment.
      */
-    public BudgetDecimal getTotalFundsEquipment() {
+    public ScaleTwoDecimal getTotalFundsEquipment() {
         return totalFundsEquipment;
     }
 
@@ -733,7 +733,7 @@ public class BudgetPeriodInfo {
      * 
      * @param totalFundsEquipment New value of property totalFundsEquipment.
      */
-    public void setTotalFundsEquipment(BudgetDecimal totalFundsEquipment) {
+    public void setTotalFundsEquipment(ScaleTwoDecimal totalFundsEquipment) {
         this.totalFundsEquipment = totalFundsEquipment;
     }
 
@@ -742,7 +742,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property totalFundsAttachedEquipment.
      */
-    public BudgetDecimal getTotalFundsAttachedEquipment() {
+    public ScaleTwoDecimal getTotalFundsAttachedEquipment() {
         return totalFundsAttachedEquipment;
     }
 
@@ -751,7 +751,7 @@ public class BudgetPeriodInfo {
      * 
      * @param totalFundsAttachedEquipment New value of property totalFundsAttachedEquipment.
      */
-    public void setTotalFundsAttachedEquipment(BudgetDecimal totalFundsAttachedEquipment) {
+    public void setTotalFundsAttachedEquipment(ScaleTwoDecimal totalFundsAttachedEquipment) {
         this.totalFundsAttachedEquipment = totalFundsAttachedEquipment;
     }
 
@@ -760,7 +760,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property totalIndirectCost.
      */
-    public BudgetDecimal getTotalIndirectCost() {
+    public ScaleTwoDecimal getTotalIndirectCost() {
         return totalIndirectCost;
     }
 
@@ -769,7 +769,7 @@ public class BudgetPeriodInfo {
      * 
      * @param totalIndirectCost New value of property totalIndirectCost.
      */
-    public void setTotalIndirectCost(BudgetDecimal totalIndirectCost) {
+    public void setTotalIndirectCost(ScaleTwoDecimal totalIndirectCost) {
         this.totalIndirectCost = totalIndirectCost;
     }
 
@@ -778,7 +778,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property partTuition.
      */
-    public BudgetDecimal getPartTuition() {
+    public ScaleTwoDecimal getPartTuition() {
         return partTuition;
     }
 
@@ -787,7 +787,7 @@ public class BudgetPeriodInfo {
      * 
      * @param partTuition New value of property partTuition.
      */
-    public void setPartTuition(BudgetDecimal partTuition) {
+    public void setPartTuition(ScaleTwoDecimal partTuition) {
         this.partTuition = partTuition;
     }
 
@@ -796,7 +796,7 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property partSubsistence.
      */
-    public BudgetDecimal getPartSubsistence() {
+    public ScaleTwoDecimal getPartSubsistence() {
         return partSubsistence;
     }
 
@@ -805,7 +805,7 @@ public class BudgetPeriodInfo {
      * 
      * @param partSubsistence New value of property partSubsistence.
      */
-    public void setPartSubsistence(BudgetDecimal partSubsistence) {
+    public void setPartSubsistence(ScaleTwoDecimal partSubsistence) {
         this.partSubsistence = partSubsistence;
     }
 
@@ -814,8 +814,8 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property partSubsistenceCostSharing.
      */
-    public BudgetDecimal getPartSubsistenceCostSharing() {
-        return partSubsistenceCostSharing==null?BudgetDecimal.ZERO:partSubsistenceCostSharing;
+    public ScaleTwoDecimal getPartSubsistenceCostSharing() {
+        return partSubsistenceCostSharing==null? ScaleTwoDecimal.ZERO:partSubsistenceCostSharing;
     }
 
     /**
@@ -823,7 +823,7 @@ public class BudgetPeriodInfo {
      * 
      * @param partSubsistenceCostSharing New value of property partSubsistenceCostSharing.
      */
-    public void setPartSubsistenceCostSharing(BudgetDecimal partSubsistenceCostSharing) {
+    public void setPartSubsistenceCostSharing(ScaleTwoDecimal partSubsistenceCostSharing) {
         this.partSubsistenceCostSharing = partSubsistenceCostSharing;
     }
 
@@ -832,8 +832,8 @@ public class BudgetPeriodInfo {
      * 
      * @return Value of property partTuitionCostSharing.
      */
-    public BudgetDecimal getPartTuitionCostSharing() {
-        return partTuitionCostSharing==null?BudgetDecimal.ZERO:partTuitionCostSharing;
+    public ScaleTwoDecimal getPartTuitionCostSharing() {
+        return partTuitionCostSharing==null? ScaleTwoDecimal.ZERO:partTuitionCostSharing;
     }
 
     /**
@@ -841,7 +841,7 @@ public class BudgetPeriodInfo {
      * 
      * @param partTuitionCostSharing New value of property partTuitionCostSharing.
      */
-    public void setPartTuitionCostSharing(BudgetDecimal partTuitionCostSharing) {
+    public void setPartTuitionCostSharing(ScaleTwoDecimal partTuitionCostSharing) {
         this.partTuitionCostSharing = partTuitionCostSharing;
     }
 

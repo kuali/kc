@@ -25,7 +25,7 @@ import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +35,15 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
 
     private static final long serialVersionUID = -5406431014745059361L;
 
-    private KualiDecimal academicYearEffort;
+    private ScaleTwoDecimal academicYearEffort;
 
-    private KualiDecimal calendarYearEffort;
+    private ScaleTwoDecimal calendarYearEffort;
 
     private boolean faculty;
 
-    private KualiDecimal summerEffort;
+    private ScaleTwoDecimal summerEffort;
 
-    private KualiDecimal totalEffort;
+    private ScaleTwoDecimal totalEffort;
 
     private String keyPersonRole;
 
@@ -99,7 +99,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      * Gets the academicYearEffort attribute. 
      * @return Returns the academicYearEffort.
      */
-    public KualiDecimal getAcademicYearEffort() {
+    public ScaleTwoDecimal getAcademicYearEffort() {
         return academicYearEffort;
     }
 
@@ -107,7 +107,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      * Gets the calendarYearEffort attribute. 
      * @return Returns the calendarYearEffort.
      */
-    public KualiDecimal getCalendarYearEffort() {
+    public ScaleTwoDecimal getCalendarYearEffort() {
         return calendarYearEffort;
     }
 
@@ -128,7 +128,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      * Gets the summerEffort attribute. 
      * @return Returns the summerEffort.
      */
-    public KualiDecimal getSummerEffort() {
+    public ScaleTwoDecimal getSummerEffort() {
         return summerEffort;
     }
 
@@ -136,7 +136,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      * Gets the totalEffort attribute. 
      * @return Returns the totalEffort.
      */
-    public KualiDecimal getTotalEffort() {
+    public ScaleTwoDecimal getTotalEffort() {
         return totalEffort;
     }
 
@@ -189,7 +189,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      * Sets the academicYearEffort attribute value.
      * @param academicYearEffort The academicYearEffort to set.
      */
-    public void setAcademicYearEffort(KualiDecimal academicYearEffort) {
+    public void setAcademicYearEffort(ScaleTwoDecimal academicYearEffort) {
         this.academicYearEffort = academicYearEffort;
     }
 
@@ -197,7 +197,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      * Sets the calendarYearEffort attribute value.
      * @param calendarYearEffort The calendarYearEffort to set.
      */
-    public void setCalendarYearEffort(KualiDecimal calendarYearEffort) {
+    public void setCalendarYearEffort(ScaleTwoDecimal calendarYearEffort) {
         this.calendarYearEffort = calendarYearEffort;
     }
 
@@ -217,7 +217,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     public void initializeDefaultCreditSplits() {
         List<InvestigatorCreditType> creditTypes = (List<InvestigatorCreditType>) this.getBusinessObjectService().findAll(InvestigatorCreditType.class);
         for (InvestigatorCreditType creditType : creditTypes) {
-            InstitutionalProposalPersonCreditSplit creditSplit = new InstitutionalProposalPersonCreditSplit(creditType, new KualiDecimal(0));
+            InstitutionalProposalPersonCreditSplit creditSplit = new InstitutionalProposalPersonCreditSplit(creditType, new ScaleTwoDecimal(0));
             this.add(creditSplit);
         }
     }
@@ -234,7 +234,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      * Sets the summerEffort attribute value.
      * @param summerEffort The summerEffort to set.
      */
-    public void setSummerEffort(KualiDecimal summerEffort) {
+    public void setSummerEffort(ScaleTwoDecimal summerEffort) {
         this.summerEffort = summerEffort;
     }
 
@@ -242,7 +242,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      * Sets the totalEffort attribute value.
      * @param totalEffort The totalEffort to set.
      */
-    public void setTotalEffort(KualiDecimal totalEffort) {
+    public void setTotalEffort(ScaleTwoDecimal totalEffort) {
         this.totalEffort = totalEffort;
     }
 

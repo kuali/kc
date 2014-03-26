@@ -17,8 +17,8 @@ package org.kuali.kra.budget.calculator;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -113,8 +113,8 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         int boundaryNumOfDays = boundary.getNumberOfDays();
         
         List<BudgetPersonnelDetails> personnelDetailsList = bli.getBudgetPersonnelDetailsList();
-        BudgetDecimal salaryRequested = BudgetDecimal.ZERO;
-        BudgetDecimal costSharingRequested = BudgetDecimal.ZERO;
+        ScaleTwoDecimal salaryRequested = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal costSharingRequested = ScaleTwoDecimal.ZERO;
         if(!personnelDetailsList.isEmpty()){
             for (BudgetPersonnelDetails budgetPersonnelDetails : personnelDetailsList) {
                 budgetCalculationService.calculateBudgetLineItem(budget, budgetPersonnelDetails);
@@ -124,10 +124,10 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             bli.setLineItemCost(salaryRequested);
             bli.setCostSharingAmount(costSharingRequested);
         }else{
-            BudgetDecimal lineItemCost = bli.getLineItemCost();
-            BudgetDecimal lineItemCostSharing = bli.getCostSharingAmount();
-            boundary.setApplicableCost(lineItemCost==null?BudgetDecimal.ZERO:new BudgetDecimal(lineItemCost.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
-            boundary.setApplicableCostSharing(lineItemCostSharing==null?BudgetDecimal.ZERO:new BudgetDecimal(lineItemCostSharing.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
+            ScaleTwoDecimal lineItemCost = bli.getLineItemCost();
+            ScaleTwoDecimal lineItemCostSharing = bli.getCostSharingAmount();
+            boundary.setApplicableCost(lineItemCost==null? ScaleTwoDecimal.ZERO:new ScaleTwoDecimal(lineItemCost.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
+            boundary.setApplicableCostSharing(lineItemCostSharing==null? ScaleTwoDecimal.ZERO:new ScaleTwoDecimal(lineItemCostSharing.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
         }
     }
     @Override
@@ -147,10 +147,10 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             List<RateAndCost> vecAmountBean = breakUpInterval.getRateAndCosts();
             for (RateAndCost rateAndCost : vecAmountBean) {
                 BudgetRateAndBase budgetRateBase = new BudgetRateAndBase();
-                BudgetDecimal appliedRate = rateAndCost.getAppliedRate();
-                budgetRateBase.setAppliedRate(BudgetDecimal.returnZeroIfNull(appliedRate));
-                BudgetDecimal calculatedCost = rateAndCost.getCalculatedCost();
-                BudgetDecimal calculatedCostSharing = rateAndCost.getCalculatedCostSharing();
+                ScaleTwoDecimal appliedRate = rateAndCost.getAppliedRate();
+                budgetRateBase.setAppliedRate(ScaleTwoDecimal.returnZeroIfNull(appliedRate));
+                ScaleTwoDecimal calculatedCost = rateAndCost.getCalculatedCost();
+                ScaleTwoDecimal calculatedCostSharing = rateAndCost.getCalculatedCostSharing();
 //                budgetRateBase.setBaseCost(breakUpInterval.getApplicableAmt());
 //                budgetRateBase.setBaseCostSharing(breakUpInterval.getApplicableAmtCostSharing());
                 budgetRateBase.setBaseCostSharing(rateAndCost.getBaseCostSharingAmount());

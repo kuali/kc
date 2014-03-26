@@ -18,7 +18,7 @@ package org.kuali.kra.award.home.approvedsubawards;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -52,11 +52,11 @@ public class AwardApprovedSubawardRuleTest {
         awardApprovedSubawardTest = new AwardApprovedSubaward();
         awardApprovedSubawards = new ArrayList<AwardApprovedSubaward>();
         awardApprovedSubawardOne.setOrganizationName(ORGANIZATION_ONE);
-        awardApprovedSubawardOne.setAmount(new KualiDecimal(TEN_THOUSAND));
+        awardApprovedSubawardOne.setAmount(new ScaleTwoDecimal(TEN_THOUSAND));
         awardApprovedSubawardTwo.setOrganizationName(ORGANIZATION_TWO);
-        awardApprovedSubawardTwo.setAmount(new KualiDecimal(TWENTY_THOUSAND));
+        awardApprovedSubawardTwo.setAmount(new ScaleTwoDecimal(TWENTY_THOUSAND));
         awardApprovedSubawardTest.setOrganizationName(ORGANIZATION_THREE);
-        awardApprovedSubawardTest.setAmount(new KualiDecimal(THIRTY_THOUSAND));
+        awardApprovedSubawardTest.setAmount(new ScaleTwoDecimal(THIRTY_THOUSAND));
 
         awardApprovedSubawards.add(awardApprovedSubawardOne);
         awardApprovedSubawards.add(awardApprovedSubawardTwo);

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,21 +35,21 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 
     private Integer personNumber;
 
-    private BudgetDecimal costSharingPercent = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal costSharingPercent = ScaleTwoDecimal.ZERO;
 
     private String jobCode;
 
     private Boolean nonEmployeeFlag;
 
-    private BudgetDecimal percentCharged = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal percentCharged = ScaleTwoDecimal.ZERO;
 
-    private BudgetDecimal percentEffort = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal percentEffort = ScaleTwoDecimal.ZERO;
 
     private String periodTypeCode;
 
     private String personId;
 
-    private BudgetDecimal salaryRequested = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal salaryRequested = ScaleTwoDecimal.ZERO;
     
     private Integer sequenceNumber;
 
@@ -79,11 +79,11 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.personNumber = personNumber;
     }
 
-    public BudgetDecimal getCostSharingPercent() {
+    public ScaleTwoDecimal getCostSharingPercent() {
         return costSharingPercent;
     }
 
-    public void setCostSharingPercent(BudgetDecimal costSharingPercent) {
+    public void setCostSharingPercent(ScaleTwoDecimal costSharingPercent) {
         this.costSharingPercent = costSharingPercent;
     }
 
@@ -95,19 +95,19 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.jobCode = jobCode;
     }
 
-    public BudgetDecimal getPercentCharged() {
-        return BudgetDecimal.returnZeroIfNull(percentCharged);
+    public ScaleTwoDecimal getPercentCharged() {
+        return ScaleTwoDecimal.returnZeroIfNull(percentCharged);
     }
 
-    public void setPercentCharged(BudgetDecimal percentCharged) {
+    public void setPercentCharged(ScaleTwoDecimal percentCharged) {
         this.percentCharged = percentCharged;
     }
 
-    public BudgetDecimal getPercentEffort() {
-        return BudgetDecimal.returnZeroIfNull(percentEffort);
+    public ScaleTwoDecimal getPercentEffort() {
+        return ScaleTwoDecimal.returnZeroIfNull(percentEffort);
     }
 
-    public void setPercentEffort(BudgetDecimal percentEffort) {
+    public void setPercentEffort(ScaleTwoDecimal percentEffort) {
         this.percentEffort = percentEffort;
     }
 
@@ -127,23 +127,23 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.personId = personId;
     }
 
-    public BudgetDecimal getSalaryRequested() {
+    public ScaleTwoDecimal getSalaryRequested() {
         return salaryRequested;
     }
 
-    public void setSalaryRequested(BudgetDecimal salaryRequested) {
+    public void setSalaryRequested(ScaleTwoDecimal salaryRequested) {
         this.salaryRequested = salaryRequested;
     }
     
-    public BudgetDecimal getCalculatedBaseSalary() {
+    public ScaleTwoDecimal getCalculatedBaseSalary() {
         return calculatedBaseSalary;
     }
 
-    public void setCalculatedBaseSalary(BudgetDecimal calculatedBaseSalary) {
+    public void setCalculatedBaseSalary(ScaleTwoDecimal calculatedBaseSalary) {
         this.calculatedBaseSalary = calculatedBaseSalary;
     }
 
-    private BudgetDecimal calculatedBaseSalary = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal calculatedBaseSalary = ScaleTwoDecimal.ZERO;
 
     public Integer getSequenceNumber() {
         return sequenceNumber;
@@ -256,8 +256,8 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.effdtAfterStartdtMsg = effdtAfterStartdtMsg;
     }
 
-    public KualiDecimal getPersonMonths() {
-        KualiDecimal result = null;
+    public ScaleTwoDecimal getPersonMonths() {
+        ScaleTwoDecimal result = null;
         if (getStartDate() != null && getEndDate() != null) {
             Calendar startDateCalendar = Calendar.getInstance();
             startDateCalendar.setTime(getStartDate());
@@ -279,7 +279,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
                 startDateCalendar.set(DAY_OF_MONTH, 1);
                 personMonths += (noOfActualDays / noOfDaysInMonth);
             }
-            result = new KualiDecimal(new BudgetDecimal(personMonths).multiply(getPercentEffort()).divide(new BudgetDecimal(100)).bigDecimalValue());
+            result = new ScaleTwoDecimal(new ScaleTwoDecimal(personMonths).multiply(getPercentEffort()).divide(new ScaleTwoDecimal(100)).bigDecimalValue());
         }
         return result;
     }

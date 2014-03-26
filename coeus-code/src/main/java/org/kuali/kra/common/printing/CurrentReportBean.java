@@ -7,7 +7,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.Column;
@@ -50,7 +50,7 @@ public class CurrentReportBean extends ReportBean {
      * Source: The mocks suggest Award.timeAndMoney.obligatedAmount would be useful, but at the time of the development of the Current report, Award Time and
      * Money hadn't been completed. So, we'll sum the awardAmountInfo.obliDistributableAmount values for a total.
      */
-    private KualiDecimal awardAmount;
+    private ScaleTwoDecimal awardAmount;
 
     /**
      * Source: Award.awardEffectiveDate
@@ -66,22 +66,22 @@ public class CurrentReportBean extends ReportBean {
     /**
      * Source: Award (personId in KeyPersonnel) -> academicYearEffort
      */
-    private KualiDecimal academicYearEffort;
+    private ScaleTwoDecimal academicYearEffort;
 
     /**
      * Source: Award (personId in KeyPersonnel) -> calendarYearEffort
      */
-    private KualiDecimal calendarYearEffort;
+    private ScaleTwoDecimal calendarYearEffort;
 
     /**
      * Source: Award (personId in KeyPersonnel) -> summerYearEffort
      */
-    private KualiDecimal summerEffort;
+    private ScaleTwoDecimal summerEffort;
 
-    private KualiDecimal totalEffort;
+    private ScaleTwoDecimal totalEffort;
     private String sponsorAwardNumber;
-    private KualiDecimal totalDirectCostTotal;
-    private KualiDecimal totalIndirectCostTotal;
+    private ScaleTwoDecimal totalDirectCostTotal;
+    private ScaleTwoDecimal totalIndirectCostTotal;
     private List<AwardCustomData> awardCustomDataList;
     private ParameterService parameterService;
 
@@ -127,11 +127,11 @@ public class CurrentReportBean extends ReportBean {
 
     }
 
-    public KualiDecimal getAcademicYearEffort() {
+    public ScaleTwoDecimal getAcademicYearEffort() {
         return academicYearEffort;
     }
 
-    public KualiDecimal getAwardAmount() {
+    public ScaleTwoDecimal getAwardAmount() {
         return awardAmount;
     }
 
@@ -143,7 +143,7 @@ public class CurrentReportBean extends ReportBean {
         return awardTitle;
     }
 
-    public KualiDecimal getCalendarYearEffort() {
+    public ScaleTwoDecimal getCalendarYearEffort() {
         return calendarYearEffort;
     }
 
@@ -163,7 +163,7 @@ public class CurrentReportBean extends ReportBean {
         return sponsorName;
     }
 
-    public KualiDecimal getSummerEffort() {
+    public ScaleTwoDecimal getSummerEffort() {
         return summerEffort;
     }
 
@@ -180,16 +180,16 @@ public class CurrentReportBean extends ReportBean {
         columns.add(createColumn("Title", "awardTitle", awardTitle, String.class));
         String directIndirectEnabledValue = parameterService.getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
         if(directIndirectEnabledValue.equals("1")){
-            columns.add(createColumn("Total Direct Cost","totalDirectCostTotal",totalDirectCostTotal,KualiDecimal.class));
-            columns.add(createColumn("Total F&A Cost","totalIndirectCostTotal",totalIndirectCostTotal,KualiDecimal.class));
+            columns.add(createColumn("Total Direct Cost","totalDirectCostTotal",totalDirectCostTotal,ScaleTwoDecimal.class));
+            columns.add(createColumn("Total F&A Cost","totalIndirectCostTotal",totalIndirectCostTotal,ScaleTwoDecimal.class));
         }
-        columns.add(createColumn("Award Amount", "awardAmount", awardAmount, KualiDecimal.class));
+        columns.add(createColumn("Award Amount", "awardAmount", awardAmount, ScaleTwoDecimal.class));
         columns.add(createColumn("Effective Date", "projectStartDate", projectStartDate, Date.class));
         columns.add(createColumn("End Date", "projectEndDate", projectEndDate, Date.class));
-        columns.add(createColumn("Effort %", "totalEffort", totalEffort, KualiDecimal.class));
-        columns.add(createColumn("Academic Year Effort %", "academicYearEffort", academicYearEffort, KualiDecimal.class));
-        columns.add(createColumn("Summer Effort %", "summerEffort", summerEffort, KualiDecimal.class));
-        columns.add(createColumn("Calendar Year Effort %", "calendarYearEffort", calendarYearEffort, KualiDecimal.class));
+        columns.add(createColumn("Effort %", "totalEffort", totalEffort, ScaleTwoDecimal.class));
+        columns.add(createColumn("Academic Year Effort %", "academicYearEffort", academicYearEffort, ScaleTwoDecimal.class));
+        columns.add(createColumn("Summer Effort %", "summerEffort", summerEffort, ScaleTwoDecimal.class));
+        columns.add(createColumn("Calendar Year Effort %", "calendarYearEffort", calendarYearEffort, ScaleTwoDecimal.class));
         if(awardCustomDataList.size()>0){
             for(AwardCustomData awardcutomdata :awardCustomDataList) {
                 columns.add(createColumn(awardcutomdata.getCustomAttribute().getLabel(), "awardCustomDataList", awardcutomdata.getValue(), String.class));
@@ -198,11 +198,11 @@ public class CurrentReportBean extends ReportBean {
         return columns;
     }
 
-    public void setTotalEffort(KualiDecimal totalEffort) {
+    public void setTotalEffort(ScaleTwoDecimal totalEffort) {
         this.totalEffort = totalEffort;
     }
 
-    public KualiDecimal getTotalEffort() {
+    public ScaleTwoDecimal getTotalEffort() {
         return totalEffort;
     }
 
@@ -214,19 +214,19 @@ public class CurrentReportBean extends ReportBean {
         return sponsorAwardNumber;
     }
 
-    public void setTotalDirectCostTotal(KualiDecimal totalDirectCostTotal) {
+    public void setTotalDirectCostTotal(ScaleTwoDecimal totalDirectCostTotal) {
         this.totalDirectCostTotal = totalDirectCostTotal;
     }
 
-    public KualiDecimal getTotalDirectCostTotal() {
+    public ScaleTwoDecimal getTotalDirectCostTotal() {
         return totalDirectCostTotal;
     }
 
-    public void setTotalIndirectCostTotal(KualiDecimal totalIndirectCostTotal) {
+    public void setTotalIndirectCostTotal(ScaleTwoDecimal totalIndirectCostTotal) {
         this.totalIndirectCostTotal = totalIndirectCostTotal;
     }
 
-    public KualiDecimal getTotalIndirectCostTotal() {
+    public ScaleTwoDecimal getTotalIndirectCostTotal() {
         return totalIndirectCostTotal;
     }
 

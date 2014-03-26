@@ -45,25 +45,25 @@
 <c:set var="cumTotalCost" value="0" />
 <c:if test="${fn:length(KualiForm.document.budget.budgetPeriods) > 0}">
 	<c:forEach var="budgetPeriodObj" items="${KualiForm.document.budget.budgetPeriods}" >
-		<c:set var="cumTotalCost" value="${cumTotalCost + krabfn:getBigDecimal(budgetPeriodObj.totalCost)}" />
+		<c:set var="cumTotalCost" value="${cumTotalCost + krafn:getBigDecimal(budgetPeriodObj.totalCost)}" />
 	</c:forEach>
 </c:if>
 <c:set var="cumTotalDirectCost" value="0" />
 <c:if test="${fn:length(KualiForm.document.budget.budgetPeriods) > 0}">
 	<c:forEach var="budgetPeriodObj" items="${KualiForm.document.budget.budgetPeriods}" >
-		<c:set var="cumDirectTotalCost" value="${cumTotalDirectCost + krabfn:getBigDecimal(budgetPeriodObj.totalDirectCost)}" />
+		<c:set var="cumDirectTotalCost" value="${cumTotalDirectCost + krafn:getBigDecimal(budgetPeriodObj.totalDirectCost)}" />
 	</c:forEach>
 </c:if>
 
 <div id="workarea">
-    <c:set var="currentTotalCostLimit" value="${krabfn:getBigDecimal(KualiForm.document.budget.totalCostLimit)}" />
-	<c:set var="previousTotalCostLimit" value="${krabfn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit)}" />
-	<c:set var="previousTotalCost" value="${krabfn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCost)}" />
+    <c:set var="currentTotalCostLimit" value="${krafn:getBigDecimal(KualiForm.document.budget.totalCostLimit)}" />
+	<c:set var="previousTotalCostLimit" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCostLimit)}" />
+	<c:set var="previousTotalCost" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalCost)}" />
 	<c:set var="showWarnings" value="${(currentTotalCostLimit > 0 && cumTotalCost > currentTotalCostLimit) || (previousTotalCostLimit > 0 && previousTotalCost > previousTotalCostLimit)}" />
     
-    <c:set var="currentTotalDirectCostLimit"  value="${krabfn:getBigDecimal(KualiForm.document.budget.totalDirectCostLimit)}" />
-	<c:set var="periodDirectCostLimit" value="${krabfn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].directCostLimit)}" />
-	<c:set var="periodDirectCost" value="${krabfn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalDirectCost)}" />
+    <c:set var="currentTotalDirectCostLimit"  value="${krafn:getBigDecimal(KualiForm.document.budget.totalDirectCostLimit)}" />
+	<c:set var="periodDirectCostLimit" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].directCostLimit)}" />
+	<c:set var="periodDirectCost" value="${krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].totalDirectCost)}" />
 	<c:set var="showDirectCostLimitWarnings" value="${(currentTotalDirectCostLimit > 0 && cumDirectTotalCost > currentTotalDirectCostLimit) || (periodDirectCostLimit > 0 && periodDirectCost > periodDirectCostLimit)}" />
 	
 	<c:choose>

@@ -26,7 +26,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
@@ -285,7 +284,6 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
      */
     private BigDecimal getAmount(String questionID) {
         BigDecimal amount = null;
-        BudgetDecimalFormatter b = new BudgetDecimalFormatter();
         String answer;
         for(AnswerHeader answerHeader : answerHeaders){
             for (Answer answers : answerHeader.getAnswers()) {

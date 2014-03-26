@@ -20,9 +20,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
-public class BudgetDecimalTest {
+public class DecimalScaleTwoTest {
 
     @Before
     public void setUp() throws Exception {
@@ -34,21 +34,21 @@ public class BudgetDecimalTest {
     
     @Test
     public void divideTest() throws Exception{
-        BudgetDecimal op1 = new BudgetDecimal(100);
-        BudgetDecimal op2 = new BudgetDecimal(365);
-        Assert.assertEquals(op1.divide(op2),new BudgetDecimal(100d/365d));
+        ScaleTwoDecimal op1 = new ScaleTwoDecimal(100);
+        ScaleTwoDecimal op2 = new ScaleTwoDecimal(365);
+        Assert.assertEquals(op1.divide(op2),new ScaleTwoDecimal(100d/365d));
     }
 
     @Test
     public void percentageTest() throws Exception{
-        BudgetDecimal op1 = new BudgetDecimal(39);
-        BudgetDecimal op2 = new BudgetDecimal(9);
-        Assert.assertEquals(op1.percentage(op2),new BudgetDecimal(3.51));
+        ScaleTwoDecimal op1 = new ScaleTwoDecimal(39);
+        ScaleTwoDecimal op2 = new ScaleTwoDecimal(9);
+        Assert.assertEquals(op1.percentage(op2),new ScaleTwoDecimal(3.51));
     }
     @Test
     public void divide1Test() throws Exception{
-        BudgetDecimal op1 = new BudgetDecimal(100);
-        BudgetDecimal op2 = new BudgetDecimal(3);
-        Assert.assertEquals(op1.divide(op2),new BudgetDecimal(100d/3d));
+        ScaleTwoDecimal op1 = new ScaleTwoDecimal(100);
+        ScaleTwoDecimal op2 = new ScaleTwoDecimal(3);
+        Assert.assertEquals(op1.divide(op2),new ScaleTwoDecimal(100d/3d));
     }
 }

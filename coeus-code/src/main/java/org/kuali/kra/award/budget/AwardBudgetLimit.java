@@ -18,7 +18,7 @@ package org.kuali.kra.award.budget;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 /**
  * 
@@ -40,7 +40,7 @@ public class AwardBudgetLimit extends AwardAssociate {
 
     private String limitTypeCode;
 
-    private KualiDecimal limit;
+    private ScaleTwoDecimal limit;
 
     public AwardBudgetLimit() {
     }
@@ -108,11 +108,11 @@ public class AwardBudgetLimit extends AwardAssociate {
         limitTypeCode = type.getType();
     }
 
-    public KualiDecimal getLimit() {
+    public ScaleTwoDecimal getLimit() {
         return limit;
     }
 
-    public void setLimit(KualiDecimal limit) {
+    public void setLimit(ScaleTwoDecimal limit) {
         this.limit = limit;
     }
 

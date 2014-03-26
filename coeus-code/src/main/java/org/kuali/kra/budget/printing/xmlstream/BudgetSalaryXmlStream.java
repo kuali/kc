@@ -17,7 +17,7 @@ package org.kuali.kra.budget.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryType;
@@ -116,10 +116,10 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
         }	    
 	}
 	
-	private List<BudgetDataPeriodVO> getBudgetPeriodData(List<BudgetDecimal> costs) {
+	private List<BudgetDataPeriodVO> getBudgetPeriodData(List<ScaleTwoDecimal> costs) {
         List<BudgetDataPeriodVO> budgetDataList = new ArrayList<BudgetDataPeriodVO>();
         int budgetPeriodId = 1;
-        for (BudgetDecimal cost : costs) {
+        for (ScaleTwoDecimal cost : costs) {
             BudgetDataPeriodVO periodData = new BudgetDataPeriodVO();
             periodData.setBudgetPeriodId(budgetPeriodId++);
             periodData.setPeriodCost(cost);

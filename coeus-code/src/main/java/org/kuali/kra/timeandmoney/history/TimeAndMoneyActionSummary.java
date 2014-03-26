@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.timeandmoney.history;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -26,8 +26,8 @@ public class TimeAndMoneyActionSummary implements Serializable{
     private String transactionType;
     private Date obligationStartDate;
     private Date obligationEndDate;
-    private KualiDecimal obligationCumulative;
-    private KualiDecimal changeAmount;
+    private ScaleTwoDecimal obligationCumulative;
+    private ScaleTwoDecimal changeAmount;
     
     
     /**
@@ -90,28 +90,28 @@ public class TimeAndMoneyActionSummary implements Serializable{
      * Gets the obligationCumulative attribute. 
      * @return Returns the obligationCumulative.
      */
-    public KualiDecimal getObligationCumulative() {
+    public ScaleTwoDecimal getObligationCumulative() {
         return obligationCumulative;
     }
     /**
      * Sets the obligationCumulative attribute value.
      * @param obligationCumulative The obligationCumulative to set.
      */
-    public void setObligationCumulative(KualiDecimal obligationCumulative) {
+    public void setObligationCumulative(ScaleTwoDecimal obligationCumulative) {
         this.obligationCumulative = obligationCumulative;
     }
     /**
      * Gets the changeAmount attribute. 
      * @return Returns the changeAmount.
      */
-    public KualiDecimal getChangeAmount() {
+    public ScaleTwoDecimal getChangeAmount() {
         return changeAmount;
     }
     /**
      * Sets the changeAmount attribute value.
      * @param changeAmount The changeAmount to set.
      */
-    public void setChangeAmount(KualiDecimal changeAmount) {
+    public void setChangeAmount(ScaleTwoDecimal changeAmount) {
         this.changeAmount = changeAmount;
     }
 

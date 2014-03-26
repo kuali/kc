@@ -16,7 +16,7 @@
 package org.kuali.kra.bo;
 
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.datadictionary.AttributeReference;
 
 import java.sql.Timestamp;
@@ -35,7 +35,7 @@ public class KraAttributeReferenceDummy extends AttributeReference {
     private String updateUser;
     private Timestamp updateTimestamp;
     private String principalInvestigator;
-    private BudgetDecimal genericRate;
+    private ScaleTwoDecimal genericRate;
     private String budgetName;
     private Integer sequenceNumber;
     private String sourceAccount;
@@ -170,11 +170,11 @@ public class KraAttributeReferenceDummy extends AttributeReference {
         this.principalInvestigator = principalInvestigator;
     }
 
-    public final BudgetDecimal getGenericRate() {
+    public final ScaleTwoDecimal getGenericRate() {
         return genericRate;
     }
 
-    public final void setGenericRate(BudgetDecimal genericRate) {
+    public final void setGenericRate(ScaleTwoDecimal genericRate) {
         this.genericRate = genericRate;
     }
 

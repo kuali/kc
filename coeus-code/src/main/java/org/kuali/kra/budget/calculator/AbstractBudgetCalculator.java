@@ -16,9 +16,9 @@
 package org.kuali.kra.budget.calculator;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.commitments.FandaRateType;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.*;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.CostElement;
@@ -182,7 +182,7 @@ public abstract class AbstractBudgetCalculator {
         if (budget.getBudgetParent() instanceof DevelopmentProposal && ((DevelopmentProposal) budget.getBudgetParent()).isParent()) {
             budgetLineItem.setDirectCost(budgetLineItem.getLineItemCost());
             budgetLineItem.setTotalCostSharingAmount(budgetLineItem.getCostSharingAmount());
-            budgetLineItem.setIndirectCost(BudgetDecimal.ZERO);
+            budgetLineItem.setIndirectCost(ScaleTwoDecimal.ZERO);
             if (budgetLineItem instanceof BudgetPersonnelDetails) {
                 BudgetPersonnelDetails budgetPersonnelLineItem = (BudgetPersonnelDetails)budgetLineItem;
                 SalaryCalculator salaryCalculator = new SalaryCalculator(budget, budgetPersonnelLineItem);
@@ -206,8 +206,8 @@ public abstract class AbstractBudgetCalculator {
         }
         budgetLineItem.setDirectCost(budgetLineItem.getLineItemCost());
         budgetLineItem.setTotalCostSharingAmount(budgetLineItem.getCostSharingAmount());
-        budgetLineItem.setIndirectCost(BudgetDecimal.ZERO);
-        budgetLineItem.setUnderrecoveryAmount(BudgetDecimal.ZERO);
+        budgetLineItem.setIndirectCost(ScaleTwoDecimal.ZERO);
+        budgetLineItem.setUnderrecoveryAmount(ScaleTwoDecimal.ZERO);
         createAndCalculateBreakupIntervals();
         updateBudgetLineItemCalculatedAmounts();
         populateBudgetRateBaseList();
@@ -233,11 +233,11 @@ public abstract class AbstractBudgetCalculator {
              */
             String rateClassCode = "0";
             String rateTypeCode = "0";
-            BudgetDecimal totalCalculatedCost = BudgetDecimal.ZERO;
-            BudgetDecimal totalCalculatedCostSharing = BudgetDecimal.ZERO;
-            BudgetDecimal totalUnderRecovery = BudgetDecimal.ZERO;
-            BudgetDecimal directCost = BudgetDecimal.ZERO;
-            BudgetDecimal indirectCost = BudgetDecimal.ZERO;
+            ScaleTwoDecimal totalCalculatedCost = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal totalCalculatedCostSharing = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal totalUnderRecovery = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal directCost = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal indirectCost = ScaleTwoDecimal.ZERO;
             Equals equalsRC;
             Equals equalsRT;
             And RCandRT = null;
@@ -272,8 +272,8 @@ public abstract class AbstractBudgetCalculator {
             NotEquals notEqualsOH = new NotEquals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
             boolean directCostRolledUp = false;
             boolean resetTotalUnderRecovery = false;
-            BudgetDecimal newTotalUrAmount = BudgetDecimal.ZERO;
-            BudgetDecimal newTotalCostSharing = BudgetDecimal.ZERO;
+            ScaleTwoDecimal newTotalUrAmount = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal newTotalCostSharing = ScaleTwoDecimal.ZERO;
             if (budgetLineItem instanceof BudgetLineItem && CollectionUtils.isNotEmpty(((BudgetLineItem)budgetLineItem).getBudgetPersonnelDetailsList())) {
                 for (BudgetPersonnelDetails budgetPersonnelDetail : ((BudgetLineItem)budgetLineItem).getBudgetPersonnelDetailsList()) {
                     List<BudgetPersonnelCalculatedAmount> personnelCalAmts = budgetPersonnelDetail.getBudgetCalculatedAmounts();
@@ -331,11 +331,11 @@ public abstract class AbstractBudgetCalculator {
                         budgetLineItem.getCostSharingAmount().add(totalCalculatedCostSharing));
 
         } else if (lineItemCalcAmts != null && lineItemCalcAmts.size() > 0 && 
-                (budgetLineItem.getLineItemCost().equals(BudgetDecimal.ZERO) || 
+                (budgetLineItem.getLineItemCost().equals(ScaleTwoDecimal.ZERO) ||
                         CollectionUtils.isEmpty(cvLIBreakupIntervals))) {
             for (AbstractBudgetCalculatedAmount calculatedAmount : lineItemCalcAmts) {
-                  calculatedAmount.setCalculatedCost(BudgetDecimal.ZERO);
-                  calculatedAmount.setCalculatedCostSharing(BudgetDecimal.ZERO);
+                  calculatedAmount.setCalculatedCost(ScaleTwoDecimal.ZERO);
+                  calculatedAmount.setCalculatedCostSharing(ScaleTwoDecimal.ZERO);
           }
         } 
     }
@@ -432,8 +432,8 @@ public abstract class AbstractBudgetCalculator {
                     rateCost.setRateClassType(rateClassType);
                     rateCost.setRateClassCode(rateClassCode);
                     rateCost.setRateTypeCode(rateTypeCode);
-                    rateCost.setCalculatedCost(BudgetDecimal.ZERO);
-                    rateCost.setCalculatedCostSharing(BudgetDecimal.ZERO);
+                    rateCost.setCalculatedCost(ScaleTwoDecimal.ZERO);
+                    rateCost.setCalculatedCostSharing(ScaleTwoDecimal.ZERO);
 
                     qlRateAndCosts.add(rateCost);
 

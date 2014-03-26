@@ -6,7 +6,7 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.Column;
 
@@ -41,12 +41,12 @@ public class PendingReportBean extends ReportBean {
     /**
      * Source: InstitutionalProposal.totalDirectCostTotal
      */
-    private KualiDecimal totalDirectCostTotal;
+    private ScaleTwoDecimal totalDirectCostTotal;
 
     /**
      * Source: InstitutionalProposal.totalIndirectCostTotal
      */
-    private KualiDecimal totalIndirectCostTotal;
+    private ScaleTwoDecimal totalIndirectCostTotal;
 
     /**
      * Source: InstitutionalProposal.requestedStartDateInitial
@@ -61,22 +61,22 @@ public class PendingReportBean extends ReportBean {
     /**
      * Source: InstitutionalProposal.projectPersons.academicYearEffort
      */
-    private KualiDecimal academicYearEffort;
+    private ScaleTwoDecimal academicYearEffort;
 
     /**
      * Source: InstitutionalProposal.projectPersons.calendarYearEffort
      */
-    private KualiDecimal calendarYearEffort;
+    private ScaleTwoDecimal calendarYearEffort;
 
     /**
      * Source: InstitutionalProposal.projectPersons.summerEffort
      */
-    private KualiDecimal summerEffort;
+    private ScaleTwoDecimal summerEffort;
 
     /**
      * Source: InstitutionalProposal.projectPersons.totalEffort
      */
-    private KualiDecimal totalEffort;
+    private ScaleTwoDecimal totalEffort;
     
     private ParameterService parameterService;
     
@@ -125,11 +125,11 @@ public class PendingReportBean extends ReportBean {
         return true;
     }
 
-    public KualiDecimal getAcademicYearEffort() {
+    public ScaleTwoDecimal getAcademicYearEffort() {
         return academicYearEffort;
     }
 
-    public KualiDecimal getCalendarYearEffort() {
+    public ScaleTwoDecimal getCalendarYearEffort() {
         return calendarYearEffort;
     }
 
@@ -157,23 +157,23 @@ public class PendingReportBean extends ReportBean {
         return sponsorName;
     }
 
-    public KualiDecimal getSummerEffort() {
+    public ScaleTwoDecimal getSummerEffort() {
         return summerEffort;
     }
 
-    public KualiDecimal getTotalDirectCostTotal() {
+    public ScaleTwoDecimal getTotalDirectCostTotal() {
         return totalDirectCostTotal;
     }
 
-    public KualiDecimal getTotalEffort() {
+    public ScaleTwoDecimal getTotalEffort() {
         return totalEffort;
     }
 
-    public KualiDecimal getTotalIndirectCostTotal() {
+    public ScaleTwoDecimal getTotalIndirectCostTotal() {
         return totalIndirectCostTotal;
     }
 
-    public KualiDecimal getTotalRequestedCost() {
+    public ScaleTwoDecimal getTotalRequestedCost() {
         return totalDirectCostTotal.add(totalIndirectCostTotal);
     }
 
@@ -188,9 +188,9 @@ public class PendingReportBean extends ReportBean {
         columns.add(createColumn("Agency", "sponsorName", sponsorName, String.class));
         columns.add(createColumn("Role", "roleCode", roleCode, String.class));
         columns.add(createColumn("Title", "proposalTitle", proposalTitle, String.class));
-        columns.add(createColumn("Total Direct Cost", "totalDirectCostTotal", totalDirectCostTotal, KualiDecimal.class));
-        columns.add(createColumn("Total F&A Cost", "totalIndirectCostTotal", totalIndirectCostTotal, KualiDecimal.class));
-        columns.add(createColumn("Total Requested Cost", "totalRequestedCost", getTotalRequestedCost(), KualiDecimal.class));
+        columns.add(createColumn("Total Direct Cost", "totalDirectCostTotal", totalDirectCostTotal, ScaleTwoDecimal.class));
+        columns.add(createColumn("Total F&A Cost", "totalIndirectCostTotal", totalIndirectCostTotal, ScaleTwoDecimal.class));
+        columns.add(createColumn("Total Requested Cost", "totalRequestedCost", getTotalRequestedCost(), ScaleTwoDecimal.class));
 
 //        String startDate = (requestedStartDateInitial != null) ? DATE_FORMATTER.format(requestedStartDateInitial) : "";
 //        columns.add(createColumn("Effective Date", "requestedStartDateInitial", startDate));
@@ -200,10 +200,10 @@ public class PendingReportBean extends ReportBean {
 
         columns.add(createColumn("Effective Date", "requestedStartDateInitial", requestedStartDateInitial, Date.class));
         columns.add(createColumn("End Date", "requestedEndDateTotal", requestedEndDateTotal, Date.class));
-        columns.add(createColumn("% Effort", "totalEffort", totalEffort, KualiDecimal.class));
-        columns.add(createColumn("Academic Year Effort %", "academicYearEffort", academicYearEffort, KualiDecimal.class));
-        columns.add(createColumn("Summer Year Effort %", "summerYearEffort", summerEffort, KualiDecimal.class));
-        columns.add(createColumn("Calendar Year Effort %", "calendarYearEffort", calendarYearEffort, KualiDecimal.class));
+        columns.add(createColumn("% Effort", "totalEffort", totalEffort, ScaleTwoDecimal.class));
+        columns.add(createColumn("Academic Year Effort %", "academicYearEffort", academicYearEffort, ScaleTwoDecimal.class));
+        columns.add(createColumn("Summer Year Effort %", "summerYearEffort", summerEffort, ScaleTwoDecimal.class));
+        columns.add(createColumn("Calendar Year Effort %", "calendarYearEffort", calendarYearEffort, ScaleTwoDecimal.class));
         if(institutionalProposalCustomDataList.size()>0){
             for(InstitutionalProposalCustomData institutionalProposalCustomData :institutionalProposalCustomDataList) {
                 columns.add(createColumn(institutionalProposalCustomData.getCustomAttribute().getLabel(), "institutionalProposalCustomDataList", institutionalProposalCustomData.getValue(), String.class));

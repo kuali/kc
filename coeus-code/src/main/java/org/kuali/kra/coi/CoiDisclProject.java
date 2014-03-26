@@ -29,7 +29,7 @@ import org.kuali.kra.irb.protocol.ProtocolType;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 import java.sql.Date;
@@ -63,8 +63,8 @@ public class CoiDisclProject extends KcPersistableBusinessObjectBase implements 
     private String longTextField2; 
     private Date dateField1; 
     private Date dateField2; 
-    private KualiDecimal numberField1; 
-    private KualiDecimal numberField2;
+    private ScaleTwoDecimal numberField1;
+    private ScaleTwoDecimal numberField2;
     private String shortTextField3;
     private String longTextField3;
     private String selectBox1;
@@ -226,16 +226,16 @@ public class CoiDisclProject extends KcPersistableBusinessObjectBase implements 
     public void setDateField2(Date dateField2) {
         this.dateField2 = dateField2;
     }
-    public KualiDecimal getNumberField1() {
+    public ScaleTwoDecimal getNumberField1() {
         return numberField1;
     }
-    public void setNumberField1(KualiDecimal numberField1) {
+    public void setNumberField1(ScaleTwoDecimal numberField1) {
         this.numberField1 = numberField1;
     }
-    public KualiDecimal getNumberField2() {
+    public ScaleTwoDecimal getNumberField2() {
         return numberField2;
     }
-    public void setNumberField2(KualiDecimal numberField2) {
+    public void setNumberField2(ScaleTwoDecimal numberField2) {
         this.numberField2 = numberField2;
     }
     public String getShortTextField3() {

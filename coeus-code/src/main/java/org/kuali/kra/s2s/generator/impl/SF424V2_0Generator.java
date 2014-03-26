@@ -33,7 +33,7 @@ import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -335,8 +335,8 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             if (budget.getTotalCost() != null) {
                 sf424V2.setFederalEstimatedFunding(budget.getTotalCost().bigDecimalValue());
             }
-            BudgetDecimal fedNonFedCost = budget.getTotalCost();
-            BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
+            ScaleTwoDecimal fedNonFedCost = budget.getTotalCost();
+            ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
 
             for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
@@ -362,12 +362,12 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             }
             sf424V2.setProgramIncomeEstimatedFunding(projectIncome);
 
-            BudgetDecimal totalEstimatedAmount = BudgetDecimal.ZERO;
+            ScaleTwoDecimal totalEstimatedAmount = ScaleTwoDecimal.ZERO;
             if (budget.getTotalCost() != null) {
                 totalEstimatedAmount = totalEstimatedAmount.add(budget.getTotalCost());
             }
             totalEstimatedAmount = totalEstimatedAmount.add(costSharingAmount);
-            totalEstimatedAmount = totalEstimatedAmount.add(new BudgetDecimal(projectIncome));
+            totalEstimatedAmount = totalEstimatedAmount.add(new ScaleTwoDecimal(projectIncome));
             sf424V2.setTotalEstimatedFunding(totalEstimatedAmount.bigDecimalValue());
         }
         else {

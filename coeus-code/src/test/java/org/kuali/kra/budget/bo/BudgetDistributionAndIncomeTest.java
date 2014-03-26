@@ -17,7 +17,7 @@ package org.kuali.kra.budget.bo;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 
@@ -26,12 +26,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public abstract class BudgetDistributionAndIncomeTest {
-    protected static final BudgetDecimal FY_2007_Q3_AMT = new BudgetDecimal(100.0);
-    protected static final BudgetDecimal FY_2007_Q4_AMT = BudgetDecimal.ZERO;
-    protected static final BudgetDecimal FY_2008_Q1_AMT = new BudgetDecimal(200.0);
-    protected static final BudgetDecimal FY_2008_Q2_AMT = new BudgetDecimal(300.0);
-    protected static final BudgetDecimal FY_2009_Q1_AMT = new BudgetDecimal(400.0);
-    protected static final BudgetDecimal FY_2009_Q2_AMT = new BudgetDecimal(500.0);
+    protected static final ScaleTwoDecimal FY_2007_Q3_AMT = new ScaleTwoDecimal(100.0);
+    protected static final ScaleTwoDecimal FY_2007_Q4_AMT = ScaleTwoDecimal.ZERO;
+    protected static final ScaleTwoDecimal FY_2008_Q1_AMT = new ScaleTwoDecimal(200.0);
+    protected static final ScaleTwoDecimal FY_2008_Q2_AMT = new ScaleTwoDecimal(300.0);
+    protected static final ScaleTwoDecimal FY_2009_Q1_AMT = new ScaleTwoDecimal(400.0);
+    protected static final ScaleTwoDecimal FY_2009_Q2_AMT = new ScaleTwoDecimal(500.0);
 
     protected static final int DAY_1 = 1;
     protected static final int DAY_2 = 2;
@@ -42,8 +42,8 @@ public abstract class BudgetDistributionAndIncomeTest {
     protected static final int YEAR_2009 = 2009;
     
     
-    protected BudgetDecimal[] costShareAmounts = { FY_2007_Q3_AMT, FY_2007_Q4_AMT, FY_2008_Q1_AMT, FY_2008_Q2_AMT, FY_2009_Q1_AMT, FY_2009_Q2_AMT };
-    protected BudgetDecimal[] unrecoveredFandAAmounts = { FY_2007_Q3_AMT, FY_2007_Q4_AMT, FY_2008_Q1_AMT, FY_2008_Q2_AMT, FY_2009_Q1_AMT, FY_2009_Q2_AMT };
+    protected ScaleTwoDecimal[] costShareAmounts = { FY_2007_Q3_AMT, FY_2007_Q4_AMT, FY_2008_Q1_AMT, FY_2008_Q2_AMT, FY_2009_Q1_AMT, FY_2009_Q2_AMT };
+    protected ScaleTwoDecimal[] unrecoveredFandAAmounts = { FY_2007_Q3_AMT, FY_2007_Q4_AMT, FY_2008_Q1_AMT, FY_2008_Q2_AMT, FY_2009_Q1_AMT, FY_2009_Q2_AMT };
     
     protected Budget budgetDocument;
     protected Calendar calendar;

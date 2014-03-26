@@ -17,11 +17,11 @@ package org.kuali.kra.budget.document;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.AwardBudgeCostTotalAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetCostLimitAuditRule;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.distributionincome.*;
 import org.kuali.kra.budget.nonpersonnel.BudgetExpensesAuditRule;
@@ -40,7 +40,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.budget.modular.SyncModularBudgetRule;
 import org.kuali.kra.rules.ActivityTypeAuditRule;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -139,8 +139,8 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         for (BudgetCostShare budgetCostShare : budgetDocument.getBudget().getBudgetCostShares()) {
             String errorPath = "budgetCostShare[" + i + "]";
             errorMap.addToErrorPath(errorPath);
-            if(budgetCostShare.getSharePercentage()!=null && (budgetCostShare.getSharePercentage().isLessThan(new BudgetDecimal(0)) || 
-               budgetCostShare.getSharePercentage().isGreaterThan(new BudgetDecimal(100)))) {
+            if(budgetCostShare.getSharePercentage()!=null && (budgetCostShare.getSharePercentage().isLessThan(new ScaleTwoDecimal(0)) ||
+               budgetCostShare.getSharePercentage().isGreaterThan(new ScaleTwoDecimal(100)))) {
                 errorMap.putError("sharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE);
                 valid = false;
             }
@@ -176,7 +176,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         for (BudgetProjectIncome budgetProjectIncome : budgetDocument.getBudget().getBudgetProjectIncomes()) {
             String errorPath = "budgetProjectIncomes[" + i + "]";
             errorMap.addToErrorPath(errorPath);
-            if (budgetProjectIncome.getProjectIncome() == null || !budgetProjectIncome.getProjectIncome().isGreaterThan(new KualiDecimal(0.00))) {
+            if (budgetProjectIncome.getProjectIncome() == null || !budgetProjectIncome.getProjectIncome().isGreaterThan(new ScaleTwoDecimal(0.00))) {
                 errorMap.putError("projectIncome", "error.projectIncome.negativeOrZero");
                 valid = false;
             }          
@@ -228,7 +228,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
             if(budgetRate.isApplicableRateNull()) {
                 valid = false;
                 errorMap.putError("applicableRate", KeyConstants.ERROR_REQUIRED_APPLICABLE_RATE);
-            }else if(!BudgetDecimal.isNumeric(budgetRate.getApplicableRate().toString())) {
+            }else if(!ScaleTwoDecimal.isNumeric(budgetRate.getApplicableRate().toString())) {
                 valid = false;
                 errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_NOT_NUMERIC);
             }else {
@@ -260,7 +260,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
             if(budgetLaRate.isApplicableRateNull()) {
                 valid = false;
                 errorMap.putError("applicableRate", KeyConstants.ERROR_REQUIRED_APPLICABLE_RATE);
-            }else if(!BudgetDecimal.isNumeric(budgetLaRate.getApplicableRate().toString())) {
+            }else if(!ScaleTwoDecimal.isNumeric(budgetLaRate.getApplicableRate().toString())) {
                 valid = false;
                 errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_NOT_NUMERIC);
             }else {
@@ -289,12 +289,12 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
      * @param applicableRate
      * @return
      */
-    private int verifyApplicableRate(BudgetDecimal applicableRate) {
+    private int verifyApplicableRate(ScaleTwoDecimal applicableRate) {
         // problematic, such as -100.00 will get 'less than or equal to 999.99 error, also problem with negative less than 1. so rewrote it
         int rateValue = 0;
         if (applicableRate.isNegative()) {
             rateValue = -1;
-        } else if (applicableRate.isGreaterThan(new BudgetDecimal(Constants.APPLICABLE_RATE_LIMIT))) {
+        } else if (applicableRate.isGreaterThan(new ScaleTwoDecimal(Constants.APPLICABLE_RATE_LIMIT))) {
             rateValue = 1;            
         }            
         return rateValue;
@@ -388,10 +388,10 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
                         errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].endDate",KeyConstants.ERROR_PERSONNELBUDGETLINEITEM_ENDDATE_AFTER_LINEITEM_ENDDATE);
                         valid = false;
                     }                    
-                    if(budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
+                    if(budgetPersonnelDetails.getPercentEffort().isGreaterThan(new ScaleTwoDecimal(100))){
                         errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].percentEffort",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
                     }
-                    if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
+                    if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(new ScaleTwoDecimal(100))){
                         errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
                     }
                     if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(budgetPersonnelDetails.getPercentEffort())){

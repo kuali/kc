@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.infrastructure;
+package org.kuali.coeus.sys.framework.persistence;
 
 import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
 import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.math.BigDecimal;
 
 
-public class OjbBudgetDecimalFieldConversion implements FieldConversion {
+public class OjbScaleTwoDecimalFieldConversion implements FieldConversion {
 
     @Override
     public Object javaToSql(Object source) throws ConversionException {
         Object converted = source;
 
-        if (source instanceof BudgetDecimal) {
-            converted = ((BudgetDecimal) source).bigDecimalValue();
+        if (source instanceof ScaleTwoDecimal) {
+            converted = ((ScaleTwoDecimal) source).bigDecimalValue();
         }
 
         return converted;
@@ -40,7 +40,7 @@ public class OjbBudgetDecimalFieldConversion implements FieldConversion {
         Object converted = source;
 
         if (source instanceof BigDecimal) {
-            converted = new BudgetDecimal((BigDecimal) source);
+            converted = new ScaleTwoDecimal((BigDecimal) source);
         }
 
         return converted;

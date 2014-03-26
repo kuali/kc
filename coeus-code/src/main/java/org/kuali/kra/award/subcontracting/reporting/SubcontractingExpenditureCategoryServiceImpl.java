@@ -16,7 +16,7 @@
 package org.kuali.kra.award.subcontracting.reporting;
 
 import org.kuali.kra.award.subcontracting.reporting.dao.SubcontractingExpenditureCategoryDetailsDao;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -125,7 +125,7 @@ public class SubcontractingExpenditureCategoryServiceImpl implements Subcontract
 
     private void incrementCategoryAmountsUsingDetails(SubcontractingExpenditureCategoryAmountsBase amountsBO, SubcontractingExpenditureCategoryDetails detailsBO) {
         // check each detail category's expense flag, and if set, add the detail amount to that category's expenditure amount
-        KualiDecimal detailAmount = detailsBO.getAmount();
+        ScaleTwoDecimal detailAmount = detailsBO.getAmount();
         
         if(detailsBO.isLargeBusiness()) {
             amountsBO.addToLargeBusinessExpenditureAmount(detailAmount);

@@ -30,8 +30,7 @@ import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts;
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmountsInDateRange;
-import org.kuali.kra.bo.*;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.printing.schema.NameAndAddressTypeDocument.NameAndAddressType;
 import org.kuali.kra.printing.schema.SubcontractReportPageType;
 import org.kuali.kra.printing.schema.SubcontractReportPageType.VendorType;
@@ -43,7 +42,7 @@ import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractRepor
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ReportingPeriod;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
@@ -150,7 +149,7 @@ public class SubawardXmlStream implements XmlStream {
     }
 
     private BigDecimal getMonthsBetweenDates(Date pFrom, Date pTo) {
-        BudgetDecimal projectDuration = null;
+        ScaleTwoDecimal projectDuration = null;
         Calendar calendarStart = Calendar.getInstance();
         calendarStart.setTimeInMillis(pFrom.getTime());
         Calendar calendarEnd = Calendar.getInstance();
@@ -161,7 +160,7 @@ public class SubawardXmlStream implements XmlStream {
         if (dd >= 15)
             md++;
         int result = yd + md;
-        projectDuration = new BudgetDecimal(result);
+        projectDuration = new ScaleTwoDecimal(result);
         return projectDuration.setScale(0).bigDecimalValue();
     }
 
@@ -361,11 +360,11 @@ public class SubawardXmlStream implements XmlStream {
     public List<VendorType> populateVendorType(String sponsorGroup, SubcontractingExpenditureCategoryAmountsInDateRange sECAIDR) {
         
         
-        KualiDecimal largeBusinessTotal = get295AmountForSponsorGroupFirst(sponsorGroup,"LARGE BUSINESS").add(
+        ScaleTwoDecimal largeBusinessTotal = get295AmountForSponsorGroupFirst(sponsorGroup,"LARGE BUSINESS").add(
                 get295AmountForSponsorGroupSecond(sponsorGroup,"LARGE BUSINESS"));
-        KualiDecimal smallBusinessTotal = get295AmountForSponsorGroupFirst(sponsorGroup,"SMALL BUSINESS").add(
+        ScaleTwoDecimal smallBusinessTotal = get295AmountForSponsorGroupFirst(sponsorGroup,"SMALL BUSINESS").add(
                 get295AmountForSponsorGroupSecond(sponsorGroup,"SMALL BUSINESS"));
-        KualiDecimal totalAmount =largeBusinessTotal.add(smallBusinessTotal);
+        ScaleTwoDecimal totalAmount =largeBusinessTotal.add(smallBusinessTotal);
         
         List<VendorType> vendorTypeList = new ArrayList<SubcontractReportPageType.VendorType>();        
         
@@ -381,16 +380,16 @@ public class SubawardXmlStream implements XmlStream {
         return vendorTypeList;
     }
     
-    public void populateVendorTypeAmounts(String sponsorGroup,String vendorType, List<VendorType> vendorTypeList,KualiDecimal totalAmount) {
+    public void populateVendorTypeAmounts(String sponsorGroup,String vendorType, List<VendorType> vendorTypeList,ScaleTwoDecimal totalAmount) {
         VendorType vendorTypes = VendorType.Factory.newInstance();
-        KualiDecimal amount = get295AmountForSponsorGroupFirst(sponsorGroup,vendorType).add(get295AmountForSponsorGroupSecond(sponsorGroup,vendorType));
+        ScaleTwoDecimal amount = get295AmountForSponsorGroupFirst(sponsorGroup,vendorType).add(get295AmountForSponsorGroupSecond(sponsorGroup,vendorType));
         vendorTypes.setTypeOfVendor(vendorType);
         vendorTypes.setActualAmount(amount.bigDecimalValue());
         vendorTypes.setActualPercent(getPct(amount.bigDecimalValue(), totalAmount.bigDecimalValue()));
         vendorTypeList.add(vendorTypes);
     }
 
-    public KualiDecimal get295AmountForSponsorGroupFirst(String sponsorGroup,String vendorType) {
+    public ScaleTwoDecimal get295AmountForSponsorGroupFirst(String sponsorGroup,String vendorType) {
 
         List<Award> awardsList = new ArrayList<Award>();
         List<Sponsor> sponsorList = new ArrayList<Sponsor>();
@@ -426,7 +425,7 @@ public class SubawardXmlStream implements XmlStream {
                 awardList.add(award);
             }
         }
-        KualiDecimal amount = KualiDecimal.ZERO;
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (SubcontractingExpenditureCategoryAmountsInDateRange sECAIDR : sECAIDRList) {
             boolean hasAward = false;
             for (Award award : awardList) {
@@ -466,7 +465,7 @@ public class SubawardXmlStream implements XmlStream {
         return amount;
     }
 
-    public KualiDecimal get295AmountForSponsorGroupSecond(String sponsorGroup,String vendorType) {
+    public ScaleTwoDecimal get295AmountForSponsorGroupSecond(String sponsorGroup,String vendorType) {
 
         List<Award> awardsList = new ArrayList<Award>();
         List<Award> awardList = new ArrayList<Award>();
@@ -505,7 +504,7 @@ public class SubawardXmlStream implements XmlStream {
             }
         }
 
-        KualiDecimal amount = KualiDecimal.ZERO;
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (SubcontractingExpenditureCategoryAmountsInDateRange expenditureCategoryAmount : expenditureCategoryAmountList) {
             boolean hasAward = false;
             for (Award award : awardList) {

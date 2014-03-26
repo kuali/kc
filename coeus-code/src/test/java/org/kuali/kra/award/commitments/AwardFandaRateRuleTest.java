@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -38,11 +38,11 @@ public class AwardFandaRateRuleTest {
     public void setUp() throws Exception {
         awardFandaRateRule = new AwardFandaRateRule();
         awardFandaRate = new AwardFandaRate();
-        awardFandaRate.setApplicableFandaRate(new KualiDecimal(5));
+        awardFandaRate.setApplicableFandaRate(new ScaleTwoDecimal(5));
         awardFandaRate.setFiscalYear("2008");
         awardFandaRate.setFandaRateTypeCode("5");
         awardFandaRate.setOnCampusFlag("N");
-        awardFandaRate.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
+        awardFandaRate.setUnderrecoveryOfIndirectCost(new ScaleTwoDecimal(1000));
         awardFandaRate.setStartDate(new Date(new Long("1183316613046")));        
         awardFandaRate.setEndDate(new Date(new Long("1214852613046")));
         GlobalVariables.setMessageMap(new MessageMap());
@@ -70,7 +70,7 @@ public class AwardFandaRateRuleTest {
     
     @Test
     public final void testEvaluateRuleForApplicableIndirectCostRateEmpty() {
-        awardFandaRate.setApplicableFandaRate(new KualiDecimal(-5));
+        awardFandaRate.setApplicableFandaRate(new ScaleTwoDecimal(-5));
         Assert.assertFalse(awardFandaRateRule.evaluateRuleForApplicableFandaRate(awardFandaRate, PROPERTY_PREFIX));
     }
 

@@ -15,28 +15,28 @@
  */
 package org.kuali.kra.s2s.generator.bo;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 
 public class CompensationInfo {
 
-    private BudgetDecimal calendarMonths = BudgetDecimal.ZERO;
-    private BudgetDecimal academicMonths = BudgetDecimal.ZERO;
-    private BudgetDecimal summerMonths = BudgetDecimal.ZERO;
-    private BudgetDecimal requestedSalary = BudgetDecimal.ZERO;
-    private BudgetDecimal fringe = BudgetDecimal.ZERO;
-    private BudgetDecimal fundsRequested = BudgetDecimal.ZERO;
-    private BudgetDecimal baseSalary = BudgetDecimal.ZERO;
-    private BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
-    private BudgetDecimal fringeCostSharing = BudgetDecimal.ZERO;
-    private BudgetDecimal nonFundsRequested = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal calendarMonths = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal academicMonths = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal summerMonths = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal requestedSalary = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal fringe = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal fundsRequested = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal baseSalary = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal fringeCostSharing = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal nonFundsRequested = ScaleTwoDecimal.ZERO;
 
     /**
      * Getter for property calendarMonths.
      * 
      * @return Value of property calendarMonths.
      */
-    public BudgetDecimal getCalendarMonths() {
+    public ScaleTwoDecimal getCalendarMonths() {
         return calendarMonths;
     }
 
@@ -45,7 +45,7 @@ public class CompensationInfo {
      * 
      * @param calendarMonths New value of property calendarMonths.
      */
-    public void setCalendarMonths(BudgetDecimal calendarMonths) {
+    public void setCalendarMonths(ScaleTwoDecimal calendarMonths) {
         this.calendarMonths = calendarMonths;
     }
 
@@ -54,7 +54,7 @@ public class CompensationInfo {
      * 
      * @return Value of property academicMonths.
      */
-    public BudgetDecimal getAcademicMonths() {
+    public ScaleTwoDecimal getAcademicMonths() {
         return academicMonths;
     }
 
@@ -63,7 +63,7 @@ public class CompensationInfo {
      * 
      * @param academicMonths New value of property academicMonths.
      */
-    public void setAcademicMonths(BudgetDecimal academicMonths) {
+    public void setAcademicMonths(ScaleTwoDecimal academicMonths) {
         this.academicMonths = academicMonths;
     }
 
@@ -72,7 +72,7 @@ public class CompensationInfo {
      * 
      * @return Value of property summerMonths.
      */
-    public BudgetDecimal getSummerMonths() {
+    public ScaleTwoDecimal getSummerMonths() {
         return summerMonths;
     }
 
@@ -81,7 +81,7 @@ public class CompensationInfo {
      * 
      * @param summerMonths New value of property summerMonths.
      */
-    public void setSummerMonths(BudgetDecimal summerMonths) {
+    public void setSummerMonths(ScaleTwoDecimal summerMonths) {
         this.summerMonths = summerMonths;
     }
 
@@ -90,7 +90,7 @@ public class CompensationInfo {
      * 
      * @return Value of property requestedSalary.
      */
-    public BudgetDecimal getRequestedSalary() {
+    public ScaleTwoDecimal getRequestedSalary() {
         return requestedSalary;
     }
 
@@ -99,7 +99,7 @@ public class CompensationInfo {
      * 
      * @param requestedSalary New value of property requestedSalary.
      */
-    public void setRequestedSalary(BudgetDecimal requestedSalary) {
+    public void setRequestedSalary(ScaleTwoDecimal requestedSalary) {
         this.requestedSalary = requestedSalary;
     }
 
@@ -108,7 +108,7 @@ public class CompensationInfo {
      * 
      * @return Value of property fringe.
      */
-    public BudgetDecimal getFringe() {
+    public ScaleTwoDecimal getFringe() {
         return fringe;
     }
 
@@ -117,7 +117,7 @@ public class CompensationInfo {
      * 
      * @param fringe New value of property fringe.
      */
-    public void setFringe(BudgetDecimal fringe) {
+    public void setFringe(ScaleTwoDecimal fringe) {
         this.fringe = fringe;
     }
 
@@ -126,7 +126,7 @@ public class CompensationInfo {
      * 
      * @return Value of property fundsRequested.
      */
-    public BudgetDecimal getFundsRequested() {
+    public ScaleTwoDecimal getFundsRequested() {
         return fundsRequested;
     }
 
@@ -135,7 +135,7 @@ public class CompensationInfo {
      * 
      * @param fundsRequested New value of property fundsRequested.
      */
-    public void setFundsRequested(BudgetDecimal fundsRequested) {
+    public void setFundsRequested(ScaleTwoDecimal fundsRequested) {
         this.fundsRequested = fundsRequested;
     }
 
@@ -144,7 +144,7 @@ public class CompensationInfo {
      * 
      * @return Value of property baseSalary.
      */
-    public BudgetDecimal getBaseSalary() {
+    public ScaleTwoDecimal getBaseSalary() {
         return baseSalary;
     }
 
@@ -153,32 +153,32 @@ public class CompensationInfo {
      * 
      * @param baseSalary New value of property baseSalary.
      */
-    public void setBaseSalary(BudgetDecimal baseSalary) {
+    public void setBaseSalary(ScaleTwoDecimal baseSalary) {
         this.baseSalary = baseSalary;
     }
 
     // start add costSaring for fedNonFedBudget repport
-    public BudgetDecimal getCostSharingAmount() {
+    public ScaleTwoDecimal getCostSharingAmount() {
         return costSharingAmount;
     }
 
-    public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+    public void setCostSharingAmount(ScaleTwoDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
     }
 
-    public BudgetDecimal getNonFundsRequested() {
+    public ScaleTwoDecimal getNonFundsRequested() {
         return nonFundsRequested;
     }
 
-    public void setNonFundsRequested(BudgetDecimal nonFundsRequested) {
+    public void setNonFundsRequested(ScaleTwoDecimal nonFundsRequested) {
         this.nonFundsRequested = nonFundsRequested;
     }
 
-    public BudgetDecimal getFringeCostSharing() {
+    public ScaleTwoDecimal getFringeCostSharing() {
         return fringeCostSharing;
     }
 
-    public void setFringeCostSharing(BudgetDecimal fringeCostSharing) {
+    public void setFringeCostSharing(ScaleTwoDecimal fringeCostSharing) {
         this.fringeCostSharing = fringeCostSharing;
     }
 }

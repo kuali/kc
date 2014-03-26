@@ -26,7 +26,7 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -58,31 +58,31 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
             ed524Budget.setLEGALNAME(DEFAULT_LEGAL_NAME);
         }
 
-        BudgetDecimal totalCategoryCS = BudgetDecimal.ZERO;
-        BudgetDecimal totalPersonnel = BudgetDecimal.ZERO;
-        BudgetDecimal totalPersonnelCS = BudgetDecimal.ZERO;
-        BudgetDecimal totalFringe = BudgetDecimal.ZERO;
-        BudgetDecimal totalFringeCS = BudgetDecimal.ZERO;
-        BudgetDecimal totalTravel = BudgetDecimal.ZERO;
-        BudgetDecimal totalTravelCS = BudgetDecimal.ZERO;
-        BudgetDecimal totalEquip = BudgetDecimal.ZERO;
-        BudgetDecimal totalEquipCS = BudgetDecimal.ZERO;
-        BudgetDecimal totalSupplies = BudgetDecimal.ZERO;
-        BudgetDecimal totalSuppliesCS = BudgetDecimal.ZERO;
-        BudgetDecimal totalContractual = BudgetDecimal.ZERO;
-        BudgetDecimal totalContractualCS = BudgetDecimal.ZERO;
-        BudgetDecimal totalConstruction = BudgetDecimal.ZERO;
-        BudgetDecimal totalConstructionCS = BudgetDecimal.ZERO;
-        BudgetDecimal totalOther = BudgetDecimal.ZERO;
-        BudgetDecimal totalOtherCS = BudgetDecimal.ZERO;
-        BudgetDecimal totalTraining = BudgetDecimal.ZERO;
-        BudgetDecimal totalTrainingCS = BudgetDecimal.ZERO;
-        BudgetDecimal totalCostAllYrs = BudgetDecimal.ZERO;
-        BudgetDecimal totalCostSharingAllYrs = BudgetDecimal.ZERO;
-        BudgetDecimal totalDirectCostAllYrs = BudgetDecimal.ZERO;
-        BudgetDecimal totalDirectCostAllYrsCS = BudgetDecimal.ZERO;
-        BudgetDecimal totalIndirectCostAllYrs = BudgetDecimal.ZERO;
-        BudgetDecimal totalIndirectCostAllYrsCS = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totalCategoryCS = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalPersonnel = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalPersonnelCS = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalFringe = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalFringeCS = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalTravel = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalTravelCS = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalEquip = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalEquipCS = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalSupplies = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalSuppliesCS = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalContractual = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalContractualCS = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalConstruction = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalConstructionCS = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalOther = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalOtherCS = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalTraining = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalTrainingCS = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalCostAllYrs = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalCostSharingAllYrs = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalDirectCostAllYrs = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalDirectCostAllYrsCS = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalIndirectCostAllYrs = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalIndirectCostAllYrsCS = ScaleTwoDecimal.ZERO;
 
 
         BudgetDocument budgetDoc = null;
@@ -126,8 +126,8 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
 
                 // Construction
                 // Set to zero as it set hard coded as 0 in the procedure
-                ed524Budget.setBudgetFederalConstructionFirstYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
-                ed524Budget.setBudgetNonFederalConstructionFirstYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
+                ed524Budget.setBudgetFederalConstructionFirstYearAmount(ScaleTwoDecimal.ZERO.bigDecimalValue());
+                ed524Budget.setBudgetNonFederalConstructionFirstYearAmount(ScaleTwoDecimal.ZERO.bigDecimalValue());
 
 
                 // Other
@@ -195,7 +195,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
 
             }
             else if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_2)) {
-                totalCategoryCS = BudgetDecimal.ZERO;
+                totalCategoryCS = ScaleTwoDecimal.ZERO;
                 getTotalCosts(budgetPeriod);
                 ed524Budget.setBudgetFederalSecondYearAmount(totalCost.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalSecondYearAmount(totalCostSharing.bigDecimalValue());
@@ -223,8 +223,8 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
 
                 // Construction
                 // Set to zero as it set hard coded as 0 in the procedure
-                ed524Budget.setBudgetFederalConstructionSecondYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
-                ed524Budget.setBudgetNonFederalConstructionSecondYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
+                ed524Budget.setBudgetFederalConstructionSecondYearAmount(ScaleTwoDecimal.ZERO.bigDecimalValue());
+                ed524Budget.setBudgetNonFederalConstructionSecondYearAmount(ScaleTwoDecimal.ZERO.bigDecimalValue());
 
 
                 // Other
@@ -296,7 +296,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
                 ed524Budget.setBudgetNonFederalDirectSecondYearAmount(totalCategoryCS.bigDecimalValue());
             }
             else if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_3)) {
-                totalCategoryCS = BudgetDecimal.ZERO;
+                totalCategoryCS = ScaleTwoDecimal.ZERO;
                 getTotalCosts(budgetPeriod);
                 ed524Budget.setBudgetFederalThirdYearAmount(totalCost.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalThirdYearAmount(totalCostSharing.bigDecimalValue());
@@ -324,8 +324,8 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
 
                 // Construction
                 // Set to zero as it set hard coded as 0 in the procedure
-                ed524Budget.setBudgetFederalConstructionThirdYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
-                ed524Budget.setBudgetNonFederalConstructionThirdYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
+                ed524Budget.setBudgetFederalConstructionThirdYearAmount(ScaleTwoDecimal.ZERO.bigDecimalValue());
+                ed524Budget.setBudgetNonFederalConstructionThirdYearAmount(ScaleTwoDecimal.ZERO.bigDecimalValue());
 
 
                 // Other
@@ -396,7 +396,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
                 ed524Budget.setBudgetNonFederalDirectThirdYearAmount(totalCategoryCS.bigDecimalValue());
             }
             else if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_4)) {
-                totalCategoryCS = BudgetDecimal.ZERO;
+                totalCategoryCS = ScaleTwoDecimal.ZERO;
                 getTotalCosts(budgetPeriod);
                 ed524Budget.setBudgetFederalFourthYearAmount(totalCost.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalFourthYearAmount(totalCostSharing.bigDecimalValue());
@@ -424,8 +424,8 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
 
                 // Construction
                 // Set to zero as it set hard coded as 0 in the procedure
-                ed524Budget.setBudgetFederalConstructionFourthYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
-                ed524Budget.setBudgetNonFederalConstructionFourthYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
+                ed524Budget.setBudgetFederalConstructionFourthYearAmount(ScaleTwoDecimal.ZERO.bigDecimalValue());
+                ed524Budget.setBudgetNonFederalConstructionFourthYearAmount(ScaleTwoDecimal.ZERO.bigDecimalValue());
 
 
                 // Other
@@ -491,7 +491,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
                 ed524Budget.setBudgetNonFederalDirectFourthYearAmount(totalCategoryCS.bigDecimalValue());
             }
             else if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_5)) {
-                totalCategoryCS = BudgetDecimal.ZERO;
+                totalCategoryCS = ScaleTwoDecimal.ZERO;
                 getTotalCosts(budgetPeriod);
                 ed524Budget.setBudgetFederalFifthYearAmount(totalCost.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalFifthYearAmount(totalCostSharing.bigDecimalValue());
@@ -520,8 +520,8 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
                 // Construction
                 // Set to zero as it set hard coded as 0 in the procedure
 
-                ed524Budget.setBudgetFederalConstructionFifthYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
-                ed524Budget.setBudgetNonFederalConstructionFifthYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
+                ed524Budget.setBudgetFederalConstructionFifthYearAmount(ScaleTwoDecimal.ZERO.bigDecimalValue());
+                ed524Budget.setBudgetNonFederalConstructionFifthYearAmount(ScaleTwoDecimal.ZERO.bigDecimalValue());
 
 
                 // Other

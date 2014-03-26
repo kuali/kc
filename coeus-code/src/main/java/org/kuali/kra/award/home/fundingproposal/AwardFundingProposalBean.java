@@ -27,7 +27,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -108,12 +108,12 @@ public class AwardFundingProposalBean implements Serializable {
      * This method calculates the total cost of all funding proposals
      * @return
      */
-    public KualiDecimal getTotalCostOfFundingProposals() {
-        KualiDecimal total = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getTotalCostOfFundingProposals() {
+        ScaleTwoDecimal total = new ScaleTwoDecimal(0.00);
         for (Award award : getAllAwardsForAwardNumber()) {
             for (AwardFundingProposal afp : award.getFundingProposals()) {
                 if (afp.isActive()) {
-                    total = total.add(new KualiDecimal(afp.getProposal().getTotalCost().doubleValue()));
+                    total = total.add(new ScaleTwoDecimal(afp.getProposal().getTotalCost().doubleValue()));
                 }
             }
         }

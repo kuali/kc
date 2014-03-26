@@ -112,7 +112,7 @@
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="noticeOfOpportunityCode" column="NOTICE_OF_OPPORTUNITY_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="gradStudHeadcount" column="GRAD_STUD_HEADCOUNT" jdbc-type="INTEGER" />
-		<field-descriptor name="gradStudPersonMonths" column="GRAD_STUD_PERSON_MONTHS" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="gradStudPersonMonths" column="GRAD_STUD_PERSON_MONTHS" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
 		<field-descriptor name="typeOfAccount" column="TYPE_OF_ACCOUNT" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="requestedStartDateInitial" column="REQUESTED_START_DATE_INITIAL" jdbc-type="DATE" />
@@ -121,10 +121,10 @@
 		<field-descriptor name="requestedEndDateTotal" column="REQUESTED_END_DATE_TOTAL" jdbc-type="DATE" />
 		<field-descriptor name="fiscalMonth" column="FISCAL_MONTH" jdbc-type="VARCHAR" />
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR" />
-		<field-descriptor name="totalDirectCostInitial" column="TOTAL_DIRECT_COST_INITIAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="totalDirectCostTotal" column="TOTAL_DIRECT_COST_TOTAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="totalIndirectCostInitial" column="TOTAL_INDIRECT_COST_INITIAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="totalIndirectCostTotal" column="TOTAL_INDIRECT_COST_TOTAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="totalDirectCostInitial" column="TOTAL_DIRECT_COST_INITIAL" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+		<field-descriptor name="totalDirectCostTotal" column="TOTAL_DIRECT_COST_TOTAL" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+		<field-descriptor name="totalIndirectCostInitial" column="TOTAL_INDIRECT_COST_INITIAL" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+		<field-descriptor name="totalIndirectCostTotal" column="TOTAL_INDIRECT_COST_TOTAL" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
 		<field-descriptor name="numberOfCopies" column="NUMBER_OF_COPIES" jdbc-type="VARCHAR" />
 		<field-descriptor name="deadlineDate" column="DEADLINE_DATE" jdbc-type="DATE" />
 		<field-descriptor name="deadlineTime" column="DEADLINE_TIME" jdbc-type="VARCHAR" />
@@ -255,10 +255,10 @@
 		<field-descriptor name="requestedStartDateTotal" column="REQUESTED_START_DATE_TOTAL" jdbc-type="DATE" />
 		<field-descriptor name="requestedEndDateInitial" column="REQUESTED_END_DATE_INITIAL" jdbc-type="DATE" />
 		<field-descriptor name="requestedEndDateTotal" column="REQUESTED_END_DATE_TOTAL" jdbc-type="DATE" />
-		<field-descriptor name="totalDirectCostInitial" column="TOTAL_DIRECT_COST_INITIAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="totalDirectCostTotal" column="TOTAL_DIRECT_COST_TOTAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="totalIndirectCostInitial" column="TOTAL_INDIRECT_COST_INITIAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="totalIndirectCostTotal" column="TOTAL_INDIRECT_COST_TOTAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="totalDirectCostInitial" column="TOTAL_DIRECT_COST_INITIAL" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+		<field-descriptor name="totalDirectCostTotal" column="TOTAL_DIRECT_COST_TOTAL" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+		<field-descriptor name="totalIndirectCostInitial" column="TOTAL_INDIRECT_COST_INITIAL" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+		<field-descriptor name="totalIndirectCostTotal" column="TOTAL_INDIRECT_COST_TOTAL" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="unitNumber" column="LEAD_UNIT_NUMBER" jdbc-type="VARCHAR" />
@@ -350,10 +350,10 @@
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="projectPeriod" column="PROJECT_PERIOD" jdbc-type="VARCHAR" />
-		<field-descriptor name="costSharePercentage" column="COST_SHARING_PERCENTAGE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="costSharePercentage" column="COST_SHARING_PERCENTAGE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>
 		<field-descriptor name="costShareTypeCode" column="COST_SHARING_TYPE_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR" />
-		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -394,10 +394,10 @@
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" nullable="true" />
 		<field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" nullable="false"  />
 		
-		<field-descriptor name="academicYearEffort" column="ACADEMIC_YEAR_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="calendarYearEffort" column="CALENDAR_YEAR_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="summerEffort" column="SUMMER_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="totalEffort" column="TOTAL_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="academicYearEffort" column="ACADEMIC_YEAR_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+		<field-descriptor name="calendarYearEffort" column="CALENDAR_YEAR_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+		<field-descriptor name="summerEffort" column="SUMMER_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+		<field-descriptor name="totalEffort" column="TOTAL_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
 		<field-descriptor name="faculty" column="FACULTY_FLAG"  jdbc-type="CHAR" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		
 		<field-descriptor name="roleCode" column="CONTACT_ROLE_CODE" jdbc-type="VARCHAR" nullable="false" />
@@ -435,7 +435,7 @@
         <field-descriptor name="institutionalProposalContactId" column="PROPOSAL_PERSON_ID" jdbc-type="BIGINT" nullable="false" />
         <field-descriptor name="invCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="VARCHAR" />
         
-        <field-descriptor name="credit" column="CREDIT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+        <field-descriptor name="credit" column="CREDIT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -504,7 +504,7 @@
         <field-descriptor name="institutionalProposalPersonUnitId" column="PROPOSAL_PERSON_UNIT_ID" jdbc-type="BIGINT" nullable="false" />
         <field-descriptor name="invCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="VARCHAR" />
         
-        <field-descriptor name="credit" column="CREDIT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+        <field-descriptor name="credit" column="CREDIT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -688,11 +688,11 @@
         <field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="INTEGER" access="anonymous"/>
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-        <field-descriptor name="applicableIndirectcostRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="applicableIndirectcostRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>
         <field-descriptor name="indirectcostRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER" />
         <field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR" />
         <field-descriptor name="onCampusFlag" column="ON_CAMPUS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="underrecoveryOfIndirectcost" column="UNDERRECOVERY_OF_IDC" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="underrecoveryOfIndirectcost" column="UNDERRECOVERY_OF_IDC" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>
         <field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

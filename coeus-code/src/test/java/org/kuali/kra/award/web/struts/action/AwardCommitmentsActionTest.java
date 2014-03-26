@@ -23,7 +23,7 @@ import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CostShareType;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
 
@@ -52,20 +52,20 @@ public class AwardCommitmentsActionTest {
         awardFandaRate = new AwardFandaRate();
         awardCostShare = new AwardCostShare();
       //initialize awardFandaRate
-        awardFandaRate.setApplicableFandaRate(new KualiDecimal(5));
+        awardFandaRate.setApplicableFandaRate(new ScaleTwoDecimal(5));
         awardFandaRate.setFiscalYear("2008");
         awardFandaRate.setFandaRateTypeCode("5");
         awardFandaRate.setOnCampusFlag("N");
-        awardFandaRate.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
+        awardFandaRate.setUnderrecoveryOfIndirectCost(new ScaleTwoDecimal(1000));
         awardFandaRate.setStartDate(new Date(new Long("1183316613046")));        
         awardFandaRate.setEndDate(new Date(new Long("1214852613046")));
         //initialize awardCostShare
-        awardCostShare.setCostSharePercentage(new KualiDecimal(55));
+        awardCostShare.setCostSharePercentage(new ScaleTwoDecimal(55));
         awardCostShare.setCostShareType(new CostShareType());
         awardCostShare.setDestination("testAccount1");
         awardCostShare.setSource("testAccount2");
         awardCostShare.setProjectPeriod("2008");
-        awardCostShare.setCommitmentAmount(new KualiDecimal(34000));
+        awardCostShare.setCommitmentAmount(new ScaleTwoDecimal(34000));
     }
 
     /**

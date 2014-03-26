@@ -38,7 +38,7 @@ import gov.grants.apply.forms.sf424AV10.SummaryTotalsDocument.SummaryTotals;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
 import org.kuali.kra.budget.core.BudgetCategoryMapping;
@@ -111,15 +111,15 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
      * @return BudgetCategories budget categories total amount.
      */
     private BudgetCategories getBudgetCategories() {
-        BudgetDecimal constructionCost = BudgetDecimal.ZERO;
-        BudgetDecimal contractualCost = BudgetDecimal.ZERO;
-        BudgetDecimal equipmentCost = BudgetDecimal.ZERO;
-        BudgetDecimal personnelCost = BudgetDecimal.ZERO;
-        BudgetDecimal suppliesCost = BudgetDecimal.ZERO;
-        BudgetDecimal otherCost = BudgetDecimal.ZERO;
-        BudgetDecimal travelCost = BudgetDecimal.ZERO;
-        BudgetDecimal programIncome = BudgetDecimal.ZERO;
-        BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
+        ScaleTwoDecimal constructionCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal contractualCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal equipmentCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal personnelCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal suppliesCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal otherCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal travelCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal programIncome = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 
         BudgetCategories budgetCategories = BudgetCategories.Factory.newInstance();
         CategoryTotals categoryTotals = CategoryTotals.Factory.newInstance();
@@ -177,7 +177,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         }
 
         for (BudgetProjectIncome budgetProjectIncome : budget.getBudgetProjectIncomes()) {
-            programIncome = programIncome.add(new BudgetDecimal(budgetProjectIncome.getProjectIncome().bigDecimalValue()));
+            programIncome = programIncome.add(new ScaleTwoDecimal(budgetProjectIncome.getProjectIncome().bigDecimalValue()));
         }
 
         categorySet.setBudgetConstructionRequestedAmount(constructionCost.bigDecimalValue());
@@ -218,8 +218,6 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
      * @return BudgetSummary budget summary total.
      */
     private BudgetSummary getBudgetSummary() {
-//        BudgetDecimal totalFedCost = BudgetDecimal.ZERO;
-//        BudgetDecimal costSharing = BudgetDecimal.ZERO;
         BudgetSummary budgetSummary = BudgetSummary.Factory.newInstance();
         SummaryLineItem[] summaryLineItemArray = new SummaryLineItem[1];
         SummaryLineItem summaryLineItem = SummaryLineItem.Factory.newInstance();
@@ -231,8 +229,8 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             summaryLineItem.setCFDANumber(pdDoc.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber());
         }
         if (budget != null) {
-            BudgetDecimal fedNonFedCost = budget.getTotalCost();
-            BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
+            ScaleTwoDecimal fedNonFedCost = budget.getTotalCost();
+            ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
 
             for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
@@ -283,7 +281,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             resourceLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
         }
         if (budget != null) {
-            BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
+            ScaleTwoDecimal fedNonFedCost = ScaleTwoDecimal.ZERO;
             for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                     hasBudegetLineItem = true;
@@ -320,11 +318,11 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
      * @return budgetForecastedCashNeeds budget calculated for every quarter.
      */
     private BudgetForecastedCashNeeds getBudgetForecastedCashNeeds() {
-        BudgetDecimal totalFedCost = BudgetDecimal.ZERO;
-        BudgetDecimal costSharing = BudgetDecimal.ZERO;
-        BudgetDecimal totalEstimation = BudgetDecimal.ZERO;
-        BudgetDecimal costShareEstimation = BudgetDecimal.ZERO;
-        BudgetDecimal totalFedEstimation = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totalFedCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal costSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalEstimation = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal costShareEstimation = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalFedEstimation = ScaleTwoDecimal.ZERO;
         BudgetForecastedCashNeeds budgetForecastedCashNeeds = BudgetForecastedCashNeeds.Factory.newInstance();
         if (budget != null) {
             BudgetFirstYearAmounts budgetFirstYearAmounts = BudgetFirstYearAmounts.Factory.newInstance();
@@ -345,8 +343,8 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
                 }
                 if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_1) {
                     totalFedCost = budgetPeriod.getTotalCost();
-                    totalFedEstimation = totalFedCost.divide(new BudgetDecimal(4));
-                    costShareEstimation = costSharing.divide(new BudgetDecimal(4));
+                    totalFedEstimation = totalFedCost.divide(new ScaleTwoDecimal(4));
+                    costShareEstimation = costSharing.divide(new ScaleTwoDecimal(4));
                     totalEstimation = totalFedEstimation.add(costShareEstimation);                    
                 }
             }
@@ -392,18 +390,18 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
      */
     private FederalFundsNeeded getFederalFundsNeeded() {
 
-        BudgetDecimal firstYearCost = BudgetDecimal.ZERO;
-        BudgetDecimal firstYearCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal firstYearNetCost = BudgetDecimal.ZERO;
-        BudgetDecimal secondYearCost = BudgetDecimal.ZERO;
-        BudgetDecimal secondYearCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal secondYearNetCost = BudgetDecimal.ZERO;
-        BudgetDecimal thirdYearCost = BudgetDecimal.ZERO;
-        BudgetDecimal thirdYearCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal thirdYearNetCost = BudgetDecimal.ZERO;
-        BudgetDecimal fourthYearCost = BudgetDecimal.ZERO;
-        BudgetDecimal fourthYearCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal fourthYearNetCost = BudgetDecimal.ZERO;
+        ScaleTwoDecimal firstYearCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal firstYearCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal firstYearNetCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal secondYearCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal secondYearCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal secondYearNetCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal thirdYearCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal thirdYearCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal thirdYearNetCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal fourthYearCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal fourthYearCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal fourthYearNetCost = ScaleTwoDecimal.ZERO;
 
         FederalFundsNeeded federalFundsNeeded = FederalFundsNeeded.Factory.newInstance();
         if (budget == null) {

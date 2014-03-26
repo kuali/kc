@@ -109,15 +109,15 @@ http://www.osedu.org/licenses/ECL-2.0
               <c:set var="personnelSalaryCumulativeTotals" value="0.00" />
               <c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status">
                 	<c:set var="periodTotalVar" value="period${status.index}" />
-                	<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krabfn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1])}" />
+                	<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1])}" />
 
 	           		<td class="tab-subhead" >
 	           			<div align="right">
-	           				<fmt:formatNumber value="${0.00 + krabfn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+	           				<fmt:formatNumber value="${0.00 + krafn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
 	           			</div>
 	           		</td>
 	           		
-           			<c:set var="personnelSalaryCumulativeTotals" value = "${personnelSalaryCumulativeTotals + krabfn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1])}" />
+           			<c:set var="personnelSalaryCumulativeTotals" value = "${personnelSalaryCumulativeTotals + krafn:getBigDecimal(personnelSalaryTotals[period.budgetPeriod-1])}" />
 	          </c:forEach>
               <td  align="right" class="tab-subhead">
 				<div align="right">
@@ -131,15 +131,15 @@ http://www.osedu.org/licenses/ECL-2.0
               <c:set var="personnelFringeCumulativeTotals" value="0.00" />
               <c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status" >
                 	<c:set var="periodTotalVar" value="period${status.index}" />
-		            <c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krabfn:getBigDecimal(personnelFringeTotals[period.budgetPeriod-1])}" />
+		            <c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(personnelFringeTotals[period.budgetPeriod-1])}" />
 
 	           		<td class="tab-subhead" >
 	           			<div align="right">
-	           			    <fmt:formatNumber value="${0.00 + krabfn:getBigDecimal(personnelFringeTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+	           			    <fmt:formatNumber value="${0.00 + krafn:getBigDecimal(personnelFringeTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
 	           			</div>
 	           		</td>
 	           		
-		           	<c:set var="personnelFringeCumulativeTotals" value = "${personnelFringeCumulativeTotals + krabfn:getBigDecimal(personnelFringeTotals[period.budgetPeriod-1])}" />
+		           	<c:set var="personnelFringeCumulativeTotals" value = "${personnelFringeCumulativeTotals + krafn:getBigDecimal(personnelFringeTotals[period.budgetPeriod-1])}" />
 	          </c:forEach>
 	          
               <td  align="right" class="tab-subhead">
@@ -154,15 +154,15 @@ http://www.osedu.org/licenses/ECL-2.0
 				<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value="0.00" />
               	<c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status" >
                 	<c:set var="periodTotalVar" value="period${status.index}" />
-                	<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krabfn:getBigDecimal(personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" />
+                	<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" />
 	           		
 	           		<td class="tab-subhead" >
 	           			<div align="right">
-	           				<fmt:formatNumber value="${0.00 + krabfn:getBigDecimal(personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+	           				<fmt:formatNumber value="${0.00 + krafn:getBigDecimal(personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
 	           			</div>
 	           		</td>
 	           		
-	           		<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value = "${personnelCalculatedExpenseSummaryCumulativeTotals + krabfn:getBigDecimal(personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" />
+	           		<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value = "${personnelCalculatedExpenseSummaryCumulativeTotals + krafn:getBigDecimal(personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" />
 	          	</c:forEach>
 				<td  align="right" class="tab-subhead">
 					<div align="right">
@@ -175,7 +175,7 @@ http://www.osedu.org/licenses/ECL-2.0
 		                <c:forEach var="periodTotal" items="${calculatedExpenseTotal.value}" varStatus="status">
 		                	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
 		                	<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="0.00" />
-			                <c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="${indirectCostMap[calculatedIndirectExpenseVar] + krabfn:getBigDecimal(periodTotal)}" />
+			                <c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="${indirectCostMap[calculatedIndirectExpenseVar] + krafn:getBigDecimal(periodTotal)}" />
 		        	    </c:forEach> 
 		        	   </c:if>
 		        	   </c:forEach>
@@ -209,15 +209,15 @@ http://www.osedu.org/licenses/ECL-2.0
 			              <c:set var="nonPersonnelCumulativeTotals" value="0.00" />
 			              <c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status" >
 		                	<c:set var="periodTotalVar" value="period${status.index}" />
-		               		<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="${nonPersonnelSubTotalsMap[periodTotalVar] + krabfn:getBigDecimal(nonPersonnelSummaryTotals[period.budgetPeriod-1])}" />
+		               		<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="${nonPersonnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(nonPersonnelSummaryTotals[period.budgetPeriod-1])}" />
 				           	
 				           	<td class="tab-subhead" >
 								<div align="right">
-									<fmt:formatNumber value="${0.00 + krabfn:getBigDecimal(nonPersonnelSummaryTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+									<fmt:formatNumber value="${0.00 + krafn:getBigDecimal(nonPersonnelSummaryTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
 								</div>
 							</td>
 						    
-						    <c:set var="nonPersonnelCumulativeTotals" value = "${nonPersonnelCumulativeTotals + krabfn:getBigDecimal(nonPersonnelSummaryTotals[period.budgetPeriod-1])}" />
+						    <c:set var="nonPersonnelCumulativeTotals" value = "${nonPersonnelCumulativeTotals + krafn:getBigDecimal(nonPersonnelSummaryTotals[period.budgetPeriod-1])}" />
 				          </c:forEach>
 			              <td  align="right" class="tab-subhead">
 							  <div align="right">
@@ -234,15 +234,15 @@ http://www.osedu.org/licenses/ECL-2.0
 				<c:set var="nonPersonnelCalculatedExpenseSummaryCumulativeTotals" value="0.00" />
               	<c:forEach var="period" items="${budget.budgetPeriods}" varStatus="status" >
                 	<c:set var="periodTotalVar" value="period${status.index}" />
-	               	<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="${nonPersonnelSubTotalsMap[periodTotalVar] + krabfn:getBigDecimal(nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" />
+	               	<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="${nonPersonnelSubTotalsMap[periodTotalVar] + krafn:getBigDecimal(nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" />
 	           		
 	           		<td class="tab-subhead" >
 	           			<div align="right">
-							<fmt:formatNumber value="${0.00 + krabfn:getBigDecimal(nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+							<fmt:formatNumber value="${0.00 + krafn:getBigDecimal(nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
 	           			</div>
 	           		</td>
 
-	           		<c:set var="nonPersonnelCalculatedExpenseSummaryCumulativeTotals" value = "${nonPersonnelCalculatedExpenseSummaryCumulativeTotals + krabfn:getBigDecimal(nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" />
+	           		<c:set var="nonPersonnelCalculatedExpenseSummaryCumulativeTotals" value = "${nonPersonnelCalculatedExpenseSummaryCumulativeTotals + krafn:getBigDecimal(nonPersonnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1])}" />
 	          	</c:forEach>
 				<td  align="right" class="tab-subhead">
 					<div align="right">

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.bo;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,45 +27,45 @@ public class BudgetSummaryInfo {
     private int version;
     private List<BudgetPeriodInfo> budgetPeriods;
     private String finalVersionFlag;
-    private BudgetDecimal cumTotalFundsForSrPersonnel = BudgetDecimal.ZERO;
-    private BudgetDecimal cumTotalFundsForOtherPersonnel = BudgetDecimal.ZERO;
-    private BudgetDecimal cumTotalFundsForPersonnel = BudgetDecimal.ZERO;
-    private BudgetDecimal cumNumOtherPersonnel = BudgetDecimal.ZERO;
-    private BudgetDecimal cumEquipmentFunds = BudgetDecimal.ZERO;
-    private BudgetDecimal cumTravel = BudgetDecimal.ZERO;
-    private BudgetDecimal cumDomesticTravel = BudgetDecimal.ZERO;
-    private BudgetDecimal cumForeignTravel = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal cumTotalFundsForSrPersonnel = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumTotalFundsForOtherPersonnel = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumTotalFundsForPersonnel = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumNumOtherPersonnel = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumEquipmentFunds = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumTravel = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumDomesticTravel = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumForeignTravel = ScaleTwoDecimal.ZERO;
 
     private List<OtherDirectCostInfo> otherDirect=new ArrayList<OtherDirectCostInfo>();
 
-    private BudgetDecimal partStipendCost = BudgetDecimal.ZERO;
-    private BudgetDecimal partTravelCost = BudgetDecimal.ZERO;
-    private BudgetDecimal partOtherCost = BudgetDecimal.ZERO;
-    private BudgetDecimal partSubsistence = BudgetDecimal.ZERO;
-    private BudgetDecimal partTuition = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal partStipendCost = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal partTravelCost = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal partOtherCost = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal partSubsistence = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal partTuition = ScaleTwoDecimal.ZERO;
     private int participantCount;
 
-    private BudgetDecimal cumTotalDirectCosts = BudgetDecimal.ZERO;
-    private BudgetDecimal cumTotalIndirectCosts = BudgetDecimal.ZERO;
-    private BudgetDecimal cumTotalCosts = BudgetDecimal.ZERO;
-    private BudgetDecimal cumFee = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal cumTotalDirectCosts = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumTotalIndirectCosts = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumTotalCosts = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumFee = ScaleTwoDecimal.ZERO;
 
 
-    private BudgetDecimal cumTotalCostSharing = BudgetDecimal.ZERO;
-    private BudgetDecimal cumTotalNonFundsForSrPersonnel = BudgetDecimal.ZERO;
-    private BudgetDecimal cumTotalNonFundsForOtherPersonnel = BudgetDecimal.ZERO;
-    private BudgetDecimal cumTotalNonFundsForPersonnel = BudgetDecimal.ZERO;
-    private BudgetDecimal cumTravelNonFund = BudgetDecimal.ZERO;
-    private BudgetDecimal cumDomesticTravelNonFund = BudgetDecimal.ZERO;
-    private BudgetDecimal cumForeignTravelNonFund = BudgetDecimal.ZERO;
-    private BudgetDecimal partStipendCostSharing = BudgetDecimal.ZERO;
-    private BudgetDecimal partTravelCostSharing = BudgetDecimal.ZERO;
-    private BudgetDecimal partSubsistenceCostSharing = BudgetDecimal.ZERO;
-    private BudgetDecimal partTuitionCostSharing = BudgetDecimal.ZERO;
-    private BudgetDecimal partOtherCostSharing = BudgetDecimal.ZERO;
-    private BudgetDecimal cumEquipmentNonFunds = BudgetDecimal.ZERO;
-    private BudgetDecimal cumTotalDirectCostSharing = BudgetDecimal.ZERO;
-    private BudgetDecimal cumTotalIndirectCostSharing = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal cumTotalCostSharing = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumTotalNonFundsForSrPersonnel = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumTotalNonFundsForOtherPersonnel = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumTotalNonFundsForPersonnel = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumTravelNonFund = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumDomesticTravelNonFund = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumForeignTravelNonFund = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal partStipendCostSharing = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal partTravelCostSharing = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal partSubsistenceCostSharing = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal partTuitionCostSharing = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal partOtherCostSharing = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumEquipmentNonFunds = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumTotalDirectCostSharing = ScaleTwoDecimal.ZERO;
+    private ScaleTwoDecimal cumTotalIndirectCostSharing = ScaleTwoDecimal.ZERO;
 
     /**
      * Getter for proposalNumber.
@@ -147,7 +147,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property cumTotalFundsForSrPersonnel.
      */
-    public BudgetDecimal getCumTotalFundsForSrPersonnel() {
+    public ScaleTwoDecimal getCumTotalFundsForSrPersonnel() {
         return cumTotalFundsForSrPersonnel;
     }
 
@@ -156,7 +156,7 @@ public class BudgetSummaryInfo {
      * 
      * @param cumTotalFundsForSrPersonnel New value of property cumTotalFundsForSrPersonnel.
      */
-    public void setCumTotalFundsForSrPersonnel(BudgetDecimal cumTotalFundsForSrPersonnel) {
+    public void setCumTotalFundsForSrPersonnel(ScaleTwoDecimal cumTotalFundsForSrPersonnel) {
         this.cumTotalFundsForSrPersonnel = cumTotalFundsForSrPersonnel;
     }
 
@@ -166,7 +166,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property cumTotalFundsForOtherPersonnel.
      */
-    public BudgetDecimal getCumTotalFundsForOtherPersonnel() {
+    public ScaleTwoDecimal getCumTotalFundsForOtherPersonnel() {
         return cumTotalFundsForOtherPersonnel;
     }
 
@@ -175,7 +175,7 @@ public class BudgetSummaryInfo {
      * 
      * @param cumTotalFundsForOtherPersonnel New value of property cumTotalFundsForOtherPersonnel.
      */
-    public void setCumTotalFundsForOtherPersonnel(BudgetDecimal cumTotalFundsForOtherPersonnel) {
+    public void setCumTotalFundsForOtherPersonnel(ScaleTwoDecimal cumTotalFundsForOtherPersonnel) {
         this.cumTotalFundsForOtherPersonnel = cumTotalFundsForOtherPersonnel;
     }
 
@@ -185,7 +185,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property cumTotalFundsForPersonnel.
      */
-    public BudgetDecimal getCumTotalFundsForPersonnel() {
+    public ScaleTwoDecimal getCumTotalFundsForPersonnel() {
         return cumTotalFundsForPersonnel;
     }
 
@@ -194,7 +194,7 @@ public class BudgetSummaryInfo {
      * 
      * @param cumTotalFundsForPersonnel New value of property cumTotalFundsForPersonnel.
      */
-    public void setCumTotalFundsForPersonnel(BudgetDecimal cumTotalFundsForPersonnel) {
+    public void setCumTotalFundsForPersonnel(ScaleTwoDecimal cumTotalFundsForPersonnel) {
         this.cumTotalFundsForPersonnel = cumTotalFundsForPersonnel;
     }
 
@@ -204,7 +204,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property cumNumOtherPersonnel.
      */
-    public BudgetDecimal getCumNumOtherPersonnel() {
+    public ScaleTwoDecimal getCumNumOtherPersonnel() {
         return cumNumOtherPersonnel;
     }
 
@@ -213,7 +213,7 @@ public class BudgetSummaryInfo {
      * 
      * @param cumNumOtherPersonnel New value of property cumNumOtherPersonnel.
      */
-    public void setCumNumOtherPersonnel(BudgetDecimal cumNumOtherPersonnel) {
+    public void setCumNumOtherPersonnel(ScaleTwoDecimal cumNumOtherPersonnel) {
         this.cumNumOtherPersonnel = cumNumOtherPersonnel;
     }
 
@@ -223,7 +223,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property cumEquipmentFunds.
      */
-    public BudgetDecimal getCumEquipmentFunds() {
+    public ScaleTwoDecimal getCumEquipmentFunds() {
         return cumEquipmentFunds;
     }
 
@@ -232,7 +232,7 @@ public class BudgetSummaryInfo {
      * 
      * @param cumEquipmentFunds New value of property cumEquipmentFunds.
      */
-    public void setCumEquipmentFunds(BudgetDecimal cumEquipmentFunds) {
+    public void setCumEquipmentFunds(ScaleTwoDecimal cumEquipmentFunds) {
         this.cumEquipmentFunds = cumEquipmentFunds;
     }
 
@@ -242,7 +242,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property cumTravel.
      */
-    public BudgetDecimal getCumTravel() {
+    public ScaleTwoDecimal getCumTravel() {
         return cumTravel;
     }
 
@@ -251,7 +251,7 @@ public class BudgetSummaryInfo {
      * 
      * @param cumTravel New value of property cumTravel.
      */
-    public void setCumTravel(BudgetDecimal cumTravel) {
+    public void setCumTravel(ScaleTwoDecimal cumTravel) {
         this.cumTravel = cumTravel;
     }
 
@@ -260,7 +260,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property cumDomesticTravel.
      */
-    public BudgetDecimal getCumDomesticTravel() {
+    public ScaleTwoDecimal getCumDomesticTravel() {
         return cumDomesticTravel;
     }
 
@@ -269,7 +269,7 @@ public class BudgetSummaryInfo {
      * 
      * @param cumDomesticTravel New value of property cumDomesticTravel.
      */
-    public void setCumDomesticTravel(BudgetDecimal cumDomesticTravel) {
+    public void setCumDomesticTravel(ScaleTwoDecimal cumDomesticTravel) {
         this.cumDomesticTravel = cumDomesticTravel;
     }
 
@@ -278,7 +278,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property cumForeignTravel.
      */
-    public BudgetDecimal getCumForeignTravel() {
+    public ScaleTwoDecimal getCumForeignTravel() {
         return cumForeignTravel;
     }
 
@@ -287,7 +287,7 @@ public class BudgetSummaryInfo {
      * 
      * @param cumForeignTravel New value of property cumForeignTravel.
      */
-    public void setCumForeignTravel(BudgetDecimal cumForeignTravel) {
+    public void setCumForeignTravel(ScaleTwoDecimal cumForeignTravel) {
         this.cumForeignTravel = cumForeignTravel;
     }
 
@@ -297,7 +297,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property partOtherCost.
      */
-    public BudgetDecimal getpartOtherCost() {
+    public ScaleTwoDecimal getpartOtherCost() {
         return partOtherCost;
     }
 
@@ -306,7 +306,7 @@ public class BudgetSummaryInfo {
      * 
      * @param partOtherCost New value of property partOtherCost.
      */
-    public void setpartOtherCost(BudgetDecimal partOtherCost) {
+    public void setpartOtherCost(ScaleTwoDecimal partOtherCost) {
         this.partOtherCost = partOtherCost;
     }
 
@@ -333,7 +333,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property partTravelCost.
      */
-    public BudgetDecimal getpartTravelCost() {
+    public ScaleTwoDecimal getpartTravelCost() {
         return partTravelCost;
     }
 
@@ -342,7 +342,7 @@ public class BudgetSummaryInfo {
      * 
      * @param partTravelCost New value of property partTravelCost.
      */
-    public void setpartTravelCost(BudgetDecimal partTravelCost) {
+    public void setpartTravelCost(ScaleTwoDecimal partTravelCost) {
         this.partTravelCost = partTravelCost;
     }
 
@@ -352,7 +352,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property partStipendCost.
      */
-    public BudgetDecimal getpartStipendCost() {
+    public ScaleTwoDecimal getpartStipendCost() {
         return partStipendCost;
     }
 
@@ -361,7 +361,7 @@ public class BudgetSummaryInfo {
      * 
      * @param partStipendCost New value of property partStipendCost.
      */
-    public void setpartStipendCost(BudgetDecimal partStipendCost) {
+    public void setpartStipendCost(ScaleTwoDecimal partStipendCost) {
         this.partStipendCost = partStipendCost;
     }
 
@@ -390,7 +390,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property cumTotalDirectCosts.
      */
-    public BudgetDecimal getCumTotalDirectCosts() {
+    public ScaleTwoDecimal getCumTotalDirectCosts() {
         return cumTotalDirectCosts;
     }
 
@@ -399,7 +399,7 @@ public class BudgetSummaryInfo {
      * 
      * @param cumTotalDirectCosts New value of property cumTotalDirectCosts.
      */
-    public void setCumTotalDirectCosts(BudgetDecimal cumTotalDirectCosts) {
+    public void setCumTotalDirectCosts(ScaleTwoDecimal cumTotalDirectCosts) {
         this.cumTotalDirectCosts = cumTotalDirectCosts;
     }
 
@@ -409,7 +409,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property cumTotalIndirectCosts.
      */
-    public BudgetDecimal getCumTotalIndirectCosts() {
+    public ScaleTwoDecimal getCumTotalIndirectCosts() {
         return cumTotalIndirectCosts;
     }
 
@@ -418,7 +418,7 @@ public class BudgetSummaryInfo {
      * 
      * @param cumTotalIndirectCosts New value of property cumTotalIndirectCosts.
      */
-    public void setCumTotalIndirectCosts(BudgetDecimal cumTotalIndirectCosts) {
+    public void setCumTotalIndirectCosts(ScaleTwoDecimal cumTotalIndirectCosts) {
         this.cumTotalIndirectCosts = cumTotalIndirectCosts;
     }
 
@@ -428,7 +428,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property cumTotalCosts.
      */
-    public BudgetDecimal getCumTotalCosts() {
+    public ScaleTwoDecimal getCumTotalCosts() {
         return cumTotalCosts;
     }
 
@@ -437,7 +437,7 @@ public class BudgetSummaryInfo {
      * 
      * @param cumTotalCosts New value of property cumTotalCosts.
      */
-    public void setCumTotalCosts(BudgetDecimal cumTotalCosts) {
+    public void setCumTotalCosts(ScaleTwoDecimal cumTotalCosts) {
         this.cumTotalCosts = cumTotalCosts;
     }
 
@@ -447,7 +447,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property cumFee.
      */
-    public BudgetDecimal getCumFee() {
+    public ScaleTwoDecimal getCumFee() {
         return cumFee;
     }
 
@@ -456,112 +456,112 @@ public class BudgetSummaryInfo {
      * 
      * @param cumFee New value of property cumFee.
      */
-    public void setCumFee(BudgetDecimal cumFee) {
+    public void setCumFee(ScaleTwoDecimal cumFee) {
         this.cumFee = cumFee;
     }
 
 
-    public BudgetDecimal getCumTotalCostSharing() {
+    public ScaleTwoDecimal getCumTotalCostSharing() {
         return cumTotalCostSharing;
     }
 
-    public void setCumTotalCostSharing(BudgetDecimal cumTotalCostSharing) {
+    public void setCumTotalCostSharing(ScaleTwoDecimal cumTotalCostSharing) {
         this.cumTotalCostSharing = cumTotalCostSharing;
     }
 
-    public BudgetDecimal getCumTotalNonFundsForSrPersonnel() {
+    public ScaleTwoDecimal getCumTotalNonFundsForSrPersonnel() {
         return cumTotalNonFundsForSrPersonnel;
     }
 
-    public void setCumTotalNonFundsForSrPersonnel(BudgetDecimal cumTotalNonFundsForSrPersonnel) {
+    public void setCumTotalNonFundsForSrPersonnel(ScaleTwoDecimal cumTotalNonFundsForSrPersonnel) {
         this.cumTotalNonFundsForSrPersonnel = cumTotalNonFundsForSrPersonnel;
     }
 
-    public BudgetDecimal getCumTotalNonFundsForOtherPersonnel() {
+    public ScaleTwoDecimal getCumTotalNonFundsForOtherPersonnel() {
         return cumTotalNonFundsForOtherPersonnel;
     }
 
-    public void setCumTotalNonFundsForOtherPersonnel(BudgetDecimal cumTotalNonFundsForOtherPersonnel) {
+    public void setCumTotalNonFundsForOtherPersonnel(ScaleTwoDecimal cumTotalNonFundsForOtherPersonnel) {
         this.cumTotalNonFundsForOtherPersonnel = cumTotalNonFundsForOtherPersonnel;
     }
 
-    public BudgetDecimal getCumTotalNonFundsForPersonnel() {
+    public ScaleTwoDecimal getCumTotalNonFundsForPersonnel() {
         return cumTotalNonFundsForPersonnel;
     }
 
-    public void setCumTotalNonFundsForPersonnel(BudgetDecimal cumTotalNonFundsForPersonnel) {
+    public void setCumTotalNonFundsForPersonnel(ScaleTwoDecimal cumTotalNonFundsForPersonnel) {
         this.cumTotalNonFundsForPersonnel = cumTotalNonFundsForPersonnel;
     }
 
-    public BudgetDecimal getCumTravelNonFund() {
+    public ScaleTwoDecimal getCumTravelNonFund() {
         return cumTravelNonFund;
     }
 
-    public void setCumTravelNonFund(BudgetDecimal cumTravelNonFund) {
+    public void setCumTravelNonFund(ScaleTwoDecimal cumTravelNonFund) {
         this.cumTravelNonFund = cumTravelNonFund;
     }
 
-    public BudgetDecimal getCumDomesticTravelNonFund() {
+    public ScaleTwoDecimal getCumDomesticTravelNonFund() {
         return cumDomesticTravelNonFund;
     }
 
-    public void setCumDomesticTravelNonFund(BudgetDecimal cumDomesticTravelNonFund) {
+    public void setCumDomesticTravelNonFund(ScaleTwoDecimal cumDomesticTravelNonFund) {
         this.cumDomesticTravelNonFund = cumDomesticTravelNonFund;
     }
 
-    public BudgetDecimal getCumForeignTravelNonFund() {
+    public ScaleTwoDecimal getCumForeignTravelNonFund() {
         return cumForeignTravelNonFund;
     }
 
-    public void setCumForeignTravelNonFund(BudgetDecimal cumForeignTravelNonFund) {
+    public void setCumForeignTravelNonFund(ScaleTwoDecimal cumForeignTravelNonFund) {
         this.cumForeignTravelNonFund = cumForeignTravelNonFund;
     }
 
-    public BudgetDecimal getPartStipendCostSharing() {
+    public ScaleTwoDecimal getPartStipendCostSharing() {
         return partStipendCostSharing;
     }
 
-    public void setPartStipendCostSharing(BudgetDecimal partStipendCostSharing) {
+    public void setPartStipendCostSharing(ScaleTwoDecimal partStipendCostSharing) {
         this.partStipendCostSharing = partStipendCostSharing;
     }
 
-    public BudgetDecimal getPartTravelCostSharing() {
+    public ScaleTwoDecimal getPartTravelCostSharing() {
         return partTravelCostSharing;
     }
 
-    public void setPartTravelCostSharing(BudgetDecimal partTravelCostSharing) {
+    public void setPartTravelCostSharing(ScaleTwoDecimal partTravelCostSharing) {
         this.partTravelCostSharing = partTravelCostSharing;
     }
 
-    public BudgetDecimal getPartOtherCostSharing() {
+    public ScaleTwoDecimal getPartOtherCostSharing() {
         return partOtherCostSharing;
     }
 
-    public void setPartOtherCostSharing(BudgetDecimal partOtherCostSharing) {
+    public void setPartOtherCostSharing(ScaleTwoDecimal partOtherCostSharing) {
         this.partOtherCostSharing = partOtherCostSharing;
     }
 
-    public BudgetDecimal getCumEquipmentNonFunds() {
+    public ScaleTwoDecimal getCumEquipmentNonFunds() {
         return cumEquipmentNonFunds;
     }
 
-    public void setCumEquipmentNonFunds(BudgetDecimal cumEquipmentNonFunds) {
+    public void setCumEquipmentNonFunds(ScaleTwoDecimal cumEquipmentNonFunds) {
         this.cumEquipmentNonFunds = cumEquipmentNonFunds;
     }
 
-    public BudgetDecimal getCumTotalDirectCostSharing() {
+    public ScaleTwoDecimal getCumTotalDirectCostSharing() {
         return cumTotalDirectCostSharing;
     }
 
-    public void setCumTotalDirectCostSharing(BudgetDecimal cumTotalDirectCostSharing) {
+    public void setCumTotalDirectCostSharing(ScaleTwoDecimal cumTotalDirectCostSharing) {
         this.cumTotalDirectCostSharing = cumTotalDirectCostSharing;
     }
 
-    public BudgetDecimal getCumTotalIndirectCostSharing() {
+    public ScaleTwoDecimal getCumTotalIndirectCostSharing() {
         return cumTotalIndirectCostSharing;
     }
 
-    public void setCumTotalIndirectCostSharing(BudgetDecimal cumTotalIndirectCostSharing) {
+    public void setCumTotalIndirectCostSharing(ScaleTwoDecimal cumTotalIndirectCostSharing) {
         this.cumTotalIndirectCostSharing = cumTotalIndirectCostSharing;
     }
 
@@ -570,7 +570,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property partSubsistence.
      */
-    public BudgetDecimal getPartSubsistence() {
+    public ScaleTwoDecimal getPartSubsistence() {
         return partSubsistence;
     }
 
@@ -579,7 +579,7 @@ public class BudgetSummaryInfo {
      * 
      * @param partSubsistence New value of property partSubsistence.
      */
-    public void setPartSubsistence(BudgetDecimal partSubsistence) {
+    public void setPartSubsistence(ScaleTwoDecimal partSubsistence) {
         this.partSubsistence = partSubsistence;
     }
 
@@ -588,7 +588,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property partTuition.
      */
-    public BudgetDecimal getPartTuition() {
+    public ScaleTwoDecimal getPartTuition() {
         return partTuition;
     }
 
@@ -597,7 +597,7 @@ public class BudgetSummaryInfo {
      * 
      * @param partTuition New value of property partTuition.
      */
-    public void setPartTuition(BudgetDecimal partTuition) {
+    public void setPartTuition(ScaleTwoDecimal partTuition) {
         this.partTuition = partTuition;
     }
 
@@ -606,7 +606,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property partSubsistenceCostSharing.
      */
-    public BudgetDecimal getPartSubsistenceCostSharing() {
+    public ScaleTwoDecimal getPartSubsistenceCostSharing() {
         return partSubsistenceCostSharing;
     }
 
@@ -615,7 +615,7 @@ public class BudgetSummaryInfo {
      * 
      * @param partSubsistenceCostSharing New value of property partSubsistenceCostSharing.
      */
-    public void setPartSubsistenceCostSharing(BudgetDecimal partSubsistenceCostSharing) {
+    public void setPartSubsistenceCostSharing(ScaleTwoDecimal partSubsistenceCostSharing) {
         this.partSubsistenceCostSharing = partSubsistenceCostSharing;
     }
 
@@ -624,7 +624,7 @@ public class BudgetSummaryInfo {
      * 
      * @return Value of property partTuitionCostSharing.
      */
-    public BudgetDecimal getPartTuitionCostSharing() {
+    public ScaleTwoDecimal getPartTuitionCostSharing() {
         return partTuitionCostSharing;
     }
 
@@ -633,7 +633,7 @@ public class BudgetSummaryInfo {
      * 
      * @param partTuitionCostSharing New value of property partTuitionCostSharing.
      */
-    public void setPartTuitionCostSharing(BudgetDecimal partTuitionCostSharing) {
+    public void setPartTuitionCostSharing(ScaleTwoDecimal partTuitionCostSharing) {
         this.partTuitionCostSharing = partTuitionCostSharing;
     }
 

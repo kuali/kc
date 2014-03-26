@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.personnel;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 public class BudgetPersonSalaryDetails extends KcPersistableBusinessObjectBase {
     
@@ -30,7 +30,7 @@ public class BudgetPersonSalaryDetails extends KcPersistableBusinessObjectBase {
     
     private String personId;
     
-    private BudgetDecimal baseSalary = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal baseSalary = ScaleTwoDecimal.ZERO;
 
     public Long getBudgetPersonSalaryDetailId() {
         return budgetPersonSalaryDetailId;
@@ -64,11 +64,11 @@ public class BudgetPersonSalaryDetails extends KcPersistableBusinessObjectBase {
         this.budgetPeriod = budgetPeriod;
     }
 
-    public BudgetDecimal getBaseSalary() {
+    public ScaleTwoDecimal getBaseSalary() {
         return baseSalary;
     }
 
-    public void setBaseSalary(BudgetDecimal baseSalary) {
+    public void setBaseSalary(ScaleTwoDecimal baseSalary) {
         this.baseSalary = baseSalary;
     }
 

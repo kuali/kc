@@ -17,7 +17,7 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -57,8 +57,8 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 	 * @param budgetModular
 	 * @return totalCost
 	 */
-	protected BudgetDecimal getTotalCost(BudgetModular budgetModular) {
-		BudgetDecimal totalCost = BudgetDecimal.ZERO;
+	protected ScaleTwoDecimal getTotalCost(BudgetModular budgetModular) {
+		ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
 		if (budgetModular.getTotalDirectCost() != null) {
 			totalCost = budgetModular.getTotalDirectCost();
 		}

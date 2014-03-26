@@ -17,7 +17,7 @@ package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Date;
@@ -146,7 +146,7 @@ public class AwardApprovedForeignTravelRuleImpl extends KcTransactionalDocumentR
      * @return
      */
     boolean isAmountValid(String errorPath, AwardApprovedForeignTravel foreignTrip) {
-        KualiDecimal amount = foreignTrip.getAmount();
+        ScaleTwoDecimal amount = foreignTrip.getAmount();
         boolean amountValid = amount != null && amount.doubleValue() >= 0.00;
         if(!amountValid) {
             reportError(AMOUNT_PROPERTY, ERROR_AWARD_APPROVED_FOREIGN_INVALID_FIELD, AMOUNT_ERROR_PARM);

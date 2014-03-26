@@ -23,7 +23,7 @@ import org.kuali.kra.budget.distributionincome.AddBudgetProjectIncomeEvent;
 import org.kuali.kra.budget.distributionincome.AddBudgetProjectIncomeRule;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncomeRuleImpl;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class AddBudgetProjectIncomeRuleTest {
-    private static final KualiDecimal PROJECT_INCOME_AMOUNT = new KualiDecimal(100.00);
+    private static final ScaleTwoDecimal PROJECT_INCOME_AMOUNT = new ScaleTwoDecimal(100.00);
     private static final int BUDGET_PERIOD_NO = 1;
     private AddBudgetProjectIncomeRule addBudgetProjectIncomeRule;
     private BudgetProjectIncome budgetProjectIncome;
@@ -66,7 +66,7 @@ public class AddBudgetProjectIncomeRuleTest {
     @Test
     public void testValidatingProjectIncomeField_Zero() throws Exception {        
         budgetProjectIncome.setBudgetPeriodNumber(BUDGET_PERIOD_NO);
-        budgetProjectIncome.setProjectIncome(KualiDecimal.ZERO);
+        budgetProjectIncome.setProjectIncome(ScaleTwoDecimal.ZERO);
         budgetProjectIncome.setDescription("Description");
         Assert.assertFalse(addBudgetProjectIncomeRule.processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent));
         Assert.assertEquals(1, GlobalVariables.getMessageMap().getErrorMessages().keySet().size());

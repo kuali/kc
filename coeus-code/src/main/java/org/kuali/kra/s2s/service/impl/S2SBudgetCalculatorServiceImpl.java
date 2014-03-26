@@ -22,8 +22,8 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
@@ -138,18 +138,18 @@ public class S2SBudgetCalculatorServiceImpl implements
             budgetSummaryInfo.setCumTotalCostSharing(budget.getCostSharingAmount());
         }
 
-        BudgetDecimal totalDirectCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal totalIndirectCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal lineItemCost = BudgetDecimal.ZERO;
-        BudgetDecimal lineItemCostSharingAmount = BudgetDecimal.ZERO;
-        BudgetDecimal fringeCost = BudgetDecimal.ZERO;
-        BudgetDecimal fringeCostSharingAmount = BudgetDecimal.ZERO;
-        BudgetDecimal budgetDetailsCost = BudgetDecimal.ZERO;
-        BudgetDecimal budgetDetailsCostSharingAmount = BudgetDecimal.ZERO;
-        BudgetDecimal budgetDetailsFringeCost = BudgetDecimal.ZERO;
-        BudgetDecimal budgetDetailsFringeCostSharingAmount = BudgetDecimal.ZERO;
-        BudgetDecimal totPersFunds = BudgetDecimal.ZERO;
-        BudgetDecimal totPersNonFunds = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totalDirectCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalIndirectCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal lineItemCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal lineItemCostSharingAmount = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal fringeCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal fringeCostSharingAmount = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal budgetDetailsCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal budgetDetailsCostSharingAmount = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal budgetDetailsFringeCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal budgetDetailsFringeCostSharingAmount = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totPersFunds = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totPersNonFunds = ScaleTwoDecimal.ZERO;
         String budgetCategoryTypePersonnel = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 Constants.S2SBUDGET_BUDGET_CATEGORY_TYPE_PERSONNEL);
         String rateTypeSupportStaffSalaries = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
@@ -248,44 +248,44 @@ public class S2SBudgetCalculatorServiceImpl implements
         List<OtherDirectCostInfo> cvOtherDirectCost = new ArrayList<OtherDirectCostInfo>();
         List<Map<String, String>> cvOtherCosts = new ArrayList<Map<String, String>>();
 
-        BudgetDecimal cumAlterations = BudgetDecimal.ZERO;
-        BudgetDecimal cumConsultants = BudgetDecimal.ZERO;
-        BudgetDecimal cumMaterials = BudgetDecimal.ZERO;
-        BudgetDecimal cumPubs = BudgetDecimal.ZERO;
-        BudgetDecimal cumSubAward = BudgetDecimal.ZERO;
-        BudgetDecimal cumComputer = BudgetDecimal.ZERO;
-        BudgetDecimal cumEquipRental = BudgetDecimal.ZERO;
-        BudgetDecimal cumAll = BudgetDecimal.ZERO;
-        BudgetDecimal cumOtherType1 = BudgetDecimal.ZERO;
-        BudgetDecimal cumPartStipends = BudgetDecimal.ZERO;
-        BudgetDecimal cumPartSubsistence = BudgetDecimal.ZERO;
-        BudgetDecimal cumPartTuition = BudgetDecimal.ZERO;
-        BudgetDecimal cumPartOther = BudgetDecimal.ZERO;
-        BudgetDecimal cumPartTravel = BudgetDecimal.ZERO;
+        ScaleTwoDecimal cumAlterations = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumConsultants = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumMaterials = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumPubs = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumSubAward = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumComputer = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumEquipRental = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumAll = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumOtherType1 = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumPartStipends = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumPartSubsistence = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumPartTuition = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumPartOther = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumPartTravel = ScaleTwoDecimal.ZERO;
         int cumParticipantCount = 0;
-        BudgetDecimal cumAlterationsCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumConsultantsCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumMaterialsCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumPubsCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumSubAwardCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumComputerCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumEquipRentalCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumAllCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumOtherType1CostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumPartStipendsCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumPartSubsistenceCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumPartTuitionCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumPartOtherCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal cumPartTravelCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal participantTotalCostSharing = BudgetDecimal.ZERO;
+        ScaleTwoDecimal cumAlterationsCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumConsultantsCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumMaterialsCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumPubsCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumSubAwardCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumComputerCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumEquipRentalCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumAllCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumOtherType1CostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumPartStipendsCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumPartSubsistenceCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumPartTuitionCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumPartOtherCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumPartTravelCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal participantTotalCostSharing = ScaleTwoDecimal.ZERO;
 
-        BudgetDecimal totalDomesticTravel = BudgetDecimal.ZERO;
-        BudgetDecimal totalForeignTravel = BudgetDecimal.ZERO;
-        BudgetDecimal totalDomesticTravelNonFund = BudgetDecimal.ZERO;
-        BudgetDecimal totalForeignTravelNonFund = BudgetDecimal.ZERO;
-        BudgetDecimal cumTotalEquipFund = BudgetDecimal.ZERO;
-        BudgetDecimal cumTotalEquipNonFund = BudgetDecimal.ZERO;
-        BudgetDecimal totCountOtherPersonnel = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totalDomesticTravel = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalForeignTravel = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalDomesticTravelNonFund = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalForeignTravelNonFund = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumTotalEquipFund = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cumTotalEquipNonFund = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totCountOtherPersonnel = ScaleTwoDecimal.ZERO;
 
         if (budgetPeriodInfos != null) {
             for (BudgetPeriodInfo budgetPeriodInfo : budgetPeriodInfos) {
@@ -300,15 +300,15 @@ public class S2SBudgetCalculatorServiceImpl implements
                 cumEquipRental = cumEquipRental.add(otherDirectCostInfo.getEquipRental());
                 cumAll = cumAll.add(otherDirectCostInfo.gettotalOtherDirect());
 
-                cumPartStipends = cumPartStipends.add(otherDirectCostInfo.getPartStipends() == null ? BudgetDecimal.ZERO
+                cumPartStipends = cumPartStipends.add(otherDirectCostInfo.getPartStipends() == null ? ScaleTwoDecimal.ZERO
                         : otherDirectCostInfo.getPartStipends());
-                cumPartTravel = cumPartTravel.add(otherDirectCostInfo.getPartTravel() == null ? BudgetDecimal.ZERO
+                cumPartTravel = cumPartTravel.add(otherDirectCostInfo.getPartTravel() == null ? ScaleTwoDecimal.ZERO
                         : otherDirectCostInfo.getPartTravel());
-                cumPartSubsistence = cumPartSubsistence.add(otherDirectCostInfo.getPartSubsistence() == null ? BudgetDecimal.ZERO
+                cumPartSubsistence = cumPartSubsistence.add(otherDirectCostInfo.getPartSubsistence() == null ? ScaleTwoDecimal.ZERO
                         : otherDirectCostInfo.getPartSubsistence());
-                cumPartTuition = cumPartTuition.add(otherDirectCostInfo.getPartTuition() == null ? BudgetDecimal.ZERO
+                cumPartTuition = cumPartTuition.add(otherDirectCostInfo.getPartTuition() == null ? ScaleTwoDecimal.ZERO
                         : otherDirectCostInfo.getPartTuition());
-                cumPartOther = cumPartOther.add(otherDirectCostInfo.getPartOther() == null ? BudgetDecimal.ZERO
+                cumPartOther = cumPartOther.add(otherDirectCostInfo.getPartOther() == null ? ScaleTwoDecimal.ZERO
                         : otherDirectCostInfo.getPartOther());
                 cumParticipantCount = cumParticipantCount
                         + (otherDirectCostInfo.getParticpantTotalCount() == 0 ? 0 : otherDirectCostInfo.getParticpantTotalCount());
@@ -323,36 +323,36 @@ public class S2SBudgetCalculatorServiceImpl implements
                     cumAllCostSharing = cumAllCostSharing.add(otherDirectCostInfo.getTotalOtherDirectCostSharing());
 
                     cumPartStipendsCostSharing = cumPartStipendsCostSharing
-                            .add(otherDirectCostInfo.getPartStipendsCostSharing() == null ? BudgetDecimal.ZERO
+                            .add(otherDirectCostInfo.getPartStipendsCostSharing() == null ? ScaleTwoDecimal.ZERO
                                     : otherDirectCostInfo.getPartStipendsCostSharing());
                     cumPartTravelCostSharing = cumPartTravelCostSharing
-                            .add(otherDirectCostInfo.getPartTravelCostSharing() == null ? BudgetDecimal.ZERO : otherDirectCostInfo
+                            .add(otherDirectCostInfo.getPartTravelCostSharing() == null ? ScaleTwoDecimal.ZERO : otherDirectCostInfo
                                     .getPartTravelCostSharing());
                     cumPartSubsistenceCostSharing = cumPartSubsistenceCostSharing.add(otherDirectCostInfo
-                            .getPartSubsistenceCostSharing() == null ? BudgetDecimal.ZERO : otherDirectCostInfo
+                            .getPartSubsistenceCostSharing() == null ? ScaleTwoDecimal.ZERO : otherDirectCostInfo
                             .getPartSubsistenceCostSharing());
                     cumPartTuitionCostSharing = cumPartTuitionCostSharing
-                            .add(otherDirectCostInfo.getPartTuitionCostSharing() == null ? BudgetDecimal.ZERO : otherDirectCostInfo
+                            .add(otherDirectCostInfo.getPartTuitionCostSharing() == null ? ScaleTwoDecimal.ZERO : otherDirectCostInfo
                                     .getPartTuitionCostSharing());
 
                     cumPartOtherCostSharing = cumPartOtherCostSharing
-                            .add(otherDirectCostInfo.getPartOtherCostSharing() == null ? BudgetDecimal.ZERO : otherDirectCostInfo
+                            .add(otherDirectCostInfo.getPartOtherCostSharing() == null ? ScaleTwoDecimal.ZERO : otherDirectCostInfo
                                     .getPartOtherCostSharing());
                 }
                 else {
-                    cumAlterationsCostSharing = cumAlterationsCostSharing.add(BudgetDecimal.ZERO);
-                    cumConsultantsCostSharing = cumConsultantsCostSharing.add(BudgetDecimal.ZERO);
-                    cumMaterialsCostSharing = cumMaterialsCostSharing.add(BudgetDecimal.ZERO);
-                    cumPubsCostSharing = cumPubsCostSharing.add(BudgetDecimal.ZERO);
-                    cumSubAwardCostSharing = cumSubAwardCostSharing.add(BudgetDecimal.ZERO);
-                    cumComputerCostSharing = cumComputerCostSharing.add(BudgetDecimal.ZERO);
-                    cumEquipRentalCostSharing = cumEquipRentalCostSharing.add(BudgetDecimal.ZERO);
-                    cumAllCostSharing = cumAllCostSharing.add(BudgetDecimal.ZERO);
-                    cumPartStipendsCostSharing = cumPartStipendsCostSharing.add(BudgetDecimal.ZERO);
-                    cumPartTravelCostSharing = cumPartTravelCostSharing.add(BudgetDecimal.ZERO);
-                    cumPartSubsistenceCostSharing = cumPartSubsistenceCostSharing.add(BudgetDecimal.ZERO);
-                    cumPartTuitionCostSharing = cumPartTuitionCostSharing.add(BudgetDecimal.ZERO);
-                    cumPartOtherCostSharing = cumPartOtherCostSharing.add(BudgetDecimal.ZERO);
+                    cumAlterationsCostSharing = cumAlterationsCostSharing.add(ScaleTwoDecimal.ZERO);
+                    cumConsultantsCostSharing = cumConsultantsCostSharing.add(ScaleTwoDecimal.ZERO);
+                    cumMaterialsCostSharing = cumMaterialsCostSharing.add(ScaleTwoDecimal.ZERO);
+                    cumPubsCostSharing = cumPubsCostSharing.add(ScaleTwoDecimal.ZERO);
+                    cumSubAwardCostSharing = cumSubAwardCostSharing.add(ScaleTwoDecimal.ZERO);
+                    cumComputerCostSharing = cumComputerCostSharing.add(ScaleTwoDecimal.ZERO);
+                    cumEquipRentalCostSharing = cumEquipRentalCostSharing.add(ScaleTwoDecimal.ZERO);
+                    cumAllCostSharing = cumAllCostSharing.add(ScaleTwoDecimal.ZERO);
+                    cumPartStipendsCostSharing = cumPartStipendsCostSharing.add(ScaleTwoDecimal.ZERO);
+                    cumPartTravelCostSharing = cumPartTravelCostSharing.add(ScaleTwoDecimal.ZERO);
+                    cumPartSubsistenceCostSharing = cumPartSubsistenceCostSharing.add(ScaleTwoDecimal.ZERO);
+                    cumPartTuitionCostSharing = cumPartTuitionCostSharing.add(ScaleTwoDecimal.ZERO);
+                    cumPartOtherCostSharing = cumPartOtherCostSharing.add(ScaleTwoDecimal.ZERO);
                 }
                 totalDomesticTravel = totalDomesticTravel.add(budgetPeriodInfo.getDomesticTravelCost());
                 totalForeignTravel = totalForeignTravel.add(budgetPeriodInfo.getForeignTravelCost());
@@ -369,8 +369,8 @@ public class S2SBudgetCalculatorServiceImpl implements
                 cvOtherCosts = otherDirectCostInfo.getOtherCosts();
                 for (int l = 0; l < cvOtherCosts.size(); l++) {
                     hmOthers = cvOtherCosts.get(l);
-                    cumOtherType1 = cumOtherType1.add(new BudgetDecimal(hmOthers.get(S2SConstants.KEY_COST)));
-                    cumOtherType1CostSharing = cumOtherType1CostSharing.add(new BudgetDecimal(hmOthers
+                    cumOtherType1 = cumOtherType1.add(new ScaleTwoDecimal(hmOthers.get(S2SConstants.KEY_COST)));
+                    cumOtherType1CostSharing = cumOtherType1CostSharing.add(new ScaleTwoDecimal(hmOthers
                             .get(S2SConstants.KEY_COSTSHARING)));
                 }
             }
@@ -455,10 +455,10 @@ public class S2SBudgetCalculatorServiceImpl implements
         budgetSummaryInfo.setCumEquipmentNonFunds(cumTotalEquipNonFund);
 
         // hardcoded
-        budgetSummaryInfo.setCumFee(BudgetDecimal.ZERO);
+        budgetSummaryInfo.setCumFee(ScaleTwoDecimal.ZERO);
 
-        BudgetDecimal totSrFunds = BudgetDecimal.ZERO;
-        BudgetDecimal totSrNonFunds = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totSrFunds = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totSrNonFunds = ScaleTwoDecimal.ZERO;
 
         if (budgetPeriodInfos != null) {
             for (BudgetPeriodInfo budgetPeriodInfo : budgetPeriodInfos) {
@@ -495,9 +495,9 @@ public class S2SBudgetCalculatorServiceImpl implements
 
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             BudgetPeriodInfo bpData = new BudgetPeriodInfo();
-            BudgetDecimal totalCostSharing = BudgetDecimal.ZERO;
-            BudgetDecimal totalDirectCostSharing = BudgetDecimal.ZERO;
-            BudgetDecimal totalIndirectCostSharing = BudgetDecimal.ZERO;
+            ScaleTwoDecimal totalCostSharing = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal totalDirectCostSharing = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal totalIndirectCostSharing = ScaleTwoDecimal.ZERO;
             bpData.setLineItemCount(budgetPeriod.getBudgetLineItems().size());
             if (budget.getSubmitCostSharingFlag()) {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
@@ -583,10 +583,10 @@ public class S2SBudgetCalculatorServiceImpl implements
             bpData.setKeyPersons(keyPersons);
             bpData.setExtraKeyPersons(extraPersons);
 
-            BudgetDecimal totalKeyPersonSum = BudgetDecimal.ZERO;
-            BudgetDecimal totalKeyPersonSumCostSharing = BudgetDecimal.ZERO;
-            BudgetDecimal totalAttKeyPersonSum = BudgetDecimal.ZERO;
-            BudgetDecimal totalAttKeyPersonSumCostSharing = BudgetDecimal.ZERO;
+            ScaleTwoDecimal totalKeyPersonSum = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal totalKeyPersonSumCostSharing = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal totalAttKeyPersonSum = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal totalAttKeyPersonSumCostSharing = ScaleTwoDecimal.ZERO;
             if (keyPersons != null) {
                 for (KeyPersonInfo keyPerson : keyPersons) {
                     totalKeyPersonSum = totalKeyPersonSum.add(keyPerson.getFundsRequested());
@@ -612,12 +612,12 @@ public class S2SBudgetCalculatorServiceImpl implements
 
             List<OtherPersonnelInfo> otherPersonnel = getOtherPersonnel(budgetPeriod, pdDoc);
             bpData.setOtherPersonnel(otherPersonnel);
-            BudgetDecimal otherPersonnelCount = BudgetDecimal.ZERO;
-            BudgetDecimal otherPersonnelTotalFunds = BudgetDecimal.ZERO;
-            BudgetDecimal otherPersonnelTotalNonFunds = BudgetDecimal.ZERO;
+            ScaleTwoDecimal otherPersonnelCount = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal otherPersonnelTotalFunds = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal otherPersonnelTotalNonFunds = ScaleTwoDecimal.ZERO;
 
             for (OtherPersonnelInfo otherPersonnelInfo : otherPersonnel) {
-                otherPersonnelCount = otherPersonnelCount.add(new BudgetDecimal(otherPersonnelInfo.getNumberPersonnel()));
+                otherPersonnelCount = otherPersonnelCount.add(new ScaleTwoDecimal(otherPersonnelInfo.getNumberPersonnel()));
                 otherPersonnelTotalFunds = otherPersonnelTotalFunds.add(otherPersonnelInfo.getCompensation().getFundsRequested());
                 otherPersonnelTotalNonFunds = otherPersonnelTotalNonFunds.add(otherPersonnelInfo.getCompensation()
                         .getNonFundsRequested());
@@ -699,33 +699,33 @@ public class S2SBudgetCalculatorServiceImpl implements
         OtherPersonnelInfo otherPersonnelInfo = new OtherPersonnelInfo();
 
         int count = 0;
-        BudgetDecimal salaryRequested = BudgetDecimal.ZERO;
-        BudgetDecimal salaryCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal lineItemCost = BudgetDecimal.ZERO;
-        BudgetDecimal lineItemCostSharingAmount = BudgetDecimal.ZERO;
-        BudgetDecimal mrLaCost = BudgetDecimal.ZERO;
-        BudgetDecimal mrLaCostSharingAmount = BudgetDecimal.ZERO;
+        ScaleTwoDecimal salaryRequested = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal salaryCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal lineItemCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal lineItemCostSharingAmount = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal mrLaCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal mrLaCostSharingAmount = ScaleTwoDecimal.ZERO;
 
-        BudgetDecimal fringeCost = BudgetDecimal.ZERO;
-        BudgetDecimal fringeCostSharingAmount = BudgetDecimal.ZERO;
-        BudgetDecimal mrLaFringeCost = BudgetDecimal.ZERO;
-        BudgetDecimal mrLaFringeCostSharingAmount = BudgetDecimal.ZERO;
-        BudgetDecimal budgetLineItemFringeCost = BudgetDecimal.ZERO;
-        BudgetDecimal budgetLineItemFringeCostSharingAmount = BudgetDecimal.ZERO;
+        ScaleTwoDecimal fringeCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal fringeCostSharingAmount = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal mrLaFringeCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal mrLaFringeCostSharingAmount = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal budgetLineItemFringeCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal budgetLineItemFringeCostSharingAmount = ScaleTwoDecimal.ZERO;
 
-        BudgetDecimal bdSalary = BudgetDecimal.ZERO;
-        BudgetDecimal bdFringe = BudgetDecimal.ZERO;
-        BudgetDecimal bdFunds = BudgetDecimal.ZERO;
-        BudgetDecimal bdSalaryCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal bdFringeCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal bdNonFunds = BudgetDecimal.ZERO;
+        ScaleTwoDecimal bdSalary = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal bdFringe = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal bdFunds = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal bdSalaryCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal bdFringeCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal bdNonFunds = ScaleTwoDecimal.ZERO;
 
-        BudgetDecimal academicMonths = BudgetDecimal.ZERO;
-        BudgetDecimal summerMonths = BudgetDecimal.ZERO;
-        BudgetDecimal calendarMonths = BudgetDecimal.ZERO;
-        BudgetDecimal cycleMonths = BudgetDecimal.ZERO;
+        ScaleTwoDecimal academicMonths = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal summerMonths = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal calendarMonths = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal cycleMonths = ScaleTwoDecimal.ZERO;
 
-        BudgetDecimal numberOfMonths = BudgetDecimal.ZERO;
+        ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
         String rateTypeSupportStaffSalaries = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 Constants.S2SBUDGET_RATE_TYPE_SUPPORT_STAFF_SALARIES);
         String rateClassCodeEmployeeBenefits = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
@@ -820,10 +820,10 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                         Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {
                                             if (lineItem.getSubmitCostSharingFlag()) {
                                                 academicMonths = academicMonths.add(personDetails.getPercentEffort()
-                                                        .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+                                                        .multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01)));
                                             } else {
                                                 academicMonths = academicMonths.add(personDetails.getPercentCharged()
-                                                        .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+                                                        .multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01)));
                                             }                                            
                                         }
                                         else if (personDetails.getPeriodTypeCode().equals(
@@ -831,10 +831,10 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                         Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS))) {
                                             if (lineItem.getSubmitCostSharingFlag()) {
                                                 summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                                        .multiply(new BudgetDecimal(0.01)));
+                                                        .multiply(new ScaleTwoDecimal(0.01)));
                                             } else {
                                                 summerMonths = summerMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
-                                                        .multiply(new BudgetDecimal(0.01)));
+                                                        .multiply(new ScaleTwoDecimal(0.01)));
                                             }
                                             
                                         }
@@ -843,17 +843,17 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                         Constants.S2SBUDGET_PERIOD_TYPE_CALENDAR_MONTHS))) {
                                             if (lineItem.getSubmitCostSharingFlag()) {
                                                 calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                                        .multiply(new BudgetDecimal(0.01)));
+                                                        .multiply(new ScaleTwoDecimal(0.01)));
                                             } else {
                                                 calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
-                                                        .multiply(new BudgetDecimal(0.01)));
+                                                        .multiply(new ScaleTwoDecimal(0.01)));
                                             }
                                         }
                                         else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_CYCLE_MONTHS))) {
                                             cycleMonths = cycleMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                                    .multiply(new BudgetDecimal(0.01)));
+                                                    .multiply(new ScaleTwoDecimal(0.01)));
                                         }
                                         // Get total count of unique
                                         // personId+jobCode combination for those
@@ -939,7 +939,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 
         CompensationInfo compensationInfo = new CompensationInfo();
         // not sure that we need base salary
-        compensationInfo.setBaseSalary(BudgetDecimal.ZERO);
+        compensationInfo.setBaseSalary(ScaleTwoDecimal.ZERO);
         compensationInfo.setFringe(bdFringe);
         compensationInfo.setFundsRequested(bdFunds);
         compensationInfo.setRequestedSalary(bdSalary);
@@ -967,13 +967,13 @@ public class S2SBudgetCalculatorServiceImpl implements
     public IndirectCostInfo getIndirectCosts(Budget budget, BudgetPeriod budgetPeriod) {
         List<IndirectCostDetails> indirectCostDetailList = new ArrayList<IndirectCostDetails>();
         IndirectCostDetails indirectCostDetails;
-        BudgetDecimal baseCost = BudgetDecimal.ZERO;
-        BudgetDecimal baseCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
-        BudgetDecimal calculatedCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal appliedRate = BudgetDecimal.ZERO;
-        BudgetDecimal totalIndirectCosts = BudgetDecimal.ZERO;
-        BudgetDecimal totalIndirectCostSharing = BudgetDecimal.ZERO;
+        ScaleTwoDecimal baseCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal baseCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal calculatedCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal appliedRate = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalIndirectCosts = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalIndirectCostSharing = ScaleTwoDecimal.ZERO;
 
         String description = "";
         boolean firstLoop = true;
@@ -1017,30 +1017,30 @@ public class S2SBudgetCalculatorServiceImpl implements
                         String key = keyBuilder.toString();
                         if (costDetailsMap.get(key) == null) {
                             indirectCostDetails = new IndirectCostDetails();
-                            indirectCostDetails.setBase(rateBase.getBaseCost() == null ? BudgetDecimal.ZERO : rateBase
+                            indirectCostDetails.setBase(rateBase.getBaseCost() == null ? ScaleTwoDecimal.ZERO : rateBase
                                     .getBaseCost());
-                            indirectCostDetails.setBaseCostSharing(rateBase.getBaseCostSharing() == null ? BudgetDecimal.ZERO
+                            indirectCostDetails.setBaseCostSharing(rateBase.getBaseCostSharing() == null ? ScaleTwoDecimal.ZERO
                                     : rateBase.getBaseCostSharing());
                             if (canBudgetLineItemCostSharingInclude(budget, lineItem)) {
-                                indirectCostDetails.setCostSharing(rateBase.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO
+                                indirectCostDetails.setCostSharing(rateBase.getCalculatedCostSharing() == null ? ScaleTwoDecimal.ZERO
                                         : rateBase.getCalculatedCostSharing());
                             }
                             indirectCostDetails.setCostType(rateClass.getDescription());
-                            indirectCostDetails.setFunds(rateBase.getCalculatedCost() == null ? BudgetDecimal.ZERO : rateBase
+                            indirectCostDetails.setFunds(rateBase.getCalculatedCost() == null ? ScaleTwoDecimal.ZERO : rateBase
                                     .getCalculatedCost());
                             indirectCostDetails.setRate(appliedRate);
                         }
                         else {
                             indirectCostDetails = costDetailsMap.get(key);
                             baseCost = indirectCostDetails.getBase().add(
-                                    rateBase.getBaseCost() == null ? BudgetDecimal.ZERO : rateBase.getBaseCost());
+                                    rateBase.getBaseCost() == null ? ScaleTwoDecimal.ZERO : rateBase.getBaseCost());
                             baseCostSharing = indirectCostDetails.getBaseCostSharing().add(
-                                    rateBase.getBaseCostSharing() == null ? BudgetDecimal.ZERO : rateBase.getBaseCostSharing());
+                                    rateBase.getBaseCostSharing() == null ? ScaleTwoDecimal.ZERO : rateBase.getBaseCostSharing());
                             calculatedCost = indirectCostDetails.getFunds().add(
-                                    rateBase.getCalculatedCost() == null ? BudgetDecimal.ZERO : rateBase.getCalculatedCost());
+                                    rateBase.getCalculatedCost() == null ? ScaleTwoDecimal.ZERO : rateBase.getCalculatedCost());
                             if (canBudgetLineItemCostSharingInclude(budget, lineItem)) {
                                 calculatedCostSharing = indirectCostDetails.getCostSharing().add(
-                                        rateBase.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO : rateBase
+                                        rateBase.getCalculatedCostSharing() == null ? ScaleTwoDecimal.ZERO : rateBase
                                                 .getCalculatedCostSharing());
                             } else if (!lineItem.getSubmitCostSharingFlag()&& budget.getSubmitCostSharingFlag()) {
                                 calculatedCostSharing = indirectCostDetails.getCostSharing();
@@ -1053,11 +1053,11 @@ public class S2SBudgetCalculatorServiceImpl implements
                         costDetailsMap.put(key, indirectCostDetails);
 
                         indirectCostDetailList = new ArrayList<IndirectCostDetails>(costDetailsMap.values());
-                        totalIndirectCosts = totalIndirectCosts.add(rateBase.getCalculatedCost() == null ? BudgetDecimal.ZERO
+                        totalIndirectCosts = totalIndirectCosts.add(rateBase.getCalculatedCost() == null ? ScaleTwoDecimal.ZERO
                                 : rateBase.getCalculatedCost());
                         if (canBudgetLineItemCostSharingInclude(budget, lineItem)) {
                             totalIndirectCostSharing = totalIndirectCostSharing
-                                    .add(rateBase.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO : rateBase
+                                    .add(rateBase.getCalculatedCostSharing() == null ? ScaleTwoDecimal.ZERO : rateBase
                                             .getCalculatedCostSharing());
                         }
                     }
@@ -1125,8 +1125,8 @@ public class S2SBudgetCalculatorServiceImpl implements
             lineItemcostInfo.setCategoryType(CATEGORY_TYPE_OTHER_DIRECT_COST);
             lineItemcostInfo.setQuantity(1);
 
-            BudgetDecimal totalCost = BudgetDecimal.ZERO;
-            BudgetDecimal totalCostSharing = BudgetDecimal.ZERO;
+            ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal totalCostSharing = ScaleTwoDecimal.ZERO;
             for (BudgetLineItemCalculatedAmount lineItemCalculatedAmt : lineItem.getBudgetLineItemCalculatedAmounts()) {
                 lineItemCalculatedAmt.refreshReferenceObject("rateClass");
                 if (lineItemCalculatedAmt
@@ -1152,46 +1152,46 @@ public class S2SBudgetCalculatorServiceImpl implements
             costInfoList.add(lineItemcostInfo);
         }
 
-        BudgetDecimal totalOtherDirect = BudgetDecimal.ZERO;
-        BudgetDecimal totalTravelCost = BudgetDecimal.ZERO;
-        BudgetDecimal totalParticipantCost = BudgetDecimal.ZERO;
-        BudgetDecimal totalOtherDirectCostSharing = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totalOtherDirect = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalTravelCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalParticipantCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalOtherDirectCostSharing = ScaleTwoDecimal.ZERO;
 
-        BudgetDecimal totalTravelCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal totalParticipantCostSharing = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totalTravelCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalParticipantCostSharing = ScaleTwoDecimal.ZERO;
 
-        BudgetDecimal materialCost = BudgetDecimal.ZERO;
-        BudgetDecimal materialCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal consultantCost = BudgetDecimal.ZERO;
-        BudgetDecimal consultantCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal publicationCost = BudgetDecimal.ZERO;
-        BudgetDecimal publicationCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal computerCost = BudgetDecimal.ZERO;
-        BudgetDecimal computerCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal alterationsCost = BudgetDecimal.ZERO;
-        BudgetDecimal alterationsCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal subContractCost = BudgetDecimal.ZERO;
-        BudgetDecimal subContractCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal equipmentRentalCost = BudgetDecimal.ZERO;
-        BudgetDecimal equipmentRentalCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal domesticTravelCost = BudgetDecimal.ZERO;
-        BudgetDecimal domesticTravelCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal foreignTravelCost = BudgetDecimal.ZERO;
-        BudgetDecimal foreignTravelCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal partStipendsCost = BudgetDecimal.ZERO;
-        BudgetDecimal partStipendsCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal partTravelCost = BudgetDecimal.ZERO;
-        BudgetDecimal partTravelCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal partTuitionCost = BudgetDecimal.ZERO;
-        BudgetDecimal partTuitionCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal partSubsistenceCost = BudgetDecimal.ZERO;
-        BudgetDecimal partSubsistenceCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal partOtherCost = BudgetDecimal.ZERO;
-        BudgetDecimal partOtherCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal otherDirectCost = BudgetDecimal.ZERO;
-        BudgetDecimal otherDirectCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal otherCost = BudgetDecimal.ZERO;
-        BudgetDecimal otherCostSharing = BudgetDecimal.ZERO;
+        ScaleTwoDecimal materialCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal materialCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal consultantCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal consultantCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal publicationCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal publicationCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal computerCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal computerCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal alterationsCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal alterationsCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal subContractCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal subContractCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal equipmentRentalCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal equipmentRentalCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal domesticTravelCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal domesticTravelCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal foreignTravelCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal foreignTravelCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal partStipendsCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal partStipendsCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal partTravelCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal partTravelCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal partTuitionCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal partTuitionCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal partSubsistenceCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal partSubsistenceCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal partOtherCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal partOtherCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal otherDirectCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal otherDirectCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal otherCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal otherCostSharing = ScaleTwoDecimal.ZERO;
 
         for (CostInfo costInfo : costInfoList) {
             if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
@@ -1494,10 +1494,10 @@ public class S2SBudgetCalculatorServiceImpl implements
         CostInfo equipCostInfo;
         List<BudgetCategoryMap> budgetCategoryMapList = getBudgetCategoryMapList(new ArrayList<String>(), new ArrayList<String>());
 
-        BudgetDecimal totalEquipFund = BudgetDecimal.ZERO;
-        BudgetDecimal totalExtraEquipFund = BudgetDecimal.ZERO;
-        BudgetDecimal totalEquipNonFund = BudgetDecimal.ZERO;
-        BudgetDecimal totalExtraEquipNonFund = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totalEquipFund = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalExtraEquipFund = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalEquipNonFund = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalExtraEquipNonFund = ScaleTwoDecimal.ZERO;
         Map<String, CostInfo> costInfoMap = new HashMap<String, CostInfo>();
         List<CostInfo> costInfos = new ArrayList<CostInfo>();
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
@@ -1840,15 +1840,15 @@ public class S2SBudgetCalculatorServiceImpl implements
      */
     protected CompensationInfo getCompensation(KeyPersonInfo keyPerson, BudgetPeriod budgetPeriod, String proposalNumber) {
         CompensationInfo compensationInfo = new CompensationInfo();
-        BudgetDecimal summerMonths = BudgetDecimal.ZERO;
-        BudgetDecimal academicMonths = BudgetDecimal.ZERO;
-        BudgetDecimal calendarMonths = BudgetDecimal.ZERO;
-        BudgetDecimal totalSal = BudgetDecimal.ZERO;
-        BudgetDecimal fringe = BudgetDecimal.ZERO;
-        BudgetDecimal baseAmount = BudgetDecimal.ZERO;
-        BudgetDecimal totalSalCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal fringeCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal numberOfMonths = BudgetDecimal.ZERO;
+        ScaleTwoDecimal summerMonths = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal academicMonths = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal calendarMonths = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalSal = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal fringe = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal baseAmount = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalSalCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal fringeCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
         String budgetCatagoryCodePersonnel = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 Constants.S2SBUDGET_BUDGET_CATEGORY_CODE_PERSONNEL);
         
@@ -1862,10 +1862,10 @@ public class S2SBudgetCalculatorServiceImpl implements
                                     Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {                        
                         if (lineItem.getSubmitCostSharingFlag()) {
                             academicMonths = academicMonths.add(personDetails.getPercentEffort()
-                                    .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+                                    .multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01)));
                         } else {
                             academicMonths = academicMonths.add(personDetails.getPercentCharged()
-                                    .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+                                    .multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01)));
                         }
                     }
                     else if (personDetails.getPeriodTypeCode().equals(
@@ -1873,10 +1873,10 @@ public class S2SBudgetCalculatorServiceImpl implements
                                     Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS))) {
                         if (lineItem.getSubmitCostSharingFlag()) {
                             summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                    .multiply(new BudgetDecimal(0.01)));
+                                    .multiply(new ScaleTwoDecimal(0.01)));
                         } else {
                             summerMonths = summerMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
-                                    .multiply(new BudgetDecimal(0.01)));
+                                    .multiply(new ScaleTwoDecimal(0.01)));
                         }
                     }
                     else {
@@ -1885,20 +1885,20 @@ public class S2SBudgetCalculatorServiceImpl implements
                                     .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
                                 if (lineItem.getSubmitCostSharingFlag()) {
                                     calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                            .multiply(new BudgetDecimal(0.01)));
+                                            .multiply(new ScaleTwoDecimal(0.01)));
                                 } else {
                                     calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
-                                            .multiply(new BudgetDecimal(0.01)));
+                                            .multiply(new ScaleTwoDecimal(0.01)));
                                 }
                             } 
                         }else {
                             if (lineItem.getSubmitCostSharingFlag()) {
                                 calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                        .multiply(new BudgetDecimal(0.01)));
+                                        .multiply(new ScaleTwoDecimal(0.01)));
                             }
                             else {
                                 calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
-                                        .multiply(new BudgetDecimal(0.01)));
+                                        .multiply(new ScaleTwoDecimal(0.01)));
                             }
                         }
                     }

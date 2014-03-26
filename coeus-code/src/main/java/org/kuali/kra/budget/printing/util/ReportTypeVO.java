@@ -1,6 +1,6 @@
 package org.kuali.kra.budget.printing.util;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
 
@@ -10,21 +10,21 @@ public class ReportTypeVO {
 	private String rateTypeDesc;
 	private Date startDate;
 	private Date endDate;
-	private BudgetDecimal appliedRate;
-	private BudgetDecimal salaryRequested;
-	private BudgetDecimal calculatedCost;
+	private ScaleTwoDecimal appliedRate;
+	private ScaleTwoDecimal salaryRequested;
+	private ScaleTwoDecimal calculatedCost;
 	private Boolean onOffCampusFlag;
 	private String costElementDesc;
 	private String budgetCategoryDesc;
-	private BudgetDecimal costSharingAmount;
+	private ScaleTwoDecimal costSharingAmount;
 	private String personName;
-	private BudgetDecimal percentEffort;
-	private BudgetDecimal percentCharged;
+	private ScaleTwoDecimal percentEffort;
+	private ScaleTwoDecimal percentCharged;
 	private String budgetCategoryCode;
 	private Integer investigatorFlag;
-	private BudgetDecimal vacationRate;
-	private BudgetDecimal employeeBenefitRate;
-	private BudgetDecimal fringe;
+	private ScaleTwoDecimal vacationRate;
+	private ScaleTwoDecimal employeeBenefitRate;
+	private ScaleTwoDecimal fringe;
 
 	public Date getStartDate() {
 		return startDate;
@@ -42,27 +42,27 @@ public class ReportTypeVO {
 		this.endDate = endDate;
 	}
 
-	public BudgetDecimal getAppliedRate() {
+	public ScaleTwoDecimal getAppliedRate() {
 		return appliedRate;
 	}
 
-	public void setAppliedRate(BudgetDecimal appliedRate) {
+	public void setAppliedRate(ScaleTwoDecimal appliedRate) {
 		this.appliedRate = appliedRate;
 	}
 
-	public BudgetDecimal getSalaryRequested() {
+	public ScaleTwoDecimal getSalaryRequested() {
 		return salaryRequested;
 	}
 
-	public void setSalaryRequested(BudgetDecimal salaryRequested) {
+	public void setSalaryRequested(ScaleTwoDecimal salaryRequested) {
 		this.salaryRequested = salaryRequested;
 	}
 
-	public BudgetDecimal getCalculatedCost() {
+	public ScaleTwoDecimal getCalculatedCost() {
 		return calculatedCost;
 	}
 
-	public void setCalculatedCost(BudgetDecimal calculatedCost) {
+	public void setCalculatedCost(ScaleTwoDecimal calculatedCost) {
 		this.calculatedCost = calculatedCost;
 	}
 
@@ -106,11 +106,11 @@ public class ReportTypeVO {
 		this.budgetCategoryDesc = budgetCategoryDesc;
 	}
 
-	public BudgetDecimal getCostSharingAmount() {
+	public ScaleTwoDecimal getCostSharingAmount() {
 		return costSharingAmount;
 	}
 
-	public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+	public void setCostSharingAmount(ScaleTwoDecimal costSharingAmount) {
 		this.costSharingAmount = costSharingAmount;
 	}
 
@@ -122,19 +122,19 @@ public class ReportTypeVO {
 		this.personName = personName;
 	}
 
-	public BudgetDecimal getPercentEffort() {
+	public ScaleTwoDecimal getPercentEffort() {
 		return percentEffort;
 	}
 
-	public void setPercentEffort(BudgetDecimal percentEffort) {
+	public void setPercentEffort(ScaleTwoDecimal percentEffort) {
 		this.percentEffort = percentEffort;
 	}
 
-	public BudgetDecimal getPercentCharged() {
+	public ScaleTwoDecimal getPercentCharged() {
 		return percentCharged;
 	}
 
-	public void setPercentCharged(BudgetDecimal percentCharged) {
+	public void setPercentCharged(ScaleTwoDecimal percentCharged) {
 		this.percentCharged = percentCharged;
 	}
 
@@ -154,27 +154,27 @@ public class ReportTypeVO {
 		this.investigatorFlag = investigatorFlag;
 	}
 
-	public BudgetDecimal getFringe() {
+	public ScaleTwoDecimal getFringe() {
 		return fringe;
 	}
 
-	public void setFringe(BudgetDecimal fringe) {
+	public void setFringe(ScaleTwoDecimal fringe) {
 		this.fringe = fringe;
 	}
 
-	public BudgetDecimal getVacationRate() {
+	public ScaleTwoDecimal getVacationRate() {
 		return vacationRate;
 	}
 
-	public void setVacationRate(BudgetDecimal vacationRate) {
+	public void setVacationRate(ScaleTwoDecimal vacationRate) {
 		this.vacationRate = vacationRate;
 	}
 
-	public BudgetDecimal getEmployeeBenefitRate() {
+	public ScaleTwoDecimal getEmployeeBenefitRate() {
 		return employeeBenefitRate;
 	}
 
-	public void setEmployeeBenefitRate(BudgetDecimal employeeBenefitRate) {
+	public void setEmployeeBenefitRate(ScaleTwoDecimal employeeBenefitRate) {
 		this.employeeBenefitRate = employeeBenefitRate;
 	}
 }

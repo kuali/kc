@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.*;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -281,12 +281,12 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @param budgetCostShare
      */
     private void setCostShareAddRowDefaults(Budget budget, BudgetCostShare budgetCostShare) {
-        BudgetDecimal defaultValue = BudgetDecimal.ZERO;
+        ScaleTwoDecimal defaultValue = ScaleTwoDecimal.ZERO;
         if(budgetCostShare.getProjectPeriod() == null) {
             budgetCostShare.setProjectPeriod(0);
         }
         if(budgetCostShare.getShareAmount() == null) {
-            BudgetDecimal shareAmount = budgetCostShare.getProjectPeriod() == 0 ? defaultValue : budget.findCostSharingForFiscalYear(budgetCostShare.getProjectPeriod());                 
+            ScaleTwoDecimal shareAmount = budgetCostShare.getProjectPeriod() == 0 ? defaultValue : budget.findCostSharingForFiscalYear(budgetCostShare.getProjectPeriod());
             budgetCostShare.setShareAmount(shareAmount);
         }
         if(budgetCostShare.getSharePercentage() == null) {
@@ -304,12 +304,12 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
             budgetUnrecoveredFandA.setFiscalYear(0);
         }
         if(budgetUnrecoveredFandA.getAmount() == null) {
-            BudgetDecimal shareAmount = budgetUnrecoveredFandA.getFiscalYear() == 0 ? BudgetDecimal.ZERO : 
+            ScaleTwoDecimal shareAmount = budgetUnrecoveredFandA.getFiscalYear() == 0 ? ScaleTwoDecimal.ZERO :
                     budgetDocument.getBudget().findUnrecoveredFandAForFiscalYear(budgetUnrecoveredFandA.getFiscalYear());                 
             budgetUnrecoveredFandA.setAmount(shareAmount);
         }
         if(budgetUnrecoveredFandA.getApplicableRate() == null) {
-            budgetUnrecoveredFandA.setApplicableRate(BudgetDecimal.ZERO);
+            budgetUnrecoveredFandA.setApplicableRate(ScaleTwoDecimal.ZERO);
         }
     }
 }

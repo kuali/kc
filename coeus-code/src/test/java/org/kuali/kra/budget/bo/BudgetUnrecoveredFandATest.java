@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
 
 import java.util.Calendar;
@@ -54,7 +54,7 @@ public class BudgetUnrecoveredFandATest extends BudgetDistributionAndIncomeTest 
     @Test
     public void testIfUnrecoveredFandAApplicable_UnrecoveredAmountsPresentAndApplicable() {
         createAndAddBudgetPeriod().setUnderrecoveryAmount(FY_2007_Q3_AMT);
-        createAndAddBudgetPeriod().setUnderrecoveryAmount(BudgetDecimal.ZERO);
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(ScaleTwoDecimal.ZERO);
         createAndAddBudgetPeriod().setUnderrecoveryAmount(FY_2008_Q1_AMT);
         
         Assert.assertTrue(budgetDocument.isUnrecoveredFandAApplicable());
@@ -91,7 +91,7 @@ public class BudgetUnrecoveredFandATest extends BudgetDistributionAndIncomeTest 
         Assert.assertEquals(FY_2007_Q3_AMT.add(FY_2007_Q4_AMT), budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2007));
         Assert.assertEquals(FY_2008_Q1_AMT.add(FY_2008_Q2_AMT), budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2008));
         Assert.assertEquals(FY_2009_Q1_AMT.add(FY_2009_Q2_AMT), budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2009));
-        Assert.assertEquals(BudgetDecimal.ZERO, budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2000));
+        Assert.assertEquals(ScaleTwoDecimal.ZERO, budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2000));
     }
     
     @Test

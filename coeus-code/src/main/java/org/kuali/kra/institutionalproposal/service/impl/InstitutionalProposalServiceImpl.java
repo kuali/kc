@@ -23,7 +23,7 @@ import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
@@ -47,7 +47,7 @@ import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSp
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
@@ -531,16 +531,16 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         if (budget.getModularBudgetFlag()) {
             if (budget.getBudgetPeriod(0).getBudgetModular().getTotalDirectCost() != null) {
                 institutionalProposal.setTotalDirectCostInitial(
-                    new KualiDecimal(budget.getBudgetPeriod(0).getBudgetModular().getTotalDirectCost().bigDecimalValue()));
+                    new ScaleTwoDecimal(budget.getBudgetPeriod(0).getBudgetModular().getTotalDirectCost().bigDecimalValue()));
             }
             budget.getBudgetPeriod(0).getBudgetModular().calculateTotalFnaRequested();
             if (budget.getBudgetPeriod(0).getBudgetModular().getTotalFnaRequested() != null) {
                 institutionalProposal.setTotalIndirectCostInitial(
-                    new KualiDecimal(budget.getBudgetPeriod(0).getBudgetModular().getTotalFnaRequested().bigDecimalValue()));
+                    new ScaleTwoDecimal(budget.getBudgetPeriod(0).getBudgetModular().getTotalFnaRequested().bigDecimalValue()));
             }
             
-            BudgetDecimal totalDirect = new BudgetDecimal(0);
-            BudgetDecimal totalIndirect = new BudgetDecimal(0);
+            ScaleTwoDecimal totalDirect = new ScaleTwoDecimal(0);
+            ScaleTwoDecimal totalIndirect = new ScaleTwoDecimal(0);
             for (BudgetPeriod bp : budget.getBudgetPeriods()) {
                 if (bp.getBudgetModular() != null) {
                     if (bp.getBudgetModular().getTotalDirectCost() != null) {
@@ -552,14 +552,14 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                     }
                 }
             }
-            institutionalProposal.setTotalDirectCostTotal(new KualiDecimal(totalDirect.bigDecimalValue()));
-            institutionalProposal.setTotalIndirectCostTotal(new KualiDecimal(totalIndirect.bigDecimalValue()));
+            institutionalProposal.setTotalDirectCostTotal(new ScaleTwoDecimal(totalDirect.bigDecimalValue()));
+            institutionalProposal.setTotalIndirectCostTotal(new ScaleTwoDecimal(totalIndirect.bigDecimalValue()));
             
         } else { 
-            institutionalProposal.setTotalDirectCostInitial(new KualiDecimal(budget.getBudgetPeriod(0).getTotalDirectCost().bigDecimalValue()));
-            institutionalProposal.setTotalIndirectCostInitial(new KualiDecimal(budget.getBudgetPeriod(0).getTotalIndirectCost().bigDecimalValue()));
-            institutionalProposal.setTotalDirectCostTotal(new KualiDecimal(budget.getTotalDirectCost().bigDecimalValue()));
-            institutionalProposal.setTotalIndirectCostTotal(new KualiDecimal(budget.getTotalIndirectCost().bigDecimalValue()));
+            institutionalProposal.setTotalDirectCostInitial(new ScaleTwoDecimal(budget.getBudgetPeriod(0).getTotalDirectCost().bigDecimalValue()));
+            institutionalProposal.setTotalIndirectCostInitial(new ScaleTwoDecimal(budget.getBudgetPeriod(0).getTotalIndirectCost().bigDecimalValue()));
+            institutionalProposal.setTotalDirectCostTotal(new ScaleTwoDecimal(budget.getTotalDirectCost().bigDecimalValue()));
+            institutionalProposal.setTotalIndirectCostTotal(new ScaleTwoDecimal(budget.getTotalIndirectCost().bigDecimalValue()));
         }
         
         // Cost Shares (from Budget)
@@ -567,8 +567,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         for (BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
             InstitutionalProposalCostShare ipCostShare = new InstitutionalProposalCostShare();
             ipCostShare.setCostShareTypeCode(getDefaultCostShareTypeCode());
-            ipCostShare.setAmount(new KualiDecimal(budgetCostShare.getShareAmount().bigDecimalValue()));
-            ipCostShare.setCostSharePercentage(new KualiDecimal(budgetCostShare.getSharePercentage().bigDecimalValue()));
+            ipCostShare.setAmount(new ScaleTwoDecimal(budgetCostShare.getShareAmount().bigDecimalValue()));
+            ipCostShare.setCostSharePercentage(new ScaleTwoDecimal(budgetCostShare.getSharePercentage().bigDecimalValue()));
             ipCostShare.setProjectPeriod(budgetCostShare.getProjectPeriod().toString());
             ipCostShare.setSourceAccount(budgetCostShare.getSourceAccount());
             institutionalProposal.add(ipCostShare);
@@ -581,12 +581,12 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         institutionalProposal.getInstitutionalProposalUnrecoveredFandAs().clear();
         for (BudgetUnrecoveredFandA budgetUfa : budget.getBudgetUnrecoveredFandAs()) {
             InstitutionalProposalUnrecoveredFandA ipUfa = new InstitutionalProposalUnrecoveredFandA();
-            ipUfa.setApplicableIndirectcostRate(new KualiDecimal(budgetUfa.getApplicableRate().bigDecimalValue()));
+            ipUfa.setApplicableIndirectcostRate(new ScaleTwoDecimal(budgetUfa.getApplicableRate().bigDecimalValue()));
             ipUfa.setFiscalYear(budgetUfa.getFiscalYear().toString());
             ipUfa.setOnCampusFlag("Y".equals(budgetUfa.getOnCampusFlag()) ? true : false);
             ipUfa.setSourceAccount(budgetUfa.getSourceAccount());
             ipUfa.setIndirectcostRateTypeCode(Integer.parseInt(budget.getOhRateClassCode()));
-            ipUfa.setUnderrecoveryOfIndirectcost(new KualiDecimal(budgetUfa.getAmount().bigDecimalValue()));
+            ipUfa.setUnderrecoveryOfIndirectcost(new ScaleTwoDecimal(budgetUfa.getAmount().bigDecimalValue()));
             institutionalProposal.add(ipUfa);
         }
         if (!institutionalProposal.getInstitutionalProposalUnrecoveredFandAs().isEmpty()) {

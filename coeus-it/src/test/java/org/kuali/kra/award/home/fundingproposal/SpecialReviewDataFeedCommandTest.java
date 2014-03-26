@@ -22,7 +22,7 @@ import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import static org.junit.Assert.*;
 public class SpecialReviewDataFeedCommandTest extends BaseDataFeedCommandTest {
 
@@ -66,21 +66,21 @@ public class SpecialReviewDataFeedCommandTest extends BaseDataFeedCommandTest {
         InstitutionalProposalUnrecoveredFandA retval = new InstitutionalProposalUnrecoveredFandA();
         retval.setFiscalYear(fiscalYear);
         retval.setIndirectcostRateType(idcRateType);
-        retval.setApplicableIndirectcostRate(new KualiDecimal(0.01));
+        retval.setApplicableIndirectcostRate(new ScaleTwoDecimal(0.01));
         retval.setOnCampusFlag(true);
         retval.setSourceAccount("abc123");
-        retval.setUnderrecoveryOfIndirectcost(new KualiDecimal(10.50));
+        retval.setUnderrecoveryOfIndirectcost(new ScaleTwoDecimal(10.50));
         return retval;
     }
     
     protected AwardFandaRate createAwardFandA(String fiscalYear) {
         AwardFandaRate retval = new AwardFandaRate();
-        retval.setApplicableFandaRate(new KualiDecimal(0.02));
+        retval.setApplicableFandaRate(new ScaleTwoDecimal(0.02));
         retval.setFandaRateTypeCode(idcRateType.getIndirectcostRateTypeCode()==null?null:idcRateType.getIndirectcostRateTypeCode().toString());
         retval.setFiscalYear(fiscalYear);
         retval.setOnCampusFlag("N");
         retval.setSourceAccount("abc123");
-        retval.setUnderrecoveryOfIndirectCost(new KualiDecimal(21.00));
+        retval.setUnderrecoveryOfIndirectCost(new ScaleTwoDecimal(21.00));
         return retval;
     }
     

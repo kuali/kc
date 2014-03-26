@@ -13,30 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.infrastructure;
+package org.kuali.coeus.sys.framework.controller;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.infrastructure.BudgetDecimalFormatter;
+import org.kuali.coeus.sys.api.model.ScaleThreeDecimal;
+import org.kuali.coeus.sys.framework.controller.GlobalFormatterRegistry;
 import org.kuali.rice.core.web.format.FormatException;
 
 import java.math.BigDecimal;
 
-public class BudgetDecimalFormatterTest {
+public class ScaleThreeDecimalFormatterTest {
 
-    private static final String ALPHA_NUMERIC_VALUE = "1000.ef";
-    private static final String ALPHA_VALUE = "abcd.ef";
-    private static final String TEST_NUMBER_AS_STRING = "987654321.09";
-    private static final double TEST_NUMBER = 987654321.09;
+    private static final String ALPHANUMERIC_VALUE = "98.efg";
+    private static final String ALPHA_VALUE = "ab.cde";
+    private static final String TEST_NUMBER_AS_STRING = "98.765";
+    private static final double TEST_NUMBER = 98.765;
     
-    private BudgetDecimalFormatter formatter;
+    private GlobalFormatterRegistry.ScaleThreeDecimalFormatter formatter;
 
     @Before
     public void setUp() {
-        formatter = new BudgetDecimalFormatter();
+        formatter = new GlobalFormatterRegistry.ScaleThreeDecimalFormatter();
     }
     
     @After
@@ -45,18 +45,18 @@ public class BudgetDecimalFormatterTest {
     }
     
     @Test
-    public void testConvertingFromStringToBudgetDecimal_GoodData() {
-        BudgetDecimal budgetDecimal = new BudgetDecimal(new BigDecimal(TEST_NUMBER));
-        Assert.assertEquals(budgetDecimal, formatter.convertToObject(TEST_NUMBER_AS_STRING));
+    public void testConvertingFromStringToScaleThreeDecimal_GoodData() {
+        ScaleThreeDecimal scaleThreeDecimal = new ScaleThreeDecimal(new BigDecimal(TEST_NUMBER));
+        Assert.assertEquals(scaleThreeDecimal, formatter.convertToObject(TEST_NUMBER_AS_STRING));
     }
     
     @Test(expected=FormatException.class)
-    public void testConvertingFromStringToBudgetDecimal_AllBadData() {
+    public void testConvertingFromStringToScaleThreeDecimal_AllBadData() {
         formatter.convertToObject(ALPHA_VALUE);
     }
     
     @Test(expected=FormatException.class)
-    public void testConvertingFromStringToBudgetDecimal_MixedBadData() {
-        formatter.convertToObject(ALPHA_NUMERIC_VALUE);
+    public void testConvertingFromStringToScaleThreeDecimal_MixedBadData() {
+        formatter.convertToObject(ALPHANUMERIC_VALUE);
     }
 }

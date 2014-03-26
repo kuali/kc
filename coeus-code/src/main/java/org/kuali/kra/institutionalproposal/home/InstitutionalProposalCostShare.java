@@ -20,7 +20,7 @@ import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 public class InstitutionalProposalCostShare extends InstitutionalProposalAssociate implements ValuableItem, SequenceAssociate {
 
@@ -30,13 +30,13 @@ public class InstitutionalProposalCostShare extends InstitutionalProposalAssocia
 
     private String projectPeriod;
 
-    private KualiDecimal costSharePercentage;
+    private ScaleTwoDecimal costSharePercentage;
 
     private Integer costShareTypeCode;
 
     private String sourceAccount;
 
-    private KualiDecimal amount;
+    private ScaleTwoDecimal amount;
 
     private CostShareType costShareType;
 
@@ -59,11 +59,11 @@ public class InstitutionalProposalCostShare extends InstitutionalProposalAssocia
         this.projectPeriod = projectPeriod;
     }
 
-    public KualiDecimal getCostSharePercentage() {
+    public ScaleTwoDecimal getCostSharePercentage() {
         return costSharePercentage;
     }
 
-    public void setCostSharePercentage(KualiDecimal costSharePercentage) {
+    public void setCostSharePercentage(ScaleTwoDecimal costSharePercentage) {
         this.costSharePercentage = costSharePercentage;
     }
 
@@ -83,11 +83,11 @@ public class InstitutionalProposalCostShare extends InstitutionalProposalAssocia
         this.sourceAccount = sourceAccount;
     }
 
-    public KualiDecimal getAmount() {
+    public ScaleTwoDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(KualiDecimal amount) {
+    public void setAmount(ScaleTwoDecimal amount) {
         this.amount = amount;
     }
 

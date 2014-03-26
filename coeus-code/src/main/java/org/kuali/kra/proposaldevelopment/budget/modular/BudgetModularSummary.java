@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.modular;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,11 +23,11 @@ import java.util.List;
 
 public class BudgetModularSummary implements Serializable {
     
-    private BudgetDecimal directCostLessConsortiumFna;
-    private BudgetDecimal consortiumFna;
-    private BudgetDecimal totalDirectCost;
-    private BudgetDecimal totalFnaRequested;
-    private BudgetDecimal totalRequestedCost;
+    private ScaleTwoDecimal directCostLessConsortiumFna;
+    private ScaleTwoDecimal consortiumFna;
+    private ScaleTwoDecimal totalDirectCost;
+    private ScaleTwoDecimal totalFnaRequested;
+    private ScaleTwoDecimal totalRequestedCost;
     
     private List<BudgetModularIdc> budgetModularIdcs;
     
@@ -51,43 +51,43 @@ public class BudgetModularSummary implements Serializable {
         return (BudgetModularIdc) getBudgetModularIdcs().get(index);
     }
 
-    public BudgetDecimal getConsortiumFna() {
+    public ScaleTwoDecimal getConsortiumFna() {
         return consortiumFna;
     }
 
-    public void setConsortiumFna(BudgetDecimal consortiumFna) {
+    public void setConsortiumFna(ScaleTwoDecimal consortiumFna) {
         this.consortiumFna = consortiumFna;
     }
 
-    public BudgetDecimal getDirectCostLessConsortiumFna() {
+    public ScaleTwoDecimal getDirectCostLessConsortiumFna() {
         return directCostLessConsortiumFna;
     }
 
-    public void setDirectCostLessConsortiumFna(BudgetDecimal directCostLessConsortiumFna) {
+    public void setDirectCostLessConsortiumFna(ScaleTwoDecimal directCostLessConsortiumFna) {
         this.directCostLessConsortiumFna = directCostLessConsortiumFna;
     }
 
-    public BudgetDecimal getTotalDirectCost() {
+    public ScaleTwoDecimal getTotalDirectCost() {
         return totalDirectCost;
     }
 
-    public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
+    public void setTotalDirectCost(ScaleTwoDecimal totalDirectCost) {
         this.totalDirectCost = totalDirectCost;
     }
 
-    public BudgetDecimal getTotalFnaRequested() {
+    public ScaleTwoDecimal getTotalFnaRequested() {
         return totalFnaRequested;
     }
 
-    public void setTotalFnaRequested(BudgetDecimal totalFnaRequested) {
+    public void setTotalFnaRequested(ScaleTwoDecimal totalFnaRequested) {
         this.totalFnaRequested = totalFnaRequested;
     }
 
-    public BudgetDecimal getTotalRequestedCost() {
+    public ScaleTwoDecimal getTotalRequestedCost() {
         return totalRequestedCost;
     }
 
-    public void setTotalRequestedCost(BudgetDecimal totalRequestedCost) {
+    public void setTotalRequestedCost(ScaleTwoDecimal totalRequestedCost) {
         this.totalRequestedCost = totalRequestedCost;
     }
     

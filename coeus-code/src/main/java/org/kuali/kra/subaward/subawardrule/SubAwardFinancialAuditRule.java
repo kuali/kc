@@ -20,7 +20,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -98,7 +98,7 @@ public class SubAwardFinancialAuditRule extends
      */
     protected boolean checkForObligatedAmountZero(Document document) {
         SubAwardDocument subAwardDocument = (SubAwardDocument) document;
-        KualiDecimal obligatedAmount = KualiDecimal.ZERO;
+        ScaleTwoDecimal obligatedAmount = ScaleTwoDecimal.ZERO;
         for (SubAwardAmountInfo subAwardAmountInfo
         :subAwardDocument.getSubAward().getSubAwardAmountInfoList()) {
             if (subAwardAmountInfo.getObligatedChange() != null) {
@@ -125,7 +125,7 @@ public class SubAwardFinancialAuditRule extends
      * @return boolean
      */
     protected boolean checkForAnticipatedAmountZero(Document document) {
-        KualiDecimal anticipateAmount = KualiDecimal.ZERO;
+        ScaleTwoDecimal anticipateAmount = ScaleTwoDecimal.ZERO;
         SubAwardDocument subAwardDocument = (SubAwardDocument) document;
         for (SubAwardAmountInfo subAwardAmountInfo
         :subAwardDocument.getSubAward().getSubAwardAmountInfoList()) {

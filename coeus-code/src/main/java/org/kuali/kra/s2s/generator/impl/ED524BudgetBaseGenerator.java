@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
 import org.kuali.kra.budget.core.BudgetCategoryMapping;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -61,27 +61,27 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     protected static final int RATE_TYPE_ADMINISTRATIVE_SALARIES = 2;
     protected static final int RATE_TYPE_SUPPORT_STAFF_SALARIES = 3;
 
-    protected BudgetDecimal totalCost = BudgetDecimal.ZERO;
-    protected BudgetDecimal totalDirectCost = BudgetDecimal.ZERO;
-    protected BudgetDecimal totalIndirectCost = BudgetDecimal.ZERO;
-    protected BudgetDecimal totalCostSharing = BudgetDecimal.ZERO;
-    protected BudgetDecimal indirectCS = BudgetDecimal.ZERO;
-    protected BudgetDecimal supplyCost = BudgetDecimal.ZERO;
-    protected BudgetDecimal supplyCostCS = BudgetDecimal.ZERO;
-    protected BudgetDecimal otherCost = BudgetDecimal.ZERO;
-    protected BudgetDecimal otherCostCS = BudgetDecimal.ZERO;
-    protected BudgetDecimal categoryCostFringe = BudgetDecimal.ZERO;
-    protected BudgetDecimal categoryCostCSFringe = BudgetDecimal.ZERO;
-    protected BudgetDecimal equipmentCost = BudgetDecimal.ZERO;
-    protected BudgetDecimal equipmentCostCS = BudgetDecimal.ZERO;
-    protected BudgetDecimal contractualCost = BudgetDecimal.ZERO;
-    protected BudgetDecimal contractualCostCS = BudgetDecimal.ZERO;
-    protected BudgetDecimal travelCost = BudgetDecimal.ZERO;
-    protected BudgetDecimal travelCostCS = BudgetDecimal.ZERO;
-    protected BudgetDecimal trainingCost = BudgetDecimal.ZERO;
-    protected BudgetDecimal trainingCostCS = BudgetDecimal.ZERO;
-    protected BudgetDecimal personnelCost = BudgetDecimal.ZERO;
-    protected BudgetDecimal personnelCostCS = BudgetDecimal.ZERO;
+    protected ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal totalDirectCost = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal totalIndirectCost = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal totalCostSharing = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal indirectCS = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal supplyCost = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal supplyCostCS = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal otherCost = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal otherCostCS = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal categoryCostFringe = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal categoryCostCSFringe = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal equipmentCost = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal equipmentCostCS = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal contractualCost = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal contractualCostCS = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal travelCost = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal travelCostCS = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal trainingCost = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal trainingCostCS = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal personnelCost = ScaleTwoDecimal.ZERO;
+    protected ScaleTwoDecimal personnelCostCS = ScaleTwoDecimal.ZERO;
 
     protected static final String DHHS_AGREEMENT = "DHHS_AGREEMENT";
     protected static final String DHHS_DEFAULT_VALUE = "0";
@@ -111,7 +111,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     }
 
     protected void getIndirectCosts(BudgetPeriod budgetPeriod) {
-        indirectCS = BudgetDecimal.ZERO;
+        indirectCS = ScaleTwoDecimal.ZERO;
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetLineItemCalculatedAmount budgetLineItemCalAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                 budgetLineItemCalAmount.refreshNonUpdateableReferences();
@@ -124,8 +124,8 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     }
 
     protected void getSuppliesCosts(BudgetPeriod budgetPeriod) {
-        supplyCost = BudgetDecimal.ZERO;
-        supplyCostCS = BudgetDecimal.ZERO;
+        supplyCost = ScaleTwoDecimal.ZERO;
+        supplyCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetCategoryMap categoryMap : budgetCategoryMapListWithoutFilter) {
             if (TARGET_CATEGORY_CODE_MATERIOALS_AND_SUPPLIES.equals(categoryMap.getTargetCategoryCode())) {
                 for (BudgetCategoryMapping categoryMappping : categoryMap.getBudgetCategoryMappings()) {
@@ -141,10 +141,10 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     }
 
     protected void getOtherCosts(BudgetPeriod budgetPeriod) {
-        categoryCostFringe = BudgetDecimal.ZERO;
-        categoryCostCSFringe = BudgetDecimal.ZERO;
-        otherCost = BudgetDecimal.ZERO;
-        otherCostCS = BudgetDecimal.ZERO;
+        categoryCostFringe = ScaleTwoDecimal.ZERO;
+        categoryCostCSFringe = ScaleTwoDecimal.ZERO;
+        otherCost = ScaleTwoDecimal.ZERO;
+        otherCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
                 for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelDetails
@@ -202,8 +202,8 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     }
 
     protected void getEquipmentCosts(BudgetPeriod budgetPeriod) {
-        equipmentCost = BudgetDecimal.ZERO;
-        equipmentCostCS = BudgetDecimal.ZERO;
+        equipmentCost = ScaleTwoDecimal.ZERO;
+        equipmentCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetCategoryMap categoryMap : budgetCategoryMapListWithoutFilter) {
             if (categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_PURCHASED_EQUIPMENT)) {
                 for (BudgetCategoryMapping categoryMappping : categoryMap.getBudgetCategoryMappings()) {
@@ -219,8 +219,8 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     }
 
     protected void getContractualCosts(BudgetPeriod budgetPeriod) {
-        contractualCost = BudgetDecimal.ZERO;
-        contractualCostCS = BudgetDecimal.ZERO;
+        contractualCost = ScaleTwoDecimal.ZERO;
+        contractualCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetCategoryMap categoryMap : budgetCategoryMapListWithoutFilter) {
             if (categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_SUBCONTRACT)) {
                 for (BudgetCategoryMapping categoryMappping : categoryMap.getBudgetCategoryMappings()) {
@@ -236,8 +236,8 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     }
 
     protected void getTravelCosts(BudgetPeriod budgetPeriod) {
-        travelCost = BudgetDecimal.ZERO;
-        travelCostCS = BudgetDecimal.ZERO;
+        travelCost = ScaleTwoDecimal.ZERO;
+        travelCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetCategoryMap categoryMap : budgetCategoryMapListWithoutFilter) {
             if (categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_TRAVEL)
                     || categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_FOREIGN_TRAVEL)) {
@@ -254,8 +254,8 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     }
 
     protected void getTrainingCosts(BudgetPeriod budgetPeriod) {
-        trainingCost = BudgetDecimal.ZERO;
-        trainingCostCS = BudgetDecimal.ZERO;
+        trainingCost = ScaleTwoDecimal.ZERO;
+        trainingCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetCategoryMap categoryMap : budgetCategoryMapListWithoutFilter) {
             if (categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_PARTICIPANT_STIPENDS)) {
                 for (BudgetCategoryMapping categoryMappping : categoryMap.getBudgetCategoryMappings()) {
@@ -271,8 +271,8 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     }
 
     public void getPersonnelCosts(BudgetPeriod budgetPeriod) {
-        personnelCost = BudgetDecimal.ZERO;
-        personnelCostCS = BudgetDecimal.ZERO;
+        personnelCost = ScaleTwoDecimal.ZERO;
+        personnelCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetCategoryMap categoryMap : budgetCategoryMapListWithoutFilter) {
             if (categoryMap.getCategoryType().equals(TARGET_CATEGORY_TYPE_CODE_PERSONNEL)) {
                 for (BudgetCategoryMapping categoryMappping : categoryMap.getBudgetCategoryMappings()) {

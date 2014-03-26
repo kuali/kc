@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
@@ -203,7 +203,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
 
                 final BudgetPeriod period1 = new BudgetPeriod();
                 final BudgetModular modular1 = new BudgetModular();
-                modular1.setTotalDirectCost(BudgetDecimal.ZERO);
+                modular1.setTotalDirectCost(ScaleTwoDecimal.ZERO);
                 period1.setBudgetModular(modular1);
                 periods.add(period1);
 
@@ -242,7 +242,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
 
                 final BudgetPeriod period1 = new BudgetPeriod();
                 final BudgetModular modular1 = new BudgetModular();
-                modular1.setTotalDirectCost(new BudgetDecimal(1));
+                modular1.setTotalDirectCost(new ScaleTwoDecimal(1));
                 period1.setBudgetModular(modular1);
                 periods.add(period1);
 
@@ -269,7 +269,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
 
                 final BudgetPeriod period1 = new BudgetPeriod();
                 final BudgetModular modular1 = new BudgetModular();
-                modular1.setTotalDirectCost(new BudgetDecimal(1));
+                modular1.setTotalDirectCost(new ScaleTwoDecimal(1));
                 period1.setBudgetModular(modular1);
                 periods.add(period1);
 
@@ -296,13 +296,13 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
 
                 final BudgetPeriod period1 = new BudgetPeriod();
                 final BudgetModular modular1 = new BudgetModular();
-                modular1.setTotalDirectCost(new BudgetDecimal(1));
+                modular1.setTotalDirectCost(new ScaleTwoDecimal(1));
                 period1.setBudgetModular(modular1);
                 periods.add(period1);
 
                 final BudgetPeriod period2 = new BudgetPeriod();
                 final BudgetModular modular2 = new BudgetModular();
-                modular2.setTotalDirectCost(new BudgetDecimal(.1));
+                modular2.setTotalDirectCost(new ScaleTwoDecimal(.1));
                 period2.setBudgetModular(modular2);
                 periods.add(period2);
 
@@ -406,13 +406,13 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
 
                 final BudgetPeriod period1 = new BudgetPeriod();
                 final BudgetModular modular1 = new BudgetModular();
-                modular1.setTotalDirectCost(new BudgetDecimal(0));
+                modular1.setTotalDirectCost(new ScaleTwoDecimal(0));
                 period1.setBudgetModular(modular1);
                 periods.add(period1);
 
                 final BudgetPeriod period2 = new BudgetPeriod();
                 final BudgetModular modular2 = new BudgetModular();
-                modular2.setTotalDirectCost(BudgetDecimal.ZERO);
+                modular2.setTotalDirectCost(ScaleTwoDecimal.ZERO);
                 period2.setBudgetModular(modular2);
                 periods.add(period2);
 
@@ -464,13 +464,13 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
 
                 final BudgetPeriod period1 = new BudgetPeriod();
                 final BudgetModular modular1 = new BudgetModular();
-                modular1.setTotalDirectCost(new BudgetDecimal(1));
+                modular1.setTotalDirectCost(new ScaleTwoDecimal(1));
                 period1.setBudgetModular(modular1);
                 periods.add(period1);
 
                 final BudgetPeriod period2 = new BudgetPeriod();
                 final BudgetModular modular2 = new BudgetModular();
-                modular2.setTotalDirectCost(BudgetDecimal.ZERO);
+                modular2.setTotalDirectCost(ScaleTwoDecimal.ZERO);
                 period2.setBudgetModular(modular2);
                 periods.add(period2);
 

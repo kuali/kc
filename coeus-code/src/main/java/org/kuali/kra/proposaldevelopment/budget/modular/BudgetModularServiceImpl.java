@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.modular;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -34,7 +34,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     
     private static final String RATE_CLASS_PROPERTY_NAME = "rateClass";
     private static final String RATE_NUMBER_PROPERTY_NAME = "rateNumber";
-    private static final BudgetDecimal TDC_NEXT_INCREMENT = new BudgetDecimal(25000);
+    private static final ScaleTwoDecimal TDC_NEXT_INCREMENT = new ScaleTwoDecimal(25000);
     
     private BudgetCalculationService budgetCalculationService;
     private ParameterService parameterService;
@@ -56,11 +56,11 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     
     public BudgetModularSummary generateModularSummary(Budget budget) {
         BudgetModularSummary modularSummary = new BudgetModularSummary();
-        BudgetDecimal directCostLessConsortiumFna = new BudgetDecimal(0);
-        BudgetDecimal consortiumFna = new BudgetDecimal(0);
-        BudgetDecimal totalDirectCost = new BudgetDecimal(0);
-        BudgetDecimal totalFnaRequested = new BudgetDecimal(0);
-        BudgetDecimal totalRequestedCost = new BudgetDecimal(0);
+        ScaleTwoDecimal directCostLessConsortiumFna = new ScaleTwoDecimal(0);
+        ScaleTwoDecimal consortiumFna = new ScaleTwoDecimal(0);
+        ScaleTwoDecimal totalDirectCost = new ScaleTwoDecimal(0);
+        ScaleTwoDecimal totalFnaRequested = new ScaleTwoDecimal(0);
+        ScaleTwoDecimal totalRequestedCost = new ScaleTwoDecimal(0);
         List<BudgetModularIdc> budgetModularIdcs = new ArrayList<BudgetModularIdc>();
         
         for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
@@ -106,8 +106,8 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             //initialize budgetModular 
             BudgetModular budgetModular = budgetPeriod.getBudgetModular();
             budgetModular.setBudgetModularIdcs(new ArrayList<BudgetModularIdc>());
-            BudgetDecimal directCostLessConsortiumFna = new BudgetDecimal(0);
-            BudgetDecimal consortiumFna = new BudgetDecimal(0);
+            ScaleTwoDecimal directCostLessConsortiumFna = new ScaleTwoDecimal(0);
+            ScaleTwoDecimal consortiumFna = new ScaleTwoDecimal(0);
             
             for (BudgetLineItem budgetLineItem: budgetPeriod.getBudgetLineItems()) {
                 
@@ -140,7 +140,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                 }
             }
             //for direct costs increase to the next $25000 dollar increment.
-            BudgetDecimal modularTdc = BudgetDecimal.ZERO;
+            ScaleTwoDecimal modularTdc = ScaleTwoDecimal.ZERO;
             while (directCostLessConsortiumFna.isGreaterThan(modularTdc)) {
                 modularTdc = modularTdc.add(TDC_NEXT_INCREMENT);
             }

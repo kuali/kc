@@ -22,7 +22,7 @@ import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import static org.junit.Assert.*;
 public class CostSharingDataFeedCommandTest extends BaseDataFeedCommandTest {
 
@@ -64,8 +64,8 @@ public class CostSharingDataFeedCommandTest extends BaseDataFeedCommandTest {
     
     protected InstitutionalProposalCostShare createIpCostShare(String fiscalYear) {
         InstitutionalProposalCostShare retval = new InstitutionalProposalCostShare();
-        retval.setAmount(new KualiDecimal(200.00));
-        retval.setCostSharePercentage(new KualiDecimal(0.05));
+        retval.setAmount(new ScaleTwoDecimal(200.00));
+        retval.setCostSharePercentage(new ScaleTwoDecimal(0.05));
         retval.setCostShareType(costShareType);
         retval.setProjectPeriod(fiscalYear);
         retval.setSourceAccount("abc123");
@@ -74,8 +74,8 @@ public class CostSharingDataFeedCommandTest extends BaseDataFeedCommandTest {
     
     protected AwardCostShare createAwardCostShare(String fiscalYear) {
         AwardCostShare retval = new AwardCostShare();
-        retval.setCommitmentAmount(new KualiDecimal(100.00));
-        retval.setCostSharePercentage(new KualiDecimal(0.05));
+        retval.setCommitmentAmount(new ScaleTwoDecimal(100.00));
+        retval.setCostSharePercentage(new ScaleTwoDecimal(0.05));
         retval.setCostShareType(costShareType);
         retval.setProjectPeriod(fiscalYear);
         retval.setSource("abc123");

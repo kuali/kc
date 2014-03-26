@@ -18,7 +18,7 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ public class AwardApprovedEquipmentTest {
     
     private AwardApprovedEquipment createApprovedEquipmentItem(double amount) {
         AwardApprovedEquipment item = new AwardApprovedEquipment();
-        item.setAmount(new KualiDecimal(amount));
+        item.setAmount(new ScaleTwoDecimal(amount));
         return item;
     }
     
