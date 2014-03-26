@@ -40,7 +40,7 @@
 				<ref bean="PropDev-AbstractsPage" />
 				<ref bean="PropDev-NotesPage" />
 				<ref bean="PropDev-QuestionnairePage" />
-				<bean id="PropDev-DeliveryInfo" parent="PropDev-UnderDevelopmentPage" />
+				<ref bean="PropDev-DeliveryInfoPage" />
 				<bean id="PropDev-SponsorProgramInfo" parent="PropDev-UnderDevelopmentPage" />
 				<bean id="PropDev-CreditAllocation" parent="PropDev-UnderDevelopmentPage" />
 				<bean id="PropDev-Budget-Summary" parent="PropDev-UnderDevelopmentPage" />
@@ -110,7 +110,7 @@
 					p:actionLabel="Proposal Details" p:order="10" />
 				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-OpportunitySearchPage"
 					p:actionLabel="S2S Opportunity Search" p:order="20" />
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-DeliveryInfo"
+				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-DeliveryInfoPage"
 					p:actionLabel="Delivery Info" p:order="30" />
 				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-SponsorProgramInfo"
 					p:actionLabel="Sponsor &amp; Program Information" p:order="40" />
