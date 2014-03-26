@@ -41,8 +41,8 @@ public abstract class AbstractPrint implements Printable {
 	 // reportParameters used to pass parameters to CommitteeTemplatePrint.java
 	private Map<String, Object> reportParameters;
 	private Map<String, byte[]> attachments;
-
-	/**
+	
+    /**
 	 * @return the xmlStream
 	 */
 	public XmlStream getXmlStream() {

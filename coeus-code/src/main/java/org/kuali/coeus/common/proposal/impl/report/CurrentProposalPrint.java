@@ -13,24 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.print;
+package org.kuali.coeus.common.proposal.impl.report;
 
+import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.PrintConstants;
+import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
+import org.kuali.kra.util.watermark.Watermarkable;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class provides the implementation for printing Pending proposal Report.
+ * This class provides the implementation for printing Current proposal Report.
  * It generates XML that conforms with current and pending support XSD, fetches
  * XSL style-sheets applicable to this XML, returns XML and XSL for any consumer
  * that would use this XML and XSls for any purpose like report generation, PDF
  * streaming etc.
  * 
- * 
  */
-public class PendingProposalPrint extends AbstractPrint {
+public class CurrentProposalPrint extends AbstractPrint {
+
 
 	/**
 	 * This method fetches the XSL style-sheets required for transforming the
@@ -40,7 +44,31 @@ public class PendingProposalPrint extends AbstractPrint {
 	 */
 	public List<Source> getXSLTemplates() {
 		ArrayList<Source> sourceList = PrintingUtils
-				.getXSLTforReport(CurrentAndPendingReportService.PENDING_REPORT_TYPE);
+				.getXSLTforReport(PrintConstants.CURRENT_REPORT_TYPE);
 		return sourceList;
 	}
+
+	/**
+     * 
+     * This method for checking watermark is enable or disable
+     * for this document.
+     */
+     public boolean isWatermarkEnabled(){
+         return false;
+     }
+     /**
+      * This method for getting the watermark.
+      * @see org.kuali.coeus.common.framework.print.Printable#getWatermarkable()
+      * return watermarkable
+      */
+     public Watermarkable getWatermarkable(){
+         if(isWatermarkEnabled()){
+             throw new RuntimeException("Watermarkable not implemented");
+         }else{
+             return null;
+         }
+     }
+
+   
+
 }

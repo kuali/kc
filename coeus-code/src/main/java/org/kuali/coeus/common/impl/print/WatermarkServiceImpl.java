@@ -21,7 +21,7 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.framework.print.WatermarkService;
+import org.kuali.coeus.common.framework.print.watermark.WatermarkService;
 import org.kuali.kra.util.watermark.WatermarkBean;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 

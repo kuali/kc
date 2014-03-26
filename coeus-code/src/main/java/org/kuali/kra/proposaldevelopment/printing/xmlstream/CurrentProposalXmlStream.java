@@ -1,7 +1,7 @@
-package org.kuali.coeus.common.framework.print.stream.xml;
+package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.print.CurrentAndPendingReportService;
+import org.kuali.coeus.common.framework.print.PrintConstants;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.customdata.AwardCustomData;
@@ -43,14 +43,14 @@ public class CurrentProposalXmlStream extends CurrentAndPendingBaseStream {
 		CurrentAndPendingSupportDocument currentAndPendingSupportDocument=CurrentAndPendingSupportDocument.Factory.newInstance();
 		CurrentAndPendingSupport currentAndPendingSupport = CurrentAndPendingSupport.Factory
 				.newInstance();
-        List<CurrentReportBean> currentReportBeans = (List<CurrentReportBean>)reportParameters.get(CurrentAndPendingReportService.CURRENT_REPORT_BEANS_KEY);
+        List<CurrentReportBean> currentReportBeans = (List<CurrentReportBean>)reportParameters.get(PrintConstants.CURRENT_REPORT_BEANS_KEY);
         CurrentReportCEColumnNames currentReportCEColumnNames = getPendingSupportCustomColumnName(currentReportBeans);
 		CurrentSupport[] currentSupports = getCurrentSupportInformation(currentReportBeans);
-		currentAndPendingSupport.setPersonName((String)reportParameters.get(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY));
+		currentAndPendingSupport.setPersonName((String)reportParameters.get(PrintConstants.REPORT_PERSON_NAME_KEY));
 		currentAndPendingSupport.setCurrentSupportArray(currentSupports);
 		currentAndPendingSupport.setCurrentReportCEColumnNames(currentReportCEColumnNames);
 		currentAndPendingSupportDocument.setCurrentAndPendingSupport(currentAndPendingSupport);
-		xmlObjectList.put(CurrentAndPendingReportService.CURRENT_REPORT_TYPE, currentAndPendingSupportDocument);
+		xmlObjectList.put(PrintConstants.CURRENT_REPORT_TYPE, currentAndPendingSupportDocument);
 		return xmlObjectList;
 	}
 	

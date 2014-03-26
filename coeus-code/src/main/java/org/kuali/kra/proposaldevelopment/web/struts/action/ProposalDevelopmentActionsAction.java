@@ -22,8 +22,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.common.framework.print.CurrentAndPendingReportService;
+import org.kuali.coeus.common.framework.print.PrintConstants;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
+import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportService;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
@@ -1525,10 +1526,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 .getService(CurrentAndPendingReportService.class);
         ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        reportParameters.put(CurrentAndPendingReportService.PERSON_ID_KEY, helper.getPersonId());
-        reportParameters.put(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        reportParameters.put(PrintConstants.PERSON_ID_KEY, helper.getPersonId());
+        reportParameters.put(PrintConstants.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
         AttachmentDataSource dataStream = currentAndPendingReportService.printCurrentAndPendingSupportReport(
-                CurrentAndPendingReportService.CURRENT_REPORT_TYPE, reportParameters);
+                PrintConstants.CURRENT_REPORT_TYPE, reportParameters);
         streamToResponse(dataStream.getContent(), dataStream.getFileName(), null, response);
         return null;
     }
@@ -1542,10 +1543,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 .getService(CurrentAndPendingReportService.class);
         ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        reportParameters.put(CurrentAndPendingReportService.PERSON_ID_KEY, helper.getPersonId());
-        reportParameters.put(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        reportParameters.put(PrintConstants.PERSON_ID_KEY, helper.getPersonId());
+        reportParameters.put(PrintConstants.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
         AttachmentDataSource dataStream = currentAndPendingReportService.printCurrentAndPendingSupportReport(
-                CurrentAndPendingReportService.PENDING_REPORT_TYPE, reportParameters);
+                PrintConstants.PENDING_REPORT_TYPE, reportParameters);
         streamToResponse(dataStream.getContent(), dataStream.getFileName(), null, response);
         return null;
     }
@@ -1557,8 +1558,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward prepareCurrentReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
                                                                                                                     throws Exception {
         ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
-        request.setAttribute(CurrentAndPendingReportService.CURRENT_REPORT_ROWS_KEY, helper.prepareCurrentReport());
-        request.setAttribute(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName()); 
+        request.setAttribute(PrintConstants.CURRENT_REPORT_ROWS_KEY, helper.prepareCurrentReport());
+        request.setAttribute(PrintConstants.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName()); 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -1569,8 +1570,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward preparePendingReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
                                                                                                                     throws Exception {
         ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
-        request.setAttribute(CurrentAndPendingReportService.PENDING_REPORT_ROWS_KEY, helper.preparePendingReport());
-        request.setAttribute(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        request.setAttribute(PrintConstants.PENDING_REPORT_ROWS_KEY, helper.preparePendingReport());
+        request.setAttribute(PrintConstants.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
