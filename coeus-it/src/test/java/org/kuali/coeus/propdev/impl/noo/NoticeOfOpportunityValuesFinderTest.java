@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
+package org.kuali.coeus.propdev.impl.noo;
 
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+
 
 import java.util.ArrayList;
 import java.util.List;
