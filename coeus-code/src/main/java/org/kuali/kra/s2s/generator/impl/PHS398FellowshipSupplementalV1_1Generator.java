@@ -1038,13 +1038,13 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		startMonthDays++;
 		int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
 		ScaleTwoDecimal startMonthFraction = new ScaleTwoDecimal(startMonthDays)
-				.divide(new ScaleTwoDecimal(startMonthMaxDays));
+				.divide(new ScaleTwoDecimal(startMonthMaxDays), false);
 
 		int endMonthDays = endDate.get(Calendar.DATE);
 		int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
 
 		ScaleTwoDecimal endMonthFraction = new ScaleTwoDecimal(endMonthDays)
-				.divide(new ScaleTwoDecimal(endMonthMaxDays));
+				.divide(new ScaleTwoDecimal(endMonthMaxDays), false);
 
 		startDate.set(Calendar.DATE, 1);
 		endDate.set(Calendar.DATE, 1);

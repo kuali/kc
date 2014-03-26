@@ -183,7 +183,7 @@ public class BudgetExpenseRule {
         ScaleTwoDecimal unitCost = budgetFormulatedCost.getUnitCost();
         ScaleTwoDecimal count = new ScaleTwoDecimal(budgetFormulatedCost.getCount());
         ScaleTwoDecimal frequency = new ScaleTwoDecimal(budgetFormulatedCost.getFrequency());
-        ScaleTwoDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency);
+        ScaleTwoDecimal calculatedExpense = unitCost.multiply(count, false).multiply(frequency, false);
         if(unitCost.isGreaterThan(new ScaleTwoDecimal(MAX_BUDGET_DECIMAL_VALUE))){
             valid = false;
             errorMap.putError(errorKey+".unitCost", KeyConstants.ERROR_FORMULATED_UNIT_COST);

@@ -953,12 +953,12 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         int startMonthDays = startDate.getActualMaximum(Calendar.DATE) - startDate.get(Calendar.DATE);
         startMonthDays++;
         int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
-        ScaleTwoDecimal startMonthFraction = new ScaleTwoDecimal(startMonthDays).divide(new ScaleTwoDecimal(startMonthMaxDays));
+        ScaleTwoDecimal startMonthFraction = new ScaleTwoDecimal(startMonthDays).divide(new ScaleTwoDecimal(startMonthMaxDays), false);
 
         int endMonthDays = endDate.get(Calendar.DATE);
         int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
 
-        ScaleTwoDecimal endMonthFraction = new ScaleTwoDecimal(endMonthDays).divide(new ScaleTwoDecimal(endMonthMaxDays));
+        ScaleTwoDecimal endMonthFraction = new ScaleTwoDecimal(endMonthDays).divide(new ScaleTwoDecimal(endMonthMaxDays), false);
 
         startDate.set(Calendar.DATE, 1);
         endDate.set(Calendar.DATE, 1);

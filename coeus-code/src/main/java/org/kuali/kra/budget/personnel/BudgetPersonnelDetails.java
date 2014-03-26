@@ -279,7 +279,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
                 startDateCalendar.set(DAY_OF_MONTH, 1);
                 personMonths += (noOfActualDays / noOfDaysInMonth);
             }
-            result = new ScaleTwoDecimal(new ScaleTwoDecimal(personMonths).multiply(getPercentEffort()).divide(new ScaleTwoDecimal(100)).bigDecimalValue());
+            result = new ScaleTwoDecimal(new ScaleTwoDecimal(personMonths).multiply(getPercentEffort(), false).divide(new ScaleTwoDecimal(100), false).bigDecimalValue());
         }
         return result;
     }

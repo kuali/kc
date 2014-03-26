@@ -1296,19 +1296,19 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                 if (s2SUtilService.keyPersonEqualsBudgetPerson(keyPerson, personDetails)) {
                     ScaleTwoDecimal numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(), personDetails.getEndDate());
                     if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_ACADEMIC_MONTHS)) {
-                        ScaleTwoDecimal academicMonths = personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01));
+                        ScaleTwoDecimal academicMonths = personDetails.getPercentEffort().multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false);
                         if (lineItem.getBudgetCategoryCode().equals(SENIOR_PERSONNEL_CATEGORY_CODE)) {
                             compensationInfo.setAcademicMonths(compensationInfo.getAcademicMonths().add(academicMonths));
                         }
                     }
                     else if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_SUMMER_MONTHS)) {
-                        ScaleTwoDecimal summerMonths = personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01));
+                        ScaleTwoDecimal summerMonths = personDetails.getPercentEffort().multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false);
                         if (lineItem.getBudgetCategoryCode().equals(SENIOR_PERSONNEL_CATEGORY_CODE)) {
                             compensationInfo.setSummerMonths(compensationInfo.getSummerMonths().add(summerMonths));
                         }
                     }
                     else {
-                        ScaleTwoDecimal calendarMonths = personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01));
+                        ScaleTwoDecimal calendarMonths = personDetails.getPercentEffort().multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false);
                         if (lineItem.getBudgetCategoryCode().equals(SENIOR_PERSONNEL_CATEGORY_CODE)) {
                             compensationInfo.setCalendarMonths(compensationInfo.getCalendarMonths().add(calendarMonths));
                         }

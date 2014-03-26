@@ -42,12 +42,6 @@ public final class ScaleTwoDecimal extends AbstractDecimal<ScaleTwoDecimal> {
         super();
     }
 
-    /**
-     * This is the base constructor, used by constructors that take other types
-     * 
-     * @param value String containing numeric value
-     * @throws IllegalArgumentException if the given String is null
-     */
     public ScaleTwoDecimal(String value) {
         super(value, SCALE);
     }
@@ -64,42 +58,20 @@ public final class ScaleTwoDecimal extends AbstractDecimal<ScaleTwoDecimal> {
         super(value, SCALE);
     }
 
-    protected ScaleTwoDecimal(String value, int scale) {
+    private ScaleTwoDecimal(String value, int scale) {
         super(value, scale);
     }
 
-    protected ScaleTwoDecimal(int value, int scale) {
+    private ScaleTwoDecimal(int value, int scale) {
         super(value, scale);
     }
 
-    protected ScaleTwoDecimal(double value, int scale) {
+    private ScaleTwoDecimal(double value, int scale) {
         super(value, scale);
     }
 
-    protected ScaleTwoDecimal(BigDecimal value, int scale) {
+    private ScaleTwoDecimal(BigDecimal value, int scale) {
         super(value, scale);
-    }
-
-    public ScaleTwoDecimal percentage(ScaleTwoDecimal rate){
-        return multiply(rate).divide(new ScaleTwoDecimal(100)).setScale();
-    }
-
-    public ScaleTwoDecimal setScale() {
-        return setScale(SCALE);
-    }
-
-    public ScaleTwoDecimal setScale(int scale) {
-        return new ScaleTwoDecimal(bigDecimalValue().setScale(scale,BigDecimal.ROUND_HALF_UP));
-    }
-
-    @Override
-    public ScaleTwoDecimal divide(ScaleTwoDecimal divisor){
-        return super.divide(divisor, false);
-    }
-
-    @Override
-    public ScaleTwoDecimal multiply(ScaleTwoDecimal multiplier){
-        return super.multiply(multiplier, false);
     }
 
     @Override
@@ -127,6 +99,15 @@ public final class ScaleTwoDecimal extends AbstractDecimal<ScaleTwoDecimal> {
         return new ScaleTwoDecimal(value, scale);
     }
 
+    @Override
+    protected ScaleTwoDecimal zero() {
+        return ZERO;
+    }
+
+    public ScaleTwoDecimal percentage(ScaleTwoDecimal rate){
+        return multiply(rate).divide(new ScaleTwoDecimal(100));
+    }
+
     /**
      * return {@link #ZERO} if the object is null
      * @param value the passed in value or {@link #ZERO}
@@ -134,16 +115,11 @@ public final class ScaleTwoDecimal extends AbstractDecimal<ScaleTwoDecimal> {
     public static ScaleTwoDecimal returnZeroIfNull(ScaleTwoDecimal value){
         return value==null ? ScaleTwoDecimal.ZERO : value;
     }
-    
+
     /**
      * This method calls the floatValue() function.  It is needed so the TAGs can call this function.
      */
     public float getFloatValue() {
         return this.floatValue();
-    }
-
-    @Override
-    protected ScaleTwoDecimal zero() {
-        return ZERO;
     }
 }

@@ -149,7 +149,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
                     } else {
 
                         actualPersonSalary = budgetPerson.getCalculationBase().add(
-                                budgetPerson.getCalculationBase().multiply(newRate.divide(new ScaleTwoDecimal(100)))).setScale(2);
+                                budgetPerson.getCalculationBase().multiply(newRate.divide(new ScaleTwoDecimal(100), false), false));
                         
                       
                     }
@@ -157,7 +157,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
 
                 } else {
 
-                    personSalary = actualPersonSalary.add(actualPersonSalary.multiply(newRate.divide(new ScaleTwoDecimal(100)))).setScale(2);
+                    personSalary = actualPersonSalary.add(actualPersonSalary.multiply(newRate.divide(new ScaleTwoDecimal(100), false), false));
                     personSalaryDetails.setBaseSalary(personSalary);
                     actualPersonSalary = personSalary;
                 }

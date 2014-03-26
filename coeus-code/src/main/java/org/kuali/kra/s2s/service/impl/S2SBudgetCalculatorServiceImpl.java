@@ -119,7 +119,6 @@ public class S2SBudgetCalculatorServiceImpl implements
      * @param pdDoc ProposalDevelopmentDocument.
      * @return BudgetSummaryInfo corresponding to the ProposalDevelopmentDocument object.
      * @throws S2SException
-     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetInfo(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocument pdDoc, List<BudgetPeriodInfo> budgetPeriodInfos)
             throws S2SException {
@@ -820,21 +819,21 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                         Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {
                                             if (lineItem.getSubmitCostSharingFlag()) {
                                                 academicMonths = academicMonths.add(personDetails.getPercentEffort()
-                                                        .multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01)));
+                                                        .multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false));
                                             } else {
                                                 academicMonths = academicMonths.add(personDetails.getPercentCharged()
-                                                        .multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01)));
+                                                        .multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false));
                                             }                                            
                                         }
                                         else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS))) {
                                             if (lineItem.getSubmitCostSharingFlag()) {
-                                                summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                                        .multiply(new ScaleTwoDecimal(0.01)));
+                                                summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths, false)
+                                                        .multiply(new ScaleTwoDecimal(0.01), false));
                                             } else {
-                                                summerMonths = summerMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
-                                                        .multiply(new ScaleTwoDecimal(0.01)));
+                                                summerMonths = summerMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths, false)
+                                                        .multiply(new ScaleTwoDecimal(0.01), false));
                                             }
                                             
                                         }
@@ -842,18 +841,18 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_CALENDAR_MONTHS))) {
                                             if (lineItem.getSubmitCostSharingFlag()) {
-                                                calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                                        .multiply(new ScaleTwoDecimal(0.01)));
+                                                calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths, false)
+                                                        .multiply(new ScaleTwoDecimal(0.01), false));
                                             } else {
-                                                calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
-                                                        .multiply(new ScaleTwoDecimal(0.01)));
+                                                calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths, false)
+                                                        .multiply(new ScaleTwoDecimal(0.01), false));
                                             }
                                         }
                                         else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_CYCLE_MONTHS))) {
-                                            cycleMonths = cycleMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                                    .multiply(new ScaleTwoDecimal(0.01)));
+                                            cycleMonths = cycleMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths, false)
+                                                    .multiply(new ScaleTwoDecimal(0.01), false));
                                         }
                                         // Get total count of unique
                                         // personId+jobCode combination for those
@@ -943,9 +942,9 @@ public class S2SBudgetCalculatorServiceImpl implements
         compensationInfo.setFringe(bdFringe);
         compensationInfo.setFundsRequested(bdFunds);
         compensationInfo.setRequestedSalary(bdSalary);
-        compensationInfo.setSummerMonths(summerMonths.setScale());
-        compensationInfo.setAcademicMonths(academicMonths.setScale());
-        compensationInfo.setCalendarMonths(calendarMonths.setScale());
+        compensationInfo.setSummerMonths(summerMonths);
+        compensationInfo.setAcademicMonths(academicMonths);
+        compensationInfo.setCalendarMonths(calendarMonths);
 
         // start add costSaring for fedNonFedBudget report
         compensationInfo.setFringeCostSharing(bdFringeCostSharing);
@@ -1832,7 +1831,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      * 
      * This method computes the CompensationInfo for given person, {@link BudgetPeriod} and Proposal Numnber
      * 
-     * @param personId id of the proposal person.
+     * @param keyPerson id of the proposal person.
      * @param budgetPeriod given BudgetPeriod.
      * @param proposalNumber propsal number.
      * 
@@ -1862,21 +1861,21 @@ public class S2SBudgetCalculatorServiceImpl implements
                                     Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {                        
                         if (lineItem.getSubmitCostSharingFlag()) {
                             academicMonths = academicMonths.add(personDetails.getPercentEffort()
-                                    .multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01)));
+                                    .multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false));
                         } else {
                             academicMonths = academicMonths.add(personDetails.getPercentCharged()
-                                    .multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01)));
+                                    .multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false));
                         }
                     }
                     else if (personDetails.getPeriodTypeCode().equals(
                             getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                     Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS))) {
                         if (lineItem.getSubmitCostSharingFlag()) {
-                            summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                    .multiply(new ScaleTwoDecimal(0.01)));
+                            summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths, false)
+                                    .multiply(new ScaleTwoDecimal(0.01), false));
                         } else {
-                            summerMonths = summerMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
-                                    .multiply(new ScaleTwoDecimal(0.01)));
+                            summerMonths = summerMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths, false)
+                                    .multiply(new ScaleTwoDecimal(0.01), false));
                         }
                     }
                     else {
@@ -1884,21 +1883,21 @@ public class S2SBudgetCalculatorServiceImpl implements
                             if (lineItem.getBudgetCategory()
                                     .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
                                 if (lineItem.getSubmitCostSharingFlag()) {
-                                    calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                            .multiply(new ScaleTwoDecimal(0.01)));
+                                    calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths, false)
+                                            .multiply(new ScaleTwoDecimal(0.01), false));
                                 } else {
-                                    calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
-                                            .multiply(new ScaleTwoDecimal(0.01)));
+                                    calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths, false)
+                                            .multiply(new ScaleTwoDecimal(0.01), false));
                                 }
                             } 
                         }else {
                             if (lineItem.getSubmitCostSharingFlag()) {
-                                calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                        .multiply(new ScaleTwoDecimal(0.01)));
+                                calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths, false)
+                                        .multiply(new ScaleTwoDecimal(0.01), false));
                             }
                             else {
-                                calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
-                                        .multiply(new ScaleTwoDecimal(0.01)));
+                                calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths, false)
+                                        .multiply(new ScaleTwoDecimal(0.01), false));
                             }
                         }
                     }
@@ -1978,9 +1977,9 @@ public class S2SBudgetCalculatorServiceImpl implements
 
             }
         }
-        compensationInfo.setAcademicMonths(academicMonths.setScale());
-        compensationInfo.setCalendarMonths(calendarMonths.setScale());
-        compensationInfo.setSummerMonths(summerMonths.setScale());
+        compensationInfo.setAcademicMonths(academicMonths);
+        compensationInfo.setCalendarMonths(calendarMonths);
+        compensationInfo.setSummerMonths(summerMonths);
         compensationInfo.setRequestedSalary(totalSal);
         compensationInfo.setBaseSalary(baseAmount);
         compensationInfo.setCostSharingAmount(totalSalCostSharing);
@@ -2087,7 +2086,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     /**
      * Sets the s2sUtilService attribute value.
      * 
-     * @param generatorUtilService The s2sUtilService to set.
+     * @param s2SUtilService The s2sUtilService to set.
      */
     public void setS2SUtilService(S2SUtilService s2SUtilService) {
         this.s2SUtilService = s2SUtilService;

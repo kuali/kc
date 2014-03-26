@@ -723,7 +723,7 @@ public class SalaryCalculator {
         for (BudgetRate budgetProposalrate : qlist) {
             if (budgetProposalrate.getStartDate().after(budgetPerson.getEffectiveDate())
                     && budgetProposalrate.getStartDate().before(startDate)) {
-                calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate()).divide(new ScaleTwoDecimal(100.00)));
+                calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate(), false).divide(new ScaleTwoDecimal(100.00), false));
             }
         }
         return calBase;

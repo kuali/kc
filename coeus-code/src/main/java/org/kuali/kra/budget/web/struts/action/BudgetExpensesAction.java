@@ -93,23 +93,13 @@ public class BudgetExpensesAction extends BudgetAction {
         
         if(budgetForm.getViewBudgetPeriod() == null || StringUtils.equalsIgnoreCase(budgetForm.getViewBudgetPeriod().toString(), "0")){
             GlobalVariables.getMessageMap().putError("viewBudgetPeriod", KeyConstants.ERROR_BUDGET_PERIOD_NOT_SELECTED);
-        }
-        else if(newBudgetLineItem.getCostElement() == null || StringUtils.equalsIgnoreCase(newBudgetLineItem.getCostElement(), "")){
+        } else if(newBudgetLineItem.getCostElement() == null || StringUtils.equalsIgnoreCase(newBudgetLineItem.getCostElement(), "")){
             GlobalVariables.getMessageMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement", KeyConstants.ERROR_COST_ELEMENT_NOT_SELECTED);
-        }
-        else if(newBudgetLineItem.getCostElement() == null || StringUtils.equalsIgnoreCase(newBudgetLineItem.getCostElement(), "")){
+        } else if(newBudgetLineItem.getCostElement() == null || StringUtils.equalsIgnoreCase(newBudgetLineItem.getCostElement(), "")){
             GlobalVariables.getMessageMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement", KeyConstants.ERROR_COST_ELEMENT_NOT_SELECTED);
-        }
-//        else if (newBudgetLineItem.getCostSharingAmount() != null && newBudgetLineItem.getCostSharingAmount().isNegative()) {
-//            GlobalVariables.getMessageMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costSharingAmount", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Cost Sharing");
-//        }
-        else if (newBudgetLineItem.getQuantity() != null && newBudgetLineItem.getQuantity().intValue()<0) {
+        } else if (newBudgetLineItem.getQuantity() != null && newBudgetLineItem.getQuantity().intValue()<0) {
             GlobalVariables.getMessageMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].quantity", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Quantity");
-        }
-//        else if (newBudgetLineItem.getLineItemCost() != null && newBudgetLineItem.getLineItemCost().isNegative()) {
-//            GlobalVariables.getMessageMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].lineItemCost", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Total Base Cost");
-//        }
-        else{
+        } else{
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
             primaryKeys.put("budgetId", budget.getBudgetId());
             primaryKeys.put("budgetPeriod", budgetForm.getViewBudgetPeriod().toString());
@@ -121,9 +111,6 @@ public class BudgetExpensesAction extends BudgetAction {
                     budgetPeriod = tempBudgetPeriod;
                 }
             }
-//            if(CollectionUtils.isNotEmpty(budgetPeriods)) {
-//                budgetPeriod = budgetPeriods.get(0);
-//            }
 
             budgetService.populateNewBudgetLineItem(newBudgetLineItem, budgetPeriod);
             budgetPeriod.getBudgetLineItems().add(newBudgetLineItem);            
@@ -209,7 +196,7 @@ public class BudgetExpensesAction extends BudgetAction {
         ScaleTwoDecimal unitCost = budgetFormulatedCost.getUnitCost();
         ScaleTwoDecimal count = new ScaleTwoDecimal(budgetFormulatedCost.getCount());
         ScaleTwoDecimal frequency = new ScaleTwoDecimal(budgetFormulatedCost.getFrequency());
-        ScaleTwoDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency).setScale();
+        ScaleTwoDecimal calculatedExpense = unitCost.multiply(count, false).multiply(frequency, false);
         budgetFormulatedCost.setCalculatedExpenses(calculatedExpense);
     }
 
