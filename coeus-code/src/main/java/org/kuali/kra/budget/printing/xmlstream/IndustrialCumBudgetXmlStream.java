@@ -17,7 +17,7 @@ package org.kuali.kra.budget.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
@@ -143,7 +143,7 @@ public class IndustrialCumBudgetXmlStream extends BudgetBaseSalaryStream {
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			BudgetDataPeriodVO budgetDataPeriodVO = new BudgetDataPeriodVO();
 			budgetDataPeriodVO.setBudgetPeriodId(++budgetPeriodDataId);
-			BudgetDecimal periodCost = BudgetDecimal.ZERO;
+			ScaleTwoDecimal periodCost = ScaleTwoDecimal.ZERO;
 			for (BudgetLineItem budgetLineItem : budgetPeriod
 					.getBudgetLineItems()) {
 				if (budgetLineItem.getCostElementBO().getCostElement().equals(
@@ -165,9 +165,9 @@ public class IndustrialCumBudgetXmlStream extends BudgetBaseSalaryStream {
 	 * This method get sum of calculated cost from list of
 	 * BudgetLineItemCalculatedAmount
 	 */
-	private BudgetDecimal getBudgetDataPeriodsForCalculatedAmountsForIndustrialCumBudget(
+	private ScaleTwoDecimal getBudgetDataPeriodsForCalculatedAmountsForIndustrialCumBudget(
 			BudgetLineItem budgetLineItem) {
-		BudgetDecimal periodCost = BudgetDecimal.ZERO;
+		ScaleTwoDecimal periodCost = ScaleTwoDecimal.ZERO;
 		for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem
 				.getBudgetLineItemCalculatedAmounts()) {
 			periodCost = periodCost.add(budgetLineItemCalcAmount

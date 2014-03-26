@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.budget.calculator;
 
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationServiceImpl;
 import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.budget.core.CostElement;
@@ -57,12 +57,12 @@ public class AwardBudgetCalculationServiceImpl extends BudgetCalculationServiceI
      */
     @SuppressWarnings("unchecked")
     protected void aggregatePeriodSummaryTotals(AwardBudgetExt budget) {
-        budget.setObjectCodeBudgetTotals((SortedMap<CostElement, BudgetDecimal>) getSumOfElements(budget.getObjectCodeTotals()));
-        budget.setCalculatedExpenseBudgetTotals((SortedMap<RateType, BudgetDecimal>) getSumOfElements(budget.getCalculatedExpenseTotals()));
-        budget.setTotalBudgetSummaryTotals((SortedMap<String, BudgetDecimal>) getSumOfElements(budget.getBudgetSummaryTotals()));
-        budget.setObjectCodePersonnelFringeBudgetTotals((SortedMap<String, BudgetDecimal>) getSumOfElements(budget.getObjectCodePersonnelFringeTotals()));
-        budget.setPersonnelCalculatedExpenseBudgetTotals((SortedMap<RateType, BudgetDecimal>) getSumOfElements(budget.getPersonnelCalculatedExpenseTotals()));
-        budget.setNonPersonnelCalculatedExpenseBudgetTotals((SortedMap<RateType, BudgetDecimal>) getSumOfElements(budget.getNonPersonnelCalculatedExpenseTotals()));
+        budget.setObjectCodeBudgetTotals((SortedMap<CostElement, ScaleTwoDecimal>) getSumOfElements(budget.getObjectCodeTotals()));
+        budget.setCalculatedExpenseBudgetTotals((SortedMap<RateType, ScaleTwoDecimal>) getSumOfElements(budget.getCalculatedExpenseTotals()));
+        budget.setTotalBudgetSummaryTotals((SortedMap<String, ScaleTwoDecimal>) getSumOfElements(budget.getBudgetSummaryTotals()));
+        budget.setObjectCodePersonnelFringeBudgetTotals((SortedMap<String, ScaleTwoDecimal>) getSumOfElements(budget.getObjectCodePersonnelFringeTotals()));
+        budget.setPersonnelCalculatedExpenseBudgetTotals((SortedMap<RateType, ScaleTwoDecimal>) getSumOfElements(budget.getPersonnelCalculatedExpenseTotals()));
+        budget.setNonPersonnelCalculatedExpenseBudgetTotals((SortedMap<RateType, ScaleTwoDecimal>) getSumOfElements(budget.getNonPersonnelCalculatedExpenseTotals()));
     }
     
     /**
@@ -82,17 +82,17 @@ public class AwardBudgetCalculationServiceImpl extends BudgetCalculationServiceI
                 budget.getObjectCodeListByBudgetCategoryType().put(entry.getKey(), new ArrayList<CostElement>(uniqueSet));
             }            
         }
-        budget.setObjectCodeBudgetTotals((SortedMap<CostElement, BudgetDecimal>) mergeMaps(budget.getObjectCodeBudgetTotals(), 
+        budget.setObjectCodeBudgetTotals((SortedMap<CostElement, ScaleTwoDecimal>) mergeMaps(budget.getObjectCodeBudgetTotals(),
                 prevBudget.getObjectCodeBudgetTotals()));
-        budget.setCalculatedExpenseBudgetTotals((SortedMap<RateType, BudgetDecimal>) mergeMaps(budget.getCalculatedExpenseBudgetTotals(), 
+        budget.setCalculatedExpenseBudgetTotals((SortedMap<RateType, ScaleTwoDecimal>) mergeMaps(budget.getCalculatedExpenseBudgetTotals(),
                 prevBudget.getCalculatedExpenseBudgetTotals()));
-        budget.setTotalBudgetSummaryTotals((SortedMap<String, BudgetDecimal>) mergeMaps(budget.getTotalBudgetSummaryTotals(), 
+        budget.setTotalBudgetSummaryTotals((SortedMap<String, ScaleTwoDecimal>) mergeMaps(budget.getTotalBudgetSummaryTotals(),
                 prevBudget.getTotalBudgetSummaryTotals()));
-        budget.setObjectCodePersonnelFringeBudgetTotals((SortedMap<String, BudgetDecimal>) mergeMaps(budget.getObjectCodePersonnelFringeBudgetTotals(),
+        budget.setObjectCodePersonnelFringeBudgetTotals((SortedMap<String, ScaleTwoDecimal>) mergeMaps(budget.getObjectCodePersonnelFringeBudgetTotals(),
                 prevBudget.getObjectCodePersonnelFringeBudgetTotals()));
-        budget.setPersonnelCalculatedExpenseBudgetTotals((SortedMap<RateType, BudgetDecimal>) mergeMaps(budget.getPersonnelCalculatedExpenseBudgetTotals(),
+        budget.setPersonnelCalculatedExpenseBudgetTotals((SortedMap<RateType, ScaleTwoDecimal>) mergeMaps(budget.getPersonnelCalculatedExpenseBudgetTotals(),
                 prevBudget.getPersonnelCalculatedExpenseBudgetTotals()));
-        budget.setNonPersonnelCalculatedExpenseBudgetTotals((SortedMap<RateType, BudgetDecimal>) mergeMaps(budget.getNonPersonnelCalculatedExpenseBudgetTotals(),
+        budget.setNonPersonnelCalculatedExpenseBudgetTotals((SortedMap<RateType, ScaleTwoDecimal>) mergeMaps(budget.getNonPersonnelCalculatedExpenseBudgetTotals(),
                 prevBudget.getNonPersonnelCalculatedExpenseBudgetTotals()));
         budget.setTotalDirectCost(budget.getTotalDirectCost().add(prevBudget.getTotalDirectCost()));
         budget.setTotalIndirectCost(budget.getTotalIndirectCost().add(prevBudget.getTotalIndirectCost()));
@@ -105,14 +105,14 @@ public class AwardBudgetCalculationServiceImpl extends BudgetCalculationServiceI
      * @param previous
      * @return
      */
-    protected SortedMap<? extends Object, BudgetDecimal> mergeMaps(Map<? extends Object, BudgetDecimal> totals, Map<? extends Object, BudgetDecimal> previous) {
-        SortedMap<Object, BudgetDecimal> result = new TreeMap<Object, BudgetDecimal>();
-        for (Map.Entry<? extends Object, BudgetDecimal> entry : totals.entrySet()) {
+    protected SortedMap<? extends Object, ScaleTwoDecimal> mergeMaps(Map<? extends Object, ScaleTwoDecimal> totals, Map<? extends Object, ScaleTwoDecimal> previous) {
+        SortedMap<Object, ScaleTwoDecimal> result = new TreeMap<Object, ScaleTwoDecimal>();
+        for (Map.Entry<? extends Object, ScaleTwoDecimal> entry : totals.entrySet()) {
             result.put(entry.getKey(), entry.getValue());
         }
-        for (Map.Entry<? extends Object, BudgetDecimal> entry : previous.entrySet()) {
+        for (Map.Entry<? extends Object, ScaleTwoDecimal> entry : previous.entrySet()) {
             Object key = entry.getKey();
-            BudgetDecimal total = totals.get(key);
+            ScaleTwoDecimal total = totals.get(key);
             if (total != null) {
                 if (total == null) {
                     result.put(key, entry.getValue());
@@ -131,11 +131,11 @@ public class AwardBudgetCalculationServiceImpl extends BudgetCalculationServiceI
      * @param map
      * @return
      */
-    protected SortedMap<? extends Object, BudgetDecimal> getSumOfElements(Map<? extends Object, List<BudgetDecimal>> map) {
-        SortedMap<Object, BudgetDecimal> result = new TreeMap<Object, BudgetDecimal>();
-        for (Map.Entry<? extends Object, List<BudgetDecimal>> entry : map.entrySet()) {
-            BudgetDecimal total = BudgetDecimal.ZERO;
-            for (BudgetDecimal amt : entry.getValue()) {
+    protected SortedMap<? extends Object, ScaleTwoDecimal> getSumOfElements(Map<? extends Object, List<ScaleTwoDecimal>> map) {
+        SortedMap<Object, ScaleTwoDecimal> result = new TreeMap<Object, ScaleTwoDecimal>();
+        for (Map.Entry<? extends Object, List<ScaleTwoDecimal>> entry : map.entrySet()) {
+            ScaleTwoDecimal total = ScaleTwoDecimal.ZERO;
+            for (ScaleTwoDecimal amt : entry.getValue()) {
                 total = total.add(amt);
             }
             //if the key is a string and has a comma, remove everything after the comma

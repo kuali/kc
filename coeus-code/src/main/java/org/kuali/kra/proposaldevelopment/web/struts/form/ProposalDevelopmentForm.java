@@ -87,7 +87,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -629,7 +629,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
 
     @SuppressWarnings("unchecked")
-    public Map<String, KualiDecimal> getCreditSplitTotals() {
+    public Map<String, ScaleTwoDecimal> getCreditSplitTotals() {
         return this.getKeyPersonnelService().calculateCreditSplitTotals(getProposalDevelopmentDocument());    
     }
 

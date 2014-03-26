@@ -21,7 +21,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.calculator.DateSortable;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -57,7 +57,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     private String appointmentTypeCode;
 
-    private BudgetDecimal calculationBase;
+    private ScaleTwoDecimal calculationBase;
 
     private String personName;
 
@@ -192,11 +192,11 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         this.appointmentType = appointmentType;
     }
 
-    public BudgetDecimal getCalculationBase() {
+    public ScaleTwoDecimal getCalculationBase() {
         return calculationBase;
     }
 
-    public void setCalculationBase(BudgetDecimal calculationBase) {
+    public void setCalculationBase(ScaleTwoDecimal calculationBase) {
         this.calculationBase = calculationBase;
     }
 

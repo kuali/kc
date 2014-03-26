@@ -26,7 +26,7 @@ import org.kuali.kra.award.home.CFDA;
 import org.kuali.kra.award.external.award.AccountCreationClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -95,15 +95,15 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
             valid = false;
             reportError(ANTICIPATED_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ANTICIPATED_AMOUNT);
         }
-        if (award.getObligatedTotal().isLessThan(KualiDecimal.ZERO)) {
+        if (award.getObligatedTotal().isLessThan(ScaleTwoDecimal.ZERO)) {
             valid = false;
             reportError(OBLIGATED_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_OBLIGATED_AMOUNT_NEGATIVE);
         }
-        if (award.getAnticipatedTotal().isLessThan(KualiDecimal.ZERO)) {
+        if (award.getAnticipatedTotal().isLessThan(ScaleTwoDecimal.ZERO)) {
             valid = false;
             reportError(ANTICIPATED_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ANTICIPATED_AMOUNT_NEGATIVE);
         }
-        if(award.getObligatedTotal().isGreaterThan(new KualiDecimal(0)) &&
+        if(award.getObligatedTotal().isGreaterThan(new ScaleTwoDecimal(0)) &&
                 //award.getAwardEffectiveDate() == null) {
                 award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() - 1).getCurrentFundEffectiveDate() == null) {
             valid = false;
@@ -113,7 +113,7 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
                 reportError(AWARD_EFFECTIVE_DATE_PROPERTY_NAME, KeyConstants.ERROR_AWARD_EFFECTIVE_DATE);
             }
         }
-        if(award.getObligatedTotal().isGreaterThan(new KualiDecimal(0)) &&
+        if(award.getObligatedTotal().isGreaterThan(new ScaleTwoDecimal(0)) &&
                 //award.getObligationExpirationDate() == null) {
                 award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() - 1).getObligationExpirationDate() == null) {
             valid = false;

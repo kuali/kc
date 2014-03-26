@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetRateAndBase;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 
@@ -35,13 +35,13 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
 
     private Integer personNumber;
 
-    private BudgetDecimal salaryRequested;
+    private ScaleTwoDecimal salaryRequested;
 
     /**
      * Gets the salaryRequested attribute. 
      * @return Returns the salaryRequested.
      */
-    public BudgetDecimal getSalaryRequested() {
+    public ScaleTwoDecimal getSalaryRequested() {
         return salaryRequested;
     }
 
@@ -49,7 +49,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
      * Sets the salaryRequested attribute value.
      * @param salaryRequested The salaryRequested to set.
      */
-    public void setSalaryRequested(BudgetDecimal salaryRequested) {
+    public void setSalaryRequested(ScaleTwoDecimal salaryRequested) {
         this.salaryRequested = salaryRequested;
     }
 

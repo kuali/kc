@@ -17,6 +17,7 @@ package org.kuali.kra.budget.external.budget.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO;
 import org.kuali.kfs.integration.cg.dto.Details;
@@ -27,7 +28,6 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.CostElement;
@@ -146,7 +146,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         complete &= createBudgetAdjustmentDocumentHeader(awardBudgetDocument, parametersDTO);                  
         budgetCalculationService.calculateBudgetSummaryTotals(awardBudgetDocument.getAwardBudget());
         
-        Map<String, BudgetDecimal> accountingLines = new HashMap<String, BudgetDecimal>();  
+        Map<String, ScaleTwoDecimal> accountingLines = new HashMap<String, ScaleTwoDecimal>();
         
         complete &= setNonPersonnelAccountingLines(awardBudgetDocument, accountingLines);
         
@@ -182,11 +182,11 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @param accountingLines 
      * @return
      */
-    protected boolean setPersonnnelCalculatedDirectCost(AwardBudgetDocument awardBudgetDocument, Map<String, BudgetDecimal> accountingLines) {
+    protected boolean setPersonnnelCalculatedDirectCost(AwardBudgetDocument awardBudgetDocument, Map<String, ScaleTwoDecimal> accountingLines) {
         Budget currentBudget = awardBudgetDocument.getBudget();
         AwardBudgetExt previousBudget = getPrevBudget(awardBudgetDocument);
         boolean complete = true;
-        Map<RateClassRateType, BudgetDecimal> netPersonnelCalculatedDirectCost = 
+        Map<RateClassRateType, ScaleTwoDecimal> netPersonnelCalculatedDirectCost =
             getBudgetAdjustmentServiceHelper().getPersonnelCalculatedDirectCost(currentBudget, previousBudget);
 
         for (RateClassRateType rate : netPersonnelCalculatedDirectCost.keySet()) {
@@ -211,11 +211,11 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @param accountingLines 
      * @return
      */
-    protected boolean setIndirectCostAccountingLine(AwardBudgetDocument awardBudgetDocument, Map<String, BudgetDecimal> accountingLines) {
+    protected boolean setIndirectCostAccountingLine(AwardBudgetDocument awardBudgetDocument, Map<String, ScaleTwoDecimal> accountingLines) {
         Budget currentBudget = awardBudgetDocument.getBudget();
         AwardBudgetExt previousBudget = getPrevBudget(awardBudgetDocument);
         boolean complete = true;
-        Map<RateClassRateType, BudgetDecimal> netIndirectCost = getBudgetAdjustmentServiceHelper().getIndirectCost(currentBudget, previousBudget);  
+        Map<RateClassRateType, ScaleTwoDecimal> netIndirectCost = getBudgetAdjustmentServiceHelper().getIndirectCost(currentBudget, previousBudget);
         for (RateClassRateType rate : netIndirectCost.keySet()) {
             Details details = new Details();
             details.setCurrentAmount(netIndirectCost.get(rate).toString());
@@ -240,11 +240,11 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @param accountingLines 
      * @return
      */
-    protected boolean setPersonnelFringeAccountingLines(AwardBudgetDocument awardBudgetDocument, Map<String, BudgetDecimal> accountingLines) {
+    protected boolean setPersonnelFringeAccountingLines(AwardBudgetDocument awardBudgetDocument, Map<String, ScaleTwoDecimal> accountingLines) {
         Budget currentBudget = awardBudgetDocument.getBudget();
         AwardBudgetExt previousBudget = getPrevBudget(awardBudgetDocument);
         boolean complete = true;
-        Map<RateClassRateType, BudgetDecimal> netFringeCost = getBudgetAdjustmentServiceHelper().getPersonnelFringeCost(currentBudget, previousBudget);
+        Map<RateClassRateType, ScaleTwoDecimal> netFringeCost = getBudgetAdjustmentServiceHelper().getPersonnelFringeCost(currentBudget, previousBudget);
         for (RateClassRateType rate : netFringeCost.keySet()) {
             LOG.info("Personnel fringe cost: " + rate.getRateType() + "-" + rate.getRateClass() + " = " + netFringeCost.get(rate));
 
@@ -270,11 +270,11 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @return
      * @throws Exception
      */
-    protected boolean  setPersonnelSalaryAccountingLines(AwardBudgetDocument awardBudgetDocument, Map<String, BudgetDecimal> accountingLines) throws Exception {
+    protected boolean  setPersonnelSalaryAccountingLines(AwardBudgetDocument awardBudgetDocument, Map<String, ScaleTwoDecimal> accountingLines) throws Exception {
         Budget currentBudget = awardBudgetDocument.getBudget();
         AwardBudgetExt previousBudget = getPrevBudget(awardBudgetDocument);
         boolean complete = true;
-        SortedMap<String, BudgetDecimal> netCost = getBudgetAdjustmentServiceHelper().getPersonnelSalaryCost(currentBudget, previousBudget);
+        SortedMap<String, ScaleTwoDecimal> netCost = getBudgetAdjustmentServiceHelper().getPersonnelSalaryCost(currentBudget, previousBudget);
         for (String name : netCost.keySet()) {
             String financialObjectCode = getFinancialObjectCode(name);
             if (ObjectUtils.isNull(financialObjectCode)) {
@@ -297,12 +297,12 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @param accountingLines 
      * @return
      */
-    protected boolean setNonPersonnelCalculatedDirectCostAccountingLines(AwardBudgetDocument awardBudgetDocument, Map<String, BudgetDecimal> accountingLines) {
+    protected boolean setNonPersonnelCalculatedDirectCostAccountingLines(AwardBudgetDocument awardBudgetDocument, Map<String, ScaleTwoDecimal> accountingLines) {
         boolean complete = true;
         Budget currentBudget = awardBudgetDocument.getBudget();
         AwardBudgetExt previousBudget = getPrevBudget(awardBudgetDocument);
-        SortedMap<RateType, BudgetDecimal> netExpense = getBudgetAdjustmentServiceHelper().getNonPersonnelCalculatedDirectCost(currentBudget, previousBudget);
-        SortedMap<RateType, List<BudgetDecimal>> currentNonPersonnelCalcDirectCost = awardBudgetDocument.
+        SortedMap<RateType, ScaleTwoDecimal> netExpense = getBudgetAdjustmentServiceHelper().getNonPersonnelCalculatedDirectCost(currentBudget, previousBudget);
+        SortedMap<RateType, List<ScaleTwoDecimal>> currentNonPersonnelCalcDirectCost = awardBudgetDocument.
                                                                                      getAwardBudget().
                                                                                      getNonPersonnelCalculatedExpenseTotals();
         
@@ -311,7 +311,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
 
             // check if rate class type is O instead
             if (!rateType.getRateClass().getRateClassType().equalsIgnoreCase("O")) {
-                List<BudgetDecimal> expenses = currentNonPersonnelCalcDirectCost.get(rateType); 
+                List<ScaleTwoDecimal> expenses = currentNonPersonnelCalcDirectCost.get(rateType);
                 Details details = new Details();
                 details.setCurrentAmount(netExpense.get(rateType).toString());
                 // only need abs value of amount
@@ -340,14 +340,14 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @param accountingLines 
      * @return
      */
-    protected boolean setNonPersonnelAccountingLines(AwardBudgetDocument awardBudgetDocument, Map<String, BudgetDecimal> accountingLines) {
+    protected boolean setNonPersonnelAccountingLines(AwardBudgetDocument awardBudgetDocument, Map<String, ScaleTwoDecimal> accountingLines) {
         Budget currentBudget = awardBudgetDocument.getBudget();
         AwardBudgetExt previousBudget = getPrevBudget(awardBudgetDocument);
-        HashMap<String, BudgetDecimal> nonPersonnelCost = getBudgetAdjustmentServiceHelper().getNonPersonnelCost(currentBudget, previousBudget);
+        HashMap<String, ScaleTwoDecimal> nonPersonnelCost = getBudgetAdjustmentServiceHelper().getNonPersonnelCost(currentBudget, previousBudget);
         boolean complete = true;
         for (String costElement : nonPersonnelCost.keySet()) {
             if (ObjectUtils.isNotNull(getFinancialObjectCode(costElement))) {
-                BudgetDecimal currentAmount = nonPersonnelCost.get(costElement).abs();
+                ScaleTwoDecimal currentAmount = nonPersonnelCost.get(costElement).abs();
                 // only add line item if amount is non-zero
                 if (currentAmount.isNonZero()) {
                    
@@ -451,7 +451,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
     /**
      * This method creates the accounting lines for the BA.
      */
-    protected void createAccountingLines(Map<String, BudgetDecimal> accountingLines, AwardBudgetDocument awardBudgetDocument, BudgetAdjustmentParametersDTO parametersDTO) {
+    protected void createAccountingLines(Map<String, ScaleTwoDecimal> accountingLines, AwardBudgetDocument awardBudgetDocument, BudgetAdjustmentParametersDTO parametersDTO) {
         
         for (String objectCode : accountingLines.keySet()) {
             if (accountingLines.get(objectCode).isNonZero()) {

@@ -16,7 +16,7 @@
 package org.kuali.kra.award.budget;
 
 import org.kuali.kra.award.AwardForm;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.io.Serializable;
 
@@ -28,24 +28,24 @@ public class AwardBudgetLimitsBean implements Serializable {
         this.awardForm = awardForm;
     }
 
-    public KualiDecimal getTotalCostBudgetLimit() {
+    public ScaleTwoDecimal getTotalCostBudgetLimit() {
         return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.TOTAL_COST).getLimit();
     }
-    public void setTotalCostBudgetLimit(KualiDecimal newLimit) {
+    public void setTotalCostBudgetLimit(ScaleTwoDecimal newLimit) {
         setSpecificBudgetLimit(newLimit, AwardBudgetLimit.LIMIT_TYPE.TOTAL_COST);
     }
     
-    public KualiDecimal getDirectCostBudgetLimit() {
+    public ScaleTwoDecimal getDirectCostBudgetLimit() {
         return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.DIRECT_COST).getLimit();
     }
-    public void setDirectCostBudgetLimit(KualiDecimal newLimit) {
+    public void setDirectCostBudgetLimit(ScaleTwoDecimal newLimit) {
         setSpecificBudgetLimit(newLimit, AwardBudgetLimit.LIMIT_TYPE.DIRECT_COST);
     }
     
-    public KualiDecimal getIndirectCostBudgetLimit() {
+    public ScaleTwoDecimal getIndirectCostBudgetLimit() {
         return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.INDIRECT_COST).getLimit();
     }
-    public void setIndirectCostBudgetLimit(KualiDecimal newLimit) {
+    public void setIndirectCostBudgetLimit(ScaleTwoDecimal newLimit) {
         setSpecificBudgetLimit(newLimit, AwardBudgetLimit.LIMIT_TYPE.INDIRECT_COST);
     }
     
@@ -57,7 +57,7 @@ public class AwardBudgetLimitsBean implements Serializable {
         }
         return new AwardBudgetLimit(type);
     }
-    protected void setSpecificBudgetLimit(KualiDecimal newLimit, AwardBudgetLimit.LIMIT_TYPE type) {
+    protected void setSpecificBudgetLimit(ScaleTwoDecimal newLimit, AwardBudgetLimit.LIMIT_TYPE type) {
         for (AwardBudgetLimit limit : awardForm.getAwardDocument().getAward().getAwardBudgetLimits()) {
             if (limit.getLimitType() == type) {
                 limit.setLimit(newLimit);

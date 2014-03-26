@@ -9,8 +9,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.metadata.DescriptorRepository;
 import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
 import org.kuali.coeus.sys.framework.persistence.OjbBlobClobFieldConversion;
-import org.kuali.kra.budget.BudgetDecimalConverter;
-import org.kuali.kra.budget.infrastructure.OjbBudgetDecimalFieldConversion;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion;
 import org.kuali.rice.devtools.jpa.eclipselink.conv.common.CommonUtil;
 import org.kuali.rice.devtools.jpa.eclipselink.conv.ojb.OjbUtil;
 import org.kuali.rice.devtools.jpa.eclipselink.conv.parser.visitor.EntityVisitor;
@@ -50,7 +50,7 @@ public class OjbToJpaConversionDriver {
         cfg.addOjbRepositoryFile(fullResourcePath(cfg, "/org/kuali/kra/timeandmoney/repository-timeandmoney.xml"));
         cfg.addOjbRepositoryFile(fullResourcePath(cfg, "/repository.xml"));
 
-        cfg.addConverter(OjbBudgetDecimalFieldConversion.class.getName(), BudgetDecimalConverter.class.getName());
+        cfg.addConverter(OjbScaleTwoDecimalFieldConversion.class.getName(), ScaleTwoDecimalConverter.class.getName());
         cfg.addConverter(org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiEncryptDecryptFieldConversion.class.getName(), org.kuali.rice.krad.data.jpa.converters.EncryptionConverter.class.getName());
         cfg.addConverter(org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion.class.getName(), BooleanNFConverter.class.getName());
         //do not need.  this is an enum type.  should be annotated with @Enumeration

@@ -16,8 +16,8 @@
 package org.kuali.kra.budget.calculator;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.*;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.CostElement;
@@ -264,9 +264,9 @@ public class SalaryCalculator {
         personnelLineItem.setCostSharingPercent(calculateCostSharingPercentage());
     }
 
-    private BudgetDecimal calculateCostSharingPercentage() {
-        BudgetDecimal charged = personnelLineItem.getPercentCharged();
-        BudgetDecimal effort = personnelLineItem.getPercentEffort();
+    private ScaleTwoDecimal calculateCostSharingPercentage() {
+        ScaleTwoDecimal charged = personnelLineItem.getPercentCharged();
+        ScaleTwoDecimal effort = personnelLineItem.getPercentEffort();
         return effort.subtract(charged);
     }
 
@@ -281,16 +281,16 @@ public class SalaryCalculator {
     final void calculate(Boundary boundary) {
         this.startDate = boundary.getStartDate();
         this.endDate = boundary.getEndDate();
-        BudgetDecimal totalSalary = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totalSalary = ScaleTwoDecimal.ZERO;
         List<SalaryDetails> brkupSalaryDetails = createSalBreakupIntervals();
         for (SalaryDetails salaryDetails : brkupSalaryDetails) {
             this.startDate = salaryDetails.getBoundary().getStartDate();
             this.endDate = salaryDetails.getBoundary().getEndDate();
             totalSalary = totalSalary.add(salaryDetails.calculateSalary());
         }
-        BudgetDecimal charged = personnelLineItem.getPercentCharged();
-        BudgetDecimal costSharing = totalSalary.percentage(calculateCostSharingPercentage());
-        BudgetDecimal requestedSalary = totalSalary.percentage(charged);
+        ScaleTwoDecimal charged = personnelLineItem.getPercentCharged();
+        ScaleTwoDecimal costSharing = totalSalary.percentage(calculateCostSharingPercentage());
+        ScaleTwoDecimal requestedSalary = totalSalary.percentage(charged);
         boundary.setApplicableCost(requestedSalary);
         boundary.setApplicableCostSharing(costSharing);
     }
@@ -529,15 +529,15 @@ public class SalaryCalculator {
     public class SalaryDetails {
         private Boundary boundary;
         private Integer workingMonths;
-        private BudgetDecimal actualBaseSalary = BudgetDecimal.ZERO;
-        private BudgetDecimal calculatedSalary = BudgetDecimal.ZERO;
+        private ScaleTwoDecimal actualBaseSalary = ScaleTwoDecimal.ZERO;
+        private ScaleTwoDecimal calculatedSalary = ScaleTwoDecimal.ZERO;
         private BudgetPerson altBudgetPerson;
         /**
          * 
          * This method is to calculate salary for a personnel line item
          * @return Calculated Salary
          */
-        public BudgetDecimal calculateSalary() {
+        public ScaleTwoDecimal calculateSalary() {
             int paidMonths = (workingMonths == null) ? 12 : (workingMonths.intValue());
             double perMonthSalary = this.getActualBaseSalary().doubleValue() / paidMonths;
             Calendar startDateCalendar = dateTimeService.getCalendar(startDate);
@@ -582,14 +582,14 @@ public class SalaryCalculator {
                 startDateCalendar.set(Calendar.DAY_OF_MONTH, 1);
                 totalSalary += (perMonthSalary / noOfDaysInMonth * noOfActualDays);
             }
-            return calculatedSalary.add(new BudgetDecimal(totalSalary));
+            return calculatedSalary.add(new ScaleTwoDecimal(totalSalary));
         }
 
         /**
          * Calculate the salary by using base salary and applicable rate
          */
-        public void calculateActualBaseSalary(BudgetDecimal applicableRate) {
-            BudgetDecimal actualBaseSal = getActualBaseSalary();
+        public void calculateActualBaseSalary(ScaleTwoDecimal applicableRate) {
+            ScaleTwoDecimal actualBaseSal = getActualBaseSalary();
             setActualBaseSalary(actualBaseSal.percentage(applicableRate).add(actualBaseSal));
         }
 
@@ -616,7 +616,7 @@ public class SalaryCalculator {
          * 
          * @return Value of property actualBaseSalary.
          */
-        public BudgetDecimal getActualBaseSalary() {
+        public ScaleTwoDecimal getActualBaseSalary() {
             return actualBaseSalary;
         }
 
@@ -625,7 +625,7 @@ public class SalaryCalculator {
          * 
          * @param actualBaseSalary New value of property actualBaseSalary.
          */
-        public void setActualBaseSalary(BudgetDecimal actualBaseSalary) {
+        public void setActualBaseSalary(ScaleTwoDecimal actualBaseSalary) {
             this.actualBaseSalary = actualBaseSalary;
         }
 
@@ -634,7 +634,7 @@ public class SalaryCalculator {
          * 
          * @return Value of property calculatedSalary.
          */
-        public BudgetDecimal getCalculatedSalary() {
+        public ScaleTwoDecimal getCalculatedSalary() {
             return calculatedSalary;
         }
 
@@ -643,7 +643,7 @@ public class SalaryCalculator {
          * 
          * @param calculatedSalary New value of property calculatedSalary.
          */
-        public void setCalculatedSalary(BudgetDecimal calculatedSalary) {
+        public void setCalculatedSalary(ScaleTwoDecimal calculatedSalary) {
             this.calculatedSalary = calculatedSalary;
         }
 
@@ -700,7 +700,7 @@ public class SalaryCalculator {
         return inflationRates;
     }
 
-    private BudgetDecimal getPrevSalaryBase(BudgetPerson budgetPerson, Boundary boundary) {
+    private ScaleTwoDecimal getPrevSalaryBase(BudgetPerson budgetPerson, Boundary boundary) {
         Date p1StartDate = budget.getBudgetPeriods().get(0).getStartDate();
         BudgetPerson newBudgetPerson = budgetPerson;
         for (BudgetPerson budgetPerson1 : budget.getBudgetPersons()) {
@@ -715,7 +715,7 @@ public class SalaryCalculator {
                 newBudgetPerson = budgetPerson1;
             }
         }
-        BudgetDecimal calBase = newBudgetPerson.getCalculationBase();
+        ScaleTwoDecimal calBase = newBudgetPerson.getCalculationBase();
         if (budgetPerson.getEffectiveDate().before(p1StartDate)) {
             p1StartDate = budgetPerson.getEffectiveDate();
         }
@@ -723,7 +723,7 @@ public class SalaryCalculator {
         for (BudgetRate budgetProposalrate : qlist) {
             if (budgetProposalrate.getStartDate().after(budgetPerson.getEffectiveDate())
                     && budgetProposalrate.getStartDate().before(startDate)) {
-                calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate()).divide(new BudgetDecimal(100.00)));
+                calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate(), false).divide(new ScaleTwoDecimal(100.00), false));
             }
         }
         return calBase;

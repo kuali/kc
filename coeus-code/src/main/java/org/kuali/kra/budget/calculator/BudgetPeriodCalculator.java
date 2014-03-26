@@ -16,8 +16,8 @@
 package org.kuali.kra.budget.calculator;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.*;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.CostElement;
@@ -61,11 +61,11 @@ public class BudgetPeriodCalculator {
      */
     public void calculate(Budget budget, BudgetPeriod budgetPeriod) {
         List<BudgetLineItem> cvLineItemDetails = budgetPeriod.getBudgetLineItems();
-        budgetPeriod.setTotalDirectCost(BudgetDecimal.ZERO);
-        budgetPeriod.setTotalIndirectCost(BudgetDecimal.ZERO);
-        budgetPeriod.setCostSharingAmount(BudgetDecimal.ZERO);
-        budgetPeriod.setTotalCost(BudgetDecimal.ZERO);
-        budgetPeriod.setUnderrecoveryAmount(BudgetDecimal.ZERO);
+        budgetPeriod.setTotalDirectCost(ScaleTwoDecimal.ZERO);
+        budgetPeriod.setTotalIndirectCost(ScaleTwoDecimal.ZERO);
+        budgetPeriod.setCostSharingAmount(ScaleTwoDecimal.ZERO);
+        budgetPeriod.setTotalCost(ScaleTwoDecimal.ZERO);
+        budgetPeriod.setUnderrecoveryAmount(ScaleTwoDecimal.ZERO);
         for (BudgetLineItem budgetLineItem : cvLineItemDetails) {
             budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItem);
             budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().add(budgetLineItem.getDirectCost()));
@@ -106,7 +106,7 @@ public class BudgetPeriodCalculator {
                             return;
                         }
                         
-                        BudgetDecimal lineItemCost = calculateInflation(budget, prevBudgetLineItem, budgetLineItemToBeApplied
+                        ScaleTwoDecimal lineItemCost = calculateInflation(budget, prevBudgetLineItem, budgetLineItemToBeApplied
                                 .getStartDate());
                         if(!budgetLineItemToBeApplied.getCostElement().equals(prevBudgetLineItem.getCostElement())){
                             budgetLineItemToBeApplied.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
@@ -187,7 +187,7 @@ public class BudgetPeriodCalculator {
                 budgetLineItem.setVersionNumber(null);
                 
                 if (prevBudgetLineItem.getApplyInRateFlag()){
-                    BudgetDecimal lineItemCost = calculateInflation(budget, prevBudgetLineItem, budgetLineItem.getStartDate());
+                    ScaleTwoDecimal lineItemCost = calculateInflation(budget, prevBudgetLineItem, budgetLineItem.getStartDate());
                     budgetLineItem.setLineItemCost(lineItemCost);
                 }
                 
@@ -261,9 +261,9 @@ public class BudgetPeriodCalculator {
         return budget.getBudgetDocument();
     }
 
-    private BudgetDecimal calculateInflation(Budget budget, BudgetLineItem budgetLineItem, Date endDate) {
+    private ScaleTwoDecimal calculateInflation(Budget budget, BudgetLineItem budgetLineItem, Date endDate) {
         CostElement costElement = budgetLineItem.getCostElementBO();
-        BudgetDecimal lineItemCost = budgetLineItem.getLineItemCost();
+        ScaleTwoDecimal lineItemCost = budgetLineItem.getLineItemCost();
         Date startDate = budgetLineItem.getStartDate();
         // Date endDate = budgetDetailBean.getLineItemEndDate();
 
@@ -300,7 +300,7 @@ public class BudgetPeriodCalculator {
                 //BudgetRate proposalRatesBean = vecPropInflationRates.get(0);
                 BudgetRate proposalRatesBean = getCampusMatchedRateBean(budgetLineItem.getOnOffCampusFlag(), vecPropInflationRates);
                 if (proposalRatesBean != null) {
-                    BudgetDecimal applicableRate = proposalRatesBean.getApplicableRate();
+                    ScaleTwoDecimal applicableRate = proposalRatesBean.getApplicableRate();
                     // lineItemCost = lineItemCost * (100 + applicableRate) / 100;
                     lineItemCost = lineItemCost.add(lineItemCost.percentage(applicableRate));
                 }
@@ -333,12 +333,12 @@ public class BudgetPeriodCalculator {
     
     public void syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
         // If total_cost equals total_cost_limit, disp msg "Cost limit and total cost for this period is already in sync."
-        BudgetDecimal directCostLimit = budgetPeriodBean.getDirectCostLimit();
+        ScaleTwoDecimal directCostLimit = budgetPeriodBean.getDirectCostLimit();
         if(!checkSyncToLimitErrors(budget,budgetDetailBean,directCostLimit)){
             return;
         }
         calculate(budget, budgetPeriodBean);
-        BudgetDecimal periodDirectTotal = budgetPeriodBean.getTotalDirectCost();
+        ScaleTwoDecimal periodDirectTotal = budgetPeriodBean.getTotalDirectCost();
         directCostLimit = budgetPeriodBean.getDirectCostLimit();
         if (periodDirectTotal == directCostLimit) {
             errorMessages.add(KeyConstants.TOTAL_DIRECT_COST_ALREADY_IN_SYNC);
@@ -346,13 +346,13 @@ public class BudgetPeriodCalculator {
         }
 
         // Set the Difference as TotalCostLimit minus TotalCost.
-        BudgetDecimal difference = directCostLimit.subtract(periodDirectTotal);
-        BudgetDecimal lineItemCost = budgetDetailBean.getLineItemCost();
-        BudgetDecimal multifactor;
+        ScaleTwoDecimal difference = directCostLimit.subtract(periodDirectTotal);
+        ScaleTwoDecimal lineItemCost = budgetDetailBean.getLineItemCost();
+        ScaleTwoDecimal multifactor;
 
         // If line_item_cost is 0 then set the value of line_item_cost in line_items to 10000.
-        if (lineItemCost.equals(BudgetDecimal.ZERO)) {
-            budgetDetailBean.setLineItemCost(new BudgetDecimal(10000));
+        if (lineItemCost.equals(ScaleTwoDecimal.ZERO)) {
+            budgetDetailBean.setLineItemCost(new ScaleTwoDecimal(10000));
         }
 
         calculate(budget, budgetPeriodBean);
@@ -362,27 +362,27 @@ public class BudgetPeriodCalculator {
 
         resetRateClassTypeIfNeeded(vecCalAmts); 
 
-        BudgetDecimal totalNOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new NotEquals("rateClassType",
+        ScaleTwoDecimal totalNOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new NotEquals("rateClassType",
             RateClassType.OVERHEAD.getRateClassType()));
-        BudgetDecimal totalCost = budgetDetailBean.getLineItemCost().add(totalNOHCalcAmount);
+        ScaleTwoDecimal totalCost = budgetDetailBean.getLineItemCost().add(totalNOHCalcAmount);
         // If the lineItemCost <> 0, set multifactor to TotalCost divided by lineItemCost otherwise multifactor is TotalCost divided
         // by 10000
-        if (!lineItemCost.equals(BudgetDecimal.ZERO)) {
-            multifactor = totalCost.divide(lineItemCost);
+        if (!lineItemCost.equals(ScaleTwoDecimal.ZERO)) {
+            multifactor = totalCost.divide(lineItemCost, false);
         }else {
-            multifactor = totalCost.divide(new BudgetDecimal(10000));
-            budgetDetailBean.setLineItemCost(BudgetDecimal.ZERO);
+            multifactor = totalCost.divide(new ScaleTwoDecimal(10000), false);
+            budgetDetailBean.setLineItemCost(ScaleTwoDecimal.ZERO);
             calculate(budget, budgetPeriodBean);
-            totalCost = BudgetDecimal.ZERO;
+            totalCost = ScaleTwoDecimal.ZERO;
         }
 
-        if (isProposalBudget(budget) && (totalCost.add(difference)).isLessEqual(BudgetDecimal.ZERO)) {
+        if (isProposalBudget(budget) && (totalCost.add(difference)).isLessEqual(ScaleTwoDecimal.ZERO)) {
             errorMessages.add(KeyConstants.INSUFFICIENT_AMOUNT_TO_PERIOD_DIRECT_COST_LIMIT_SYNC);
             return;
         }
 
         // Set New Cost
-        BudgetDecimal newCost = lineItemCost.add((difference.divide(multifactor)));
+        ScaleTwoDecimal newCost = lineItemCost.add((difference.divide(multifactor, false)));
         budgetDetailBean.setLineItemCost(newCost);
         calculate(budget, budgetPeriodBean);
 
@@ -391,12 +391,12 @@ public class BudgetPeriodCalculator {
     public void syncToPeriodCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
 
         // If total_cost equals total_cost_limit, disp msg "Cost limit and total cost for this period is already in sync."
-        BudgetDecimal costLimit = budgetPeriodBean.getTotalCostLimit();
+        ScaleTwoDecimal costLimit = budgetPeriodBean.getTotalCostLimit();
         if(!checkSyncToLimitErrors(budget,budgetDetailBean,costLimit)){
             return;
         }
         calculate(budget, budgetPeriodBean);
-        BudgetDecimal periodTotal = budgetPeriodBean.getTotalCost();
+        ScaleTwoDecimal periodTotal = budgetPeriodBean.getTotalCost();
         costLimit = budgetPeriodBean.getTotalCostLimit();
         if (periodTotal == costLimit) {
             errorMessages.add(KeyConstants.TOTAL_COST_ALREADY_IN_SYNC);
@@ -404,13 +404,13 @@ public class BudgetPeriodCalculator {
         }
 
         // Set the Difference as TotalCostLimit minus TotalCost.
-        BudgetDecimal difference = costLimit.subtract(periodTotal);
-        BudgetDecimal lineItemCost = budgetDetailBean.getLineItemCost();
-        BudgetDecimal multifactor;
+        ScaleTwoDecimal difference = costLimit.subtract(periodTotal);
+        ScaleTwoDecimal lineItemCost = budgetDetailBean.getLineItemCost();
+        ScaleTwoDecimal multifactor;
 
         // If line_item_cost is 0 then set the value of line_item_cost in line_items to 10000.
-        if (lineItemCost.equals(BudgetDecimal.ZERO)) {
-            budgetDetailBean.setLineItemCost(new BudgetDecimal(10000));
+        if (lineItemCost.equals(ScaleTwoDecimal.ZERO)) {
+            budgetDetailBean.setLineItemCost(new ScaleTwoDecimal(10000));
         }
 
         calculate(budget, budgetPeriodBean);
@@ -420,36 +420,36 @@ public class BudgetPeriodCalculator {
 
         resetRateClassTypeIfNeeded(vecCalAmts); 
 
-        BudgetDecimal totalNOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new NotEquals("rateClassType",
+        ScaleTwoDecimal totalNOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new NotEquals("rateClassType",
             RateClassType.OVERHEAD.getRateClassType()));
-        BudgetDecimal totalOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new Equals("rateClassType",
+        ScaleTwoDecimal totalOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new Equals("rateClassType",
             RateClassType.OVERHEAD.getRateClassType()));
 
-        BudgetDecimal totalCost = budgetDetailBean.getLineItemCost().add(totalNOHCalcAmount).add(totalOHCalcAmount);
+        ScaleTwoDecimal totalCost = budgetDetailBean.getLineItemCost().add(totalNOHCalcAmount).add(totalOHCalcAmount);
 
         // If the lineItemCost <> 0, set multifactor to TotalCost divided by lineItemCost otherwise multifactor is TotalCost divided
         // by 10000
-        if (!lineItemCost.equals(BudgetDecimal.ZERO)) {
-            multifactor = totalCost.divide(lineItemCost);
+        if (!lineItemCost.equals(ScaleTwoDecimal.ZERO)) {
+            multifactor = totalCost.divide(lineItemCost, false);
         }else {
-            multifactor = totalCost.divide(new BudgetDecimal(10000));
-            budgetDetailBean.setLineItemCost(BudgetDecimal.ZERO);
+            multifactor = totalCost.divide(new ScaleTwoDecimal(10000), false);
+            budgetDetailBean.setLineItemCost(ScaleTwoDecimal.ZERO);
             calculate(budget, budgetPeriodBean);
-            totalCost = BudgetDecimal.ZERO;
+            totalCost = ScaleTwoDecimal.ZERO;
         }
 
-        if (isProposalBudget(budget) && (totalCost.add(difference)).isLessEqual(BudgetDecimal.ZERO)) {
+        if (isProposalBudget(budget) && (totalCost.add(difference)).isLessEqual(ScaleTwoDecimal.ZERO)) {
             errorMessages.add(KeyConstants.INSUFFICIENT_AMOUNT_TO_SYNC);
             return;
         }
 
         // Set New Cost
-        BudgetDecimal newCost = lineItemCost.add((difference.divide(multifactor)));
+        ScaleTwoDecimal newCost = lineItemCost.add((difference.divide(multifactor, false)));
         budgetDetailBean.setLineItemCost(newCost);
         calculate(budget, budgetPeriodBean);
     }
 
-    private boolean checkSyncToLimitErrors(Budget budget,BudgetLineItem budgetDetailBean,BudgetDecimal costLimit) {
+    private boolean checkSyncToLimitErrors(Budget budget,BudgetLineItem budgetDetailBean,ScaleTwoDecimal costLimit) {
         if (budgetDetailBean.getBudgetCategory().getBudgetCategoryTypeCode().equals(KeyConstants.PERSONNEL_CATEGORY) && 
               !budgetDetailBean.getBudgetPersonnelDetailsList().isEmpty()) {
             errorMessages.add(KeyConstants.PERSONNEL_LINE_ITEM_EXISTS);
@@ -457,7 +457,7 @@ public class BudgetPeriodCalculator {
         }
 
         // if cost_limit is 0 disp msg "Cost limit for this period is set to 0. Cannot sync a line item cost to zero limit."
-        if (isProposalBudget(budget) && costLimit.equals(BudgetDecimal.ZERO)) {
+        if (isProposalBudget(budget) && costLimit.equals(ScaleTwoDecimal.ZERO)) {
             errorMessages.add(KeyConstants.CANNOT_SYNC_TO_ZERO_LIMIT);
             return false;
         }

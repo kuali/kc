@@ -19,7 +19,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
@@ -149,10 +149,10 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
             List<RateAndCost> vecAmountBean = breakUpInterval.getRateAndCosts();
             for (RateAndCost rateAndCost : vecAmountBean) {
                 BudgetPersonnelRateAndBase budgetRateBase = new BudgetPersonnelRateAndBase();
-                BudgetDecimal appliedRate = rateAndCost.getAppliedRate();
-                budgetRateBase.setAppliedRate(BudgetDecimal.returnZeroIfNull(appliedRate));
-                BudgetDecimal calculatedCost = rateAndCost.getCalculatedCost();
-                BudgetDecimal calculatedCostSharing = rateAndCost.getCalculatedCostSharing();
+                ScaleTwoDecimal appliedRate = rateAndCost.getAppliedRate();
+                budgetRateBase.setAppliedRate(ScaleTwoDecimal.returnZeroIfNull(appliedRate));
+                ScaleTwoDecimal calculatedCost = rateAndCost.getCalculatedCost();
+                ScaleTwoDecimal calculatedCostSharing = rateAndCost.getCalculatedCostSharing();
                 
                 budgetRateBase.setSalaryRequested(rateAndCost.getBaseAmount());
                 budgetRateBase.setBaseCostSharing(rateAndCost.getBaseCostSharingAmount());

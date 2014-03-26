@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
 /**
@@ -27,8 +27,8 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_COST_SHARE_KEY";
     
     private Integer projectPeriod;
-    private BudgetDecimal shareAmount;
-    private BudgetDecimal sharePercentage;
+    private ScaleTwoDecimal shareAmount;
+    private ScaleTwoDecimal sharePercentage;
     private String sourceAccount;
     private String sourceUnit;
 
@@ -48,7 +48,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
      * @param sharePercentage
      * @param sourceAccount
      */
-    public BudgetCostShare(Integer projectPeriod, BudgetDecimal shareAmount, BudgetDecimal sharePercentage, String sourceAccount) {
+    public BudgetCostShare(Integer projectPeriod, ScaleTwoDecimal shareAmount, ScaleTwoDecimal sharePercentage, String sourceAccount) {
         this();
         this.projectPeriod = projectPeriod;
         this.sharePercentage = sharePercentage;
@@ -95,12 +95,12 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
         return projectPeriod;
     }
 
-    public BudgetDecimal getShareAmount() {
-         return BudgetDecimal.returnZeroIfNull(shareAmount);
+    public ScaleTwoDecimal getShareAmount() {
+         return ScaleTwoDecimal.returnZeroIfNull(shareAmount);
     }
 
-    public BudgetDecimal getSharePercentage() {
-        return BudgetDecimal.returnZeroIfNull(sharePercentage);
+    public ScaleTwoDecimal getSharePercentage() {
+        return ScaleTwoDecimal.returnZeroIfNull(sharePercentage);
     }
 
     public String getSourceAccount() {
@@ -123,11 +123,11 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
         this.projectPeriod = projectPeriod;
     }
 
-    public void setShareAmount(BudgetDecimal shareAmount) {
+    public void setShareAmount(ScaleTwoDecimal shareAmount) {
         this.shareAmount = shareAmount;
     }
 
-    public void setSharePercentage(BudgetDecimal sharePercentage) {
+    public void setSharePercentage(ScaleTwoDecimal sharePercentage) {
         this.sharePercentage = sharePercentage;
     }
 

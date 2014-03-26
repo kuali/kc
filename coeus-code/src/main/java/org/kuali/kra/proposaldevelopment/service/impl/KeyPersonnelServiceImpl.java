@@ -37,7 +37,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.service.YnqService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -124,7 +124,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     creditSplit.setProposalNumber(person.getProposalNumber());
                     creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
                     creditSplit.setInvCreditTypeCode(invcredtype.getInvCreditTypeCode());
-                    creditSplit.setCredit(new KualiDecimal(0));
+                    creditSplit.setCredit(new ScaleTwoDecimal(0));
                     person.getCreditSplits().add(creditSplit);
                 }
             }
@@ -142,7 +142,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                         creditSplit.setProposalNumber(person.getProposalNumber());
                         creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
                         creditSplit.setInvCreditTypeCode(invcrdtype.getInvCreditTypeCode());
-                        creditSplit.setCredit(new KualiDecimal(0));
+                        creditSplit.setCredit(new ScaleTwoDecimal(0));
                         unitsplit.getCreditSplits().add(creditSplit);
                     }
                 }
@@ -320,7 +320,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             creditSplit.setProposalNumber(person.getProposalNumber());
             creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
             creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
-            creditSplit.setCredit(new KualiDecimal(0));
+            creditSplit.setCredit(new ScaleTwoDecimal(0));
             person.getCreditSplits().add(creditSplit);
         }
 
@@ -369,7 +369,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @return Map
      */
     public Map calculateCreditSplitTotals(ProposalDevelopmentDocument document) {
-        Map<String, Map<String,KualiDecimal>> retval = new HashMap<String,Map<String,KualiDecimal>>();
+        Map<String, Map<String,ScaleTwoDecimal>> retval = new HashMap<String,Map<String,ScaleTwoDecimal>>();
 
         // Initialize investigator credit types if there aren't any
         if (document.getDevelopmentProposal().getInvestigatorCreditTypes() == null || document.getDevelopmentProposal().getInvestigatorCreditTypes().size() == 0) {
@@ -379,30 +379,30 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         Collection<InvestigatorCreditType> creditTypes = document.getDevelopmentProposal().getInvestigatorCreditTypes();
 
         for (ProposalPerson investigator : document.getDevelopmentProposal().getInvestigators()) {
-            Map<String,KualiDecimal> creditTypeTotals = retval.get(investigator.getProposalPersonNumber().toString());
-            Map<String,KualiDecimal> investigatorCreditTypeTotals = retval.get(PROPOSAL_PERSON_INVESTIGATOR);
+            Map<String,ScaleTwoDecimal> creditTypeTotals = retval.get(investigator.getProposalPersonNumber().toString());
+            Map<String,ScaleTwoDecimal> investigatorCreditTypeTotals = retval.get(PROPOSAL_PERSON_INVESTIGATOR);
 
             if (creditTypeTotals == null) {
-                creditTypeTotals = new HashMap<String,KualiDecimal>();
+                creditTypeTotals = new HashMap<String,ScaleTwoDecimal>();
                 retval.put(investigator.getProposalPersonNumber().toString(), creditTypeTotals);
             }
             if (investigatorCreditTypeTotals == null) {
-                investigatorCreditTypeTotals = new HashMap<String,KualiDecimal>();
+                investigatorCreditTypeTotals = new HashMap<String,ScaleTwoDecimal>();
                 retval.put(PROPOSAL_PERSON_INVESTIGATOR, investigatorCreditTypeTotals);
             }
 
             // Initialize everything to zero
             for (InvestigatorCreditType creditType : creditTypes) {                
-                KualiDecimal totalCredit = creditTypeTotals.get(creditType.getInvCreditTypeCode());
+                ScaleTwoDecimal totalCredit = creditTypeTotals.get(creditType.getInvCreditTypeCode());
 
                 if (totalCredit == null) {
-                    totalCredit = new KualiDecimal(0);
+                    totalCredit = new ScaleTwoDecimal(0);
                     creditTypeTotals.put(creditType.getInvCreditTypeCode(), totalCredit);
                 }
-                KualiDecimal investigatorTotalCredit = investigatorCreditTypeTotals.get(creditType.getInvCreditTypeCode());
+                ScaleTwoDecimal investigatorTotalCredit = investigatorCreditTypeTotals.get(creditType.getInvCreditTypeCode());
 
                 if (investigatorTotalCredit == null) {
-                    investigatorTotalCredit = new KualiDecimal(0);
+                    investigatorTotalCredit = new ScaleTwoDecimal(0);
                     investigatorCreditTypeTotals.put(creditType.getInvCreditTypeCode(), investigatorTotalCredit);
                 }
                 // set investigator credit total 
@@ -415,10 +415,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
             for (ProposalPersonUnit unit : investigator.getUnits()) {
                 for (CreditSplit creditSplit : unit.getCreditSplits()) {
-                    KualiDecimal totalCredit = creditTypeTotals.get(creditSplit.getInvCreditTypeCode());
+                    ScaleTwoDecimal totalCredit = creditTypeTotals.get(creditSplit.getInvCreditTypeCode());
 
                     if (totalCredit == null) {
-                        totalCredit = new KualiDecimal(0);
+                        totalCredit = new ScaleTwoDecimal(0);
                         creditTypeTotals.put(creditSplit.getInvCreditTypeCode(), totalCredit);
                     }
                     creditTypeTotals.put(creditSplit.getInvCreditTypeCode(),totalCredit.add(creditSplit.getCredit()));
@@ -537,7 +537,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
             creditSplit.setUnitNumber(unitId);
             creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
-            creditSplit.setCredit(new KualiDecimal(0));
+            creditSplit.setCredit(new ScaleTwoDecimal(0));
             retval.getCreditSplits().add(creditSplit);
         }
 

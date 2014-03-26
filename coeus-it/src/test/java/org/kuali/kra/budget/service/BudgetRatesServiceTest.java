@@ -20,7 +20,7 @@ import org.junit.*;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -213,10 +213,10 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
     
     private void changeInstituteRates() {
         for(AbstractInstituteRate instituteRate: instituteRates) {
-            instituteRate.setInstituteRate(new BudgetDecimal(TEST_INSTITUTE_RATE));
+            instituteRate.setInstituteRate(new ScaleTwoDecimal(TEST_INSTITUTE_RATE));
         }
         for(AbstractInstituteRate instituteRate: instituteLaRates) {
-            instituteRate.setInstituteRate(new BudgetDecimal(TEST_INSTITUTE_LA_RATE));
+            instituteRate.setInstituteRate(new ScaleTwoDecimal(TEST_INSTITUTE_LA_RATE));
         }
     }
     
@@ -293,8 +293,8 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
         generateInstituteRate(PUBLIC_SERVICE_ACTIVITY_CODE, RATE_CLASS_CODE_3, RATE_TYPE_CODE_3);
     }
     
-    private BudgetDecimal generateDefaultRate(AbstractInstituteRate instituteRate) {
-        return new BudgetDecimal(new StringBuilder(instituteRate.getRateClassCode()).append(".").append(instituteRate.getRateTypeCode()).toString());
+    private ScaleTwoDecimal generateDefaultRate(AbstractInstituteRate instituteRate) {
+        return new ScaleTwoDecimal(new StringBuilder(instituteRate.getRateClassCode()).append(".").append(instituteRate.getRateTypeCode()).toString());
     }
     
     /**
@@ -378,8 +378,8 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
     private void setRates(List rateList) {
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) rateList;         
         for(AbstractBudgetRate budgetRate: abstractBudgetRates) {
-            budgetRate.setApplicableRate(new BudgetDecimal(OLD_APPLICABLE_RATE));
-            budgetRate.setInstituteRate(new BudgetDecimal(INSTITUTE_RATE));
+            budgetRate.setApplicableRate(new ScaleTwoDecimal(OLD_APPLICABLE_RATE));
+            budgetRate.setInstituteRate(new ScaleTwoDecimal(INSTITUTE_RATE));
             budgetRate.setRateClass(rateClasses.get(Integer.valueOf(budgetRate.getRateClassCode()) - 1));
             budgetRate.setRateClassCode(rateClasses.get(Integer.valueOf(budgetRate.getRateClassCode()) - 1).getRateClassCode());
         }

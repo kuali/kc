@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
 public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent implements HierarchyMaintainable {
@@ -23,8 +23,8 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_UNRECOVERED_F_AND_A_KEY";
     
-    private BudgetDecimal amount;
-    private BudgetDecimal applicableRate;
+    private ScaleTwoDecimal amount;
+    private ScaleTwoDecimal applicableRate;
     private String onCampusFlag;
     private Integer fiscalYear;
     private String sourceAccount;
@@ -49,7 +49,7 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
      * @param campus
      * @param sourceAccount
      */
-    public BudgetUnrecoveredFandA(Integer fiscalYear, BudgetDecimal amount, BudgetDecimal applicableRate, String campus, String sourceAccount) {
+    public BudgetUnrecoveredFandA(Integer fiscalYear, ScaleTwoDecimal amount, ScaleTwoDecimal applicableRate, String campus, String sourceAccount) {
        super();
        this.fiscalYear = fiscalYear;
        this.amount = amount;
@@ -100,11 +100,11 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
         return true;
     }
 
-    public BudgetDecimal getAmount() {
-        return BudgetDecimal.returnZeroIfNull(amount);
+    public ScaleTwoDecimal getAmount() {
+        return ScaleTwoDecimal.returnZeroIfNull(amount);
     }
 
-    public BudgetDecimal getApplicableRate() {
+    public ScaleTwoDecimal getApplicableRate() {
         return applicableRate;
     }
 
@@ -132,11 +132,11 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
         return result;
     }
 
-    public void setAmount(BudgetDecimal amount) {
+    public void setAmount(ScaleTwoDecimal amount) {
         this.amount = amount;
     }
 
-    public void setApplicableRate(BudgetDecimal applicableRate) {
+    public void setApplicableRate(ScaleTwoDecimal applicableRate) {
         this.applicableRate = applicableRate;
     }
 

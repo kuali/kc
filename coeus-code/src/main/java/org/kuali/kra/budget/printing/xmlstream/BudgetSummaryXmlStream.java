@@ -18,8 +18,8 @@ package org.kuali.kra.budget.printing.xmlstream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -208,10 +208,10 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 			if (reportTypeMap.containsKey(budgetSalarySummaryKey)) {
 				continue;
 			}
-			BudgetDecimal vacationRate = BudgetDecimal.ZERO;
-			BudgetDecimal empBenefitRate = BudgetDecimal.ZERO;
-			BudgetDecimal fringe = BudgetDecimal.ZERO;
-			BudgetDecimal fringeCostSharing = BudgetDecimal.ZERO;
+			ScaleTwoDecimal vacationRate = ScaleTwoDecimal.ZERO;
+			ScaleTwoDecimal empBenefitRate = ScaleTwoDecimal.ZERO;
+			ScaleTwoDecimal fringe = ScaleTwoDecimal.ZERO;
+			ScaleTwoDecimal fringeCostSharing = ScaleTwoDecimal.ZERO;
 			for (ReportTypeVO tempReportTypeVO : reportTypeVOList) {
 				String budgetSalarySummaryTempKey = getKeyForBudgetSalarySummary(tempReportTypeVO);
 				if (budgetSalarySummaryTempKey.equals(budgetSalarySummaryKey)) {
@@ -242,8 +242,8 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 	 * reportType from passed parameters
 	 */
 	private ReportType getReportTypeForBudgetSalarySummary(
-			BudgetDecimal vacationRate, BudgetDecimal empBenefitRate,
-			BudgetDecimal fringe, BudgetDecimal fringeCostSharing,
+			ScaleTwoDecimal vacationRate, ScaleTwoDecimal empBenefitRate,
+			ScaleTwoDecimal fringe, ScaleTwoDecimal fringeCostSharing,
 			ReportTypeVO reportTypeVO) {
 		SimpleDateFormat dateFormat=new SimpleDateFormat(DATE_FORMAT_MMDDYY);
 		ReportType reportType = ReportType.Factory.newInstance();
@@ -279,8 +279,8 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 	private SubReportType getBudgetSummaryNonPersonnel() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
-		BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
-		BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
+		ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
+		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		if (getUnitNumber() > 0) {
 			String categoryDesc = OTHER_DIRECT_COSTS;
 			String costElementDesc = ALLOCATED_LAB_EXPENSE;
@@ -331,8 +331,8 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 			if (reportTypeMap.containsKey(budgetSummaryNonPersKey)) {
 				continue;
 			}
-			BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
-			BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
+			ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
+			ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
 			for (ReportTypeVO reportTypeVO1 : tempReportTypeVOList) {
 				String budgetSummaryNonPersTempKey = reportTypeVO1
 						.getCostElementDesc();
@@ -355,7 +355,7 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 	 * parameters data to reportType
 	 */
 	private ReportType getReportTypeForBudgetSummaryNonPersonnel(
-			BudgetDecimal calculatedCost, BudgetDecimal costSharingAmount,
+			ScaleTwoDecimal calculatedCost, ScaleTwoDecimal costSharingAmount,
 			ReportTypeVO reportTypeVO) {
 		ReportType reportType = ReportType.Factory.newInstance();
 		reportType.setBudgetCategoryDescription(reportTypeVO

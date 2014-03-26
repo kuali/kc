@@ -78,7 +78,7 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -145,14 +145,14 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private AwardType awardType;
     private String cfdaNumber;
     private String documentFundingId;
-    private KualiDecimal preAwardAuthorizedAmount;
+    private ScaleTwoDecimal preAwardAuthorizedAmount;
     private Date preAwardEffectiveDate;
-    private KualiDecimal preAwardInstitutionalAuthorizedAmount;
+    private ScaleTwoDecimal preAwardInstitutionalAuthorizedAmount;
     private Date preAwardInstitutionalEffectiveDate;
     private String procurementPriorityCode;
     private String proposalNumber;
-    private KualiDecimal specialEbRateOffCampus;
-    private KualiDecimal specialEbRateOnCampus;
+    private ScaleTwoDecimal specialEbRateOffCampus;
+    private ScaleTwoDecimal specialEbRateOnCampus;
     private String subPlanFlag;
     private String title;
     private String archiveLocation;
@@ -1074,7 +1074,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
 
-    public KualiDecimal getPreAwardAuthorizedAmount() {
+    public ScaleTwoDecimal getPreAwardAuthorizedAmount() {
         return preAwardAuthorizedAmount;
     }
 
@@ -1082,10 +1082,10 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * For negative values, this method makes the number positive by dropping the negative sign.
      * @param preAwardAuthorizedAmount
      */
-    public void setPreAwardAuthorizedAmount(KualiDecimal preAwardAuthorizedAmount) {
+    public void setPreAwardAuthorizedAmount(ScaleTwoDecimal preAwardAuthorizedAmount) {
         // if preAwardAuthorizedAmount is negative, make it positive
         if (preAwardAuthorizedAmount != null && preAwardAuthorizedAmount.isNegative()) {
-            this.preAwardAuthorizedAmount = KualiDecimal.ZERO.subtract(preAwardAuthorizedAmount);
+            this.preAwardAuthorizedAmount = ScaleTwoDecimal.ZERO.subtract(preAwardAuthorizedAmount);
         }
         else {
             this.preAwardAuthorizedAmount = preAwardAuthorizedAmount;
@@ -1136,7 +1136,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
 
 
-    public KualiDecimal getSpecialEbRateOffCampus() {
+    public ScaleTwoDecimal getSpecialEbRateOffCampus() {
         return specialEbRateOffCampus;
     }
 
@@ -1144,13 +1144,13 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * 
      * @param specialEbRateOffCampus
      */
-    public void setSpecialEbRateOffCampus(KualiDecimal specialEbRateOffCampus) {
+    public void setSpecialEbRateOffCampus(ScaleTwoDecimal specialEbRateOffCampus) {
         this.specialEbRateOffCampus = specialEbRateOffCampus;
     }
 
 
 
-    public KualiDecimal getSpecialEbRateOnCampus() {
+    public ScaleTwoDecimal getSpecialEbRateOnCampus() {
         return specialEbRateOnCampus;
     }
 
@@ -1158,7 +1158,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * 
      * @param specialEbRateOnCampus
      */
-    public void setSpecialEbRateOnCampus(KualiDecimal specialEbRateOnCampus) {
+    public void setSpecialEbRateOnCampus(ScaleTwoDecimal specialEbRateOnCampus) {
         this.specialEbRateOnCampus = specialEbRateOnCampus;
     }
 
@@ -1541,7 +1541,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * This method calls getTotalAmount to calculate the total of all Commitment Amounts.
      * @return
      */
-    public KualiDecimal getTotalCostShareCommitmentAmount() {
+    public ScaleTwoDecimal getTotalCostShareCommitmentAmount() {
         return getTotalAmount(awardCostShares);
     }
 
@@ -1550,10 +1550,10 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * @param valuableItems
      * @return The total value
      */
-    public KualiDecimal getTotalCostShareMetAmount() {
-        KualiDecimal returnVal = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getTotalCostShareMetAmount() {
+        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
         for (AwardCostShare awardCostShare : awardCostShares) {
-             KualiDecimal amount = awardCostShare.getCostShareMet() != null ? awardCostShare.getCostShareMet() : new KualiDecimal(0.00);
+             ScaleTwoDecimal amount = awardCostShare.getCostShareMet() != null ? awardCostShare.getCostShareMet() : new ScaleTwoDecimal(0.00);
             returnVal = returnVal.add(amount);
         }
         return returnVal;
@@ -1563,14 +1563,14 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * This method calculates the total Direct Cost Amount for all Direct F and A Distributions.
      * @return The total value
      */
-    public KualiDecimal getTotalDirectFandADistributionDirectCostAmount() {
-        KualiDecimal returnVal = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getTotalDirectFandADistributionDirectCostAmount() {
+        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
         for (AwardDirectFandADistribution awardDirectFandADistribution : awardDirectFandADistributions) {
-            KualiDecimal amount;
+            ScaleTwoDecimal amount;
             if (awardDirectFandADistribution.getDirectCost() != null) {
                 amount = awardDirectFandADistribution.getDirectCost();
              }else {
-                amount = new KualiDecimal(0.00);
+                amount = new ScaleTwoDecimal(0.00);
             }
             returnVal = returnVal.add(amount);
         }
@@ -1581,14 +1581,14 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * This method calculates the total Direct Cost Amount for all Direct F and A Distributions.
      * @return The total value
      */
-    public KualiDecimal getTotalDirectFandADistributionIndirectCostAmount() {
-        KualiDecimal returnVal = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getTotalDirectFandADistributionIndirectCostAmount() {
+        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
         for (AwardDirectFandADistribution awardDirectFandADistribution : awardDirectFandADistributions) {
-            KualiDecimal amount;
+            ScaleTwoDecimal amount;
             if (awardDirectFandADistribution.getIndirectCost() != null) {
                 amount = awardDirectFandADistribution.getIndirectCost();
              }else {
-                amount = new KualiDecimal(0.00);
+                amount = new ScaleTwoDecimal(0.00);
             }
             returnVal = returnVal.add(amount);
         }
@@ -1599,8 +1599,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * This method calculates the total Direct Cost Amount for all Direct F and A Distributions.
      * @return The total value
      */
-    public KualiDecimal getTotalDirectFandADistributionAnticipatedCostAmount() {
-        KualiDecimal returnVal = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getTotalDirectFandADistributionAnticipatedCostAmount() {
+        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
         returnVal = returnVal.add(getTotalDirectFandADistributionDirectCostAmount());
         returnVal = returnVal.add(getTotalDirectFandADistributionIndirectCostAmount());
         return returnVal;
@@ -1610,7 +1610,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * This method totals Approved SubAward amounts
      * @return
      */
-    public KualiDecimal getTotalApprovedSubawardAmount() {
+    public ScaleTwoDecimal getTotalApprovedSubawardAmount() {
         return getTotalAmount(awardApprovedSubawards);
     }
 
@@ -1618,7 +1618,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * This method totals Approved Equipment amounts
      * @return
      */
-    public KualiDecimal getTotalApprovedEquipmentAmount() {
+    public ScaleTwoDecimal getTotalApprovedEquipmentAmount() {
         return getTotalAmount(approvedEquipmentItems);
     }
 
@@ -1626,7 +1626,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * This method Approved Foreign Travel trip amounts
      * @return
      */
-    public KualiDecimal getTotalApprovedApprovedForeignTravelAmount() {
+    public ScaleTwoDecimal getTotalApprovedApprovedForeignTravelAmount() {
         return getTotalAmount(approvedForeignTravelTrips);
     }
 
@@ -1880,7 +1880,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         awardHierarchyTempObjects = new AutoPopulatingList<AwardHierarchyTempObject>(AwardHierarchyTempObject.class);
     }
 
-    public KualiDecimal getPreAwardInstitutionalAuthorizedAmount() {
+    public ScaleTwoDecimal getPreAwardInstitutionalAuthorizedAmount() {
         return preAwardInstitutionalAuthorizedAmount;
     }
 
@@ -1888,10 +1888,10 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * For negative values, this method makes the number positive by dropping the negative sign.
      * @param preAwardInstitutionalAuthorizedAmount
      */
-    public void setPreAwardInstitutionalAuthorizedAmount(KualiDecimal preAwardInstitutionalAuthorizedAmount) {
+    public void setPreAwardInstitutionalAuthorizedAmount(ScaleTwoDecimal preAwardInstitutionalAuthorizedAmount) {
         // if preAwardInstitutionalAuthorizedAmount is negative, make it positive
         if (preAwardInstitutionalAuthorizedAmount != null && preAwardInstitutionalAuthorizedAmount.isNegative()) {
-            this.preAwardInstitutionalAuthorizedAmount = KualiDecimal.ZERO.subtract(preAwardInstitutionalAuthorizedAmount);
+            this.preAwardInstitutionalAuthorizedAmount = ScaleTwoDecimal.ZERO.subtract(preAwardInstitutionalAuthorizedAmount);
         }
         else {
             this.preAwardInstitutionalAuthorizedAmount = preAwardInstitutionalAuthorizedAmount;
@@ -2002,10 +2002,10 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * @param valuableItems
      * @return The total value
      */
-    KualiDecimal getTotalAmount(List<? extends ValuableItem> valuableItems) {
-        KualiDecimal returnVal = new KualiDecimal(0.00);
+    ScaleTwoDecimal getTotalAmount(List<? extends ValuableItem> valuableItems) {
+        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
         for (ValuableItem item : valuableItems) {
-            KualiDecimal amount = item.getAmount() != null ? item.getAmount() : new KualiDecimal(0.00);
+            ScaleTwoDecimal amount = item.getAmount() != null ? item.getAmount() : new ScaleTwoDecimal(0.00);
             returnVal = returnVal.add(amount);
         }
         return returnVal;
@@ -2107,8 +2107,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.paymentScheduleItems = paymentScheduleItems;
     }
 
-    public KualiDecimal getTotalPaymentScheduleAmount() {
-        KualiDecimal amount = KualiDecimal.ZERO;
+    public ScaleTwoDecimal getTotalPaymentScheduleAmount() {
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (AwardPaymentSchedule schedule : paymentScheduleItems) {
             if (schedule.getAmount() != null) {
                 amount = amount.add(schedule.getAmount());
@@ -2201,8 +2201,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * Gets the obligatedTotal attribute.
      * @return Returns the obligatedTotal.
      */
-    public KualiDecimal getObligatedTotal() {
-        KualiDecimal returnValue = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getObligatedTotal() {
+        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0.00);
         // if(awardAmountInfos.get(0).getAmountObligatedToDate()!=null){
         // returnValue = returnValue.add(awardAmountInfos.get(0).getAmountObligatedToDate());
         // }
@@ -2212,8 +2212,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return returnValue;
     }
 
-    public KualiDecimal getObligatedDistributableTotal() {
-        KualiDecimal returnValue = KualiDecimal.ZERO;
+    public ScaleTwoDecimal getObligatedDistributableTotal() {
+        ScaleTwoDecimal returnValue = ScaleTwoDecimal.ZERO;
         if (getLastAwardAmountInfo().getObliDistributableAmount() != null) {
             returnValue = getLastAwardAmountInfo().getObliDistributableAmount();
         }
@@ -2225,9 +2225,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * whichever is less.
      * @return
      */
-    public KualiDecimal getBudgetTotalCostLimit() {
-        KualiDecimal limit = getTotalCostBudgetLimit();
-        KualiDecimal obliTotal = getObligatedDistributableTotal();
+    public ScaleTwoDecimal getBudgetTotalCostLimit() {
+        ScaleTwoDecimal limit = getTotalCostBudgetLimit();
+        ScaleTwoDecimal obliTotal = getObligatedDistributableTotal();
         if (limit != null && limit.isLessEqual(obliTotal)) {
             return limit;
         } else {
@@ -2239,8 +2239,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * Gets the obligatedTotal attribute.
      * @return Returns the obligatedTotal.
      */
-    public KualiDecimal getObligatedTotalDirect() {
-        KualiDecimal returnValue = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getObligatedTotalDirect() {
+        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0.00);
         // if(awardAmountInfos.get(0).getAmountObligatedToDate()!=null){
         // returnValue = returnValue.add(awardAmountInfos.get(0).getAmountObligatedToDate());
         // }
@@ -2254,8 +2254,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * Gets the obligatedTotal attribute.
      * @return Returns the obligatedTotal.
      */
-    public KualiDecimal getObligatedTotalIndirect() {
-        KualiDecimal returnValue = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getObligatedTotalIndirect() {
+        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0.00);
         // if(awardAmountInfos.get(0).getAmountObligatedToDate()!=null){
         // returnValue = returnValue.add(awardAmountInfos.get(0).getAmountObligatedToDate());
         // }
@@ -2269,8 +2269,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * Gets the anticipatedTotal attribute.
      * @return Returns the anticipatedTotal.
      */
-    public KualiDecimal getAnticipatedTotal() {
-        KualiDecimal returnValue = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getAnticipatedTotal() {
+        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0.00);
         // if(awardAmountInfos.get(0).getAnticipatedTotalAmount()!=null){
         // returnValue = returnValue.add(awardAmountInfos.get(0).getAnticipatedTotalAmount());
         // }
@@ -2284,8 +2284,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * Gets the anticipatedTotal attribute.
      * @return Returns the anticipatedTotal.
      */
-    public KualiDecimal getAnticipatedTotalDirect() {
-        KualiDecimal returnValue = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getAnticipatedTotalDirect() {
+        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0.00);
         // if(awardAmountInfos.get(0).getAnticipatedTotalAmount()!=null){
         // returnValue = returnValue.add(awardAmountInfos.get(0).getAnticipatedTotalAmount());
         // }
@@ -2299,8 +2299,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * Gets the anticipatedTotal attribute.
      * @return Returns the anticipatedTotal.
      */
-    public KualiDecimal getAnticipatedTotalIndirect() {
-        KualiDecimal returnValue = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getAnticipatedTotalIndirect() {
+        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0.00);
         // if(awardAmountInfos.get(0).getAnticipatedTotalAmount()!=null){
         // returnValue = returnValue.add(awardAmountInfos.get(0).getAnticipatedTotalAmount());
         // }
@@ -2868,11 +2868,11 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * at the time of its creation, TimeAndMoney wasn't complete
      * @return
      */
-    public KualiDecimal calculateObligatedDistributedAmountTotal() {
-        KualiDecimal sum = KualiDecimal.ZERO;
+    public ScaleTwoDecimal calculateObligatedDistributedAmountTotal() {
+        ScaleTwoDecimal sum = ScaleTwoDecimal.ZERO;
         for (AwardAmountInfo amountInfo : getAwardAmountInfos()) {
-            KualiDecimal obligatedDistributableAmount = amountInfo.getObliDistributableAmount();
-            sum = sum.add(obligatedDistributableAmount != null ? obligatedDistributableAmount : KualiDecimal.ZERO);
+            ScaleTwoDecimal obligatedDistributableAmount = amountInfo.getObliDistributableAmount();
+            sum = sum.add(obligatedDistributableAmount != null ? obligatedDistributableAmount : ScaleTwoDecimal.ZERO);
         }
         return sum;
     }
@@ -3058,15 +3058,15 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.awardBudgetLimits = awardBudgetLimits;
     }
 
-    public KualiDecimal getTotalCostBudgetLimit() {
+    public ScaleTwoDecimal getTotalCostBudgetLimit() {
         return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.TOTAL_COST).getLimit();
     }
 
-    public KualiDecimal getDirectCostBudgetLimit() {
+    public ScaleTwoDecimal getDirectCostBudgetLimit() {
         return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.DIRECT_COST).getLimit();
     }
 
-    public KualiDecimal getIndirectCostBudgetLimit() {
+    public ScaleTwoDecimal getIndirectCostBudgetLimit() {
         return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.INDIRECT_COST).getLimit();
     }
 
@@ -3224,7 +3224,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         AwardFandaRate currentFandaRate;
         // when both On and Off campus rates are in, send the higher one. Ideally only one should be there
         // the single rate validation parameter needs to be set on award
-        KualiDecimal currentRateValue = new KualiDecimal(0.0);
+        ScaleTwoDecimal currentRateValue = new ScaleTwoDecimal(0.0);
         currentFandaRate = rates.get(0);
         for (AwardFandaRate rate : rates) {
             if (Integer.parseInt(rate.getFiscalYear()) == currentYear) {

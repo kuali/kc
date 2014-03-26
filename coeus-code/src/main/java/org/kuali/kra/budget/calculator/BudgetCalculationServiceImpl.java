@@ -17,9 +17,9 @@ package org.kuali.kra.budget.calculator;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.core.*;
@@ -138,17 +138,17 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         List<BudgetPersonnelDetails> budgetPersonnelDetList = budgetLineItemToCalc.getBudgetPersonnelDetailsList();
         if(budgetLineItemToCalc.isBudgetPersonnelLineItemDeleted() || (budgetPersonnelDetList!=null && !budgetPersonnelDetList.isEmpty())){
             updatePersonnelBudgetRate(budgetLineItemToCalc);
-            BudgetDecimal personnelLineItemTotal  = BudgetDecimal.ZERO;
-            BudgetDecimal personnelTotalCostSharing  = BudgetDecimal.ZERO;
-            Map<String, BudgetDecimal> totalCalculatedCost = new HashMap<String, BudgetDecimal> ();
-            Map<String, BudgetDecimal> totalCalculatedCostSharing = new HashMap<String, BudgetDecimal> ();
-            BudgetDecimal newTotalUrAmount = BudgetDecimal.ZERO;
+            ScaleTwoDecimal personnelLineItemTotal  = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal personnelTotalCostSharing  = ScaleTwoDecimal.ZERO;
+            Map<String, ScaleTwoDecimal> totalCalculatedCost = new HashMap<String, ScaleTwoDecimal> ();
+            Map<String, ScaleTwoDecimal> totalCalculatedCostSharing = new HashMap<String, ScaleTwoDecimal> ();
+            ScaleTwoDecimal newTotalUrAmount = ScaleTwoDecimal.ZERO;
             budgetLineItem.getBudgetRateAndBaseList().clear();
             int rateNumber = 0;
             boolean resetTotalUnderRecovery = false;
-            BudgetDecimal calcDirectCost = BudgetDecimal.ZERO;
-            BudgetDecimal calcIndirectCost = BudgetDecimal.ZERO;
-            BudgetDecimal calcTotalCostSharing = BudgetDecimal.ZERO;
+            ScaleTwoDecimal calcDirectCost = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal calcIndirectCost = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal calcTotalCostSharing = ScaleTwoDecimal.ZERO;
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetList) {
                 copyLineItemToPersonnelDetails(budgetLineItemToCalc, budgetPersonnelDetails);
                 new PersonnelLineItemCalculator(budget,budgetPersonnelDetails).calculate();
@@ -165,7 +165,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                             totalCalculatedCost.put(rateKey, personnelCalAmt.getCalculatedCost());
                             totalCalculatedCostSharing.put(rateKey, personnelCalAmt.getCalculatedCostSharing());
                         } else {
-                            BudgetDecimal value = totalCalculatedCost.get(rateKey);
+                            ScaleTwoDecimal value = totalCalculatedCost.get(rateKey);
                             value = value.add(personnelCalAmt.getCalculatedCost());
                             totalCalculatedCost.put(rateKey, value);
                             
@@ -236,10 +236,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         List<BudgetPersonnelRateAndBase> budgetPersonnelRateBaseList = budgetPersonnelDetails.getBudgetPersonnelRateAndBaseList();
         for (BudgetPersonnelRateAndBase budgetPersonnelRateAndBase : budgetPersonnelRateBaseList) {
             BudgetRateAndBase budgetRateBase = new BudgetRateAndBase();
-            BudgetDecimal appliedRate = budgetPersonnelRateAndBase.getAppliedRate();
-            budgetRateBase.setAppliedRate(BudgetDecimal.returnZeroIfNull(appliedRate));
-            BudgetDecimal calculatedCost = budgetPersonnelRateAndBase.getCalculatedCost();
-            BudgetDecimal calculatedCostSharing = budgetPersonnelRateAndBase.getCalculatedCostSharing();
+            ScaleTwoDecimal appliedRate = budgetPersonnelRateAndBase.getAppliedRate();
+            budgetRateBase.setAppliedRate(ScaleTwoDecimal.returnZeroIfNull(appliedRate));
+            ScaleTwoDecimal calculatedCost = budgetPersonnelRateAndBase.getCalculatedCost();
+            ScaleTwoDecimal calculatedCostSharing = budgetPersonnelRateAndBase.getCalculatedCostSharing();
             budgetRateBase.setBaseCostSharing(budgetPersonnelRateAndBase.getBaseCostSharing());
             budgetRateBase.setBaseCost(budgetPersonnelRateAndBase.getSalaryRequested());
             
@@ -395,7 +395,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     protected final boolean isPositiveTotalUnderreoveryAmount(final Budget document) {
         assert document != null : "The periods is null";
         
-        BudgetDecimal lineItemsAmount = BudgetDecimal.ZERO;
+        ScaleTwoDecimal lineItemsAmount = ScaleTwoDecimal.ZERO;
         
         for (final BudgetPeriod budgetPeriod : document.getBudgetPeriods()) {
             lineItemsAmount = lineItemsAmount.add(budgetPeriod.getSumUnderreoveryAmountFromLineItems());
@@ -413,7 +413,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     protected final boolean isPositiveTotalCostSharingAmount(final Budget document) {
         assert document != null : "The document is null";
         
-        BudgetDecimal lineItemsAmount = BudgetDecimal.ZERO;
+        ScaleTwoDecimal lineItemsAmount = ScaleTwoDecimal.ZERO;
         
         for (final BudgetPeriod budgetPeriod : document.getBudgetPeriods()) {
             lineItemsAmount = lineItemsAmount.add(budgetPeriod.getSumTotalCostSharingAmountFromLineItems());
@@ -424,7 +424,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     protected SortedMap<BudgetCategoryType, List<CostElement>> categorizeObjectCodesByCategory(Budget budget) {
-        SortedMap<CostElement, List<BudgetDecimal>> objectCodeTotals = budget.getObjectCodeTotals();
+        SortedMap<CostElement, List<ScaleTwoDecimal>> objectCodeTotals = budget.getObjectCodeTotals();
         SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType = new TreeMap<BudgetCategoryType, List<CostElement>>();
         
         for(CostElement objectCode : objectCodeTotals.keySet()) {
@@ -457,25 +457,25 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
        
         SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodeUniquePersonnelList = new TreeMap<CostElement, List<BudgetPersonnelDetails>>();
         
-        SortedMap<String, List<BudgetDecimal>> objectCodePersonnelSalaryTotals = new TreeMap<String, List<BudgetDecimal>>();
-        SortedMap<String, List<BudgetDecimal>> objectCodePersonnelFringeTotals = new TreeMap<String, List<BudgetDecimal>>();
+        SortedMap<String, List<ScaleTwoDecimal>> objectCodePersonnelSalaryTotals = new TreeMap<String, List<ScaleTwoDecimal>>();
+        SortedMap<String, List<ScaleTwoDecimal>> objectCodePersonnelFringeTotals = new TreeMap<String, List<ScaleTwoDecimal>>();
         
         //Temp collections for maintaining Sub Section Totals
         SortedSet<String> objectCodePersonnelSalaryTotalsByPeriod = new TreeSet<String>();
         SortedSet<String> objectCodePersonnelFringeTotalsByPeriod = new TreeSet<String>();
 
-        SortedMap<RateType, List<BudgetDecimal>> personnelCalculatedExpenseTotals = new TreeMap<RateType, List<BudgetDecimal>>();
-        SortedMap<RateType, List<BudgetDecimal>> nonPersonnelCalculatedExpenseTotals = new TreeMap<RateType, List<BudgetDecimal>>(); 
+        SortedMap<RateType, List<ScaleTwoDecimal>> personnelCalculatedExpenseTotals = new TreeMap<RateType, List<ScaleTwoDecimal>>();
+        SortedMap<RateType, List<ScaleTwoDecimal>> nonPersonnelCalculatedExpenseTotals = new TreeMap<RateType, List<ScaleTwoDecimal>>();
 
-        List <BudgetDecimal> periodSummarySalaryTotals = new ArrayList<BudgetDecimal>();
+        List <ScaleTwoDecimal> periodSummarySalaryTotals = new ArrayList<ScaleTwoDecimal>();
         for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
-            periodSummarySalaryTotals.add(i,BudgetDecimal.ZERO);
+            periodSummarySalaryTotals.add(i, ScaleTwoDecimal.ZERO);
         }
-        List <BudgetDecimal> periodSummaryFringeTotals = new ArrayList<BudgetDecimal>();
+        List <ScaleTwoDecimal> periodSummaryFringeTotals = new ArrayList<ScaleTwoDecimal>();
         for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
-            periodSummaryFringeTotals.add(i,BudgetDecimal.ZERO);
+            periodSummaryFringeTotals.add(i, ScaleTwoDecimal.ZERO);
         }
-        SortedMap<String, List<BudgetDecimal>> subTotalsBySubSection = new TreeMap<String, List<BudgetDecimal>>();
+        SortedMap<String, List<ScaleTwoDecimal>> subTotalsBySubSection = new TreeMap<String, List<ScaleTwoDecimal>>();
         subTotalsBySubSection.put("personnelSalaryTotals", periodSummarySalaryTotals);
         subTotalsBySubSection.put("personnelFringeTotals", periodSummaryFringeTotals);
         
@@ -510,34 +510,33 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                             QueryList personOccurrencesForSameObjectCode = personnelQueryList.filter(personIdEquals);
                             
                             //Calculate the Salary Totals for each Person
-                            BudgetDecimal personSalaryTotalsForCurrentPeriod = personOccurrencesForSameObjectCode.sumObjects("salaryRequested");
+                            ScaleTwoDecimal personSalaryTotalsForCurrentPeriod = personOccurrencesForSameObjectCode.sumObjects("salaryRequested");
                             
                             if (!objectCodePersonnelSalaryTotals.containsKey(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId())) {
                                 objectCodeUniquePersonnelList.get(matchingLineItem.getCostElementBO()).add(budgetPersonnelDetails);
                                 // set up for all periods and put into map
-                                List <BudgetDecimal> periodTotals = new ArrayList<BudgetDecimal>();
+                                List <ScaleTwoDecimal> periodTotals = new ArrayList<ScaleTwoDecimal>();
                                 for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
-                                    periodTotals.add(i,BudgetDecimal.ZERO);
+                                    periodTotals.add(i, ScaleTwoDecimal.ZERO);
                                 }
                                 objectCodePersonnelSalaryTotals.put(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId(), periodTotals);
                             }
                             //Setting the total lines here - so that they'll be set just once for a unique person within an Object Code
                             objectCodePersonnelSalaryTotals.get(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId()).set(budgetPeriod.getBudgetPeriod() - 1, personSalaryTotalsForCurrentPeriod);
-                            //subTotalsBySubSection.get("personnelSalaryTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelSalaryTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personSalaryTotalsForCurrentPeriod));
                             if (objectCodePersonnelSalaryTotalsByPeriod.add(budgetPeriod.getBudgetPeriod().toString() + ","+ matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId())) {
-                                subTotalsBySubSection.get("personnelSalaryTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelSalaryTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personSalaryTotalsForCurrentPeriod));
+                                subTotalsBySubSection.get("personnelSalaryTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((ScaleTwoDecimal) (subTotalsBySubSection.get("personnelSalaryTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personSalaryTotalsForCurrentPeriod));
                             }
                             
                             //Calculate the Fringe Totals for each Person
                             if (!objectCodePersonnelFringeTotals.containsKey(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId())) {
                                 // set up for all periods and put into map
-                                List <BudgetDecimal> periodFringeTotals = new ArrayList<BudgetDecimal>();
+                                List <ScaleTwoDecimal> periodFringeTotals = new ArrayList<ScaleTwoDecimal>();
                                 for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
-                                    periodFringeTotals.add(i,BudgetDecimal.ZERO);
+                                    periodFringeTotals.add(i, ScaleTwoDecimal.ZERO);
                                 }
                                 objectCodePersonnelFringeTotals.put(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId(), periodFringeTotals); 
                             }   
-                            BudgetDecimal personFringeTotalsForCurrentPeriod = BudgetDecimal.ZERO;
+                            ScaleTwoDecimal personFringeTotalsForCurrentPeriod = ScaleTwoDecimal.ZERO;
 //                            if(!isSummaryCalcAmountChanged(budget,budgetPeriod)){
                             //Calculate the Fringe Totals for that Person (cumulative fringe for all occurrences of the person)
                                 for(Object person : personOccurrencesForSameObjectCode) {
@@ -551,11 +550,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                                     }
                                 }
                                 objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId()).set(budgetPeriod.getBudgetPeriod() - 1, personFringeTotalsForCurrentPeriod);
-                                //subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personFringeTotalsForCurrentPeriod));
 //                            }
                             
                             if (objectCodePersonnelFringeTotalsByPeriod.add(budgetPeriod.getBudgetPeriod().toString() + ","+ matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId())) {
-                                subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personFringeTotalsForCurrentPeriod));
+                                subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((ScaleTwoDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personFringeTotalsForCurrentPeriod));
                             }
                         } 
                         
@@ -564,21 +562,21 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                             //Include Summary Item Salary (Line Item Cost)
                             if (!objectCodePersonnelSalaryTotals.containsKey(matchingLineItem.getCostElement())) {
                                 // set up for all periods and put into map
-                                List <BudgetDecimal> periodTotals = new ArrayList<BudgetDecimal>();
+                                List <ScaleTwoDecimal> periodTotals = new ArrayList<ScaleTwoDecimal>();
                                 for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
-                                    periodTotals.add(i,BudgetDecimal.ZERO);
+                                    periodTotals.add(i, ScaleTwoDecimal.ZERO);
                                 }
                                 objectCodePersonnelSalaryTotals.put(matchingLineItem.getCostElement(), periodTotals);
                             }
-                            objectCodePersonnelSalaryTotals.get(matchingLineItem.getCostElement()).set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) objectCodePersonnelSalaryTotals.get(matchingLineItem.getCostElement()).get(budgetPeriod.getBudgetPeriod() - 1)).add(matchingLineItem.getLineItemCost()));
+                            objectCodePersonnelSalaryTotals.get(matchingLineItem.getCostElement()).set(budgetPeriod.getBudgetPeriod() - 1, ((ScaleTwoDecimal) objectCodePersonnelSalaryTotals.get(matchingLineItem.getCostElement()).get(budgetPeriod.getBudgetPeriod() - 1)).add(matchingLineItem.getLineItemCost()));
                             
                             //Include Summary Item Fringe Amt
-                            BudgetDecimal summaryFringeTotalsForCurrentPeriod = BudgetDecimal.ZERO;
+                            ScaleTwoDecimal summaryFringeTotalsForCurrentPeriod = ScaleTwoDecimal.ZERO;
                             if (!objectCodePersonnelFringeTotals.containsKey(matchingLineItem.getCostElement())) {
                                 // set up for all periods and put into map
-                                List <BudgetDecimal> periodFringeTotals = new ArrayList<BudgetDecimal>();
+                                List <ScaleTwoDecimal> periodFringeTotals = new ArrayList<ScaleTwoDecimal>();
                                 for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
-                                    periodFringeTotals.add(i,BudgetDecimal.ZERO);
+                                    periodFringeTotals.add(i, ScaleTwoDecimal.ZERO);
                                 }
                                 objectCodePersonnelFringeTotals.put(matchingLineItem.getCostElement(), periodFringeTotals); 
                             }
@@ -590,11 +588,11 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                                     summaryFringeTotalsForCurrentPeriod = summaryFringeTotalsForCurrentPeriod.add(lineItemCalculatedAmount.getCalculatedCost());
                                 }
                             }
-                            objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()).set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()).get(budgetPeriod.getBudgetPeriod() - 1)).add(summaryFringeTotalsForCurrentPeriod));
+                            objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()).set(budgetPeriod.getBudgetPeriod() - 1, ((ScaleTwoDecimal) objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()).get(budgetPeriod.getBudgetPeriod() - 1)).add(summaryFringeTotalsForCurrentPeriod));
 
                             //if(matchingLineItemIndex == filteredLineItems.size()-1) { 
-                                 subTotalsBySubSection.get("personnelSalaryTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelSalaryTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add((BudgetDecimal) (objectCodePersonnelSalaryTotals.get(matchingLineItem.getCostElement()).get(budgetPeriod.getBudgetPeriod()-1))));
-                                 subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add((BudgetDecimal) (objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()).get(budgetPeriod.getBudgetPeriod()-1))));
+                                 subTotalsBySubSection.get("personnelSalaryTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((ScaleTwoDecimal) (subTotalsBySubSection.get("personnelSalaryTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add((ScaleTwoDecimal) (objectCodePersonnelSalaryTotals.get(matchingLineItem.getCostElement()).get(budgetPeriod.getBudgetPeriod()-1))));
+                                 subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((ScaleTwoDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add((ScaleTwoDecimal) (objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()).get(budgetPeriod.getBudgetPeriod()-1))));
                             //}
                         }
                         
@@ -638,18 +636,18 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     protected void calculateNonPersonnelSummaryTotals(Budget budget) {
         for(BudgetCategoryType budgetCategoryType : budget.getObjectCodeListByBudgetCategoryType().keySet()) {
             if(!StringUtils.equals(budgetCategoryType.getBudgetCategoryTypeCode(), "P")) {
-                List <BudgetDecimal> nonPersonnelTotals = new ArrayList<BudgetDecimal>();
+                List <ScaleTwoDecimal> nonPersonnelTotals = new ArrayList<ScaleTwoDecimal>();
                 for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
-                    nonPersonnelTotals.add(i,BudgetDecimal.ZERO);
+                    nonPersonnelTotals.add(i, ScaleTwoDecimal.ZERO);
                 }
                 budget.getBudgetSummaryTotals().put(budgetCategoryType.getBudgetCategoryTypeCode(), nonPersonnelTotals);
                 
                 List<CostElement> objectCodes = budget.getObjectCodeListByBudgetCategoryType().get(budgetCategoryType);
                 for(CostElement objectCode : objectCodes) {
                     if (!StringUtils.equalsIgnoreCase(objectCode.getCostElement(), KcServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"))) {
-                        List<BudgetDecimal> objectCodePeriodTotals = budget.getObjectCodeTotals().get(objectCode);
+                        List<ScaleTwoDecimal> objectCodePeriodTotals = budget.getObjectCodeTotals().get(objectCode);
                         for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-                            budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).get(budgetPeriod.getBudgetPeriod() - 1))).add(objectCodePeriodTotals.get(budgetPeriod.getBudgetPeriod() - 1)));
+                            budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).set(budgetPeriod.getBudgetPeriod() - 1, ((ScaleTwoDecimal) (budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).get(budgetPeriod.getBudgetPeriod() - 1))).add(objectCodePeriodTotals.get(budgetPeriod.getBudgetPeriod() - 1)));
                         }
                     }
                 }
@@ -668,12 +666,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return filteredObjectCodes;
     }
     
-    protected SortedMap<RateType, List<BudgetDecimal>> calculateExpenseTotals(Budget budget, boolean personnelFlag){
-        SortedMap<RateType, List<BudgetDecimal>> calculatedExpenseTotals = new TreeMap <RateType, List<BudgetDecimal>> ();
+    protected SortedMap<RateType, List<ScaleTwoDecimal>> calculateExpenseTotals(Budget budget, boolean personnelFlag){
+        SortedMap<RateType, List<ScaleTwoDecimal>> calculatedExpenseTotals = new TreeMap <RateType, List<ScaleTwoDecimal>> ();
         
-        List <BudgetDecimal> calculatedDirectCostSummaryTotals = new ArrayList<BudgetDecimal>();
+        List <ScaleTwoDecimal> calculatedDirectCostSummaryTotals = new ArrayList<ScaleTwoDecimal>();
         for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
-            calculatedDirectCostSummaryTotals.add(i,BudgetDecimal.ZERO);
+            calculatedDirectCostSummaryTotals.add(i, ScaleTwoDecimal.ZERO);
         }
         String totalsMapKey = null;
         if(personnelFlag) {
@@ -712,18 +710,18 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                             Equals equalsRC = new Equals("rateClassCode", budgetLineItemCalculatedAmount.getRateClassCode());
                             Equals equalsRT = new Equals("rateTypeCode", budgetLineItemCalculatedAmount.getRateTypeCode());
                             And RCandRT = new And(equalsRC, equalsRT);
-                            BudgetDecimal rateTypeTotalInThisPeriod = lineItemCalcAmtQueryList.sumObjects("calculatedCost", RCandRT);
+                            ScaleTwoDecimal rateTypeTotalInThisPeriod = lineItemCalcAmtQueryList.sumObjects("calculatedCost", RCandRT);
                             if (!calculatedExpenseTotals.containsKey(rateType)) {
-                                List <BudgetDecimal> rateTypePeriodTotals = new ArrayList<BudgetDecimal>();
+                                List <ScaleTwoDecimal> rateTypePeriodTotals = new ArrayList<ScaleTwoDecimal>();
                                 for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
-                                    rateTypePeriodTotals.add(i,BudgetDecimal.ZERO);
+                                    rateTypePeriodTotals.add(i, ScaleTwoDecimal.ZERO);
                                 }
                                 calculatedExpenseTotals.put(rateType, rateTypePeriodTotals);
                             }
-                            calculatedExpenseTotals.get(rateType).set(budgetPeriod.getBudgetPeriod() - 1,((BudgetDecimal)calculatedExpenseTotals.get(rateType).get(budgetPeriod.getBudgetPeriod() - 1)).add(rateTypeTotalInThisPeriod));
+                            calculatedExpenseTotals.get(rateType).set(budgetPeriod.getBudgetPeriod() - 1,((ScaleTwoDecimal)calculatedExpenseTotals.get(rateType).get(budgetPeriod.getBudgetPeriod() - 1)).add(rateTypeTotalInThisPeriod));
                             
                             if(!StringUtils.equals(rateClass.getRateClassType(), "O")) {
-                                budget.getBudgetSummaryTotals().get(totalsMapKey).set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (budget.getBudgetSummaryTotals().get(totalsMapKey).get(budgetPeriod.getBudgetPeriod() - 1))).add(rateTypeTotalInThisPeriod));
+                                budget.getBudgetSummaryTotals().get(totalsMapKey).set(budgetPeriod.getBudgetPeriod() - 1, ((ScaleTwoDecimal) (budget.getBudgetSummaryTotals().get(totalsMapKey).get(budgetPeriod.getBudgetPeriod() - 1))).add(rateTypeTotalInThisPeriod));
                             }
                             
                             budgetPeriod.setExpenseTotal(budgetPeriod.getExpenseTotal().add(rateTypeTotalInThisPeriod));
@@ -749,13 +747,13 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     @SuppressWarnings("unchecked")
     protected void calculateBudgetTotals(Budget budget){
         // do we need to cache the totals ?
-        SortedMap<CostElement, List<BudgetDecimal>> objectCodeTotals = new TreeMap <CostElement, List<BudgetDecimal>> ();
-        SortedMap<RateType, List<BudgetDecimal>> calculatedExpenseTotals = new TreeMap <RateType, List<BudgetDecimal>> ();
+        SortedMap<CostElement, List<ScaleTwoDecimal>> objectCodeTotals = new TreeMap <CostElement, List<ScaleTwoDecimal>> ();
+        SortedMap<RateType, List<ScaleTwoDecimal>> calculatedExpenseTotals = new TreeMap <RateType, List<ScaleTwoDecimal>> ();
         for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
             List <CostElement> objectCodes = new ArrayList<CostElement>();
             QueryList lineItemQueryList = new QueryList();
             lineItemQueryList.addAll(budgetPeriod.getBudgetLineItems());
-            budgetPeriod.setExpenseTotal(BudgetDecimal.ZERO);
+            budgetPeriod.setExpenseTotal(ScaleTwoDecimal.ZERO);
             // probably need to add '0' to the period that has no such object code or ratetype ?
             for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
                 if (budgetLineItem.getCostElementBO() == null) {
@@ -765,12 +763,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 if (!objectCodes.contains(costElement)) {
                     objectCodes.add(costElement);
                     Equals equalsCostElement = new Equals("costElement", budgetLineItem.getCostElement());
-                    BudgetDecimal objectCodeTotalInThisPeriod = lineItemQueryList.sumObjects("lineItemCost", equalsCostElement);
+                    ScaleTwoDecimal objectCodeTotalInThisPeriod = lineItemQueryList.sumObjects("lineItemCost", equalsCostElement);
                     if (!objectCodeTotals.containsKey(costElement)) {
                         // set up for all periods and put into map
-                        List <BudgetDecimal> periodTotals = new ArrayList<BudgetDecimal>();
+                        List <ScaleTwoDecimal> periodTotals = new ArrayList<ScaleTwoDecimal>();
                         for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
-                            periodTotals.add(i,BudgetDecimal.ZERO);
+                            periodTotals.add(i, ScaleTwoDecimal.ZERO);
                         }
                         objectCodeTotals.put(costElement, periodTotals);
                     }
@@ -793,15 +791,15 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                         Equals equalsRC = new Equals("rateClassCode", budgetLineItemCalculatedAmount.getRateClassCode());
                         Equals equalsRT = new Equals("rateTypeCode", budgetLineItemCalculatedAmount.getRateTypeCode());
                         And RCandRT = new And(equalsRC, equalsRT);
-                        BudgetDecimal rateTypeTotalInThisPeriod = lineItemCalcAmtQueryList.sumObjects("calculatedCost", RCandRT);
+                        ScaleTwoDecimal rateTypeTotalInThisPeriod = lineItemCalcAmtQueryList.sumObjects("calculatedCost", RCandRT);
                         if (!calculatedExpenseTotals.containsKey(rateType)) {
-                            List <BudgetDecimal> rateTypePeriodTotals = new ArrayList<BudgetDecimal>();
+                            List <ScaleTwoDecimal> rateTypePeriodTotals = new ArrayList<ScaleTwoDecimal>();
                             for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
-                                rateTypePeriodTotals.add(i,BudgetDecimal.ZERO);
+                                rateTypePeriodTotals.add(i, ScaleTwoDecimal.ZERO);
                             }
                             calculatedExpenseTotals.put(rateType, rateTypePeriodTotals);
                         }
-                        calculatedExpenseTotals.get(rateType).set(budgetPeriod.getBudgetPeriod() - 1,((BudgetDecimal)calculatedExpenseTotals.get(rateType).get(budgetPeriod.getBudgetPeriod() - 1)).add(rateTypeTotalInThisPeriod));
+                        calculatedExpenseTotals.get(rateType).set(budgetPeriod.getBudgetPeriod() - 1,((ScaleTwoDecimal)calculatedExpenseTotals.get(rateType).get(budgetPeriod.getBudgetPeriod() - 1)).add(rateTypeTotalInThisPeriod));
                         budgetPeriod.setExpenseTotal(budgetPeriod.getExpenseTotal().add(rateTypeTotalInThisPeriod));
                    }
                 }
@@ -912,7 +910,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return budgetForm;
     }
 
-    protected void addBudgetLimits(List<BudgetDecimal> budgetLimits, AwardBudgetLineItemCalculatedAmountExt awardCalcAmt, boolean isPrevBudget) {
+    protected void addBudgetLimits(List<ScaleTwoDecimal> budgetLimits, AwardBudgetLineItemCalculatedAmountExt awardCalcAmt, boolean isPrevBudget) {
         if (isPrevBudget) {
             budgetLimits.set(1, budgetLimits.get(1).add(awardCalcAmt.getCalculatedCost()));
         } else {

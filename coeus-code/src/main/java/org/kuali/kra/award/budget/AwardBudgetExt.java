@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.budget;
 
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -41,9 +41,9 @@ public class AwardBudgetExt extends Budget {
 
     private String awardBudgetTypeCode;
 
-    private BudgetDecimal obligatedTotal;
+    private ScaleTwoDecimal obligatedTotal;
 
-    private BudgetDecimal obligatedAmount = BudgetDecimal.ZERO;
+    private ScaleTwoDecimal obligatedAmount = ScaleTwoDecimal.ZERO;
 
     private AwardBudgetStatus awardBudgetStatus;
 
@@ -55,23 +55,23 @@ public class AwardBudgetExt extends Budget {
 
     private BudgetVersionOverview prevBudget;
 
-    private List<BudgetDecimal> budgetsTotals;
+    private List<ScaleTwoDecimal> budgetsTotals;
 
     private List<AwardBudgetLimit> awardBudgetLimits;
 
     private BudgetVersionOverview firstBudget;
     
-    private SortedMap<CostElement, BudgetDecimal> objectCodeBudgetTotals;
+    private SortedMap<CostElement, ScaleTwoDecimal> objectCodeBudgetTotals;
 
-    private SortedMap<RateType, BudgetDecimal> calculatedExpenseBudgetTotals;
+    private SortedMap<RateType, ScaleTwoDecimal> calculatedExpenseBudgetTotals;
 
-    private SortedMap<String, BudgetDecimal> totalBudgetSummaryTotals;
+    private SortedMap<String, ScaleTwoDecimal> totalBudgetSummaryTotals;
 
-    private SortedMap<String, BudgetDecimal> objectCodePersonnelFringeBudgetTotals;
+    private SortedMap<String, ScaleTwoDecimal> objectCodePersonnelFringeBudgetTotals;
 
-    private SortedMap<RateType, BudgetDecimal> personnelCalculatedExpenseBudgetTotals;
+    private SortedMap<RateType, ScaleTwoDecimal> personnelCalculatedExpenseBudgetTotals;
 
-    private SortedMap<RateType, BudgetDecimal> nonPersonnelCalculatedExpenseBudgetTotals;
+    private SortedMap<RateType, ScaleTwoDecimal> nonPersonnelCalculatedExpenseBudgetTotals;
 
     public AwardBudgetExt() {
         super();
@@ -145,8 +145,8 @@ public class AwardBudgetExt extends Budget {
      * the lesser of the obligated distributable amount and the award total cost budget limit. 
      * @return Returns the obligatedTotal.
      */
-    public BudgetDecimal getObligatedTotal() {
-        return obligatedTotal == null ? BudgetDecimal.ZERO : obligatedTotal;
+    public ScaleTwoDecimal getObligatedTotal() {
+        return obligatedTotal == null ? ScaleTwoDecimal.ZERO : obligatedTotal;
     }
 
     /**
@@ -154,7 +154,7 @@ public class AwardBudgetExt extends Budget {
      * the lesser of the obligated distributable amount and the award total cost budget limit.
      * @param obligatedTotal The obligatedTotal to set.
      */
-    public void setObligatedTotal(BudgetDecimal obligatedAmount) {
+    public void setObligatedTotal(ScaleTwoDecimal obligatedAmount) {
         this.obligatedTotal = obligatedAmount;
     }
 
@@ -162,15 +162,15 @@ public class AwardBudgetExt extends Budget {
      * Gets the obligatedAmount attribute. 
      * @return Returns the obligatedAmount.
      */
-    public BudgetDecimal getObligatedAmount() {
-        return obligatedAmount == null ? BudgetDecimal.ZERO : obligatedAmount;
+    public ScaleTwoDecimal getObligatedAmount() {
+        return obligatedAmount == null ? ScaleTwoDecimal.ZERO : obligatedAmount;
     }
 
     /**
      * Sets the obligatedAmount attribute value.
      * @param obligatedAmount The obligatedAmount to set.
      */
-    public void setObligatedAmount(BudgetDecimal obligatedAmount) {
+    public void setObligatedAmount(ScaleTwoDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
     }
 
@@ -222,12 +222,12 @@ public class AwardBudgetExt extends Budget {
             }
             if (prevBudget == null) {
                 prevBudget = new BudgetVersionOverview();
-                prevBudget.setCostSharingAmount(BudgetDecimal.ZERO);
-                prevBudget.setTotalCost(BudgetDecimal.ZERO);
-                prevBudget.setTotalCostLimit(BudgetDecimal.ZERO);
-                prevBudget.setTotalDirectCost(BudgetDecimal.ZERO);
-                prevBudget.setTotalIndirectCost(BudgetDecimal.ZERO);
-                prevBudget.setUnderrecoveryAmount(BudgetDecimal.ZERO);
+                prevBudget.setCostSharingAmount(ScaleTwoDecimal.ZERO);
+                prevBudget.setTotalCost(ScaleTwoDecimal.ZERO);
+                prevBudget.setTotalCostLimit(ScaleTwoDecimal.ZERO);
+                prevBudget.setTotalDirectCost(ScaleTwoDecimal.ZERO);
+                prevBudget.setTotalIndirectCost(ScaleTwoDecimal.ZERO);
+                prevBudget.setUnderrecoveryAmount(ScaleTwoDecimal.ZERO);
             }
         }
         return prevBudget;
@@ -262,17 +262,17 @@ public class AwardBudgetExt extends Budget {
         this.prevBudget = prevBudget;
     }
 
-    public List<BudgetDecimal> getBudgetsTotals() {
+    public List<ScaleTwoDecimal> getBudgetsTotals() {
         addBudgetTotals();
         return budgetsTotals;
     }
 
-    public void setBudgetsTotals(List<BudgetDecimal> budgetsTotals) {
+    public void setBudgetsTotals(List<ScaleTwoDecimal> budgetsTotals) {
         this.budgetsTotals = budgetsTotals;
     }
 
     private void addBudgetTotals() {
-        List<BudgetDecimal> totals = new ArrayList<BudgetDecimal>();
+        List<ScaleTwoDecimal> totals = new ArrayList<ScaleTwoDecimal>();
         totals.add(this.getTotalCost().add(getPrevBudget().getTotalCost()));
         totals.add(this.getTotalDirectCost().add(getPrevBudget().getTotalDirectCost()));
         totals.add(this.getTotalIndirectCost().add(getPrevBudget().getTotalIndirectCost()));
@@ -298,51 +298,51 @@ public class AwardBudgetExt extends Budget {
         this.awardBudgetLimits = awardBudgetLimits;
     }
 
-    public SortedMap<CostElement, BudgetDecimal> getObjectCodeBudgetTotals() {
+    public SortedMap<CostElement, ScaleTwoDecimal> getObjectCodeBudgetTotals() {
         return objectCodeBudgetTotals;
     }
 
-    public void setObjectCodeBudgetTotals(SortedMap<CostElement, BudgetDecimal> objectCodeBudgetTotals) {
+    public void setObjectCodeBudgetTotals(SortedMap<CostElement, ScaleTwoDecimal> objectCodeBudgetTotals) {
         this.objectCodeBudgetTotals = objectCodeBudgetTotals;
     }
 
-    public SortedMap<RateType, BudgetDecimal> getCalculatedExpenseBudgetTotals() {
+    public SortedMap<RateType, ScaleTwoDecimal> getCalculatedExpenseBudgetTotals() {
         return calculatedExpenseBudgetTotals;
     }
 
-    public void setCalculatedExpenseBudgetTotals(SortedMap<RateType, BudgetDecimal> calculatedExpenseBudgetTotals) {
+    public void setCalculatedExpenseBudgetTotals(SortedMap<RateType, ScaleTwoDecimal> calculatedExpenseBudgetTotals) {
         this.calculatedExpenseBudgetTotals = calculatedExpenseBudgetTotals;
     }
 
-    public SortedMap<String, BudgetDecimal> getTotalBudgetSummaryTotals() {
+    public SortedMap<String, ScaleTwoDecimal> getTotalBudgetSummaryTotals() {
         return totalBudgetSummaryTotals;
     }
 
-    public void setTotalBudgetSummaryTotals(SortedMap<String, BudgetDecimal> totalBudgetSummaryTotals) {
+    public void setTotalBudgetSummaryTotals(SortedMap<String, ScaleTwoDecimal> totalBudgetSummaryTotals) {
         this.totalBudgetSummaryTotals = totalBudgetSummaryTotals;
     }
 
-    public SortedMap<String, BudgetDecimal> getObjectCodePersonnelFringeBudgetTotals() {
+    public SortedMap<String, ScaleTwoDecimal> getObjectCodePersonnelFringeBudgetTotals() {
         return objectCodePersonnelFringeBudgetTotals;
     }
 
-    public void setObjectCodePersonnelFringeBudgetTotals(SortedMap<String, BudgetDecimal> objectCodePersonnelFringeBudgetTotals) {
+    public void setObjectCodePersonnelFringeBudgetTotals(SortedMap<String, ScaleTwoDecimal> objectCodePersonnelFringeBudgetTotals) {
         this.objectCodePersonnelFringeBudgetTotals = objectCodePersonnelFringeBudgetTotals;
     }
 
-    public SortedMap<RateType, BudgetDecimal> getPersonnelCalculatedExpenseBudgetTotals() {
+    public SortedMap<RateType, ScaleTwoDecimal> getPersonnelCalculatedExpenseBudgetTotals() {
         return personnelCalculatedExpenseBudgetTotals;
     }
 
-    public void setPersonnelCalculatedExpenseBudgetTotals(SortedMap<RateType, BudgetDecimal> personnelCalculatedExpenseBudgetTotals) {
+    public void setPersonnelCalculatedExpenseBudgetTotals(SortedMap<RateType, ScaleTwoDecimal> personnelCalculatedExpenseBudgetTotals) {
         this.personnelCalculatedExpenseBudgetTotals = personnelCalculatedExpenseBudgetTotals;
     }
 
-    public SortedMap<RateType, BudgetDecimal> getNonPersonnelCalculatedExpenseBudgetTotals() {
+    public SortedMap<RateType, ScaleTwoDecimal> getNonPersonnelCalculatedExpenseBudgetTotals() {
         return nonPersonnelCalculatedExpenseBudgetTotals;
     }
 
-    public void setNonPersonnelCalculatedExpenseBudgetTotals(SortedMap<RateType, BudgetDecimal> nonPersonnelCalculatedExpenseBudgetTotals) {
+    public void setNonPersonnelCalculatedExpenseBudgetTotals(SortedMap<RateType, ScaleTwoDecimal> nonPersonnelCalculatedExpenseBudgetTotals) {
         this.nonPersonnelCalculatedExpenseBudgetTotals = nonPersonnelCalculatedExpenseBudgetTotals;
     }
 
@@ -363,8 +363,8 @@ public class AwardBudgetExt extends Budget {
      * Gets the sum of the Direct Cost Amount for all budget periods.
      * @return the amount
      */
-    public BudgetDecimal getSumDirectCostAmountFromPeriods() {
-        BudgetDecimal amount = BudgetDecimal.ZERO;
+    public ScaleTwoDecimal getSumDirectCostAmountFromPeriods() {
+        ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {
             amount = amount.add(period.getTotalDirectCost());
         }

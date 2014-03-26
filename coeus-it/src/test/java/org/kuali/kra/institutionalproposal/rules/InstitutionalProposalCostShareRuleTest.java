@@ -24,7 +24,7 @@ import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -43,10 +43,10 @@ public class InstitutionalProposalCostShareRuleTest extends KcIntegrationTestBas
     public void setUp() throws Exception {
         institutionalProposalAddCostShareRule = new InstitutionalProposalAddCostShareRuleImpl();
         institutionalProposalCostShare = new InstitutionalProposalCostShare();
-        institutionalProposalCostShare.setCostSharePercentage(new KualiDecimal(PERCENTAGE));
+        institutionalProposalCostShare.setCostSharePercentage(new ScaleTwoDecimal(PERCENTAGE));
         institutionalProposalCostShare.setProjectPeriod(TEST_FISCAL_YEAR);
         institutionalProposalCostShare.setSourceAccount(TEST_SOURCE);
-        institutionalProposalCostShare.setAmount(new KualiDecimal(AMOUNT));
+        institutionalProposalCostShare.setAmount(new ScaleTwoDecimal(AMOUNT));
         GlobalVariables.setMessageMap(new MessageMap());
     }
 

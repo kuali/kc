@@ -16,7 +16,7 @@
 package org.kuali.kra.award.subcontracting.goalsAndExpenditures;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 public class AwardSubcontractingBudgetedGoals extends KcPersistableBusinessObjectBase {
 
@@ -26,14 +26,14 @@ public class AwardSubcontractingBudgetedGoals extends KcPersistableBusinessObjec
     // the primary key for this BO
     private String awardNumber;
     
-    private KualiDecimal largeBusinessGoalAmount;
-    private KualiDecimal smallBusinessGoalAmount; 
-    private KualiDecimal womanOwnedGoalAmount;
-    private KualiDecimal eightADisadvantageGoalAmount; 
-    private KualiDecimal hubZoneGoalAmount;
-    private KualiDecimal veteranOwnedGoalAmount; 
-    private KualiDecimal serviceDisabledVeteranOwnedGoalAmount; 
-    private KualiDecimal historicalBlackCollegeGoalAmount;
+    private ScaleTwoDecimal largeBusinessGoalAmount;
+    private ScaleTwoDecimal smallBusinessGoalAmount;
+    private ScaleTwoDecimal womanOwnedGoalAmount;
+    private ScaleTwoDecimal eightADisadvantageGoalAmount;
+    private ScaleTwoDecimal hubZoneGoalAmount;
+    private ScaleTwoDecimal veteranOwnedGoalAmount;
+    private ScaleTwoDecimal serviceDisabledVeteranOwnedGoalAmount;
+    private ScaleTwoDecimal historicalBlackCollegeGoalAmount;
     
     private String comments;
     
@@ -66,82 +66,82 @@ public class AwardSubcontractingBudgetedGoals extends KcPersistableBusinessObjec
 
 
 
-    public KualiDecimal getLargeBusinessGoalAmount() {
+    public ScaleTwoDecimal getLargeBusinessGoalAmount() {
         return largeBusinessGoalAmount;
     }
 
 
-    public void setLargeBusinessGoalAmount(KualiDecimal largeBusinessGoalAmount) {
+    public void setLargeBusinessGoalAmount(ScaleTwoDecimal largeBusinessGoalAmount) {
         this.largeBusinessGoalAmount = largeBusinessGoalAmount;
     }
 
 
-    public KualiDecimal getSmallBusinessGoalAmount() {
+    public ScaleTwoDecimal getSmallBusinessGoalAmount() {
         return smallBusinessGoalAmount;
     }
 
 
-    public void setSmallBusinessGoalAmount(KualiDecimal smallBusinessGoalAmount) {
+    public void setSmallBusinessGoalAmount(ScaleTwoDecimal smallBusinessGoalAmount) {
         this.smallBusinessGoalAmount = smallBusinessGoalAmount;
     }
 
 
-    public KualiDecimal getWomanOwnedGoalAmount() {
+    public ScaleTwoDecimal getWomanOwnedGoalAmount() {
         return womanOwnedGoalAmount;
     }
 
 
-    public void setWomanOwnedGoalAmount(KualiDecimal womanOwnedGoalAmount) {
+    public void setWomanOwnedGoalAmount(ScaleTwoDecimal womanOwnedGoalAmount) {
         this.womanOwnedGoalAmount = womanOwnedGoalAmount;
     }
 
 
-    public KualiDecimal getEightADisadvantageGoalAmount() {
+    public ScaleTwoDecimal getEightADisadvantageGoalAmount() {
         return eightADisadvantageGoalAmount;
     }
 
 
-    public void setEightADisadvantageGoalAmount(KualiDecimal eightADisadvantageGoalAmount) {
+    public void setEightADisadvantageGoalAmount(ScaleTwoDecimal eightADisadvantageGoalAmount) {
         this.eightADisadvantageGoalAmount = eightADisadvantageGoalAmount;
     }
 
 
-    public KualiDecimal getHubZoneGoalAmount() {
+    public ScaleTwoDecimal getHubZoneGoalAmount() {
         return hubZoneGoalAmount;
     }
 
 
-    public void setHubZoneGoalAmount(KualiDecimal hubZoneGoalAmount) {
+    public void setHubZoneGoalAmount(ScaleTwoDecimal hubZoneGoalAmount) {
         this.hubZoneGoalAmount = hubZoneGoalAmount;
     }
 
 
-    public KualiDecimal getVeteranOwnedGoalAmount() {
+    public ScaleTwoDecimal getVeteranOwnedGoalAmount() {
         return veteranOwnedGoalAmount;
     }
 
 
-    public void setVeteranOwnedGoalAmount(KualiDecimal veteranOwnedGoalAmount) {
+    public void setVeteranOwnedGoalAmount(ScaleTwoDecimal veteranOwnedGoalAmount) {
         this.veteranOwnedGoalAmount = veteranOwnedGoalAmount;
     }
 
 
-    public KualiDecimal getServiceDisabledVeteranOwnedGoalAmount() {
+    public ScaleTwoDecimal getServiceDisabledVeteranOwnedGoalAmount() {
         return serviceDisabledVeteranOwnedGoalAmount;
     }
 
 
-    public void setServiceDisabledVeteranOwnedGoalAmount(KualiDecimal serviceDisabledVeteranOwnedGoalAmount) {
+    public void setServiceDisabledVeteranOwnedGoalAmount(ScaleTwoDecimal serviceDisabledVeteranOwnedGoalAmount) {
         this.serviceDisabledVeteranOwnedGoalAmount = serviceDisabledVeteranOwnedGoalAmount;
     }
 
 
-    public KualiDecimal getHistoricalBlackCollegeGoalAmount() {
+    public ScaleTwoDecimal getHistoricalBlackCollegeGoalAmount() {
         return historicalBlackCollegeGoalAmount;
     }
 
 
-    public void setHistoricalBlackCollegeGoalAmount(KualiDecimal historicalBlackCollegeGoalAmount) {
+    public void setHistoricalBlackCollegeGoalAmount(ScaleTwoDecimal historicalBlackCollegeGoalAmount) {
         this.historicalBlackCollegeGoalAmount = historicalBlackCollegeGoalAmount;
     }
     
@@ -149,8 +149,8 @@ public class AwardSubcontractingBudgetedGoals extends KcPersistableBusinessObjec
      * This method calculates the total amount for small and large business goal amounts
      * @return The total value
      */
-    public KualiDecimal getTotalBusinessGoalAmount() {
-        KualiDecimal returnVal = new KualiDecimal(0.00);
+    public ScaleTwoDecimal getTotalBusinessGoalAmount() {
+        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
         returnVal = returnVal.add(replaceNullWithZero(getSmallBusinessGoalAmount()));
         returnVal = returnVal.add(replaceNullWithZero(getLargeBusinessGoalAmount()));
         return returnVal;
@@ -175,8 +175,8 @@ public class AwardSubcontractingBudgetedGoals extends KcPersistableBusinessObjec
     
     
     
-    private KualiDecimal replaceNullWithZero(KualiDecimal amount) {
-        KualiDecimal retVal = new KualiDecimal(0.00);
+    private ScaleTwoDecimal replaceNullWithZero(ScaleTwoDecimal amount) {
+        ScaleTwoDecimal retVal = new ScaleTwoDecimal(0.00);
         if(amount != null) {
             retVal = amount;
         }

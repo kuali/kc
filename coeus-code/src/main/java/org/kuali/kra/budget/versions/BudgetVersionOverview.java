@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.budget.versions;
 
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.BudgetDecimalConverter;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -58,8 +58,8 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
     private String documentNumber;
 
     @Column(name = "COST_SHARING_AMOUNT")
-    @Convert(converter = BudgetDecimalConverter.class)
-    private BudgetDecimal costSharingAmount;
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal costSharingAmount;
 
     @Column(name = "END_DATE")
     private Date endDate;
@@ -78,32 +78,32 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
     private String ohRateClassCode;
 
     @Column(name = "RESIDUAL_FUNDS")
-    @Convert(converter = BudgetDecimalConverter.class)
-    private BudgetDecimal residualFunds;
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal residualFunds;
 
     @Column(name = "TOTAL_COST")
-    @Convert(converter = BudgetDecimalConverter.class)
-    private BudgetDecimal totalCost;
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal totalCost;
 
     @Column(name = "TOTAL_DIRECT_COST")
-    @Convert(converter = BudgetDecimalConverter.class)
-    private BudgetDecimal totalDirectCost;
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal totalDirectCost;
 
     @Column(name = "TOTAL_INDIRECT_COST")
-    @Convert(converter = BudgetDecimalConverter.class)
-    private BudgetDecimal totalIndirectCost;
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal totalIndirectCost;
 
     @Column(name = "TOTAL_COST_LIMIT")
-    @Convert(converter = BudgetDecimalConverter.class)
-    private BudgetDecimal totalCostLimit;
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal totalCostLimit;
 
     @Column(name = "TOTAL_DIRECT_COST_LIMIT")
-    @Convert(converter = BudgetDecimalConverter.class)
-    private BudgetDecimal totalDirectCostLimit;
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal totalDirectCostLimit;
 
     @Column(name = "UNDERRECOVERY_AMOUNT")
-    @Convert(converter = BudgetDecimalConverter.class)
-    private BudgetDecimal underrecoveryAmount;
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal underrecoveryAmount;
 
     @Column(name = "COMMENTS")
     @Lob
@@ -158,11 +158,11 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.budgetVersionNumber = budgetVersionNumber;
     }
 
-    public BudgetDecimal getCostSharingAmount() {
-        return costSharingAmount == null ? BudgetDecimal.ZERO : costSharingAmount;
+    public ScaleTwoDecimal getCostSharingAmount() {
+        return costSharingAmount == null ? ScaleTwoDecimal.ZERO : costSharingAmount;
     }
 
-    public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+    public void setCostSharingAmount(ScaleTwoDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
     }
 
@@ -206,31 +206,31 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.documentNumber = documentNumber;
     }
 
-    public BudgetDecimal getResidualFunds() {
+    public ScaleTwoDecimal getResidualFunds() {
         return residualFunds;
     }
 
-    public void setResidualFunds(BudgetDecimal residualFunds) {
+    public void setResidualFunds(ScaleTwoDecimal residualFunds) {
         this.residualFunds = residualFunds;
     }
 
-    public BudgetDecimal getTotalCost() {
-        return totalCost == null ? BudgetDecimal.ZERO : totalCost;
+    public ScaleTwoDecimal getTotalCost() {
+        return totalCost == null ? ScaleTwoDecimal.ZERO : totalCost;
     }
 
-    public void setTotalCost(BudgetDecimal totalCost) {
+    public void setTotalCost(ScaleTwoDecimal totalCost) {
         this.totalCost = totalCost;
     }
 
-    public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
+    public void setTotalDirectCost(ScaleTwoDecimal totalDirectCost) {
         this.totalDirectCost = totalDirectCost;
     }
 
-    public void setTotalIndirectCost(BudgetDecimal totalIndirectCost) {
+    public void setTotalIndirectCost(ScaleTwoDecimal totalIndirectCost) {
         this.totalIndirectCost = totalIndirectCost;
     }
 
-    public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
+    public void setUnderrecoveryAmount(ScaleTwoDecimal underrecoveryAmount) {
         this.underrecoveryAmount = underrecoveryAmount;
     }
 
@@ -266,24 +266,24 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.startDate = startDate;
     }
 
-    public BudgetDecimal getTotalCostLimit() {
-        return totalCostLimit == null ? BudgetDecimal.ZERO : totalCostLimit;
+    public ScaleTwoDecimal getTotalCostLimit() {
+        return totalCostLimit == null ? ScaleTwoDecimal.ZERO : totalCostLimit;
     }
 
-    public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
+    public void setTotalCostLimit(ScaleTwoDecimal totalCostLimit) {
         this.totalCostLimit = totalCostLimit;
     }
 
-    public BudgetDecimal getTotalDirectCost() {
-        return totalDirectCost == null ? new BudgetDecimal(0) : totalDirectCost;
+    public ScaleTwoDecimal getTotalDirectCost() {
+        return totalDirectCost == null ? new ScaleTwoDecimal(0) : totalDirectCost;
     }
 
-    public BudgetDecimal getTotalIndirectCost() {
-        return totalIndirectCost == null ? new BudgetDecimal(0) : totalIndirectCost;
+    public ScaleTwoDecimal getTotalIndirectCost() {
+        return totalIndirectCost == null ? new ScaleTwoDecimal(0) : totalIndirectCost;
     }
 
-    public BudgetDecimal getUnderrecoveryAmount() {
-        return underrecoveryAmount == null ? new BudgetDecimal(0) : underrecoveryAmount;
+    public ScaleTwoDecimal getUnderrecoveryAmount() {
+        return underrecoveryAmount == null ? new ScaleTwoDecimal(0) : underrecoveryAmount;
     }
 
     public String getDocumentDescription() {
@@ -563,15 +563,15 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
      * Gets the totalDirectCostLimit attribute. 
      * @return Returns the totalDirectCostLimit.
      */
-    public BudgetDecimal getTotalDirectCostLimit() {
-        return totalDirectCostLimit == null ? BudgetDecimal.ZERO : totalDirectCostLimit;
+    public ScaleTwoDecimal getTotalDirectCostLimit() {
+        return totalDirectCostLimit == null ? ScaleTwoDecimal.ZERO : totalDirectCostLimit;
     }
 
     /**
      * Sets the totalDirectCostLimit attribute value.
      * @param totalDirectCostLimit The totalDirectCostLimit to set.
      */
-    public void setTotalDirectCostLimit(BudgetDecimal totalDirectCostLimit) {
+    public void setTotalDirectCostLimit(ScaleTwoDecimal totalDirectCostLimit) {
         this.totalDirectCostLimit = totalDirectCostLimit;
     }
 

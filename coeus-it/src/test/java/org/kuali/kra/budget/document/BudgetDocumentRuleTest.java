@@ -20,7 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -28,7 +28,7 @@ import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -71,7 +71,7 @@ public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
             BudgetCostShare tempCostShare = new BudgetCostShare();
             Integer projectPeriod = 2010+(i+1);
             tempCostShare.setProjectPeriod(projectPeriod);
-            tempCostShare.setShareAmount(new BudgetDecimal(10000.00));
+            tempCostShare.setShareAmount(new ScaleTwoDecimal(10000.00));
             budgetDoc.getBudget().getBudgetCostShares().add(tempCostShare);
         }
         assertEquals(5, budgetDoc.getBudget().getBudgetCostShares().size());
@@ -107,10 +107,10 @@ public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
     public void testProjectIncomeValidation() {
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         BudgetProjectIncome projectIncome = new BudgetProjectIncome();
-        projectIncome.setProjectIncome(new KualiDecimal(5.00));
+        projectIncome.setProjectIncome(new ScaleTwoDecimal(5.00));
         budgetDoc.getBudget().getBudgetProjectIncomes().add(projectIncome);
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
-        budgetDoc.getBudget().getBudgetProjectIncome(0).setProjectIncome(new KualiDecimal(0.00));
+        budgetDoc.getBudget().getBudgetProjectIncome(0).setProjectIncome(new ScaleTwoDecimal(0.00));
         assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
         budgetDoc.getBudget().getBudgetProjectIncome(0).setProjectIncome(null);
         assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));

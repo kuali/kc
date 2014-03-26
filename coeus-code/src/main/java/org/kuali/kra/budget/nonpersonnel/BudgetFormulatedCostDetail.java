@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.nonpersonnel;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.rates.FormulatedType;
 
 public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase {
@@ -27,10 +27,10 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
     private Long budgetLineItemId; 
     private Integer formulatedNumber; 
     private String formulatedTypeCode; 
-    private BudgetDecimal unitCost; 
+    private ScaleTwoDecimal unitCost;
     private Integer count; 
     private Integer frequency; 
-    private BudgetDecimal calculatedExpenses; 
+    private ScaleTwoDecimal calculatedExpenses;
     
     private FormulatedType formulatedType;
     
@@ -73,11 +73,11 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
         this.formulatedTypeCode = formulatedTypeCode;
     }
 
-    public BudgetDecimal getUnitCost() {
-        return unitCost==null?BudgetDecimal.ZERO:unitCost;
+    public ScaleTwoDecimal getUnitCost() {
+        return unitCost==null? ScaleTwoDecimal.ZERO:unitCost;
     }
 
-    public void setUnitCost(BudgetDecimal unitCost) {
+    public void setUnitCost(ScaleTwoDecimal unitCost) {
         this.unitCost = unitCost;
     }
 
@@ -97,11 +97,11 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
         this.frequency = frequency;
     }
 
-    public BudgetDecimal getCalculatedExpenses() {
+    public ScaleTwoDecimal getCalculatedExpenses() {
         return calculatedExpenses;
     }
 
-    public void setCalculatedExpenses(BudgetDecimal calculatedExpenses) {
+    public void setCalculatedExpenses(ScaleTwoDecimal calculatedExpenses) {
         this.calculatedExpenses = calculatedExpenses;
     }
 

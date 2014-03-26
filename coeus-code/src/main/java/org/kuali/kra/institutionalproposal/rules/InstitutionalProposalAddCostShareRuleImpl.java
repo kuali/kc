@@ -21,7 +21,7 @@ import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -95,10 +95,10 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
         return label;
     }*/
 
-    private boolean validatePercentage(KualiDecimal percentage) {
+    private boolean validatePercentage(ScaleTwoDecimal percentage) {
         boolean isValid = true;
         String costSharePercentageField = this.fieldStarter + ".costSharePercentage";
-        if (percentage != null && percentage.isLessThan(new KualiDecimal(0))) {
+        if (percentage != null && percentage.isLessThan(new ScaleTwoDecimal(0))) {
             isValid = false;
             this.reportError(costSharePercentageField, KeyConstants.ERROR_COST_SHARE_PERCENTAGE_RANGE);
         }
@@ -125,7 +125,7 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
         return isValid;
     }
 
-    private boolean validateAmount(KualiDecimal commitmentAmount) {
+    private boolean validateAmount(ScaleTwoDecimal commitmentAmount) {
         boolean isValid = true;
         String commitmentAmountField = this.fieldStarter + ".amount";
         if (commitmentAmount == null) {
@@ -133,7 +133,7 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
             if (displayNullFieldErrors) {
                 this.reportError(commitmentAmountField, KeyConstants.ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_REQUIRED);
             }
-        } else if (commitmentAmount.isLessThan(new KualiDecimal(0))) {
+        } else if (commitmentAmount.isLessThan(new ScaleTwoDecimal(0))) {
             isValid = false;
             this.reportError(commitmentAmountField, KeyConstants.ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_INVALID, new String[] { commitmentAmount.toString() });
         }

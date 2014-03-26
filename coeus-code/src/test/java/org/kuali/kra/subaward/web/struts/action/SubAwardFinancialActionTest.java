@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;
 
@@ -37,11 +37,11 @@ public class SubAwardFinancialActionTest {
         subAwardFinancialAction = new SubAwardFinancialAction();
         subAward = new SubAward();
         amountInfo = new SubAwardAmountInfo();
-        amountInfo.setAnticipatedAmount(new KualiDecimal(5));
-        amountInfo.setAnticipatedChange(new KualiDecimal(8));
+        amountInfo.setAnticipatedAmount(new ScaleTwoDecimal(5));
+        amountInfo.setAnticipatedChange(new ScaleTwoDecimal(8));
         amountInfo.setEffectiveDate(new Date(System.currentTimeMillis()));
-        amountInfo.setObligatedAmount(new KualiDecimal(7));
-        amountInfo.setObligatedChange(new KualiDecimal(6));
+        amountInfo.setObligatedAmount(new ScaleTwoDecimal(7));
+        amountInfo.setObligatedChange(new ScaleTwoDecimal(6));
         amountInfo.setComments("Test Comments");
     }
     @After

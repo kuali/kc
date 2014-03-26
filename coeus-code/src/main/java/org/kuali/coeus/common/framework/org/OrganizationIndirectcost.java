@@ -20,8 +20,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.data.jpa.converters.KualiDecimalConverter;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -41,8 +41,8 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
     private String organizationId;
 
     @Column(name = "APPLICABLE_IDC_RATE")
-    @Convert(converter = KualiDecimalConverter.class)
-    private KualiDecimal applicableIndirectcostRate;
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal applicableIndirectcostRate;
 
     @Column(name = "END_DATE")
     private Date endDate;
@@ -83,11 +83,11 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
         this.organizationId = organizationId;
     }
 
-    public KualiDecimal getApplicableIndirectcostRate() {
+    public ScaleTwoDecimal getApplicableIndirectcostRate() {
         return applicableIndirectcostRate;
     }
 
-    public void setApplicableIndirectcostRate(KualiDecimal applicableIndirectcostRate) {
+    public void setApplicableIndirectcostRate(ScaleTwoDecimal applicableIndirectcostRate) {
         this.applicableIndirectcostRate = applicableIndirectcostRate;
     }
 

@@ -18,7 +18,7 @@ package org.kuali.kra.award.budget;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -101,7 +101,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @param awardDocument
      * @return
      */
-    BudgetDecimal getTotalCostLimit(AwardDocument awardDocument);
+    ScaleTwoDecimal getTotalCostLimit(AwardDocument awardDocument);
     
     /**
      * Populates the budget limits from the award. This includes total cost limit and

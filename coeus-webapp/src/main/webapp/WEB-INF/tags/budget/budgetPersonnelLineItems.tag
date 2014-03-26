@@ -92,11 +92,11 @@
 		   	<c:set var="personnelFringeCost" value="0.00" />
 		   	<c:forEach var="fringeRate" items="${budgetPersonnelDetails.budgetPersonnelCalculatedAmounts}" varStatus="frStatus">
 		   		<c:if test="${fringeRate.addToFringeRate}">
-		   			<c:set var="personnelFringeCost" value="${personnelFringeCost + krabfn:getBigDecimal(fringeRate.calculatedCost)}" />
+		   			<c:set var="personnelFringeCost" value="${personnelFringeCost + krafn:getBigDecimal(fringeRate.calculatedCost)}" />
 		   		</c:if>
 		   	</c:forEach>
 		   	
-		   	<c:set var="cumulativeSalary" value="${cumulativeSalary + krabfn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList[status.index].salaryRequested)}" />
+		   	<c:set var="cumulativeSalary" value="${cumulativeSalary + krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList[status.index].salaryRequested)}" />
 		   	<c:set var="cumulativePersonnelFringeCost" value="${cumulativePersonnelFringeCost + personnelFringeCost}" />
 		   	
 		   	<tr>
@@ -197,7 +197,7 @@
 			<c:set var="fringeCost" value="0.00" />
 		   	<c:forEach var="fringeRate" items="${KualiForm.document.budget.budgetPeriods[budgetPeriod-1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts}" varStatus="frStatus">
 		   		<c:if test="${fringeRate.addToFringeRate}">
-		   			<c:set var="fringeCost" value="${fringeCost + krabfn:getBigDecimal(fringeRate.calculatedCost)}" />
+		   			<c:set var="fringeCost" value="${fringeCost + krafn:getBigDecimal(fringeRate.calculatedCost)}" />
 		   		</c:if>
 		   	</c:forEach>
 		   	

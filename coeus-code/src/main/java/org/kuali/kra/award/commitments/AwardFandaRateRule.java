@@ -22,7 +22,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -44,7 +44,7 @@ public class AwardFandaRateRule  extends KcTransactionalDocumentRuleBase impleme
     private static final String FISCAL_YEAR_STRING = ".fiscalYear";
     private static final String NEW_AWARD_FANDA_RATE = "newAwardFandaRate";
     private static final String AWARD_FANDA_RATES_ARRAY = "document.awardList[0].awardFandaRate";
-    private static final KualiDecimal KualiDecimal_THOUSAND = new KualiDecimal(1000);
+    private static final ScaleTwoDecimal ScaleTwoDecimal_THOUSAND = new ScaleTwoDecimal(1000);
     private static final String FANDA_RATES = "awardFandaRate";
     private static final String ON_CAMPUS= "On";
     private static final String OFF_CAMPUS = "Off";
@@ -122,9 +122,9 @@ public class AwardFandaRateRule  extends KcTransactionalDocumentRuleBase impleme
         if (awardFandaRate.getApplicableFandaRate() == null || 
                 StringUtils.isBlank(awardFandaRate.getApplicableFandaRate().toString())) {
             brokenRule =  KeyConstants.ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE;
-        } else if (awardFandaRate.getApplicableFandaRate().isLessThan(KualiDecimal.ZERO)) {
+        } else if (awardFandaRate.getApplicableFandaRate().isLessThan(ScaleTwoDecimal.ZERO)) {
             brokenRule = KeyConstants.ERROR_APPLICABLE_INDIRECT_COST_RATE_CAN_NOT_BE_NEGATIVE;
-        } else if (awardFandaRate.getApplicableFandaRate().isGreaterEqual(KualiDecimal_THOUSAND)) {
+        } else if (awardFandaRate.getApplicableFandaRate().isGreaterEqual(ScaleTwoDecimal_THOUSAND)) {
             brokenRule = KeyConstants.ERROR_APPLICABLE_INDIRECT_COST_RATE_OUT_OF_RANGE;
         }
             
@@ -229,7 +229,7 @@ public class AwardFandaRateRule  extends KcTransactionalDocumentRuleBase impleme
             }
             if (validRates.size() == 0) {
                 valid = false;
-                KualiDecimal kdApplicableFandaRate = awardFandaRate.getApplicableFandaRate();
+                ScaleTwoDecimal kdApplicableFandaRate = awardFandaRate.getApplicableFandaRate();
                 String strApplicableFandaRate;
                 if (kdApplicableFandaRate != null) {
                     strApplicableFandaRate = awardFandaRate.getApplicableFandaRate().toString();
@@ -258,7 +258,7 @@ public class AwardFandaRateRule  extends KcTransactionalDocumentRuleBase impleme
      * @return
      */
     @SuppressWarnings("unchecked")
-    private Collection<ValidRates> getValidRatesForFandA(String rateTypeOnOrOff, KualiDecimal rate){
+    private Collection<ValidRates> getValidRatesForFandA(String rateTypeOnOrOff, ScaleTwoDecimal rate){
         Map<String, Object> rateValues = new HashMap<String, Object>();
         rateValues.put(rateTypeOnOrOff, rate);
         rateValues.put(RATE_CLASS_TYPE, FANDA_RATE_CLASS_TYPE);
@@ -393,7 +393,7 @@ private String getFandACodeTypeDescription(String rateTypeCode){
    return description ;
 }
 @SuppressWarnings("unchecked")
-Collection<ValidRates> getValidRates(KualiDecimal specialEbRateOnCampus, KualiDecimal specialEbRateOffCampus){
+Collection<ValidRates> getValidRates(ScaleTwoDecimal specialEbRateOnCampus, ScaleTwoDecimal specialEbRateOffCampus){
     Map<String, Object> rateValues = new HashMap<String, Object>();
     rateValues.put(ON_CAMPUS_RATE, specialEbRateOnCampus);
     rateValues.put(OFF_CAMPUS_RATE, specialEbRateOffCampus);

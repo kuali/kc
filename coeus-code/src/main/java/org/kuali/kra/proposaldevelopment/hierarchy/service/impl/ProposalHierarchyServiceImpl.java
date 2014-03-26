@@ -22,7 +22,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
@@ -1000,8 +1000,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
             else {
                 newCostShare.setSharePercentage(newCostShare.getSharePercentage().add(costShare.getSharePercentage()));
-                if (newCostShare.getSharePercentage().isGreaterThan(new BudgetDecimal(100.0))) {
-                    newCostShare.setSharePercentage(new BudgetDecimal(100.0));
+                if (newCostShare.getSharePercentage().isGreaterThan(new ScaleTwoDecimal(100.0))) {
+                    newCostShare.setSharePercentage(new ScaleTwoDecimal(100.0));
                 }
                 newCostShare.setShareAmount(newCostShare.getShareAmount().add(costShare.getShareAmount()));
             }
@@ -1146,11 +1146,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             parentPeriod.setBudgetPeriod(childPeriod.getBudgetPeriod());
         }
         
-        parentBudget.setCostSharingAmount(new BudgetDecimal(0));
-        parentBudget.setTotalCost(new BudgetDecimal(0));
-        parentBudget.setTotalDirectCost(new BudgetDecimal(0));
-        parentBudget.setTotalIndirectCost(new BudgetDecimal(0));
-        parentBudget.setUnderrecoveryAmount(new BudgetDecimal(0));
+        parentBudget.setCostSharingAmount(new ScaleTwoDecimal(0));
+        parentBudget.setTotalCost(new ScaleTwoDecimal(0));
+        parentBudget.setTotalDirectCost(new ScaleTwoDecimal(0));
+        parentBudget.setTotalIndirectCost(new ScaleTwoDecimal(0));
+        parentBudget.setUnderrecoveryAmount(new ScaleTwoDecimal(0));
         
         parentBudget.setOhRateClassCode(childBudget.getOhRateClassCode());
         parentBudget.setOhRateTypeCode(childBudget.getOhRateTypeCode());

@@ -22,7 +22,7 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBas
     @SkipVersioning
     private AwardPerson awardPerson;
 
-    private KualiDecimal credit;
+    private ScaleTwoDecimal credit;
 
     private InvestigatorCreditType investigatorCreditType;
 
@@ -55,7 +55,7 @@ public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBas
     public AwardPersonCreditSplit() {
     }
 
-    AwardPersonCreditSplit(InvestigatorCreditType investigatorCreditType, KualiDecimal credit) {
+    AwardPersonCreditSplit(InvestigatorCreditType investigatorCreditType, ScaleTwoDecimal credit) {
         setInvestigatorCreditType(investigatorCreditType);
         setCredit(credit);
     }
@@ -89,8 +89,8 @@ public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBas
      *
      * @return the value of credit
      */
-    public KualiDecimal getCredit() {
-        return this.credit != null ? this.credit : new KualiDecimal(0);
+    public ScaleTwoDecimal getCredit() {
+        return this.credit != null ? this.credit : new ScaleTwoDecimal(0);
     }
 
     /**
@@ -142,7 +142,7 @@ public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBas
      *
      * @param argCredit Value to assign to this.credit
      */
-    public void setCredit(KualiDecimal argCredit) {
+    public void setCredit(ScaleTwoDecimal argCredit) {
         this.credit = argCredit;
     }
 

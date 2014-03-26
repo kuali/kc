@@ -26,15 +26,15 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
-import org.kuali.rice.krad.data.jpa.converters.KualiDecimalConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -70,8 +70,8 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     private boolean otherSignificantContributorFlag;
 
     @Column(name = "PERCENTAGE_EFFORT")
-    @Convert(converter = KualiDecimalConverter.class)
-    private KualiDecimal percentageEffort;
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal percentageEffort;
 
     @Column(name = "FEDR_DEBR_FLAG")
     @Convert(converter = BooleanYNConverter.class)
@@ -566,7 +566,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
      *
      * @return the value of percentageEffort
      */
-    public KualiDecimal getPercentageEffort() {
+    public ScaleTwoDecimal getPercentageEffort() {
         return this.percentageEffort;
     }
 
@@ -575,7 +575,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
      *
      * @param argPercentageEffort Value to assign to this.percentageEffort
      */
-    public void setPercentageEffort(KualiDecimal argPercentageEffort) {
+    public void setPercentageEffort(ScaleTwoDecimal argPercentageEffort) {
         this.percentageEffort = argPercentageEffort;
     }
 

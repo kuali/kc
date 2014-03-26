@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.service;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -248,7 +248,7 @@ public interface S2SUtilService {
      */
     public void deleteSystemGeneratedAttachments(ProposalDevelopmentDocument pdDoc);
     
-    public BudgetDecimal getNumberOfMonths(Date dateStart, Date dateEnd);
+    public ScaleTwoDecimal getNumberOfMonths(Date dateStart, Date dateEnd);
     /**
      * 
      * This method gets the Federal Agency for the given

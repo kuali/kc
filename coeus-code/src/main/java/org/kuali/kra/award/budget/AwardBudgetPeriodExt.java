@@ -16,7 +16,7 @@
 package org.kuali.kra.award.budget;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -34,30 +34,30 @@ import java.util.Map;
 public class AwardBudgetPeriodExt extends BudgetPeriod {
 
     private static final long serialVersionUID = -4306012301567173292L;
-    private BudgetDecimal obligatedAmount;
-    private BudgetDecimal totalFringeAmount;
+    private ScaleTwoDecimal obligatedAmount;
+    private ScaleTwoDecimal totalFringeAmount;
     private List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFringeAmounts;
     private List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFnAAmounts;
-    private Map<String, BudgetDecimal> fringeForCostElements;
+    private Map<String, ScaleTwoDecimal> fringeForCostElements;
     private boolean rateOverrideFlag;
     public AwardBudgetPeriodExt(){
         super();
         awardBudgetPeriodFringeAmounts = new ArrayList<AwardBudgetPeriodSummaryCalculatedAmount>();
         awardBudgetPeriodFnAAmounts = new ArrayList<AwardBudgetPeriodSummaryCalculatedAmount>();
-        fringeForCostElements = new HashMap<String, BudgetDecimal>();
+        fringeForCostElements = new HashMap<String, ScaleTwoDecimal>();
     }
     /**
      * Gets the obligatedAmount attribute. 
      * @return Returns the obligatedAmount.
      */
-    public BudgetDecimal getObligatedAmount() {
-        return obligatedAmount==null?BudgetDecimal.ZERO:obligatedAmount;
+    public ScaleTwoDecimal getObligatedAmount() {
+        return obligatedAmount==null? ScaleTwoDecimal.ZERO:obligatedAmount;
     }
     /**
      * Sets the obligatedAmount attribute value.
      * @param obligatedAmount The obligatedAmount to set.
      */
-    public void setObligatedAmount(BudgetDecimal obligatedAmount) {
+    public void setObligatedAmount(ScaleTwoDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
     }
     @Override
@@ -76,7 +76,7 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
         QueryList<AwardBudgetPeriodSummaryCalculatedAmount> ebCalculatedAmounts = qlAwardBudgetPeriodSummaryCalculatedAmounts.filter(ebClassType);
         return ebCalculatedAmounts;
     }
-    public Map<String,BudgetDecimal> getFringeForCostElements() {
+    public Map<String,ScaleTwoDecimal> getFringeForCostElements() {
         QueryList<AwardBudgetPeriodSummaryCalculatedAmount> ebCalculatedAmounts = filterEBRates();
         for (AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount : ebCalculatedAmounts) {
             fringeForCostElements.put(awardBudgetPeriodSummaryCalculatedAmount.getCostElement(), awardBudgetPeriodSummaryCalculatedAmount.getCalculatedCost());
@@ -87,14 +87,14 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
      * Gets the totalFringeAmount attribute. 
      * @return Returns the totalFringeAmount.
      */
-    public BudgetDecimal getTotalFringeAmount() {
-        return totalFringeAmount==null?BudgetDecimal.ZERO:totalFringeAmount;
+    public ScaleTwoDecimal getTotalFringeAmount() {
+        return totalFringeAmount==null? ScaleTwoDecimal.ZERO:totalFringeAmount;
     }
     /**
      * Sets the totalFringeAmount attribute value.
      * @param totalFringeAmount The totalFringeAmount to set.
      */
-    public void setTotalFringeAmount(BudgetDecimal totalFringeAmount) {
+    public void setTotalFringeAmount(ScaleTwoDecimal totalFringeAmount) {
         this.totalFringeAmount = totalFringeAmount;
     }
     /**
@@ -151,7 +151,7 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
     }
 
     protected void calculateLineItemTotals(List<BudgetLineItem> budgetLineItems) {
-        BudgetDecimal runningTotal = BudgetDecimal.ZERO;
+        ScaleTwoDecimal runningTotal = ScaleTwoDecimal.ZERO;
         int i = 0;
         int budgetLineItemsLength = budgetLineItems.size();
         for (BudgetLineItem item : budgetLineItems) {
@@ -163,7 +163,7 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
                 AwardBudgetLineItemExt nextExt = (AwardBudgetLineItemExt) budgetLineItems.get(i + 1);
                 if (!StringUtils.equals(ext.getCostElementName(), nextExt.getCostElementName())) {
                     ext.setDisplayTotalDetail(true);
-                    runningTotal = BudgetDecimal.ZERO;
+                    runningTotal = ScaleTwoDecimal.ZERO;
                 } else {
                     ext.setDisplayTotalDetail(false);
                 }

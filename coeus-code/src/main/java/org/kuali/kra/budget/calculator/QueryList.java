@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.calculator.query.*;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -301,8 +301,8 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
      * @param fieldName field of bean whose sum has to be calculated.
      * @return sum as BigDecimal Object.
      */    
-    public BudgetDecimal sumObjects(String fieldName) {
-        return new BudgetDecimal(sum(fieldName, null, null));
+    public ScaleTwoDecimal sumObjects(String fieldName) {
+        return new ScaleTwoDecimal(sum(fieldName, null, null));
     }//End Sum
     
     /** calculates the sum of the field in this QueryList.
@@ -333,8 +333,8 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
             fieldClass.equals(Float.class) ||
             fieldClass.equals(BigDecimal.class) ||
             fieldClass.equals(BigInteger.class) ||
-            fieldClass.equals(BudgetDecimal.class) ||
-            fieldClass.equals(KualiDecimal.class) ||
+            fieldClass.equals(ScaleTwoDecimal.class) ||
+            fieldClass.equals(ScaleTwoDecimal.class) ||
             fieldClass.equals(int.class) ||
             fieldClass.equals(long.class) ||
             fieldClass.equals(float.class) ||
@@ -404,7 +404,7 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
      * @param operator to get filrtered vector on which sum will be called.
      * @return returns sum.
      */    
-    public BudgetDecimal sumObjects(String fieldName, Operator operator) {
+    public ScaleTwoDecimal sumObjects(String fieldName, Operator operator) {
         return filter(operator).sumObjects(fieldName);
     }
     /** returns the field value in the base bean for the specified field.

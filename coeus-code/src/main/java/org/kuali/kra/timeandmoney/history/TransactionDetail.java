@@ -16,7 +16,7 @@
 package org.kuali.kra.timeandmoney.history;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 public class TransactionDetail extends KcPersistableBusinessObjectBase {
 
@@ -38,17 +38,17 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
 
     private String transactionDetailType;
 
-    private KualiDecimal obligatedAmount;
+    private ScaleTwoDecimal obligatedAmount;
 
-    private KualiDecimal obligatedDirectAmount;
+    private ScaleTwoDecimal obligatedDirectAmount;
 
-    private KualiDecimal obligatedIndirectAmount;
+    private ScaleTwoDecimal obligatedIndirectAmount;
 
-    private KualiDecimal anticipatedAmount;
+    private ScaleTwoDecimal anticipatedAmount;
 
-    private KualiDecimal anticipatedDirectAmount;
+    private ScaleTwoDecimal anticipatedDirectAmount;
 
-    private KualiDecimal anticipatedIndirectAmount;
+    private ScaleTwoDecimal anticipatedIndirectAmount;
 
     /**
      * Gets the transactionDetailId attribute. 
@@ -166,7 +166,7 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
      * Gets the obligatedAmount attribute. 
      * @return Returns the obligatedAmount.
      */
-    public KualiDecimal getObligatedAmount() {
+    public ScaleTwoDecimal getObligatedAmount() {
         return obligatedAmount;
     }
 
@@ -174,7 +174,7 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
      * Sets the obligatedAmount attribute value.
      * @param obligated The obligatedAmount to set.
      */
-    public void setObligatedAmount(KualiDecimal obligatedAmount) {
+    public void setObligatedAmount(ScaleTwoDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
     }
 
@@ -182,7 +182,7 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
      * Gets the anticipatedAmount attribute. 
      * @return Returns the anticipatedAmount.
      */
-    public KualiDecimal getAnticipatedAmount() {
+    public ScaleTwoDecimal getAnticipatedAmount() {
         return anticipatedAmount;
     }
 
@@ -190,7 +190,7 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
      * Sets the anticipatedAmount attribute value.
      * @param anticipatedAmount The anticipatedAmount to set.
      */
-    public void setAnticipatedAmount(KualiDecimal anticipatedAmount) {
+    public void setAnticipatedAmount(ScaleTwoDecimal anticipatedAmount) {
         this.anticipatedAmount = anticipatedAmount;
     }
 
@@ -230,7 +230,7 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
      * Gets the obligatedDirectAmount attribute. 
      * @return Returns the obligatedDirectAmount.
      */
-    public KualiDecimal getObligatedDirectAmount() {
+    public ScaleTwoDecimal getObligatedDirectAmount() {
         return obligatedDirectAmount;
     }
 
@@ -238,7 +238,7 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
      * Sets the obligatedDirectAmount attribute value.
      * @param obligatedDirectAmount The obligatedDirectAmount to set.
      */
-    public void setObligatedDirectAmount(KualiDecimal obligatedDirectAmount) {
+    public void setObligatedDirectAmount(ScaleTwoDecimal obligatedDirectAmount) {
         this.obligatedDirectAmount = obligatedDirectAmount;
     }
 
@@ -246,7 +246,7 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
      * Gets the obligatedIndirectAmount attribute. 
      * @return Returns the obligatedIndirectAmount.
      */
-    public KualiDecimal getObligatedIndirectAmount() {
+    public ScaleTwoDecimal getObligatedIndirectAmount() {
         return obligatedIndirectAmount;
     }
 
@@ -254,7 +254,7 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
      * Sets the obligatedIndirectAmount attribute value.
      * @param obligatedIndirectAmount The obligatedIndirectAmount to set.
      */
-    public void setObligatedIndirectAmount(KualiDecimal obligatedIndirectAmount) {
+    public void setObligatedIndirectAmount(ScaleTwoDecimal obligatedIndirectAmount) {
         this.obligatedIndirectAmount = obligatedIndirectAmount;
     }
 
@@ -262,7 +262,7 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
      * Gets the anticipatedDirectAmount attribute. 
      * @return Returns the anticipatedDirectAmount.
      */
-    public KualiDecimal getAnticipatedDirectAmount() {
+    public ScaleTwoDecimal getAnticipatedDirectAmount() {
         return anticipatedDirectAmount;
     }
 
@@ -270,7 +270,7 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
      * Sets the anticipatedDirectAmount attribute value.
      * @param anticipatedDirectAmount The anticipatedDirectAmount to set.
      */
-    public void setAnticipatedDirectAmount(KualiDecimal anticipatedDirectAmount) {
+    public void setAnticipatedDirectAmount(ScaleTwoDecimal anticipatedDirectAmount) {
         this.anticipatedDirectAmount = anticipatedDirectAmount;
     }
 
@@ -278,7 +278,7 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
      * Gets the anticipatedIndirectAmount attribute. 
      * @return Returns the anticipatedIndirectAmount.
      */
-    public KualiDecimal getAnticipatedIndirectAmount() {
+    public ScaleTwoDecimal getAnticipatedIndirectAmount() {
         return anticipatedIndirectAmount;
     }
 
@@ -286,7 +286,7 @@ public class TransactionDetail extends KcPersistableBusinessObjectBase {
      * Sets the anticipatedIndirectAmount attribute value.
      * @param anticipatedIndirectAmount The anticipatedIndirectAmount to set.
      */
-    public void setAnticipatedIndirectAmount(KualiDecimal anticipatedIndirectAmount) {
+    public void setAnticipatedIndirectAmount(ScaleTwoDecimal anticipatedIndirectAmount) {
         this.anticipatedIndirectAmount = anticipatedIndirectAmount;
     }
 }

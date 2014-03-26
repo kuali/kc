@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -57,10 +57,10 @@ public class InstitutionalProposalUnrecoveredFanARuleTest {
     public void setUp() throws Exception {
         institutionalProposalUnrecoveredFandARuleImpl = new InstitutionalProposalUnrecoveredFandARuleImpl();
         institutionalProposalUnrecoveredFandA = new InstitutionalProposalUnrecoveredFandA();
-        institutionalProposalUnrecoveredFandA.setApplicableIndirectcostRate(new KualiDecimal(PERCENTAGE));
+        institutionalProposalUnrecoveredFandA.setApplicableIndirectcostRate(new ScaleTwoDecimal(PERCENTAGE));
         institutionalProposalUnrecoveredFandA.setFiscalYear(TEST_FISCAL_YEAR);
         institutionalProposalUnrecoveredFandA.setSourceAccount(TEST_SOURCE);
-        institutionalProposalUnrecoveredFandA.setUnderrecoveryOfIndirectcost(new KualiDecimal(AMOUNT));
+        institutionalProposalUnrecoveredFandA.setUnderrecoveryOfIndirectcost(new ScaleTwoDecimal(AMOUNT));
         institutionalProposalUnrecoveredFandA.setIndirectcostRateTypeCode(RATE_TYPE_CODE);
         queryMap.put("indirectcostRateTypeCode", 1);
         GlobalVariables.setMessageMap(new MessageMap());

@@ -24,7 +24,7 @@ import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -154,7 +154,7 @@ public class AddManualProjectRule extends KcTransactionalDocumentRuleBase implem
         return valid;
     }
 
-    private boolean validateRequiredNumberField(String fieldName, KualiDecimal fieldValue, String fieldLabel) {
+    private boolean validateRequiredNumberField(String fieldName, ScaleTwoDecimal fieldValue, String fieldLabel) {
         boolean valid = true;
         if (fieldValue == null) {
             valid = false;

@@ -20,7 +20,7 @@ import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
@@ -70,9 +70,9 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
                 continue;
             }
             if (budgetLimit.getLimit() != null) {
-                BudgetDecimal total = (BudgetDecimal) ObjectUtils.getPropertyValue(budget, budgetLimit.getLimitType().getBudgetProperty());
+                ScaleTwoDecimal total = (ScaleTwoDecimal) ObjectUtils.getPropertyValue(budget, budgetLimit.getLimitType().getBudgetProperty());
                 if (prevBudget != null) {
-                    total = total.add((BudgetDecimal) ObjectUtils.getPropertyValue(prevBudget, budgetLimit.getLimitType().getBudgetProperty()));
+                    total = total.add((ScaleTwoDecimal) ObjectUtils.getPropertyValue(prevBudget, budgetLimit.getLimitType().getBudgetProperty()));
                 }
                 if (total.isGreaterThan(budgetLimit.getLimit())) {
                     getAuditErrors().add(new AuditError("document.budget." + budgetLimit.getLimitType().getBudgetProperty(),

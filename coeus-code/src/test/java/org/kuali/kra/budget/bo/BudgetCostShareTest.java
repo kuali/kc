@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
 
 import java.sql.Date;
@@ -103,12 +103,12 @@ public class BudgetCostShareTest extends BudgetDistributionAndIncomeTest {
         Assert.assertEquals(FY_2007_Q3_AMT.add(FY_2007_Q4_AMT), budgetDocument.findCostSharingForFiscalYear(YEAR_2007));
         Assert.assertEquals(FY_2008_Q1_AMT.add(FY_2008_Q2_AMT), budgetDocument.findCostSharingForFiscalYear(YEAR_2008));
         Assert.assertEquals(FY_2009_Q1_AMT.add(FY_2009_Q2_AMT), budgetDocument.findCostSharingForFiscalYear(YEAR_2009));
-        Assert.assertEquals(BudgetDecimal.ZERO, budgetDocument.findCostSharingForFiscalYear(YEAR_2000));
+        Assert.assertEquals(ScaleTwoDecimal.ZERO, budgetDocument.findCostSharingForFiscalYear(YEAR_2000));
     }
     
     @Test
     public void testIfCostSharingIsAvailable_BudgetPeriodPresentWithZeroCostSharing() {
-        createAndAddBudgetPeriod().setCostSharingAmount(BudgetDecimal.ZERO);
+        createAndAddBudgetPeriod().setCostSharingAmount(ScaleTwoDecimal.ZERO);
         Assert.assertFalse(budgetDocument.isCostSharingAvailable());
     }
     
@@ -125,9 +125,9 @@ public class BudgetCostShareTest extends BudgetDistributionAndIncomeTest {
     
     @Test
     public void testIfCostSharingIsAvailable_BudgetPeriodsPresentWithCostSharingInOne() {
-        createAndAddBudgetPeriod().setCostSharingAmount(BudgetDecimal.ZERO);        
+        createAndAddBudgetPeriod().setCostSharingAmount(ScaleTwoDecimal.ZERO);
         createAndAddBudgetPeriod().setCostSharingAmount(FY_2007_Q3_AMT);        
-        createAndAddBudgetPeriod().setCostSharingAmount(BudgetDecimal.ZERO);
+        createAndAddBudgetPeriod().setCostSharingAmount(ScaleTwoDecimal.ZERO);
         
         Assert.assertTrue(budgetDocument.isCostSharingAvailable());
     }

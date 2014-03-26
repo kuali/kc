@@ -15,18 +15,18 @@
  */
 package org.kuali.kra.s2s.generator.bo;
 
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 
 public class IndirectCostDetails {
 
 
     private String costType;
-    private BudgetDecimal rate;
-    private BudgetDecimal base;
-    private BudgetDecimal funds;
-    private BudgetDecimal baseCostSharing;
-    private BudgetDecimal costSharing;
+    private ScaleTwoDecimal rate;
+    private ScaleTwoDecimal base;
+    private ScaleTwoDecimal funds;
+    private ScaleTwoDecimal baseCostSharing;
+    private ScaleTwoDecimal costSharing;
 
     /**
      * Getter for property costType.
@@ -51,7 +51,7 @@ public class IndirectCostDetails {
      * 
      * @return Value of property rate.
      */
-    public BudgetDecimal getRate() {
+    public ScaleTwoDecimal getRate() {
         return rate;
     }
 
@@ -60,7 +60,7 @@ public class IndirectCostDetails {
      * 
      * @param rate New value of property rate.
      */
-    public void setRate(BudgetDecimal rate) {
+    public void setRate(ScaleTwoDecimal rate) {
         this.rate = rate;
     }
 
@@ -69,7 +69,7 @@ public class IndirectCostDetails {
      * 
      * @return Value of property base.
      */
-    public BudgetDecimal getBase() {
+    public ScaleTwoDecimal getBase() {
         return base;
     }
 
@@ -78,7 +78,7 @@ public class IndirectCostDetails {
      * 
      * @param base New value of property base.
      */
-    public void setBase(BudgetDecimal base) {
+    public void setBase(ScaleTwoDecimal base) {
         this.base = base;
     }
 
@@ -87,7 +87,7 @@ public class IndirectCostDetails {
      * 
      * @return Value of property funds.
      */
-    public BudgetDecimal getFunds() {
+    public ScaleTwoDecimal getFunds() {
         return funds;
     }
 
@@ -96,25 +96,25 @@ public class IndirectCostDetails {
      * 
      * @param funds New value of property funds.
      */
-    public void setFunds(BudgetDecimal funds) {
+    public void setFunds(ScaleTwoDecimal funds) {
         this.funds = funds;
     }
 
     // start add costSaring for fedNonFedBudget repport
 
-    public BudgetDecimal getBaseCostSharing() {
-        return baseCostSharing==null?BudgetDecimal.ZERO:baseCostSharing;
+    public ScaleTwoDecimal getBaseCostSharing() {
+        return baseCostSharing==null? ScaleTwoDecimal.ZERO:baseCostSharing;
     }
 
-    public void setBaseCostSharing(BudgetDecimal baseCostSharing) {
+    public void setBaseCostSharing(ScaleTwoDecimal baseCostSharing) {
         this.baseCostSharing = baseCostSharing;
     }
 
-    public BudgetDecimal getCostSharing() {
-        return costSharing==null?BudgetDecimal.ZERO:costSharing;
+    public ScaleTwoDecimal getCostSharing() {
+        return costSharing==null? ScaleTwoDecimal.ZERO:costSharing;
     }
 
-    public void setCostSharing(BudgetDecimal costSharing) {
+    public void setCostSharing(ScaleTwoDecimal costSharing) {
         this.costSharing = costSharing;
     }
 }
