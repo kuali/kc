@@ -28,7 +28,8 @@ public class KeyPersonnelAddWizardHelper {
     private Map<String, String> lookupFieldValues;
     private List<ProposalPerson> results;
     private String personRole;
-    private boolean includeInProposalBudget;
+    private boolean multiplePi;
+    private String keyPersonProjectRole;
     
     public KeyPersonnelAddWizardHelper() {
         lookupFieldValues = new HashMap<String, String>();
@@ -74,11 +75,19 @@ public class KeyPersonnelAddWizardHelper {
         this.personRole = personRole;
     }
 
-    public boolean isIncludeInProposalBudget() {
-        return includeInProposalBudget;
-    }
+	public boolean getMultiplePi() {
+		return multiplePi;
+	}
 
-    public void setIncludeInProposalBudget(boolean includeInProposalBudget) {
-        this.includeInProposalBudget = includeInProposalBudget;
-    }
+	public void setMultiplePi(boolean multiplePi) {
+		this.multiplePi = multiplePi;
+	}
+
+	public String getKeyPersonProjectRole() {
+		return keyPersonProjectRole;
+	}
+
+	public void setKeyPersonProjectRole(String keyPersonProjectRole) {
+		this.keyPersonProjectRole = keyPersonProjectRole;
+	}
 }
