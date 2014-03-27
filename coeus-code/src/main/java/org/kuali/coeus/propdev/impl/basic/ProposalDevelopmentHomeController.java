@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.krad;
+package org.kuali.coeus.propdev.impl.basic;
 
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.web.krad.ProposalDevelopmentControllerBase;
+import org.kuali.kra.proposaldevelopment.web.krad.ProposalDevelopmentDocumentForm;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
@@ -138,15 +140,13 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    public ModelAndView saveComplaince(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
-       return super.save(pdForm, result, request, response, SaveDocumentSpecialReviewEvent.class);
+        return super.save(pdForm, result, request, response, SaveDocumentSpecialReviewEvent.class);
    }   
    
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveProposalAttachments")
    public ModelAndView saveProposalAttachments(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
        return super.save(pdForm, result, request, response);
    }
    
@@ -154,7 +154,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    public ModelAndView saveInternalAttachments(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
        return super.save(pdForm, result, request, response);
    }   
    
@@ -162,21 +161,18 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    public ModelAndView savePersonnelAttachments(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
        return super.save(pdForm, result, request, response);
    }
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAbstracts")
    public ModelAndView saveAbstracts(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
        return super.save(pdForm, result, request, response);
    }
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveNotes")
    public ModelAndView saveNotes(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
        return super.save(pdForm, result, request, response);
    }
 
