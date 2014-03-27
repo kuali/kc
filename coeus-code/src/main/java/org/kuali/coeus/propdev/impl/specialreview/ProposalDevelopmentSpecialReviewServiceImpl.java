@@ -79,7 +79,6 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                     specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
 
                     prepareProtocolLinkViewFields(specialReview);
-               //     KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
                     if (getKualiRuleService().applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
                             document.getDevelopmentProposal().getPropSpecialReviews(), isIrbLinkingEnabled()))) {
                         document.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
@@ -102,7 +101,6 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                     specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
         
                     prepareProtocolLinkViewFields(specialReview);
-                //    KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
                     if (getKualiRuleService().applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
                             document.getDevelopmentProposal().getPropSpecialReviews(), isIacucLinkingEnabled()))) {
                         document.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
