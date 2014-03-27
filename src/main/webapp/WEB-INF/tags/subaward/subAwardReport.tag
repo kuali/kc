@@ -19,7 +19,7 @@
 <c:set var="action" value="subAwardTemplateInformation" />
 <c:set var="reports" value="${KualiForm.document.subAwardList[0].subAwardReportList}"/>
 
-<kul:tab tabTitle="Reports" tabItemCount="${fn:length(reports)}" defaultOpen="false" tabErrorKey="subAwardAttachmentFormBean.newReport*,document.subAwardList[0].subAwardReportList*" transparentBackground="true"  >
+<kul:tab tabTitle="Reports" tabItemCount="${fn:length(reports)}" defaultOpen="false" tabErrorKey="subAwardAttachmentFormBean.newReport*,document.subAwardList[0].subAwardReportList*" transparentBackground="false"  >
 	
 	<div class="tab-container" align="center">
    		<h3>

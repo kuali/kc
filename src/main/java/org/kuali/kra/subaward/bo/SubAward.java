@@ -142,6 +142,26 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     private Date performanceEnddate;
     private List<SubAwardAttachments> subAwardAttachments;
     private List<SubAwardReports> subAwardReportList;
+    private List<SubAwardTemplateInfo> subAwardTemplateInfo;
+
+    /**
+         * Gets the subAwardTemplateInfo attribute. 
+         * @return Returns the subAwardTemplateInfo.
+         */
+        public List<SubAwardTemplateInfo> getSubAwardTemplateInfo() {
+            if (this.subAwardTemplateInfo == null) {
+                this.subAwardTemplateInfo = new ArrayList<SubAwardTemplateInfo>();
+            }
+            return subAwardTemplateInfo;
+        }
+
+        /**
+         * Sets the subAwardTemplateInfo attribute value.
+         * @param subAwardTemplateInfo The subAwardTemplateInfo to set.
+         */
+        public void setSubAwardTemplateInfo(List<SubAwardTemplateInfo> subAwardTemplateInfo) {
+            this.subAwardTemplateInfo = subAwardTemplateInfo;
+        }
     
     
     /**

@@ -36,6 +36,7 @@ import org.kuali.kra.subaward.subawardrule.AddSubAwardAttachmentRule;
 import static org.kuali.kra.infrastructure.KeyConstants.SUBAWARD_ATTACHMENT_FILE_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.SUBAWARD_ATTACHMENT_DESCRIPTION_REQUIRED;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Collections;
@@ -50,7 +51,7 @@ SubAwardAmountInfoRule,
 SubAwardContactRule,
 SubAwardCloseoutRule,
 SubAwardFundingSourceRule,
-AddSubAwardAttachmentRule {
+AddSubAwardAttachmentRule,SubAwardTemplateInfoRule {
 
     private static final String STATUS_CODE = ".statusCode";
     private static final String SUBAWARD_TYPE_CODE = ".subAwardTypeCode";
@@ -357,5 +358,25 @@ AddSubAwardAttachmentRule {
         }
         return valid;
         
+    }
+    public boolean processAddSubAwardTemplateInfoBusinessRules(SubAward subAward) {
+        boolean rulePassed = true;
+        rulePassed &= processSaveSubAwardTemplateInfoBusinessRules(subAward);
+        
+        return rulePassed;
+    }
+    protected boolean processSaveSubAwardTemplateInfoBusinessRules(SubAward subAward){
+        boolean rulePassed = true;   
+        for (SubAwardTemplateInfo subAwardTemplateInfo : subAward.getSubAwardTemplateInfo()) {
+          if (subAward!=null 
+                && ((subAwardTemplateInfo.getAutomaticCarryForward()!=null) && (subAwardTemplateInfo.getAutomaticCarryForward().equals("Y")))) {
+             if (subAwardTemplateInfo.getCarryForwardRequestsSentTo()==null) {
+                rulePassed = false;            
+                LOG.debug(ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
+                reportError("document.subAwardList[0].subAwardTemplateInfo[0].carryForwardRequestsSentTo", ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);  
+             }
+          }  
+        }
+        return rulePassed;
     }
 }

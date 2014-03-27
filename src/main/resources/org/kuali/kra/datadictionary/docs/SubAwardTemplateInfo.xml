@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2014 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 
+ <bean id="SubAwardTemplateInfo" parent="SubAwardTemplateInfo-parentBean" />
+  <bean id="SubAwardTemplateInfo-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardTemplateInfo" />
+		<property name="objectLabel" value="SubAwardTemplateInfo" />
+		     <property name="inquiryDefinition" >
+		      <ref bean="SubAwardTemplateInfo-inquiryDefinition" />
+		     </property>
+		     <property name="lookupDefinition" >
+		      <ref bean="SubAwardTemplateInfo-lookupDefinition" />
+		     </property> 
+       		 <property name="attributes" >
+		      <list>
+                <ref bean="SubAwardTemplateInfo-sowOrSubProposalBudget" />
+		        <ref bean="SubAwardTemplateInfo-subProposalDate" />
+				<ref bean="SubAwardTemplateInfo-invoiceOrPaymentContact" />
+		        <ref bean="SubAwardTemplateInfo-finalStmtOfCostscontact" />
+		        <ref bean="SubAwardTemplateInfo-changeRequestsContact" />
+		        <ref bean="SubAwardTemplateInfo-terminationContact" />
+		        <ref bean="SubAwardTemplateInfo-noCostExtensionContact" />
+		        <ref bean="SubAwardTemplateInfo-perfSiteDiffFromOrgAddr" />
+		        <ref bean="SubAwardTemplateInfo-perfSiteSameAsSubPiAddr" />
+		        <ref bean="SubAwardTemplateInfo-subRegisteredInCcr" />
+		        <ref bean="SubAwardTemplateInfo-subExemptFromReportingComp" />
+				<ref bean="SubAwardTemplateInfo-parentDunsNumber" />
+		        <ref bean="SubAwardTemplateInfo-parentCongressionalDistrict" />
+		        <ref bean="SubAwardTemplateInfo-exemptFromRprtgExecComp" />
+		        <ref bean="SubAwardTemplateInfo-copyRightType" />
+		        <ref bean="SubAwardTemplateInfo-automaticCarryForward" />
+		        <ref bean="SubAwardTemplateInfo-carryForwardRequestsSentTo" />
+		        <ref bean="SubAwardTemplateInfo-treatmentPrgmIncomeAdditive" />
+		        <ref bean="SubAwardTemplateInfo-applicableProgramRegulations" />
+		        <ref bean="SubAwardTemplateInfo-applicableProgramRegsDate" />
+		      </list>
+		     </property>
+    </bean>
+    
+
+<!-- Attribute Definitions -->
+ 
+  <bean id="SubAwardTemplateInfo-sowOrSubProposalBudget" parent="SubAwardTemplateInfo-sowOrSubProposalBudget-parentBean" />
+    <bean id="SubAwardTemplateInfo-sowOrSubProposalBudget-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sowOrSubProposalBudget" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="SOW/Budget specified in proposal " />
+    <property name="shortLabel" value="SOW/Budget specified in proposal " />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:includeKeyInLabel="true" />
+    </property>
+    <property name="summary" value="SOW/Budget specified in proposal " />
+    <property name="description" value="SOW/Budget specified in proposal " />    
+  </bean>
+ 
+  
+  <bean id="SubAwardTemplateInfo-subProposalDate" parent="SubAwardTemplateInfo-subProposalDate-parentBean" />
+  
+  <bean id="SubAwardTemplateInfo-subProposalDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subProposalDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="SubProposal Date" />
+    <property name="shortLabel" value="SubProposal Date" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="SubProposal Date" />
+    <property name="description" value="SubProposal Date" />    
+  </bean> 
+  
+  <bean id="SubAwardTemplateInfo-invoiceOrPaymentContact" parent="SubAwardTemplateInfo-invoiceOrPaymentContact-parentBean" />
+   <bean id="SubAwardTemplateInfo-invoiceOrPaymentContact-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="invoiceOrPaymentContact" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Invoice / Payment Contact" />
+    <property name="shortLabel" value="Invoice / Payment Contact" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+    <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="contactTypeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Invoice / Payment Contact" />
+    <property name="description" value="Invoice / Payment Contact" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-finalStmtOfCostscontact" parent="SubAwardTemplateInfo-finalStmtOfCostscontact-parentBean" />
+   <bean id="SubAwardTemplateInfo-finalStmtOfCostscontact-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="finalStmtOfCostscontact" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Final Statement of Costs Contact" />
+    <property name="shortLabel" value="Final Statement of Costs Contact" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+    <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="contactTypeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Final Statement of Costs Contact" />
+    <property name="description" value="Final Statement of Costs Contact" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-changeRequestsContact" parent="SubAwardTemplateInfo-changeRequestsContact-parentBean" />
+   <bean id="SubAwardTemplateInfo-changeRequestsContact-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="changeRequestsContact" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Change Requests Contact" />
+    <property name="shortLabel" value="Change Requests Contact" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+    <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="contactTypeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Change Requests Contact" />
+    <property name="description" value="Change Requests Contact" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-terminationContact" parent="SubAwardTemplateInfo-terminationContact-parentBean" />
+   <bean id="SubAwardTemplateInfo-terminationContact-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="terminationContact" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Termination Contact" />
+    <property name="shortLabel" value="Termination Contact" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+    <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="contactTypeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Termination Contact" />
+    <property name="description" value="Termination Contact" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-noCostExtensionContact" parent="SubAwardTemplateInfo-noCostExtensionContact-parentBean" />
+   <bean id="SubAwardTemplateInfo-noCostExtensionContact-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="noCostExtensionContact" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="No Cost Extension Contact" />
+    <property name="shortLabel" value="No Cost Extension Contact" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+    <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="contactTypeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="No Cost Extension Contact" />
+    <property name="description" value="No Cost Extension Contact" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-perfSiteDiffFromOrgAddr" parent="SubAwardTemplateInfo-perfSiteDiffFromOrgAddr-parentBean" />
+    <bean id="SubAwardTemplateInfo-perfSiteDiffFromOrgAddr-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="perfSiteDiffFromOrgAddr" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Performance Site same as Org address?" />
+    <property name="shortLabel" value="Performance Site same as Org address?" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Performance Site same as Org address?" />
+    <property name="description" value="Performance Site same as Org address?" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-perfSiteSameAsSubPiAddr" parent="SubAwardTemplateInfo-perfSiteSameAsSubPiAddr-parentBean" />
+    <bean id="SubAwardTemplateInfo-perfSiteSameAsSubPiAddr-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="perfSiteSameAsSubPiAddr" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Performance Site same as PI address?" />
+    <property name="shortLabel" value="Performance Site same as PI address?" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="true" />
+    <property name="control" >
+     <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Performance Site same as PI address?" />
+    <property name="description" value="Performance Site same as PI address?" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-subRegisteredInCcr" parent="SubAwardTemplateInfo-subRegisteredInCcr-parentBean" />
+    <bean id="SubAwardTemplateInfo-subRegisteredInCcr-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subRegisteredInCcr" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sub Registered in CCR?" />
+    <property name="shortLabel" value="Sub Registered in CCR?" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Sub Registered in CCR?" />
+    <property name="description" value="Sub Registered in CCR?" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-subExemptFromReportingComp" parent="SubAwardTemplateInfo-subExemptFromReportingComp-parentBean" />
+    <bean id="SubAwardTemplateInfo-subExemptFromReportingComp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subExemptFromReportingComp" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Exempt from Reporting exec compensation" />
+    <property name="shortLabel" value="Exempt from Reporting exec compensation" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Exempt from Reporting exec compensation" />
+    <property name="description" value="Exempt from Reporting exec compensation" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-parentDunsNumber" parent="SubAwardTemplateInfo-parentDunsNumber-parentBean" />
+    <bean id="SubAwardTemplateInfo-parentDunsNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="parentDunsNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Parent DUNS (if applicable) " />
+    <property name="shortLabel" value="Parent DUNS (if applicable) " />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Parent DUNS (if applicable) " />
+    <property name="description" value="Parent DUNS (if applicable) " />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-parentCongressionalDistrict" parent="SubAwardTemplateInfo-parentCongressionalDistrict-parentBean" />
+    <bean id="SubAwardTemplateInfo-parentCongressionalDistrict-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="parentCongressionalDistrict" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Parent Congressional District" />
+    <property name="shortLabel" value="Parent Congressional District" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Parent Congressional District" />
+    <property name="description" value="Parent Congressional District" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-exemptFromRprtgExecComp" parent="SubAwardTemplateInfo-exemptFromRprtgExecComp-parentBean" />
+    <bean id="SubAwardTemplateInfo-exemptFromRprtgExecComp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="exemptFromRprtgExecComp" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Exempt from reporting exec compensation" />
+    <property name="shortLabel" value="Exempt from reporting exec compensation" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="true" />
+    <property name="control" >
+     <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Exempt from reporting exec compensation" />
+    <property name="description" value="Exempt from reporting exec compensation" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-copyRightType" parent="SubAwardTemplateInfo-copyRightType-parentBean" />
+   <bean id="SubAwardTemplateInfo-copyRightType-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="copyRightType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Copyrights / Data Rights" />
+    <property name="shortLabel" value="Copyrights / Data Rights" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.subaward.bo.SubAwardCopyRightsType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="copyRightTypeCode"
+            p:labelAttribute="copyRightTypeDescription" />
+    </property>
+    <property name="summary" value="Copyrights / Data Rights" />
+    <property name="description" value="Copyrights / Data Rights" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-automaticCarryForward" parent="SubAwardTemplateInfo-automaticCarryForward-parentBean" />
+    <bean id="SubAwardTemplateInfo-automaticCarryForward-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="automaticCarryForward" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Automatic Carry Forward" />
+    <property name="shortLabel" value="Automatic Carry Forward" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Automatic Carry Forward" />
+    <property name="description" value="Automatic Carry Forward" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-carryForwardRequestsSentTo" parent="SubAwardTemplateInfo-carryForwardRequestsSentTo-parentBean" />
+   <bean id="SubAwardTemplateInfo-carryForwardRequestsSentTo-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="name" value="carryForwardRequestsSentTo" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Carry Forward Requests Sent To" />
+    <property name="shortLabel" value="Carry Forward Requests Sent To" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="contactTypeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Carry Forward Requests Sent To" />
+    <property name="description" value="Carry Forward Requests Sent To" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-treatmentPrgmIncomeAdditive" parent="SubAwardTemplateInfo-treatmentPrgmIncomeAdditive-parentBean" />
+    <bean id="SubAwardTemplateInfo-treatmentPrgmIncomeAdditive-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="treatmentPrgmIncomeAdditive" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Treatment of Program Income Additive" />
+    <property name="shortLabel" value="Treatment of Program Income Additive" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Treatment of Program Income Additive" />
+    <property name="description" value="Treatment of Program Income Additive" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-applicableProgramRegulations" parent="SubAwardTemplateInfo-applicableProgramRegulations-parentBean" />
+    <bean id="SubAwardTemplateInfo-applicableProgramRegulations-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="applicableProgramRegulations" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Applicable Program Regulations" />
+    <property name="shortLabel" value="Applicable Program Regulations" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Applicable Program Regulations" />
+    <property name="description" value="Applicable Program Regulations" />    
+  </bean>
+  
+  <bean id="SubAwardTemplateInfo-applicableProgramRegsDate" parent="SubAwardTemplateInfo-applicableProgramRegsDate-parentBean" />
+  
+  <bean id="SubAwardTemplateInfo-applicableProgramRegsDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="applicableProgramRegsDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Applicable Program Regulations Date" />
+    <property name="shortLabel" value="Applicable Program Regulations Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Applicable Program Regulations Date" />
+    <property name="description" value="Applicable Program Regulations Date" />    
+  </bean> 
+ 
+                
+ <!-- Business Object Inquiry Definition -->
+ <bean id="SubAwardTemplateInfo-inquiryDefinition" parent="SubAwardTemplateInfo-inquiryDefinition-parentBean" />
+
+  <bean id="SubAwardTemplateInfo-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Subaward Template Info" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="SubAwardTemplateInfo" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAwardCode"
+                    p:forceInquiry="true" />             
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean> 
+  
+  <!-- Business Object Lookup Definition -->
+
+   <bean id="SubAwardTemplateInfo-lookupDefinition" parent="SubAwardTemplateInfo-lookupDefinition-parentBean" />
+
+  <bean id="SubAwardTemplateInfo-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Subaward Template Info Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+                    p:attributeName="subAwardId"
+                    p:forceInquiry="true" />
+                    <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
+                    <bean p:attributeName="sowOrSubProposalBudget"   parent="FieldDefinition"/>
+                    <bean p:attributeName="subProposalDate"   parent="FieldDefinition"/>
+                    <bean p:attributeName="invoiceOrPaymentContact"   parent="FieldDefinition"/>
+                    <bean p:attributeName="finalStmtOfCostscontact"   parent="FieldDefinition"/>
+                    <bean p:attributeName="changeRequestsContact"   parent="FieldDefinition"/>
+                    <bean p:attributeName="terminationContact"   parent="FieldDefinition"/>
+                    <bean p:attributeName="noCostExtensionContact"   parent="FieldDefinition"/>
+                    <bean p:attributeName="perfSiteDiffFromOrgAddr"   parent="FieldDefinition"/>
+                    <bean p:attributeName="perfSiteSameAsSubPiAddr"   parent="FieldDefinition"/>
+                    <bean p:attributeName="subRegisteredInCcr"   parent="FieldDefinition"/>
+                    <bean p:attributeName="subExemptFromReportingComp"   parent="FieldDefinition"/>
+                    <bean p:attributeName="parentDunsNumber"   parent="FieldDefinition"/>
+                    <bean p:attributeName="parentCongressionalDistrict"   parent="FieldDefinition"/>
+                    <bean p:attributeName="exemptFromRprtgExecComp"   parent="FieldDefinition"/>
+                    <bean p:attributeName="copyRightType"   parent="FieldDefinition"/>
+                    <bean p:attributeName="automaticCarryForward"   parent="FieldDefinition"/>
+                    <bean p:attributeName="carryForwardRequestsSentTo"   parent="FieldDefinition"/>
+                    <bean p:attributeName="treatmentPrgmIncomeAdditive"   parent="FieldDefinition"/>
+                    <bean p:attributeName="applicableProgramRegulations"   parent="FieldDefinition"/>
+                    <bean p:attributeName="applicableProgramRegsDate"   parent="FieldDefinition"/>
+     </list>
+    </property>
+    <property name="resultFields" >
+      <list>      
+        <bean parent="FieldDefinition" p:attributeName="subAwardId" 
+                p:forceInquiry="true" />   
+                <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
+                    <bean p:attributeName="sowOrSubProposalBudget"   parent="FieldDefinition"/>
+                    <bean p:attributeName="subProposalDate"   parent="FieldDefinition"/>
+                    <bean p:attributeName="invoiceOrPaymentContact"   parent="FieldDefinition"/>
+                    <bean p:attributeName="finalStmtOfCostscontact"   parent="FieldDefinition"/>
+                    <bean p:attributeName="changeRequestsContact"   parent="FieldDefinition"/>
+                    <bean p:attributeName="terminationContact"   parent="FieldDefinition"/>
+                    <bean p:attributeName="noCostExtensionContact"   parent="FieldDefinition"/>
+                    <bean p:attributeName="perfSiteDiffFromOrgAddr"   parent="FieldDefinition"/>
+                    <bean p:attributeName="perfSiteSameAsSubPiAddr"   parent="FieldDefinition"/>
+                    <bean p:attributeName="subRegisteredInCcr"   parent="FieldDefinition"/>
+                    <bean p:attributeName="subExemptFromReportingComp"   parent="FieldDefinition"/>
+                    <bean p:attributeName="parentDunsNumber"   parent="FieldDefinition"/>
+                    <bean p:attributeName="parentCongressionalDistrict"   parent="FieldDefinition"/>
+                    <bean p:attributeName="exemptFromRprtgExecComp"   parent="FieldDefinition"/>
+                    <bean p:attributeName="copyRightType"   parent="FieldDefinition"/>
+                    <bean p:attributeName="automaticCarryForward"   parent="FieldDefinition"/>
+                    <bean p:attributeName="carryForwardRequestsSentTo"   parent="FieldDefinition"/>
+                    <bean p:attributeName="treatmentPrgmIncomeAdditive"   parent="FieldDefinition"/>
+                    <bean p:attributeName="applicableProgramRegulations"   parent="FieldDefinition"/>
+                    <bean p:attributeName="applicableProgramRegsDate"   parent="FieldDefinition"/>
+      </list>
+    </property>
+  </bean> 
+ 
+</beans>

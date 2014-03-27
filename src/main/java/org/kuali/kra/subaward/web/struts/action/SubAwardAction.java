@@ -30,6 +30,7 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
+import org.kuali.kra.subaward.bo.SubAwardTemplateInfo;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.notification.SubAwardNotificationContext;
 import org.kuali.kra.subaward.service.SubAwardService;
@@ -193,11 +194,12 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
 
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
         checkSubAwardCode(subAward);
+        checkSubAwardTemplateCode(subAward);
         String userId = GlobalVariables.getUserSession().getPrincipalName();
         if (subAward.getSubAwardId() == null) {
             getVersionHistoryService().updateVersionHistory(subAward, VersionStatus.PENDING, userId);
         }
-        if (new SubAwardDocumentRule().processAddSubAwardBusinessRules(subAward)) {
+        if (new SubAwardDocumentRule().processAddSubAwardBusinessRules(subAward) && new SubAwardDocumentRule().processAddSubAwardTemplateInfoBusinessRules(subAward)) {
             ActionForward forward = super.save(mapping, form, request, response);
             getSubAwardService().updateSubAwardSequenceStatus(subAward, VersionStatus.PENDING);
             return forward;
@@ -380,6 +382,17 @@ protected void checkSubAwardCode(SubAward subAward){
     }
     for (SubAwardCustomData customData : subAward.getSubAwardCustomDataList()) {
         customData.setSubAward(subAward);
+    }
+}
+
+protected void checkSubAwardTemplateCode(SubAward subAward){
+    for (SubAwardTemplateInfo subAwardTemplateInfo : subAward.getSubAwardTemplateInfo()) {
+        if (subAward.getSubAwardCode()!=null && subAwardTemplateInfo.getSubAwardCode() == null) { 
+            String subAwardCode = subAward.getSubAwardCode();
+            Integer subAwardSequenceNumber = subAward.getSequenceNumber();
+            subAwardTemplateInfo.setSubAwardCode(subAwardCode);
+            subAwardTemplateInfo.setSequenceNumber(subAwardSequenceNumber);
+        }
     }
 }
 
