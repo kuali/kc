@@ -38,6 +38,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -127,9 +129,9 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         String rate = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 Constants.DEFAULT_INFLATION_RATE_FOR_SALARY);
         List<BudgetPeriod> budgetPeriodList = null;
-        ScaleTwoDecimal actualPersonSalary = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal personSalary = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal newRate = new ScaleTwoDecimal(rate);
+        BigDecimal actualPersonSalary = ScaleTwoDecimal.ZERO.bigDecimalValue();
+        BigDecimal personSalary = ScaleTwoDecimal.ZERO.bigDecimalValue();
+        BigDecimal newRate = new ScaleTwoDecimal(rate).bigDecimalValue();
         budgetPeriodList = budget.getBudgetPeriods();
         
         BudgetPerson budgetPerson = budget.getBudgetPerson(personIndex);
@@ -144,12 +146,12 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
                     if (budgetPerson.getEffectiveDate().equals(budgetPerson.getStartDate())) {
 
                         personSalaryDetails.setBaseSalary(budgetPerson.getCalculationBase());
-                        actualPersonSalary = budgetPerson.getCalculationBase();
+                        actualPersonSalary = budgetPerson.getCalculationBase().bigDecimalValue();
 
                     } else {
 
                         actualPersonSalary = budgetPerson.getCalculationBase().add(
-                                budgetPerson.getCalculationBase().multiply(newRate.divide(new ScaleTwoDecimal(100), false), false));
+                                new ScaleTwoDecimal(budgetPerson.getCalculationBase().bigDecimalValue().multiply(newRate.divide(new ScaleTwoDecimal(100).bigDecimalValue(), RoundingMode.HALF_UP)))).bigDecimalValue();
                         
                       
                     }
@@ -157,8 +159,8 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
 
                 } else {
 
-                    personSalary = actualPersonSalary.add(actualPersonSalary.multiply(newRate.divide(new ScaleTwoDecimal(100), false), false));
-                    personSalaryDetails.setBaseSalary(personSalary);
+                    personSalary = actualPersonSalary.add(actualPersonSalary.multiply(newRate.divide(new ScaleTwoDecimal(100).bigDecimalValue(), RoundingMode.HALF_UP)));
+                    personSalaryDetails.setBaseSalary(new ScaleTwoDecimal(personSalary));
                     actualPersonSalary = personSalary;
                 }
                 budgetPersonSalaryDetails.add(personSalaryDetails);

@@ -25,6 +25,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class BudgetExpenseRule {
@@ -180,16 +182,16 @@ public class BudgetExpenseRule {
         boolean valid = true;
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
-        ScaleTwoDecimal unitCost = budgetFormulatedCost.getUnitCost();
-        ScaleTwoDecimal count = new ScaleTwoDecimal(budgetFormulatedCost.getCount());
-        ScaleTwoDecimal frequency = new ScaleTwoDecimal(budgetFormulatedCost.getFrequency());
-        ScaleTwoDecimal calculatedExpense = unitCost.multiply(count, false).multiply(frequency, false);
-        if(unitCost.isGreaterThan(new ScaleTwoDecimal(MAX_BUDGET_DECIMAL_VALUE))){
+        BigDecimal unitCost = budgetFormulatedCost.getUnitCost().bigDecimalValue();
+        BigDecimal count = new ScaleTwoDecimal(budgetFormulatedCost.getCount()).bigDecimalValue();
+        BigDecimal frequency = new ScaleTwoDecimal(budgetFormulatedCost.getFrequency()).bigDecimalValue();
+        BigDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency);
+        if(new ScaleTwoDecimal(unitCost).isGreaterThan(new ScaleTwoDecimal(MAX_BUDGET_DECIMAL_VALUE))){
             valid = false;
             errorMap.putError(errorKey+".unitCost", KeyConstants.ERROR_FORMULATED_UNIT_COST);
             
         }
-        if(calculatedExpense.isGreaterThan(new ScaleTwoDecimal(MAX_BUDGET_DECIMAL_VALUE))){
+        if(new ScaleTwoDecimal(calculatedExpense).isGreaterThan(new ScaleTwoDecimal(MAX_BUDGET_DECIMAL_VALUE))){
             valid = false;
             errorMap.putError(errorKey+".calculatedExpenses", KeyConstants.ERROR_FORMULATED_CALCULATED_EXPENSES);
             

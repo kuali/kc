@@ -22,6 +22,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class DecimalScaleTwoTest {
 
     @Before
@@ -34,9 +37,9 @@ public class DecimalScaleTwoTest {
     
     @Test
     public void divideTest() throws Exception{
-        ScaleTwoDecimal op1 = new ScaleTwoDecimal(100);
-        ScaleTwoDecimal op2 = new ScaleTwoDecimal(365);
-        Assert.assertEquals(op1.divide(op2, false),new ScaleTwoDecimal(100d/365d));
+        BigDecimal op1 = new ScaleTwoDecimal(100).bigDecimalValue();
+        BigDecimal op2 = new ScaleTwoDecimal(365).bigDecimalValue();
+        Assert.assertEquals(new ScaleTwoDecimal(op1.divide(op2, RoundingMode.HALF_UP)),new ScaleTwoDecimal(100d/365d));
     }
 
     @Test
@@ -47,8 +50,8 @@ public class DecimalScaleTwoTest {
     }
     @Test
     public void divide1Test() throws Exception{
-        ScaleTwoDecimal op1 = new ScaleTwoDecimal(100);
-        ScaleTwoDecimal op2 = new ScaleTwoDecimal(3);
-        Assert.assertEquals(op1.divide(op2, false),new ScaleTwoDecimal(100d/3d));
+        BigDecimal op1 = new ScaleTwoDecimal(100).bigDecimalValue();
+        BigDecimal op2 = new ScaleTwoDecimal(3).bigDecimalValue();
+        Assert.assertEquals(new ScaleTwoDecimal(op1.divide(op2, RoundingMode.HALF_UP)),new ScaleTwoDecimal(100d/3d));
     }
 }

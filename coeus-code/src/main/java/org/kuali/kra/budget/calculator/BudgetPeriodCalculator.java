@@ -37,6 +37,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -346,9 +348,9 @@ public class BudgetPeriodCalculator {
         }
 
         // Set the Difference as TotalCostLimit minus TotalCost.
-        ScaleTwoDecimal difference = directCostLimit.subtract(periodDirectTotal);
+        BigDecimal difference = directCostLimit.subtract(periodDirectTotal).bigDecimalValue();
         ScaleTwoDecimal lineItemCost = budgetDetailBean.getLineItemCost();
-        ScaleTwoDecimal multifactor;
+        BigDecimal multifactor;
 
         // If line_item_cost is 0 then set the value of line_item_cost in line_items to 10000.
         if (lineItemCost.equals(ScaleTwoDecimal.ZERO)) {
@@ -364,25 +366,25 @@ public class BudgetPeriodCalculator {
 
         ScaleTwoDecimal totalNOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new NotEquals("rateClassType",
             RateClassType.OVERHEAD.getRateClassType()));
-        ScaleTwoDecimal totalCost = budgetDetailBean.getLineItemCost().add(totalNOHCalcAmount);
+        BigDecimal totalCost = budgetDetailBean.getLineItemCost().add(totalNOHCalcAmount).bigDecimalValue();
         // If the lineItemCost <> 0, set multifactor to TotalCost divided by lineItemCost otherwise multifactor is TotalCost divided
         // by 10000
         if (!lineItemCost.equals(ScaleTwoDecimal.ZERO)) {
-            multifactor = totalCost.divide(lineItemCost, false);
+            multifactor = totalCost.divide(lineItemCost.bigDecimalValue(), RoundingMode.HALF_UP);
         }else {
-            multifactor = totalCost.divide(new ScaleTwoDecimal(10000), false);
+            multifactor = totalCost.divide(new ScaleTwoDecimal(10000).bigDecimalValue(), RoundingMode.HALF_UP);
             budgetDetailBean.setLineItemCost(ScaleTwoDecimal.ZERO);
             calculate(budget, budgetPeriodBean);
-            totalCost = ScaleTwoDecimal.ZERO;
+            totalCost = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
         }
 
-        if (isProposalBudget(budget) && (totalCost.add(difference)).isLessEqual(ScaleTwoDecimal.ZERO)) {
+        if (isProposalBudget(budget) && new ScaleTwoDecimal(totalCost.add(difference)).isLessEqual(ScaleTwoDecimal.ZERO)) {
             errorMessages.add(KeyConstants.INSUFFICIENT_AMOUNT_TO_PERIOD_DIRECT_COST_LIMIT_SYNC);
             return;
         }
 
         // Set New Cost
-        ScaleTwoDecimal newCost = lineItemCost.add((difference.divide(multifactor, false)));
+        ScaleTwoDecimal newCost = lineItemCost.add(new ScaleTwoDecimal(difference.divide(multifactor, RoundingMode.HALF_UP)));
         budgetDetailBean.setLineItemCost(newCost);
         calculate(budget, budgetPeriodBean);
 
@@ -404,9 +406,9 @@ public class BudgetPeriodCalculator {
         }
 
         // Set the Difference as TotalCostLimit minus TotalCost.
-        ScaleTwoDecimal difference = costLimit.subtract(periodTotal);
+        BigDecimal difference = costLimit.subtract(periodTotal).bigDecimalValue();
         ScaleTwoDecimal lineItemCost = budgetDetailBean.getLineItemCost();
-        ScaleTwoDecimal multifactor;
+        BigDecimal multifactor;
 
         // If line_item_cost is 0 then set the value of line_item_cost in line_items to 10000.
         if (lineItemCost.equals(ScaleTwoDecimal.ZERO)) {
@@ -425,26 +427,26 @@ public class BudgetPeriodCalculator {
         ScaleTwoDecimal totalOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new Equals("rateClassType",
             RateClassType.OVERHEAD.getRateClassType()));
 
-        ScaleTwoDecimal totalCost = budgetDetailBean.getLineItemCost().add(totalNOHCalcAmount).add(totalOHCalcAmount);
+        BigDecimal totalCost = budgetDetailBean.getLineItemCost().add(totalNOHCalcAmount).add(totalOHCalcAmount).bigDecimalValue();
 
         // If the lineItemCost <> 0, set multifactor to TotalCost divided by lineItemCost otherwise multifactor is TotalCost divided
         // by 10000
         if (!lineItemCost.equals(ScaleTwoDecimal.ZERO)) {
-            multifactor = totalCost.divide(lineItemCost, false);
+            multifactor = totalCost.divide(lineItemCost.bigDecimalValue(), RoundingMode.HALF_UP);
         }else {
-            multifactor = totalCost.divide(new ScaleTwoDecimal(10000), false);
+            multifactor = totalCost.divide(new ScaleTwoDecimal(10000).bigDecimalValue(), RoundingMode.HALF_UP);
             budgetDetailBean.setLineItemCost(ScaleTwoDecimal.ZERO);
             calculate(budget, budgetPeriodBean);
-            totalCost = ScaleTwoDecimal.ZERO;
+            totalCost = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
         }
 
-        if (isProposalBudget(budget) && (totalCost.add(difference)).isLessEqual(ScaleTwoDecimal.ZERO)) {
+        if (isProposalBudget(budget) && new ScaleTwoDecimal(totalCost.add(difference)).isLessEqual(ScaleTwoDecimal.ZERO)) {
             errorMessages.add(KeyConstants.INSUFFICIENT_AMOUNT_TO_SYNC);
             return;
         }
 
         // Set New Cost
-        ScaleTwoDecimal newCost = lineItemCost.add((difference.divide(multifactor, false)));
+        ScaleTwoDecimal newCost = lineItemCost.add(new ScaleTwoDecimal(difference.divide(multifactor, RoundingMode.HALF_UP)));
         budgetDetailBean.setLineItemCost(newCost);
         calculate(budget, budgetPeriodBean);
     }

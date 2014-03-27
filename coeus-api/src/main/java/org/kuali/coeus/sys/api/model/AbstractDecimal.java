@@ -20,7 +20,7 @@ public abstract class AbstractDecimal<T extends AbstractDecimal> extends Number 
     /**
      * This constructor should never be called except during JAXB unmarshalling.
      */
-    AbstractDecimal() {
+    protected AbstractDecimal() {
         value = null;
     }
 
@@ -29,24 +29,24 @@ public abstract class AbstractDecimal<T extends AbstractDecimal> extends Number 
      *
      * @param value String containing numeric value - defaults to zero
      */
-    public AbstractDecimal(String value, int scale) {
+    protected AbstractDecimal(String value, int scale) {
         if (value == null || value.trim().equals("")) {
-            this.value = BigDecimal.ZERO.setScale(scale,ROUND_BEHAVIOR);
+            this.value = BigDecimal.ZERO.setScale(scale, ROUND_BEHAVIOR);
         } else {
             this.value = new BigDecimal(value).setScale(scale, ROUND_BEHAVIOR);
         }
     }
 
-    public AbstractDecimal(int value, int scale) {
-        this.value = new BigDecimal(value).setScale(scale, ROUND_BEHAVIOR);
+    protected AbstractDecimal(int value, int scale) {
+        this.value = BigDecimal.valueOf(value).setScale(scale, ROUND_BEHAVIOR);
     }
 
-    public AbstractDecimal(double value, int scale) {
-        this.value = new BigDecimal(value).setScale(scale, ROUND_BEHAVIOR);
+    protected AbstractDecimal(double value, int scale) {
+        this.value = BigDecimal.valueOf(value).setScale(scale, ROUND_BEHAVIOR);
     }
 
-    public AbstractDecimal(BigDecimal value, int scale) {
-        this(value.toPlainString(), scale);
+    protected AbstractDecimal(BigDecimal value, int scale) {
+        this.value = value.setScale(scale, ROUND_BEHAVIOR);
     }
 
     /**
@@ -279,24 +279,12 @@ public abstract class AbstractDecimal<T extends AbstractDecimal> extends Number 
      * @throws IllegalArgumentException if the given multiplier is null
      */
     public T multiply(T multiplier) {
-        return multiply(multiplier, true);
-    }
-
-    /**
-     * Overloaded multiply method where we can specify if we need to preserve the precision of the result
-     *
-     * @param multiplier the value to multiply
-     * @param applyScale the scale to use when performing the multiplication
-     * @return result of multiplying this value by the given multiplier
-     * @throws IllegalArgumentException if the given multiplier is null
-     */
-    public T multiply(T multiplier, boolean applyScale) {
         if (multiplier == null) {
             throw new IllegalArgumentException("invalid (null) multiplier");
         }
 
         BigDecimal product = this.value.multiply(multiplier.value);
-        return newInstance(product, applyScale ? this.value.scale() : product.scale());
+        return newInstance(product, this.value.scale());
     }
 
     /**
@@ -309,29 +297,12 @@ public abstract class AbstractDecimal<T extends AbstractDecimal> extends Number 
      * @throws IllegalArgumentException if the given modulus is null
      */
     public T mod(T modulus) {
-        return mod(modulus, true);
-    }
-
-    /**
-     * Overloaded mod method where we can specify if we want to preserve the result's precision
-     *
-     * @param modulus The other value to apply the mod to.
-     * @param applyScale the scale to use when performing the modulus
-     * @return result of performing the mod calculation
-     * @throws IllegalArgumentException if the given modulus is null
-     */
-
-    public T mod(T modulus, boolean applyScale) {
         if (modulus == null) {
             throw new IllegalArgumentException("invalid (null) modulus");
         }
         double difference = this.value.doubleValue() % modulus.doubleValue();
-
-        int scaleToApply = applyScale ? this.value.scale() : new BigDecimal(difference).scale();
-
-        return newInstance(new BigDecimal(difference), scaleToApply);
+        return newInstance(BigDecimal.valueOf(difference), this.value.scale());
     }
-
 
     /**
      * Wraps BigDecimal's divide method to enforce the default rounding
@@ -342,7 +313,12 @@ public abstract class AbstractDecimal<T extends AbstractDecimal> extends Number 
      * @throws IllegalArgumentException if the given divisor is null
      */
     public T divide(T divisor) {
-        return divide(divisor, true);
+        if (divisor == null) {
+            throw new IllegalArgumentException("invalid (null) divisor");
+        }
+        BigDecimal quotient = this.value.divide(divisor.value, ROUND_BEHAVIOR);
+
+        return newInstance(quotient, this.value.scale());
     }
 
     /**
@@ -350,25 +326,10 @@ public abstract class AbstractDecimal<T extends AbstractDecimal> extends Number 
      *         non-zero)
      */
     public T negated() {
-        return multiply(newInstance("-1"));
+        return multiply(newInstance(-1));
     }
 
-    public T divide(T divisor, boolean applyScale) {
-        if (divisor == null) {
-            throw new IllegalArgumentException("invalid (null) divisor");
-        }
-        BigDecimal quotient = this.value.divide(divisor.value, ROUND_BEHAVIOR);
-
-        return newInstance(quotient, applyScale ? this.value.scale() : quotient.scale());
-    }
-
-    protected abstract T newInstance(String value);
-
-    protected abstract T newInstance(double value);
-
-    protected abstract T newInstance(double value, int scale);
-
-    protected abstract T newInstance(BigDecimal value);
+    protected abstract T newInstance(int value);
 
     protected abstract T newInstance(BigDecimal value, int scale);
 
