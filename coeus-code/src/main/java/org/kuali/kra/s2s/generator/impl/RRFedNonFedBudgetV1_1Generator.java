@@ -153,9 +153,9 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
      */
     private BudgetYearDataType getBudgetYearDataType(BudgetPeriodInfo periodInfo) {
 
-        BudgetDecimal totalDirectCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal totalIndirectCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal directCostsTotal = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totalDirectCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalIndirectCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal directCostsTotal = ScaleTwoDecimal.ZERO;
         BudgetYearDataType budgetYear = BudgetYearDataType.Factory.newInstance();
         if (periodInfo != null) {
             budgetYear.setBudgetPeriodStartDate(s2sUtilService.convertDateToCalendar(periodInfo.getStartDate()));
@@ -246,7 +246,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
      */
     private BudgetSummary getBudgetSummary(BudgetSummaryInfo budgetSummaryData) {
 
-        BudgetDecimal cumTotalDirectCostSharing = BudgetDecimal.ZERO;
+        ScaleTwoDecimal cumTotalDirectCostSharing = ScaleTwoDecimal.ZERO;
         BudgetSummary budgetSummary = BudgetSummary.Factory.newInstance();
         SummaryDataType summarySeniorKey = SummaryDataType.Factory.newInstance();
         SummaryDataType summaryPersonnel = SummaryDataType.Factory.newInstance();
@@ -718,8 +718,8 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
     private BudgetYear1DataType getBudgetYear1DataType(BudgetPeriodInfo periodInfo) {
 
         BudgetYear1DataType budgetYear = BudgetYear1DataType.Factory.newInstance();
-        BudgetDecimal totalDirectCostSharing = BudgetDecimal.ZERO;
-        BudgetDecimal totalIndirectCostSharing = BudgetDecimal.ZERO;
+        ScaleTwoDecimal totalDirectCostSharing = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalIndirectCostSharing = ScaleTwoDecimal.ZERO;
         if (periodInfo != null) {
             budgetYear.setBudgetPeriodStartDate(s2sUtilService.convertDateToCalendar(periodInfo.getStartDate()));
             budgetYear.setBudgetPeriodEndDate(s2sUtilService.convertDateToCalendar(periodInfo.getEndDate()));
@@ -1768,7 +1768,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
 
         KeyPersonCompensationDataType keyPersonCompensation = KeyPersonCompensationDataType.Factory.newInstance();
         BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
-        BudgetDecimal baseSalaryByPeriod; 
+        ScaleTwoDecimal baseSalaryByPeriod;
         if (keyPerson != null) {
             if (keyPerson.getAcademicMonths() != null) {
                 keyPersonCompensation.setAcademicMonths(keyPerson.getAcademicMonths().bigDecimalValue());
