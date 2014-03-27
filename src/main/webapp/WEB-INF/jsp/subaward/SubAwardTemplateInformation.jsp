@@ -30,6 +30,7 @@
 <div align="right"><kul:help documentTypeName="SubAwardDocument" pageName="Template Information" /></div>
 
 <div id="workarea"> 
+<kra-sub:subAwardTemplate/>
 <kra-sub:subAwardReport/>
 <kra-sub:subAwardAttachment/>
 <kul:panelFooter/>
