@@ -25,6 +25,7 @@ import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
@@ -1841,7 +1842,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      */
     public String getBudgetStatusDescription() {
         if (StringUtils.isEmpty(budgetStatusDescription)) {
-            KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this);
+            KcServiceLocator.getService(ProposalBudgetStatusService.class).loadBudgetStatus(this);
         }
         return budgetStatusDescription;
     }
@@ -1977,7 +1978,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         if (isChild()) {
             try {
                 DevelopmentProposal parent = getProposalHierarchyService().lookupParent(this);
-                KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(parent);
+                KcServiceLocator.getService(ProposalBudgetStatusService.class).loadBudgetStatus(parent);
                 retval = parent.isProposalComplete();
             } catch (ProposalHierarchyException x) {
                 // this should never happen   
