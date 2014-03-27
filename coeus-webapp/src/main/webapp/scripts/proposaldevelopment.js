@@ -13,7 +13,7 @@ Kc.PropDev.updateSponsorName = function(sponsorCode, nameSelector) {
 };
 Kc.PropDev.sponsorSuggestSelect = function(event, ui) {
 	jQuery(event.target).val(ui.item.value);
-	jQuery(event.target).parent().find('.informationalText').html(ui.item.sponsorName);
+	jQuery(event.target).parents('.uif-inputField:first').find('.informationalText').html(ui.item.sponsorName);
 };
 Kc.PropDev.Personnel = Kc.PropDev.Personnel || {};
 (function(namespace, $) {
