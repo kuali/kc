@@ -19,6 +19,7 @@ import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;

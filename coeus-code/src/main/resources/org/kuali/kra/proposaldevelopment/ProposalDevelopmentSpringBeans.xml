@@ -264,6 +264,10 @@
     <bean id="attachmentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="attachmentService" />
     </bean>
+    
+    <bean id="kualiRuleService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiRuleService" />
+    </bean>
 
   <bean id="kcPersonLookupableHelperServiceTarget" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" lazy-init="true">
         <property name="serviceName" value="kcPersonLookupableHelperService" />
@@ -970,14 +974,6 @@
 	<bean id="iacucProtocolSpecialReviewService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
   	<property name="serviceName" value="iacucProtocolSpecialReviewService" />
   </bean>  
-	
-	<bean id="proposalDevelopmentSpecialReviewService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentSpecialReviewServiceImpl">
-		<property name="proposalDevelopmentProtocolDocumentService" ref="proposalDevelopmentProtocolDocumentService"/>
-		<property name="iacucProtocolProposalDevelopmentProtocolDocumentService" ref="iacucProtocolProposalDevelopmentProtocolDocumentService" />
-		<property name="protocolSpecialReviewService" ref="protocolSpecialReviewService" />
-		<property name="iacucProtocolSpecialReviewService" ref="iacucProtocolSpecialReviewService" />
-		<property name="parameterService" ref="parameterService" />
-	</bean>
 	
 	<bean id="proposalDevelopmentPermissionsService" class="org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsServiceImpl">
 		<property name="kraAuthorizationService" ref="kcAuthorizationService" />

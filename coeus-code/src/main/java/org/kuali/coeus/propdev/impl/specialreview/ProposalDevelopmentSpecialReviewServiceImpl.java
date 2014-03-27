@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.coeus.propdev.impl.specialreview;
 
 import org.kuali.coeus.common.specialreview.impl.rule.event.AddSpecialReviewEvent;
 import org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
@@ -28,25 +27,41 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.funding.ProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentSpecialReviewService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiRuleService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+@Component("proposalDevelopmentSpecialReviewService")
 public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDevelopmentSpecialReviewService {
     
     private static final String PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER = "irb.protocol.development.proposal.linking.enabled";
     private static final String IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER = "iacuc.protocol.proposal.development.linking.enabled";
     
+    @Autowired
+    @Qualifier("proposalDevelopmentProtocolDocumentService")
     private ProposalDevelopmentProtocolDocumentService proposalDevelopmentProtocolDocumentService;
+    @Autowired
+    @Qualifier("iacucProtocolProposalDevelopmentProtocolDocumentService")
     private IacucProtocolProposalDevelopmentProtocolDocumentService iacucProtocolProposalDevelopmentProtocolDocumentService;
+    @Autowired
+    @Qualifier("protocolSpecialReviewService")
     private ProtocolSpecialReviewService protocolSpecialReviewService;
+    @Autowired
+    @Qualifier("iacucProtocolSpecialReviewService")
     private IacucProtocolSpecialReviewService iacucProtocolSpecialReviewService;
-    
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
 
-    @Override
+	@Override
     public boolean createProtocol(ProposalSpecialReview specialReview, ProposalDevelopmentDocument document) throws Exception {
         if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
             if (isIrbLinkingEnabled()) {
@@ -64,8 +79,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                     specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
 
                     prepareProtocolLinkViewFields(specialReview);
-                    KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
-                    if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
+                    if (getKualiRuleService().applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
                             document.getDevelopmentProposal().getPropSpecialReviews(), isIrbLinkingEnabled()))) {
                         document.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
                         return true;
@@ -87,8 +101,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                     specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
         
                     prepareProtocolLinkViewFields(specialReview);
-                    KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
-                    if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
+                    if (getKualiRuleService().applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
                             document.getDevelopmentProposal().getPropSpecialReviews(), isIacucLinkingEnabled()))) {
                         document.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
                         return true;
@@ -177,5 +190,13 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
     public void setIacucProtocolSpecialReviewService(IacucProtocolSpecialReviewService iacucProtocolSpecialReviewService) {
         this.iacucProtocolSpecialReviewService = iacucProtocolSpecialReviewService;
     }
+    
+    public KualiRuleService getKualiRuleService() {
+  		return kualiRuleService;
+  	}
+
+  	public void setKualiRuleService(KualiRuleService kualiRuleService) {
+  		this.kualiRuleService = kualiRuleService;
+  	}
 
 }
