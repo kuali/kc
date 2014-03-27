@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.calculator;
+package org.kuali.coeus.sys.api.model;
 
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class DecimalScaleTwoTest {
+public class ScaleTwoDecimalTest {
 
     @Before
     public void setUp() throws Exception {
