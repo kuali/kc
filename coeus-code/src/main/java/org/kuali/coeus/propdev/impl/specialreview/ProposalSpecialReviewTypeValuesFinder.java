@@ -23,9 +23,7 @@ import org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewTy
  */
 public class ProposalSpecialReviewTypeValuesFinder extends SpecialReviewTypeValuesFinder {
 
-	private static final long serialVersionUID = -536496577915046156L;
-
-	@Override
+    @Override
     public String getModuleCode() {
         return CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
     }

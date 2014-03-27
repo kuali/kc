@@ -17,7 +17,6 @@ package org.kuali.coeus.propdev.impl.specialreview;
 
 import org.kuali.coeus.common.specialreview.impl.rule.event.AddSpecialReviewEvent;
 import org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
@@ -58,8 +57,11 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
 
-    @Override
+	@Override
     public boolean createProtocol(ProposalSpecialReview specialReview, ProposalDevelopmentDocument document) throws Exception {
         if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
             if (isIrbLinkingEnabled()) {
@@ -77,8 +79,8 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                     specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
 
                     prepareProtocolLinkViewFields(specialReview);
-                    KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
-                    if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
+               //     KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
+                    if (getKualiRuleService().applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
                             document.getDevelopmentProposal().getPropSpecialReviews(), isIrbLinkingEnabled()))) {
                         document.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
                         return true;
@@ -100,8 +102,8 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                     specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
         
                     prepareProtocolLinkViewFields(specialReview);
-                    KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
-                    if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
+                //    KualiRuleService ruleService = KcServiceLocator.getService(KualiRuleService.class);
+                    if (getKualiRuleService().applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
                             document.getDevelopmentProposal().getPropSpecialReviews(), isIacucLinkingEnabled()))) {
                         document.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
                         return true;
@@ -190,5 +192,13 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
     public void setIacucProtocolSpecialReviewService(IacucProtocolSpecialReviewService iacucProtocolSpecialReviewService) {
         this.iacucProtocolSpecialReviewService = iacucProtocolSpecialReviewService;
     }
+    
+    public KualiRuleService getKualiRuleService() {
+  		return kualiRuleService;
+  	}
+
+  	public void setKualiRuleService(KualiRuleService kualiRuleService) {
+  		this.kualiRuleService = kualiRuleService;
+  	}
 
 }
