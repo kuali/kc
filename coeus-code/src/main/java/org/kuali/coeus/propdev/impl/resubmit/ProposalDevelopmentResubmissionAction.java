@@ -18,7 +18,6 @@ package org.kuali.coeus.propdev.impl.resubmit;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -78,7 +77,6 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
         else {
             String originalProposalId = doc.getDevelopmentProposal().getProposalNumber();
             String newDocId = proposalCopyService.copyProposal(doc, criteria);
-            WorkflowDocument originalWFDoc= doc.getDocumentHeader().getWorkflowDocument();
             getPessimisticLockService().releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
             DocumentService docService = KRADServiceLocatorWeb.getDocumentService();
             // Switch over to the new proposal development document and
@@ -92,11 +90,6 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             copiedDocument.getDevelopmentProposal().setProposalTypeCode("4");
             copiedDocument.getDevelopmentProposal().getS2sOpportunity().setS2sSubmissionType(null);
                         
-            WorkflowDocument workflowDocument = copiedDocument.getDocumentHeader().getWorkflowDocument();
- // Removed cancel of original document until KEW will allow this to happen
- //           if(!originalWFDoc.isFinal()){
- //               originalWFDoc.cancel("");
- //           }
             docService.saveDocument(copiedDocument);
             nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
             }

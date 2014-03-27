@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.specialreview;
+package org.kuali.coeus.propdev.impl.specialreview;
 
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewTypeValuesFinder;
