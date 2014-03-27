@@ -144,7 +144,7 @@
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
         </collection-descriptor>
-        <collection-descriptor name="proposalYnqs" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalYnq" 
+        <collection-descriptor name="proposalYnqs" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.ynq.ProposalYnq" 
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
             <orderby name="sortId" sort="ASC" />
@@ -461,7 +461,7 @@
             <inverse-foreignkey field-ref="proposalNumber"/>
             <inverse-foreignkey field-ref="proposalPersonNumber"/>
         </collection-descriptor>
-        <collection-descriptor name="proposalPersonYnqs" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq" 
+        <collection-descriptor name="proposalPersonYnqs" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.person.ProposalPersonYnq" 
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="questionId" sort="ASC" />
             <inverse-foreignkey field-ref="proposalNumber"/>
@@ -642,7 +642,7 @@
         </collection-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq" table="EPS_PROP_PERS_YNQ">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.person.ProposalPersonYnq" table="EPS_PROP_PERS_YNQ">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>
@@ -769,7 +769,7 @@
         </reference-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalYnq" table="EPS_PROP_YNQ">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.ynq.ProposalYnq" table="EPS_PROP_YNQ">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="answer" column="ANSWER" jdbc-type="CHAR" />

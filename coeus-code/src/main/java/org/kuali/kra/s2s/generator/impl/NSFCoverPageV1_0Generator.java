@@ -27,6 +27,8 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
+import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
