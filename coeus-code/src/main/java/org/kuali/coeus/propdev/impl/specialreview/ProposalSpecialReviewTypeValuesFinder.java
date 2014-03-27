@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.specialreview;
+package org.kuali.coeus.propdev.impl.specialreview;
 
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewTypeValuesFinder;
@@ -23,7 +23,9 @@ import org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewTy
  */
 public class ProposalSpecialReviewTypeValuesFinder extends SpecialReviewTypeValuesFinder {
 
-    @Override
+	private static final long serialVersionUID = -536496577915046156L;
+
+	@Override
     public String getModuleCode() {
         return CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
     }

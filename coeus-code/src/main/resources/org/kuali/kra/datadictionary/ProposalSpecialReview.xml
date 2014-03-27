@@ -77,10 +77,10 @@
     <bean id="ProposalSpecialReview-specialReviewTypeCode" parent="ProposalSpecialReview-specialReviewTypeCode-parentBean" />
     <bean id="ProposalSpecialReview-specialReviewTypeCode-parentBean" abstract="true" parent="SpecialReview-specialReviewTypeCode">
         <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReviewTypeValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReviewTypeValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewTypeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
