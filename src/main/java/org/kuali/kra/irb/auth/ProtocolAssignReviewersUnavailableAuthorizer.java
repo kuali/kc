@@ -54,9 +54,11 @@ public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthor
      */
     private boolean isInSchedule(Protocol protocol) {
         ProtocolSubmission submission = findSubmission(protocol);
-        return submission != null &&
-               !StringUtils.isBlank(submission.getCommitteeId()) &&
-               !StringUtils.isBlank(submission.getScheduleId());
+        return submission != null && isAssignedToCommitteeAndSchedule(submission);
+    }
+    
+    private boolean isAssignedToCommitteeAndSchedule(ProtocolSubmission submission) {
+        return !StringUtils.isBlank(submission.getCommitteeId()) && !StringUtils.isBlank(submission.getScheduleId());
     }
     
     /**
@@ -66,7 +68,11 @@ public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthor
      */
     private boolean isNotifyIrbSubmission(Protocol protocol) {
         ProtocolSubmission submission = findSubmission(protocol);
-        return submission != null && ProtocolSubmissionType.NOTIFY_IRB.equals(submission.getProtocolSubmissionType().getSubmissionTypeCode());
+        boolean isNotifyIRB = submission != null && ProtocolSubmissionType.NOTIFY_IRB.equals(submission.getProtocolSubmissionType().getSubmissionTypeCode());
+        if(isNotifyIRB) {
+            isNotifyIRB = isAssignedToCommitteeAndSchedule(submission);
+        }
+        return isNotifyIRB;
     }
 
 }
