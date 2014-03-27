@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
@@ -55,7 +56,6 @@ import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
-import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.budget.web.struts.action.BudgetActionBase;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -643,7 +643,7 @@ public class BudgetAction extends BudgetActionBase {
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         if (budgetParent instanceof DevelopmentProposal) {
             DevelopmentProposal proposal = (DevelopmentProposal)budgetParent;
-            KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
+            KcServiceLocator.getService(ProposalBudgetStatusService.class).loadBudgetStatus(proposal);
         }
         if (budget.getFinalVersionFlag() != null && Boolean.TRUE.equals(budget.getFinalVersionFlag())) {
             budget.setBudgetStatus(budgetParent.getBudgetStatus());
