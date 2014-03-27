@@ -138,6 +138,7 @@ AbstractResearchAndRelatedStream {
     private static final String BUDGET_PERIOD_TYPE_2 = "2";
 
     private static final String BUDGET_PERIOD_TYPE_3 = "3";
+    private static final BigDecimal POINT_ZERO_ONE = new ScaleTwoDecimal(0.01).bigDecimalValue();
 
     protected ParameterService parameterService;
     private SponsorService sponsorService;
@@ -388,9 +389,9 @@ AbstractResearchAndRelatedStream {
             proposalPersonType.setDOB(getDateTimeService().toDateString(proposalPerson.getDateOfBirth()));
         }
 
-        ScaleTwoDecimal calendarMonths = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal academicMonths = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal summerMonths = ScaleTwoDecimal.ZERO;
+        BigDecimal calendarMonths = ScaleTwoDecimal.ZERO.bigDecimalValue();
+        BigDecimal academicMonths = ScaleTwoDecimal.ZERO.bigDecimalValue();
+        BigDecimal summerMonths = ScaleTwoDecimal.ZERO.bigDecimalValue();
         if(budget!=null)
             for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 if (budgetPeriod.getBudgetPeriod().intValue() == 1) {
@@ -402,22 +403,22 @@ AbstractResearchAndRelatedStream {
                                 proposalPersonType.setPercentEffort(budgetPersonnelDetails.getPercentEffort().bigDecimalValue());
                                 proposalPersonType.setRequestedCost(budgetPersonnelDetails.getSalaryRequested().bigDecimalValue());
                                 if (ACADEMIC_PERIOD.equals(budgetPersonnelDetails.getPeriodTypeCode())) {
-                                    academicMonths = academicMonths.add(budgetPersonnelDetails.getPercentEffort().multiply(new ScaleTwoDecimal("0.01"), false)
-                                            .multiply(getNumberOfMonths(budgetPersonnelDetails.getStartDate(),budgetPersonnelDetails.getEndDate()), false));
+                                    academicMonths = academicMonths.add(budgetPersonnelDetails.getPercentEffort().bigDecimalValue().multiply(POINT_ZERO_ONE)
+                                            .multiply(getNumberOfMonths(budgetPersonnelDetails.getStartDate(),budgetPersonnelDetails.getEndDate()).bigDecimalValue()));
                                 } else if (CALENDAR_PERIOD.equals(budgetPersonnelDetails.getPeriodTypeCode())) {
-                                    calendarMonths = calendarMonths.add(budgetPersonnelDetails.getPercentEffort().multiply(new ScaleTwoDecimal("0.01"), false)
-                                            .multiply(getNumberOfMonths(budgetPersonnelDetails.getStartDate(),budgetPersonnelDetails.getEndDate()), false));
+                                    calendarMonths = calendarMonths.add(budgetPersonnelDetails.getPercentEffort().bigDecimalValue().multiply(POINT_ZERO_ONE)
+                                            .multiply(getNumberOfMonths(budgetPersonnelDetails.getStartDate(),budgetPersonnelDetails.getEndDate()).bigDecimalValue()));
                                 } else
-                                    summerMonths = summerMonths.add(budgetPersonnelDetails.getPercentEffort().multiply(new ScaleTwoDecimal("0.01"), false)
-                                            .multiply(getNumberOfMonths(budgetPersonnelDetails.getStartDate(),budgetPersonnelDetails.getEndDate()), false));
+                                    summerMonths = summerMonths.add(budgetPersonnelDetails.getPercentEffort().bigDecimalValue().multiply(POINT_ZERO_ONE)
+                                            .multiply(getNumberOfMonths(budgetPersonnelDetails.getStartDate(),budgetPersonnelDetails.getEndDate()).bigDecimalValue()));
                             }
                         }
                     }
                 }
             }
-        proposalPersonType.setAcademicFundingMonths(academicMonths.bigDecimalValue().setScale(2));
-        proposalPersonType.setSummerFundingMonths(summerMonths.bigDecimalValue().setScale(2));		
-        proposalPersonType.setFundingMonths(calendarMonths.bigDecimalValue().setScale(2, RoundingMode.HALF_UP));
+        proposalPersonType.setAcademicFundingMonths(academicMonths.setScale(2, RoundingMode.HALF_UP));
+        proposalPersonType.setSummerFundingMonths(summerMonths.setScale(2, RoundingMode.HALF_UP));
+        proposalPersonType.setFundingMonths(calendarMonths.setScale(2, RoundingMode.HALF_UP));
         return proposalPersonType;
     }
 
@@ -444,7 +445,7 @@ AbstractResearchAndRelatedStream {
      * @return number of months between the start date and end date.
      */
     private ScaleTwoDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
-        ScaleTwoDecimal monthCount = ScaleTwoDecimal.ZERO;
+        BigDecimal monthCount = ScaleTwoDecimal.ZERO.bigDecimalValue();
         int fullMonthCount = 0;
 
         Calendar startDate = Calendar.getInstance();
@@ -469,14 +470,14 @@ AbstractResearchAndRelatedStream {
         - startDate.get(Calendar.DATE);
         startMonthDays++;
         int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
-        ScaleTwoDecimal startMonthFraction = new ScaleTwoDecimal(startMonthDays)
-        .divide(new ScaleTwoDecimal(startMonthMaxDays), false);
+        BigDecimal startMonthFraction = new ScaleTwoDecimal(startMonthDays).bigDecimalValue()
+        .divide(new ScaleTwoDecimal(startMonthMaxDays).bigDecimalValue(), RoundingMode.HALF_UP);
 
         int endMonthDays = endDate.get(Calendar.DATE);
         int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
 
-        ScaleTwoDecimal endMonthFraction = new ScaleTwoDecimal(endMonthDays)
-        .divide(new ScaleTwoDecimal(endMonthMaxDays), false);
+        BigDecimal endMonthFraction = new ScaleTwoDecimal(endMonthDays).bigDecimalValue()
+        .divide(new ScaleTwoDecimal(endMonthMaxDays).bigDecimalValue(), RoundingMode.HALF_UP);
 
         startDate.set(Calendar.DATE, 1);
         endDate.set(Calendar.DATE, 1);
@@ -486,9 +487,9 @@ AbstractResearchAndRelatedStream {
             fullMonthCount++;
         }
         fullMonthCount = fullMonthCount - 1;
-        monthCount = monthCount.add(new ScaleTwoDecimal(fullMonthCount)).add(
+        monthCount = monthCount.add(new ScaleTwoDecimal(fullMonthCount).bigDecimalValue()).add(
                 startMonthFraction).add(endMonthFraction);
-        return monthCount;
+        return new ScaleTwoDecimal(monthCount);
     }
 
     private PersonFullNameType getProposalPersonFullNameType(
@@ -1165,11 +1166,11 @@ AbstractResearchAndRelatedStream {
         salariesAndWagesType.setAppointmentMonths(new BigDecimal(budgetPerson
                 .getAppointmentTypeCode() == null ? Constants.EMPTY_STRING
                         : budgetPerson.getAppointmentTypeCode()));
-        salariesAndWagesType.setSummerFundingMonths(calculateFundingMonths(developmentProposal,budgetPersDetails, 
+        salariesAndWagesType.setSummerFundingMonths(calculateFundingMonths(developmentProposal, budgetPersDetails,
                 BUDGET_PERIOD_TYPE_4));
-        salariesAndWagesType.setAcademicFundingMonths(calculateFundingMonths(developmentProposal,budgetPersDetails, 
+        salariesAndWagesType.setAcademicFundingMonths(calculateFundingMonths(developmentProposal, budgetPersDetails,
                 BUDGET_PERIOD_TYPE_2));
-        salariesAndWagesType.setFundingMonths(calculateFundingMonths(developmentProposal,budgetPersDetails, 
+        salariesAndWagesType.setFundingMonths(calculateFundingMonths(developmentProposal, budgetPersDetails,
                 BUDGET_PERIOD_TYPE_3));
         try{
             KcPerson person = budgetPerson.getPerson();
@@ -1770,19 +1771,19 @@ AbstractResearchAndRelatedStream {
 
     private BigDecimal calculateFundingMonths(DevelopmentProposal developmentProposal,
             BudgetPersonnelDetails budgetPersonnelDetails, String budgetPeriodType) {
-        ScaleTwoDecimal fundingMonths = ScaleTwoDecimal.ZERO;
+        BigDecimal fundingMonths = ScaleTwoDecimal.ZERO.bigDecimalValue();
         if (isPersonExistsInProposal(developmentProposal,budgetPersonnelDetails)
                 && budgetPeriodType.equals(budgetPersonnelDetails.getPeriodTypeCode())) {
             if (budgetPersonnelDetails != null) {
                 BigDecimal totalMonths = getMonthsBetweenDates(
                         budgetPersonnelDetails.getStartDate(),
                         budgetPersonnelDetails.getEndDate());
-                fundingMonths = budgetPersonnelDetails.getPercentEffort().multiply(
-                        new ScaleTwoDecimal(totalMonths), false);
-                fundingMonths = fundingMonths.divide(new ScaleTwoDecimal(100), false);
+                fundingMonths = budgetPersonnelDetails.getPercentEffort().bigDecimalValue().multiply(
+                        new ScaleTwoDecimal(totalMonths).bigDecimalValue());
+                fundingMonths = fundingMonths.divide(new ScaleTwoDecimal(100).bigDecimalValue(), RoundingMode.HALF_UP);
             }
         }
-        return fundingMonths.bigDecimalValue().setScale(0);
+        return fundingMonths.setScale(0);
     }
 
     public ParameterService getParameterService() {

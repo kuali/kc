@@ -75,22 +75,7 @@ public final class ScaleTwoDecimal extends AbstractDecimal<ScaleTwoDecimal> {
     }
 
     @Override
-    protected ScaleTwoDecimal newInstance(String value) {
-        return new ScaleTwoDecimal(value);
-    }
-
-    @Override
-    protected ScaleTwoDecimal newInstance(double value) {
-        return new ScaleTwoDecimal(value);
-    }
-
-    @Override
-    protected ScaleTwoDecimal newInstance(double value, int scale) {
-        return new ScaleTwoDecimal(value, scale);
-    }  
-
-    @Override
-    protected ScaleTwoDecimal newInstance(BigDecimal value) {
+    protected ScaleTwoDecimal newInstance(int value) {
         return new ScaleTwoDecimal(value);
     }
 

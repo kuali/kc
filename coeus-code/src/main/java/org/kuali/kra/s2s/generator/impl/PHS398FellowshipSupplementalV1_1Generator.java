@@ -60,6 +60,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -1012,7 +1013,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	 * @return number of months between the start date and end date.
 	 */
 	private ScaleTwoDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
-		ScaleTwoDecimal monthCount = ScaleTwoDecimal.ZERO;
+		BigDecimal monthCount = ScaleTwoDecimal.ZERO.bigDecimalValue();
 		int fullMonthCount = 0;
 
 		Calendar startDate = Calendar.getInstance();
@@ -1037,14 +1038,14 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				- startDate.get(Calendar.DATE);
 		startMonthDays++;
 		int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
-		ScaleTwoDecimal startMonthFraction = new ScaleTwoDecimal(startMonthDays)
-				.divide(new ScaleTwoDecimal(startMonthMaxDays), false);
+		BigDecimal startMonthFraction = new ScaleTwoDecimal(startMonthDays).bigDecimalValue()
+				.divide(new ScaleTwoDecimal(startMonthMaxDays).bigDecimalValue(), RoundingMode.HALF_UP);
 
 		int endMonthDays = endDate.get(Calendar.DATE);
 		int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
 
-		ScaleTwoDecimal endMonthFraction = new ScaleTwoDecimal(endMonthDays)
-				.divide(new ScaleTwoDecimal(endMonthMaxDays), false);
+		BigDecimal endMonthFraction = new ScaleTwoDecimal(endMonthDays).bigDecimalValue()
+				.divide(new ScaleTwoDecimal(endMonthMaxDays).bigDecimalValue(), RoundingMode.HALF_UP);
 
 		startDate.set(Calendar.DATE, 1);
 		endDate.set(Calendar.DATE, 1);
@@ -1054,9 +1055,9 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			fullMonthCount++;
 		}
 		fullMonthCount = fullMonthCount - 1;
-		monthCount = monthCount.add(new ScaleTwoDecimal(fullMonthCount)).add(
+		monthCount = monthCount.add(new ScaleTwoDecimal(fullMonthCount).bigDecimalValue()).add(
 				startMonthFraction).add(endMonthFraction);
-		return monthCount;
+		return new ScaleTwoDecimal(monthCount);
 	}
 
 	/**

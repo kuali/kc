@@ -75,22 +75,7 @@ public final class ScaleThreeDecimal extends AbstractDecimal<ScaleThreeDecimal> 
     }
 
     @Override
-    protected ScaleThreeDecimal newInstance(String value) {
-        return new ScaleThreeDecimal(value);
-    }
-
-    @Override
-    protected ScaleThreeDecimal newInstance(double value) {
-        return new ScaleThreeDecimal(value);
-    }
-
-    @Override
-    protected ScaleThreeDecimal newInstance(double value, int scale) {
-        return new ScaleThreeDecimal(value, scale);
-    }
-
-    @Override
-    protected ScaleThreeDecimal newInstance(BigDecimal value) {
+    protected ScaleThreeDecimal newInstance(int value) {
         return new ScaleThreeDecimal(value);
     }
 
