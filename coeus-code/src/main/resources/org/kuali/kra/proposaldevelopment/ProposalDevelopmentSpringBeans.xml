@@ -264,6 +264,10 @@
     <bean id="attachmentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="attachmentService" />
     </bean>
+    
+    <bean id="kualiRuleService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiRuleService" />
+    </bean>
 
   <bean id="kcPersonLookupableHelperServiceTarget" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" lazy-init="true">
         <property name="serviceName" value="kcPersonLookupableHelperService" />
