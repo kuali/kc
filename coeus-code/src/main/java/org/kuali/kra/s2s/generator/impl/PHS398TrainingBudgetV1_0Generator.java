@@ -1096,7 +1096,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
           return Arrays.asList(getPreDocParentQuestionsForPeriod(budgetPeriod)).contains(questionnaireQuestion.getParentQuestionNumber());
     }
     private BigDecimal getStipendAmount(BudgetPeriod budgetPeriod, String careerLevel, int experienceLevel, int numPeople) {
-        ScaleTwoDecimal stipendCost = ScaleTwoDecimal.ZERO;
+        BigDecimal stipendCost = ScaleTwoDecimal.ZERO.bigDecimalValue();
         List<TrainingStipendRate> trainingStipendRates = (List<TrainingStipendRate>)businessObjectService.findAll(TrainingStipendRate.class);
         QueryList<TrainingStipendRate> trainingStipendRatesQueryList = new QueryList<TrainingStipendRate>(trainingStipendRates);
         Equals eqStartDate = new Equals("effectiveDate",budgetPeriod.getStartDate());
@@ -1110,9 +1110,9 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         if(!filteredTrainingStipendRates.isEmpty()){
             filteredTrainingStipendRates.sort("effectiveDate",false);
             TrainingStipendRate trainingStipendRate = filteredTrainingStipendRates.get(0);
-            stipendCost = trainingStipendRate.getStipendRate().multiply(new ScaleTwoDecimal(numPeople), false);
+            stipendCost = trainingStipendRate.getStipendRate().bigDecimalValue().multiply(new ScaleTwoDecimal(numPeople).bigDecimalValue());
         }
-        return stipendCost.bigDecimalValue();
+        return stipendCost;
     }
 
 }

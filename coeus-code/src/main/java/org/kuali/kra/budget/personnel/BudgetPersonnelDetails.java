@@ -21,6 +21,8 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -279,7 +281,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
                 startDateCalendar.set(DAY_OF_MONTH, 1);
                 personMonths += (noOfActualDays / noOfDaysInMonth);
             }
-            result = new ScaleTwoDecimal(new ScaleTwoDecimal(personMonths).multiply(getPercentEffort(), false).divide(new ScaleTwoDecimal(100), false).bigDecimalValue());
+            result = new ScaleTwoDecimal(new BigDecimal(personMonths).setScale(2, RoundingMode.HALF_UP).multiply(getPercentEffort().bigDecimalValue()).divide(new ScaleTwoDecimal(100).bigDecimalValue(), RoundingMode.HALF_UP));
         }
         return result;
     }

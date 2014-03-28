@@ -55,6 +55,8 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -95,6 +97,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     private static final Log LOG = LogFactory
                     .getLog(S2SBudgetCalculatorServiceImpl.class);
     private static final String PRINCIPAL_INVESTIGATOR_ROLE = "PD/PI";
+    private static final BigDecimal POINT_ZERO_ONE = new ScaleTwoDecimal(0.01).bigDecimalValue();
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
     private S2SUtilService s2SUtilService;
@@ -719,12 +722,12 @@ public class S2SBudgetCalculatorServiceImpl implements
         ScaleTwoDecimal bdFringeCostSharing = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal bdNonFunds = ScaleTwoDecimal.ZERO;
 
-        ScaleTwoDecimal academicMonths = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal summerMonths = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal calendarMonths = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal cycleMonths = ScaleTwoDecimal.ZERO;
+        BigDecimal academicMonths = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal summerMonths = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal calendarMonths = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal cycleMonths = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
 
-        ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
+        BigDecimal numberOfMonths = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
         String rateTypeSupportStaffSalaries = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 Constants.S2SBUDGET_RATE_TYPE_SUPPORT_STAFF_SALARIES);
         String rateClassCodeEmployeeBenefits = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
@@ -813,27 +816,27 @@ public class S2SBudgetCalculatorServiceImpl implements
                                             salaryCostSharing = salaryCostSharing.add(personDetails.getCostSharingAmount());
                                         }
                                         numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(),
-                                                personDetails.getEndDate());
+                                                personDetails.getEndDate()).bigDecimalValue();
                                         if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {
                                             if (lineItem.getSubmitCostSharingFlag()) {
-                                                academicMonths = academicMonths.add(personDetails.getPercentEffort()
-                                                        .multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false));
+                                                academicMonths = academicMonths.add(personDetails.getPercentEffort().bigDecimalValue()
+                                                        .multiply(numberOfMonths).multiply(POINT_ZERO_ONE));
                                             } else {
-                                                academicMonths = academicMonths.add(personDetails.getPercentCharged()
-                                                        .multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false));
+                                                academicMonths = academicMonths.add(personDetails.getPercentCharged().bigDecimalValue()
+                                                        .multiply(numberOfMonths).multiply(POINT_ZERO_ONE));
                                             }                                            
                                         }
                                         else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS))) {
                                             if (lineItem.getSubmitCostSharingFlag()) {
-                                                summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths, false)
-                                                        .multiply(new ScaleTwoDecimal(0.01), false));
+                                                summerMonths = summerMonths.add(personDetails.getPercentEffort().bigDecimalValue().multiply(numberOfMonths)
+                                                        .multiply(POINT_ZERO_ONE));
                                             } else {
-                                                summerMonths = summerMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths, false)
-                                                        .multiply(new ScaleTwoDecimal(0.01), false));
+                                                summerMonths = summerMonths.add(personDetails.getPercentCharged().bigDecimalValue().multiply(numberOfMonths)
+                                                        .multiply(POINT_ZERO_ONE));
                                             }
                                             
                                         }
@@ -841,18 +844,18 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_CALENDAR_MONTHS))) {
                                             if (lineItem.getSubmitCostSharingFlag()) {
-                                                calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths, false)
-                                                        .multiply(new ScaleTwoDecimal(0.01), false));
+                                                calendarMonths = calendarMonths.add(personDetails.getPercentEffort().bigDecimalValue().multiply(numberOfMonths)
+                                                        .multiply(POINT_ZERO_ONE));
                                             } else {
-                                                calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths, false)
-                                                        .multiply(new ScaleTwoDecimal(0.01), false));
+                                                calendarMonths = calendarMonths.add(personDetails.getPercentCharged().bigDecimalValue().multiply(numberOfMonths)
+                                                        .multiply(POINT_ZERO_ONE));
                                             }
                                         }
                                         else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_CYCLE_MONTHS))) {
-                                            cycleMonths = cycleMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths, false)
-                                                    .multiply(new ScaleTwoDecimal(0.01), false));
+                                            cycleMonths = cycleMonths.add(personDetails.getPercentEffort().bigDecimalValue().multiply(numberOfMonths)
+                                                    .multiply(POINT_ZERO_ONE));
                                         }
                                         // Get total count of unique
                                         // personId+jobCode combination for those
@@ -942,9 +945,9 @@ public class S2SBudgetCalculatorServiceImpl implements
         compensationInfo.setFringe(bdFringe);
         compensationInfo.setFundsRequested(bdFunds);
         compensationInfo.setRequestedSalary(bdSalary);
-        compensationInfo.setSummerMonths(summerMonths);
-        compensationInfo.setAcademicMonths(academicMonths);
-        compensationInfo.setCalendarMonths(calendarMonths);
+        compensationInfo.setSummerMonths(new ScaleTwoDecimal(summerMonths));
+        compensationInfo.setAcademicMonths(new ScaleTwoDecimal(academicMonths));
+        compensationInfo.setCalendarMonths(new ScaleTwoDecimal(calendarMonths));
 
         // start add costSaring for fedNonFedBudget report
         compensationInfo.setFringeCostSharing(bdFringeCostSharing);
@@ -1839,15 +1842,15 @@ public class S2SBudgetCalculatorServiceImpl implements
      */
     protected CompensationInfo getCompensation(KeyPersonInfo keyPerson, BudgetPeriod budgetPeriod, String proposalNumber) {
         CompensationInfo compensationInfo = new CompensationInfo();
-        ScaleTwoDecimal summerMonths = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal academicMonths = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal calendarMonths = ScaleTwoDecimal.ZERO;
+        BigDecimal summerMonths = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal academicMonths = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal calendarMonths = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
         ScaleTwoDecimal totalSal = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal fringe = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal baseAmount = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal totalSalCostSharing = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal fringeCostSharing = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
+        BigDecimal numberOfMonths = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
         String budgetCatagoryCodePersonnel = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 Constants.S2SBUDGET_BUDGET_CATEGORY_CODE_PERSONNEL);
         
@@ -1855,27 +1858,27 @@ public class S2SBudgetCalculatorServiceImpl implements
             
             for (BudgetPersonnelDetails personDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 if (s2SUtilService.keyPersonEqualsBudgetPerson(keyPerson, personDetails)) {
-                    numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(), personDetails.getEndDate());
+                    numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(), personDetails.getEndDate()).bigDecimalValue();
                     if (personDetails.getPeriodTypeCode().equals(
                             getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                     Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {                        
                         if (lineItem.getSubmitCostSharingFlag()) {
-                            academicMonths = academicMonths.add(personDetails.getPercentEffort()
-                                    .multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false));
+                            academicMonths = academicMonths.add(personDetails.getPercentEffort().bigDecimalValue()
+                                    .multiply(numberOfMonths).multiply(POINT_ZERO_ONE));
                         } else {
-                            academicMonths = academicMonths.add(personDetails.getPercentCharged()
-                                    .multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false));
+                            academicMonths = academicMonths.add(personDetails.getPercentCharged().bigDecimalValue()
+                                    .multiply(numberOfMonths).multiply(POINT_ZERO_ONE));
                         }
                     }
                     else if (personDetails.getPeriodTypeCode().equals(
                             getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                     Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS))) {
                         if (lineItem.getSubmitCostSharingFlag()) {
-                            summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths, false)
-                                    .multiply(new ScaleTwoDecimal(0.01), false));
+                            summerMonths = summerMonths.add(personDetails.getPercentEffort().bigDecimalValue().multiply(numberOfMonths)
+                                    .multiply(POINT_ZERO_ONE));
                         } else {
-                            summerMonths = summerMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths, false)
-                                    .multiply(new ScaleTwoDecimal(0.01), false));
+                            summerMonths = summerMonths.add(personDetails.getPercentCharged().bigDecimalValue().multiply(numberOfMonths)
+                                    .multiply(POINT_ZERO_ONE));
                         }
                     }
                     else {
@@ -1883,21 +1886,21 @@ public class S2SBudgetCalculatorServiceImpl implements
                             if (lineItem.getBudgetCategory()
                                     .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
                                 if (lineItem.getSubmitCostSharingFlag()) {
-                                    calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths, false)
-                                            .multiply(new ScaleTwoDecimal(0.01), false));
+                                    calendarMonths = calendarMonths.add(personDetails.getPercentEffort().bigDecimalValue().multiply(numberOfMonths)
+                                            .multiply(POINT_ZERO_ONE));
                                 } else {
-                                    calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths, false)
-                                            .multiply(new ScaleTwoDecimal(0.01), false));
+                                    calendarMonths = calendarMonths.add(personDetails.getPercentCharged().bigDecimalValue().multiply(numberOfMonths)
+                                            .multiply(POINT_ZERO_ONE));
                                 }
                             } 
                         }else {
                             if (lineItem.getSubmitCostSharingFlag()) {
-                                calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths, false)
-                                        .multiply(new ScaleTwoDecimal(0.01), false));
+                                calendarMonths = calendarMonths.add(personDetails.getPercentEffort().bigDecimalValue().multiply(numberOfMonths)
+                                        .multiply(POINT_ZERO_ONE));
                             }
                             else {
-                                calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths, false)
-                                        .multiply(new ScaleTwoDecimal(0.01), false));
+                                calendarMonths = calendarMonths.add(personDetails.getPercentCharged().bigDecimalValue().multiply(numberOfMonths)
+                                        .multiply(POINT_ZERO_ONE));
                             }
                         }
                     }
@@ -1977,9 +1980,9 @@ public class S2SBudgetCalculatorServiceImpl implements
 
             }
         }
-        compensationInfo.setAcademicMonths(academicMonths);
-        compensationInfo.setCalendarMonths(calendarMonths);
-        compensationInfo.setSummerMonths(summerMonths);
+        compensationInfo.setAcademicMonths(new ScaleTwoDecimal(academicMonths));
+        compensationInfo.setCalendarMonths(new ScaleTwoDecimal(calendarMonths));
+        compensationInfo.setSummerMonths(new ScaleTwoDecimal(summerMonths));
         compensationInfo.setRequestedSalary(totalSal);
         compensationInfo.setBaseSalary(baseAmount);
         compensationInfo.setCostSharingAmount(totalSalCostSharing);

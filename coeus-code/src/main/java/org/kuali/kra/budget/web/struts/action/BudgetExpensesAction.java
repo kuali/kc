@@ -42,6 +42,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class BudgetExpensesAction extends BudgetAction {
@@ -193,11 +194,11 @@ public class BudgetExpensesAction extends BudgetAction {
 
 
     private void calculateBudgetFormulatedCost( BudgetFormulatedCostDetail budgetFormulatedCost) {
-        ScaleTwoDecimal unitCost = budgetFormulatedCost.getUnitCost();
-        ScaleTwoDecimal count = new ScaleTwoDecimal(budgetFormulatedCost.getCount());
-        ScaleTwoDecimal frequency = new ScaleTwoDecimal(budgetFormulatedCost.getFrequency());
-        ScaleTwoDecimal calculatedExpense = unitCost.multiply(count, false).multiply(frequency, false);
-        budgetFormulatedCost.setCalculatedExpenses(calculatedExpense);
+        BigDecimal unitCost = budgetFormulatedCost.getUnitCost().bigDecimalValue();
+        BigDecimal count = new ScaleTwoDecimal(budgetFormulatedCost.getCount()).bigDecimalValue();
+        BigDecimal frequency = new ScaleTwoDecimal(budgetFormulatedCost.getFrequency()).bigDecimalValue();
+        BigDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency);
+        budgetFormulatedCost.setCalculatedExpenses(new ScaleTwoDecimal(calculatedExpense));
     }
 
 
