@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service;
+package org.kuali.coeus.propdev.impl.budget;
 
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
-public interface ProposalStatusService {
+public interface ProposalBudgetStatusService {
     
     public void saveBudgetFinalVersionStatus(ProposalDevelopmentDocument pdDocument);
     

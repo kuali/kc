@@ -460,10 +460,6 @@
 		p:localServiceName="proposalRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 	
-    <bean id="proposalStatusService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStatusServiceImpl">
-        <property name="dataObjectService" ref="dataObjectService" />
-    </bean>
-
 	<bean id="narrativeService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeServiceImpl">
 		<property name="systemAuthorizationService" ref="systemAuthorizationService" />
 		<property name="dateTimeService" ref="dateTimeService" />
@@ -738,7 +734,7 @@
 		<property name="mappings">
 			<map>
 				<entry key="save">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="modifyProposal" />
 					</bean>
 				</entry>
@@ -751,7 +747,7 @@
         <property name="mappings">
             <map>
                 <entry key="printForms">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="printProposal" />
                     </bean>
                 </entry>
@@ -764,22 +760,22 @@
         <property name="mappings">
             <map>
                 <entry key="addCertificationQuestion">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="modifyProposal" />
                     </bean>
                 </entry>
                 <entry key="removeCertificationQuestion">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="modifyProposal" />
                     </bean>
                 </entry>
                 <entry key="addUnitDetails">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="modifyProposal" />
                     </bean>
                 </entry>
                 <entry key="removeUnitDetails">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="modifyProposal" />
                     </bean>
                 </entry>
@@ -792,7 +788,7 @@
 		<property name="mappings">
 			<map>
 				<entry key="addProposalAttachment">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="addNarrative" />
 					</bean>
 				</entry>
@@ -817,7 +813,7 @@
 					</bean>
 				</entry>
 				<entry key="addInstitutionalAttachment">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="addNarrative" />
 					</bean>
 				</entry>
@@ -855,17 +851,17 @@
         <property name="mappings">
             <map>
                 <entry key="addBudgetVersion">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="addBudget" />
                     </bean>
                 </entry>
                 <entry key="openBudgetVersion">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="openBudgets" />
                     </bean>
                 </entry>
                 <entry key="copyBudgetVersion">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="addBudget" />
                     </bean>
                 </entry>
@@ -878,17 +874,17 @@
 		<property name="mappings">
 			<map>
 				<entry key="addProposalUser">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="modifyProposalRoles" />
 					</bean>
 				</entry>
 				<entry key="deleteProposalUser">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="modifyProposalRoles" />
 					</bean>
 				</entry>
 				<entry key="setEditRoles">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="modifyProposalRoles" />
 					</bean>
 				</entry>
@@ -901,52 +897,52 @@
 		<property name="mappings">
 			<map>
 				<entry key="printForms">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="printProposal" />
 					</bean>
 				</entry>
 				<entry key="route">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="submitToWorkflow" />
 					</bean>
 				</entry>
 				<entry key="submitToSponsor">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="submitToSponsor" />
 					</bean>
 				</entry>
 				<entry key="resubmit">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="submitToSponsor" />
 					</bean>
 				</entry>
 				<entry key="approve">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="hierarchyChildWorkflowAction" />
 					</bean>
 				</entry>
 				<entry key="reject">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="rejectProposal" />
 					</bean>
 				</entry>
 				<entry key="disapprove">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="hierarchyChildWorkflowAction" />
 					</bean>
 				</entry>
 				<entry key="blanketApprove">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="hierarchyChildWorkflowAction" />
 					</bean>
 				</entry>
 				<entry key="acknowledge">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="hierarchyChildAcknowledgeAction" />
 					</bean>
 				</entry>
 				<entry key="fyi">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
 						<property name="taskName" value="hierarchyChildWorkflowAction" />
 					</bean>
 				</entry>
