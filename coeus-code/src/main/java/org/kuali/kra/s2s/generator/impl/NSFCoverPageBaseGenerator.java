@@ -18,7 +18,6 @@ package org.kuali.kra.s2s.generator.impl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Calendar;
 
@@ -49,12 +48,9 @@ public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
 	protected static final int QUESTION_RESOLUTION_GRAPHICS = 6;
 	
 	protected static final int SINGLE_COPY_DOCUMENT = 87;
-	protected static final Integer QUESTIONNAIRE_ID_2 = 2;
-	protected static final String ORGANIZATION_ID_PARAMETER = "organizationId";
 	protected static final String LOBBYING_QUESTION_ID = "H0";
 	protected static final String ANSWER_INDICATOR_VALUE="Y";
 	protected S2SUtilService s2sUtilService;
-	protected BusinessObjectService businessObjectService;
 
 	/**
 	 * 
@@ -62,7 +58,6 @@ public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
 	 */
 	public NSFCoverPageBaseGenerator() {
 		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-		businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
 	}
 
 	/**

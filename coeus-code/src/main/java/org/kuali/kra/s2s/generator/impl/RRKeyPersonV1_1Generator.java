@@ -29,6 +29,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -37,9 +38,8 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -100,54 +100,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
             }
             rrKeyPerson.setBioSketchsAttached(bioSketchAttached);
         }
-//    		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-//    				.getNarratives()) {
-//    			if (narrative.getNarrativeTypeCode() != null) {
-//    				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BIOSKETCH_DOC_TYPE) {
-//    					attachedFileDataType = getAttachedFileType(narrative);
-//    					if (attachedFileDataType != null) {
-//    						BioSketchsAttached bioSketchAttached = BioSketchsAttached.Factory
-//    								.newInstance();
-//    						bioSketchAttached.setBioSketchAttached(attachedFileDataType);
-//    						rrKeyPerson
-//    								.setBioSketchsAttached(bioSketchAttached);
-//    						break;
-//    					}
-//    				}
-//    			}
-//    		}
-//    		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-//    				.getNarratives()) {
-//    			if (narrative.getNarrativeTypeCode() != null) {
-//    				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == CURRENTPENDING_DOC_TYPE) {
-//    					attachedFileDataType = getAttachedFileType(narrative);
-//    					if (attachedFileDataType != null) {
-//    						SupportsAttached supportsAttached = SupportsAttached.Factory
-//    								.newInstance();
-//    						supportsAttached
-//    								.setSupportAttached(attachedFileDataType);
-//    						rrKeyPerson
-//    								.setSupportsAttached(supportsAttached);
-//    						break;
-//    					}
-//    				}
-//    			}
-//    		}           
-//    		
-//    		for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-//                if (narrative.getNarrativeTypeCode() != null) {
-//                    if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROFILE_TYPE) {
-//                    	attachedFileDataType = getAttachedFileType(narrative);
-//                    	if(attachedFileDataType != null){
-//	                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
-//	                        additionalProfilesAttached.setAdditionalProfileAttached(attachedFileDataType);
-//	                        rrKeyPerson.setAdditionalProfilesAttached(additionalProfilesAttached);
-//	                        break;
-//                    	}
-//                    }
-//                }
-//            }
-//        }
+
         rrKeyPersonDocument.setRRKeyPerson(rrKeyPerson);
         return rrKeyPersonDocument;
     }
@@ -172,8 +125,8 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
             }
             else if (PI.getRolodexId() != null) {
                 pIPersonOrRolodexId = PI.getRolodexId().toString();
-                BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-                rolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class,pIPersonOrRolodexId);
+                RolodexService rolodexService = KcServiceLocator.getService(RolodexService.class);
+                rolodex = rolodexService.getRolodex(Integer.valueOf(pIPersonOrRolodexId));
             }
             profile.setName(globLibV20Generator.getHumanNameDataType(PI));
             if (PI.getDirectoryTitle() != null) {
@@ -274,8 +227,8 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                 }
                 else if (keyPerson.getRolodexId() != null) {
                     pIPersonOrRolodexId = keyPerson.getRolodexId().toString();
-                    BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-                    rolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class,pIPersonOrRolodexId);
+                    RolodexService rolodexService = KcServiceLocator.getService(RolodexService.class);
+                    rolodex = rolodexService.getRolodex(Integer.valueOf(pIPersonOrRolodexId));
                 }
                 Profile profileKeyPerson = Profile.Factory.newInstance();
                 profileKeyPerson.setName(globLibV20Generator.getHumanNameDataType(keyPerson));

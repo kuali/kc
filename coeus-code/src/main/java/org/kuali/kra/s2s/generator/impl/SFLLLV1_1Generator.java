@@ -30,15 +30,13 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 
@@ -85,10 +83,8 @@ public class SFLLLV1_1Generator extends SFLLLBaseGenerator {
         else {
             String primeSponsorCode = pdDoc.getDevelopmentProposal().getPrimeSponsorCode();
             if (primeSponsorCode != null) {
-                BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-                Map<String, String> sponsorMap = new HashMap<String, String>();
-                sponsorMap.put(KEY_SPONSOR_CODE, primeSponsorCode);
-                Sponsor primeSponsor = (Sponsor) businessObjectService.findByPrimaryKey(Sponsor.class, sponsorMap);
+                SponsorService sponsorService = KcServiceLocator.getService(SponsorService.class);
+                Sponsor primeSponsor = sponsorService.getSponsor(primeSponsorCode);
                 if (primeSponsor.getSponsorName() != null) {
                     if (primeSponsor.getSponsorName().length() > SPONSOR_NAME_MAX_LENGTH) {
                         lobbyingDisclosure.setFederalAgencyDepartment(primeSponsor.getSponsorName().substring(0, SPONSOR_NAME_MAX_LENGTH));

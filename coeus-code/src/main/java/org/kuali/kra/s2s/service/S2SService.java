@@ -15,17 +15,15 @@
  */
 package org.kuali.kra.s2s.service;
 
-import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.rice.kns.util.AuditError;
 
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse.ApplicationInfo;
+import org.kuali.kra.s2s.util.AuditError;
 
 import java.io.File;
 import java.io.IOException;
@@ -138,7 +136,7 @@ public interface S2SService {
 
 	/**
 	 * This method populates the {@link S2sAppSubmission} BO with details from
-	 * {@link ApplicationInformationType}
+	 * {@link ApplicationInfo}
 	 * 
 	 * @param appSubmission
 	 * @param ggApplication

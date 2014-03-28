@@ -20,8 +20,8 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlValidationError;
 import org.kuali.kra.s2s.service.S2SValidatorService;
+import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
-import org.kuali.rice.kns.util.AuditError;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;

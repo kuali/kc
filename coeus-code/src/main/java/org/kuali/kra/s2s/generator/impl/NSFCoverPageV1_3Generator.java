@@ -36,13 +36,12 @@ import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuest
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.kra.s2s.depend.OrganizationYnqService;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -240,12 +239,7 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
      * This method will get the list of Organization YNQ for given question id.
      */
 	    private List<OrganizationYnq> getOrganizationYNQ(String questionId) {
-	        OrganizationYnq organizationYnq = null;
-	        Map<String, String> organizationYnqMap = new HashMap<String, String>();
-	        organizationYnqMap.put(ORGANIZATION_ID_PARAMETER, questionId);
-	        List<OrganizationYnq> organizationYnqs = (List<OrganizationYnq>) businessObjectService.findMatching(OrganizationYnq.class,
-	                organizationYnqMap);
-	        return organizationYnqs;
+	        return KcServiceLocator.getService(OrganizationYnqService.class).findOrganizationYnqByOrgId(questionId);
 	    }
 	/*
      * This method will get the Organization from the Development proposal.
