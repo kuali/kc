@@ -15,19 +15,16 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import org.apache.commons.lang3.StringUtils;
 
 @Component("proposalBudgetStatusService")
 public class ProposalBudgetStatusServiceImpl implements ProposalBudgetStatusService {
@@ -35,10 +32,6 @@ public class ProposalBudgetStatusServiceImpl implements ProposalBudgetStatusServ
 	@Autowired
 	@Qualifier("dataObjectService")
 	private DataObjectService dataObjectService;
-
-	@Autowired
-	@Qualifier("businessObjectService")
-	private BusinessObjectService businessObjectService;
 
 	public void saveBudgetFinalVersionStatus(ProposalDevelopmentDocument pdDocument) {
         ProposalBudgetStatus proposalBudgetStatus = getProposalBudgetStatus(pdDocument.getDevelopmentProposal().getProposalNumber());
@@ -78,9 +71,10 @@ public class ProposalBudgetStatusServiceImpl implements ProposalBudgetStatusServ
      * @return ProposalBudgetStatus
      */
     protected ProposalBudgetStatus getProposalBudgetStatus(String proposalNumber) {
-      Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put(Constants.PROPOSAL_NUMBER, proposalNumber);
-        ProposalBudgetStatus proposalBudgetStatus = (ProposalBudgetStatus) getBusinessObjectService().findByPrimaryKey(ProposalBudgetStatus.class, keyMap);
+    	if (StringUtils.isBlank(proposalNumber)) {
+    	    return null;
+    	}
+    	ProposalBudgetStatus proposalBudgetStatus = getDataObjectService().find(ProposalBudgetStatus.class, proposalNumber);
         return proposalBudgetStatus;
     }
 
@@ -97,12 +91,4 @@ public class ProposalBudgetStatusServiceImpl implements ProposalBudgetStatusServ
         this.dataObjectService = dataObjectService;
     }
      
-    public BusinessObjectService getBusinessObjectService() {
-		return businessObjectService;
-	}
-
-	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-		this.businessObjectService = businessObjectService;
-	}
-	
 }
