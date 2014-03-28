@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import org.apache.commons.lang3.StringUtils;
+
 @Component("proposalBudgetStatusService")
 public class ProposalBudgetStatusServiceImpl implements ProposalBudgetStatusService {
     
@@ -69,7 +71,10 @@ public class ProposalBudgetStatusServiceImpl implements ProposalBudgetStatusServ
      * @return ProposalBudgetStatus
      */
     protected ProposalBudgetStatus getProposalBudgetStatus(String proposalNumber) {
-        ProposalBudgetStatus proposalBudgetStatus = 
+    	if (StringUtils.isBlank(proposalNumber)) {
+    	    return null;
+    	}
+    	ProposalBudgetStatus proposalBudgetStatus = 
         			(ProposalBudgetStatus) getDataObjectService().find(ProposalBudgetStatus.class, proposalNumber);
         return proposalBudgetStatus;
     }
