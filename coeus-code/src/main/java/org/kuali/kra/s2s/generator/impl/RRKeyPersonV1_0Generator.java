@@ -64,21 +64,7 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
         rrKeyPerson.setKeyPersonArray(getPersonProfileKeyPerson());
         saveKeyPersonAttachmentsToProposal();
         if (extraPersons.size() > 0) {
-//            for (ProposalPerson extraPerson : extraPersons) {
-//                BioSketchsAttached personBioSketch = BioSketchsAttached.Factory.newInstance();
-//                AttachedFileDataType bioSketchAttachment = getPernonnelAttachments(pdDoc, extraPerson.getPersonId(), extraPerson
-//                        .getRolodexId(), BIOSKETCH_TYPE);
-//                personBioSketch.setBioSketchAttached(bioSketchAttachment);
-//                rrKeyPerson.setBioSketchsAttached(personBioSketch);
-//
-//                AttachedFileDataType supportAttachment = getPernonnelAttachments(pdDoc, extraPerson.getPersonId(), extraPerson
-//                        .getRolodexId(), CURRENT_PENDING_TYPE);
-//                if (supportAttachment != null) {
-//                    SupportsAttached supportsAttached = SupportsAttached.Factory.newInstance();
-//                    supportsAttached.setSupportAttached(supportAttachment);
-//                    rrKeyPerson.setSupportsAttached(supportsAttached);
-//                }
-//            }
+
             AttachedFileDataType attachedFileDataType = null;
             BioSketchsAttached bioSketchAttached = BioSketchsAttached.Factory.newInstance();
     		for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {

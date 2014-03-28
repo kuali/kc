@@ -19,7 +19,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
-import org.kuali.rice.kns.util.AuditError;
+import org.kuali.kra.s2s.util.AuditError;
 
 import java.util.List;
 
@@ -52,5 +52,5 @@ public interface S2SFormGenerator {
     /**
      * 
      */
-    public List<AuditError> getAuditErrors(); 
+    public List<AuditError> getAuditErrors();
 }

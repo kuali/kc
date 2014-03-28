@@ -29,10 +29,10 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.ArrayList;
@@ -83,17 +83,15 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
      */
     protected Boolean hasPersonnelBudget(KeyPersonInfo keyPerson,int period){
         BudgetDocument budgetDocument = null;
-        List<BudgetLineItem> budgetLineItemList = new ArrayList<BudgetLineItem>();
-        List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
-        
+
         try {
             budgetDocument = (BudgetDocument) getDocumentService()
             .getByDocumentHeaderId(pdDoc.getBudgetDocumentVersion(0).getDocumentNumber());
             }
             catch (WorkflowException e) {
                 LOG.error(e.getMessage(), e);
-            }           
-           budgetLineItemList = budgetDocument.getBudget().getBudgetPeriod(period-1).getBudgetLineItems();
+            }
+        List<BudgetLineItem> budgetLineItemList = budgetDocument.getBudget().getBudgetPeriod(period-1).getBudgetLineItems();
            
            for(BudgetLineItem budgetLineItem : budgetLineItemList) {
              for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()){                 
