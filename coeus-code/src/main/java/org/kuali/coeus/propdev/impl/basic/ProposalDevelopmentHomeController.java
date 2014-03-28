@@ -18,10 +18,13 @@ package org.kuali.coeus.propdev.impl.basic;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
+import org.kuali.kra.bo.ScienceKeyword;
+import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.krad.ProposalDevelopmentControllerBase;
 import org.kuali.kra.proposaldevelopment.web.krad.ProposalDevelopmentDocumentForm;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
@@ -30,9 +33,12 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,6 +47,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -183,6 +190,28 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
        propDevForm.initialize();
        return modelAndView;
+   }
+   
+   @InitBinder
+   protected void initBinder(WebDataBinder binder) throws Exception {
+	   binder.registerCustomEditor(List.class, "document.developmentProposal.propScienceKeywords", new PropScienceKeywordEditor());
+   }
+   	  
+   protected class PropScienceKeywordEditor extends CustomCollectionEditor {
+		public PropScienceKeywordEditor() {
+			super(List.class);
+		}
+
+		protected Object convertElement(Object element) {
+			if (element instanceof String) {
+				return new PropScienceKeyword(null, getScienceKeyword(element));
+			}
+			return null;
+		}
+	}
+   
+   protected ScienceKeyword getScienceKeyword(Object element) {
+	   return (ScienceKeyword) getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("scienceKeywordCode", element).build());
    }
 
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=defaultMapping")
