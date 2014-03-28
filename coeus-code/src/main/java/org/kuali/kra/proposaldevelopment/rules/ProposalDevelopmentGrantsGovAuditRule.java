@@ -70,6 +70,11 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         	auditErrors.add(new AuditError("document.developmentProposalList[0].s2sOpportunity.competetionId", KeyConstants.ERROR_IF_COMPETITION_ID_IS_INVALID, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
         	valid= false;
         }
+        
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null){
+            valid &= getS2sValidatorService().validateApplication(proposalDevelopmentDocument,auditErrors);
+        }
+
         if (auditErrors.size() > 0) {
             List<org.kuali.rice.kns.util.AuditError> knsAuditErrors = new ArrayList<>();
             for (AuditError error : auditErrors) {
@@ -79,10 +84,6 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
             }
 
             KNSGlobalVariables.getAuditErrorMap().put("grantsGovAuditWarnings", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, knsAuditErrors, Constants.AUDIT_ERRORS));
-        }
-        
-        if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null){
-            valid &= getS2sValidatorService().validateApplication(proposalDevelopmentDocument,auditErrors);
         }
         return valid;
     }
