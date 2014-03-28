@@ -71,14 +71,14 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements o
                     populateReviewers(committeeId, scheduleId, submission);
                 } else {
                     //get reviewers based solely on committeeId letting scheduleId be null when submission review type is not a full committee review
-                    if (!StringUtils.isBlank(committeeId) && !isFullCommmitteeReview(submission)) {
+                    if (!StringUtils.isBlank(committeeId) && !isFullCommitteeReview(submission)) {
                         populateReviewers(committeeId, scheduleId, submission);
                     }
                 }
             } else {
                 //committeeId and scheduleId may not have changed but submission review type could have
                 //get reviewers based solely on committeeId letting scheduleId be null when submission review type is not a full committee review
-                if (!StringUtils.isBlank(committeeId) && !isFullCommmitteeReview(submission)) {
+                if (!StringUtils.isBlank(committeeId) && !(isScheduleRequiredForReview(submission, scheduleId) && StringUtils.isBlank(scheduleId)) ) {
                     populateReviewers(committeeId, scheduleId, submission);
                 }
             }
@@ -146,8 +146,12 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements o
         return submission != null && ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode());
     }
     
-    private boolean isFullCommmitteeReview(ProtocolSubmission submission) {
+    private boolean isFullCommitteeReview(ProtocolSubmission submission) {
         return submission != null && ProtocolReviewType.FULL_TYPE_CODE.equals(submission.getProtocolReviewTypeCode());
+    }
+    
+    private boolean isScheduleRequiredForReview (ProtocolSubmission submission, String scheduleId) {        
+        return isFullCommitteeReview(submission) && !StringUtils.isBlank(scheduleId);
     }
     
 }

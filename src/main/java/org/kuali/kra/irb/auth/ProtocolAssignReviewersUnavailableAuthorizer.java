@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
@@ -32,9 +32,13 @@ public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthor
      */
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
+        ProtocolSubmission submission = findSubmission(protocol);
+        
         return (!kraWorkflowService.isCurrentNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) ||
                 !isPendingOrSubmittedToCommittee(protocol) ||
-                !(isInSchedule(protocol) || canPerformActionOnExpedited(protocol) || isNotifyIrbSubmission(protocol))) &&
+                !(canPerformActionOnExpedited(protocol) || (isScheduleRequiredForReview(submission) && isAssignedToCommitteeAndSchedule(submission))
+                        || (!isScheduleRequiredForReview(submission) && isAssignedToCommittee(submission)))
+               ) &&
                hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 
@@ -48,31 +52,34 @@ public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthor
     }
     
     /**
+     * Is the submission assigned to a committee?
+     * @param protocol
+     * @return
+     */
+    private boolean isAssignedToCommittee(ProtocolSubmission submission) {
+        return submission != null && !StringUtils.isBlank(submission.getCommitteeId());
+    }
+    
+    /**
      * Is the submission assigned to a committee and schedule?
      * @param protocol
      * @return
      */
-    private boolean isInSchedule(Protocol protocol) {
-        ProtocolSubmission submission = findSubmission(protocol);
-        return submission != null && isAssignedToCommitteeAndSchedule(submission);
-    }
-    
     private boolean isAssignedToCommitteeAndSchedule(ProtocolSubmission submission) {
         return !StringUtils.isBlank(submission.getCommitteeId()) && !StringUtils.isBlank(submission.getScheduleId());
     }
-    
+
     /**
-     * Is the submission Notify IRB?
-     * @param protocol
+     * Is the submission for a full committee review
+     * @param submission
      * @return
      */
-    private boolean isNotifyIrbSubmission(Protocol protocol) {
-        ProtocolSubmission submission = findSubmission(protocol);
-        boolean isNotifyIRB = submission != null && ProtocolSubmissionType.NOTIFY_IRB.equals(submission.getProtocolSubmissionType().getSubmissionTypeCode());
-        if(isNotifyIRB) {
-            isNotifyIRB = isAssignedToCommitteeAndSchedule(submission);
-        }
-        return isNotifyIRB;
+    private boolean isFullCommitteeReview(ProtocolSubmission submission) {
+        return submission != null && ProtocolReviewType.FULL_TYPE_CODE.equals(submission.getProtocolReviewTypeCode());
+    }
+    
+    private boolean isScheduleRequiredForReview (ProtocolSubmission submission) {        
+        return isFullCommitteeReview(submission) && StringUtils.isBlank(submission.getScheduleId());
     }
 
 }
