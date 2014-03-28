@@ -34,6 +34,8 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.*;
 
@@ -715,7 +717,7 @@ public class SalaryCalculator {
                 newBudgetPerson = budgetPerson1;
             }
         }
-        ScaleTwoDecimal calBase = newBudgetPerson.getCalculationBase();
+        BigDecimal calBase = newBudgetPerson.getCalculationBase().bigDecimalValue();
         if (budgetPerson.getEffectiveDate().before(p1StartDate)) {
             p1StartDate = budgetPerson.getEffectiveDate();
         }
@@ -723,10 +725,10 @@ public class SalaryCalculator {
         for (BudgetRate budgetProposalrate : qlist) {
             if (budgetProposalrate.getStartDate().after(budgetPerson.getEffectiveDate())
                     && budgetProposalrate.getStartDate().before(startDate)) {
-                calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate(), false).divide(new ScaleTwoDecimal(100.00), false));
+                calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate().bigDecimalValue()).divide(new ScaleTwoDecimal(100.00).bigDecimalValue(), RoundingMode.HALF_UP));
             }
         }
-        return calBase;
+        return new ScaleTwoDecimal(calBase);
 
     }
 

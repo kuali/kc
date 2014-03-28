@@ -51,6 +51,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -320,9 +322,9 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     private BudgetForecastedCashNeeds getBudgetForecastedCashNeeds() {
         ScaleTwoDecimal totalFedCost = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal costSharing = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal totalEstimation = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal costShareEstimation = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal totalFedEstimation = ScaleTwoDecimal.ZERO;
+        BigDecimal totalEstimation = ScaleTwoDecimal.ZERO.bigDecimalValue();
+        BigDecimal costShareEstimation = ScaleTwoDecimal.ZERO.bigDecimalValue();
+        BigDecimal totalFedEstimation = ScaleTwoDecimal.ZERO.bigDecimalValue();
         BudgetForecastedCashNeeds budgetForecastedCashNeeds = BudgetForecastedCashNeeds.Factory.newInstance();
         if (budget != null) {
             BudgetFirstYearAmounts budgetFirstYearAmounts = BudgetFirstYearAmounts.Factory.newInstance();
@@ -343,8 +345,8 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
                 }
                 if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_1) {
                     totalFedCost = budgetPeriod.getTotalCost();
-                    totalFedEstimation = totalFedCost.divide(new ScaleTwoDecimal(4), false);
-                    costShareEstimation = costSharing.divide(new ScaleTwoDecimal(4), false);
+                    totalFedEstimation = totalFedCost.bigDecimalValue().divide(new ScaleTwoDecimal(4).bigDecimalValue(), RoundingMode.HALF_UP);
+                    costShareEstimation = costSharing.bigDecimalValue().divide(new ScaleTwoDecimal(4).bigDecimalValue(), RoundingMode.HALF_UP);
                     totalEstimation = totalFedEstimation.add(costShareEstimation);                    
                 }
             }
@@ -355,27 +357,27 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
 
             budgetForecastedCashNeeds.setBudgetFirstYearAmounts(budgetFirstYearAmounts);
 
-            budgetFirstQuarterAmounts.setBudgetFederalForecastedAmount(totalFedEstimation.bigDecimalValue());
-            budgetFirstQuarterAmounts.setBudgetNonFederalForecastedAmount(costShareEstimation.bigDecimalValue());
-            budgetFirstQuarterAmounts.setBudgetTotalForecastedAmount(totalEstimation.bigDecimalValue());
+            budgetFirstQuarterAmounts.setBudgetFederalForecastedAmount(totalFedEstimation);
+            budgetFirstQuarterAmounts.setBudgetNonFederalForecastedAmount(costShareEstimation);
+            budgetFirstQuarterAmounts.setBudgetTotalForecastedAmount(totalEstimation);
 
             budgetForecastedCashNeeds.setBudgetFirstQuarterAmounts(budgetFirstQuarterAmounts);
 
-            budgetSecondQuarterAmounts.setBudgetFederalForecastedAmount(totalFedEstimation.bigDecimalValue());
-            budgetSecondQuarterAmounts.setBudgetNonFederalForecastedAmount(costShareEstimation.bigDecimalValue());
-            budgetSecondQuarterAmounts.setBudgetTotalForecastedAmount(totalEstimation.bigDecimalValue());
+            budgetSecondQuarterAmounts.setBudgetFederalForecastedAmount(totalFedEstimation);
+            budgetSecondQuarterAmounts.setBudgetNonFederalForecastedAmount(costShareEstimation);
+            budgetSecondQuarterAmounts.setBudgetTotalForecastedAmount(totalEstimation);
 
             budgetForecastedCashNeeds.setBudgetSecondQuarterAmounts(budgetSecondQuarterAmounts);
 
-            budgetThirdQuarterAmounts.setBudgetFederalForecastedAmount(totalFedEstimation.bigDecimalValue());
-            budgetThirdQuarterAmounts.setBudgetNonFederalForecastedAmount(costShareEstimation.bigDecimalValue());
-            budgetThirdQuarterAmounts.setBudgetTotalForecastedAmount(totalEstimation.bigDecimalValue());
+            budgetThirdQuarterAmounts.setBudgetFederalForecastedAmount(totalFedEstimation);
+            budgetThirdQuarterAmounts.setBudgetNonFederalForecastedAmount(costShareEstimation);
+            budgetThirdQuarterAmounts.setBudgetTotalForecastedAmount(totalEstimation);
 
             budgetForecastedCashNeeds.setBudgetThirdQuarterAmounts(budgetThirdQuarterAmounts);
 
-            budgetFourthQuarterAmounts.setBudgetFederalForecastedAmount(totalFedEstimation.bigDecimalValue());
-            budgetFourthQuarterAmounts.setBudgetNonFederalForecastedAmount(costShareEstimation.bigDecimalValue());
-            budgetFourthQuarterAmounts.setBudgetTotalForecastedAmount(totalEstimation.bigDecimalValue());
+            budgetFourthQuarterAmounts.setBudgetFederalForecastedAmount(totalFedEstimation);
+            budgetFourthQuarterAmounts.setBudgetNonFederalForecastedAmount(costShareEstimation);
+            budgetFourthQuarterAmounts.setBudgetTotalForecastedAmount(totalEstimation);
 
             budgetForecastedCashNeeds.setBudgetFourthQuarterAmounts(budgetFourthQuarterAmounts);
         }        

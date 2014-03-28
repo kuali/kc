@@ -1294,23 +1294,23 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails personDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 if (s2SUtilService.keyPersonEqualsBudgetPerson(keyPerson, personDetails)) {
-                    ScaleTwoDecimal numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(), personDetails.getEndDate());
+                    BigDecimal numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(), personDetails.getEndDate()).bigDecimalValue();
                     if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_ACADEMIC_MONTHS)) {
-                        ScaleTwoDecimal academicMonths = personDetails.getPercentEffort().multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false);
+                        BigDecimal academicMonths = personDetails.getPercentEffort().bigDecimalValue().multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01).bigDecimalValue());
                         if (lineItem.getBudgetCategoryCode().equals(SENIOR_PERSONNEL_CATEGORY_CODE)) {
-                            compensationInfo.setAcademicMonths(compensationInfo.getAcademicMonths().add(academicMonths));
+                            compensationInfo.setAcademicMonths(compensationInfo.getAcademicMonths().add(new ScaleTwoDecimal(academicMonths)));
                         }
                     }
                     else if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_SUMMER_MONTHS)) {
-                        ScaleTwoDecimal summerMonths = personDetails.getPercentEffort().multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false);
+                        BigDecimal summerMonths = personDetails.getPercentEffort().bigDecimalValue().multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01).bigDecimalValue());
                         if (lineItem.getBudgetCategoryCode().equals(SENIOR_PERSONNEL_CATEGORY_CODE)) {
-                            compensationInfo.setSummerMonths(compensationInfo.getSummerMonths().add(summerMonths));
+                            compensationInfo.setSummerMonths(compensationInfo.getSummerMonths().add(new ScaleTwoDecimal(summerMonths)));
                         }
                     }
                     else {
-                        ScaleTwoDecimal calendarMonths = personDetails.getPercentEffort().multiply(numberOfMonths, false).multiply(new ScaleTwoDecimal(0.01), false);
+                        BigDecimal calendarMonths = personDetails.getPercentEffort().bigDecimalValue().multiply(numberOfMonths).multiply(new ScaleTwoDecimal(0.01).bigDecimalValue());
                         if (lineItem.getBudgetCategoryCode().equals(SENIOR_PERSONNEL_CATEGORY_CODE)) {
-                            compensationInfo.setCalendarMonths(compensationInfo.getCalendarMonths().add(calendarMonths));
+                            compensationInfo.setCalendarMonths(compensationInfo.getCalendarMonths().add(new ScaleTwoDecimal(calendarMonths)));
                         }
                     }
                     ScaleTwoDecimal totalSal = personDetails.getSalaryRequested();

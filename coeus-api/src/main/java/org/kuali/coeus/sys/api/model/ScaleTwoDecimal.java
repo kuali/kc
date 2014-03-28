@@ -34,7 +34,7 @@ public final class ScaleTwoDecimal extends AbstractDecimal<ScaleTwoDecimal> {
     public static final int SCALE = 2;
 
     public static final ScaleTwoDecimal ZERO = new ScaleTwoDecimal(0);
-
+    public static final ScaleTwoDecimal ONE_HUNDRED = new ScaleTwoDecimal(100);
     /**
      * This constructor should never be called except during JAXB unmarshalling.
      */
@@ -75,22 +75,7 @@ public final class ScaleTwoDecimal extends AbstractDecimal<ScaleTwoDecimal> {
     }
 
     @Override
-    protected ScaleTwoDecimal newInstance(String value) {
-        return new ScaleTwoDecimal(value);
-    }
-
-    @Override
-    protected ScaleTwoDecimal newInstance(double value) {
-        return new ScaleTwoDecimal(value);
-    }
-
-    @Override
-    protected ScaleTwoDecimal newInstance(double value, int scale) {
-        return new ScaleTwoDecimal(value, scale);
-    }  
-
-    @Override
-    protected ScaleTwoDecimal newInstance(BigDecimal value) {
+    protected ScaleTwoDecimal newInstance(int value) {
         return new ScaleTwoDecimal(value);
     }
 
@@ -105,7 +90,7 @@ public final class ScaleTwoDecimal extends AbstractDecimal<ScaleTwoDecimal> {
     }
 
     public ScaleTwoDecimal percentage(ScaleTwoDecimal rate){
-        return multiply(rate).divide(new ScaleTwoDecimal(100));
+        return multiply(rate).divide(ONE_HUNDRED);
     }
 
     /**
