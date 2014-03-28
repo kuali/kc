@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
@@ -26,7 +27,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
-import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -56,7 +56,7 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
             primaryKeys.put("proposalNumber", proposalNumber);
             proposal = (DevelopmentProposal) KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(DevelopmentProposal.class, primaryKeys);
             if (proposal != null) {
-                KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
+                KcServiceLocator.getService(ProposalBudgetStatusService.class).loadBudgetStatus(proposal);
             }
         }
         pdForm.setProposalToSummarize(proposal);
@@ -90,7 +90,7 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
 
                 if (budget.getFinalVersionFlag() != null && Boolean.TRUE.equals(budget.getFinalVersionFlag())) {
                     DevelopmentProposal proposal = (DevelopmentProposal)budget.getBudgetDocument().getParentDocument().getBudgetParent();
-                    KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(proposal);
+                    KcServiceLocator.getService(ProposalBudgetStatusService.class).loadBudgetStatus(proposal);
                     budget.setBudgetStatus(proposal.getBudgetStatus());
                 }
                 else {

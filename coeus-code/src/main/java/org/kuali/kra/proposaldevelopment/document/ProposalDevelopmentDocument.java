@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.auth.task.Task;
@@ -43,7 +44,6 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
-import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -301,7 +301,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         super.prepareForSave();
         if (!isProposalDeleted()) {
             getDevelopmentProposal().updateS2sOpportunity();
-            KcServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
+            KcServiceLocator.getService(ProposalBudgetStatusService.class).saveBudgetFinalVersionStatus(this);
             if (getBudgetDocumentVersions() != null) {
                 updateDocumentDescriptions(getBudgetDocumentVersions());
             }
@@ -312,7 +312,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
         if (!isProposalDeleted()) {
-            KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this.getDevelopmentProposal());
+            KcServiceLocator.getService(ProposalBudgetStatusService.class).loadBudgetStatus(this.getDevelopmentProposal());
             getDevelopmentProposal().updateProposalChangeHistory();
         }
     }
@@ -387,12 +387,12 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     @Override
     public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
-        KcServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
+        KcServiceLocator.getService(ProposalBudgetStatusService.class).saveBudgetFinalVersionStatus(this);
     }
 
     @Override
     public void processAfterRetrieveForBudget(BudgetDocument budgetDocument) {
-        KcServiceLocator.getService(ProposalStatusService.class).loadBudgetStatusByProposalDocumentNumber(budgetDocument.getParentDocumentKey());
+        KcServiceLocator.getService(ProposalBudgetStatusService.class).loadBudgetStatusByProposalDocumentNumber(budgetDocument.getParentDocumentKey());
     }
 
     @Override
