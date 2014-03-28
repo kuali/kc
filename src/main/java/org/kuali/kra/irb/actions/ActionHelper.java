@@ -188,6 +188,8 @@ public class ActionHelper extends ActionHelperBase {
     private ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
     private transient ProtocolSubmitActionService protocolSubmitActionService;
 
+    private boolean currentUserAuthorizedToAssignCommittee = true;
+    
     /*
      * Identifies the protocol "document" to print.
      */
@@ -526,7 +528,12 @@ public class ActionHelper extends ActionHelperBase {
             // pass in the current committee id and the doc route status to the committee finder service
             Collection<? extends CommitteeBase<?, ?, ?>> committees = 
                 getCommitteeIdByUnitValuesFinderService().getAssignmentCommittees(null, getDocRouteStatus(), protocolNotifyIrbBean.getCommitteeId());
-            notifyIrbActionCommitteeIdByUnitKeyValues = getKeyValuesForCommitteeSelection(committees);
+            if(!committees.isEmpty()) {
+                notifyIrbActionCommitteeIdByUnitKeyValues = getKeyValuesForCommitteeSelection(committees);
+                setCurrentUserAuthorizedToAssignCommittee(true);
+            }else {
+                setCurrentUserAuthorizedToAssignCommittee(false);
+            }
         }        
     }
 
@@ -1763,6 +1770,14 @@ public class ActionHelper extends ActionHelperBase {
             }
         }
         setCorrespondencesToPrint(printOptions);
+    }
+
+    public boolean isCurrentUserAuthorizedToAssignCommittee() {
+        return currentUserAuthorizedToAssignCommittee;
+    }
+
+    public void setCurrentUserAuthorizedToAssignCommittee(boolean currentUserAuthorizedToAssignCommittee) {
+        this.currentUserAuthorizedToAssignCommittee = currentUserAuthorizedToAssignCommittee;
     }
 
 }
