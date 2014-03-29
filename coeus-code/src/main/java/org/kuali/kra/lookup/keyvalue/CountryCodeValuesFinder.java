@@ -42,7 +42,6 @@ public class CountryCodeValuesFinder extends UifKeyValuesFinderBase {
             List<Country> countries = countryService.findAllCountries();
             Country defaultCountry = countryService.getCountry(getDefaultCountryCode());;
             List<KeyValue> keyValues = new ArrayList<KeyValue>();
-            keyValues.add(new ConcreteKeyValue("", "select: "));
             if (defaultCountry != null) keyValues.add(new ConcreteKeyValue(defaultCountry.getAlternateCode(), defaultCountry.getName()));
             for (Iterator<Country> iter = countries.iterator(); iter.hasNext();) {
                 Country country = (Country) iter.next();
