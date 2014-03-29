@@ -50,10 +50,10 @@ import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
+import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.XPathExecutor;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.Element;
@@ -447,9 +447,9 @@ public class PrintServiceImpl implements PrintService {
 
 	protected void setValidationErrorMessage(List<AuditError> errors) {
 		LOG.info("Error list size:" + errors.size() + errors.toString());
-		List<AuditError> auditErrors = new ArrayList<AuditError>();
+		List<org.kuali.rice.kns.util.AuditError> auditErrors = new ArrayList<>();
 		for (AuditError error : errors) {
-			auditErrors.add(new AuditError(error.getErrorKey(),
+			auditErrors.add(new org.kuali.rice.kns.util.AuditError(error.getErrorKey(),
 					Constants.GRANTS_GOV_GENERIC_ERROR_KEY, error.getLink(),
 					new String[] { error.getMessageKey() }));
 		}

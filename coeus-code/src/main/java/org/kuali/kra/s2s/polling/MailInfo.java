@@ -88,7 +88,7 @@ public class MailInfo {
     /**
      * Setter for property mailMessage.
      * 
-     * @param MailMessage New value of property dunsNumber.
+     * @param mailMessage New value of property dunsNumber.
      */
     public void setMailMessage(MailMessage mailMessage) {
         this.mailMessage = mailMessage;

@@ -57,10 +57,10 @@ import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.kra.s2s.depend.ArgValueLookupService;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -404,7 +404,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	    if (answer !=null && answer.equals(YesNoDataType.Y_YES)) {
 	        String answerExplanation = getAnswer(ANSWER_111);
 	        if (answerExplanation != null) {
-	            Collection<ArgValueLookup> argDescription = KcServiceLocator.getService(BusinessObjectService.class).findAll(ArgValueLookup.class);
+	            Collection<ArgValueLookup> argDescription = KcServiceLocator.getService(ArgValueLookupService.class).findAllArgValueLookups();
 	            if (argDescription != null) {
 	                for (ArgValueLookup argValue : argDescription) {
 	                    if (argValue.getValue().equals(answerExplanation)) {
