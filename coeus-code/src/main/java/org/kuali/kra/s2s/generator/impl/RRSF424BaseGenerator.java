@@ -16,18 +16,14 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
-import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.depend.SponsorHierarchyService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This abstract class has methods that are common to all the versions of RRSF424 form.
@@ -38,6 +34,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected S2SUtilService s2sUtilService;
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
     protected ParameterService parameterService;
+    protected SponsorHierarchyService sponsorHierarchyService;
     private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
     protected static final String PRINCIPAL_INVESTIGATOR = "PI";
     protected static final int PRE_APPLICATION = 6;
@@ -66,6 +63,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
         parameterService = KcServiceLocator.getService(ParameterService.class);
+        sponsorHierarchyService = KcServiceLocator.getService(SponsorHierarchyService.class);
     }
 
     /**
@@ -87,8 +85,6 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
      * 
      * @param pdDoc(ProposalDevelopmentDocument)
      *            proposal development document.
-     * @param contactType(String)
-     *            for which the DepartmentalPerson has to be found.
      * @return depPerson(DepartmentalPerson) corresponding to the contact type.
      */
     protected DepartmentalPerson getContactPerson(
@@ -104,14 +100,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
      * @return
      */
     public boolean isSponsorInHierarchy(Sponsorable sponsorable, String sponsorHierarchy,String level1) {
-        Map<String, String> valueMap = new HashMap<String, String>();
-        valueMap.put("sponsorCode", sponsorable.getSponsorCode());
-        valueMap.put("hierarchyName", sponsorHierarchy);
-        valueMap.put("level1", level1);
-        int matchingHierarchies = KcServiceLocator.getService(BusinessObjectService.class)
-                .countMatching(SponsorHierarchy.class, valueMap);
-        
-        return matchingHierarchies > 0;
+        return sponsorHierarchyService.isSponsorInHierarchy(sponsorable.getSponsorCode(), sponsorHierarchy, 1, level1);
     }
     
 }

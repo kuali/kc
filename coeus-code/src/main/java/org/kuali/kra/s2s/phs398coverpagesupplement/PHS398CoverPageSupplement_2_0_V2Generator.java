@@ -29,6 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
@@ -41,7 +42,6 @@ import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementBaseGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -218,8 +218,8 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
             coverPageSupplement.setIsChangeOfPDPI(YesNoDataType.Y_YES);
             if (explanation != null) {
-                BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-                Rolodex rolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class, explanation); 
+                RolodexService rolodexService = KcServiceLocator.getService(RolodexService.class);
+                Rolodex rolodex = rolodexService.getRolodex(Integer.valueOf(explanation));
                 HumanNameDataType formerPDName = globLibV20Generator
                         .getHumanNameDataType(rolodex);
                 if (formerPDName != null

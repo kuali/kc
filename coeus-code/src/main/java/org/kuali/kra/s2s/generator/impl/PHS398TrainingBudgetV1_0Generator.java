@@ -40,14 +40,14 @@ import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.depend.TrainingStipendRateService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.IndirectCostDetails;
 import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
+import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -78,7 +78,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private static final String BUDGET_PERIOD = "period";
     private S2SBudgetCalculatorService s2sBudgetCalculatorService;
     private ParameterService parameterService;
-    private BusinessObjectService businessObjectService;
+    private TrainingStipendRateService trainingStipendRateService;
     private static final int PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130 = 130;
 
     private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD1 = { 2, 5, 8, 11, 53, 54, 56 };
@@ -102,7 +102,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     public PHS398TrainingBudgetV1_0Generator() {
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
         parameterService = KcServiceLocator.getService(ParameterService.class);
-        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        trainingStipendRateService = KcServiceLocator.getService(TrainingStipendRateService.class);
     }
 
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
@@ -127,7 +127,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         }
 
 
-        HashMap hmbudgetinfo = new HashMap();
 
         int numPeople = 0;
 
@@ -176,7 +175,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
          *********************************/
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            hmbudgetinfo = new HashMap();
             PHS398TrainingBudgetYearDataType phs398TrainingBudgetYearDataType = trainingBudgetType.addNewBudgetYear();
             ScaleTwoDecimal trainingTraveCost = getBudgetPeriodCost(budgetPeriod,TRAINEE_TRAVEL_COST_ELEMENTS);
             phs398TrainingBudgetYearDataType.setTraineeTravelRequested(trainingTraveCost.bigDecimalValue());
@@ -1097,7 +1095,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     }
     private BigDecimal getStipendAmount(BudgetPeriod budgetPeriod, String careerLevel, int experienceLevel, int numPeople) {
         BigDecimal stipendCost = ScaleTwoDecimal.ZERO.bigDecimalValue();
-        List<TrainingStipendRate> trainingStipendRates = (List<TrainingStipendRate>)businessObjectService.findAll(TrainingStipendRate.class);
+        List<TrainingStipendRate> trainingStipendRates = trainingStipendRateService.findAllTrainingStipendRates();
         QueryList<TrainingStipendRate> trainingStipendRatesQueryList = new QueryList<TrainingStipendRate>(trainingStipendRates);
         Equals eqStartDate = new Equals("effectiveDate",budgetPeriod.getStartDate());
         LesserThan ltStartDate = new LesserThan("effectiveDate",budgetPeriod.getStartDate());

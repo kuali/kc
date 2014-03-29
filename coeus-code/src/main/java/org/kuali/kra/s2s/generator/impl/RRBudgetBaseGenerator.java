@@ -42,10 +42,10 @@ import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.printing.GenericPrintable;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -84,7 +84,6 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 
 	protected static final int OTHERPERSONNEL_MAX_ALLOWED = 6;
 	protected static final int ARRAY_LIMIT_IN_SCHEMA = 4;
-	protected static final String SPONSOR_GROUPS = "SPONSOR GROUPS";
 	protected static final String NID_PD_PI = "PD/PI";
 	protected static final String NID_CO_PD_PI = "CO-INVESTIGATOR";		
 	protected static final String KEYPERSON_CO_PD_PI = "CO-PD/PI";
@@ -122,7 +121,6 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 	}
 	
 	protected Narrative saveAdditionalEquipments(BudgetPeriodInfo periodInfo,List<CostInfo> extraEquipmentArrayList) {
-//		List<EquipmentInfo> equipmentInfoList = periodInfo.getEquipment();
 	    Narrative narrative = null;
 		if (extraEquipmentArrayList.size() > 0) {
 			AdditionalEquipmentList additionalEquipmentList = AdditionalEquipmentList.Factory

@@ -21,12 +21,12 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.DOMBuilder;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.util.AuditError;
+import org.kuali.kra.s2s.util.AuditError;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class S2SErrorHandler {
@@ -56,8 +56,7 @@ public class S2SErrorHandler {
             org.w3c.dom.Document errorsDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream);
             Document document = new DOMBuilder().build(errorsDocument);
             Element root = document.getRootElement();
-            for (Iterator errorsElementIt = root.getChildren("Error").iterator(); errorsElementIt.hasNext();) {
-                Element errorElement = (Element) errorsElementIt.next();
+            for (Element errorElement : (List<Element>) root.getChildren("Error")) {
                 String errorKey = errorElement.getChildTextTrim("ErrorKey");
                 String messageKey = errorElement.getChildTextTrim("MessageKey");
                 String errorMessage = errorElement.getChildTextTrim("Message");
@@ -67,7 +66,6 @@ public class S2SErrorHandler {
                 AuditError s2sError = new AuditError(errorKey == null ? Constants.NO_FIELD : errorKey, errorMessage, errorFixLink);
                 auditErrorMap.put(messageKey, s2sError);
             }
-           //            }
         }
         catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
