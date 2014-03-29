@@ -1120,8 +1120,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public void populateSponsorForms(ActionForm form) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ProposalDevelopmentPrintingService printService = KcServiceLocator.getService(ProposalDevelopmentPrintingService.class);
-        printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
+        //ProposalDevelopmentPrintingService printService = KcServiceLocator.getService(ProposalDevelopmentPrintingService.class);
+        getProposalDevelopmentPrintingService().populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
     }
     
     public void streamToResponse(List<SponsorFormTemplate> printFormTemplates, String proposalNumber, String contentType, String ReportName, HttpServletResponse response) throws Exception{
@@ -1633,7 +1633,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         return kraWorkflowService;
     }
-
+    
     public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
         this.kraWorkflowService = kraWorkflowService;
     }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.action;
+package org.kuali.coeus.propdev.impl.approve;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -29,9 +29,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.*;
-import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
@@ -52,7 +50,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
     private static final String LINE_NUMBER = "line";
 
     private SpecialReviewService specialReviewService;
-
+ 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
@@ -137,8 +135,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
     public void populateSponsorForms(ActionForm form) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ProposalDevelopmentPrintingService printService = KcServiceLocator.getService(ProposalDevelopmentPrintingService.class);
-        printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
+        getProposalDevelopmentPrintingService().populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
     }
 
     public ActionForward viewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
@@ -169,13 +166,12 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
         return viewProtocolUrl;
     }
 
-    public SpecialReviewService getSpecialReviewService() {
+    protected SpecialReviewService getSpecialReviewService() {
         if (specialReviewService == null) {
             specialReviewService = KcServiceLocator.getService(SpecialReviewService.class);
         }
         return specialReviewService;
     }
-
 
     public ActionForward printBudgetForm(ActionMapping mapping,
             ActionForm form, HttpServletRequest request,
@@ -183,12 +179,10 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();       
         BudgetDocument budgetDocument = getS2SBudgetCalculatorService() .getFinalBudgetVersion(document);
-        BudgetPrintService budgetPrintService = KcServiceLocator
-        .getService(BudgetPrintService.class);
         Budget budget = budgetDocument.getBudget();
         Integer selectedLine = getSelectedLine(request);
         if(budget.getBudgetPrintForms().isEmpty()){
-            budgetPrintService.populateBudgetPrintForms(budget);
+            getBudgetPrintService().populateBudgetPrintForms(budget);
         }
         String budgetFormToPrint = budget.getBudgetPrintForms().get(selectedLine).getBudgetReportId();
         if(proposalDevelopmentForm.getSelectedBudgetPrint()!=null && budgetFormToPrint !=null){
@@ -202,7 +196,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
 
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
         if (budgetFormToPrint != null) {
-            AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budget,budgetFormToPrint);
+            AttachmentDataSource dataStream = getBudgetPrintService().readBudgetPrintStream(budget,budgetFormToPrint);
             if(dataStream.getContent()!=null){
                 streamToResponse(dataStream, response);
                 forward = null;
