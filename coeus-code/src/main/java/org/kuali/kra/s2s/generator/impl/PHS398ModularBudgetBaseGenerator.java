@@ -20,8 +20,8 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
-import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
 /**
@@ -35,7 +35,7 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 	private static final String EMPTY_STRING = " ";
 	private static final String COMMA_SEPERATOR = ",";
 	protected S2SUtilService s2sUtilService;
-	protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
+	protected ProposalBudgetService proposalBudgetService;
 	protected static final int PERSONNEL_JUSTIFICATION_CODE = 35;
 	protected static final int CONSORTIUM_JUSTIFICATION_CODE = 36;
 	protected static final int NARRATIVE_JUSTIFICATION_CODE = 37;
@@ -46,8 +46,8 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 	 */
 	public PHS398ModularBudgetBaseGenerator() {
 		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-		s2sBudgetCalculatorService = KcServiceLocator
-				.getService(S2SBudgetCalculatorService.class);
+        proposalBudgetService = KcServiceLocator
+				.getService(ProposalBudgetService.class);
 	}
 
 	/**

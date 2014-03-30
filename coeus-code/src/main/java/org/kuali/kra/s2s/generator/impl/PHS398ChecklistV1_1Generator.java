@@ -36,8 +36,8 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -157,10 +157,10 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
 
 		Budget budget = null;
 		try {
-			BudgetDocument budgetDocument = s2sBudgetCalculatorService
+			BudgetDocument budgetDocument = proposalBudgetService
 					.getFinalBudgetVersion(pdDoc);
 			budget = budgetDocument == null ? null : budgetDocument.getBudget();
-		} catch (S2SException e) {
+		} catch (WorkflowException e) {
 			LOG.error(e.getMessage(), e);
 			return phsChecklistDocument;
 		}

@@ -73,7 +73,6 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sSubmissionType;
-import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -1122,33 +1121,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         getProposalDevelopmentPrintingService().populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
     }
-    
-    public void streamToResponse(List<SponsorFormTemplate> printFormTemplates, String proposalNumber, String contentType, String ReportName, HttpServletResponse response) throws Exception{
-        
-        
-        byte[] sftByteStream = KcServiceLocator.getService(PrintService.class).printProposalSponsorForms(proposalNumber, printFormTemplates);
-        
-        if(sftByteStream == null) {
-            return;
-        }
-        ByteArrayOutputStream baos = null;
-        try{
-            baos = new ByteArrayOutputStream(sftByteStream.length);
-            baos.write(sftByteStream);
-            
-            WebUtils.saveMimeOutputStreamAsFile(response, contentType, baos, ReportName);
-            
-        }finally{
-            try{
-                if(baos!=null){
-                    baos.close();
-                    baos = null;
-                }
-            }catch(IOException ioEx){
-                LOG.warn(ioEx.getMessage(), ioEx);
-            }
-        }
-}
 
     
     /**

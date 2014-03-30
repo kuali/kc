@@ -33,6 +33,7 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Class for generating the XML object for grants.gov ED524BudgetV1_0. Form is generated using XMLBean classes and is based on
@@ -90,9 +91,9 @@ public class ED524BudgetV1_0Generator extends ED524BudgetBaseGenerator {
 
         BudgetDocument budgetDoc = null;
         try {
-            budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
         }
-        catch (S2SException e) {
+        catch (WorkflowException e) {
             LOG.error(e.getMessage(), e);
             return ed524BudgetDocument;
         }

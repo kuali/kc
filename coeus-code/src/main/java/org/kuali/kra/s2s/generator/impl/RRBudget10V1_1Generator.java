@@ -436,7 +436,7 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * OtherDirectCosts details in BudgetYearDataType based on BudgetPeriodInfo
      * for the RRBudget10.
      * 
-     * @param OtherDirectCosts otherDirectCosts xmlObject
+     * @param otherDirectCosts otherDirectCosts xmlObject
      * @param periodInfo
      *            (BudgetPeriodInfo) budget period entry.
      */
@@ -794,7 +794,7 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                         keyPersonDataType.setProjectRole(keyPerson.getRole());
                     }
                         if (pdDoc.getBudgetDocumentVersions() != null) {
-                            baseSalaryByPeriod = budgetService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
+                            baseSalaryByPeriod = s2sBudgetCalculatorService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
                                     .getBudgetVersionOverview().getBudgetId(), periodInfo.getBudgetPeriod(), keyPerson);
                             if (baseSalaryByPeriod != null) {
                                 keyPersonDataType.setBaseSalary(baseSalaryByPeriod.bigDecimalValue());

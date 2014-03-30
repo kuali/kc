@@ -52,8 +52,8 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -95,10 +95,10 @@ public class PHS398ModularBudgetV1_1Generator extends
 
 		Budget budget = null;
 		try {
-			BudgetDocument budgetDocument = s2sBudgetCalculatorService
+			BudgetDocument budgetDocument = proposalBudgetService
 					.getFinalBudgetVersion(pdDoc);
 			budget = budgetDocument == null ? null : budgetDocument.getBudget();
-		} catch (S2SException e) {
+		} catch (WorkflowException e) {
 			LOG.error(e.getMessage(), e);
 			return modularBudgetDocument;
 		}

@@ -55,8 +55,8 @@ import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.question.Question;
-import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
@@ -314,8 +314,8 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	private BudgetDocument getBudgetDocument() {
 		BudgetDocument budgetDoc = null;
 		try {
-			budgetDoc = s2SBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
-		} catch (S2SException e) {
+			budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
+		} catch (WorkflowException e) {
 			LOG.error("Error while getting Budget", e);
 		}
 		return budgetDoc;

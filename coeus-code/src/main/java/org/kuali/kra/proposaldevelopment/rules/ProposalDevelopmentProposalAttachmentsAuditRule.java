@@ -30,8 +30,8 @@ import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -155,7 +155,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
                 try {
                 String budgetCostElement = getParameterService().getParameterValueAsString("KC-GEN","A","POST_DOCTORAL_COSTELEMENT");                        
                     BudgetDocument bdDoc = KcServiceLocator.getService(
-                            S2SBudgetCalculatorService.class).getFinalBudgetVersion(
+                            ProposalBudgetService.class).getFinalBudgetVersion(
                             proposalDevelopmentDocument); 
                     if(bdDoc != null && bdDoc.getBudget() != null 
                             && bdDoc.getBudget().getBudgetPeriods() != null){

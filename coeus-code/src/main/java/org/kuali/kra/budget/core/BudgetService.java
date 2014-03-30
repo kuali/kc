@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.budget.core;
 
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -25,7 +24,6 @@ import org.kuali.kra.budget.personnel.ValidCeJobCode;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.Collection;
@@ -52,8 +50,7 @@ public interface BudgetService<T extends BudgetParent>  {
     /**
      * 
      * This method check if activity type changed, then display confirmation message on 'open' budget version.
-     * @param pdDoc
-     * @param budgetVersionNumbe
+     * @param budget
      * @return
      */
     public boolean checkActivityTypeChange(BudgetParentDocument<T> pdDoc, Budget budget);
@@ -70,8 +67,7 @@ public interface BudgetService<T extends BudgetParent>  {
     /**
      * 
      * This method returns the saved Proposal Rates collection.
-     * @param pdDoc
-     * @param budgetVersionNumbe
+     * @param budget
      * @return Collection<BudgetRate>
      */
 
@@ -89,8 +85,7 @@ public interface BudgetService<T extends BudgetParent>  {
     /**
      * This method returns the applicable Object Codes (Cost Elements) for a given Budget Person 
      * based on his Job Code
-     * @param proposalNumber
-     * @param budgetVersionNumber
+     * @param budgetId
      * @param personSequenceNumber
      * @return List of Cost Elements
      */
@@ -99,9 +94,9 @@ public interface BudgetService<T extends BudgetParent>  {
     /**
      * 
      * This method returns the applicable Object Codes (Cost Elements) for a given Budget Person, converted to string separated by ",".
-     * @param proposalNumber
-     * @param budgetVersionNumber
+     * @param budgetId
      * @param personSequenceNumber
+     * @param budgetCategoryTypeCode
      * @return List of Cost Elements
      */
     public String getApplicableCostElementsForAjaxCall(Long budgetId, String personSequenceNumber, String budgetCategoryTypeCode);
@@ -143,7 +138,7 @@ public interface BudgetService<T extends BudgetParent>  {
      * 
      * This method to invoke audit rule check for budget if status is final only
      * This is called by PD's turnon validation
-     * @param proposalDevelopmentDocument
+     * @param parentDocument
      * @return
      */
     public boolean validateBudgetAuditRule(BudgetParentDocument<T> parentDocument) throws Exception;
@@ -159,8 +154,6 @@ public interface BudgetService<T extends BudgetParent>  {
     
     
     public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId);
-    
-    public ScaleTwoDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo keyPerson );
     
     public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod);
     

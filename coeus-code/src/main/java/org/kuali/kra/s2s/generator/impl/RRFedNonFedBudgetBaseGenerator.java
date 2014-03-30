@@ -23,6 +23,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -48,6 +49,7 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
     private static final Log LOG = LogFactory.getLog(RRFedNonFedBudgetBaseGenerator.class);
 
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
+    protected ProposalBudgetService proposalBudgetService;
     protected S2SUtilService s2sUtilService;
     private DocumentService documentService ;
     protected BudgetService budgetService;
@@ -70,6 +72,7 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
         budgetService = KcServiceLocator.getService(BudgetService.class);
         documentService = KcServiceLocator.getService(DocumentService.class);
+        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
     }
     
     /**
@@ -115,7 +118,12 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
     protected boolean validateBudgetForForm(ProposalDevelopmentDocument pdDoc) throws S2SException {
         boolean valid = true;
 
-        BudgetDocument budget = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+        BudgetDocument budget = null;
+        try {
+            budget = proposalBudgetService.getFinalBudgetVersion(pdDoc);
+        } catch (WorkflowException e) {
+            throw new S2SException(e);
+        }
         if(budget != null) {
             for (BudgetPeriod period : budget.getBudget().getBudgetPeriods()) {
                 List<String> participantSupportCode = new ArrayList<String>();

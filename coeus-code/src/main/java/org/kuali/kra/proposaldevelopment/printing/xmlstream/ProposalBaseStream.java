@@ -24,10 +24,10 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.List;
@@ -59,9 +59,9 @@ public abstract class ProposalBaseStream implements XmlStream {
 		BudgetDocument bdDoc = null;
 		try {
 			bdDoc = KcServiceLocator.getService(
-                    S2SBudgetCalculatorService.class).getFinalBudgetVersion(
+                    ProposalBudgetService.class).getFinalBudgetVersion(
 					proposalDevelopmentDocument);
-		} catch (S2SException e) {
+		} catch (WorkflowException e) {
 			LOG.error("Error while fetching final Budget Version", e);
 		}
 

@@ -47,7 +47,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.web.format.FormatException;
@@ -804,26 +803,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     public void setFiscalYearMonthService(FiscalYearMonthService fiscalYearMonthService) {
         this.fiscalYearMonthService = fiscalYearMonthService;
     }
-    @Override
-    public ScaleTwoDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo person ) {
-        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
-        final Integer listIndex = 0;
-        ScaleTwoDecimal baseSalaryByPeriod = null;
-        HashMap budgetPersonInPeriodsSalaryMap = new HashMap();
-        budgetPersonInPeriodsSalaryMap.put("budgetId", budgetId);
-        if (person.getPersonId() != null) {
-            budgetPersonInPeriodsSalaryMap.put("personId", person.getPersonId());
-        } else {
-            budgetPersonInPeriodsSalaryMap.put("personId", person.getRolodexId());
-        }
-        budgetPersonInPeriodsSalaryMap.put("budgetPeriod", budgetPeriod);
-        Collection<BudgetPersonSalaryDetails> personSalaryDetails = boService.findMatchingOrderBy(BudgetPersonSalaryDetails.class, budgetPersonInPeriodsSalaryMap,"personSequenceNumber",true);
-        List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = (List<BudgetPersonSalaryDetails>) personSalaryDetails;
-        if (budgetPersonSalaryDetails != null && budgetPersonSalaryDetails.size() > 0) {
-            baseSalaryByPeriod = budgetPersonSalaryDetails.get(listIndex).getBaseSalary();
-        }
-        return baseSalaryByPeriod;
-    }
+
     @Override
     public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId ){
         String baseSalary = "";

@@ -46,6 +46,7 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -308,9 +309,14 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		budget.setFederalEstimatedAmount(BigDecimal.ZERO);
 		budget.setTotalEstimatedAmount(BigDecimal.ZERO);
 
-		org.kuali.kra.budget.core.Budget budgetDoc = s2sBudgetCalculatorService
-				.getFinalBudgetVersion(pdDoc).getBudget();
-		if (budgetDoc != null) {
+        org.kuali.kra.budget.core.Budget budgetDoc = null;
+        try {
+            budgetDoc = proposalBudgetService
+                    .getFinalBudgetVersion(pdDoc).getBudget();
+        } catch (WorkflowException e) {
+            throw new S2SException(e);
+        }
+        if (budgetDoc != null) {
 			budget.setFederalEstimatedAmount(budgetDoc.getTotalCost()
 					.bigDecimalValue());
 			budget.setApplicantEstimatedAmount(budgetDoc.getCostSharingAmount()

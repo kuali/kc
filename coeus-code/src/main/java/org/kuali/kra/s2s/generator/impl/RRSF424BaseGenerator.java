@@ -17,6 +17,7 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.depend.SponsorHierarchyService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -35,6 +36,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
     protected ParameterService parameterService;
     protected SponsorHierarchyService sponsorHierarchyService;
+    protected ProposalBudgetService proposalBudgetService;
     private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
     protected static final String PRINCIPAL_INVESTIGATOR = "PI";
     protected static final int PRE_APPLICATION = 6;
@@ -64,6 +66,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
         parameterService = KcServiceLocator.getService(ParameterService.class);
         sponsorHierarchyService = KcServiceLocator.getService(SponsorHierarchyService.class);
+        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
     }
 
     /**
