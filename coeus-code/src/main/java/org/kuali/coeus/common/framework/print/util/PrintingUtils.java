@@ -17,7 +17,6 @@ package org.kuali.coeus.common.framework.print.util;
 
 import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
 import org.kuali.coeus.common.framework.print.PrintConstants;
-import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.award.printing.AwardPrintType;
@@ -34,7 +33,6 @@ import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPri
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.location.api.state.State;
@@ -85,7 +83,6 @@ public class PrintingUtils {
 	 * @param parameter
 	 *            String for which value must be fetched
 	 * @return String System constant parameters.
-	 * @see org.kuali.kra.s2s.service.S2SUtilService#getParameterValue(java.lang.String)
 	 */
 	public static String getParameterValue(String parameter) {
 		ParameterService parameterService = KcServiceLocator
@@ -112,7 +109,6 @@ public class PrintingUtils {
 	 * @param stateName
 	 *            Name of the state
 	 * @return State object matching the name.
-	 * @see org.kuali.kra.s2s.service.S2SUtilService#getStateFromName(java.lang.String)
 	 */
     public static State getStateFromName(String countryAlternateCode, String stateName) {
         Country country = getCountryService().getCountryByAlternateCode(countryAlternateCode);
@@ -236,7 +232,7 @@ public class PrintingUtils {
             }
         }
 
-		Source src = new StreamSource(new PrintingUtils().getClass()
+		Source src = new StreamSource(PrintingUtils.class
 				.getResourceAsStream(XSL_CONTEXT_DIR + "/" + xsl));
 
 		ArrayList<Source> sourceList = new ArrayList<Source>();
@@ -245,7 +241,7 @@ public class PrintingUtils {
 	}
 
     public static ArrayList<Source> getXSLTforReportTemplate(String reportTemplate) {
-        Source src = new StreamSource(new PrintingUtils().getClass()
+        Source src = new StreamSource(PrintingUtils.class
                 .getResourceAsStream(XSL_CONTEXT_DIR + "/" + reportTemplate));
 
         ArrayList<Source> sourceList = new ArrayList<Source>();
@@ -259,10 +255,8 @@ public class PrintingUtils {
 	 * @param countryCode
 	 *            country code for the country.
 	 * @return Country object matching the code
-	 * @see org.kuali.kra.s2s.service.S2SUtilService#getCountryFromCode(java.lang.String)
 	 */
-	public static Country getCountryFromCode(String countryCode,
-			BusinessObjectService businessObjectService) {
+	public static Country getCountryFromCode(String countryCode) {
 	    CountryService countryService = KcServiceLocator.getService(CountryService.class);
 	    Country country = countryService.getCountryByAlternateCode(countryCode);
 		return country;
@@ -273,7 +267,6 @@ public class PrintingUtils {
      * 
      * @param proposalPersons Proposal development document.
      * @return ProposalPerson PrincipalInvestigator for the proposal.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getPrincipalInvestigator(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     public static ProposalPerson getPrincipalInvestigator(List<ProposalPerson> proposalPersons) {
         ProposalPerson proposalPerson = null;

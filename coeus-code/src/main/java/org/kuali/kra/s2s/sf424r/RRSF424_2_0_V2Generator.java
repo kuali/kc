@@ -145,7 +145,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 		funding.setEstimatedProgramIncome(BigDecimal.ZERO);
 		boolean hasBudgetLineItem = false;
 		try {
-			budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+			budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
 		} catch (Exception e) {
 			LOG.error("Error while fetching Budget document", e);
 			return funding;

@@ -178,7 +178,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();       
-        BudgetDocument budgetDocument = getS2SBudgetCalculatorService() .getFinalBudgetVersion(document);
+        BudgetDocument budgetDocument = getProposalBudgetService().getFinalBudgetVersion(document);
         Budget budget = budgetDocument.getBudget();
         Integer selectedLine = getSelectedLine(request);
         if(budget.getBudgetPrintForms().isEmpty()){

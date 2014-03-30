@@ -12,7 +12,7 @@ public interface BudgetSubAwardsService {
      * List if no items exist.
      * @param budgetId the budget Id.  Cannot be blank.
      * @return a list of {@link BudgetSubAwards}s or an empty list.
-     * @throws IllegalArgumentException if the budgetId is blank
+     * @throws IllegalArgumentException if the budgetId is null
      */
     List<BudgetSubAwards> findBudgetSubAwardsByBudgetId(Long budgetId);
 
@@ -22,7 +22,7 @@ public interface BudgetSubAwardsService {
      * @param budgetId the budget Id.  Cannot be blank.
      * @param namespace the namespace.  Cannot be blank.
      * @return a list of {@link BudgetSubAwards}s or an empty list.
-     * @throws IllegalArgumentException if the budgetId is blank, if the namespace is blank
+     * @throws IllegalArgumentException if the budgetId is null, if the namespace is blank
      */
     List<BudgetSubAwards> findBudgetSubAwardsByBudgetIdAndNamespace(Long budgetId, String namespace);
 
@@ -31,7 +31,7 @@ public interface BudgetSubAwardsService {
      * Will return an empty List if no items exist.
      * @param budgetId the budget Id.  Cannot be blank.
      * @return a list of {@link BudgetSubAwards}s or an empty list.
-     * @throws IllegalArgumentException if the budgetId is blank
+     * @throws IllegalArgumentException if the budgetId is null
      */
     List<BudgetSubAwards> findBudgetSubAwardsByBudgetIdAndNullNamespace(Long budgetId);
 }

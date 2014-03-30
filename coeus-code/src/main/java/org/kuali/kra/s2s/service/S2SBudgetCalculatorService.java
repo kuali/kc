@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.s2s.service;
 
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -25,6 +26,7 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
 import org.kuali.kra.s2s.generator.bo.BudgetSummaryInfo;
 import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
+import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 
 import java.util.List;
 
@@ -72,16 +74,6 @@ public interface S2SBudgetCalculatorService {
 
     /**
      * 
-     * This method returns the final version of {@link BudgetDocument} for a given {@link ProposalDevelopmentDocument}
-     * 
-     * @param pdDoc Proposal development document.
-     * @return BudgetDocument final version of budget corresponding to the ProposalDevelopmentDocument object.
-     * @throws S2SException
-     */
-    public BudgetDocument getFinalBudgetVersion(ProposalDevelopmentDocument pdDoc) throws S2SException;
-
-    /**
-     * 
      * This method determines whether a {@link ProposalPerson} is a Non MIT person
      * 
      * @param proposalPerson ProposalPerson.
@@ -97,5 +89,7 @@ public interface S2SBudgetCalculatorService {
      * @return IndirectCostInfo for the corresponding BudgetPeriod object.
      */
     public IndirectCostInfo getIndirectCosts(Budget budget,BudgetPeriod budgetPeriod);
+
+    public ScaleTwoDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo keyPerson );
 
 }

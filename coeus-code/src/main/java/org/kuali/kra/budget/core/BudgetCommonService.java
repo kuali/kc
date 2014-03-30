@@ -27,7 +27,7 @@ public interface BudgetCommonService<T extends BudgetParent> {
     /**
      * Returns a new finalized BudgetDocument based on the given ProposalDevelopmentDocument and documentDescription.
      * 
-     * @param pdDoc
+     * @param parentDocument
      * @param documentDescription
      * @return BudgetDocument
      * @throws WorkflowException

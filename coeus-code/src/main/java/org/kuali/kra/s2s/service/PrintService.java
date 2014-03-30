@@ -30,26 +30,11 @@ public interface PrintService {
 	/**
 	 * This method is used for the printing of forms in PDF format
 	 * 
-	 * @param pdDoc(ProposalDevelopmentDocument)
+	 * @param pdDoc (ProposalDevelopmentDocument)
 	 * @throws S2SException
 	 * 
 	 */
 	public AttachmentDataSource printForm(ProposalDevelopmentDocument pdDoc)
 			throws S2SException, PrintingException;
 
-	/**
-	 * 
-	 * Prints the proposal sponsor forms by passing the given proposal
-	 * information to {@link ProposalPrintReader}
-	 * 
-	 * @param proposalNumber
-	 *            proposal number.
-	 * @param sponsorFormTemplates
-	 *            list of SponsorFormTemplate.
-	 * @return byte array of forms corresponding to the proposal number and
-	 *         SponsorFormTemplate objects.
-	 * @throws S2SException
-	 */
-	public byte[] printProposalSponsorForms(String proposalNumber,
-			List<SponsorFormTemplate> sponsorFormTemplates) throws S2SException;
 }

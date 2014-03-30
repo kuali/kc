@@ -52,13 +52,13 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionType;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.impl.SF424BaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * This Class is used to generate XML object for grants.gov SF424V2.1. This form is generated using XMLBean classes and is based on
@@ -318,9 +318,9 @@ public class SF424V2_1Generator extends SF424BaseGenerator {
 
         Budget budget = null;
         try {
-            BudgetDocument budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            BudgetDocument budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
             budget = budgetDocument == null ? null : budgetDocument.getBudget();
-        } catch (S2SException e) {
+        } catch (WorkflowException e) {
             LOG.error(e.getMessage(), e);
             return sf424V21;
 

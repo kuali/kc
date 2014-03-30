@@ -46,10 +46,10 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.printing.GenericPrintable;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -104,12 +104,12 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
             validateBudgetForForm(pdDoc);
             budgetPeriodList = s2sBudgetCalculatorService.getBudgetPeriods(pdDoc);
             budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc,budgetPeriodList);
-            BudgetDocument budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            BudgetDocument budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
             if (budgetDocument != null) {
                 budget = budgetDocument.getBudget();
             }
         }
-        catch (S2SException e) {
+        catch (WorkflowException e) {
             LOG.error(e.getMessage(), e);
             return rrFedNonFedBudgetDocument;
         }
@@ -1715,7 +1715,7 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
             }
             keyPersonCompensation.setTotal(totalDataType);
             if (pdDoc.getBudgetDocumentVersions() != null) {
-                baseSalaryByPeriod = budgetService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
+                baseSalaryByPeriod = s2sBudgetCalculatorService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
                         .getBudgetVersionOverview().getBudgetId(), budgetPeriod, keyPerson);
                 if (baseSalaryByPeriod != null) {
                     keyPersonCompensation.setBaseSalary(baseSalaryByPeriod.bigDecimalValue());
@@ -1736,7 +1736,7 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
     }
 
     /**
-     * This method creates {@link XmlObject} of type {@link RRFedNonFedBudgetDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type {@link RRFedNonFedBudget10Document} by populating data from the given
      * {@link ProposalDevelopmentDocument}
      * 
      * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
