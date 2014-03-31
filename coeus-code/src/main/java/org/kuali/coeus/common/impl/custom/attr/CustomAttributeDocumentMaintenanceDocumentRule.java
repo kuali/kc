@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.impl.custom.attr;
 
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
-import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;

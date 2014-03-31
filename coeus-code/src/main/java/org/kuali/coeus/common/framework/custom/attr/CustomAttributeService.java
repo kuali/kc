@@ -16,7 +16,6 @@
 package org.kuali.coeus.common.framework.custom.attr;
 
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
-import org.kuali.kra.bo.CustomAttributeDocument;
 
 import java.util.List;
 import java.util.Map;
