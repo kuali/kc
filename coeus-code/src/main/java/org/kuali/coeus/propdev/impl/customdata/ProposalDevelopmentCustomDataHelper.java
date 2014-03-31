@@ -16,16 +16,14 @@
 package org.kuali.coeus.propdev.impl.customdata;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.custom.CustomDataHelperBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
 import org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeStatusValuesFinder;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.krad.document.Document;
-
 import java.util.List;
 import java.util.Map;
 

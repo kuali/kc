@@ -18,6 +18,7 @@ package org.kuali.kra.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.impl.custom.CustomDataRule;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalRoleTemplateService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

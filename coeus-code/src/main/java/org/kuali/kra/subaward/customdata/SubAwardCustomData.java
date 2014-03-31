@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.subaward.customdata;
 
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.DocumentCustomData;
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.kra.subaward.bo.SubAwardAssociate;
 
 

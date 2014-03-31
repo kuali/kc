@@ -3,7 +3,7 @@
   <bean id="CustomAttributeDataTypeMaintenanceDocument" parent="CustomAttributeDataTypeMaintenanceDocument-parentBean"/>
 
   <bean id="CustomAttributeDataTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.CustomAttributeDataType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataType"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
