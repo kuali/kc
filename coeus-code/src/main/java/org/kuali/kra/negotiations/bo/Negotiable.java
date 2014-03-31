@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.bo;
 
-import org.kuali.kra.proposaldevelopment.bo.ProposalType;
+import org.kuali.coeus.common.framework.type.ProposalType;
 
 import java.util.List;
 
