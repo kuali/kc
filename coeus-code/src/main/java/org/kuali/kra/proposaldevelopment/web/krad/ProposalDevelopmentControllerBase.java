@@ -25,6 +25,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
@@ -81,6 +82,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("lookupService")
     private LookupService lookupService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     protected DocumentFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalDevelopmentDocumentForm();
@@ -242,5 +247,13 @@ public abstract class ProposalDevelopmentControllerBase {
 
 	public void setLookupService(LookupService lookupService) {
 		this.lookupService = lookupService;
+	}
+
+	protected DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
 	}
 }

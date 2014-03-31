@@ -22,8 +22,8 @@
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
 		p:breadcrumbs.render="false" p:cssClasses="uif-formView"
 		p:unifiedHeader="false" p:defaultBindingObjectPath=""
-		p:additionalScriptFiles="scripts/kradQuestionnaireAnswer.js,scripts/proposaldevelopment.js"
-		p:additionalCssFiles="css/proposaldevelopment.css">
+		p:additionalScriptFiles="rice-contrib/plugins/jquery.multiselect/jquery.multiselect.min.js,rice-contrib/plugins/jquery.multiselect/jquery.multiselect.filter.min.js,rice-contrib/multiselect.js,scripts/kradQuestionnaireAnswer.js,scripts/proposaldevelopment.js"
+		p:additionalCssFiles="rice-contrib/plugins/jquery.multiselect/jquery.multiselect.css,rice-contrib/plugins/jquery.multiselect/jquery.multiselect.filter.css,rice-contrib/multiselect.css,css/proposaldevelopment.css">
 		<property name="header" ref="PropDev-DocumentHeader" />
 		<property name="footer" ref="PropDev-DocumentFooter" />
 		<property name="navigation" ref="PropDev-Menu" />

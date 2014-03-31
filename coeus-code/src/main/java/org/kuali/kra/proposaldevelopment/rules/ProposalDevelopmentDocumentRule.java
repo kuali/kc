@@ -366,7 +366,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
             for ( PropScienceKeyword keyword2 : keywords ) {
                 if ( keyword == keyword2 ) {
                     continue;
-                } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeywordCode(), keyword2.getScienceKeywordCode()) ) {
+                } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeyword().getScienceKeywordCode(), keyword2.getScienceKeyword().getScienceKeywordCode()) ) {
                     GlobalVariables.getMessageMap().putError("propScienceKeyword", "error.proposalKeywords.duplicate");
                    
                     return false;

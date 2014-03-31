@@ -25,6 +25,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 
 @Entity
@@ -32,16 +33,14 @@ import java.io.Serializable;
 @IdClass(PropScienceKeyword.PropScienceKeywordId.class)
 public class PropScienceKeyword extends KcPersistableBusinessObjectBase implements HierarchyMaintainable {
 
-    @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
+	@Id
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER", insertable = true, updatable = true)
+    private DevelopmentProposal developmentProposal;
 
     @Id
-    @Column(name = "SCIENCE_KEYWORD_CODE")
-    private String scienceKeywordCode;
-
-    @ManyToOne(targetEntity = ScienceKeyword.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "SCIENCE_KEYWORD_CODE", referencedColumnName = "SCIENCE_KEYWORD_CODE", insertable = false, updatable = false)
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "SCIENCE_KEYWORD_CODE", insertable = true, updatable = true)
     private ScienceKeyword scienceKeyword;
 
     @Transient
@@ -54,33 +53,14 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
     @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
-    public PropScienceKeyword() {
-    }
-
-    public PropScienceKeyword(String proposalNumber, ScienceKeyword scienceKeyword) {
-        this.proposalNumber = proposalNumber;
-
-        this.scienceKeywordCode = scienceKeyword.getScienceKeywordCode();
+    public PropScienceKeyword() { }
+    
+    public PropScienceKeyword(DevelopmentProposal developmentProposal2, ScienceKeyword scienceKeyword) {
+        this.developmentProposal = developmentProposal2;
         this.scienceKeyword = scienceKeyword;
     }
 
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
-
-    public String getScienceKeywordCode() {
-        return scienceKeywordCode;
-    }
-
-    public void setScienceKeywordCode(String scienceKeywordCode) {
-        this.scienceKeywordCode = scienceKeywordCode;
-    }
-
-    public ScienceKeyword getScienceKeyword() {
+	public ScienceKeyword getScienceKeyword() {
         return scienceKeyword;
     }
 
@@ -94,37 +74,6 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
 
     public void setSelectKeyword(Boolean selectKeyword) {
         this.selectKeyword = selectKeyword;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((proposalNumber == null) ? 0 : proposalNumber.hashCode());
-        result = prime * result + ((scienceKeywordCode == null) ? 0 : scienceKeywordCode.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        PropScienceKeyword other = (PropScienceKeyword) obj;
-        if (proposalNumber == null) {
-            if (other.proposalNumber != null)
-                return false;
-        } else if (!proposalNumber.equals(other.proposalNumber))
-            return false;
-        if (scienceKeywordCode == null) {
-            if (other.scienceKeywordCode != null)
-                return false;
-        } else if (!scienceKeywordCode.equals(other.scienceKeywordCode))
-            return false;
-        return true;
     }
 
     /**
@@ -161,29 +110,13 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
 
     public static final class PropScienceKeywordId implements Serializable, Comparable<PropScienceKeywordId> {
 
-        private String proposalNumber;
+        private String developmentProposal;
 
-        private String scienceKeywordCode;
-
-        public String getProposalNumber() {
-            return this.proposalNumber;
-        }
-
-        public void setProposalNumber(String proposalNumber) {
-            this.proposalNumber = proposalNumber;
-        }
-
-        public String getScienceKeywordCode() {
-            return this.scienceKeywordCode;
-        }
-
-        public void setScienceKeywordCode(String scienceKeywordCode) {
-            this.scienceKeywordCode = scienceKeywordCode;
-        }
+        private String scienceKeyword;
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("scienceKeywordCode", this.scienceKeywordCode).toString();
+            return new ToStringBuilder(this).append("developmentProposal", this.developmentProposal).append("scienceKeyword", this.scienceKeyword).toString();
         }
 
         @Override
@@ -195,17 +128,53 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
             if (other.getClass() != this.getClass())
                 return false;
             final PropScienceKeywordId rhs = (PropScienceKeywordId) other;
-            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.scienceKeywordCode, rhs.scienceKeywordCode).isEquals();
+            return new EqualsBuilder().append(this.developmentProposal, rhs.developmentProposal).append(this.scienceKeyword, rhs.scienceKeyword).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.scienceKeywordCode).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.developmentProposal).append(this.scienceKeyword).toHashCode();
         }
 
         @Override
         public int compareTo(PropScienceKeywordId other) {
-            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.scienceKeywordCode, other.scienceKeywordCode).toComparison();
+            return new CompareToBuilder().append(this.developmentProposal, other.developmentProposal).append(this.scienceKeyword, other.scienceKeyword).toComparison();
+        }
+
+		public String getDevelopmentProposal() {
+			return developmentProposal;
+		}
+
+		public void setDevelopmentProposal(String developmentProposal) {
+			this.developmentProposal = developmentProposal;
+		}
+
+		public String getScienceKeyword() {
+			return scienceKeyword;
+		}
+
+		public void setScienceKeyword(String scienceKeyword) {
+			this.scienceKeyword = scienceKeyword;
+		}
+    }
+
+	public DevelopmentProposal getDevelopmentProposal() {
+		return developmentProposal;
+	}
+
+	public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+		this.developmentProposal = developmentProposal;
+	}
+	
+    @Override
+    /**
+     * current workaround to fix KRAD/Spring selecting to multiselect options for the Many-To-Many relationship.
+     */
+    public String toString() {
+        if (scienceKeyword != null) { 
+        	return scienceKeyword.getScienceKeywordCode();
+        } else {
+        	return super.toString();
         }
     }
 }

@@ -539,7 +539,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      */
     protected void synchronizeKeywords(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, List<PropScienceKeyword> oldKeywords) {
         for (PropScienceKeyword keyword : childProposal.getPropScienceKeywords()) {
-            PropScienceKeyword newKeyword = new PropScienceKeyword(hierarchyProposal.getProposalNumber(), keyword.getScienceKeyword());
+            PropScienceKeyword newKeyword = new PropScienceKeyword(hierarchyProposal, keyword.getScienceKeyword());
             int index = oldKeywords.indexOf(newKeyword);
             if (index > -1) {
                 newKeyword = oldKeywords.get(index);
@@ -1450,7 +1450,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             result = prime * result + narrative.hierarchyHashCode();
         }
         for (PropScienceKeyword keyword : proposal.getPropScienceKeywords()) {
-            result = prime * result + keyword.getScienceKeywordCode().hashCode();
+            result = prime * result + keyword.getScienceKeyword().getScienceKeywordCode().hashCode();
         }
         for (ProposalSpecialReview review : proposal.getPropSpecialReviews()) {
             result = prime * result + review.hierarchyHashCode();
