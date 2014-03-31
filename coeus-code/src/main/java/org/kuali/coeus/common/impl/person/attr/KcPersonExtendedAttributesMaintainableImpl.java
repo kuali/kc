@@ -15,14 +15,17 @@
  */
 package org.kuali.coeus.common.impl.person.attr;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.custom.CustomDataHelperBase;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
+import org.kuali.coeus.common.framework.person.attr.PersonCustomData;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
-import org.kuali.kra.bo.CustomDataHelper;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -177,5 +180,46 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
         WorkflowDocumentService documentService = KewApiServiceLocator.getWorkflowDocumentService();
         Document doc = documentService.getDocument(getDocumentNumber());
         return doc.getStatus() == DocumentStatus.SAVED || doc.getStatus() == DocumentStatus.INITIATED;
+    }
+    
+    public class CustomDataHelper extends CustomDataHelperBase<PersonCustomData> implements Serializable {
+
+        private static final long serialVersionUID = -6829522940099878931L;
+        
+        private KcPersonExtendedAttributesMaintainableImpl maintainableImpl;
+        private Map<String, CustomAttributeDocument> customAttributeDocuments;
+        
+        public CustomDataHelper(KcPersonExtendedAttributesMaintainableImpl maintainableImpl) {
+            this.maintainableImpl = maintainableImpl;
+            customAttributeDocuments = getCustomAttributeService().getDefaultCustomAttributeDocuments("PERS", 
+                    maintainableImpl.getDataObject() != null ? ((KcPersonExtendedAttributes) maintainableImpl.getDataObject()).getPersonCustomDataList() : new ArrayList<PersonCustomData>());
+        }
+
+        @Override
+        protected PersonCustomData getNewCustomData() {
+            return new PersonCustomData();
+        }
+
+        @Override
+        public List<PersonCustomData> getCustomDataList() {
+            if (maintainableImpl.getDataObject() != null) {
+                return ((KcPersonExtendedAttributes) maintainableImpl.getDataObject()).getPersonCustomDataList();
+            } else {
+                return new ArrayList<PersonCustomData>();
+            }
+        }
+
+        public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
+            return customAttributeDocuments;
+        }
+
+        public void setCustomAttributeDocuments(Map<String, CustomAttributeDocument> customAttributeDocuments) {
+            this.customAttributeDocuments = customAttributeDocuments;
+        }
+
+        @Override
+        public boolean documentNotRouted() {
+            return maintainableImpl.documentNotRouted();
+        }
     }
 }

@@ -3,7 +3,7 @@
   <bean id="CustomAttributeMaintenanceDocument" parent="CustomAttributeMaintenanceDocument-parentBean"/>
 
   <bean id="CustomAttributeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.CustomAttribute"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.custom.attr.CustomAttribute"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -21,7 +21,7 @@
     
     
     <property name="documentTypeName" value="CustomAttributeMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.rules.CustomAttributeMaintenanceDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.impl.custom.attr.CustomAttributeMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     <property name="webScriptFiles">

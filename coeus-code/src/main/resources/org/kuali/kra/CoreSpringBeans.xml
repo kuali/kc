@@ -1246,7 +1246,7 @@
         <property name="parameterService" ref="parameterService" />
     </bean>
     
-    <bean id="customAttributeService" class="org.kuali.kra.service.impl.CustomAttributeServiceImpl">
+    <bean id="customAttributeService" class="org.kuali.coeus.common.impl.custom.attr.CustomAttributeServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
