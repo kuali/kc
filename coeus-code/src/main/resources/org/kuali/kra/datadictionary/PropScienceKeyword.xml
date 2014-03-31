@@ -27,7 +27,7 @@
   <bean id="PropScienceKeyword-proposalNumber" parent="PropScienceKeyword-proposalNumber-parentBean" />
 
   <bean id="PropScienceKeyword-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalNumber" />
+    <property name="name" value="developmentProposal.proposalNumber" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Proposal Number" />
     <property name="shortLabel" value="Proposal Number" />
@@ -50,7 +50,7 @@
 
   <bean id="PropScienceKeyword-scienceKeywordCode" parent="PropScienceKeyword-scienceKeywordCode-parentBean"/>
   <bean id="PropScienceKeyword-scienceKeywordCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="scienceKeywordCode" />
+    <property name="name" value="scienceKeyword.scienceKeywordCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Science Keyword Code" />
     <property name="shortLabel" value="Science Keyword Code" />
@@ -108,8 +108,8 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="scienceKeywordCode"/>
+              <bean parent="FieldDefinition" p:attributeName="propScienceKeywordId.proposalNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="propScienceKeywordId.scienceKeywordCode"/>
             </list>
           </property>
         </bean>
@@ -127,8 +127,8 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
-              <bean p:propertyName="scienceKeywordCode" parent="Uif-DataField"/>
+              <bean p:propertyName="propScienceKeywordId.proposalNumber" parent="Uif-DataField"/>
+              <bean p:propertyName="propScienceKeywordId.scienceKeywordCode" parent="Uif-DataField"/>
             </list>
           </property>
         </bean>
@@ -147,14 +147,14 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="scienceKeywordCode"/>
+        <bean parent="FieldDefinition" p:attributeName="propScienceKeywordId.proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="propScienceKeywordId.scienceKeywordCode"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="scienceKeywordCode"/>
+        <bean parent="FieldDefinition" p:attributeName="propScienceKeywordId.proposalNumber" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="propScienceKeywordId.scienceKeywordCode"/>
       </list>
     </property>
   </bean>
@@ -175,14 +175,14 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="scienceKeywordCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="propScienceKeywordId.proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="propScienceKeywordId.scienceKeywordCode" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="scienceKeywordCode" parent="Uif-DataField"/>
+        <bean p:propertyName="propScienceKeywordId.proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="propScienceKeywordId.scienceKeywordCode" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

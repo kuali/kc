@@ -945,7 +945,8 @@
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/KcComponents.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/LandingPageView.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/Questionnaire.xml</value>  
-                <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifNavigationBar.xml</value>              
+                <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifNavigationBar.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifMultiSelect.xml</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">

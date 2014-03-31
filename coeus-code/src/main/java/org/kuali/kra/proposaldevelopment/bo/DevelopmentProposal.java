@@ -211,8 +211,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<ProposalSpecialReview> propSpecialReviews;
 
-    @OneToMany(targetEntity = PropScienceKeyword.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<PropScienceKeyword> propScienceKeywords;
 
     @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
@@ -1227,7 +1226,14 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     }
 
     public void setPropScienceKeywords(List<PropScienceKeyword> propScienceKeywords) {
-        this.propScienceKeywords = propScienceKeywords;
+    	if (propScienceKeywords != null) {
+    		this.propScienceKeywords = propScienceKeywords;
+    	} else {
+    		this.propScienceKeywords.clear();
+    	}
+    	for (PropScienceKeyword keyword : this.propScienceKeywords) {
+    		keyword.setDevelopmentProposal(this);
+    	}
     }
 
     public List<PropScienceKeyword> getPropScienceKeywords() {
@@ -1683,19 +1689,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
             getPropSpecialReviews().add(new ProposalSpecialReview());
         }
         return getPropSpecialReviews().get(index);
-    }
-
-    /**
-     * Gets index i from the propScienceKeywords list.
-     * 
-     * @param index
-     * @return Question at index i
-     */
-    public PropScienceKeyword getPropScienceKeyword(int index) {
-        while (getPropScienceKeywords().size() <= index) {
-            getPropScienceKeywords().add(new PropScienceKeyword());
-        }
-        return getPropScienceKeywords().get(index);
     }
 
     /**
