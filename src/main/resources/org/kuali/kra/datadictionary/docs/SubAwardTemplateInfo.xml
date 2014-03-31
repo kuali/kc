@@ -66,7 +66,6 @@
     <property name="label" value="SOW/Budget specified in proposal " />
     <property name="shortLabel" value="SOW/Budget specified in proposal " />
     <property name="maxLength" value="1" />
-    <property name="required" value="true" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
@@ -79,21 +78,11 @@
   
   <bean id="SubAwardTemplateInfo-subProposalDate" parent="SubAwardTemplateInfo-subProposalDate-parentBean" />
   
-  <bean id="SubAwardTemplateInfo-subProposalDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAwardTemplateInfo-subProposalDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="subProposalDate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="SubProposal Date" />
     <property name="shortLabel" value="SubProposal Date" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="SubProposal Date" />
     <property name="description" value="SubProposal Date" />    
   </bean> 
@@ -109,7 +98,6 @@
       <bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
     </property>
-    <property name="required" value="true" />
     <property name="control" >
     <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.ContactType"
@@ -134,7 +122,6 @@
       <bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
     </property>
-    <property name="required" value="true" />
     <property name="control" >
     <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.ContactType"
@@ -159,7 +146,6 @@
       <bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
     </property>
-    <property name="required" value="true" />
     <property name="control" >
     <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.ContactType"
@@ -184,7 +170,6 @@
       <bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
     </property>
-    <property name="required" value="true" />
     <property name="control" >
     <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.ContactType"
@@ -209,7 +194,6 @@
       <bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
     </property>
-    <property name="required" value="true" />
     <property name="control" >
     <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.ContactType"
@@ -230,7 +214,6 @@
     <property name="label" value="Performance Site same as Org address?" />
     <property name="shortLabel" value="Performance Site same as Org address?" />
     <property name="maxLength" value="10" />
-    <property name="required" value="true" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
@@ -247,7 +230,6 @@
     <property name="label" value="Performance Site same as PI address?" />
     <property name="shortLabel" value="Performance Site same as PI address?" />
     <property name="maxLength" value="10" />
-    <property name="required" value="true" />
     <property name="control" >
      <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
@@ -264,7 +246,6 @@
     <property name="label" value="Sub Registered in CCR?" />
     <property name="shortLabel" value="Sub Registered in CCR?" />
     <property name="maxLength" value="10" />
-    <property name="required" value="true" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
@@ -281,7 +262,6 @@
     <property name="label" value="Exempt from Reporting exec compensation" />
     <property name="shortLabel" value="Exempt from Reporting exec compensation" />
     <property name="maxLength" value="10" />
-    <property name="required" value="true" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
@@ -302,7 +282,6 @@
       <bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
     </property>
-    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="20" />
@@ -322,7 +301,6 @@
       <bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
     </property>
-    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="20" />
@@ -338,7 +316,6 @@
     <property name="label" value="Exempt from reporting exec compensation" />
     <property name="shortLabel" value="Exempt from reporting exec compensation" />
     <property name="maxLength" value="10" />
-    <property name="required" value="true" />
     <property name="control" >
      <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
@@ -359,7 +336,6 @@
       <bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
     </property>
-    <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.subaward.bo.SubAwardCopyRightsType"
@@ -380,7 +356,6 @@
     <property name="label" value="Automatic Carry Forward" />
     <property name="shortLabel" value="Automatic Carry Forward" />
     <property name="maxLength" value="1" />
-    <property name="required" value="true" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
@@ -401,7 +376,6 @@
       <bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
     </property>
-    <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.ContactType"
@@ -422,7 +396,6 @@
     <property name="label" value="Treatment of Program Income Additive" />
     <property name="shortLabel" value="Treatment of Program Income Additive" />
     <property name="maxLength" value="10" />
-    <property name="required" value="true" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
@@ -443,7 +416,6 @@
       <bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
     </property>
-    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="50" />
@@ -454,21 +426,11 @@
   
   <bean id="SubAwardTemplateInfo-applicableProgramRegsDate" parent="SubAwardTemplateInfo-applicableProgramRegsDate-parentBean" />
   
-  <bean id="SubAwardTemplateInfo-applicableProgramRegsDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAwardTemplateInfo-applicableProgramRegsDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="applicableProgramRegsDate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Applicable Program Regulations Date" />
     <property name="shortLabel" value="Applicable Program Regulations Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="Applicable Program Regulations Date" />
     <property name="description" value="Applicable Program Regulations Date" />    
   </bean> 
