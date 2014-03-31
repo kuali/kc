@@ -16,7 +16,7 @@
 package org.kuali.kra.institutionalproposal.customdata;
 
 import org.kuali.coeus.common.framework.custom.CustomDataHelperBase;
-import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
