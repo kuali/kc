@@ -62,6 +62,7 @@
         <value>org.kuali.coeus.common.framework.sponsor</value>
         <value>org.kuali.coeus.common.framework.org</value>
         <value>org.kuali.coeus.common.framework.person</value>
+        <value>org.kuali.coeus.common.framework.type</value>
         <value>org.kuali.coeus.common.framework.unit</value>
         <!--converters -->
         <value>org.kuali.coeus.sys.framework.persistence</value>

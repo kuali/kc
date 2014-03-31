@@ -698,7 +698,7 @@
 		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/> 
 		</reference-descriptor>
-		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="activityType" class-ref="org.kuali.coeus.common.framework.type.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="activityTypeCode"/> 
 		</reference-descriptor>
 	</class-descriptor>
@@ -723,7 +723,7 @@
 		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/> 
 		</reference-descriptor>
-		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="activityType" class-ref="org.kuali.coeus.common.framework.type.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="activityTypeCode"/> 
 		</reference-descriptor>
 	</class-descriptor>

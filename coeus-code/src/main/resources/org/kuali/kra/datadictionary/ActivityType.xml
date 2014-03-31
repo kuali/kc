@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ActivityType" parent="ActivityType-parentBean" />
   <bean id="ActivityType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ActivityType" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.ActivityType" />
 		<property name="objectLabel" value="Activity Type" />
     <property name="inquiryDefinition" >
       <ref bean="ActivityType-inquiryDefinition" />
@@ -99,7 +99,7 @@
 
   <bean id="ActivityType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Activity Type"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ActivityType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.type.ActivityType"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -143,7 +143,7 @@
   </bean>
 
   <bean id="ActivityType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ActivityType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.type.ActivityType"/>
     <property name="headerText" value="Activity Type Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
