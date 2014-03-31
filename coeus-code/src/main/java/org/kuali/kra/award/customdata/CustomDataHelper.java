@@ -16,10 +16,10 @@
 package org.kuali.kra.award.customdata;
 
 import org.kuali.coeus.common.framework.custom.CustomDataHelperBase;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 

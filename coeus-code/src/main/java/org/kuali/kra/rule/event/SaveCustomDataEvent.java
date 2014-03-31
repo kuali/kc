@@ -17,12 +17,12 @@ package org.kuali.kra.rule.event;
 
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.impl.custom.CustomDataRule;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
