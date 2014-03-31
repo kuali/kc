@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.actions.assignCmt;
 
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 
 public interface IacucProtocolAssignCmtService {
@@ -25,5 +26,7 @@ public interface IacucProtocolAssignCmtService {
     public String getAssignedCommitteeId(ProtocolBase protocol);
     
     public String getAssignedScheduleId(ProtocolBase protocol);
+    
+    public ProtocolSubmissionBase getLastSubmission(ProtocolBase protocol);
 
 }

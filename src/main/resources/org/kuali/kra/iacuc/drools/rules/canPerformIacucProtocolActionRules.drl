@@ -28,7 +28,7 @@ end
 rule "Assign to Agenda 1"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "200", submissionStatusCode == "102", submissionTypeCode == "110")
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "200", submissionStatusCode == "102", submissionTypeCode in ("110", "111"))
 then    
     setAction(protocolAction, true);
 end
@@ -260,7 +260,7 @@ end
 rule "WithDraw Protocol 1"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "115", protocolStatusCode in ("101", "203"),  submissionStatusCode in ("101","102","103"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "115", protocolStatusCode in ("101", "202", "203"),  submissionStatusCode in ("101","102","103"))
 then    
     setAction(protocolAction, true);
 end
@@ -397,7 +397,7 @@ end
 rule "Rule 2 -  Modify Protocol Submission"
 salience 100
 when
-	protocolAction : IacucProtocolActionMapping(actionTypeCode == "309",  protocolStatusCode == '101', submissionStatusCode in ("101", "102"))
+	protocolAction : IacucProtocolActionMapping(actionTypeCode == "309",  protocolStatusCode in ("101", "202"), submissionStatusCode in ("101", "102"))
 then	
     setAction(protocolAction, true);
 end

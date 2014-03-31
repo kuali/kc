@@ -19,6 +19,7 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
@@ -109,6 +110,17 @@ public abstract class ProtocolAuthorizerBase extends TaskAuthorizerImpl {
             }
         }
         return isLocked;
+    }
+    
+    protected boolean isAdmin(String userId, String namespace, String role) {
+        return kraAuthorizationService.hasRole(userId, namespace, role);
+    }
+    
+    protected boolean isRequestForSuspension(ProtocolSubmissionBase submission, String submissionType) {
+        if (submission != null && submissionType.equals(submission.getSubmissionTypeCode())) {
+            return true;
+        }
+        return false;
     }
 
 }
