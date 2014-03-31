@@ -25,7 +25,7 @@
 <c:set var="docNumber" value="${KualiForm.document.protocol.protocolNumber}" />
 <c:set var="fullCommitteeReview" value="<%=org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType.FULL_COMMITTEE_REVIEW%>" />
 <c:set var="notifyIacucSubmissionType" value="<%=org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType.NOTIFY_IACUC%>" />
-
+<c:set var="requestSuspensionSubmissionType" value="<%=org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType.REQUEST_SUSPEND%>" />
 
 <kra:permission value="${KualiForm.actionHelper.canModifyProtocolSubmission}">
 ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySubmissionBean.numberOfReviewers")}
@@ -93,6 +93,27 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
                                 <kul:htmlControlAttribute property="actionHelper.iacucProtocolModifySubmissionBean.submissionTypeCode" 
                                                       attributeEntry="${attributes.submissionTypeCode}"
                                                       readOnly="true" />
+                            </td>
+                        </c:when>
+                        <c:when test="${KualiForm.actionHelper.iacucProtocolModifySubmissionBean.submissionTypeCode == requestSuspensionSubmissionType }">                      
+                            <th width="15%"> 
+                                <div align="right">
+                                    <kul:htmlAttributeLabel attributeEntry="${attributes.submissionTypeCode}" />
+                                </div>
+                            </th>
+                            <td>
+                                <html:select property="actionHelper.iacucProtocolModifySubmissionBean.submissionTypeCode">
+                                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.iacuc.actions.submit.IacucSubmissionTypeValuesFinder', paramMap)}" var="option">  
+                                        <c:choose>                     
+                                            <c:when test="${KualiForm.actionHelper.iacucProtocolModifySubmissionBean.submissionTypeCode == option.key}">
+                                                <option value="${option.key}" selected="selected">${option.value}</option>
+                                            </c:when>
+                                            <c:otherwise>                              
+                                                <option value="${option.key}">${option.value}</option>
+                                            </c:otherwise>
+                                        </c:choose>                                               
+                                    </c:forEach>
+                                </html:select>
                             </td>
                         </c:when>
                         <c:otherwise>

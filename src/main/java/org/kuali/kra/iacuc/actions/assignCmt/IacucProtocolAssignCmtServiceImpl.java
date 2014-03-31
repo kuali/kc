@@ -122,6 +122,10 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
         return committeeService;
     }
     
+    public ProtocolSubmissionBase getLastSubmission(ProtocolBase protocol) {
+        return findSubmission(protocol);
+    }
+    
     
     protected ProtocolSubmissionBase findSubmission(ProtocolBase protocol) {
         // need to loop thru to find the last submission.
