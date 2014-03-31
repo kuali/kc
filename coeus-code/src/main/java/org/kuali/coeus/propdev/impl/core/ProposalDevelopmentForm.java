@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.form;
+package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -29,7 +29,7 @@ import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;
 import org.kuali.coeus.propdev.impl.approve.ProposalDevelopmentApproverViewDO;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
+import org.kuali.coeus.propdev.impl.customdata.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
@@ -76,6 +76,7 @@ import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnai
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
+import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
 import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
@@ -99,13 +100,14 @@ import org.kuali.rice.kim.api.permission.PermissionQueryResults;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -228,7 +230,15 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private String narrativeStatusesChangeKey;
     private NarrativeStatus narrativeStatusesChange;
 
-    public ProposalDevelopmentForm() {
+    private ProposalRoleService proposalRoleService;
+    private KcAuthorizationService kcAuthorizationService;
+    private KcWorkflowService kcWorkflowService;
+    private UnitService unitService;
+    private TaskAuthorizationService taskAuthorizationService;
+    private DocumentDictionaryService documentDictionaryService;
+    private ProposalDevelopmentService proposalDevelopmentService;
+    
+	public ProposalDevelopmentForm() {
         super();
         initialize();        
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
@@ -250,6 +260,49 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         return this.parameterService;
     }
 
+    
+    protected ProposalRoleService getProposalRoleService() {
+		if (proposalRoleService == null )
+			proposalRoleService = KcServiceLocator.getService(ProposalRoleService.class);
+    	return proposalRoleService;
+	}
+    
+	protected KcAuthorizationService getKcAuthorizationService() {
+		if (kcAuthorizationService == null)
+			kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
+		return kcAuthorizationService;
+	}
+	
+	protected KcWorkflowService getKcWorkflowService(){
+		if (kcWorkflowService == null )
+			kcWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
+		return kcWorkflowService;
+	}
+	
+	 protected UnitService getUnitService(){
+		 if (unitService == null)
+			 unitService = KcServiceLocator.getService(UnitService.class);
+		 return unitService;
+	 }
+	 
+	 protected TaskAuthorizationService getTaskAuthorizationService (){
+		 if (taskAuthorizationService == null)
+			 taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+		 return taskAuthorizationService;
+	 }
+	 
+	 protected DocumentDictionaryService getDocumentDictionaryService() {
+	        if (documentDictionaryService == null) {
+	        	documentDictionaryService = KRADServiceLocatorWeb.getDocumentDictionaryService();
+	        }
+	        return documentDictionaryService;
+	    }
+	 
+	 protected ProposalDevelopmentService getProposalDevelopmentService(){
+		 if (proposalDevelopmentService == null)
+			 proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+		 return proposalDevelopmentService;
+	 }
     /**
      *
      * This method initialize all form variables
@@ -925,9 +978,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * @return
      */
     public Collection<Role> getKimProposalRoles() {
-        ProposalRoleService proposalRoleService = KcServiceLocator.getService(ProposalRoleService.class);
-        List<Role> proposalRoles = proposalRoleService.getRolesForDisplay();
-        
+    	List<Role> proposalRoles = getProposalRoleService().getRolesForDisplay();
         return proposalRoles;
     }
    
@@ -968,13 +1019,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * @param roleName the name of role to query for persons assigned to that role
      */
     private void addPersons(List<ProposalUserRoles> propUserRolesList, String roleName) {
-        KcAuthorizationService proposalAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-        ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
+    	ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
         
-        List<String> users = proposalAuthService.getPrincipalsInRole(doc, roleName);
+        List<String> users = getKcAuthorizationService().getPrincipalsInRole(doc, roleName);
         List<KcPerson> persons = new ArrayList<>();
         for(String userId : users) {
-            KcPerson person = kcPersonService.getKcPersonByPersonId(userId);
+            KcPerson person = getKcPersonService().getKcPersonByPersonId(userId);
             if (person != null && person.getActive()) {
                 persons.add(person);
             }
@@ -1027,8 +1077,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         
         // Query the database to find the name of the unit.
             
-        UnitService unitService = KcServiceLocator.getService(UnitService.class);
-        Unit unit = unitService.getUnit(person.getOrganizationIdentifier());
+        Unit unit = getUnitService().getUnit(person.getOrganizationIdentifier());
         if (unit != null) {
             proposalUserRoles.setUnitName(unit.getUnitName());
         }
@@ -1178,9 +1227,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
         
-        TaskAuthorizationService tas = KcServiceLocator.getService(TaskAuthorizationService.class);
         ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
-        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor",doc ))) {       
+        if( getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor",doc ))) {       
             if ( isCanSubmitToSponsor() ) {
                 String submitToGrantsGovImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_submittosponsor.gif";
                 addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
@@ -1195,12 +1243,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         }
         //check to see if they are authorized to reject the document
         
-        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("rejectProposal",doc))) {
+        if( getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("rejectProposal",doc))) {
             String resubmissionImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_reject.gif";
             addExtraButton("methodToCall.reject", resubmissionImage, "Reject");
         }
         
-        if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("deleteProposal", doc))) {
+        if (getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("deleteProposal", doc))) {
             String deleteProposalImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_deleteproposal.gif";
             addExtraButton("methodToCall.deleteProposal", deleteProposalImage, "Delete Proposal");
         }
@@ -1261,12 +1309,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public boolean isSubmissionStatusReadOnly() {
         boolean result = true;
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KcAuthorizationService proposalAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-        boolean canModify = proposalAuthService.hasPermission(userId, this.getProposalDevelopmentDocument(), PermissionConstants.MODIFY_PROPOSAL);
+        boolean canModify = getKcAuthorizationService().hasPermission(userId, this.getProposalDevelopmentDocument(), PermissionConstants.MODIFY_PROPOSAL);
         if (canModify) { result = false; }
         
-        KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
-        if(kraAuthorizationService.hasRole(userId, RoleConstants.KC_ADMIN_NAMESPACE, RoleConstants.OSP_ADMINISTRATOR)) {
+        if(getKcAuthorizationService().hasRole(userId, RoleConstants.KC_ADMIN_NAMESPACE, RoleConstants.OSP_ADMINISTRATOR)) {
             result =  false;
         }
         
@@ -1480,7 +1526,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     public boolean isInWorkflow() {
-        return KcServiceLocator.getService(KcWorkflowService.class).isInWorkflow(this.getDocument());
+        return getKcWorkflowService().isInWorkflow(this.getDocument());
     }
     
     /**
@@ -1609,7 +1655,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         if (!getProposalDevelopmentDocument().getDocumentHeader().hasWorkflowDocument()) {
            return false;
         }
-        KcTransactionalDocumentAuthorizerBase documentAuthorizer = (KcTransactionalDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(this.getDocument());
+        KcTransactionalDocumentAuthorizerBase documentAuthorizer = (KcTransactionalDocumentAuthorizerBase)getDocumentDictionaryService().getDocumentAuthorizer(this.getDocument());
+        
         Person user = GlobalVariables.getUserSession().getPerson();
         Set<String> documentActions = documentAuthorizer.getDocumentActions(this.getDocument(), user, null);
 
@@ -1622,7 +1669,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     
     public boolean isGrantsGovEnabled() {
-        return KcServiceLocator.getService(ProposalDevelopmentService.class).isGrantsGovEnabledForProposal(getProposalDevelopmentDocument().getDevelopmentProposal());
+        return getProposalDevelopmentService().isGrantsGovEnabledForProposal(getProposalDevelopmentDocument().getDevelopmentProposal());
     }
 
     /**
@@ -1817,8 +1864,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     private boolean isAuthorizedToCreateProposal() {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
-        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthenticationService.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
+        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
 
     public boolean isCanCreateProposal() {

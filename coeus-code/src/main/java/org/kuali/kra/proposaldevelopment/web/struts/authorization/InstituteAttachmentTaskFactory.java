@@ -16,10 +16,10 @@
 package org.kuali.kra.proposaldevelopment.web.struts.authorization;
 
 import org.apache.struts.action.ActionForm;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -16,7 +16,7 @@
     	<!-- End required KNS forms -->
 <!-- Rice content End -->
 
-		<form-bean name="ProposalDevelopmentForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm" />
+		<form-bean name="ProposalDevelopmentForm" type="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm" />
 		<form-bean name="ReportGenerationForm" type="org.kuali.kra.reporting.web.struts.form.ReportGenerationForm" />
 		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
 		<form-bean name="AwardBudgetForm" type="org.kuali.kra.award.budget.AwardBudgetForm" />

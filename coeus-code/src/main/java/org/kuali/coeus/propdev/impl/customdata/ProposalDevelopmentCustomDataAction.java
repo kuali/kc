@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.action;
+package org.kuali.coeus.propdev.impl.customdata;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
