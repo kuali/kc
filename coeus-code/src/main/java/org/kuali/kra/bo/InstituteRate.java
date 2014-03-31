@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.bo;
 
-import org.kuali.kra.proposaldevelopment.bo.ActivityType;
+import org.kuali.coeus.common.framework.type.ActivityType;
 
 /**
  * 
