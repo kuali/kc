@@ -20,17 +20,20 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataType;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PropertyConstants;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.document.attribute.WorkflowAttributeDefinition;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -38,18 +41,35 @@ import java.util.*;
  * This class provides the implementation of the Custom Attribute Service.
  * It provides service methods related to custom attributes.
  */
+@Component("customAttributeService")
 public class CustomAttributeServiceImpl implements CustomAttributeService {
 
     private static final String ARGVALUELOOKUPE_CLASS = "org.kuali.kra.bo.ArgValueLookup";
-    private BusinessObjectService businessObjectService;
+    
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
-    @Override
+    @Autowired
+    @Qualifier("businessObjectDictionaryService")
+	private BusinessObjectDictionaryService businessDictionaryService;
+    
+    @Autowired
+    @Qualifier("dataDictionaryService")
+    private DataDictionaryService dataDictionaryService;
+
+    @Autowired
+    @Qualifier("businessObjectService")
+	private BusinessObjectService businessObjectService;
+
+	@Override
     public Map<String, CustomAttributeDocument> getDefaultCustomAttributeDocuments(String documentTypeCode, List<? extends DocumentCustomData> customDataList) {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), documentTypeCode);
+        
         List<CustomAttributeDocument> customAttributeDocumentList = 
-            (List<CustomAttributeDocument>) getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
+            (List<CustomAttributeDocument>) businessObjectService.findMatching(CustomAttributeDocument.class, queryMap);
 
         HashSet<Long> customIds = new HashSet<Long>();
         if (customDataList != null) {
@@ -97,31 +117,12 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         workflowDocument.saveDocumentData();    
     }
 
-    /**
-     * Accessor for <code>{@link BusinessObjectService}</code>
-     *
-     * @param bos BusinessObjectService
-     */
-    public void setBusinessObjectService(BusinessObjectService bos) {
-        businessObjectService = bos;
-    }
-
-    /**
-     * Accessor for <code>{@link BusinessObjectService}</code>
-     *
-     * @return BusinessObjectService
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
     @Override
     public CustomAttributeDataType getCustomAttributeDataType(String dataTypeCode) {
 
-        Map<String, String> primaryKeys = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(dataTypeCode)) {
-            primaryKeys.put("dataTypeCode", dataTypeCode);
-            return (CustomAttributeDataType)businessObjectService.findByPrimaryKey(CustomAttributeDataType.class, primaryKeys);
+            return (CustomAttributeDataType) dataObjectService.findUnique(CustomAttributeDataType.class,
+            		QueryByCriteria.Builder.forAttribute("dataTypeCode", dataTypeCode).build());
         }
         return null;
         
@@ -131,7 +132,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
     public List getLookupReturns(String lookupClass) throws Exception {
         List<String> lookupReturns = new ArrayList<String>();
         if (ARGVALUELOOKUPE_CLASS.equals(lookupClass)) {
-            for (ArgValueLookup argValueLookup : (List<ArgValueLookup>) businessObjectService.findAll(ArgValueLookup.class)) {
+            for (ArgValueLookup argValueLookup : dataObjectService.findMatching(ArgValueLookup.class, QueryByCriteria.Builder.create().build()).getResults()) {
                 if (!lookupReturns.contains(argValueLookup.getArgumentName())) {
                     lookupReturns.add(argValueLookup.getArgumentName());
                 }
@@ -139,8 +140,6 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
             Collections.sort(lookupReturns);
         }
         else {
-            BusinessObjectDictionaryService businessDictionaryService = (BusinessObjectDictionaryService) KcServiceLocator
-                    .getService(Constants.BUSINESS_OBJECT_DICTIONARY_SERVICE_NAME);
             lookupReturns = businessDictionaryService.getLookupFieldNames(Class.forName(lookupClass));
         }
         return lookupReturns;
@@ -151,9 +150,43 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         List lookupFieldNames = getLookupReturns(lookupClass);
         String attributeNames="";
         for (Object attributeName : lookupFieldNames) {
-            attributeNames += "," + attributeName +";"+ (ARGVALUELOOKUPE_CLASS.equals(lookupClass) ? attributeName : KcServiceLocator.getService(DataDictionaryService.class).getAttributeLabel(lookupClass,attributeName.toString()));
+            attributeNames += "," + attributeName +";"+ (ARGVALUELOOKUPE_CLASS.equals(lookupClass) ? attributeName : dataDictionaryService.getAttributeLabel(lookupClass,attributeName.toString()));
         }
         return attributeNames;
     }
-    
+
+    /**
+     * Accessor for <code>{@link DataObjectService}</code>
+     *
+     * @param dataObjectService DataObjectService
+     */
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
+    /**
+     * Accessor for <code>{@link DataObjectService}</code>
+     *
+     * @return DataObjectService
+     */
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+		return dataDictionaryService;
+	}
+
+	public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+		this.dataDictionaryService = dataDictionaryService;
+	}
+
+	public BusinessObjectDictionaryService getBusinessDictionaryService() {
+		return businessDictionaryService;
+	}
+
+	public void setBusinessDictionaryService(
+			BusinessObjectDictionaryService businessDictionaryService) {
+		this.businessDictionaryService = businessDictionaryService;
+	}
 }
