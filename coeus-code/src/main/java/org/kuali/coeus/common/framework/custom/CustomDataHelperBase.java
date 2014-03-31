@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.customattributes;
+package org.kuali.coeus.common.framework.custom;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.DocumentCustomData;
-import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.io.Serializable;
@@ -38,10 +37,17 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
      * Is the end-user allowed to modify the custom data values?
      */
     private boolean modifyCustomData = false;
+
     
-    
+    protected abstract T getNewCustomData();
+
     public abstract boolean documentNotRouted(); 
-       
+        
+    public abstract List<T> getCustomDataList();
+    
+    public abstract Map<String, CustomAttributeDocument> getCustomAttributeDocuments();
+    
+    
     /**
      * This method builds the custom data collections used on the form and populates the values from the collection of AwardCustomData on the Award.
      * @param customAttributeGroups
@@ -149,13 +155,6 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
         }
         setCustomAttributeGroups(customAttributeGroups);
     }
-    
-    protected abstract T getNewCustomData();
-    
-    public abstract List<T> getCustomDataList();
-    
-    public abstract Map<String, CustomAttributeDocument> getCustomAttributeDocuments();
-    
     
     /**
      * 

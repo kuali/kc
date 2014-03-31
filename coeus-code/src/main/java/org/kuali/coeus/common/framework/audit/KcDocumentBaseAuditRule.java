@@ -15,9 +15,9 @@
  */
 package org.kuali.coeus.common.framework.audit;
 
+import org.kuali.coeus.common.impl.custom.CustomDataRule;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.rule.event.AuditCustomDataEvent;
-import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 

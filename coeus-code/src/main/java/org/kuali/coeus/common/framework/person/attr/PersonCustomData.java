@@ -15,9 +15,9 @@
  */
 package org.kuali.coeus.common.framework.person.attr;
 
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.DocumentCustomData;
 
 public class PersonCustomData extends KcPersistableBusinessObjectBase implements DocumentCustomData {
 
