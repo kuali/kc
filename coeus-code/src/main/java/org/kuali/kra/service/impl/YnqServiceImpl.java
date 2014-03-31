@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.service.impl;
 
+import org.kuali.coeus.common.framework.ynq.YnqGroupName;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.kra.bo.Ynq;
@@ -22,7 +23,6 @@ import org.kuali.kra.bo.YnqExplanationType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.YnqConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kew.api.WorkflowDocument;
