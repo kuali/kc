@@ -245,7 +245,6 @@ public class SubAwardAttachmentFormBean implements Serializable {
         this.newAttachment.setSubAwardId(this.getSubAward().getSubAwardId()); //OJB Hack.  Could not get the awardId to persist with anonymous access in repository file.
         this.getSubAward().addAttachment(this.newAttachment);
         getBusinessObjectService().save(this.newAttachment);
-        getBusinessObjectService().save(this.getSubAward());
         this.initNewAttachment();
     }
     
