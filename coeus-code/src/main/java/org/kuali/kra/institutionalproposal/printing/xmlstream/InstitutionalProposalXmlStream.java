@@ -976,13 +976,13 @@ public class InstitutionalProposalXmlStream extends
 		Map<String, String> proposalTypeDescMap = new HashMap<String, String>();
 		proposalTypeDescMap.put(PROPOSAL_TYPE_CODE, String
 				.valueOf(proposalTypeCode));
-		List<org.kuali.kra.proposaldevelopment.bo.ProposalType> proposalTypeList = null;
-		proposalTypeList = (List<org.kuali.kra.proposaldevelopment.bo.ProposalType>) businessObjectService
+		List<org.kuali.coeus.common.framework.type.ProposalType> proposalTypeList = null;
+		proposalTypeList = (List<org.kuali.coeus.common.framework.type.ProposalType>) businessObjectService
 				.findMatching(
-						org.kuali.kra.proposaldevelopment.bo.ProposalType.class,
+						org.kuali.coeus.common.framework.type.ProposalType.class,
 						proposalTypeDescMap);
 		if (proposalTypeList != null && !proposalTypeList.isEmpty()) {
-			org.kuali.kra.proposaldevelopment.bo.ProposalType proposalType = proposalTypeList
+			org.kuali.coeus.common.framework.type.ProposalType proposalType = proposalTypeList
 					.get(0);
 			proposalTypeDescription = proposalType.getDescription();
 		}

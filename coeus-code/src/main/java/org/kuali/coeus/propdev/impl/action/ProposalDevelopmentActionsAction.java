@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.print.PrintConstants;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
+import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportService;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;

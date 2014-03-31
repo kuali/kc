@@ -20,6 +20,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -27,7 +28,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
-import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 
 import java.sql.Date;
 import java.sql.Timestamp;
