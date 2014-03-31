@@ -33,6 +33,7 @@ public interface ProtocolLookupConstants {
         public static final String KEY_PERSON = "keyPerson";
         public static final String INVESTIGATOR = "investigator";
         public static final String FUNDING_SOURCE = "fundingSource";
+        public static final String FUNDING_SOURCE_NUMBER = "fundingSourceNumber";
         public static final String FUNDING_SOURCE_TYPE_CODE = "fundingSourceTypeCode";
         public static final String RESEARCH_AREA_CODE = "researchAreaCode";
         public static final String PROTOCOL_ID = "protocolId";
