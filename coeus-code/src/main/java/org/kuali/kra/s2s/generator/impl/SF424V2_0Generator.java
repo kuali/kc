@@ -175,7 +175,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         }
         sf424V2.setDateReceived(Calendar.getInstance());
         sf424V2.setApplicantID(pdDoc.getDevelopmentProposal().getProposalNumber());
-		String federalId = s2sUtilService.getFederalId(pdDoc);
+		String federalId = proposalDevelopmentService.getFederalId(pdDoc);
 		if (federalId != null) {
         	sf424V2.setFederalEntityIdentifier(federalId);
 		}

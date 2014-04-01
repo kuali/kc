@@ -486,7 +486,6 @@
         <property name="printCertificationPrint" ref="printCertificationPrint" />
         <property name="proposalSponsorFormsPrint" ref="proposalSponsorFormsPrint" />
         <property name="printingService" ref="printingService" />
-        <property name="s2SUtilService" ref="s2SUtilService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService" />
     </bean>
@@ -511,11 +510,15 @@
 
     <bean id="proposalSubmissionXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalSubmissionXmlStream" 
           parent="proposalBaseStream" />
-    
+
+    <bean id="budgetPersonService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetPersonService" />
+    </bean>
+
     <bean id="abstractResearchAndRelatedStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.AbstractResearchAndRelatedStream" abstract="true" 
           parent="proposalBaseStream">
         <property name="kcPersonService" ref="kcPersonService" />
-        <property name="s2SUtilService" ref="s2SUtilService" />
+        <property name="budgetPersonService" ref="budgetPersonService" />
     </bean>
     
     <bean id="researchAndRelatedXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ResearchAndRelatedXmlStream" 
@@ -526,6 +529,7 @@
         <property name="parameterService" ref="parameterService" />
         <property name="awardService" ref="awardService" />
         <property name="sponsorService" ref="sponsorService" />
+        <property name="proposalDevelopmentService" ref="proposalDevelopmentService" />
     </bean>
     
     <bean id="proposalDevelopmentXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream" 

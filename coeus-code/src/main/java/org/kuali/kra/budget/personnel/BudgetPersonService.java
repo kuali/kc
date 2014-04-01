@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.personnel;
 
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 /**
  * Budget Person Service interface
@@ -46,5 +47,21 @@ public interface BudgetPersonService {
      * @param budgetPerson
      */
     public void addBudgetPerson(Budget budget, BudgetPerson budgetPerson);
+
+    /**
+     *
+     * This method compares a proposal person with budget person. It checks
+     * whether the proposal person is from PERSON or ROLODEX and matches the
+     * respective person ID with the person in {@link BudgetPersonnelDetails}
+     *
+     * @param proposalPerson -
+     *            key person from proposal
+     * @param budgetPersonnelDetails
+     *            person from BudgetPersonnelDetails
+     * @return true if persons match, false otherwise
+     */
+    public boolean proposalPersonEqualsBudgetPerson(
+            ProposalPerson proposalPerson,
+            BudgetPersonnelDetails budgetPersonnelDetails);
 
 }

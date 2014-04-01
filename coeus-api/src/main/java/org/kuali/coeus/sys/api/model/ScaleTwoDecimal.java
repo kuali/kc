@@ -89,9 +89,8 @@ public final class ScaleTwoDecimal extends AbstractDecimal<ScaleTwoDecimal> {
         return ZERO;
     }
 
-    public ScaleTwoDecimal percentage(ScaleTwoDecimal rate){
-        return multiply(rate).divide(ONE_HUNDRED);
-    }
+    @Override
+    protected ScaleTwoDecimal oneHundred() {return ONE_HUNDRED; }
 
     /**
      * return {@link #ZERO} if the object is null
@@ -99,12 +98,5 @@ public final class ScaleTwoDecimal extends AbstractDecimal<ScaleTwoDecimal> {
      */
     public static ScaleTwoDecimal returnZeroIfNull(ScaleTwoDecimal value){
         return value==null ? ScaleTwoDecimal.ZERO : value;
-    }
-
-    /**
-     * This method calls the floatValue() function.  It is needed so the TAGs can call this function.
-     */
-    public float getFloatValue() {
-        return this.floatValue();
     }
 }

@@ -58,6 +58,7 @@ import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -84,7 +85,6 @@ import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
-import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.math.BigDecimal;
@@ -142,6 +142,7 @@ AbstractResearchAndRelatedStream {
 
     protected ParameterService parameterService;
     private SponsorService sponsorService;
+    private ProposalDevelopmentService proposalDevelopmentService;
     private ScaleTwoDecimal cumulativeCalendarMonthsFunded = ScaleTwoDecimal.ZERO;
 
     /**
@@ -233,15 +234,8 @@ AbstractResearchAndRelatedStream {
             ResearchAndRelatedProject researchAndRelatedProject,
             DevelopmentProposal developmentProposal) {
         String proposalTypeCode = developmentProposal.getProposalTypeCode();
-        String federalId  = getS2SUtilService().getFederalId(developmentProposal.getProposalDocument());
+        String federalId  = getProposalDevelopmentService().getFederalId(developmentProposal.getProposalDocument());
         researchAndRelatedProject.setNihPriorGrantNumber(federalId);
-        //		if (ProposalType.RESUBMISSION_TYPE_CODE.equals(proposalTypeCode)) {
-        //			InstitutionalProposal institutionalProposal = getMaxInstitutionalProposal(developmentProposal);
-        //			if(institutionalProposal!=null){
-        //			    researchAndRelatedProject
-        //					.setNihPriorGrantNumber(institutionalProposal.getSponsorProposalNumber()); // setNihPriorGrantNumber
-        //			}
-        //		} else 
 
         if (isProposalTypeRenewalRevisionContinuation(proposalTypeCode)) {
             String federalIdComesFromAwardStr = parameterService
@@ -258,8 +252,6 @@ AbstractResearchAndRelatedStream {
                         researchAndRelatedProject.setNihApplicationTypeCode(awardType);
                     }
                 }
-                //				researchAndRelatedProject
-                //						.setNihPriorGrantNumber(sponsorAwardNumber);
             }
         }
     }
@@ -699,7 +691,7 @@ AbstractResearchAndRelatedStream {
             if (dhhsAgreementFlag.equals("0")) {
                 // agreement is not with DHHS
                 NoDHHSAgreement noAgreement = NoDHHSAgreement.Factory.newInstance();
-                noAgreement.setAgencyName(getS2SUtilService().getCognizantFedAgency(developmentProposal));
+                noAgreement.setAgencyName(getProposalDevelopmentService().getCognizantFedAgency(developmentProposal));
                 if (orgBean.getIndirectCostRateAgreement() == null) {
                     noAgreement
                     .setAgreementDate(getDateTimeService().getCalendar(getDateTimeService().convertToDate("1900-01-01")));
@@ -717,7 +709,7 @@ AbstractResearchAndRelatedStream {
                     indirectCost.setDHHSAgreementDate(getDateTimeService().getCalendar(
                             getDateTimeService().convertToDate(orgBean.getIndirectCostRateAgreement())));
                 }else {
-                    indirectCost.setDHHSAgreementNegotiationOffice(getS2SUtilService().getCognizantFedAgency(developmentProposal));
+                    indirectCost.setDHHSAgreementNegotiationOffice(getProposalDevelopmentService().getCognizantFedAgency(developmentProposal));
                 }
             }
         }catch (ParseException e) {
@@ -1085,7 +1077,7 @@ AbstractResearchAndRelatedStream {
             BudgetPersonnelDetails budgetPersonnelDetails) {
         List<ProposalPerson> proposalPersons = developmentProposal.getProposalPersons();
         for (ProposalPerson proposalPerson : proposalPersons) {
-            if(getS2SUtilService().proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails))
+            if(getBudgetPersonService().proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails))
                 return true;
         }
         return false;
@@ -1485,18 +1477,10 @@ AbstractResearchAndRelatedStream {
      */
     private KeyPersonFlag getKeyPersonFlag(ProposalPerson proposalPerson) {
         KeyPersonFlag keyPersonFlag = KeyPersonFlag.Factory.newInstance();
-        //		if (proposalPerson.getPercentageEffort() != null
-        //				&& proposalPerson.getPercentageEffort().intValue() != 999) {
         keyPersonFlag
         .setKeyPersonFlagCode(DEFAULT_VALUE_KEY_PERSON_FLAG_CODE);
         keyPersonFlag
         .setKeyPersonFlagDesc(KEY_PERSON_FLAG_DESCRIPTION_VALUE_KEY_PERSON);
-        //		} else {
-        //			keyPersonFlag
-        //					.setKeyPersonFlagCode(KEY_PERSON_FLAG_CODE_VALUE_FALSE);
-        //			keyPersonFlag
-        //					.setKeyPersonFlagDesc(KEY_PERSON_FLAG_DESCRIPTION_VALUE_COLLABORATOR);
-        //		}
         return keyPersonFlag;
     }
 
@@ -1808,5 +1792,13 @@ AbstractResearchAndRelatedStream {
      */
     public void setSponsorService(SponsorService sponsorService) {
         this.sponsorService = sponsorService;
+    }
+
+    public ProposalDevelopmentService getProposalDevelopmentService() {
+        return proposalDevelopmentService;
+    }
+
+    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
+        this.proposalDevelopmentService = proposalDevelopmentService;
     }
 }

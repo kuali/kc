@@ -96,24 +96,6 @@ public interface S2SUtilService {
 	 */
 	public List<ProposalPerson> getNKeyPersons(List<ProposalPerson> keyPersons,
 			boolean firstN, int n);
-	/**
-	 * 
-	 * This method returns the Federal ID for a given proposal
-	 * 
-	 * @param proposalDevelopmentDocument
-	 *            Proposal Development Document.
-	 * @return Federal ID for a given proposal.
-	 */
-	public String getFederalId(
-			ProposalDevelopmentDocument proposalDevelopmentDocument);
-	
-	/**
-	 * Get the tracking id from the newest development proposal linked to the
-	 * institutional proposal.
-	 * @param proposal
-	 * @return
-	 */
-	String getGgTrackingIdFromProposal(InstitutionalProposal proposal);
 
     /**
      *
@@ -171,21 +153,6 @@ public interface S2SUtilService {
 	 * @return State object matching the name.
 	 */
 	public State getStateFromName(String countryAlternateCode, String stateName);
-	/**
-	 * 
-	 * This method compares a proposal person with budget person. It checks
-	 * whether the proposal person is from PERSON or ROLODEX and matches the
-	 * respective person ID with the person in {@link BudgetPersonnelDetails}
-	 * 
-	 * @param proposalPerson -
-	 *            key person from proposal
-	 * @param budgetPersonnelDetails
-	 *            person from BudgetPersonnelDetails
-	 * @return true if persons match, false otherwise
-	 */
-	public boolean proposalPersonEqualsBudgetPerson(
-			ProposalPerson proposalPerson,
-			BudgetPersonnelDetails budgetPersonnelDetails);
 
 	/**
 	 * 
@@ -248,16 +215,6 @@ public interface S2SUtilService {
     public void deleteSystemGeneratedAttachments(ProposalDevelopmentDocument pdDoc);
     
     public ScaleTwoDecimal getNumberOfMonths(Date dateStart, Date dateEnd);
-    /**
-     * 
-     * This method gets the Federal Agency for the given
-     * {@link DevelopmentProposal}
-     * 
-     * @param developmentProposal
-     *            Proposal Development Document.
-     * @return {@link String} Federal Agency
-     */
-    public String getCognizantFedAgency(DevelopmentProposal developmentProposal);
 
     /**
      * 

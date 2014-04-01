@@ -82,12 +82,20 @@ public final class JstlFunctions {
      * <code>
      * <c:set var="cumTotalCost" value="${cumTotalCost + krafn:getBigDecimal(budgetPeriodObj.totalCost)}" />
      * </code>
-     *
-     * @param scaleTwoDecimal
-     * @return
      */
     public static BigDecimal getBigDecimal(ScaleTwoDecimal scaleTwoDecimal) {
         return scaleTwoDecimal.bigDecimalValue();
+    }
+
+    /**
+     * Returns the float value of a given ScaleTwoDecimal.
+     * Here is an example of how the code is used in a JSP/tag file:
+     * <code>
+     * <c:set var="cumTotalCost" value="${cumTotalCost + krafn:getFloatValue(budgetPeriodObj.totalCost)}" />
+     * </code>
+     */
+    public static float getFloatValue(ScaleTwoDecimal scaleTwoDecimal) {
+        return scaleTwoDecimal.floatValue();
     }
     
     /**
