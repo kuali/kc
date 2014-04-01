@@ -33,6 +33,7 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 
@@ -87,9 +88,9 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
 
         BudgetDocument budgetDoc = null;
         try {
-            budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
         }
-        catch (S2SException e) {
+        catch (WorkflowException e) {
             LOG.error(e.getMessage(), e);
             return ed524BudgetDocument;
         }

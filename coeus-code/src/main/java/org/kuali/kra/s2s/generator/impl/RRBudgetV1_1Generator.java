@@ -1184,7 +1184,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 			compensation.setFundsRequested(keyPerson.getFundsRequested()
 					.bigDecimalValue());
 			if (pdDoc.getBudgetDocumentVersions() != null) {
-                baseSalaryByPeriod = budgetService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
+                baseSalaryByPeriod = s2sBudgetCalculatorService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
                         .getBudgetVersionOverview().getBudgetId(), budgetPeriod, keyPerson);
                 if (baseSalaryByPeriod != null) {
                     compensation.setBaseSalary(baseSalaryByPeriod.bigDecimalValue());

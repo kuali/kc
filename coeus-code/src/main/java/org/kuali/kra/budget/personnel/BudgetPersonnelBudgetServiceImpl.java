@@ -32,7 +32,6 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -50,6 +49,7 @@ import java.util.List;
 public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetService {
 
     private static final Log LOG = LogFactory.getLog(BudgetPersonnelBudgetServiceImpl.class);
+    public static final int BUDGET_PERIOD_1 = 1;
 
     private BudgetPersonService budgetPersonService;
     private BudgetCalculationService budgetCalculationService;
@@ -142,7 +142,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
                 personSalaryDetails.setPersonSequenceNumber(budgetPerson.getPersonSequenceNumber());
                 personSalaryDetails.setBudgetPeriod(budgetPeriodData.getBudgetPeriod());
                 personSalaryDetails.setPersonId(budgetPerson.getPersonId());
-                if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
+                if (budgetPeriodData.getBudgetPeriod() == BUDGET_PERIOD_1) {
                     if (budgetPerson.getEffectiveDate().equals(budgetPerson.getStartDate())) {
 
                         personSalaryDetails.setBaseSalary(budgetPerson.getCalculationBase());

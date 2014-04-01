@@ -165,7 +165,7 @@ public interface S2SUtilService {
 	public Country getCountryFromCode(String countryCode);
 	/**
 	 * Finds a State object from the state name
-	 * @param default country 3-character code
+	 * @param countryAlternateCode country 3-character code
 	 * @param stateName
 	 *            Name of the state (two-letter state code)
 	 * @return State object matching the name.
@@ -206,7 +206,7 @@ public interface S2SUtilService {
 	 * Finds all the Questionnaire Answers associates with provided
 	 * ProposalNumber and questionnaireId.
 	 * 
-	 * @param DevelopmentProposal
+	 * @param developmentProposal
 	 * @param namespace
 	 * @param formname
 	 * @return List of Questionnaire {@link Answer}.
@@ -215,7 +215,7 @@ public interface S2SUtilService {
 
 	/**
 	 * Finds all the co-investigators associated with the provided pdDoc.
-	 * @param ProposalDevelopmentDocument
+	 * @param pdDoc
 	 * @return List of Co-Investigators {@link ProposalPerson}.
 	 */
 	
@@ -223,7 +223,7 @@ public interface S2SUtilService {
 	
 	/**
 	 * Finds all the key Person associated with the provided pdDoc.
-	 * @param ProposalDevelopmentDocument
+	 * @param pdDoc
 	 * @return List of Key Persons {@link ProposalPerson}.
 	 */
 	
@@ -235,7 +235,6 @@ public interface S2SUtilService {
      * 
      * @param pdDoc(ProposalDevelopmentDocument)
      *            proposal development document.
-     * @param contactType(String)
      *            for which the DepartmentalPerson has to be found.
      * @return depPerson(DepartmentalPerson) corresponding to the contact type.
      */
@@ -244,7 +243,7 @@ public interface S2SUtilService {
     /**
      * 
      * This method is used to delete all auto generated pdfs as part of s2s forms creation
-     * @param ProposalDevelopmentDocument
+     * @param pdDoc
      */
     public void deleteSystemGeneratedAttachments(ProposalDevelopmentDocument pdDoc);
     
@@ -254,7 +253,7 @@ public interface S2SUtilService {
      * This method gets the Federal Agency for the given
      * {@link DevelopmentProposal}
      * 
-     * @param pdDoc
+     * @param developmentProposal
      *            Proposal Development Document.
      * @return {@link String} Federal Agency
      */

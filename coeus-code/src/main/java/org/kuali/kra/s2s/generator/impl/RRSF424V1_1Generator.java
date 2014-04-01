@@ -55,6 +55,7 @@ import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.depend.ArgValueLookupService;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -194,9 +195,14 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	 * @throws S2SException
 	 */
 	private EstimatedProjectFunding getProjectFunding() throws S2SException {
-		BudgetDocument budgetDocument = s2sBudgetCalculatorService
-				.getFinalBudgetVersion(pdDoc);
-		Budget budget = budgetDocument == null ? null : budgetDocument
+        BudgetDocument budgetDocument = null;
+        try {
+            budgetDocument = proposalBudgetService
+                    .getFinalBudgetVersion(pdDoc);
+        } catch (WorkflowException e) {
+            throw new S2SException(e);
+        }
+        Budget budget = budgetDocument == null ? null : budgetDocument
 				.getBudget();
 		EstimatedProjectFunding funding = EstimatedProjectFunding.Factory
 				.newInstance();

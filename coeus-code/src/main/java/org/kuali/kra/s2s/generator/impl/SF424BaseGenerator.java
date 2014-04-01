@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -28,6 +29,7 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
     protected S2SUtilService s2sUtilService;
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
+    protected ProposalBudgetService proposalBudgetService;
 
     protected static final int APPLICANT_TYPE_1_INDEX = 0;
     protected static final int APPLICANT_TYPE_2_INDEX = 1;
@@ -97,5 +99,6 @@ public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
     public SF424BaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
+        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
     }
 }

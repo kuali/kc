@@ -16,10 +16,10 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
-import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
@@ -36,7 +36,7 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 		S2SBaseFormGenerator implements S2SQuestionnairing{
 
 	protected S2SUtilService s2sUtilService;
-	protected S2SBudgetCalculatorService s2SBudgetCalculatorService;
+	protected ProposalBudgetService proposalBudgetService;
 	protected ParameterService parameterService;
     
 
@@ -77,7 +77,7 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 	 */
 	public PHS398FellowshipSupplementalBaseGenerator() {
 		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-		s2SBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
+        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
 		parameterService = KcServiceLocator.getService(ParameterService.class);
 	}
     protected List<String> getCostElementsByParam(String costElementParam) {

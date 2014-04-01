@@ -98,7 +98,7 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
 		setFormerInstitutionNameAndChangeOfInstitution(coverPageSupplement);
 		BudgetDocument budgetDoc = null;
         try {
-            budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
