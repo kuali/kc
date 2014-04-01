@@ -292,7 +292,8 @@
       <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.rice.location.impl.country.CountryBo" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="alternateCode" p:labelAttribute="name"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder"/>
+      <bean class="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder"
+      	p:addBlankOption="false"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -381,7 +382,8 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.KcStateValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.KcStateValuesFinder"/>
+      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.KcStateValuesFinder"
+      	p:addBlankOption="false"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

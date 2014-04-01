@@ -356,42 +356,43 @@
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="emailAddress"
 					p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="officePhone"
-					p:order="20" />
-				<bean parent="Uif-InputField" p:propertyName="faxNumber"
-					p:order="30" />
-				<bean parent="Uif-InputField" p:propertyName="pagerNumber"
-					p:order="40" />
-				<bean parent="Uif-InputField" p:propertyName="mobilePhoneNumber"
-					p:order="50" />
-				<bean parent="Uif-InputField" p:propertyName="primaryTitle"
-					p:order="60" />
-				<bean parent="Uif-InputField" p:propertyName="directoryTitle"
-					p:order="70" />
-				<bean parent="Uif-InputField" p:propertyName="homeUnit"
-					p:order="80" />
-				<bean parent="Uif-InputField" p:propertyName="division"
-					p:order="90" />
-				<bean parent="Uif-InputField" p:propertyName="eraCommonsUserName"
-					p:order="100" />
-				<bean parent="Uif-InputField" p:propertyName="officeLocation"
-					p:order="110" />
 				<bean parent="Uif-InputField" p:propertyName="secondaryOfficeLocation"
-					p:order="120" />
+					p:order="20" />					
+				<bean parent="Uif-InputField" p:propertyName="officePhone"
+					p:order="30" />
 				<bean parent="Uif-InputField" p:propertyName="addressLine1"
-					p:order="130" />
+					p:order="40" />					
+				<bean parent="Uif-InputField" p:propertyName="faxNumber"
+					p:order="50" />
 				<bean parent="Uif-InputField" p:propertyName="addressLine2"
-					p:order="140" />
+					p:order="60" />					
+				<bean parent="Uif-InputField" p:propertyName="pagerNumber"
+					p:order="70" />
 				<bean parent="Uif-InputField" p:propertyName="addressLine3"
-					p:order="150" />
-				<bean parent="Uif-InputField" p:propertyName="city" p:order="160" />
-				<bean parent="Uif-InputField" p:propertyName="county" p:order="170" />
+					p:order="80" />					
+				<bean parent="Uif-InputField" p:propertyName="mobilePhoneNumber"
+					p:order="90" />
+				<bean parent="Uif-InputField" p:propertyName="city" p:order="100" />					
+				<bean parent="Uif-InputField" p:propertyName="primaryTitle"
+					p:order="110" />
+				<bean parent="Uif-InputField" p:propertyName="county" p:order="120" />					
+				<bean parent="Uif-InputField" p:propertyName="directoryTitle"
+					p:order="130" />
 				<bean parent="Uif-InputField" p:propertyName="countryCode"
-					p:order="180" />
+					p:order="140" />					
+				<bean parent="Uif-InputField" p:propertyName="homeUnit"
+					p:order="150" />
 				<bean parent="Uif-InputField" p:propertyName="postalCode"
+					p:order="160" />					
+				<bean parent="Uif-InputField" p:propertyName="division"
+					p:order="170" />
+				<bean parent="Uif-InputField" p:propertyName="state" p:order="180" 
+					p:refreshWhenChangedPropertyNames="#lp.countryCode" />					
+				<bean parent="Uif-InputField" p:propertyName="eraCommonsUserName"
 					p:order="190" />
-				<bean parent="Uif-InputField" p:propertyName="state" p:order="200" />
 				<bean parent="Uif-InputField" p:propertyName="percentageEffort"
+					p:order="200" />					
+				<bean parent="Uif-InputField" p:propertyName="officeLocation"
 					p:order="210" />
 				<bean parent="Uif-InputField" p:propertyName="facultyFlag"
 					p:order="220" />
