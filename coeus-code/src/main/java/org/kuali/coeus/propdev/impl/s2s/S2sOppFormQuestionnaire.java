@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.s2s.bo;
+package org.kuali.coeus.propdev.impl.s2s;
 
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -44,7 +44,7 @@ public class S2sOppFormQuestionnaire extends KcPersistableBusinessObjectBase {
 
     /**
      * Sets the s2SOppFormQuestionnaireMapId attribute value.
-     * @param s2sOppFormQuestionnaireMapId The s2SOppFormQuestionnaireMapId to set.
+     * @param s2sOppFormQuestionnaireId The s2SOppFormQuestionnaireMapId to set.
      */
     public void setS2sOppFormQuestionnaireId(Long s2sOppFormQuestionnaireId) {
         this.s2sOppFormQuestionnaireId = s2sOppFormQuestionnaireId;
@@ -96,9 +96,5 @@ public class S2sOppFormQuestionnaire extends KcPersistableBusinessObjectBase {
      */
     public void setQuestionnaireId(Integer questionnaireId) {
         this.questionnaireId = questionnaireId;
-    }
-
-    public S2sOppFormQuestionnaire() {
-        super();
     }
 }

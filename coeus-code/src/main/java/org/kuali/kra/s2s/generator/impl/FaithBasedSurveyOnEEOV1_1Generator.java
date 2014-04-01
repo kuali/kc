@@ -19,7 +19,7 @@ import gov.grants.apply.forms.faithBasedSurveyOnEEOV11.SurveyOnEEODocument;
 import gov.grants.apply.forms.faithBasedSurveyOnEEOV11.SurveyOnEEODocument.SurveyOnEEO;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 

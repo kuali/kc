@@ -79,7 +79,7 @@
 			<bean parent="Uif-HiddenControl" />
 		</property>
 		<property name="quickfinder">
-			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kra.s2s.bo.S2sOpportunity"
+			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.propdev.impl.s2s.S2sOpportunity"
 				p:hideCriteriaOnSearch="true"
 				p:fieldConversions="opportunityId:newS2sOpportunity.opportunityId,cfdaNumber:newS2sOpportunity.cfdaNumber,opportunityTitle:newS2sOpportunity.opportunityTitle,s2sSubmissionTypeCode:newS2sOpportunity.s2sSubmissionTypeCode,revisionCode:newS2sOpportunity.revisionCode,competetionId:newS2sOpportunity.competetionId,openingDate:newS2sOpportunity.openingDate,closingDate:newS2sOpportunity.closingDate,instructionUrl:newS2sOpportunity.instructionUrl,schemaUrl:newS2sOpportunity.schemaUrl,providerCode:newS2sOpportunity.providerCode">
 				<property name="quickfinderAction">
@@ -129,7 +129,7 @@
 	<bean id="PropDev-OpportunityPage-Forms" parent="PropDev-OpportunityPage-Forms-parentBean" />
 	<bean id="PropDev-OpportunityPage-Forms-parentBean" abstract="true"
 		parent="Uif-TableCollectionSection" p:headerText="Forms"
-		p:propertyName="s2sOppForms" p:collectionObjectClass="org.kuali.kra.s2s.bo.S2sOppForms"
+		p:propertyName="s2sOppForms" p:collectionObjectClass="org.kuali.coeus.propdev.impl.s2s.S2sOppForms"
 		p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
 		p:renderLineActions="false" p:pageSize="100"
 		p:layoutManager.richTable.disableTableSort="true"

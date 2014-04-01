@@ -55,7 +55,7 @@ import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuest
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.s2s.bo.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.action.ActionRequest;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.s2s.bo;
+package org.kuali.coeus.propdev.impl.s2s;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
@@ -22,27 +22,28 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * 
- * This class is represents S2S_REVISION_TYPE table
- */
 @Entity
-@Table(name = "S2S_REVISION_TYPE")
-public class S2sRevisionType extends KcPersistableBusinessObjectBase {
+@Table(name = "S2S_SUBMISSION_TYPE")
+public class S2sSubmissionType extends KcPersistableBusinessObjectBase {
+
+    public static final String CHANGE_CORRECTED_CODE = "3";
 
     @Id
-    @Column(name = "S2S_REVISION_TYPE_CODE")
-    private String s2sRevisionTypeCode;
+    @Column(name = "S2S_SUBMISSION_TYPE_CODE")
+    private String s2sSubmissionTypeCode;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
-    public String getS2sRevisionTypeCode() {
-        return s2sRevisionTypeCode;
+    @Column(name = "SORT_ID")
+    private String sortId;
+
+    public String getS2sSubmissionTypeCode() {
+        return s2sSubmissionTypeCode;
     }
 
-    public void setS2sRevisionTypeCode(String s2sRevisionTypeCode) {
-        this.s2sRevisionTypeCode = s2sRevisionTypeCode;
+    public void setS2sSubmissionTypeCode(String s2sSubmissionTypeCode) {
+        this.s2sSubmissionTypeCode = s2sSubmissionTypeCode;
     }
 
     public String getDescription() {
@@ -51,5 +52,13 @@ public class S2sRevisionType extends KcPersistableBusinessObjectBase {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSortId() {
+        return sortId;
+    }
+
+    public void setSortId(String sortId) {
+        this.sortId = sortId;
     }
 }

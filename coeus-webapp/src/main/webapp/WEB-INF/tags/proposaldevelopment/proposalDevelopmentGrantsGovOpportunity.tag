@@ -99,7 +99,7 @@
                      <td>
                      
                          <jsp:useBean id="revisionTypeParamMap" class="java.util.HashMap"/>
-						 <c:set target="${revisionTypeParamMap}" property="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sRevisionType" />
+						 <c:set target="${revisionTypeParamMap}" property="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sRevisionType" />
 						 <c:set target="${revisionTypeParamMap}" property="keyAttributeName" value="s2sRevisionTypeCode" />
 						 <c:set target="${revisionTypeParamMap}" property="labelAttributeName" value="description" />
 						 <c:set target="${revisionTypeParamMap}" property="includeKeyInDescription" value="false" />
