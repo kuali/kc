@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.customdata;
 
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 

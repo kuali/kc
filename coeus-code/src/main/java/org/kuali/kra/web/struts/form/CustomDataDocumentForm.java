@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.web.struts.form;
 
-import org.kuali.kra.common.customattributes.CustomDataHelperBase;
+import org.kuali.coeus.common.framework.custom.CustomDataHelperBase;
 
 public interface CustomDataDocumentForm {
 

@@ -16,9 +16,9 @@
 package org.kuali.kra.rules;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
 import org.kuali.coeus.common.framework.person.attr.PersonCustomData;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;

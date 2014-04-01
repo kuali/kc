@@ -16,8 +16,8 @@
 package org.kuali.kra.rule.event;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
-import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;

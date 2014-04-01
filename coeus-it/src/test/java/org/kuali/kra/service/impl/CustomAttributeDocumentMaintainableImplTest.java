@@ -19,6 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.impl.custom.attr.CustomAttributeDocumentMaintainableImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.coi.CoiDisclosureDocument;

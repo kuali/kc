@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;

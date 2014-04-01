@@ -17,8 +17,8 @@
 package org.kuali.kra.committee.document;
 
 import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;

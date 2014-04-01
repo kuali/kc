@@ -16,7 +16,7 @@
 package org.kuali.kra.lookup;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;

@@ -13,9 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.rules;
+package org.kuali.coeus.common.impl.custom;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataType;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
@@ -26,7 +31,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
-import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
