@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.action;
+package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ScienceKeyword;
@@ -134,7 +132,6 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             ((ProposalDevelopmentForm) form).setPrimeSponsorName(primeSponsorName);
         }
         else {
-            // TODO: why do we have to do this?
             ((ProposalDevelopmentForm) form).setPrimeSponsorName(null);
         }
 
