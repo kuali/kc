@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * Represents a Protocol Attachment File.
+ * Represents a Attachment File.
  */
 public class AttachmentFile extends SeparateAssociate implements KcAttachment {
 

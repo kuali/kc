@@ -23,7 +23,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.bo.S2sAppSubmission;
+import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.core.api.mail.MailMessage;

@@ -250,7 +250,7 @@
         </reference-descriptor>
     </class-descriptor>
 
-	 <class-descriptor class="org.kuali.kra.s2s.bo.S2sOppFormQuestionnaire" table="S2S_FORM_TO_QUESTIONNAIRE">
+	 <class-descriptor class="org.kuali.coeus.propdev.impl.s2s.S2sOppFormQuestionnaire" table="S2S_FORM_TO_QUESTIONNAIRE">
         <field-descriptor name="s2sOppFormQuestionnaireId" column="S2S_FORM_TO_QUESTIONNAIRE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
         <field-descriptor name="oppNameSpace" column="OPP_NAME_SPACE" jdbc-type="VARCHAR" />
         <field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR" />

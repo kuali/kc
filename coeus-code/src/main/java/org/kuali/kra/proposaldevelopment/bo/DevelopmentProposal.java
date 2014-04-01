@@ -54,9 +54,9 @@ import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyServ
 import org.kuali.kra.proposaldevelopment.service.*;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReviewExemption;
-import org.kuali.kra.s2s.bo.S2sAppSubmission;
-import org.kuali.kra.s2s.bo.S2sOppForms;
-import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;

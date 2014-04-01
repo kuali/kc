@@ -16,7 +16,7 @@
 package org.kuali.kra.s2s.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.s2s.bo.S2sSubmissionType;
+import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;

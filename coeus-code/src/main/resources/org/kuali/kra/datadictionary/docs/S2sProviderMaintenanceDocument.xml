@@ -3,7 +3,7 @@
   <bean id="S2sProviderMaintenanceDocument" parent="S2sProviderMaintenanceDocument-parentBean"/>
 
   <bean id="S2sProviderMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sProvider"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sProvider"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -14,7 +14,9 @@
       <list>
         <value>code</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="false" />	
+    </property>
+	<property name="allowsRecordDeletion" value="false" />
+	
     
     
     
