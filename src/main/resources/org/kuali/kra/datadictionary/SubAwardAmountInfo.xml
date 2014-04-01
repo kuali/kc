@@ -269,7 +269,8 @@
     <property name="shortLabel" value="Mime Type" />
     <property name="maxLength" value="100" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
