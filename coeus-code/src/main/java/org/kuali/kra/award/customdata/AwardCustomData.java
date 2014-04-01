@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.customdata;
 
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.DocumentCustomData;
 
 /**
  * This class is the BO representation of an Award Custom Data.

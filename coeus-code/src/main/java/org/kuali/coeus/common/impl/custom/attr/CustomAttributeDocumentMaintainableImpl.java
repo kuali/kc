@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.custom.attr;
 
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.irb.ProtocolDocument;

@@ -16,6 +16,8 @@
 package org.kuali.kra.irb.actions.print;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.UnitService;
@@ -24,8 +26,6 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
-import org.kuali.kra.bo.CustomAttributeDocValue;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;

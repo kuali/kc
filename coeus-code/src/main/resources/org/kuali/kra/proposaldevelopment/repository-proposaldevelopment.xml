@@ -40,7 +40,7 @@
         <collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="documentKey" /> 
         </collection-descriptor>
-		<collection-descriptor name="customDataList" proxy="true" element-class-ref="org.kuali.kra.bo.CustomAttributeDocValue" 
+		<collection-descriptor name="customDataList" proxy="true" element-class-ref="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue" 
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			 <inverse-foreignkey field-ref="documentNumber"/>
 		</collection-descriptor>

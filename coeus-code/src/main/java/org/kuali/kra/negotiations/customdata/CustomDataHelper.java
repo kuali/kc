@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.negotiations.customdata;
 
-import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.common.customattributes.CustomDataHelperBase;
+import org.kuali.coeus.common.framework.custom.CustomDataHelperBase;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;

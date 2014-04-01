@@ -17,12 +17,12 @@ package org.kuali.kra.protocol.onlinereview;
 
 import org.apache.commons.logging.Log;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.custom.CustomDataHelperBase;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase;
 import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
-import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
