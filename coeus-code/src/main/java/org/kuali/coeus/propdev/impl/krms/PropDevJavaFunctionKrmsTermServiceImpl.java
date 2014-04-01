@@ -320,7 +320,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
                                 float costElementTotal = 0;
                                 for (BudgetLineItem item : period.getBudgetLineItems()) {
                                     if (StringUtils.equalsIgnoreCase(costElementName, item.getCostElementName())) {
-                                        costElementTotal = costElementTotal + item.getLineItemCost().getFloatValue();
+                                        costElementTotal = costElementTotal + item.getLineItemCost().floatValue();
                                     }
                                 }
                                 if (costElementTotal > limitLong) {

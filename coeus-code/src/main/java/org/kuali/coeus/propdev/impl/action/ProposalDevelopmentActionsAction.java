@@ -822,7 +822,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             boolean s2sPassed = true;
             if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
                 S2SService s2sService = (S2SService) KcServiceLocator.getService(S2SService.class);
-//                s2sPassed = s2sService.validateApplication(proposalDevelopmentDocument.getProposalNumber());
                 try {
                     s2sPassed = s2sService.validateApplication(proposalDevelopmentDocument);
                 }

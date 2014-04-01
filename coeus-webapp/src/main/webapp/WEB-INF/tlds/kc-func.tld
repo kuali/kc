@@ -37,5 +37,13 @@
         <function-signature>java.math.BigDecimal getBigDecimal(org.kuali.coeus.sys.api.model.ScaleTwoDecimal)</function-signature>
         <example>&lt;c:set var="cumTotalCost" value="${cumTotalCost + krafn:getBigDecimal(budgetPeriodObj.totalCost)}" /"&gt;</example>
     </function>
-    
+
+    <function>
+        <description>Coerces the type of ScaleTwoDecimal to a float</description>
+        <name>getFloatValue</name>
+        <function-class>org.kuali.coeus.sys.framework.view.JstlFunctions</function-class>
+        <function-signature>float getFloatValue(org.kuali.coeus.sys.api.model.ScaleTwoDecimal)</function-signature>
+        <example>&lt;c:set var="cumTotalCost" value="${cumTotalCost + krafn:getFloatValue(budgetPeriodObj.totalCost)}" /"&gt;</example>
+    </function>
+
 </taglib>

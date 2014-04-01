@@ -329,9 +329,15 @@ public abstract class AbstractDecimal<T extends AbstractDecimal> extends Number 
         return multiply(newInstance(-1));
     }
 
+    public T percentage(T rate) {
+        return (T) multiply(rate).divide(oneHundred());
+    }
+
     protected abstract T newInstance(int value);
 
     protected abstract T newInstance(BigDecimal value, int scale);
 
     protected abstract T zero();
+
+    protected abstract T oneHundred();
 }

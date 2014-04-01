@@ -163,7 +163,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 			grantApplicationType.setStateID(pdDoc.getDevelopmentProposal()
 					.getApplicantOrganization().getRolodex().getState());
 		}
-		String federalId = s2sUtilService.getFederalId(pdDoc);
+		String federalId = proposalDevelopmentService.getFederalId(pdDoc);
 		if (federalId != null) {
 			grantApplicationType.setFederalID(federalId);
 		}

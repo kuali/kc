@@ -24,6 +24,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -208,6 +209,28 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         queryMap.put("budgetId", budgetPersonnelDetails.getBudgetId());
         queryMap.put("personSequenceNumber", budgetPersonnelDetails.getPersonSequenceNumber());
         return (BudgetPerson)businessObjectService.findByPrimaryKey(BudgetPerson.class, queryMap);
+    }
+
+    /**
+     * This method compares a proposal person with budget person. It checks whether the proposal person is from PERSON or ROLODEX
+     * and matches the respective person ID with the person in {@link BudgetPersonnelDetails}. It returns true only if IDs are not
+     * null and also matches each other.
+     *
+     * @param proposalPerson - key person from proposal
+     * @param budgetPersonnelDetails person from BudgetPersonnelDetails
+     * @return true if persons match, false otherwise
+     */
+    @Override
+    public boolean proposalPersonEqualsBudgetPerson(ProposalPerson proposalPerson, BudgetPersonnelDetails budgetPersonnelDetails) {
+        boolean equal = false;
+        if (proposalPerson != null && budgetPersonnelDetails != null) {
+            String budgetPersonId = budgetPersonnelDetails.getPersonId();
+            if ((proposalPerson.getPersonId() != null && proposalPerson.getPersonId().equals(budgetPersonId))
+                    || (proposalPerson.getRolodexId() != null && proposalPerson.getRolodexId().toString().equals(budgetPersonId))) {
+                equal = true;
+            }
+        }
+        return equal;
     }
 
     /**

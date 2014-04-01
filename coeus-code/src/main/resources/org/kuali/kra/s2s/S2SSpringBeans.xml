@@ -102,9 +102,6 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
-		<property name="proposalDevelopmentService">
-			<ref bean="proposalDevelopmentService" />
-		</property>
 		<property name="kcPersonService">
 			<ref bean="kcPersonService" />
 		</property>
@@ -147,6 +144,12 @@
         </property>
         <property name="budgetPersonSalaryService">
             <ref bean="budgetPersonSalaryService"/>
+        </property>
+        <property name="proposalDevelopmentService">
+            <ref bean="proposalDevelopmentService"/>
+        </property>
+        <property name="budgetPersonService">
+            <ref bean="budgetPersonService"/>
         </property>
 	</bean>
 

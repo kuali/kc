@@ -34,6 +34,7 @@ public final class ScaleThreeDecimal extends AbstractDecimal<ScaleThreeDecimal> 
     public static final int SCALE = 3;
 
     public static final ScaleThreeDecimal ZERO = new ScaleThreeDecimal(0.000);
+    public static final ScaleThreeDecimal ONE_HUNDRED = new ScaleThreeDecimal(100);
 
     /**
      * This constructor should never be called except during JAXB unmarshalling.
@@ -88,4 +89,7 @@ public final class ScaleThreeDecimal extends AbstractDecimal<ScaleThreeDecimal> 
     protected ScaleThreeDecimal zero() {
         return ZERO;
     }
+
+    @Override
+    protected ScaleThreeDecimal oneHundred() {return ONE_HUNDRED; }
 }

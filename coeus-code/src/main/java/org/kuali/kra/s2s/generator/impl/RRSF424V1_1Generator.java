@@ -101,7 +101,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 			String state = applicantOrganization.getRolodex().getState();
 			rrsf424.setStateID(state);
 		}
-		String federalId = s2sUtilService.getFederalId(pdDoc);
+		String federalId = proposalDevelopmentService.getFederalId(pdDoc);
 		if (federalId != null) {
 			if (federalId.length() > 30) {
 				rrsf424.setFederalID(federalId.substring(0, 30));

@@ -23,7 +23,6 @@ import org.kuali.kra.proposaldevelopment.bo.CoPiInfoDO;
 import org.kuali.kra.proposaldevelopment.bo.CostShareInfoDO;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -96,7 +95,7 @@ public interface ProposalDevelopmentService {
     
     public boolean canSaveProposalXml(ProposalDevelopmentDocument document);
     
-    public Long createS2sOpportunityDetails(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity, Long versionNumberForS2sOpportunity) throws S2SException;
+    public Long createS2sOpportunityDetails(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity, Long versionNumberForS2sOpportunity);
     
     public static final String PROPOSAL_NARRATIVE_TYPE_GROUP = "proposalNarrativeTypeGroup";
     public static final String DELIVERY_INFO_DISPLAY_INDICATOR = "deliveryInfoDisplayIndicator";
@@ -156,4 +155,34 @@ public interface ProposalDevelopmentService {
      * @return the list of units the user has this permission in
      */
     public List<Unit> getUnitsForCreateProposal(String userId);
+
+    /**
+     *
+     * This method gets the Federal Agency for the given
+     * {@link DevelopmentProposal}
+     *
+     * @param developmentProposal
+     *            Proposal Development Document.
+     * @return {@link String} Federal Agency
+     */
+    public String getCognizantFedAgency(DevelopmentProposal developmentProposal);
+
+    /**
+     *
+     * This method returns the Federal ID for a given proposal
+     *
+     * @param proposalDevelopmentDocument
+     *            Proposal Development Document.
+     * @return Federal ID for a given proposal.
+     */
+    public String getFederalId(
+            ProposalDevelopmentDocument proposalDevelopmentDocument);
+
+    /**
+     * Get the tracking id from the newest development proposal linked to the
+     * institutional proposal.
+     * @param proposal
+     * @return
+     */
+    String getGgTrackingIdFromProposal(InstitutionalProposal proposal);
 }
