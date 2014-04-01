@@ -143,8 +143,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private boolean grantsGovAuditActivated;
     private ProposalCopyCriteria copyCriteria;
     private Map<String, Parameter> proposalDevelopmentParameters;
-    //private Integer answerYesNo;
-    //private Integer answerYesNoNA;
     private ProposalUser newProposalUser;
     private String newBudgetVersionName;
     private List<ProposalUserRoles> proposalUserRolesList = null;
@@ -156,7 +154,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups;
     private Map<String, String[]> customAttributeValues;
     private List<Narrative> narratives;
-    //private boolean reject;
     private boolean saveAfterCopy;
     private String optInUnitDetails;
     private String optInCertificationStatus;
@@ -230,13 +227,13 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private String narrativeStatusesChangeKey;
     private NarrativeStatus narrativeStatusesChange;
 
-    private ProposalRoleService proposalRoleService;
-    private KcAuthorizationService kcAuthorizationService;
-    private KcWorkflowService kcWorkflowService;
-    private UnitService unitService;
-    private TaskAuthorizationService taskAuthorizationService;
-    private DocumentDictionaryService documentDictionaryService;
-    private ProposalDevelopmentService proposalDevelopmentService;
+    private transient ProposalRoleService proposalRoleService;
+    private transient KcAuthorizationService kcAuthorizationService;
+    private transient KcWorkflowService kcWorkflowService;
+    private transient UnitService unitService;
+    private transient TaskAuthorizationService taskAuthorizationService;
+    private transient DocumentDictionaryService documentDictionaryService;
+    private transient ProposalDevelopmentService proposalDevelopmentService;
     
 	public ProposalDevelopmentForm() {
         super();
