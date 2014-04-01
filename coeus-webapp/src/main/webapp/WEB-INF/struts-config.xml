@@ -50,7 +50,7 @@
         <form-bean name="ProtocolNotificationTemplateForm" type="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateForm" />
         <form-bean name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxForm"/>
         <form-bean name="SubAwardForm" type="org.kuali.kra.subaward.SubAwardForm" />       
-        <form-bean name="CurrentOrPendingReportForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.CurrentOrPendingReportForm" />
+        <form-bean name="CurrentOrPendingReportForm" type="org.kuali.coeus.common.proposal.framework.report.CurrentOrPendingReportForm" />
 		<form-bean name="CoiDisclosureForm" type="org.kuali.kra.coi.CoiDisclosureForm" />
 		<form-bean name="CoiCustomSearchForm" type="org.kuali.kra.coi.lookup.CoiCustomSearchForm" />
 		<form-bean name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntityForm" />

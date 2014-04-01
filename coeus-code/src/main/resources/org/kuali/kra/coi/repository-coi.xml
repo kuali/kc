@@ -553,7 +553,7 @@
         <collection-descriptor name="coiDiscDetails" proxy="true" element-class-ref="org.kuali.kra.coi.CoiDiscDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="coiDisclProjectId"/>
         </collection-descriptor>		
-		<reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="proposalType" class-ref="org.kuali.coeus.common.framework.type.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="selectBox1"/>
 		</reference-descriptor>
         <reference-descriptor name="protocolType" class-ref="org.kuali.kra.irb.protocol.ProtocolType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
