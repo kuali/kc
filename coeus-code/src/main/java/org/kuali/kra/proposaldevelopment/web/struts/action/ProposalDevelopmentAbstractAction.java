@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
+
 public class ProposalDevelopmentAbstractAction extends ProposalDevelopmentAction {
 
 }
