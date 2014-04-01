@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportService;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
@@ -70,7 +71,6 @@ import org.kuali.kra.proposaldevelopment.rules.ProposalAttachmentSubmitToSponsor
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRejectionRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
-import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sSubmissionType;
