@@ -20,7 +20,7 @@
 <kul:tabTop tabTitle="Template" defaultOpen="true" tabErrorKey="document.subAwardList[0].subAwardTemplateInfo[0].*" >
 	<div class="tab-container" align="center">
    		<h3>
-   			<span class="subhead-left">Add Template</span>
+   			<span class="subhead-left">Template</span>
    			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.subaward.bo.SubAwardTemplateInfo"  altText="help"/></span>
    			</h3>
    			<table id="attachments-table" class="tab" cellpadding="4" cellspacing="0" summary="">
