@@ -46,14 +46,6 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
     public KcPersonExtendedAttributesMaintainableImpl() {
         customDataHelper = new CustomDataHelper(this);
     }
-
-    public CustomDataHelper getCustomDataHelper() {
-        return customDataHelper;
-    }
-
-    public void setCustomDataHelper(CustomDataHelper customDataHelper) {
-        this.customDataHelper = customDataHelper;
-    }
     
     @Override 
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
@@ -76,8 +68,6 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
     }
     
     private void loadCustomData() {
-        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) getDataObject();
-
         getCustomDataHelper().prepareCustomData();
     }
 
@@ -182,7 +172,11 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
         return doc.getStatus() == DocumentStatus.SAVED || doc.getStatus() == DocumentStatus.INITIATED;
     }
     
-    public class CustomDataHelper extends CustomDataHelperBase<PersonCustomData> implements Serializable {
+	public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
+		return getCustomDataHelper().getCustomAttributeDocuments();
+	}
+	
+    protected static class CustomDataHelper extends CustomDataHelperBase<PersonCustomData> implements Serializable {
 
         private static final long serialVersionUID = -6829522940099878931L;
         
@@ -221,5 +215,13 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
         public boolean documentNotRouted() {
             return maintainableImpl.documentNotRouted();
         }
+    }
+
+    protected CustomDataHelper getCustomDataHelper() {
+        return customDataHelper;
+    }
+
+    protected void setCustomDataHelper(CustomDataHelper customDataHelper) {
+        this.customDataHelper = customDataHelper;
     }
 }
