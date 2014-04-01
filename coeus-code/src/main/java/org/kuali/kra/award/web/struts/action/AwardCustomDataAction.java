@@ -18,10 +18,10 @@ package org.kuali.kra.award.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.impl.custom.CustomDataRule;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
-import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 import javax.servlet.http.HttpServletRequest;

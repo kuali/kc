@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.rules;
 
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.PropertyConstants;
 
 import java.util.Collection;

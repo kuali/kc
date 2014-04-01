@@ -3,10 +3,10 @@
   <bean id="CustomAttributeDocumentMaintenanceDocument" parent="CustomAttributeDocumentMaintenanceDocument-parentBean"/>
 
   <bean id="CustomAttributeDocumentMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.CustomAttributeDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.rules.CustomAttributeDocumentMaintenanceDocumentRule"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.impl.custom.attr.CustomAttributeDocumentMaintenanceDocumentRule"/>
     <!-- <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/> -->
-    <property name="maintainableClass" value="org.kuali.kra.service.impl.CustomAttributeDocumentMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.coeus.common.impl.custom.attr.CustomAttributeDocumentMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="CustomAttributeDocumentMaintenanceDocument-EditCustomAttributeDocument"/>

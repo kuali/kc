@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc;
 
-import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 
 public class IacucProcedureCategoryCustomData extends CustomAttribute { 
     

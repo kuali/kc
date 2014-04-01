@@ -19,6 +19,9 @@ package org.kuali.kra.bo;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
+
 /**
  * Defines utilities for unit testing
  */
