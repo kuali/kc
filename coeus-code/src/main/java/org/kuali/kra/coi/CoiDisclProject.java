@@ -17,6 +17,7 @@ package org.kuali.kra.coi;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
@@ -27,7 +28,6 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.ProtocolType;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;

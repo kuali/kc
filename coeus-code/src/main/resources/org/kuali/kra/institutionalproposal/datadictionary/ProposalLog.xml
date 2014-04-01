@@ -229,11 +229,11 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
         <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="proposalTypeCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.framework.type.ProposalType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="proposalTypeCode" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalType"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.ProposalType"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="includeBlankRow" value="false"/>
         <property name="keyAttributeName" value="proposalTypeCode"/>

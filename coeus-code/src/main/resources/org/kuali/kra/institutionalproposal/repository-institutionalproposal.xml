@@ -43,7 +43,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         
-        <reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="proposalType" class-ref="org.kuali.coeus.common.framework.type.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="proposalTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -166,7 +166,7 @@
         <reference-descriptor name="noticeOfOpportunity" class-ref="org.kuali.kra.bo.NoticeOfOpportunity" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="noticeOfOpportunityCode"/>
         </reference-descriptor>
-        <reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="proposalType" class-ref="org.kuali.coeus.common.framework.type.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="proposalTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -265,7 +265,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-        <reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="proposalType" class-ref="org.kuali.coeus.common.framework.type.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="proposalTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="sponsor" class-ref="org.kuali.coeus.common.framework.sponsor.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 

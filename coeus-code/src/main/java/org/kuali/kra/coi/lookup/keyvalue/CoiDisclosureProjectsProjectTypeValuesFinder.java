@@ -16,8 +16,8 @@
 package org.kuali.kra.coi.lookup.keyvalue;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;

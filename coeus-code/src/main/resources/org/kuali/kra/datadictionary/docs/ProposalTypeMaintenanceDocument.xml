@@ -3,7 +3,7 @@
   <bean id="ProposalTypeMaintenanceDocument" parent="ProposalTypeMaintenanceDocument-parentBean"/>
 
   <bean id="ProposalTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.ProposalType"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
