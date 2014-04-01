@@ -181,7 +181,7 @@
         <reference-descriptor name="leadUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="unitNumber"/>
         </reference-descriptor>
-        <reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="activityType" class-ref="org.kuali.coeus.common.framework.type.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="activityTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="proposalStatus" class-ref="org.kuali.kra.institutionalproposal.ProposalStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -274,7 +274,7 @@
         <reference-descriptor name="leadUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="unitNumber"/>
         </reference-descriptor>
-        <reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="activityType" class-ref="org.kuali.coeus.common.framework.type.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="activityTypeCode"/>
         </reference-descriptor>
 		<collection-descriptor name="projectPersons" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">

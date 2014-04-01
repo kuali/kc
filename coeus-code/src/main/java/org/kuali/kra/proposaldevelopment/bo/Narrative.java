@@ -22,6 +22,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachment;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -29,7 +30,6 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 

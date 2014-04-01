@@ -18,11 +18,11 @@ package org.kuali.kra.proposaldevelopment.specialreview;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.specialreview.impl.web.struts.form.SpecialReviewHelperBase;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalDevelopmentSpecialReviewService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;

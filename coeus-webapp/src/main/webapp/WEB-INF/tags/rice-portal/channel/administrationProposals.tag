@@ -18,7 +18,7 @@
 <channel:portalChannelTop channelTitle="Proposals" />
 <div class="body">
 <ul class="chan">  
-  <li><portal:portalLink displayTitle="true" title="Activity Type" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ActivityType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
+  <li><portal:portalLink displayTitle="true" title="Activity Type" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.coeus.common.framework.type.ActivityType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   <li>Reg Type</li>
   <li>Result Type</li>
   <li><portal:portalLink displayTitle="true" title="Abstract Type" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.AbstractType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>

@@ -871,7 +871,7 @@ public class InstitutionalProposalXmlStream extends
 	private void setActivityType(InstitutionalProposal institutionalProposal,
 			InstProposalMasterData instProposalMasterData) {
 		if (institutionalProposal.getActivityType() != null) {
-			org.kuali.kra.proposaldevelopment.bo.ActivityType activityType = institutionalProposal
+			org.kuali.coeus.common.framework.type.ActivityType activityType = institutionalProposal
 					.getActivityType();
 			ActivityType activityTypeXmlObject = ActivityType.Factory
 					.newInstance();
