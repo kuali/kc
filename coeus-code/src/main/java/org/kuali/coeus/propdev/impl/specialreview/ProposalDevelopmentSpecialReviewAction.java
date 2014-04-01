@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.specialreview.impl.rule.event.AddSpecialReviewEvent;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveSpecialReviewEvent;
 import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.infrastructure.Constants;
@@ -30,7 +31,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.KRADConstants;
 
