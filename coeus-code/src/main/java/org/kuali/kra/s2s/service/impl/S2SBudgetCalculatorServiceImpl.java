@@ -24,7 +24,6 @@ import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
@@ -34,26 +33,23 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPerson;
-import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.personnel.TbnPerson;
+import org.kuali.kra.budget.personnel.*;
 import org.kuali.kra.budget.rates.RateClass;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.depend.BudgetCategoryMapService;
+import org.kuali.kra.s2s.depend.BudgetPersonSalaryService;
+import org.kuali.kra.s2s.depend.ToBeNamePersonService;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -66,8 +62,6 @@ import java.util.*;
  */
 public class S2SBudgetCalculatorServiceImpl implements 
                 S2SBudgetCalculatorService {
-    public static final String KEY_MAPPING_NAME = "mappingName";
-    public static final String KEY_TARGET_CATEGORY_CODE = "targetCategoryCode";
     private static final int MAX_KEY_PERSON_COUNT = 8;
     private static final String CATEGORY_TYPE_OTHER_DIRECT_COST = "O";
     private static final String LASALARIES = "LASALARIES";
@@ -98,21 +92,13 @@ public class S2SBudgetCalculatorServiceImpl implements
                     .getLog(S2SBudgetCalculatorServiceImpl.class);
     private static final String PRINCIPAL_INVESTIGATOR_ROLE = "PD/PI";
     private static final BigDecimal POINT_ZERO_ONE = new ScaleTwoDecimal(0.01).bigDecimalValue();
-    private BusinessObjectService businessObjectService;
+    private BudgetCategoryMapService budgetCategoryMapService;
+    private ToBeNamePersonService toBeNamePersonService;
     private KcPersonService kcPersonService;
     private S2SUtilService s2SUtilService;
     private ParameterService parameterService;
-
-   protected ParameterService getParameterService() {
-        if (this.parameterService == null) {
-            this.parameterService = KcServiceLocator.getService(ParameterService.class);
-        }
-        return this.parameterService;
-    }
-
-   public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
+    private ProposalBudgetService proposalBudgetService;
+    private BudgetPersonSalaryService budgetPersonSalaryService;
 
     /**
      * 
@@ -125,7 +111,12 @@ public class S2SBudgetCalculatorServiceImpl implements
      */
     public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocument pdDoc, List<BudgetPeriodInfo> budgetPeriodInfos)
             throws S2SException {
-        BudgetDocument budgetDocument = getFinalBudgetVersion(pdDoc);
+        BudgetDocument budgetDocument = null;
+        try {
+            budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
+        } catch (WorkflowException e) {
+            throw new S2SException(e);
+        }
         Budget budget = budgetDocument == null ? null : budgetDocument.getBudget();
         BudgetSummaryInfo budgetSummaryInfo = new BudgetSummaryInfo();
         if (budget == null) {
@@ -489,7 +480,12 @@ public class S2SBudgetCalculatorServiceImpl implements
      */
     public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocument pdDoc) throws S2SException {
         List<BudgetPeriodInfo> budgetPeriods = new ArrayList<BudgetPeriodInfo>();
-        BudgetDocument budgetDocument = getFinalBudgetVersion(pdDoc);
+        BudgetDocument budgetDocument = null;
+        try {
+            budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
+        } catch (WorkflowException e) {
+            throw new S2SException(e);
+        }
         Budget budget = budgetDocument == null ? null : budgetDocument.getBudget();
         if (budget == null) {
             return budgetPeriods;
@@ -543,7 +539,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 
             bpData.setIndirectCosts(getIndirectCosts(budget, budgetPeriod));
             bpData.setEquipment(getEquipment(budgetPeriod));
-            bpData.setOtherDirectCosts(getOtherDirectCosts(budgetPeriod, S2SConstants.SPONSOR));
+            bpData.setOtherDirectCosts(getOtherDirectCosts(budgetPeriod));
             if (bpData.getOtherDirectCosts().size() > 0) {
                 OtherDirectCostInfo otherCostInfo = bpData.getOtherDirectCosts().get(0);
                 bpData.setDomesticTravelCost(otherCostInfo.getDomTravel());
@@ -785,11 +781,7 @@ public class S2SBudgetCalculatorServiceImpl implements
         }
         else{
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-
-                Map<String, String> categoryMap = new HashMap<String, String>();
-                categoryMap.put(KEY_TARGET_CATEGORY_CODE, category);
-                categoryMap.put(KEY_MAPPING_NAME, S2SConstants.SPONSOR);
-                List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
+                List<BudgetCategoryMapping> budgetCategoryList = budgetCategoryMapService.findCatMappingByTargetAndMappingName(category, S2SConstants.SPONSOR);
 
                 for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
                     if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode())) {
@@ -1078,10 +1070,9 @@ public class S2SBudgetCalculatorServiceImpl implements
      * This method computes Other Dirtect Costs for the given {@link BudgetPeriod} and Sponsor
      * 
      * @param budgetPeriod given BudgetPeriod.
-     * @param sponsor sponsor detail.
      * @return List<OtherDirectCostInfo> list of OtherDirectCostInfo corresponding to the BudgetPeriod object.
      */
-    protected List<OtherDirectCostInfo> getOtherDirectCosts(BudgetPeriod budgetPeriod, String sponsor) {
+    protected List<OtherDirectCostInfo> getOtherDirectCosts(BudgetPeriod budgetPeriod) {
         Budget budget = budgetPeriod.getBudget();
         OtherDirectCostInfo otherDirectCostInfo = new OtherDirectCostInfo();
 
@@ -1420,9 +1411,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     public List<BudgetCategoryMap> getBudgetCategoryMapList(List<String> filterTargetCategoryCodes, List<String> filterCategoryTypes) {
         List<BudgetCategoryMapping> budgetCategoryMappingList;
         List<BudgetCategoryMap> budgetCategoryMapList = new ArrayList<BudgetCategoryMap>();
-        Map<String, String> categoryMap = new HashMap<String, String>();
-        categoryMap.put(KEY_MAPPING_NAME, S2SConstants.SPONSOR);
-        budgetCategoryMappingList = getBudgetCategoryMappings(categoryMap);
+        budgetCategoryMappingList = budgetCategoryMapService.findCatMappingByMappingName(S2SConstants.SPONSOR);
 
         boolean targetMatched;
         boolean duplicateExists;
@@ -1439,11 +1428,9 @@ public class S2SBudgetCalculatorServiceImpl implements
             }
 
             if (targetMatched) {
-                Map<String, String> conditionMap = new HashMap<String, String>();
-                conditionMap.put(KEY_MAPPING_NAME, categoryMapping.getMappingName());
-                conditionMap.put(KEY_TARGET_CATEGORY_CODE, categoryMapping.getTargetCategoryCode());
-                Iterator<BudgetCategoryMap> filterList = businessObjectService.findMatching(BudgetCategoryMap.class, conditionMap)
-                        .iterator();
+                Iterator<BudgetCategoryMap> filterList = budgetCategoryMapService.findCatMapByTargetAndMappingName(
+                        categoryMapping.getTargetCategoryCode(), categoryMapping.getMappingName()).iterator();
+
                 while (filterList.hasNext()) {
                     BudgetCategoryMap filterMap = filterList.next();
 
@@ -1650,10 +1637,7 @@ public class S2SBudgetCalculatorServiceImpl implements
         }
 
         boolean personAlreadyAdded = false;
-        Map<String, String> categoryMap = new HashMap<String, String>();
-        categoryMap.put(KEY_TARGET_CATEGORY_CODE,TARGET_CATEGORY_CODE_01);
-        categoryMap.put(KEY_MAPPING_NAME, S2SConstants.SPONSOR);
-        List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
+        List<BudgetCategoryMapping> budgetCategoryList = budgetCategoryMapService.findCatMappingByTargetAndMappingName(TARGET_CATEGORY_CODE_01, S2SConstants.SPONSOR);
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 personAlreadyAdded = false;
@@ -1684,9 +1668,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                 keyPersons.add(keyPerson);
                             }
                         }else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
-                            Map<String, String> searchMap = new HashMap<String, String>();
-                            searchMap.put("tbnId", budgetPersonnelDetails.getBudgetPerson().getTbnId());
-                            TbnPerson tbnPerson = (TbnPerson) businessObjectService.findByPrimaryKey(TbnPerson.class, searchMap);
+                            TbnPerson tbnPerson = toBeNamePersonService.findTbnPersonById(budgetPersonnelDetails.getBudgetPerson().getTbnId());
                             if (tbnPerson != null) {
                                 keyPerson = new KeyPersonInfo();
                                 keyPerson.setPersonId(tbnPerson.getJobCode());
@@ -1818,16 +1800,6 @@ public class S2SBudgetCalculatorServiceImpl implements
      */
     public boolean isPersonNonMITPerson(ProposalPerson proposalPerson) {
         return proposalPerson.getPersonId() == null;
-    }
-
-    protected List<BudgetCategoryMapping> getBudgetCategoryMappings(Map<String, String> conditionMap) {
-        Collection<BudgetCategoryMapping> budgetCategoryCollection = businessObjectService.findMatching(
-                BudgetCategoryMapping.class, conditionMap);
-        List<BudgetCategoryMapping> budgetCategoryMappings = new ArrayList<BudgetCategoryMapping>();
-        if (budgetCategoryCollection != null) {
-            budgetCategoryMappings.addAll(budgetCategoryCollection);
-        }
-        return budgetCategoryMappings;
     }
 
     /**
@@ -2045,46 +2017,18 @@ public class S2SBudgetCalculatorServiceImpl implements
         }
     }
 
-    /**
-     * This method returns the final version of BudgetDocument for a given ProposalDevelopmentDocument.
-     * 
-     * @param pdDoc Proposal development document.
-     * @return BudgetDocument final version of budget corresponding to the ProposalDevelopmentDocument object.
-     * @throws S2SException
-     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getFinalBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
-    public BudgetDocument getFinalBudgetVersion(ProposalDevelopmentDocument pdDoc) throws S2SException {
-        BudgetDocument budgetDocument = null;
-        BudgetVersionOverview versionOverview = pdDoc.getFinalBudgetVersion() == null ? null : pdDoc.getFinalBudgetVersion()
-                .getBudgetVersionOverview();
-        try {
-            if (versionOverview != null) {
-                budgetDocument = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(
-                        versionOverview.getDocumentNumber());
-            }
-            else {
-                List<BudgetDocumentVersion> budgetVersions = pdDoc.getBudgetDocumentVersions();
-
-                QueryList<BudgetVersionOverview> budgetVersionOverviews = new QueryList<BudgetVersionOverview>();
-                for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {
-                    budgetVersionOverviews.add((BudgetVersionOverview) budgetDocumentVersion.getBudgetVersionOverview());
-                }
-                if (!budgetVersionOverviews.isEmpty()) {
-                    budgetVersionOverviews.sort("budgetVersionNumber", false);
-                    BudgetVersionOverview budgetVersionOverview = budgetVersionOverviews.get(0);
-
-                    budgetDocument = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(
-                            budgetVersionOverview.getDocumentNumber());
-                }
-            }
-
+    @Override
+    public ScaleTwoDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo person ) {
+        final Integer listIndex = 0;
+        ScaleTwoDecimal baseSalaryByPeriod = null;
+        Collection<BudgetPersonSalaryDetails> personSalaryDetails = budgetPersonSalaryService.findSalaryDetailsByBudgetIdAndPersonIdAndBudgetPeriod(budgetId, person.getPersonId() != null ? person.getPersonId() : person.getRolodexId().toString(), budgetPeriod);
+        List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = (List<BudgetPersonSalaryDetails>) personSalaryDetails;
+        if (budgetPersonSalaryDetails != null && budgetPersonSalaryDetails.size() > 0) {
+            baseSalaryByPeriod = budgetPersonSalaryDetails.get(listIndex).getBaseSalary();
         }
-        catch (WorkflowException e) {
-            LOG.error("Error while getting Budget veraion", e);
-            throw new S2SException(e);
-        }
-        return budgetDocument;
+        return baseSalaryByPeriod;
     }
+
 
     /**
      * Sets the s2sUtilService attribute value.
@@ -2095,13 +2039,28 @@ public class S2SBudgetCalculatorServiceImpl implements
         this.s2SUtilService = s2SUtilService;
     }
 
-    /**
-     * This method is to set businessObjectService
-     * 
-     * @param businessObjectService(BusinessObjectService)
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setBudgetCategoryMapService(BudgetCategoryMapService budgetCategoryMapService) {
+        this.budgetCategoryMapService = budgetCategoryMapService;
+    }
+
+    public BudgetCategoryMapService getBudgetCategoryMapService() {
+        return budgetCategoryMapService;
+    }
+
+    public ToBeNamePersonService getToBeNamePersonService() {
+        return toBeNamePersonService;
+    }
+
+    public void setToBeNamePersonService(ToBeNamePersonService toBeNamePersonService) {
+        this.toBeNamePersonService = toBeNamePersonService;
+    }
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public S2SUtilService getS2SUtilService() {
+        return s2SUtilService;
     }
 
     /**
@@ -2113,4 +2072,27 @@ public class S2SBudgetCalculatorServiceImpl implements
         this.kcPersonService = kcPersonService;
     }
 
+    protected ParameterService getParameterService() {
+        return this.parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public ProposalBudgetService getProposalBudgetService() {
+        return proposalBudgetService;
+    }
+
+    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+        this.proposalBudgetService = proposalBudgetService;
+    }
+
+    public BudgetPersonSalaryService getBudgetPersonSalaryService() {
+        return budgetPersonSalaryService;
+    }
+
+    public void setBudgetPersonSalaryService(BudgetPersonSalaryService budgetPersonSalaryService) {
+        this.budgetPersonSalaryService = budgetPersonSalaryService;
+    }
 }

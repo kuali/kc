@@ -50,6 +50,7 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -78,10 +79,10 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     private BudgetInformationDocument getSF424A() {
         BudgetInformationDocument budgetInformationDocument = BudgetInformationDocument.Factory.newInstance();
         try {
-            BudgetDocument budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            BudgetDocument budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
             budget = budgetDocument==null?null:budgetDocument.getBudget();
         }
-        catch (S2SException e) {
+        catch (WorkflowException e) {
             LOG.error(e.getMessage(), e);
             return budgetInformationDocument;
         }

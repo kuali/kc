@@ -36,6 +36,7 @@ import gov.grants.apply.forms.phs398ModularBudget12V12.PHS398ModularBudget12Docu
 import gov.grants.apply.forms.phs398ModularBudget12V12.PHS398ModularBudget12Document.PHS398ModularBudget12.Periods.IndirectCost;
 import gov.grants.apply.forms.phs398ModularBudget12V12.PHS398ModularBudget12Document.PHS398ModularBudget12.Periods.IndirectCost.IndirectCostItems;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public class PHS398ModularBudgetV1_2Generator extends
 PHS398ModularBudgetBaseGenerator{
@@ -66,10 +67,10 @@ PHS398ModularBudgetBaseGenerator{
 
 		Budget budget = null;
 		try {
-			BudgetDocument budgetDocument = s2sBudgetCalculatorService
+			BudgetDocument budgetDocument = proposalBudgetService
 			.getFinalBudgetVersion(pdDoc);
 			budget = budgetDocument == null ? null : budgetDocument.getBudget();
-		} catch (S2SException e) {
+		} catch (WorkflowException e) {
 			LOG.error(e.getMessage(), e);
 			return modularBudgetDocument;
 		}

@@ -32,6 +32,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.kra.questionnaire.Questionnaire;
@@ -48,6 +49,7 @@ import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -77,6 +79,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private static final String STIPEND_AMOUNT = "amount";
     private static final String BUDGET_PERIOD = "period";
     private S2SBudgetCalculatorService s2sBudgetCalculatorService;
+    private ProposalBudgetService proposalBudgetService;
     private ParameterService parameterService;
     private TrainingStipendRateService trainingStipendRateService;
     private static final int PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130 = 130;
@@ -103,6 +106,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
         parameterService = KcServiceLocator.getService(ParameterService.class);
         trainingStipendRateService = KcServiceLocator.getService(TrainingStipendRateService.class);
+        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
     }
 
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
@@ -113,7 +117,12 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
     private PHS398TrainingBudget getPHS398TrainingBudget(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException{
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        BudgetDocument<DevelopmentProposal> budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(proposalDevelopmentDocument);
+        BudgetDocument<DevelopmentProposal> budgetDocument = null;
+        try {
+            budgetDocument = proposalBudgetService.getFinalBudgetVersion(proposalDevelopmentDocument);
+        } catch (WorkflowException e) {
+            throw new S2SException(e);
+        }
         PHS398TrainingBudget trainingBudgetType = PHS398TrainingBudget.Factory.newInstance();
         Budget budget;
         if (budgetDocument != null) {

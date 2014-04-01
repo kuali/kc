@@ -793,7 +793,7 @@ public class RRBudgetV1_3Generator extends RRBudgetBaseGenerator {
                         keyPersonDataType.setProjectRole(keyPerson.getRole());
                     }
                         if (pdDoc.getBudgetDocumentVersions() != null) {
-                            baseSalaryByPeriod = budgetService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
+                            baseSalaryByPeriod = s2sBudgetCalculatorService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
                                     .getBudgetVersionOverview().getBudgetId(), periodInfo.getBudgetPeriod(), keyPerson);
                             if (baseSalaryByPeriod != null) {
                                 keyPersonDataType.setBaseSalary(baseSalaryByPeriod.bigDecimalValue());

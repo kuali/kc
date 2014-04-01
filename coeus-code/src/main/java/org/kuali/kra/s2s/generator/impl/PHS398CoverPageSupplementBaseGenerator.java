@@ -17,6 +17,7 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
@@ -41,6 +42,7 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
 	public static final String NOT_ANSWERED = "No";
 
 	protected S2SUtilService s2sUtilService;
+    protected ProposalBudgetService proposalBudgetService;
 	protected static final int MAX_NUMBER_OF_DEGREES = 3;
 	protected static final int PERSON_DEGREE_MAX_LENGTH = 10;
 
@@ -49,7 +51,8 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
 	 * Constructs a PHS398CoverPageSupplementBaseGenerator.java.
 	 */
 	public PHS398CoverPageSupplementBaseGenerator() {
-		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
 	}
 
 	/**

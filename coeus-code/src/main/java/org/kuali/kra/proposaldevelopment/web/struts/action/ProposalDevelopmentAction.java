@@ -50,6 +50,7 @@ import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
@@ -61,7 +62,6 @@ import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.service.PrintService;
-import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -70,7 +70,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -867,7 +866,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();   
         getKeyPersonnelService().populateDocument(pdform.getProposalDevelopmentDocument());
-        BudgetDocument budgetDocument = getS2SBudgetCalculatorService() .getFinalBudgetVersion(document);
+        BudgetDocument budgetDocument = getProposalBudgetService() .getFinalBudgetVersion(document);
         if(budgetDocument != null) {
             Budget budget = budgetDocument.getBudget();
             if(budget.getFinalVersionFlag()){
@@ -1194,8 +1193,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     * 
     * @return
     */
-   public S2SBudgetCalculatorService getS2SBudgetCalculatorService() {
-       return KcServiceLocator.getService(S2SBudgetCalculatorService.class);
+   public ProposalBudgetService getProposalBudgetService() {
+       return KcServiceLocator.getService(ProposalBudgetService.class);
    }
 
     protected ProposalDevelopmentService getProposalDevelopmentService() {

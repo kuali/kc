@@ -16,8 +16,20 @@
 package org.kuali.kra.proposaldevelopment.budget.service;
 
 import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface ProposalBudgetService extends BudgetCommonService<DevelopmentProposal> {
 
+    /**
+     *
+     * This method returns the final version of {@link org.kuali.kra.budget.document.BudgetDocument} for a given {@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}
+     *
+     * @param parentDocument The parent document that has the budget.
+     * @return parentDocument final version of budget corresponding to the parentDocument object.
+     * @throws org.kuali.rice.kew.api.exception.WorkflowException
+     */
+    public BudgetDocument<DevelopmentProposal> getFinalBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument) throws WorkflowException;
 }

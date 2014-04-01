@@ -27,7 +27,6 @@ import org.apache.xpath.XPathAPI;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
-import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -83,31 +82,13 @@ public class PrintServiceImpl implements PrintService {
 	private S2SUtilService s2SUtilService;
 	private PrintingService printingService;
 	File grantsGovXmlDirectoryFile = null;
-	/**
-	 * Prints the proposal sponsor forms by passing the given proposal
-	 * information to {@link ProposalPrintReader}
-	 * 
-	 * @param proposalNumber
-	 *            proposal number.
-	 * @param sponsorFormTemplates
-	 *            list of SponsorFormTemplate.
-	 * @return byte array of forms corresponding to the proposal number and
-	 *         SponsorFormTemplate objects.
-	 * @throws S2SException
-	 * @see org.kuali.kra.s2s.service.PrintService#printProposalSponsorForms(java.lang.String,
-	 *      java.util.List)
-	 */
-	public byte[] printProposalSponsorForms(String proposalNumber,
-			List<SponsorFormTemplate> sponsorFormTemplates) throws S2SException {
-		throw new RuntimeException("Unsupported functionality");
-	}
 
 	/**
 	 * 
 	 * This method is used for the printing of forms in PDF format. It generates
 	 * PDF forms and puts it into {@link AttachmentDataSource}
 	 * 
-	 * @param pdDoc(ProposalDevelopmentDocument)
+	 * @param pdDoc (ProposalDevelopmentDocument)
 	 * @return {@link AttachmentDataSource} which contains all information
 	 *         related to the generated PDF
 	 * @throws

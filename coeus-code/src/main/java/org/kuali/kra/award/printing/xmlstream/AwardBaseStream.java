@@ -1683,7 +1683,7 @@ public abstract class AwardBaseStream implements XmlStream {
 		String countryDesc = null;
 		if (rolodex.getCountryCode() != null) {
 			Country country = PrintingUtils.getCountryFromCode(rolodex
-					.getCountryCode(), businessObjectService);
+					.getCountryCode());
 			if (country != null) {
 				countryDesc = country.getName();
 			}

@@ -24,6 +24,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
@@ -42,6 +43,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     protected S2SUtilService s2sUtilService;
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
     protected ParameterService parameterService;
+    protected ProposalBudgetService proposalBudgetService;
     protected static final String INDIRECT_COST_RATE_AGREEMENT_NONE = "NONE";
     protected static final String APPROVING_FEDERAL_AGENCY_OTHER = "Other";
     protected static final String APPROVING_FEDERAL_AGENCY_ED = "ED";
@@ -98,6 +100,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         parameterService = KcServiceLocator.getService(ParameterService.class);
         budgetCategoryMapListWithoutFilter = s2sBudgetCalculatorService.getBudgetCategoryMapList(new ArrayList<String>(),
                 new ArrayList<String>());
+        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
     }
 
     protected void getTotalCosts(BudgetPeriod budgetPeriod) {
