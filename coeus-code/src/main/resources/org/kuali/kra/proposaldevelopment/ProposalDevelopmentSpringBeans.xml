@@ -730,7 +730,7 @@
 	</bean>
 
 	<bean id="proposalDevelopmentWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
-		<property name="classname" value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction" />
+		<property name="classname" value="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction" />
 		<property name="mappings">
 			<map>
 				<entry key="save">
