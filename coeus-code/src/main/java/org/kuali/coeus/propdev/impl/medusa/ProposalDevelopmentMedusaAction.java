@@ -18,8 +18,8 @@ package org.kuali.coeus.propdev.impl.medusa;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
