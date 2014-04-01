@@ -38,7 +38,7 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KcMainten
         rulePassed &= checkExistence(kcPersonExtendedAttributes);
         rulePassed &= processRules(new SaveCustomDataEvent(CUSTOM_DATA_ERROR_PREFIX, document, 
                 kcPersonExtendedAttributes.getPersonCustomDataList(),
-                maintainableImpl.getCustomDataHelper().getCustomAttributeDocuments()));
+                maintainableImpl.getCustomAttributeDocuments()));
         rulePassed &= checkEraCommonsUserName(kcPersonExtendedAttributes);
         
         return rulePassed;
