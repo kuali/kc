@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.osedu.org/licenses/ECL-2.0
+ * http://www.opensource.org/licenses/ecl1.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup.keyvalue;
+package org.kuali.coeus.common.impl.print.watermark;
 
 import org.kuali.coeus.common.framework.print.watermark.WatermarkConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -23,21 +23,15 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- * This class for storing the details of watermark type.
- */
-public class WatermarkTypeValuesFinder extends UifKeyValuesFinderBase {
-    /**
-     * This method for storing lookup keyvalues of watermark type.
-     * Watermark Type: TEXT , IMAGE.
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+public class WatermarkGroupnameValuesFinder extends UifKeyValuesFinderBase {
+
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("TEXT", WatermarkConstants.WATERMARK_TYPE_TEXT));
-        keyValues.add(new ConcreteKeyValue("IMAGE", WatermarkConstants.WATERMARK_TYPE_IMAGE));
+
+        keyValues.add(new ConcreteKeyValue("IRB", WatermarkConstants.IRB));
+        keyValues.add(new ConcreteKeyValue("IACUC", WatermarkConstants.IACUC));
         return keyValues;
     }
+
 }
