@@ -16,9 +16,9 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.depend.SponsorHierarchyService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;

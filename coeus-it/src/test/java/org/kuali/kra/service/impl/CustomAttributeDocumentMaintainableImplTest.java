@@ -20,12 +20,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.impl.custom.attr.CustomAttributeDocumentMaintainableImpl;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

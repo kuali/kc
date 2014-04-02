@@ -32,13 +32,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.*;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
@@ -168,7 +168,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @return boolean, <code>true</code> if status has changed, false
 	 *         otherwise
 	 * @throws S2SException
-	 * @see org.kuali.kra.s2s.service.S2SService#refreshGrantsGov(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+	 * @see org.kuali.kra.s2s.service.S2SService#refreshGrantsGov(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
 	 */
 	public boolean refreshGrantsGov(ProposalDevelopmentDocument pdDoc)
 			throws S2SException {
@@ -404,7 +404,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 *            Proposal Development Document.
 	 * @return true if submitted false otherwise.
 	 * @throws S2SException
-	 * @see org.kuali.kra.s2s.service.S2SService#submitApplication(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+	 * @see org.kuali.kra.s2s.service.S2SService#submitApplication(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
 	 */
 	public boolean submitApplication(ProposalDevelopmentDocument pdDoc)
 			throws S2SException {
@@ -585,7 +585,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 *            Proposal Development Document.
 	 * @return boolean true if valid false otherwise.
 	 * @throws S2SException
-	 * @see org.kuali.kra.s2s.service.S2SService#validateApplication(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+	 * @see org.kuali.kra.s2s.service.S2SService#validateApplication(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
 	 */
 	public boolean validateApplication(
 			ProposalDevelopmentDocument proposalDevelopmentDocument)

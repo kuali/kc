@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 /**

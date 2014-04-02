@@ -26,7 +26,6 @@ import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.*;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.*;
 import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
 import org.kuali.rice.kns.service.KNSServiceLocator;

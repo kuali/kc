@@ -22,8 +22,8 @@ import gov.grants.apply.forms.rrSubawardBudget1030V12.RRSubawardBudget1030Docume
 import gov.grants.apply.forms.rrSubawardBudget1030V12.RRSubawardBudget1030Document.RRSubawardBudget1030.BudgetAttachments;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.w3c.dom.Document;

@@ -54,7 +54,7 @@ public class KraServiceLocatorTest extends KcIntegrationTestBase {
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KcServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         assertNotNull(dataDictionaryService);
 
-        assertEquals("ProposalDevelopmentDocument", dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getDocumentTypeName());
+        assertEquals("ProposalDevelopmentDocument", dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument.class.getName()).getDocumentTypeName());
     }
 
     @Test public void testGetDateTimeService() throws Exception {

@@ -28,7 +28,7 @@ public interface ReplaceNarrativeRule extends AddNarrativeRule {
     
     /**
      * Rule invoked upon replacing a proposal attachment within a
-     * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
+     * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
      *
      * @return boolean
      */

@@ -20,8 +20,8 @@ import gov.grants.apply.forms.phsCoverLetter12V12.PHSCoverLetter12Document.PHSCo
 import gov.grants.apply.forms.phsCoverLetter12V12.PHSCoverLetter12Document.PHSCoverLetter12.CoverLetterFile;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 public class PHSCoverLetterV1_2Generator extends PHSCoverLetterBaseGenerator {

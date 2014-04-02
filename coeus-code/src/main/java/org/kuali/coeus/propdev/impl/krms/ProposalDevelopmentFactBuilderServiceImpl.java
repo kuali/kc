@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.krms;
 
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
@@ -23,7 +24,6 @@ import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.api.exception.WorkflowException;

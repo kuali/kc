@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.state;
 
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 
 /**
  * The Proposal State Service is responsible for computing the state of a proposal.

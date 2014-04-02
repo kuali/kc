@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public interface ProtocolProposalDevelopmentDocumentService {
     public final static String PROJECT_END_DATE_NUMBER_OF_YEARS = "protocolProjectEndDateNumberOfYears";

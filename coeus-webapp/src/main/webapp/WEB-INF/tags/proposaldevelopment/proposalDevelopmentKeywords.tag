@@ -20,7 +20,7 @@
 <c:set var="scienceKeywordAttributes" value="${DataDictionary.ScienceKeyword.attributes}" />
 <c:set var="textAreaFieldName" value="document.developmentProposalList[0].mailDescription" />
 <c:set var="action" value="proposalDevelopmentProposal" />
-<c:set var="className" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
+<c:set var="className" value="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument" />
 
 <kul:tab tabTitle="Keywords" defaultOpen="false" tabErrorKey="document.developmentProposalList[0].propScienceKeyword">
 	<div class="tab-container" align="center">
