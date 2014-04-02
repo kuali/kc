@@ -20,7 +20,7 @@
     
     
     <property name="documentTypeName" value="UnitMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.rules.UnitMaintenanceDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.impl.unit.UnitMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.authorizer.UnitMaintenanceDocumentAuthorizer"/>
     
     

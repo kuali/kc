@@ -18,7 +18,7 @@
     </property>
     <property name="allowsRecordDeletion" value="true" />
     <property name="documentTypeName" value="UnitAdministratorMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.rules.UnitAdministratorMaintenanceDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.impl.unit.admin.UnitAdministratorMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
   </bean>
 
