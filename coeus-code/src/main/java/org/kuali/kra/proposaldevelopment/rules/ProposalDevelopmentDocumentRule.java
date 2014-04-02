@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.resubmit.ResubmissionPromptRule;
 import org.kuali.coeus.propdev.impl.resubmit.ResubmissionRuleEvent;
@@ -33,7 +34,6 @@ import org.kuali.kra.budget.document.BudgetParentDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.*;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.rule.*;
 import org.kuali.kra.proposaldevelopment.rule.event.*;
@@ -500,7 +500,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     /**
      * Delegate to {@link org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule#processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument)
      * 
-     * @see org.kuali.kra.proposaldevelopment.rule.SaveKeyPersonRule#processSaveKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.proposaldevelopment.rule.SaveKeyPersonRule#processSaveKeyPersonBusinessRules(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
      */
     public boolean processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument document) {
         LOG.info("In processSaveKeyPersonBusinessRules()");

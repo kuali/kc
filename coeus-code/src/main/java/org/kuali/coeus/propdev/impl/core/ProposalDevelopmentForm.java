@@ -66,7 +66,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationContext;

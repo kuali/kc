@@ -19,8 +19,8 @@ import gov.grants.apply.forms.rrPersonalDataV10.DirectorType;
 import gov.grants.apply.forms.rrPersonalDataV10.RRPersonalDataDocument;
 import gov.grants.apply.forms.rrPersonalDataV10.RRPersonalDataDocument.RRPersonalData;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;

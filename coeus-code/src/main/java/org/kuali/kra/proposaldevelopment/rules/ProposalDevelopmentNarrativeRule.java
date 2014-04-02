@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -30,7 +31,6 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
 import org.kuali.kra.proposaldevelopment.rule.ReplaceNarrativeRule;
@@ -57,7 +57,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.*;
 
 /**
  * Implementation of business rules required for the Proposal attachment page of the 
- * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
+ * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>.
  *
  * @author kualidev@oncourse.iu.edu
  * @version 1.0

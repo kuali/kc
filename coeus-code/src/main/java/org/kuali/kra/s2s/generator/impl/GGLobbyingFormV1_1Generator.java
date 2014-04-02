@@ -19,7 +19,7 @@ import gov.grants.apply.forms.ggLobbyingFormV11.LobbyingFormDocument;
 import gov.grants.apply.forms.ggLobbyingFormV11.LobbyingFormDocument.LobbyingForm;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 

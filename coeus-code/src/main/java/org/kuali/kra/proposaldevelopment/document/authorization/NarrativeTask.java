@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorization;
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * A Narrative Task is a task that corresponds to

@@ -17,7 +17,7 @@ package org.kuali.coeus.propdev.impl.auth.perm;
 
 import java.util.List;
 
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 
 public interface ProposalDevelopmentPermissionsService {

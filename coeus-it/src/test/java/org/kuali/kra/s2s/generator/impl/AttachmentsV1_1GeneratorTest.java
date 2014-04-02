@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.rice.krad.data.DataObjectService;
 

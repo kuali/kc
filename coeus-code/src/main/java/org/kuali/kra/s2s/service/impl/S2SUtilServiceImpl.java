@@ -27,6 +27,7 @@ import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -43,7 +44,6 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService;
@@ -121,7 +121,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      *
      * @param pdDoc Proposal Development Document.
      * @return Map<String, String> Map of submission details.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getSubmissionType(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getSubmissionType(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
      */
     public Map<String, String> getSubmissionType(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> submissionInfo = new HashMap<String, String>();
@@ -151,7 +151,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * @param pdDoc Proposal Development Document.
      * @return DepartmentalPerson departmental Person object for a given proposal document.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getDepartmentalPerson(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getDepartmentalPerson(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
      */
     public DepartmentalPerson getDepartmentalPerson(ProposalDevelopmentDocument pdDoc) {
         int count = 0;
@@ -285,7 +285,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * @param pdDoc Proposal Development Document.
      * @return Map<String, String> map containing the answers related to EOState Review for a given proposal.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getEOStateReview(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getEOStateReview(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
      */
     public Map<String, String> getEOStateReview(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> stateReview = new HashMap<String, String>();
@@ -395,7 +395,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * @param pdDoc Proposal development document.
      * @return divisionName based on the OwnedByUnit.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getDivisionName(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getDivisionName(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
      */
     public String getDivisionName(ProposalDevelopmentDocument pdDoc) {
         String divisionName = null;
@@ -418,7 +418,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * @param pdDoc Proposal development document.
      * @return ProposalPerson PrincipalInvestigator for the proposal.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getPrincipalInvestigator(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getPrincipalInvestigator(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
      */
     public ProposalPerson getPrincipalInvestigator(ProposalDevelopmentDocument pdDoc) {
         ProposalPerson proposalPerson = null;

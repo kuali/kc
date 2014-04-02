@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.auth.perm;
 
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 
 /**
  * The Proposal Role Template Service.

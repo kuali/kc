@@ -20,8 +20,8 @@ import gov.grants.apply.forms.otherV11.OtherNarrativeAttachmentsDocument.OtherNa
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;

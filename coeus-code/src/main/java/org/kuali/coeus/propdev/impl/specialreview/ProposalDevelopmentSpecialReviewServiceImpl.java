@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.specialreview;
 
 import org.kuali.coeus.common.specialreview.impl.rule.event.AddSpecialReviewEvent;
 import org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
@@ -26,7 +27,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.funding.ProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewService;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

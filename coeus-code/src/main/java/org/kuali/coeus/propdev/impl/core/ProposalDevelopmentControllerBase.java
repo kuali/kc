@@ -21,7 +21,6 @@ import org.kuali.coeus.propdev.impl.auth.perm.ProposalRoleTemplateService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.krad.ProposalDevelopmentDocumentForm;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;

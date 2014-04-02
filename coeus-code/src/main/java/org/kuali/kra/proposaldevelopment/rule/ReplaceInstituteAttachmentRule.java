@@ -21,7 +21,7 @@ public interface ReplaceInstituteAttachmentRule extends AddInstituteAttachmentRu
 
     /**
      * Rule invoked upon replacing an institute attachment within a
-     * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
+     * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
 
      * @param event The <code>{@link org.kuali.kra.proposaldevelopment.rule.event.ReplaceInstituteAttachmentEvent}</code> that triggered this rule to run.
      * @return true if the business rules pass, false otherwise.

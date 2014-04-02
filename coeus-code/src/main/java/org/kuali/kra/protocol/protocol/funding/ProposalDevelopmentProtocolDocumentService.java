@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 
 public interface ProposalDevelopmentProtocolDocumentService<GenericProtocolDocument extends ProtocolDocumentBase> {

@@ -23,9 +23,9 @@ import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.rule.event.AddNotificationRecipientEvent;
 import org.kuali.coeus.common.notification.impl.rule.event.SendNotificationEvent;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
