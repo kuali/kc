@@ -397,6 +397,7 @@
 
   <bean id="ProposalPerson-countryOfCitizenship-parentBean" abstract="true" parent="KraAttributeReferenceDummy-countryCode">
     <property name="name" value="countryOfCitizenship" />
+    <property name="label" value="Country of Citizenship" />
   </bean>
 
   <bean id="ProposalPerson-versionNumber" parent="ProposalPerson-versionNumber-parentBean"/>

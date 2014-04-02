@@ -457,7 +457,9 @@
 				<bean parent="Uif-InputField" p:propertyName="idVerified"
 					p:order="170" />
 				<bean parent="Uif-InputField" p:propertyName="countryOfCitizenship"
-					p:order="180" />
+					p:order="180" />				
+				<bean parent="Uif-InputField" p:propertyName="citizenshipTypeCode"
+					p:order="190" p:enableAutoQuickfinder="false"/>
 			</list>
 		</property>
 	</bean>
