@@ -13,27 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions.submit;
+package org.kuali.kra.irb.actions.submit;
 
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
-import org.kuali.kra.protocol.actions.submit.ValidProtoSubRevType;
-import org.kuali.kra.protocol.actions.submit.ValidProtoSubRevTypeMaintenanceDocumentRuleBase;
 
-public class IacucValidProtoSubRevTypeMaintenanceDocumentRule extends ValidProtoSubRevTypeMaintenanceDocumentRuleBase {
+public class ValidProtoSubRevTypeMaintenanceDocumentRule extends org.kuali.kra.protocol.actions.submit.ValidProtoSubRevTypeMaintenanceDocumentRuleBase {
 
     @Override
     protected Class<? extends ProtocolSubmissionTypeBase> getProtocolSubmissionTypeBOClassHook() {
-        return IacucProtocolSubmissionType.class;
+        return ProtocolSubmissionType.class;
     }
 
     @Override
     protected Class<? extends ProtocolReviewTypeBase> getProtocolReviewTypeBOClassHook() {
-        return IacucProtocolReviewType.class;
+        return ProtocolReviewType.class;
     }
 
     @Override
     protected Class<? extends ValidProtoSubRevType> getValidProtoSubRevTypeBOClassHook() {
-        return org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubRevType.class;
+        return org.kuali.kra.irb.actions.submit.ValidProtoSubRevType.class;
     }
+
 }

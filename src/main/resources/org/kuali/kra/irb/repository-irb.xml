@@ -1301,7 +1301,7 @@
     
     
     	<class-descriptor class="org.kuali.kra.irb.actions.submit.ValidProtoSubRevType" table="VALID_PROTO_SUB_REV_TYPE">
-		<field-descriptor name="validProtoSubRevTypeId" column="VALID_PROTO_SUB_REV_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+		<field-descriptor name="validProtoSubRevTypeId" column="VALID_PROTO_SUB_REV_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_VAL_PROTO_SUB_REV_TYP_ID" autoincrement="true"/>
 		<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="protocolReviewTypeCode" column="PROTOCOL_REVIEW_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1317,7 +1317,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.irb.actions.submit.ValidProtoSubTypeQual" table="VALID_PROTO_SUB_TYPE_QUAL">
-		<field-descriptor name="validProtoSubTypeQualId" column="VALID_PROTO_SUB_TYPE_QUAL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+		<field-descriptor name="validProtoSubTypeQualId" column="VALID_PROTO_SUB_TYPE_QUAL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_VAL_PROTO_SUB_TYP_QUAL_ID" autoincrement="true"/>
 		<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="submissionTypeQualCode" column="SUBMISSION_TYPE_QUAL_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />

@@ -44,7 +44,7 @@
 		
 		<bean id="IacucValidProtoSubRevType-validProtocolSubRevTypeId" parent="IacucValidProtoSubRevType-validProtocolSubRevTypeId-parentBean" />
 		<bean id="IacucValidProtoSubRevType-validProtocolSubRevTypeId-parentBean" abstract="true" parent="AttributeDefinition" >
-			<property name="name" value="validProtocolSubRevTypeId" />
+			<property name="name" value="validProtoSubRevTypeId" />
 			<property name="forceUppercase" value="false" />
 			<property name="label" value="Valid Protocol Submission Review Type Id" />
 			<property name="shortLabel" value="Valid Protocol Submission Review Type Id" />
@@ -62,7 +62,7 @@
 		
 		<bean id="IacucValidProtoSubRevType-iacucProtocolReviewTypeCode" parent="IacucValidProtoSubRevType-iacucProtocolReviewTypeCode-parentBean" />
 		<bean id="IacucValidProtoSubRevType-iacucProtocolReviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-			<property name="name" value="iacucProtocolReviewTypeCode" />
+			<property name="name" value="protocolReviewTypeCode" />
 			<property name="forceUppercase" value="false" />
 			<property name="label" value="IACUC Protocol Review Type Code" />
 			<property name="shortLabel" value="IACUC Protocol Review Type Code" />
@@ -120,12 +120,12 @@
 						<property name="inquiryFields" >
 							<list>
 							    <bean parent="FieldDefinition"
-									p:attributeName="validProtocolSubRevTypeId"
+									p:attributeName="validProtoSubRevTypeId"
 									p:forceInquiry="true" />
 								<bean parent="FieldDefinition"
 									p:attributeName="submissionTypeCode" />
 								<bean parent="FieldDefinition"
-									p:attributeName="iacucProtocolReviewTypeCode" />
+									p:attributeName="protocolReviewTypeCode" />
 							</list>
 						</property>
 					</bean>
@@ -148,16 +148,16 @@
 			<property name="lookupFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="submissionTypeCode" />
-					<bean parent="FieldDefinition" p:attributeName="iacucProtocolReviewTypeCode" />
+					<bean parent="FieldDefinition" p:attributeName="protocolReviewTypeCode" />
 				</list>
 			</property>
 			<property name="resultFields">
 				<list>
 				   <bean parent="FieldDefinition"
-                    p:attributeName="validProtocolSubRevTypeId" 
+                    p:attributeName="validProtoSubRevTypeId" 
                     p:forceInquiry="true" />
-					<bean parent="FieldDefinition" p:attributeName="submissionTypeCode" />
-					<bean parent="FieldDefinition" p:attributeName="iacucProtocolReviewTypeCode" />
+					<bean parent="FieldDefinition" p:attributeName="submissionType.description" />
+					<bean parent="FieldDefinition" p:attributeName="protocolReviewType.description" />
 				</list>
 			</property>
 		</bean>
