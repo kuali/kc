@@ -768,6 +768,10 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     public String getCounty() {
         return this.extendedAttributes.getCounty();
     }
+    
+    public Integer getCitizenshipTypeCode() {
+    	return this.extendedAttributes.getCitizenshipTypeCode();
+    }
 
     /**
      * Gets the value of state.

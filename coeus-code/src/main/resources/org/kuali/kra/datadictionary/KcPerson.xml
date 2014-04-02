@@ -66,6 +66,7 @@
         <ref bean="KcPerson-extendedAttributes.onSabbaticalFlag" />
         <ref bean="KcPerson-extendedAttributes.idProvided" />
         <ref bean="KcPerson-extendedAttributes.idVerified" />
+        <ref bean="KcPerson-extendedAttributes.citizenshipTypeCode" />
         <ref bean="KcPerson-addressLine1" />
         <ref bean="KcPerson-addressLine2" />
         <ref bean="KcPerson-addressLine3" />
@@ -576,6 +577,11 @@
   <bean id="KcPerson-extendedAttributes.idVerified" parent="KcPerson-extendedAttributes.idVerified-parentBean"/>
   <bean id="KcPerson-extendedAttributes.idVerified-parentBean" abstract="true" parent="KcPersonExtendedAttributes-idVerified">
     <property name="name" value="extendedAttributes.idVerified" />
+  </bean>
+  
+  <bean id="KcPerson-extendedAttributes.citizenshipTypeCode" parent="KcPerson-extendedAttributes.citizenshipTypeCode-parentBean"/>
+  <bean id="KcPerson-extendedAttributes.citizenshipTypeCode-parentBean" abstract="true" parent="KcPersonExtendedAttributes-citizenshipTypeCode">
+  	<property name="name" value="extendedAttributes.citizenshipTypeCode" />
   </bean>
 
   <bean id="KcPerson-addressLine1" parent="KcPerson-addressLine1-parentBean"/>

@@ -214,14 +214,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 questionnaireAnswerService.copyAnswerHeaders(moduleQuestionnaireBean, destModuleQuestionnaireBean);                
             }
             
-            //save extended attributes
-            List<ProposalPerson> proposalPersons = newDoc.getDevelopmentProposal().getProposalPersons();
-            for (ProposalPerson person : proposalPersons) {
-                if (person.getProposalPersonExtendedAttributes() != null) {
-                    this.businessObjectService.save(person.getProposalPersonExtendedAttributes());
-                }
-            }
-            
             copyCustomData(doc, newDoc);
             
             newDocNbr = newDoc.getDocumentNumber();
@@ -506,21 +498,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             proposalperson.setProposalNumber(newDoc.getDevelopmentProposal().getProposalNumber());
             for (ProposalPersonUnit proposalPersonUnit : proposalperson.getUnits()) {
                 ObjectUtils.materializeObjects(proposalPersonUnit.getCreditSplits());
-            }
-            
-            /**
-             * Need to copy extended attributes KRACOEUS-4834
-             */
-            for (ProposalPerson srcProposalperson : srcDoc.getDevelopmentProposal().getProposalPersons()) {
-                if (StringUtils.equals(proposalperson.getFullName(), srcProposalperson.getFullName())
-                    && StringUtils.equals(proposalperson.getProposalPersonRoleId(), srcProposalperson.getProposalPersonRoleId())) {
-                    if (srcProposalperson.getProposalPersonExtendedAttributes() != null) {
-                        ProposalPersonExtendedAttributes ppea = 
-                            (ProposalPersonExtendedAttributes) ObjectUtils.deepCopy(srcProposalperson.getProposalPersonExtendedAttributes());
-                        ppea.setProposalPerson(proposalperson);
-                        proposalperson.setProposalPersonExtendedAttributes(ppea);
-                    }
-                }
             }
         }
 

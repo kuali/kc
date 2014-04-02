@@ -970,7 +970,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         String RETURN_VALUE = FALSE;
         ProposalPerson principalInvestigator = developmentProposal.getPrincipalInvestigator();
         char citizenType = citizenshipTypeToCheck != null ? citizenshipTypeToCheck.charAt(0) : '0';
-        Integer citizenshipTypeCode = principalInvestigator.getProposalPersonExtendedAttributes().getCitizenshipTypeCode();
+        Integer citizenshipTypeCode = principalInvestigator.getCitizenshipTypeCode();
         switch(citizenType){
             case 'A' :
                 if(citizenshipTypeCode.equals(CitizenshipDataType.INT_NON_U_S_CITIZEN_WITH_TEMPORARY_VISA)) {
@@ -1013,8 +1013,9 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         List<ProposalPerson> people = developmentProposal.getProposalPersons();
         List<AppointmentType> appointmentTypes = (List<AppointmentType>)getBusinessObjectService().findAll(AppointmentType.class);
         for (ProposalPerson person : people) {
-            if ((person.isInvestigator() && person.getRole().isPrincipalInvestigatorRole()) || (person.isMultiplePi())) {
-                List<PersonAppointment> appointments = person.getProposalPersonExtendedAttributes().getPersonAppointments();
+            if ((person.isInvestigator() && person.getRole().isPrincipalInvestigatorRole()) || (person.isMultiplePi())
+            		&& person.getPerson() != null && person.getPerson().getExtendedAttributes() != null) {
+                List<PersonAppointment> appointments = person.getPerson().getExtendedAttributes().getPersonAppointments();
                 for(PersonAppointment personAppointment : appointments) {
                     if(isAppointmentTypeEqualsJobTitle(appointmentTypes, personAppointment.getJobTitle())) {
                         return TRUE;

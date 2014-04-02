@@ -80,6 +80,7 @@
         <ref bean="ProposalPerson-county" />
         <ref bean="ProposalPerson-state" />
         <ref bean="ProposalPerson-countryOfCitizenship" />
+        <ref bean="ProposalPerson-citizenshipTypeCode" />
         <ref bean="ProposalPerson-versionNumber" />
         <ref bean="ProposalPerson-delete" />
       </list>
@@ -274,6 +275,8 @@
   <bean id="ProposalPerson-postalCode" parent="ProposalPerson-postalCode-parentBean" />
   <bean id="ProposalPerson-postalCode-parentBean" abstract="true" parent="KcPerson-postalCode"/>
   <bean id="ProposalPerson-countryCode" parent="ProposalPerson-countryCode-parentBean" />
+  <bean id="ProposalPerson-citizenshipTypeCode" parent="ProposalPerson-citizenshipTypeCode-parentBean" />
+  <bean id="ProposalPerson-citizenshipTypeCode-parentBean" abstract="true" parent="KcPersonExtendedAttributes-citizenshipTypeCode"/>
   <bean id="ProposalPerson-countryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="countryCode" />
     <property name="forceUppercase" value="false" />

@@ -1072,8 +1072,8 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             CitizenshipType citizenShip;
             String allowOverride = parameterService.getParameterValueAsString("KC-GEN", "A",
                     "ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES");
-            if ("Y".equals(allowOverride) && proposalPerson.getProposalPersonExtendedAttributes() != null) {
-                citizenShip = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType();
+            if ("Y".equals(allowOverride)) {
+                citizenShip = proposalPerson.getCitizenshipType();
             }
             else {
                 citizenShip = proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();

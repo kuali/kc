@@ -19,8 +19,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
 import org.kuali.coeus.common.framework.person.attr.PersonBiosketch;
 import org.kuali.coeus.common.framework.person.attr.PersonDegree;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -41,6 +41,8 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.*;
 
@@ -66,6 +68,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     private YnqService ynqService;
     private ParameterService parameterService;
     private SponsorService sponsorService;
+    
+    @Autowired
+    @Qualifier("personEditableService")
+    private PersonEditableService personEditableService;
 
     /**
      * Part of a complete breakfast, it has everything you need to populate Key Personnel into a <code>{@link ProposalDevelopmentDocument}</code>
@@ -175,18 +181,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
     
     public void addProposalPerson(ProposalPerson proposalPerson, ProposalDevelopmentDocument document) {
-        Map<String, String> keys = new HashMap<String, String>();
-        keys.put("personId", proposalPerson.getPersonId());
-        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.getBusinessObjectService().
-            findByPrimaryKey(KcPersonExtendedAttributes.class, keys);
-        if (kcPersonExtendedAttributes != null) {
-            ProposalPersonExtendedAttributes proposalPersonExtendedAttributes = new ProposalPersonExtendedAttributes(
-                    proposalPerson, kcPersonExtendedAttributes);
-            proposalPerson.setProposalPersonExtendedAttributes(proposalPersonExtendedAttributes);
-        } else {
-            ProposalPersonExtendedAttributes proposalPersonExtendedAttributes = new ProposalPersonExtendedAttributes(proposalPerson);
-            proposalPerson.setProposalPersonExtendedAttributes(proposalPersonExtendedAttributes);
-        }
+    	getPersonEditableService().populateContactFields(proposalPerson);
         document.getDevelopmentProposal().addProposalPerson(proposalPerson);
         
         LOG.info("Added Proposal Person with proposalNumber = " + document.getDevelopmentProposal().getProposalNumber() + " and proposalPersonNumber = " + proposalPerson.getProposalPersonNumber());
@@ -692,4 +687,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     public void setSponsorService(SponsorService sponsorService) {
         this.sponsorService = sponsorService;
     }
+	protected PersonEditableService getPersonEditableService() {
+		return personEditableService;
+	}
+	public void setPersonEditableService(PersonEditableService personEditableService) {
+		this.personEditableService = personEditableService;
+	}
 }
