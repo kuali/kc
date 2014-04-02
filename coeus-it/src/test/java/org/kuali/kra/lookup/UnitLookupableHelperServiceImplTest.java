@@ -24,6 +24,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.impl.unit.UnitLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.multicampus.MultiCampusConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
