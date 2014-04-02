@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -40,7 +41,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.depend.BudgetCategoryMapService;
 import org.kuali.kra.s2s.depend.BudgetPersonSalaryService;
@@ -479,7 +479,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      * @param pdDoc ProposalDevelopmentDocument
      * @return a List of BudgetPeriodInfo corresponding to the ProposalDevelopmentDocument object.
      * @throws S2SException
-     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetPeriods(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetPeriods(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
      */
     public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocument pdDoc) throws S2SException {
         List<BudgetPeriodInfo> budgetPeriods = new ArrayList<BudgetPeriodInfo>();

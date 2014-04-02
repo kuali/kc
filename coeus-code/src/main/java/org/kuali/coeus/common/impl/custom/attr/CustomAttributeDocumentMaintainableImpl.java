@@ -17,11 +17,11 @@ package org.kuali.coeus.common.impl.custom.attr;
 
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
 

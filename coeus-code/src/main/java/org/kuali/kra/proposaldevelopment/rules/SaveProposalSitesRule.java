@@ -22,7 +22,7 @@ public interface SaveProposalSitesRule extends BusinessRule {
     
     /**
      * A rule that checks all Proposal Sites of a proposal when saving the
-     * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
+     * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
      *
      * @return boolean
      */

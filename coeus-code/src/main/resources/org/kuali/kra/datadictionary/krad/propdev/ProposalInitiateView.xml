@@ -16,7 +16,7 @@
 	<bean id="PropDev-InitiateView-parentBean" abstract="true"
 		parent="Uif-TransactionalDocumentView"
 		p:formClass="org.kuali.kra.proposaldevelopment.web.krad.ProposalDevelopmentDocumentForm"
-		p:documentClass="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument"
+		p:documentClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument"
 		p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl"
 		p:viewName="initiate" p:stickyFooter="true" p:additionalScriptFiles="scripts/proposaldevelopment.js"
 		p:additionalCssFiles="css/proposaldevelopment.css" p:singlePageView="true">

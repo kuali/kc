@@ -22,7 +22,7 @@ import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**

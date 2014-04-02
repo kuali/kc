@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 import java.util.List;

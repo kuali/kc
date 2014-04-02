@@ -16,8 +16,8 @@
 package org.kuali.kra.proposaldevelopment.web.krad;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;

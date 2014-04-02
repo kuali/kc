@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.state;
 
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.springframework.beans.factory.annotation.Autowired;
