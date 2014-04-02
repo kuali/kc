@@ -7,8 +7,6 @@ import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportService;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
-import org.kuali.kra.dao.CurrentReportDao;
-import org.kuali.kra.dao.PendingReportDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.springframework.transaction.annotation.Transactional;

@@ -541,9 +541,9 @@
         <property name="printingService" ref="printingService" />
     </bean>
     
-    <bean id="currentReportDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.CurrentReportDaoOjb" />
+    <bean id="currentReportDao" parent="platformAwareDao" class="org.kuali.coeus.common.proposal.impl.report.CurrentReportDaoOjb" />
     
-    <bean id="pendingReportDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.PendingReportDaoOjb" />
+    <bean id="pendingReportDao" parent="platformAwareDao" class="org.kuali.coeus.common.proposal.impl.report.PendingReportDaoOjb" />
     
     <bean id="currentProposalPrint" class="org.kuali.coeus.common.proposal.impl.report.CurrentProposalPrint" scope="prototype">
         <property name="xmlStream" ref="currentProposalXmlStream" />

@@ -1,4 +1,4 @@
-package org.kuali.kra.dao;
+package org.kuali.coeus.common.proposal.impl.report;
 
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.rice.kew.api.exception.WorkflowException;
