@@ -35,7 +35,7 @@
         </property>
         <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="ValidProtoSubRevTypeMaintenanceDocument" />
-        <property name="businessRulesClass" value="org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubRevTypeMaintenanceDocumentRule"/>
+        <property name="businessRulesClass" value="org.kuali.kra.irb.actions.submit.ValidProtoSubRevTypeMaintenanceDocumentRule"/>
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>
 

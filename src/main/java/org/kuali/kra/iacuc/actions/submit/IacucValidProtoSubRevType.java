@@ -15,70 +15,11 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
-
-public class IacucValidProtoSubRevType extends KraPersistableBusinessObjectBase {
+public class IacucValidProtoSubRevType extends org.kuali.kra.protocol.actions.submit.ValidProtoSubRevType {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1L;
-
-    private Long validProtocolSubRevTypeId;
-
-    private String submissionTypeCode;
-
-    private String iacucProtocolReviewTypeCode;
-
-    private IacucProtocolReviewType iacucProtocolReviewType;
-
-    private IacucProtocolSubmissionType iacucProtocolSubmissionType;
-
-    public IacucValidProtoSubRevType() {
-    }
-
-    public Long getValidProtocolSubRevTypeId() {
-        return validProtocolSubRevTypeId;
-    }
-
-    public void setValidProtocolSubRevTypeId(Long validProtocolSubRevTypeId) {
-        this.validProtocolSubRevTypeId = validProtocolSubRevTypeId;
-    }
-
-    public String getSubmissionTypeCode() {
-        return submissionTypeCode;
-    }
-
-    public void setSubmissionTypeCode(String submissionTypeCode) {
-        this.submissionTypeCode = submissionTypeCode;
-    }
-
-    public String getIacucProtocolReviewTypeCode() {
-        return iacucProtocolReviewTypeCode;
-    }
-
-    public void setIacucProtocolReviewTypeCode(String iacucProtocolReviewTypeCode) {
-        this.iacucProtocolReviewTypeCode = iacucProtocolReviewTypeCode;
-    }
-
-    public IacucProtocolReviewType getIacucProtocolReviewType() {
-        return iacucProtocolReviewType;
-    }
-
-    public void setIacucProtocolReviewType(IacucProtocolReviewType iacucProtocolReviewType) {
-        this.iacucProtocolReviewType = iacucProtocolReviewType;
-    }
-
-    public IacucProtocolSubmissionType getIacucProtocolSubmissionType() {
-        return iacucProtocolSubmissionType;
-    }
-
-    public void setIacucProtocolSubmissionType(IacucProtocolSubmissionType iacucProtocolSubmissionType) {
-        this.iacucProtocolSubmissionType = iacucProtocolSubmissionType;
-    }
-
-
-
-   
+    
 }

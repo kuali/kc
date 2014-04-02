@@ -39,12 +39,13 @@ public abstract class ValidProtoSubRevTypeMaintenanceDocumentRuleBase extends Kr
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         setOldTYpeId(document);
-        ValidProtoSubRevType validProtoSubRevType = (ValidProtoSubRevType) document.getNoteTarget();
+        ValidProtoSubRevType validProtoSubRevType = (ValidProtoSubRevType) document.getDocumentBusinessObject();
         return validate(validProtoSubRevType);
     }
 
     private void setOldTYpeId(MaintenanceDocument document) {
-        if (document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
+        if (document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION) ||
+            document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION) ) {
             oldTypeId = ((ValidProtoSubRevType)document.getOldMaintainableObject().getDataObject()).getValidProtoSubRevTypeId();
          }        
     }
@@ -56,7 +57,7 @@ public abstract class ValidProtoSubRevTypeMaintenanceDocumentRuleBase extends Kr
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         setOldTYpeId(document);
-        ValidProtoSubRevType validProtoSubRevType = (ValidProtoSubRevType) document.getNoteTarget();
+        ValidProtoSubRevType validProtoSubRevType = (ValidProtoSubRevType) document.getDocumentBusinessObject();
         return validate(validProtoSubRevType);
     }
 
@@ -104,6 +105,7 @@ public abstract class ValidProtoSubRevTypeMaintenanceDocumentRuleBase extends Kr
     
     protected abstract Class<? extends ProtocolReviewTypeBase> getProtocolReviewTypeBOClassHook();
     
+    protected abstract Class<? extends ValidProtoSubRevType> getValidProtoSubRevTypeBOClassHook();
     
 
     private boolean checkSubmReviewTypeExists(ValidProtoSubRevType validProtoSubRevType) {
@@ -113,8 +115,7 @@ public abstract class ValidProtoSubRevTypeMaintenanceDocumentRuleBase extends Kr
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("submissionTypeCode", validProtoSubRevType.getSubmissionTypeCode());
             fieldValues.put("protocolReviewTypeCode", validProtoSubRevType.getProtocolReviewTypeCode());
-            List<ValidProtoSubRevType> validProtoSubRevTypes = (List<ValidProtoSubRevType>) boService.findMatching(
-                    ValidProtoSubRevType.class, fieldValues);
+            List<ValidProtoSubRevType> validProtoSubRevTypes = (List<ValidProtoSubRevType>) boService.findMatching(getValidProtoSubRevTypeBOClassHook(), fieldValues);
             if (!validProtoSubRevTypes.isEmpty()) {
                 ValidProtoSubRevType existvalidProtoSubRevType = validProtoSubRevTypes.get(0);
                 if ((oldTypeId == null || !existvalidProtoSubRevType.getValidProtoSubRevTypeId().equals(oldTypeId)) 
