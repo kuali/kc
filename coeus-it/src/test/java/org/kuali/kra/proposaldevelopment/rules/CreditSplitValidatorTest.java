@@ -18,8 +18,8 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
@@ -58,7 +58,7 @@ public class CreditSplitValidatorTest extends KcIntegrationTestBase {
      * <br/>
      * This tests whether exactly one Principle Investigator will work. This test should yield a passed rule.
      * 
-     * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
+     * @see org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument
      * @see org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditRule
      */
     @Test

@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.specialreview;
 
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 
 public interface ProposalDevelopmentSpecialReviewService {

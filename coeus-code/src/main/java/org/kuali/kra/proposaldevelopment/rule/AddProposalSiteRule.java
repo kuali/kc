@@ -22,7 +22,7 @@ public interface AddProposalSiteRule  extends BusinessRule {
     
     /**
      * Rule invoked upon adding a proposal location to a
-     * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
+     * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
      *
      * @return boolean
      */

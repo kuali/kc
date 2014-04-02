@@ -22,7 +22,7 @@ public interface AddCongressionalDistrictRule extends BusinessRule {
 
     /**
      * Rule invoked upon adding a congressional district
-     * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
+     * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
      *
      * @return boolean
      */

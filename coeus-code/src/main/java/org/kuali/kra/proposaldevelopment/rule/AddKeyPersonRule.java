@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 
@@ -30,7 +30,7 @@ public interface AddKeyPersonRule extends BusinessRule {
     
     /**
      * Rule invoked upon adding a key person to a 
-     * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
+     * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
      *
      * @return boolean
      */

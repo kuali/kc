@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public interface ProposalDevelopmentProtocolDocumentService 
         extends org.kuali.kra.protocol.protocol.funding.ProposalDevelopmentProtocolDocumentService<ProtocolDocument>{

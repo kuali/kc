@@ -24,9 +24,9 @@
 	value="document.developmentProposalList[0].mailDescription" />
 <c:set var="action" value="proposalDevelopmentApproverView" />
 <c:set var="className"
-	value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
+	value="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument" />
 <c:set var="className"
-	value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
+	value="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument" />
 <kul:tab tabTitle="Custom Data Information" defaultOpen="false" transparentBackground="${transparentBackground }"
 	tabErrorKey="">
 	<div class="tab-container" align="center">

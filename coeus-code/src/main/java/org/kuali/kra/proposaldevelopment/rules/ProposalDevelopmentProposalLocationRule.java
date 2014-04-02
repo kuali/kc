@@ -19,10 +19,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddProposalSiteRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 import java.util.List;
