@@ -25,7 +25,7 @@
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Opportunity Search</span>
-            <span class="subhead-right"><a href="http://www.grants.gov" target="_blank">www.grants.gov</a><kul:help businessObjectClassName="org.kuali.kra.s2s.bo.S2sOpportunity" altText="help"/></span>
+            <span class="subhead-right"><a href="http://www.grants.gov" target="_blank">www.grants.gov</a><kul:help businessObjectClassName="org.kuali.coeus.propdev.impl.s2s.S2sOpportunity" altText="help"/></span>
         </h3>
         
         <input type="hidden" name="document.developmentProposalList[0].cfdaNumber" value="${KualiForm.document.developmentProposalList[0].cfdaNumber}">    
@@ -33,7 +33,7 @@
         
         S2S Lookup
         <c:if test="${!readOnly}" >
-        	<kul:lookup boClassName="org.kuali.kra.s2s.bo.S2sOpportunity" 
+        	<kul:lookup boClassName="org.kuali.coeus.propdev.impl.s2s.S2sOpportunity"
         	fieldConversions="opportunityId:newS2sOpportunity.opportunityId,cfdaNumber:newS2sOpportunity.cfdaNumber,opportunityTitle:newS2sOpportunity.opportunityTitle,s2sSubmissionTypeCode:newS2sOpportunity.s2sSubmissionTypeCode,revisionCode:newS2sOpportunity.revisionCode,competetionId:newS2sOpportunity.competetionId,openingDate:newS2sOpportunity.openingDate,closingDate:newS2sOpportunity.closingDate,instructionUrl:newS2sOpportunity.instructionUrl,schemaUrl:newS2sOpportunity.schemaUrl,providerCode:newS2sOpportunity.providerCode" 
         	anchor="${tabKey}" autoSearch="no" 
         	lookupParameters="document.developmentProposalList[0].programAnnouncementNumber:opportunityId,document.developmentProposalList[0].cfdaNumber:cfdaNumber,document.developmentProposalList[0].s2sOpportunity.providerCode:providerCode" 

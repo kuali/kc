@@ -25,7 +25,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -135,6 +136,7 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcIntegratio
     }
     
     class ProposalDevelopmentServiceMock extends ProposalDevelopmentServiceImpl {
+        @Override
         public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument doc) {
             if (StringUtils.isNotBlank(doc.getDevelopmentProposal().getContinuedFrom())) {
                 InstitutionalProposal instProposal = new InstitutionalProposal();
@@ -144,6 +146,11 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcIntegratio
             } else {
                 return null;
             }
+        }
+
+        @Override
+        public String getGgTrackingIdFromProposal(InstitutionalProposal proposal) {
+            return " ";
         }
     }
 }

@@ -3,7 +3,7 @@
   <bean id="S2sRevisionTypeMaintenanceDocument" parent="S2sRevisionTypeMaintenanceDocument-parentBean"/>
 
   <bean id="S2sRevisionTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sRevisionType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sRevisionType"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

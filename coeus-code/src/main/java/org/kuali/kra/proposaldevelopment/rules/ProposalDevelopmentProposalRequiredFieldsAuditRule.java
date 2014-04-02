@@ -23,7 +23,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -42,8 +41,7 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
     
     private ParameterService parameterService;
     private ProposalDevelopmentService proposalDevelopmentService;
-    private S2SUtilService s2sUtilService;
-    
+
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
@@ -62,7 +60,7 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
                 && StringUtils.equals(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), changeCorrectedType)) {
             String ggTrackingId = null;
             if (institutionalProposal != null) {
-                ggTrackingId = getS2sUtilService().getGgTrackingIdFromProposal(institutionalProposal);
+                ggTrackingId = getProposalDevelopmentService().getGgTrackingIdFromProposal(institutionalProposal);
             }
             if (StringUtils.isBlank(proposal.getSponsorProposalNumber())
                     && StringUtils.isBlank(ggTrackingId)) {
@@ -115,17 +113,6 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
 
     public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
         this.proposalDevelopmentService = proposalDevelopmentService;
-    }
-
-    protected S2SUtilService getS2sUtilService() {
-        if (s2sUtilService == null) {
-            s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-        }
-        return s2sUtilService;
-    }
-
-    public void setS2sUtilService(S2SUtilService s2sUtilService) {
-        this.s2sUtilService = s2sUtilService;
     }
 
 }

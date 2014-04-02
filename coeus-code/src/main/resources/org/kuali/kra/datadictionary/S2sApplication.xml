@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="S2sApplication" parent="S2sApplication-parentBean" />
   <bean id="S2sApplication-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sApplication" />
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sApplication" />
 		<property name="objectLabel" value="S2s Application" />
     <property name="inquiryDefinition" >
       <ref bean="S2sApplication-inquiryDefinition" />
@@ -91,7 +91,7 @@
 
   <bean id="S2sApplication-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="S2s Application"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.s2s.bo.S2sApplication"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.S2sApplication"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -132,7 +132,7 @@
   </bean>
 
   <bean id="S2sApplication-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.s2s.bo.S2sApplication"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.S2sApplication"/>
     <property name="headerText" value="S2s Application"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
