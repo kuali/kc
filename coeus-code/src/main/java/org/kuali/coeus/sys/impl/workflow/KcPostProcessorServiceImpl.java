@@ -17,22 +17,15 @@ package org.kuali.coeus.sys.impl.workflow;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ojb.broker.OptimisticLockException;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.*;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.datadictionary.DocumentEntry;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DocumentDictionaryService;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.PostProcessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.LegacyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -60,88 +53,51 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
     @Qualifier("postProcessorService")
     private PostProcessorService postProcessorService;
 
-    @Autowired
-    @Qualifier("documentService")
-    private DocumentService documentService;
+    @Override
+    public ProcessDocReport doRouteStatusChange(final DocumentRouteStatusChange statusChangeEvent) throws Exception {
+        return GlobalVariables.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
+            @Override
+            public ProcessDocReport call() throws Exception {
+                establishLastActionPrincipalId(statusChangeEvent);
+                return postProcessorService.doRouteStatusChange(statusChangeEvent);
+            }
+        });
+    }
 
-    @Autowired
-    @Qualifier("documentDictionaryService")
-    private DocumentDictionaryService documentDictionaryService;
+    /**
+     * This finds the last workflow action taken on the Document that corresponds to the passed in event.  It then finds
+     * the principal who triggered that event and places the principal id in a {@link GlobalVariables#getUserSession()}.
+     * Once in the UserSession, the principal Id can be used with in any workflow callbacks.
+     *
+     * @param statusChangeEvent the workflow event that triggered this PostProcessor.
+     */
+    protected void establishLastActionPrincipalId(final DocumentRouteStatusChange statusChangeEvent) {
 
-    protected void performKCWorkaround(DocumentRouteStatusChange statusChangeEvent) throws Exception {
-        try {
-            establishPostProcessorUserSession();
+        final ActionTaken lastActionTaken = findLastActionTaken(statusChangeEvent.getDocumentId());
 
-            String routeHeaderId = statusChangeEvent.getDocumentId();
+        if (lastActionTaken != null) {
+            GlobalVariables.getUserSession().addObject(LAST_ACTION_PRINCIPAL_ID, lastActionTaken.getPrincipalId());
+        }
+    }
 
-            List<ActionTaken> actionsTaken = workflowDocumentService.getActionsTaken(routeHeaderId);
+    /**
+     * Finds the last action taken on a Document.
+     * @param routeHeaderId the route header id (document id)
+     * @return the last action taken or null if non could be found.
+     */
+    protected ActionTaken findLastActionTaken(String routeHeaderId) {
+        final List<ActionTaken> actionsTaken = workflowDocumentService.getActionsTaken(routeHeaderId);
 
+        if (actionsTaken != null) {
             ActionTaken lastActionTaken = null;
             for (ActionTaken actionTaken : actionsTaken) {
                 if (lastActionTaken == null || actionTaken.getActionDate().toDate().after(lastActionTaken.getActionDate().toDate())) {
                     lastActionTaken = actionTaken;
                 }
             }
-
-            if (lastActionTaken != null) {
-                String lastPrincipalId = lastActionTaken.getPrincipalId();
-                GlobalVariables.getUserSession().addObject(LAST_ACTION_PRINCIPAL_ID, (Object) lastPrincipalId);
-            }
-        } catch (WorkflowException e) {
-            LOG.error("caught exception while handling route status change", e);
-
-            throw new RuntimeException("post processor caught exception while handling route status change: " + e.getMessage(), e);
+            return lastActionTaken;
         }
-    }
-
-    @Override
-    public ProcessDocReport doRouteStatusChange(final DocumentRouteStatusChange statusChangeEvent) throws Exception {
-        return doInContext(statusChangeEvent.getDocumentId(),
-                new Callable<ProcessDocReport>() {
-                    public ProcessDocReport call() throws Exception {
-                        try {
-                            if (LOG.isInfoEnabled()) {
-                                LOG.info(new StringBuffer("started handling route status change from ").append(
-                                        statusChangeEvent.getOldRouteStatus()).append(" to ").append(
-                                        statusChangeEvent.getNewRouteStatus()).append(" for document ").append(
-                                        statusChangeEvent.getDocumentId()));
-                            }
-
-                            Document document = documentService.getByDocumentHeaderId(
-                                    statusChangeEvent.getDocumentId());
-                            if (document == null) {
-                                if (!KewApiConstants.ROUTE_HEADER_CANCEL_CD.equals(
-                                        statusChangeEvent.getNewRouteStatus())) {
-                                    throw new RuntimeException(
-                                            "unable to load document " + statusChangeEvent.getDocumentId());
-                                }
-                            } else {
-                                performKCWorkaround(statusChangeEvent);
-                                document.doRouteStatusChange(statusChangeEvent);
-                                // PLEASE READ BEFORE YOU MODIFY:
-                                // we dont want to update the document on a Save, as this will cause an
-                                // OptimisticLockException in many cases, because the DB versionNumber will be
-                                // incremented one higher than the document in the browser, so when the user then
-                                // hits Submit or Save again, the versionNumbers are out of synch, and the
-                                // OptimisticLockException is thrown. This is not the optimal solution, and will
-                                // be a problem anytime where the user can continue to edit the document after a
-                                // workflow state change, without reloading the form.
-                                if (!document.getDocumentHeader().getWorkflowDocument().isSaved()) {
-                                    documentService.updateDocument(document);
-                                }
-                            }
-                            if (LOG.isInfoEnabled()) {
-                                LOG.info(new StringBuffer("finished handling route status change from ").append(
-                                        statusChangeEvent.getOldRouteStatus()).append(" to ").append(
-                                        statusChangeEvent.getNewRouteStatus()).append(" for document ").append(
-                                        statusChangeEvent.getDocumentId()));
-                            }
-                        } catch (Exception e) {
-                            logAndRethrow("route status", e);
-                        }
-                        return new ProcessDocReport(true, "");
-                    }
-                });
+        return null;
     }
 
     @Override
@@ -180,66 +136,11 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
     }
 
     /* Replicating utilitity methods from rice post processor service */
-    protected void logAndRethrow(String changeType, Exception e) throws RuntimeException {
-        LOG.error("caught exception while handling " + changeType + " change", e);
-        logOptimisticDetails(5, e);
-
-        throw new RuntimeException("post processor caught exception while handling " + changeType + " change: " + e.getMessage(), e);
-    }
-
-    /* Replicating utilitity methods from rice post processor service */
-    protected void logOptimisticDetails(int depth, Throwable t) {
-        if ((depth > 0) && (t != null)) {
-            if (t instanceof OptimisticLockException) {
-                OptimisticLockException o = (OptimisticLockException) t;
-
-                LOG.error("source of OptimisticLockException = " + o.getSourceObject().getClass().getName() + " ::= " + o.getSourceObject());
-            }
-            else {
-                Throwable cause = t.getCause();
-                if (cause != t) {
-                    logOptimisticDetails(--depth, cause);
-                }
-            }
-        }
-    }
-
-    /* Replicating utilitity methods from rice post processor service */
     protected UserSession establishPostProcessorUserSession() throws WorkflowException {
         if (GlobalVariables.getUserSession() == null) {
             return new UserSession(KRADConstants.SYSTEM_USER);
         } else {
             return GlobalVariables.getUserSession();
-        }
-    }
-
-    /* Replicating utilitity methods from rice post processor service */
-    protected <T> T doInContext(String documentId, Callable<T> callable) throws Exception {
-        boolean inLegacyContext = establishLegacyDataContextIfNeccesary(documentId);
-        try {
-            return GlobalVariables.doInNewGlobalVariables(establishPostProcessorUserSession(), callable);
-        } finally {
-            clearLegacyDataContextIfExists(inLegacyContext);
-        }
-    }
-
-    /* Replicating utilitity methods from rice post processor service */
-    protected boolean establishLegacyDataContextIfNeccesary(String documentId) {
-        String documentTypeName = workflowDocumentService.getDocumentTypeName(documentId);
-        DocumentEntry documentEntry = documentDictionaryService.getDocumentEntry(documentTypeName);
-
-        if (LegacyUtils.isKnsDocumentEntry(documentEntry)) {
-            LegacyUtils.beginLegacyContext();
-
-            return true;
-        }
-        return false;
-    }
-
-    /* Replicating utilitity methods from rice post processor service */
-    protected void clearLegacyDataContextIfExists(boolean inLegacyContext) {
-        if (inLegacyContext) {
-            LegacyUtils.endLegacyContext();
         }
     }
 
@@ -257,21 +158,5 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
 
     public PostProcessorService getPostProcessorService() {
         return postProcessorService;
-    }
-
-    public DocumentService getDocumentService() {
-        return documentService;
-    }
-
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-
-    public DocumentDictionaryService getDocumentDictionaryService() {
-        return documentDictionaryService;
-    }
-
-    public void setDocumentDictionaryService(DocumentDictionaryService documentDictionaryService) {
-        this.documentDictionaryService = documentDictionaryService;
     }
 }
