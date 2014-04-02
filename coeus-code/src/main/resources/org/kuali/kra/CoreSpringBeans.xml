@@ -1803,7 +1803,7 @@
         <property name="lookupableHelperService" ref="personSignatureLookupableHelperService" />
     </bean>
 
-    <bean id="personSignatureLookupableHelperService" class="org.kuali.kra.service.impl.PersonSignatureLookupableHelperServiceImpl" 
+    <bean id="personSignatureLookupableHelperService" class="org.kuali.coeus.common.impl.person.signature.PersonSignatureLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" />
           
     <bean id="kcNotificationDocumentSecurityTypeService" class="org.kuali.kra.authorization.KcNotificationSecurityAttribute">

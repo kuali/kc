@@ -14,7 +14,7 @@
         <ref bean="PersonCustomDataMaintenanceDocument-EditPersonCustomDataList"/>
       </list>
     </property>
-	<property name="businessRulesClass" value="org.kuali.kra.rules.KcPersonExtendedAttributesMaintenanceDocumentRule"/>
+	<property name="businessRulesClass" value="org.kuali.coeus.common.impl.person.attr.KcPersonExtendedAttributesMaintenanceDocumentRule"/>
     <property name="lockingKeys">
       <list>
         <value>personId</value>
