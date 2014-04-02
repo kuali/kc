@@ -144,6 +144,7 @@ public interface PersonEditable {
     void setEraCommonsUserName(String eraCommonsUserName);
 
     void setLastName(String lastName);
-
+    
+    void setCitizenshipTypeCode(Integer citizenshipTypeCode);
 
 }

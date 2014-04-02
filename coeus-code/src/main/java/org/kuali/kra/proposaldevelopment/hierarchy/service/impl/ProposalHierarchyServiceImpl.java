@@ -104,7 +104,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private IdentityService identityManagementService;
     private ConfigurationService configurationService;
     private KcDocumentRejectionService kraDocumentRejectionService;
-    private List<ProposalPersonExtendedAttributes> proposalPersonExtendedAttributesToDelete;
     private SessionDocumentService sessionDocumentService;
     private WorkflowDocumentService workflowDocumentService;
 
@@ -642,12 +641,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 }
                 if (newPerson.equals(principalInvestigator) && (firstIndex == -1 || !firstInstance.isInvestigator())) {
                     newPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-                }
-                
-                if (person.getProposalPersonExtendedAttributes() != null) {
-                    ProposalPersonExtendedAttributes newPersonEA = (ProposalPersonExtendedAttributes) ObjectUtils.deepCopy(person.getProposalPersonExtendedAttributes());
-                    newPerson.setProposalPersonExtendedAttributes(newPersonEA);
-                    newPersonEA.setProposalPerson(newPerson);
                 }
                 
                 hierarchyProposal.addProposalPerson(newPerson);
@@ -1227,19 +1220,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     protected void removeChildElements(DevelopmentProposal parentProposal, Budget parentBudget, String childProposalNumber) {
-        if (this.proposalPersonExtendedAttributesToDelete == null) {
-            this.proposalPersonExtendedAttributesToDelete = new ArrayList<ProposalPersonExtendedAttributes>();
-        }
-        List<ProposalPerson> persons = parentProposal.getProposalPersons();
-        for (int i=persons.size()-1; i>=0; i--) {
-            if (StringUtils.equals(childProposalNumber, persons.get(i).getHierarchyProposalNumber())) {
-                if (persons.get(i).getProposalPersonExtendedAttributes() != null) {
-                    this.proposalPersonExtendedAttributesToDelete.add(persons.get(i).getProposalPersonExtendedAttributes());
-                }
-                persons.remove(i);
-            }
-        }
-
         List<PropScienceKeyword> keywords = parentProposal.getPropScienceKeywords();
         for (int i=keywords.size()-1; i>=0; i--) {
             if (StringUtils.equals(childProposalNumber, keywords.get(i).getHierarchyProposalNumber())) {
@@ -1337,20 +1317,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     protected void finalizeHierarchySync(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
-        if (proposalPersonExtendedAttributesToDelete != null && !proposalPersonExtendedAttributesToDelete.isEmpty()) {
-            businessObjectService.delete(proposalPersonExtendedAttributesToDelete);
-            proposalPersonExtendedAttributesToDelete.clear();
-        }
         businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());
         businessObjectService.save(hierarchyProposal);
-        /**
-         * now we need to save any properal person extended attribute objects
-         */
-        for (ProposalPerson person : hierarchyProposal.getProposalPersons() ){
-            if (person.getProposalPersonExtendedAttributes() != null) {
-                businessObjectService.save(person.getProposalPersonExtendedAttributes());                
-            }
-        }
     }
         
     protected void copyInitialAttachments(DevelopmentProposal srcProposal, DevelopmentProposal destProposal) {
@@ -1890,9 +1858,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     protected ConfigurationService getConfigurationService() {
         return configurationService;
-    }
-    protected List<ProposalPersonExtendedAttributes> getProposalPersonExtendedAttributesToDelete() {
-        return proposalPersonExtendedAttributesToDelete;
     }
     protected SessionDocumentService getSessionDocumentService() {
         return sessionDocumentService;

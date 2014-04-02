@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.impl.editable;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.editable.PersonEditable;
 import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -46,6 +47,14 @@ public class PersonEditableServiceImpl implements PersonEditableService {
 	@Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
 
+	public void populateContactFields(PersonEditable person) {
+		if (StringUtils.isNotBlank(person.getPersonId())) {
+			populateContactFieldsFromPersonId(person);
+		} else if (person.getRolodexId() != null) {
+			populateContactFieldsFromRolodexId(person);
+		}
+	}
+	
     public void populateContactFieldsFromPersonId(PersonEditable protocolPerson) {
         
         DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
@@ -59,7 +68,6 @@ public class PersonEditableServiceImpl implements PersonEditableService {
         protocolPerson.setPriorName(person.getPriorName());
         protocolPerson.setUserName(person.getUserName());
         protocolPerson.setEmailAddress(person.getEmailAddress());
-        //prop_person.setDateOfBirth(person.getDateOfBirth());
         try{
             java.util.Date dobUtil = dateFormat.parse(person.getDateOfBirth());
             protocolPerson.setDateOfBirth(new java.sql.Date(dobUtil.getYear(), dobUtil.getMonth(), dobUtil.getDate()));
@@ -80,7 +88,6 @@ public class PersonEditableServiceImpl implements PersonEditableService {
         protocolPerson.setVeteranType(person.getVeteranType());
         protocolPerson.setVisaCode(person.getVisaCode());
         protocolPerson.setVisaType(person.getVisaType());
-        //prop_person.setVisaRenewalDate(person.getVisaRenewalDate());
         try{
             java.util.Date visaUtil = dateFormat.parse(person.getVisaRenewalDate());
             protocolPerson.setVisaRenewalDate(new java.sql.Date(visaUtil.getYear(), visaUtil.getMonth(), visaUtil.getDate()));
@@ -124,7 +131,7 @@ public class PersonEditableServiceImpl implements PersonEditableService {
         protocolPerson.setPagerNumber(person.getPagerNumber());
         protocolPerson.setMobilePhoneNumber(person.getMobilePhoneNumber());
         protocolPerson.setEraCommonsUserName(person.getEraCommonsUserName());
-
+        protocolPerson.setCitizenshipTypeCode(person.getCitizenshipTypeCode());
     }
 
     public void populateContactFieldsFromRolodexId(PersonEditable protocolPerson) {
