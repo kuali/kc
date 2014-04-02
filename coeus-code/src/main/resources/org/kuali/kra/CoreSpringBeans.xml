@@ -1252,7 +1252,7 @@
         <property name="lookupableHelperService" ref="customAttributeDocumentLookupableHelperService" />
     </bean>
 
-    <bean id="customAttributeDocumentLookupableHelperService" class="org.kuali.kra.lookup.CustomAttributeLookupHelperServiceImpl" 
+    <bean id="customAttributeDocumentLookupableHelperService" class="org.kuali.coeus.common.impl.custom.attr.CustomAttributeLookupHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" />
     
     <bean id="customLookupable" class="org.kuali.kra.lookup.CustomLookupableImpl" scope="prototype">
@@ -1433,7 +1433,7 @@
         <property name="lookupableHelperService" ref="kcPersonLookupableHelperService" />      
     </bean> 
 
-    <bean id="kcPersonLookupableHelperService" class="org.kuali.kra.lookup.KcPersonLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
+    <bean id="kcPersonLookupableHelperService" class="org.kuali.coeus.common.impl.person.KcPersonLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
           scope="prototype" >
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
@@ -1442,7 +1442,7 @@
         <property name="lookupableHelperService" ref="kcPersonExtendedAttributesLookupableHelperService" /> 
     </bean> 
     
-    <bean id="kcPersonExtendedAttributesLookupableHelperService" class="org.kuali.kra.lookup.KcPersonExtendedAttributesLookupableHelperServiceImpl" 
+    <bean id="kcPersonExtendedAttributesLookupableHelperService" class="org.kuali.coeus.common.impl.person.attr.KcPersonExtendedAttributesLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" >
     </bean>
     
@@ -1541,20 +1541,20 @@
         <property name="lookupableHelperService" ref="sponsorLookupableHelperService" />
     </bean>
 
-    <bean id="sponsorLookupableHelperService" class="org.kuali.kra.lookup.SponsorLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
+    <bean id="sponsorLookupableHelperService" class="org.kuali.coeus.common.impl.sponsor.SponsorLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
           scope="prototype" />
 
     <bean id="sponsorHierarchyDao" class="org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyDaoOjb" parent="platformAwareDao" />
     
     <bean id="unitLookupDao" class="org.kuali.coeus.common.impl.unit.UnitLookupDaoOjb" parent="platformAwareDao" />
     
-    <bean id="unitLookupable" class="org.kuali.kra.lookup.UnitLookupableImpl" scope="prototype">
+    <bean id="unitLookupable" class="org.kuali.coeus.common.impl.unit.UnitLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="unitLookupableHelperService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
     </bean>
     
-    <bean id="unitLookupableHelperService" class="org.kuali.kra.lookup.UnitLookupableHelperServiceImpl" scope="prototype" parent="parentLookupableHelperService">
+    <bean id="unitLookupableHelperService" class="org.kuali.coeus.common.impl.unit.UnitLookupableHelperServiceImpl" scope="prototype" parent="parentLookupableHelperService">
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
     </bean>
