@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * The Proposal Copy Service is responsible for copying proposals.

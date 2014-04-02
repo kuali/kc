@@ -18,7 +18,7 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.nsfSuggestedReviewersV10.NSFSuggestedReviewersDocument;
 import gov.grants.apply.forms.nsfSuggestedReviewersV10.NSFSuggestedReviewersDocument.NSFSuggestedReviewers;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**

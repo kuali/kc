@@ -55,7 +55,7 @@
 	</class-descriptor>
 <!-- Factory definitions start -->
 	<class-descriptor class="org.kuali.kra.budget.document.BudgetParentDocument">
-	    <extent-class class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument"/>
+	    <extent-class class-ref="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument"/>
 	    <extent-class class-ref="org.kuali.kra.award.document.AwardDocument"/>
 	</class-descriptor>
 <!-- Factory definitions end -->

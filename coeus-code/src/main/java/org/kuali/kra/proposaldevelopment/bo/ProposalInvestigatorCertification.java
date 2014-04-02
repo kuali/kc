@@ -30,7 +30,7 @@ import java.sql.Date;
  * Represents the Proposal Investigator Certification <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
  *
  * @see org.kuali.rice.krad.bo.BusinessObject
- * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
+ * @see org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument
  * @author $Author: gmcgrego $
  * @version $Revision: 1.4 $
  */

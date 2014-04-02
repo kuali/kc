@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface CalculateCreditSplitRule extends BusinessRule {
@@ -24,7 +24,7 @@ public interface CalculateCreditSplitRule extends BusinessRule {
     
     /**
      * Rule invoked upon calculating a credit split for investigators 
-     * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
+     * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
      *
      * @return boolean
      */
