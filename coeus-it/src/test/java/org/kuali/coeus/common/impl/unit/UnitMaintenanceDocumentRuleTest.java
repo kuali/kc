@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.rules;
+package org.kuali.coeus.common.impl.unit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.impl.unit.UnitMaintenanceDocumentRule;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;

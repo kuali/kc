@@ -1,4 +1,4 @@
-package org.kuali.kra.lookup;
+package org.kuali.coeus.common.impl.person.attr;
 
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.ui.Field;
