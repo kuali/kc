@@ -538,31 +538,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 }
                 pdform.getAnswerHeadersToDelete().clear();
             }
-            
-            List<ProposalPerson> keyPersonnel = pdform.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons();
-            List<ProposalPerson> personsToDelete = pdform.getProposalPersonsToDelete();
-            /**
-             * There is a key constraint error the happens when the Propoal Person and the Proposal Person Extended attribute objects are saved
-             * at the same time.  In repository.xml the auto-update attribute is set to false on ProposalPerson.proposalPersonExtendedAttributes, 
-             * and we manually save them in correct order here. This may be a bug in how it's set up, but this works well, so we are going with it.  
-             * Please feel free to to fix if you like.
-             */
-            List peopleObjectsToSave = new ArrayList();
-            for (ProposalPerson proposalPerson : keyPersonnel) {
-                this.getBusinessObjectService().save(proposalPerson);
-                if (proposalPerson.getProposalPersonExtendedAttributes() != null) {
-                    peopleObjectsToSave.add(proposalPerson);
-                    peopleObjectsToSave.add(proposalPerson.getProposalPersonExtendedAttributes());
-                    //this.getBusinessObjectService().save(proposalPerson.getProposalPersonExtendedAttributes());
-                }
-            }
-            this.getBusinessObjectService().save(peopleObjectsToSave);
-            
-            for (ProposalPerson person : personsToDelete) {
-                if (person.getProposalPersonExtendedAttributes() != null) {
-                    this.getBusinessObjectService().delete(person.getProposalPersonExtendedAttributes());
-                }
-            }
             pdform.setPropsoalPersonsToDelete(new ArrayList<ProposalPerson>());
             
             return super.save(mapping, form, request, response);

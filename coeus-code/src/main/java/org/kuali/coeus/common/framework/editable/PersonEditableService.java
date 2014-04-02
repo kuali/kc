@@ -17,6 +17,7 @@ package org.kuali.coeus.common.framework.editable;
 
 
 public interface PersonEditableService {
+	void populateContactFields(PersonEditable personEditable);
     void populateContactFieldsFromPersonId(PersonEditable personEditable);
     void populateContactFieldsFromRolodexId(PersonEditable personEditable);
 

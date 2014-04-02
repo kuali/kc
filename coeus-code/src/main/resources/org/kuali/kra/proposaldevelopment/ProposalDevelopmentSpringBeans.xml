@@ -269,6 +269,10 @@
         <property name="serviceName" value="kualiRuleService" />
     </bean>
 
+    <bean id="personEditableService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="personEditableService" />
+    </bean>    
+
   <bean id="kcPersonLookupableHelperServiceTarget" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" lazy-init="true">
         <property name="serviceName" value="kcPersonLookupableHelperService" />
   </bean>

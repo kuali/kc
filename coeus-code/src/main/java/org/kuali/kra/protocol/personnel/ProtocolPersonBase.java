@@ -30,6 +30,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 public abstract class ProtocolPersonBase extends ProtocolAssociateBase implements PersonEditable, AbstractProjectPerson {
 
     private static final long serialVersionUID = -1140730616386093202L;
@@ -188,6 +190,12 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     private String mobilePhoneNumber;
 
     private String eraCommonsUserName;
+    
+    @Transient
+    /**
+     * Unused and transient field from PersonEditable
+     */
+    private Integer citizenshipTypeCode;
     
     private transient boolean affiliationTypeCodeChanged = false;
 
@@ -1063,5 +1071,13 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     public boolean isAffiliationTypeCodeChanged() {
         return affiliationTypeCodeChanged;
     }
+
+	public Integer getCitizenshipTypeCode() {
+		return citizenshipTypeCode;
+	}
+
+	public void setCitizenshipTypeCode(Integer citizenshipTypeCode) {
+		this.citizenshipTypeCode = citizenshipTypeCode;
+	}
 
 }

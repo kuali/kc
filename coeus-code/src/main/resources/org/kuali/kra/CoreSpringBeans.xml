@@ -492,7 +492,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonBiographyAttachment.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonCreditSplit.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonDegree.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ProposalPersonExtendedAttributes.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonRole.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonUnit.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonYnq.xml</value>
