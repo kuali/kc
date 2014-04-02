@@ -27,7 +27,7 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.bo.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;

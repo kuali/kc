@@ -22,7 +22,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.web.format.Formatter;

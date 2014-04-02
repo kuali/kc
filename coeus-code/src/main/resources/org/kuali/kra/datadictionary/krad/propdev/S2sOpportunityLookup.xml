@@ -15,7 +15,7 @@
 	<bean id="S2sOpportunity-LookupView" parent="S2sOpportunity-LookupView-parentBean" />
 	<bean id="S2sOpportunity-LookupView-parentBean" abstract="true"
 		parent="Uif-LookupView" p:header.headerText="Opportunity Search"
-		p:dataObjectClassName="org.kuali.kra.s2s.bo.S2sOpportunity"
+		p:dataObjectClassName="org.kuali.coeus.propdev.impl.s2s.S2sOpportunity"
 		p:viewHelperServiceClass="org.kuali.kra.s2s.lookup.S2sOpportunityLookupable">
 
 		<property name="criteriaFields">
@@ -28,7 +28,7 @@
 					<property name="optionsFinder">
 						<bean
 							class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-							p:businessObjectClass="org.kuali.kra.s2s.bo.S2sProvider"
+							p:businessObjectClass="org.kuali.coeus.propdev.impl.s2s.S2sProvider"
 							p:includeKeyInDescription="false" p:includeBlankRow="false"
 							p:keyAttributeName="code" p:labelAttributeName="description" />
 					</property>

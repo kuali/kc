@@ -25,8 +25,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
-import org.kuali.kra.s2s.bo.S2sAppSubmission;
-import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.GlobalVariables;
 

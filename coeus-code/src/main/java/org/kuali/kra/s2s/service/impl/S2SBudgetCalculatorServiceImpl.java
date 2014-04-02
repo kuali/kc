@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.calculator.RateClassType;
@@ -99,6 +100,8 @@ public class S2SBudgetCalculatorServiceImpl implements
     private ParameterService parameterService;
     private ProposalBudgetService proposalBudgetService;
     private BudgetPersonSalaryService budgetPersonSalaryService;
+    private BudgetPersonService budgetPersonService;
+    private ProposalDevelopmentService proposalDevelopmentService;
 
     /**
      * 
@@ -535,7 +538,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                 bpData.setTotalDirectCostSharing(totalDirectCostSharing);
                 bpData.setTotalIndirectCostSharing(totalIndirectCostSharing);
             }
-            bpData.setCognizantFedAgency(s2SUtilService.getCognizantFedAgency(pdDoc.getDevelopmentProposal()));
+            bpData.setCognizantFedAgency(proposalDevelopmentService.getCognizantFedAgency(pdDoc.getDevelopmentProposal()));
 
             bpData.setIndirectCosts(getIndirectCosts(budget, budgetPeriod));
             bpData.setEquipment(getEquipment(budgetPeriod));
@@ -1642,7 +1645,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 personAlreadyAdded = false;
                 for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
-                    if (s2SUtilService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
+                    if (budgetPersonService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
                         personAlreadyAdded = true;
                         break;
                     }
@@ -2094,5 +2097,21 @@ public class S2SBudgetCalculatorServiceImpl implements
 
     public void setBudgetPersonSalaryService(BudgetPersonSalaryService budgetPersonSalaryService) {
         this.budgetPersonSalaryService = budgetPersonSalaryService;
+    }
+
+    public BudgetPersonService getBudgetPersonService() {
+        return budgetPersonService;
+    }
+
+    public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
+        this.budgetPersonService = budgetPersonService;
+    }
+
+    public ProposalDevelopmentService getProposalDevelopmentService() {
+        return proposalDevelopmentService;
+    }
+
+    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
+        this.proposalDevelopmentService = proposalDevelopmentService;
     }
 }

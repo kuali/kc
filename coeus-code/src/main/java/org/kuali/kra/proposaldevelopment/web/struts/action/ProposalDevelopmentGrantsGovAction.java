@@ -28,8 +28,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.bo.S2sOppForms;
-import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.krad.util.GlobalVariables;
 

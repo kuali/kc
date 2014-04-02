@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.s2s.bo;
+package org.kuali.coeus.propdev.impl.s2s;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
@@ -62,7 +62,7 @@ public class S2sApplication extends KcPersistableBusinessObjectBase {
 
     /**
      * Sets the s2sAttachments attribute value.
-     * @param attachments The s2sAttachments to set.
+     * @param s2sAppAttachmentList The s2sAttachments to set.
      */
     public void setS2sAppAttachmentList(List<S2sAppAttachments> s2sAppAttachmentList) {
         this.s2sAppAttachmentList = s2sAppAttachmentList;

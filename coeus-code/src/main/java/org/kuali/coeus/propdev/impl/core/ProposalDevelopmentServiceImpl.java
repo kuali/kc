@@ -20,6 +20,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -52,9 +53,9 @@ import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.bo.S2sOppForms;
-import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -81,6 +82,9 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
 
     protected final Log LOG = LogFactory.getLog(AwardSyncServiceImpl.class);
+    public static final String VALUE_UNKNOWN = "Unknown";
+    private static final String FEDERAL_ID_COMES_FROM_CURRENT_AWARD = "FEDERAL_ID_COMES_FROM_CURRENT_AWARD";
+
     private BusinessObjectService businessObjectService;
     private DataObjectService dataObjectService;
     private UnitAuthorizationService unitAuthService;
@@ -676,7 +680,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return false;
     }
     
-    public Long createS2sOpportunityDetails(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity, Long versionNumberForS2sOpportunity) throws S2SException {
+    public Long createS2sOpportunityDetails(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity, Long versionNumberForS2sOpportunity) {
         Long result = versionNumberForS2sOpportunity;
         
         Boolean mandatoryFormNotAvailable = false;
@@ -954,6 +958,221 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         //the above line could potentially be a performance problem - need to revisit
         return new ArrayList<Unit>(units);
+    }
+
+    /**
+     *
+     * This method gets the Federal Agency for the given {@link ProposalDevelopmentDocument}
+     *
+     * @param developmentProposal Proposal Development Document.
+     * @return {@link String} Federal Agency
+     */
+    @Override
+    public String getCognizantFedAgency(DevelopmentProposal developmentProposal) {
+        StringBuilder fedAgency = new StringBuilder();
+        ProposalSite applicantOrganization = developmentProposal.getApplicantOrganization();
+        if (applicantOrganization != null && applicantOrganization.getOrganization() != null
+                && applicantOrganization.getOrganization().getCognizantAuditor() != null) {
+            applicantOrganization.getOrganization().refreshReferenceObject("cognizantAuditorRolodex");
+            Rolodex rolodex = applicantOrganization.getOrganization().getCognizantAuditorRolodex();
+            fedAgency.append(rolodex.getOrganization());
+            fedAgency.append(", ");
+            fedAgency.append(StringUtils.trimToEmpty(rolodex.getFirstName()));
+            fedAgency.append(" ");
+            fedAgency.append(StringUtils.trimToEmpty(rolodex.getLastName()));
+            fedAgency.append(" ");
+            if (rolodex.getPhoneNumber() != null) {
+                if (rolodex.getPhoneNumber().length() < 180) {
+                    fedAgency.append(rolodex.getPhoneNumber());
+                }
+                else {
+                    fedAgency.append(rolodex.getPhoneNumber().substring(0, 180));
+                }
+            }
+        }
+        if (fedAgency.toString().length() == 0) {
+            fedAgency.append(VALUE_UNKNOWN);
+        }
+        return fedAgency.toString();
+    }
+
+    /**
+     * This method returns the Federal ID for a given proposal
+     *
+     * @param proposalDevelopmentDocument Proposal Development Document.
+     * @return Federal ID for a given proposal.
+     */
+    @Override
+    public String getFederalId(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        String federalIdComesFromAwardStr = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+                FEDERAL_ID_COMES_FROM_CURRENT_AWARD);
+        Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
+        DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        Award currentAward = null;
+        String federalId = null;
+        if (StringUtils.isNotBlank(proposal.getCurrentAwardNumber())) {
+            currentAward = getProposalCurrentAwardVersion(proposalDevelopmentDocument);
+        }
+        InstitutionalProposal institutionalProposal = null;
+        if (StringUtils.isNotBlank(proposal.getContinuedFrom())) {
+            institutionalProposal = getProposalContinuedFromVersion(proposalDevelopmentDocument);
+        }
+        if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode())) {
+            if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
+                federalId = proposal.getSponsorProposalNumber();
+            }
+            else if (currentAward != null && !StringUtils.isBlank(currentAward.getSponsorAwardNumber()) && federalIdComesFromAward) {
+                federalId = currentAward.getSponsorAwardNumber();
+            }
+            else {
+                return null;
+            }
+        }
+        else if (isProposalTypeNew(proposal.getProposalTypeCode())
+                && (proposal.getS2sOpportunity() != null && isSubmissionTypeChangeCorrected(proposal.getS2sOpportunity()
+                .getS2sSubmissionTypeCode()))) {
+            if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
+                federalId = proposal.getSponsorProposalNumber();
+            }
+            else if (institutionalProposal != null) {
+                federalId = getGgTrackingIdFromProposal(institutionalProposal);
+            }
+        }
+        else if (isProposalTypeResubmission(proposal.getProposalTypeCode())) {
+            if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
+                federalId = proposal.getSponsorProposalNumber();
+            }
+            else if (institutionalProposal != null && !StringUtils.isBlank(institutionalProposal.getSponsorProposalNumber())) {
+                federalId = institutionalProposal.getSponsorProposalNumber();
+            }
+            if (isProposalTypeResubmission(proposal.getProposalTypeCode())) {
+                if (proposal.getSponsorCode().equals(
+                        this.parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                                ParameterConstants.ALL_COMPONENT, KeyConstants.NSF_SPONSOR_CODE))) {
+                    return null;
+                }
+            }
+        }
+        if (federalId != null && sponsorService.isSponsorNihMultiplePi(proposal)) {
+            return fromatFederalId(federalId);
+        }
+        return federalId;
+    }
+
+    /**
+     *
+     * This method is to format sponsor award number assume sponsor award number format is like this : 5-P01-ES05622-09, it should
+     * be formatted to ES05622
+     *
+     * @param federalId
+     * @return
+     */
+    protected String fromatFederalId(String federalId) {
+        if (federalId.length() > 7) {
+            int in = federalId.indexOf('-', 8);
+            if (in != -1)
+                federalId = federalId.substring(6, in);
+        }
+        return federalId;
+    }
+
+    protected boolean isSubmissionTypeChangeCorrected(String submissionTypeCode) {
+        return StringUtils
+                .equalsIgnoreCase(submissionTypeCode, this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.S2S_SUBMISSIONTYPE_CHANGEDCORRECTED));
+    }
+
+    protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
+        String proposalTypeCodeRenewal = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+        String proposalTypeCodeRevision = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        String proposalTypeCodeContinuation = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+
+        return !StringUtils.isEmpty(proposalTypeCode)
+                && (proposalTypeCode.equals(proposalTypeCodeRenewal) || proposalTypeCode.equals(proposalTypeCodeRevision) || proposalTypeCode
+                .equals(proposalTypeCodeContinuation));
+    }
+
+    /**
+     * Is the Proposal Type set to Resubmission?
+     *
+     * @param proposalTypeCode proposal type code
+     * @return true or false
+     */
+    protected boolean isProposalTypeResubmission(String proposalTypeCode) {
+        String proposalTypeCodeResubmission = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
+
+        return !StringUtils.isEmpty(proposalTypeCode) && (proposalTypeCode.equals(proposalTypeCodeResubmission));
+    }
+
+    /**
+     * Is the Proposal Type set to New?
+     *
+     * @param proposalTypeCode proposal type code
+     * @return true or false
+     */
+    protected boolean isProposalTypeNew(String proposalTypeCode) {
+        String proposalTypeCodeNew = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
+
+        return !StringUtils.isEmpty(proposalTypeCode) && (proposalTypeCode.equals(proposalTypeCodeNew));
+    }
+
+    @Override
+    public String getGgTrackingIdFromProposal(InstitutionalProposal proposal) {
+        DevelopmentProposal newestDevProp = getNewestDevPropFromInstProp(proposal);
+        if (newestDevProp != null && newestDevProp.getS2sOpportunity() != null) {
+            S2sAppSubmission appSubmission = null;
+            int submissionNo = 0;
+            for (S2sAppSubmission s2AppSubmission : newestDevProp.getS2sAppSubmission()) {
+                if (s2AppSubmission.getSubmissionNumber() > submissionNo
+                        && StringUtils.isNotBlank(s2AppSubmission.getGgTrackingId())) {
+                    appSubmission = s2AppSubmission;
+                    submissionNo = s2AppSubmission.getSubmissionNumber();
+                }
+            }
+            if (appSubmission != null) {
+                return appSubmission.getGgTrackingId();
+            }
+            else {
+                return null;
+            }
+        }
+        else {
+            return null;
+        }
+    }
+
+    protected DevelopmentProposal getNewestDevPropFromInstProp(InstitutionalProposal instProp) {
+        Integer listDetailSize = 0;
+        ProposalAdminDetails curDetail = new ProposalAdminDetails();
+        Map<String, Object> detailFieldValues = new HashMap<String, Object>();
+        detailFieldValues.put("instProposalId", instProp.getProposalId());
+        List<ProposalAdminDetails> details = (List<ProposalAdminDetails>) businessObjectService.findMatchingOrderBy(ProposalAdminDetails.class,
+                detailFieldValues, "devProposalNumber", true);
+        listDetailSize = details.size();
+        if (listDetailSize > 1) {
+            curDetail = details.get(listDetailSize - 2);
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("proposalNumber", curDetail.getDevelopmentProposal().getProposalNumber());
+            List<S2sAppSubmission> s2sSubmissionDetails = (List<S2sAppSubmission>) businessObjectService.findMatchingOrderBy(S2sAppSubmission.class,
+                    fieldValues, "proposalNumber", true);
+            curDetail.getDevelopmentProposal().setS2sAppSubmission(s2sSubmissionDetails);
+            return curDetail.getDevelopmentProposal();
+        }
+        if (listDetailSize == 1) {
+            curDetail = details.get(0);
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("proposalNumber", curDetail.getDevelopmentProposal().getProposalNumber());
+            List<S2sAppSubmission> s2sSubmissionDetails = (List<S2sAppSubmission>) businessObjectService.findMatchingOrderBy(S2sAppSubmission.class,
+                    fieldValues, "proposalNumber", true);
+            curDetail.getDevelopmentProposal().setS2sAppSubmission(s2sSubmissionDetails);
+            return curDetail.getDevelopmentProposal();
+
+        }
+        return null;
     }
 
     protected void addDescendantUnits(Unit parentUnit, Set<Unit> units) {

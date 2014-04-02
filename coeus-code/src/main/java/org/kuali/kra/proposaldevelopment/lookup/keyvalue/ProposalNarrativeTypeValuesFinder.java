@@ -23,7 +23,7 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.bo.ValidNarrForms;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.s2s.bo.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

@@ -33,6 +33,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
+import org.kuali.coeus.propdev.impl.s2s.S2sApplication;
+import org.kuali.coeus.propdev.impl.s2s.S2sProvider;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -40,7 +42,7 @@ import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDet
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.bo.*;
+import org.kuali.coeus.propdev.impl.s2s.*;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -127,7 +129,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @param opportunity
 	 * @return {@link List} of {@link S2sOppForms} which are included in the
 	 *         given {@link S2sOpportunity}
-	 * @see org.kuali.kra.s2s.service.S2SService#parseOpportunityForms(org.kuali.kra.s2s.bo.S2sOpportunity)
+	 * @see org.kuali.kra.s2s.service.S2SService#parseOpportunityForms(org.kuali.coeus.propdev.impl.s2s.S2sOpportunity)
 	 */
 	public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2SException{
         String opportunityContent = getOpportunityContent(opportunity.getSchemaUrl());

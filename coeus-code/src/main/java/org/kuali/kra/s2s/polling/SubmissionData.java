@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.polling;
 
-import org.kuali.kra.s2s.bo.S2sAppSubmission;
+import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 
 /**
  * 
