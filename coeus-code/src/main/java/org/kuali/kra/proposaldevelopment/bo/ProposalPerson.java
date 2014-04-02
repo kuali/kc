@@ -31,6 +31,7 @@ import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
+import org.kuali.kra.bo.CitizenshipType;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -355,14 +356,19 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     @Column(name = "DIVISION")
     private String division;
 
+    @Column(name="CITIZENSHIP_TYPE_CODE")
+    private Integer citizenshipTypeCode;
+    
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "CITIZENSHIP_TYPE_CODE", insertable = false, updatable = false)
+    private CitizenshipType citizenshipType;
+    
+    
     @Transient
     private Boolean active = true;
 
     @Transient
     private Unit homeUnitRef;
-
-    @OneToOne(mappedBy="proposalPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
-    private ProposalPersonExtendedAttributes proposalPersonExtendedAttributes;
 
     @Transient
     private transient boolean moveDownAllowed;
@@ -2201,14 +2207,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return KcServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
     }
 
-    public ProposalPersonExtendedAttributes getProposalPersonExtendedAttributes() {
-        return this.proposalPersonExtendedAttributes;
-    }
-
-    public void setProposalPersonExtendedAttributes(ProposalPersonExtendedAttributes proposalPersonExtendedAttributes) {
-        this.proposalPersonExtendedAttributes = proposalPersonExtendedAttributes;
-    }
-
     /**
      * 
      * This method determines if any of this person's YNQs have been answered.  If so, return yes.
@@ -2294,5 +2292,21 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	public Integer getCitizenshipTypeCode() {
+		return citizenshipTypeCode;
+	}
+
+	public void setCitizenshipTypeCode(Integer citizenshipTypeCode) {
+		this.citizenshipTypeCode = citizenshipTypeCode;
+	}
+
+	public CitizenshipType getCitizenshipType() {
+		return citizenshipType;
+	}
+
+	public void setCitizenshipType(CitizenshipType citizenshipType) {
+		this.citizenshipType = citizenshipType;
 	}
 }

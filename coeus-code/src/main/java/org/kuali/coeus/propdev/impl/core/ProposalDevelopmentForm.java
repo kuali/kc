@@ -383,31 +383,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         // Temporary hack for KRACOEUS-489
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
-        }       
-        
-        /**
-         * For some reason citizenship type isn't being being saved to the POJO on form post, this is to correct that.
-         */
-        List<ProposalPerson> keyPersonnel = this.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons();
-        int personCount = 0;
-        final String fieldStarter = "document.developmentProposalList[0].proposalPersons[";
-        final String fieldEnder = "].proposalPersonExtendedAttributes.citizenshipTypeCode";
-        for (ProposalPerson proposalPerson : keyPersonnel) {
-            //document.developmentProposalList[0].proposalPersons[0].proposalPersonExtendedAttributes.citizenshipTypeCode
-            String field = fieldStarter + personCount + fieldEnder;
-            if (request.getParameterMap().containsKey(field)) {
-                String citizenshipTypeCode = request.getParameter(field);
-                if (citizenshipTypeCode != null && StringUtils.isNotBlank(citizenshipTypeCode)) {
-                    Integer citizenshipTypeCodeInt = new Integer(citizenshipTypeCode);
-                    proposalPerson.getProposalPersonExtendedAttributes().setCitizenshipTypeCode(citizenshipTypeCodeInt);
-                    
-                    Map params = new HashMap();
-                    params.put("citizenshipTypeCode", citizenshipTypeCodeInt);
-                    CitizenshipType newCitizenshipType = (CitizenshipType) this.getBusinessObjectService().findByPrimaryKey(CitizenshipType.class, params);
-                    proposalPerson.getProposalPersonExtendedAttributes().setCitizenshipType(newCitizenshipType);
-                }
-            }   
-            personCount++;
         }
     }
     
