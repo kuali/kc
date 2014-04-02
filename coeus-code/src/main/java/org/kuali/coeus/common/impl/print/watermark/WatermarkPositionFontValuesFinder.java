@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.osedu.org/licenses/ECL-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup.keyvalue;
+package org.kuali.coeus.common.impl.print.watermark;
 
-import org.kuali.coeus.common.framework.print.watermark.WatermarkConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -23,14 +22,23 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WatermarkAlignmentValuesFinder extends UifKeyValuesFinderBase {
-
+/**
+ * 
+ * This class for storing the details of watermark Font.
+ */
+public class WatermarkPositionFontValuesFinder extends UifKeyValuesFinderBase {
+    /**
+     * This method for storing lookup keyvalues of watermark font size.
+     * Watermark Font Size: 20 - 100.
+     */
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("LEFT", WatermarkConstants.ALIGN_LEFT));
-        keyValues.add(new ConcreteKeyValue("CENTER", WatermarkConstants.ALIGN_CENTER));
-        keyValues.add(new ConcreteKeyValue("RIGHT", WatermarkConstants.ALIGN_RIGHT ));
+        for(Integer fontValue=7;fontValue<=30;fontValue+=2){
+            keyValues.add(new ConcreteKeyValue(fontValue.toString(),fontValue.toString().concat(" %"))); 
+        }       
         return keyValues;
     }
+     
+
 }

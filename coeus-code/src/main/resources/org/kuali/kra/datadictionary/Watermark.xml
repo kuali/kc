@@ -116,10 +116,10 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkFontValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.print.watermark.WatermarkFontValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkFontValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.print.watermark.WatermarkFontValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -142,10 +142,10 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
      <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkPositionFontValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.print.watermark.WatermarkPositionFontValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkPositionFontValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.print.watermark.WatermarkPositionFontValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -170,10 +170,10 @@
       </bean>
     </property>
    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkColorValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.print.watermark.WatermarkColorValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkColorValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.print.watermark.WatermarkColorValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -198,10 +198,10 @@
       </bean>
     </property>
    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkPositionValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.print.watermark.WatermarkPositionValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkPositionValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.print.watermark.WatermarkPositionValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -226,10 +226,10 @@
       </bean>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkAlignmentValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.print.watermark.WatermarkAlignmentValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkAlignmentValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.print.watermark.WatermarkAlignmentValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -271,10 +271,10 @@
     <property name="shortLabel" value="Watermark Type" />
     <property name="maxLength" value="20" />    
    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkTypeValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.print.watermark.WatermarkTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkTypeValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.print.watermark.WatermarkTypeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -306,10 +306,10 @@
       <bean parent="AnyCharacterPatternConstraint"/>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkGroupnameValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.print.watermark.WatermarkGroupnameValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.WatermarkGroupnameValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.print.watermark.WatermarkGroupnameValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

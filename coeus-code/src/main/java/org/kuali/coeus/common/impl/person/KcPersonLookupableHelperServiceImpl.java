@@ -13,58 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup;
+package org.kuali.coeus.common.impl.person;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.unit.Unit;
-import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.multicampus.MultiCampusConstants;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Unit lookup that accounts for the extra parameter {@code campusCode} and filters the search results if it is defined.
+ * Lookup helper that retrieves KcPerson BOs.
  */
-public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    private static final long serialVersionUID = -3661085880649722426L;
+public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    
+    private static final long serialVersionUID = 1L;
     
     private static final String CAMPUS_CODE_FIELD = "code";
+    private static final String PERSON_CAMPUS_CODE_FIELD = "campusCode";
     private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
 
     private KcPersonService kcPersonService;
-    private UnitAuthorizationService unitAuthorizationService;
-    
-    @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        String personId = getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId()).getPersonId();
-        boolean hasModifyPermission = getUnitAuthorizationService().hasPermission(personId, "KC-UNT", PermissionConstants.MODIFY_UNIT);
-        if (hasModifyPermission) {
-            AnchorHtmlData editHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-            htmlDataList.add(editHtmlData);
-
-            AnchorHtmlData copyHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
-            htmlDataList.add(copyHtmlData);
-
-            AnchorHtmlData deleteHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_DELETE_METHOD_TO_CALL, pkNames);
-            htmlDataList.add(deleteHtmlData);
-        }
-        return htmlDataList;
-    }
     
     @Override
     public List<Row> getRows() {
@@ -75,7 +52,7 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
         
         for (Row row : rows) {
             for (Field field : row.getFields()) {
-                if (field.getPropertyName().equals(CAMPUS_CODE_FIELD)) {
+                if (field.getPropertyName().equals(PERSON_CAMPUS_CODE_FIELD)) {
                     field.setFieldConversions(CAMPUS_CODE_FIELD + Constants.COLON + field.getPropertyName());
                     field.setLookupParameters(field.getPropertyName() + Constants.COLON + CAMPUS_CODE_FIELD);
                     field.setInquiryParameters(field.getPropertyName() + Constants.COLON + CAMPUS_CODE_FIELD);
@@ -96,35 +73,20 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
     }
 
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String campusCode = fieldValues.remove(CAMPUS_CODE_FIELD);
-        List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
-        
-        List<Unit> filteredSearchResults = new ArrayList<Unit>();
-        for (BusinessObject searchResult : searchResults) {
-            Unit unit = (Unit) searchResult;
-            if (StringUtils.startsWith(unit.getUnitNumber(), campusCode)) {
-                filteredSearchResults.add(unit);
-            }
-        }
-
-        return filteredSearchResults;
+    public List<KcPerson> getSearchResults(Map<String, String> fieldValues) {
+        this.kcPersonService.modifyFieldValues(fieldValues);
+        this.businessObjectClass = PersonImpl.class;
+        List<Person> personResults = (List<Person>) super.getSearchResults(fieldValues);
+        this.businessObjectClass = KcPerson.class;
+        return this.kcPersonService.createKcPersonsFromPeople(personResults); 
     }
 
-    public KcPersonService getKcPersonService() {
-        return kcPersonService;
-    }
-
+    /**
+     * Sets the Kc Person Service.
+     * @param kcPersonService the Kc person Service.
+     */
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
-
-    public UnitAuthorizationService getUnitAuthorizationService() {
-        return unitAuthorizationService;
-    }
-
-    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
-        this.unitAuthorizationService = unitAuthorizationService;
-    }
-
+    
 }

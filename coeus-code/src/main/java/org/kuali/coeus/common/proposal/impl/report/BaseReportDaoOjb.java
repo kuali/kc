@@ -1,4 +1,4 @@
-package org.kuali.kra.dao.ojb;
+package org.kuali.coeus.common.proposal.impl.report;
 
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup.keyvalue;
+package org.kuali.coeus.common.impl.print.watermark;
 
+import org.kuali.coeus.common.framework.print.watermark.WatermarkConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -24,33 +25,19 @@ import java.util.List;
 
 /**
  * 
- * This class for storing the details of watermark Color.
+ * This class for storing the details of watermark type.
  */
-public class WatermarkColorValuesFinder extends UifKeyValuesFinderBase {
+public class WatermarkTypeValuesFinder extends UifKeyValuesFinderBase {
     /**
-     * This method for storing lookup keyvalues of watermark font Color.
-     * 
+     * This method for storing lookup keyvalues of watermark type.
+     * Watermark Type: TEXT , IMAGE.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("LIGHT_GRAY", "LIGHT_GRAY"));
-        keyValues.add(new ConcreteKeyValue("BLACK", "BLACK"));
-        keyValues.add(new ConcreteKeyValue("BLUE", "BLUE"));
-        keyValues.add(new ConcreteKeyValue("MAGENTA", "MAGENTA"));
-        keyValues.add(new ConcreteKeyValue("CYAN", "CYAN"));
-        keyValues.add(new ConcreteKeyValue("ORANGE", "ORANGE"));
-        keyValues.add(new ConcreteKeyValue("DARK_GRAY", "DARK_GRAY"));
-        keyValues.add(new ConcreteKeyValue("PINK", "PINK"));
-        keyValues.add(new ConcreteKeyValue("GRAY", "GRAY"));
-        keyValues.add(new ConcreteKeyValue("RED", "RED"));
-        keyValues.add(new ConcreteKeyValue("GREEN", "GREEN"));
-        keyValues.add(new ConcreteKeyValue("WHITE", "WHITE"));
-        keyValues.add(new ConcreteKeyValue("YELLOW", "YELLOW"));
-
+        keyValues.add(new ConcreteKeyValue("TEXT", WatermarkConstants.WATERMARK_TYPE_TEXT));
+        keyValues.add(new ConcreteKeyValue("IMAGE", WatermarkConstants.WATERMARK_TYPE_IMAGE));
         return keyValues;
     }
-
-
 }
