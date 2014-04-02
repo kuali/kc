@@ -21,7 +21,7 @@ import gov.grants.apply.forms.nsfApplicationChecklist12V12.NSFApplicationCheckli
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoNotApplicableDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**

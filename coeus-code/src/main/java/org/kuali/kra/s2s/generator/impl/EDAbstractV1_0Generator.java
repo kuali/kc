@@ -19,8 +19,8 @@ import gov.grants.apply.forms.edAbstractV10.AbstractAttachmentsDocument;
 import gov.grants.apply.forms.edAbstractV10.AbstractAttachmentsDocument.AbstractAttachments;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
 
 import java.util.ArrayList;

@@ -16,9 +16,9 @@
 package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.rice.krad.rules.rule.BusinessRule;

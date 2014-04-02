@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.core;
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -23,7 +24,6 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.ValidCeJobCode;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.Collection;

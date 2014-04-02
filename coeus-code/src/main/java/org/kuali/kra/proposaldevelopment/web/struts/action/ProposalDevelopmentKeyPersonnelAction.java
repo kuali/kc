@@ -24,11 +24,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.*;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
@@ -56,7 +56,7 @@ import static org.kuali.rice.krad.util.KRADConstants.METHOD_TO_CALL_ATTRIBUTE;
 
 /**
  * Handles actions from the Key Persons page of the 
- * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
+ * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: gmcgrego $
  * @version $Revision: 1.63 $

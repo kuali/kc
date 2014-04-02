@@ -29,6 +29,7 @@ import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportS
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
@@ -58,7 +59,6 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationContext;

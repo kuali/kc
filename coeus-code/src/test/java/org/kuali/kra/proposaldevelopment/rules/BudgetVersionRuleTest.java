@@ -17,9 +17,9 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.*;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.DocumentBase;
 

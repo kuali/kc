@@ -16,7 +16,7 @@
 package org.kuali.kra.s2s.generator;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.util.AuditError;

@@ -17,6 +17,7 @@ package org.kuali.coeus.common.framework.print.util;
 
 import org.kuali.coeus.common.committee.impl.print.CommitteeReportType;
 import org.kuali.coeus.common.framework.print.PrintConstants;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.award.printing.AwardPrintType;
@@ -28,7 +29,6 @@ import org.kuali.kra.irb.actions.print.ProtocolPrintType;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

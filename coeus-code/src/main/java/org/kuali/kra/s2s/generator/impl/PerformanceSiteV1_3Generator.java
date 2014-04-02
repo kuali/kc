@@ -24,9 +24,9 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
