@@ -204,7 +204,7 @@ input[type="checkbox"] {
 	background-image: none;
 }
 
-.transparentField .input-group .belowInputField {
+.transparentField .belowInputField {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -214,10 +214,10 @@ input[type="checkbox"] {
 	border: none;
 }
 
-.transparentField .input-group .belowInputField.has-helper {
+.transparentField .belowInputField.has-helper {
 	padding-right: 40px;
 }
 
-.transparentField .input-group .form-control {
+.transparentField .form-control {
 	background-color: transparent;
 }
