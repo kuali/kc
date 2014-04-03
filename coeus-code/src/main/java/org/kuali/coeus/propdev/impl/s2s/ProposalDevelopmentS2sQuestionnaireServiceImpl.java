@@ -36,6 +36,8 @@ import org.springframework.stereotype.Component;
 @Component("proposalDevelopmentS2sQuestionnaireService")
 public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalDevelopmentS2sQuestionnaireService {
 
+	private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentS2sQuestionnaireServiceImpl.class);
+
 	@Autowired
 	@Qualifier("businessObjectService")
 	private BusinessObjectService businessObjectService;
@@ -45,12 +47,8 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
 	@Autowired
 	@Qualifier("questionnaireService")
     private QuestionnaireService questionnaireService;
-    
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentS2sQuestionnaireServiceImpl.class);
 
-  
-   
-    @Override
+	@Override
     public List<AnswerHeader> getProposalAnswerHeaderForForm(DevelopmentProposal proposal, String oppNameSpace, String formName) {
         return getProposalS2sAnswerHeaders(proposal,oppNameSpace,formName);
     }
