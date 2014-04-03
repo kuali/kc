@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.krad;
+package org.kuali.coeus.propdev.impl.s2s;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
@@ -24,8 +24,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.stereotype.Controller;
@@ -41,10 +39,25 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
 @Controller
 public class ProposalDevelopmentS2SController extends ProposalDevelopmentControllerBase {
+	
+	@Autowired
+	@Qualifier("s2SService")
+	private S2SService s2SService;
+	
+	protected S2SService getS2SService() {
+		return s2SService;
+	}
 
-   @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refresh", "refreshCaller=S2sOpportunity-LookupView"})
+	protected void setS2SService(S2SService s2sService) {
+		s2SService = s2sService;
+	}
+
+@RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refresh", "refreshCaller=S2sOpportunity-LookupView"})
    public ModelAndView refresh(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
            throws Exception {
        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
@@ -61,7 +74,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
        try {
            if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
-               s2sOppForms = KcServiceLocator.getService(S2SService.class).parseOpportunityForms(s2sOpportunity);
+               s2sOppForms = getS2SService().parseOpportunityForms(s2sOpportunity);
                if(s2sOppForms!=null){
                    for(S2sOppForms s2sOppForm:s2sOppForms){
                        if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
