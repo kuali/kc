@@ -181,6 +181,7 @@ public class SubAwardTemplateInformationAction extends SubAwardAction {
            SubAwardAttachments subAwardAttachments =
            subAwardDocument.getSubAward().getSubAwardAttachments().get(getSelectedLine(request));
            subAwardAttachments.populateAttachment();
+           subAwardAttachments.getFile().setName(subAwardAttachments.getFileName());
            if (subAwardAttachments.getSubAwardId() != null) {
                getBusinessObjectService().save(subAwardAttachments);
                subAwardAttachments.getFile().setName(subAwardAttachments.getNewFile().getFileName());
