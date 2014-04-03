@@ -45,6 +45,7 @@
         <value>org.kuali.coeus.propdev.impl.budget</value>
         <value>org.kuali.coeus.propdev.impl.core</value>
         <value>org.kuali.coeus.propdev.impl.person</value>
+        <value>org.kuali.coeus.propdev.impl.s2s</value>
         <value>org.kuali.coeus.propdev.impl.state</value>
         <value>org.kuali.coeus.propdev.impl.ynq</value>
         <value>org.kuali.kra.award.home</value>
