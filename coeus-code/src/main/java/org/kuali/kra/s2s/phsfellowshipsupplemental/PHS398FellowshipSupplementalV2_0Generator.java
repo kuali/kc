@@ -41,7 +41,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -154,7 +153,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         AdditionalInformation additionalInfoType = phsFellowshipSupplemental.addNewAdditionalInformation();
         GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
         StemCells stemCellstype = StemCells.Factory.newInstance();
-        QueryList<KirschsteinBean> cvKirsch = new QueryList<KirschsteinBean>();
+        List<KirschsteinBean> cvKirsch = new ArrayList<KirschsteinBean>();
         for (AnswerHeader answerHeader : answers) {
             Questionnaire questionnaire = answerHeader.getQuestionnaire();
             List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
@@ -383,11 +382,11 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
             additionalInfoType.setStemCells(stemCellstype);
         if (graduateDegreeSought.getDegreeType() != null)
             additionalInfoType.setGraduateDegreeSought(graduateDegreeSought);
-        QueryList<KirschsteinBean> cvType = new QueryList<KirschsteinBean>();
-        QueryList<KirschsteinBean> cvStart = new QueryList<KirschsteinBean>();
-        QueryList<KirschsteinBean> cvEnd = new QueryList<KirschsteinBean>();
-        QueryList<KirschsteinBean> cvLevel = new QueryList<KirschsteinBean>();
-        QueryList<KirschsteinBean> cvGrant = new QueryList<KirschsteinBean>();
+        List<KirschsteinBean> cvType = new ArrayList<KirschsteinBean>();
+        List<KirschsteinBean> cvStart = new ArrayList<KirschsteinBean>();
+        List<KirschsteinBean> cvEnd = new ArrayList<KirschsteinBean>();
+        List<KirschsteinBean> cvLevel = new ArrayList<KirschsteinBean>();
+        List<KirschsteinBean> cvGrant = new ArrayList<KirschsteinBean>();
         KirschsteinBean kbBean1 = new KirschsteinBean();
         KirschsteinBean kbBean2 = new KirschsteinBean();
         KirschsteinBean kbBean3 = new KirschsteinBean();
@@ -397,7 +396,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         if (additionalInfoType.getCurrentPriorNRSASupportIndicator() != null) {
             if (additionalInfoType.getCurrentPriorNRSASupportIndicator().equals(YesNoDataType.Y_YES)) {
                 KirschsteinBean kbBean = new KirschsteinBean();
-                cvKirsch.sort("questionNumber");
+                Collections.sort(cvKirsch, BY_QUESTION_NUMBER);
                 for (int i = 0; i < cvKirsch.size(); i++) {
                     kbBean = (KirschsteinBean) cvKirsch.get(i);
                     switch (kbBean.getQuestionId()) {
@@ -1023,85 +1022,5 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
 
     public String getNamespace() {
         return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0";
-    }
-
-    public class KirschsteinBean {
-        String answer;
-        Integer questionId;
-        Integer questionNumber;
-        Integer parentQuestionNumber;
-
-        /**
-         * Gets the answer attribute.
-         * 
-         * @return Returns the answer.
-         */
-        public String getAnswer() {
-            return answer;
-        }
-
-        /**
-         * Sets the answer attribute value.
-         * 
-         * @param answer The answer to set.
-         */
-        public void setAnswer(String answer) {
-            this.answer = answer;
-        }
-
-        /**
-         * Gets the questionId attribute.
-         * 
-         * @return Returns the questionId.
-         */
-        public Integer getQuestionId() {
-            return questionId;
-        }
-
-        /**
-         * Sets the questionId attribute value.
-         * 
-         * @param questionId The questionId to set.
-         */
-        public void setQuestionId(Integer questionId) {
-            this.questionId = questionId;
-        }
-
-        /**
-         * Gets the questionNumber attribute.
-         * 
-         * @return Returns the questionNumber.
-         */
-        public Integer getQuestionNumber() {
-            return questionNumber;
-        }
-
-        /**
-         * Sets the questionNumber attribute value.
-         * 
-         * @param questionNumber The questionNumber to set.
-         */
-        public void setQuestionNumber(Integer questionNumber) {
-            this.questionNumber = questionNumber;
-        }
-
-        /**
-         * Gets the parentQuestionNumber attribute.
-         * 
-         * @return Returns the parentQuestionNumber.
-         */
-        public Integer getParentQuestionNumber() {
-            return parentQuestionNumber;
-        }
-
-        /**
-         * Sets the parentQuestionNumber attribute value.
-         * 
-         * @param parentQuestionNumber The parentQuestionNumber to set.
-         */
-        public void setParentQuestionNumber(Integer parentQuestionNumber) {
-            this.parentQuestionNumber = parentQuestionNumber;
-        }
-
     }
 }

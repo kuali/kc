@@ -17,12 +17,13 @@ package org.kuali.kra.budget.rates;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.budget.api.rate.TrainingStipendRateContract;
 
 import java.sql.Date;
 
-public class TrainingStipendRate extends KcPersistableBusinessObjectBase {
+public class TrainingStipendRate extends KcPersistableBusinessObjectBase implements TrainingStipendRateContract {
 
-    private Long rateId;
+    private Long id;
 
     private String careerLevel;
 
@@ -34,14 +35,16 @@ public class TrainingStipendRate extends KcPersistableBusinessObjectBase {
 
     private String description;
 
-    public Long getRateId() {
-        return rateId;
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public void setRateId(Long id) {
-        this.rateId = id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
+    @Override
     public String getCareerLevel() {
         return careerLevel;
     }
@@ -50,6 +53,7 @@ public class TrainingStipendRate extends KcPersistableBusinessObjectBase {
         this.careerLevel = level;
     }
 
+    @Override
     public int getExperienceLevel() {
         return experienceLevel;
     }
@@ -58,6 +62,7 @@ public class TrainingStipendRate extends KcPersistableBusinessObjectBase {
         this.experienceLevel = level;
     }
 
+    @Override
     public ScaleTwoDecimal getStipendRate() {
         return stipendRate;
     }
@@ -66,6 +71,7 @@ public class TrainingStipendRate extends KcPersistableBusinessObjectBase {
         this.stipendRate = rate;
     }
 
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -74,6 +80,7 @@ public class TrainingStipendRate extends KcPersistableBusinessObjectBase {
         this.effectiveDate = effectiveDate;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

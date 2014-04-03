@@ -771,7 +771,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.budget.rates.TrainingStipendRate" table="TRAINING_STIPEND_RATES">
-		<field-descriptor name="rateId" column="TRAINING_STIPEND_RATES_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_TRAINING_STIPEND_RATES_ID" />
+		<field-descriptor name="id" column="TRAINING_STIPEND_RATES_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_TRAINING_STIPEND_RATES_ID" />
 		<field-descriptor name="careerLevel" column="CAREER_LEVEL" jdbc-type="VARCHAR" primarykey="false"/>
 		<field-descriptor name="experienceLevel" column="EXPERIENCE_LEVEL" jdbc-type="INTEGER" primarykey="false"/>
 		<field-descriptor name="stipendRate" column="STIPEND_RATE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>
