@@ -99,14 +99,9 @@
 		
 		<collection-descriptor name="budgetPersons" proxy="true" element-class-ref="org.kuali.kra.budget.personnel.BudgetPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="budgetId"/>
-		</collection-descriptor><!--
-
-		<collection-descriptor name="budgetPeriods" proxy="true" element-class-ref="org.kuali.kra.budget.parameters.BudgetPeriod" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<orderby name="budgetPeriod" sort="ASC" /> 
-			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
-		
-		--><collection-descriptor name="budgetCostShares" proxy="true" element-class-ref="org.kuali.kra.budget.distributionincome.BudgetCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+
+        <collection-descriptor name="budgetCostShares" proxy="true" element-class-ref="org.kuali.kra.budget.distributionincome.BudgetCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="projectPeriod" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
 			<query-customizer
@@ -484,7 +479,10 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="appointmentType" class-ref="org.kuali.kra.budget.personnel.AppointmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+
+        <reference-descriptor name="appointmentType" class-ref="org.kuali.kra.budget.personnel.AppointmentType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="appointmentTypeCode"/> 
 		</reference-descriptor>
 		<reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -492,12 +490,10 @@
 		</reference-descriptor>
 		<reference-descriptor name="jobCodeRef" class-ref="org.kuali.kra.budget.personnel.JobCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="jobCode"/> 
-		</reference-descriptor><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
-		--><field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <reference-descriptor name="tbnPerson" class-ref="org.kuali.kra.budget.personnel.TbnPerson" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="tbnId"/>
+		</reference-descriptor>
 
 	</class-descriptor>
 	

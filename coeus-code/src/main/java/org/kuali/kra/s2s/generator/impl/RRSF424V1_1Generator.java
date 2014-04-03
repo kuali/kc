@@ -33,7 +33,6 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -47,7 +46,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.S2SException;
@@ -543,8 +541,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 					}
 				}
 				if(PI.getHomeUnit() != null) {
-                    KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
-                    KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
+                    KcPerson kcPersons = PI.getPerson();
                     String departmentName =  kcPersons.getOrganizationIdentifier();
                     PDPI.setDepartmentName(departmentName);
                 }

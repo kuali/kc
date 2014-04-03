@@ -28,7 +28,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
@@ -229,8 +228,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	 */
 	private void setDepartmentNameToProfile(Profile profile, ProposalPerson PI) {
 		if(PI.getHomeUnit() != null) {
-            KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
-            KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
+            KcPerson kcPersons = PI.getPerson();
             String departmentName =  kcPersons.getOrganizationIdentifier();
             profile.setDepartmentName(departmentName);
         }

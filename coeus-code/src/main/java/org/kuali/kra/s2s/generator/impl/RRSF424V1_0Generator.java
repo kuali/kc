@@ -35,13 +35,11 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -539,8 +537,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 				}
 
 				if(PI.getHomeUnit() != null) {
-		            KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
-		            KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
+		            KcPerson kcPersons = PI.getPerson();
 		            String departmentName =  kcPersons.getOrganizationIdentifier();
 		            PDPI.setDepartmentName(departmentName);
 		        }
