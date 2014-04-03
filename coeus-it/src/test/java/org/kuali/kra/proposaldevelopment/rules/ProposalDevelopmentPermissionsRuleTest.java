@@ -18,14 +18,14 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.auth.perm.ProposalRoleState;
+import org.kuali.coeus.propdev.impl.auth.perm.ProposalUser;
+import org.kuali.coeus.propdev.impl.auth.perm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.sys.impl.auth.perm.ProposalUserEditRoles;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.proposaldevelopment.bo.ProposalRoleState;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
-import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 
