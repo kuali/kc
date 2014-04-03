@@ -270,15 +270,20 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     public ActionForward addAwardReportTerm(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        AwardReportTerm newReport = 
-            ((AwardForm) form).getAwardReportsBean().addAwardReportTermItem(getReportClass(request), getReportClassCodeIndex(request));
-        if (newReport != null) {
-            ActionForward confirmSynch = this.confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, newReport, AWARD_REPORT_TERM_PROPERTY, null, 
-                    mapping.findForward(Constants.MAPPING_AWARD_BASIC));
-            ((AwardForm) form).getReportTrackingBeans().add(new ReportTrackingBean());
-            return confirmSynch;
-        } else {
+        if(new AwardDocumentRule().processAwardReportTermSaveRules((AwardForm) form)) {
+            AwardReportTerm newReport = 
+                    ((AwardForm) form).getAwardReportsBean().addAwardReportTermItem(getReportClass(request), getReportClassCodeIndex(request));
+            if (newReport != null) {
+                ActionForward confirmSynch = this.confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, newReport, AWARD_REPORT_TERM_PROPERTY, null, 
+                        mapping.findForward(Constants.MAPPING_AWARD_BASIC));
+                ((AwardForm) form).getReportTrackingBeans().add(new ReportTrackingBean());
+                return confirmSynch;
+            }
+            else {
+                return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+            }
+        }
+        else {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
     }
@@ -603,7 +608,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         }
         
         getAwardCloseoutService().updateCloseoutDueDatesBeforeSave(awardDocument.getAward());
-        if (new AwardDocumentRule().processAwardReportTermBusinessRules(awardDocument)) {
+        if (new AwardDocumentRule().processAwardReportTermBusinessRules(awardDocument) && new AwardDocumentRule().processAwardReportTermSaveRules(awardForm)) {
             
             /**
              * process AwardPaymentSchedule, if they have been updated, update the last update user, and last update date fields.
@@ -767,6 +772,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     }
     
     public ActionForward updateMultileReportTracking(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if(new AwardDocumentRule().processAwardReportTermSaveRules((AwardForm) form)) {
         AwardForm awardForm = (AwardForm) form;
         int awardReportTermItemsIndex = getAwardReportTermItemsIndex(request);
         List<ReportTracking> reportTrackings = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(getAwardReportTermItemsIndex(request)).getReportTrackings();
@@ -775,6 +781,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         getReportTrackingService().setReportTrackingListSelected(reportTrackings, false);
         }
         awardForm.buildReportTrackingBeans();
+        }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     

@@ -1465,36 +1465,22 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
 
-	<class-descriptor
-		class="org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubRevType"
-		table="VALID_IACUC_PROTO_SUB_REV_TYPE">
+	<class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubRevType" table="VALID_IACUC_PROTO_SUB_REV_TYPE">
+		<field-descriptor name="validProtoSubRevTypeId" column="VALID_PROTO_SUB_REV_TYPE_ID" jdbc-type="BIGINT" sequence-name="SEQ_VAL_IAC_PRO_SUB_REV_TYP_ID" autoincrement="true" primarykey="true" />
+		<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolReviewTypeCode" column="PROTOCOL_REVIEW_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 
-		<field-descriptor name="validProtocolSubRevTypeId"
-			column="VALID_PROTO_SUB_REV_TYPE_ID" jdbc-type="BIGINT"
-			sequence-name="SEQ_VALID_PRO_SUB_REV_TYPE_ID" autoincrement="true" primarykey="true" />
-		<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE"
-			jdbc-type="VARCHAR" />
-		<field-descriptor name="iacucProtocolReviewTypeCode"
-			column="PROTOCOL_REVIEW_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP"
-			jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER"
-			jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR"
-			jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID"
-			jdbc-type="VARCHAR" />
-
-	<reference-descriptor name="iacucProtocolReviewType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" 
-			auto-retrieve="true" auto-update="none" auto-delete="none">
-			
-    <foreignkey field-ref="iacucProtocolReviewTypeCode"/> 
-	</reference-descriptor> 
-	<reference-descriptor name="iacucProtocolSubmissionType" 
-			class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType" 
-			auto-retrieve="true" auto-update="none" auto-delete="none"> <foreignkey field-ref="submissionTypeCode"/> 
-	</reference-descriptor>  
-
+	   <reference-descriptor name="protocolReviewType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="protocolReviewTypeCode"/>
+	   </reference-descriptor>
+	   
+	   <reference-descriptor name="submissionType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="submissionTypeCode"/>
+	   </reference-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubTypeQual" table="IACUC_VALID_PROTO_SUB_TYP_QL">
@@ -1515,22 +1501,6 @@
 	</reference-descriptor>
 </class-descriptor>
                     
-    <class-descriptor class="org.kuali.kra.iacuc.actions.modifysubmission.IacucValidProtoSubRevType" table="VALID_IACUC_PROTO_SUB_REV_TYPE">
-		<field-descriptor name="validProtoSubRevTypeId" column="VALID_PROTO_SUB_REV_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_ID" autoincrement="true"/>
-		<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="protocolReviewTypeCode" column="PROTOCOL_REVIEW_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="protocolReviewType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="protocolReviewTypeCode"/>
-		</reference-descriptor>
-		<reference-descriptor name="submissionType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="submissionTypeCode"/>
-		</reference-descriptor>
-	</class-descriptor>
-	
     <class-descriptor class="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence" table="IACUC_PROTO_CORRESPONDENCE">
         <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_PROTO_CORR_ID"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />

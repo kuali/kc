@@ -105,6 +105,8 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     private SubAwardCloseout subAwardCloseout;
 
+    private SubAwardReports subAwardReports;
+
     private SubAwardAmountInfo subAwardAmountInfo;
 
     private String organizationName;
@@ -146,7 +148,55 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     private Date performanceStartDate;
     private Date performanceEnddate;
     private List<SubAwardAttachments> subAwardAttachments;
+    private List<SubAwardReports> subAwardReportList;
+    private List<SubAwardTemplateInfo> subAwardTemplateInfo;
+
+    /**
+         * Gets the subAwardTemplateInfo attribute. 
+         * @return Returns the subAwardTemplateInfo.
+         */
+        public List<SubAwardTemplateInfo> getSubAwardTemplateInfo() {
+            if (this.subAwardTemplateInfo == null) {
+                this.subAwardTemplateInfo = new ArrayList<SubAwardTemplateInfo>();
+            }
+            return subAwardTemplateInfo;
+        }
+
+        /**
+         * Sets the subAwardTemplateInfo attribute value.
+         * @param subAwardTemplateInfo The subAwardTemplateInfo to set.
+         */
+        public void setSubAwardTemplateInfo(List<SubAwardTemplateInfo> subAwardTemplateInfo) {
+            this.subAwardTemplateInfo = subAwardTemplateInfo;
+        }
     
+    
+    /**
+     * Gets the subAwardReports attribute. 
+     * @return Returns the subAwardReports.
+     */
+    public SubAwardReports getSubAwardReports() {
+        return subAwardReports;
+    }
+
+    /**
+     * Sets the subAwardReports attribute value.
+     * @param subAwardReports The subAwardReports to set.
+     */
+    public void setSubAwardReports(SubAwardReports subAwardReports) {
+        this.subAwardReports = subAwardReports;
+    }
+    
+    /**
+     * Gets the subAwardReportList attribute. 
+     * @return Returns the subAwardReportList.
+     */
+    public List<SubAwardReports> getSubAwardReportList() {
+        if (this.subAwardReportList == null) {
+            this.subAwardReportList = new ArrayList<SubAwardReports>();
+        }
+        return this.subAwardReportList;
+    }
     
     public List<SubAwardAttachments> getSubAwardAttachments() { 
         if (this.subAwardAttachments == null) {
@@ -159,15 +209,22 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     public void setAttachments(List<SubAwardAttachments> attachments) {
             this.subAwardAttachments = attachments;
        }
+    
+    public void setReports(List<SubAwardReports> reports) {
+        this.subAwardReportList = reports;
+   }
     /**
      * Gets an attachment.
      * @param index the index
      * @return an attachment personnel
      */
+    public SubAwardReports getSubAwardReportList(int index) {
+        return this.subAwardReportList.get(index);
+    }
+    
     public SubAwardAttachments getSubAwardAttachment(int index) {
         return this.subAwardAttachments.get(index);
     }
-
     /**
      * add an attachment.
      * @param attachment the attachment
@@ -176,6 +233,15 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     public void addAttachment(SubAwardAttachments attachment) {
         this.getSubAwardAttachments().add(attachment);
         attachment.setSubAward(this);
+    }
+    /**
+     * add an attachment.
+     * @param report 
+     * @throws IllegalArgumentException if attachment is null
+     */
+    public void addReport(SubAwardReports report) {
+        this.getSubAwardReportList().add(report);
+        report.setSubAward(this);
     }
     /**.
      * This is the Getter Method for rolodex
@@ -845,8 +911,6 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 		this.subAwardFundingSourceList = subAwardFundingSourceList;
 	}
 
-	
-
     /**.
 	 * This is the Getter Method for subAwardAmountInfoList
 	 * @return Returns the subAwardAmountInfoList.
@@ -946,6 +1010,8 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
         SubAwardCloseout>(SubAwardCloseout.class);
         subAwardCustomDataList = new AutoPopulatingList<
         SubAwardCustomData>(SubAwardCustomData.class);
+        subAwardReportList = new AutoPopulatingList<
+        SubAwardReports>(SubAwardReports.class);
     }
     /**.
 	 * This is the Setter Method for subAwardDocument

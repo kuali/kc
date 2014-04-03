@@ -72,8 +72,24 @@ implements PermissionsForm, AuditableForm, CustomDataDocumentForm {
     private FormFile newFile;
     private int defaultFollowUpDayDifference = 0;
     private SubAwardAttachmentFormBean subAwardAttachmentFormBean;
+    private SubAwardReports newSubAwardReport;
     
 
+    /**
+     * Gets the newSubAwardReport attribute. 
+     * @return Returns the newSubAwardReport.
+     */
+    public SubAwardReports getNewSubAwardReport() {
+        return newSubAwardReport;
+    }
+
+    /**
+     * Sets the newSubAwardReport attribute value.
+     * @param newSubAwardReport The newSubAwardReport to set.
+     */
+    public void setNewSubAwardReport(SubAwardReports newSubAwardReport) {
+        this.newSubAwardReport = newSubAwardReport;
+    }
 
     public SubAwardAttachmentFormBean getSubAwardAttachmentFormBean() {
         return subAwardAttachmentFormBean;

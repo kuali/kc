@@ -16,11 +16,42 @@
 package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtService;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.auth.CreateContinuationAuthorizerBase;
 
 public class CreateIacucContinuationAuthorizer extends CreateContinuationAuthorizerBase {
 
+    private IacucProtocolAssignCmtService assignToCmtService;
+    
+    public void setAssignToCmtService(IacucProtocolAssignCmtService iacucProtocolAssignCmtService) {
+        this.assignToCmtService = iacucProtocolAssignCmtService;
+    }
+    
+    @Override
+    protected String getAdminNamespaceHook() {
+        return RoleConstants.DEPARTMENT_ROLE_TYPE;
+    }
+    
+    @Override
+    protected String getAdminRoleHook() {
+        return RoleConstants.IACUC_ADMINISTRATOR;
+    }
+    
+    @Override
+    protected String getProtocolSubmissionTypeHook() {
+        return IacucProtocolSubmissionType.REQUEST_SUSPEND;
+    }
+        
+    @Override
+    protected ProtocolSubmissionBase findSubmisionHook(ProtocolBase protocol) {
+        return assignToCmtService.getLastSubmission(protocol);
+    }     
+    
     @Override
     protected String getActionTypeContinuationCreatedHook() {
         return IacucProtocolActionType.CONTINUATION;

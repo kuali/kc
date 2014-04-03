@@ -60,7 +60,7 @@
                 </tr>
                 <tr>
                     <th width="15%"> 
-                        <c:if test="${KualiForm.actionHelper.showCommittee}">
+                        <c:if test="${(KualiForm.actionHelper.showCommittee) && (KualiForm.actionHelper.currentUserAuthorizedToAssignCommittee)}">
 	                        <div align="right">
 	                            <nobr>
 	                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
@@ -69,7 +69,7 @@
                         </c:if>
                     </th>
                     <td>
-                        <c:if test="${KualiForm.actionHelper.showCommittee}">
+                        <c:if test="${(KualiForm.actionHelper.showCommittee) && (KualiForm.actionHelper.currentUserAuthorizedToAssignCommittee)}">
 	                        <nobr>
 	                        		             
 		                        <html:select property="actionHelper.protocolNotifyIrbBean.committeeId">                               

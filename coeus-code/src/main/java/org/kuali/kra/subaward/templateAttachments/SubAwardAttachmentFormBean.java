@@ -28,6 +28,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAttachments;
+import org.kuali.kra.subaward.bo.SubAwardReports;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 
@@ -39,10 +40,37 @@ public class SubAwardAttachmentFormBean implements Serializable {
     
     private SubAwardAttachments newAttachment;
     
+    private SubAwardReports newReport;
+    
+    
+    /**
+     * Gets the newReport attribute. 
+     * @return Returns the newReport.
+     */
+    public SubAwardReports getNewReport() {
+        if (this.newReport == null) {
+            this.initReport();
+        }
+        
+        return this.newReport;
+    }
+
+    /**
+     * Sets the newReport attribute value.
+     * @param newReport The newReport to set.
+     */
+    public void setNewReport(SubAwardReports newReport) {
+        this.newReport = newReport;
+    }
+
     public SubAwardAttachmentFormBean(final SubAwardForm form) {
         this.form = form;
     }
 
+    /**
+     * Gets the new attachment. This method will not return null.
+     * @return the new attachment
+     */
     public SubAwardAttachments getNewAttachment() {
         if (this.newAttachment == null) {
             this.initAttachment();
@@ -50,6 +78,16 @@ public class SubAwardAttachmentFormBean implements Serializable {
         
         return this.newAttachment;
     }
+    
+    /**
+     * initializes a new report setting the subaward id.
+     */
+    private void initReport() {
+        this.setNewReport(new SubAwardReports(this.getSubAward()));
+    }
+    /**
+     * initializes a new attachment setting the subaward id.
+     */
     
     private void initAttachment() {
         this.setNewAttachment(new SubAwardAttachments(this.getSubAward()));
@@ -109,6 +147,10 @@ public class SubAwardAttachmentFormBean implements Serializable {
         this.setNewAttachment(new SubAwardAttachments(this.getSubAward()));
     }
     
+    private void initNewReport() {
+        this.setNewReport(new SubAwardReports(this.getSubAward()));
+    }
+    
     private static boolean validIndexForList(int index, final List<?> forList) {      
         return forList != null && index >= 0 && index <= forList.size() - 1;
     }
@@ -123,6 +165,18 @@ public class SubAwardAttachmentFormBean implements Serializable {
         
         for (final SubAwardAttachments attachment : attachments) {   
                 attachment.refreshReferenceObject("typeAttachment");
+        }
+    }
+    
+    /** 
+     * refreshes a given Collection of attachment's references that can change.
+     * @param attachments the attachments.
+     */
+    private void refreshReportReferences(List<SubAwardReports> reports) {
+        assert reports != null : "the report was null";
+        
+        for (final SubAwardReports report : reports) {   
+            report.refreshReferenceObject("typeCode");
         }
     }
     
@@ -177,7 +231,10 @@ public class SubAwardAttachmentFormBean implements Serializable {
         return docNumber == null ? NumberUtils.INTEGER_ONE : Integer.valueOf(docNumber.intValue() + 1);
     }
     
-
+    /**
+     * Adds the "new" Attachment to the SubAward.  Before
+     * adding this method executes validation.  If the validation fails the attachment is not added.
+     */
     public void addNewAwardAttachment() {
         this.refreshAttachmentReferences(Collections.singletonList(this.getNewAttachment()));
         this.syncNewFiles(Collections.singletonList(this.getNewAttachment()));
@@ -188,8 +245,20 @@ public class SubAwardAttachmentFormBean implements Serializable {
         this.newAttachment.setSubAwardId(this.getSubAward().getSubAwardId()); //OJB Hack.  Could not get the awardId to persist with anonymous access in repository file.
         this.getSubAward().addAttachment(this.newAttachment);
         getBusinessObjectService().save(this.newAttachment);
-        getBusinessObjectService().save(this.getSubAward());
         this.initNewAttachment();
+    }
+    
+    
+    /**
+     * Adds the "new" Report to the SubAward.  Before
+     * adding this method executes validation.  If the validation fails the attachment is not added.
+     */
+    public void addNewReport(){
+        this.refreshReportReferences(Collections.singletonList(this.getNewReport()));
+        this.newReport.setSubAwardId(this.getSubAward().getSubAwardId()); //OJB Hack.  Could not get the awardId to persist with anonymous access in repository file.
+        this.getSubAward().addReport(this.newReport);
+        getBusinessObjectService().save(this.newReport); 
+        this.initNewReport();
     }
     
     private BusinessObjectService getBusinessObjectService() {

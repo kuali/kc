@@ -154,7 +154,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      * @return newFile.
      */
     public FormFile getNewFile() {
-        return newFile;
+        return this.newFile;
     }
     /**
      * Sets the  newFile.
