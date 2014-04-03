@@ -30,7 +30,7 @@ import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;
 import org.kuali.coeus.propdev.impl.approve.ProposalDevelopmentApproverViewDO;
-import org.kuali.coeus.propdev.impl.customdata.ProposalDevelopmentCustomDataHelper;
+import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
