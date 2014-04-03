@@ -482,7 +482,7 @@
         <property name="parameterService" ref="parameterService" />
     </bean>
     
-    <bean id="printCertificationPrint" class="org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint" scope="prototype">
+    <bean id="printCertificationPrint" class="org.kuali.coeus.propdev.impl.print.PrintCertificationPrint" scope="prototype">
         <property name="xmlStream" ref="printCertificationXmlStream" />
     </bean>
     
@@ -524,7 +524,7 @@
         <property name="proposalDevelopmentService" ref="proposalDevelopmentService" />
     </bean>
     
-    <bean id="proposalDevelopmentXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream" 
+    <bean id="proposalDevelopmentXmlStream" class="org.kuali.coeus.propdev.impl.print.ProposalDevelopmentXmlStream" 
           parent="proposalBaseStream" />
 
     <!-- Current and Pending Report Services -->

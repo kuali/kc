@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.printing.print;
+package org.kuali.coeus.propdev.impl.print;
 
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
@@ -45,22 +45,4 @@ public class PrintCertificationPrint extends AbstractPrint {
 		return sourceList;
 	}
 
-//	/**
-//	 * This method generates the XML that conforms to certification Report XSD
-//	 * returns it as {@link InputStream}
-//	 * 
-//	 * @return {@link InputStream} of generated XML
-//	 * @throws PrintingException
-//	 *             in case of any errors occur during XML generation
-//	 */
-//	public Map<String, byte[]> renderXML() throws PrintingException {
-//		Map<String, InputStream> xmlStreamMap = new LinkedHashMap<String, InputStream>();
-//		Map<String, XmlObject> xmlObjectMap = getXmlStream().generateXmlStream(
-//				getDocument(), getReportParameters());
-//		for (String xmlObjectKey : xmlObjectMap.keySet()) {
-//			xmlStreamMap.put(xmlObjectKey, xmlObjectMap.get(xmlObjectKey)
-//					.newInputStream());
-//		}
-//		return xmlStreamMap;
-//	}
 }
