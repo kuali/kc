@@ -571,14 +571,6 @@
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 
-    <!-- Proposal Development S2s Questionnaire Services -->
-    
-    <bean id = "proposalDevelopmentS2sQuestionnaireService" class = "org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentS2sQuestionnaireServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService"/>
-        <property name="questionnaireAnswerService" ref="questionnaireAnswerService"/>
-        <property name="questionnaireService" ref="questionnaireService"/>
-    </bean>
-
 	<!-- Proposal Development Task Authorizers -->
 
 	<bean id="parentProposalAuthorizer" abstract="true">
