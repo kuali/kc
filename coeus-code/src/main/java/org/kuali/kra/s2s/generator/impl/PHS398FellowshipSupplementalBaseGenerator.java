@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
@@ -24,6 +25,7 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -71,6 +73,21 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
     protected static final int DISSERTATION = 93;
     protected static final int ACTIVITIES = 94;
 
+    protected static final Comparator<KirschsteinBean> BY_QUESTION_NUMBER =  new Comparator<KirschsteinBean>() {
+        @Override
+        public int compare(KirschsteinBean o1, KirschsteinBean o2) {
+            if (o1 == o2) {
+                return 0;
+            }
+
+            if (o1 != null && o2 != null) {
+                return ObjectUtils.compare(o1.questionNumber, o2.questionNumber);
+            }
+
+            return o1 != null ? -1 : 1;
+        }
+    };
+
 	/**
 	 * 
 	 * Constructs a PHS398FellowshipSupplementalBaseGenerator.java.
@@ -90,4 +107,83 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
         return costElementList;
     }
 
+    public static class KirschsteinBean {
+        String answer;
+        Integer questionId;
+        Integer questionNumber;
+        Integer parentQuestionNumber;
+
+        /**
+         * Gets the answer attribute.
+         *
+         * @return Returns the answer.
+         */
+        public String getAnswer() {
+            return answer;
+        }
+
+        /**
+         * Sets the answer attribute value.
+         *
+         * @param answer The answer to set.
+         */
+        public void setAnswer(String answer) {
+            this.answer = answer;
+        }
+
+        /**
+         * Gets the questionId attribute.
+         *
+         * @return Returns the questionId.
+         */
+        public Integer getQuestionId() {
+            return questionId;
+        }
+
+        /**
+         * Sets the questionId attribute value.
+         *
+         * @param questionId The questionId to set.
+         */
+        public void setQuestionId(Integer questionId) {
+            this.questionId = questionId;
+        }
+
+        /**
+         * Gets the questionNumber attribute.
+         *
+         * @return Returns the questionNumber.
+         */
+        public Integer getQuestionNumber() {
+            return questionNumber;
+        }
+
+        /**
+         * Sets the questionNumber attribute value.
+         *
+         * @param questionNumber The questionNumber to set.
+         */
+        public void setQuestionNumber(Integer questionNumber) {
+            this.questionNumber = questionNumber;
+        }
+
+        /**
+         * Gets the parentQuestionNumber attribute.
+         *
+         * @return Returns the parentQuestionNumber.
+         */
+        public Integer getParentQuestionNumber() {
+            return parentQuestionNumber;
+        }
+
+        /**
+         * Sets the parentQuestionNumber attribute value.
+         *
+         * @param parentQuestionNumber The parentQuestionNumber to set.
+         */
+        public void setParentQuestionNumber(Integer parentQuestionNumber) {
+            this.parentQuestionNumber = parentQuestionNumber;
+        }
+
+    }
 }

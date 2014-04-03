@@ -15,21 +15,16 @@ import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetYearDa
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.budget.api.rate.TrainingStipendRateContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.calculator.QueryList;
-import org.kuali.kra.budget.calculator.query.And;
-import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.calculator.query.LesserThan;
-import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.budget.rates.TrainingStipendRate;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -41,7 +36,7 @@ import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.depend.TrainingStipendRateService;
+import org.kuali.coeus.budget.api.rate.TrainingStipendRateService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.IndirectCostDetails;
 import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
@@ -1104,19 +1099,8 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     }
     private BigDecimal getStipendAmount(BudgetPeriod budgetPeriod, String careerLevel, int experienceLevel, int numPeople) {
         BigDecimal stipendCost = ScaleTwoDecimal.ZERO.bigDecimalValue();
-        List<TrainingStipendRate> trainingStipendRates = trainingStipendRateService.findAllTrainingStipendRates();
-        QueryList<TrainingStipendRate> trainingStipendRatesQueryList = new QueryList<TrainingStipendRate>(trainingStipendRates);
-        Equals eqStartDate = new Equals("effectiveDate",budgetPeriod.getStartDate());
-        LesserThan ltStartDate = new LesserThan("effectiveDate",budgetPeriod.getStartDate());
-        Or lessThanOrEqualsStartDate = new Or(eqStartDate,ltStartDate);
-        QueryList<TrainingStipendRate> filteredTrainingStipendRates = trainingStipendRatesQueryList.filter(lessThanOrEqualsStartDate);
-        Equals eqCareerLevel = new Equals("careerLevel",careerLevel);
-        Equals eqExperienceLevel = new Equals("experienceLevel",experienceLevel);
-        And eqCareerLevelAndeqExperienceLevel = new And(eqCareerLevel,eqExperienceLevel);
-        filteredTrainingStipendRates = filteredTrainingStipendRates.filter(eqCareerLevelAndeqExperienceLevel);
-        if(!filteredTrainingStipendRates.isEmpty()){
-            filteredTrainingStipendRates.sort("effectiveDate",false);
-            TrainingStipendRate trainingStipendRate = filteredTrainingStipendRates.get(0);
+        TrainingStipendRateContract trainingStipendRate = trainingStipendRateService.findClosestMatchTrainingStipendRate(budgetPeriod.getStartDate(), careerLevel, experienceLevel);
+        if (trainingStipendRate != null) {
             stipendCost = trainingStipendRate.getStipendRate().bigDecimalValue().multiply(new ScaleTwoDecimal(numPeople).bigDecimalValue());
         }
         return stipendCost;
