@@ -8,7 +8,7 @@
                         <c:set target="${paramMap}" property="argName" value="${bean.lookupArgument}" />
 
                             <html:select property="${property}" tabindex="0">
-                                <c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder', paramMap)}" var="option">
+                                <c:forEach items="${krafn:getOptionList('org.kuali.coeus.common.impl.custom.arg.ArgValueLookupValuesFinder', paramMap)}" var="option">
                                     <c:choose>                      
                                         <c:when test="${bean.relationshipTypeBeans[valueIndex].stringValue == option.key}">
                                             <option value="${option.key}" selected>${option.value}</option>

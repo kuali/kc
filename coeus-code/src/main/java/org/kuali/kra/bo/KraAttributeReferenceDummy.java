@@ -16,7 +16,10 @@
 package org.kuali.kra.bo;
 
 
+import org.kuali.coeus.sys.api.model.Describable;
+import org.kuali.coeus.sys.api.model.Recorded;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.api.model.Sortable;
 import org.kuali.rice.krad.datadictionary.AttributeReference;
 
 import java.sql.Timestamp;
@@ -24,7 +27,7 @@ import java.sql.Timestamp;
 /**
  * Attribute Reference Dummy Business Object.
  */
-public class KraAttributeReferenceDummy extends AttributeReference {
+public class KraAttributeReferenceDummy extends AttributeReference implements Sortable, Describable, Recorded {
 
     private String description;
     private String bigDescription;
@@ -40,7 +43,7 @@ public class KraAttributeReferenceDummy extends AttributeReference {
     private Integer sequenceNumber;
     private String sourceAccount;
     private Boolean checkBox;
-    private Long sortId;
+    private Integer sortId;
     private String reporter;
     private Timestamp createTimestamp;
     private String committeeId;
@@ -125,6 +128,7 @@ public class KraAttributeReferenceDummy extends AttributeReference {
      *
      * @return the value of description
      */
+    @Override
     public final String getDescription() {
         return this.description;
     }
@@ -146,6 +150,7 @@ public class KraAttributeReferenceDummy extends AttributeReference {
         this.bigDescription = bigDescription;
     }
 
+    @Override
     public String getUpdateUser() {
         return updateUser;
     }
@@ -154,6 +159,7 @@ public class KraAttributeReferenceDummy extends AttributeReference {
         this.updateUser = updateUser;
     }
 
+    @Override
     public Timestamp getUpdateTimestamp() {
         return updateTimestamp;
     }
@@ -210,11 +216,12 @@ public class KraAttributeReferenceDummy extends AttributeReference {
         this.checkBox = checkBox;
     }
 
-    public Long getSortId() {
+    @Override
+    public Integer getSortId() {
         return sortId;
     }
 
-    public void setSortId(Long sortId) {
+    public void setSortId(Integer sortId) {
         this.sortId = sortId;
     }
 

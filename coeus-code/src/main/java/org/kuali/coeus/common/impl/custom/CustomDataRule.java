@@ -17,6 +17,7 @@ package org.kuali.coeus.common.impl.custom;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataType;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
@@ -26,10 +27,9 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
+import org.kuali.coeus.common.impl.custom.arg.ArgValueLookupValuesFinder;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -176,7 +176,7 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
                         isValid = false;
                     }
                 }
-            } else if (lookupClass != null && lookupClass.equals("org.kuali.kra.bo.ArgValueLookup"))
+            } else if (lookupClass != null && lookupClass.equals(ArgValueLookup.class.getName()))
             {
                     ArgValueLookupValuesFinder finder = new  ArgValueLookupValuesFinder();
                     finder.setArgName(customAttribute.getLookupReturn());

@@ -392,13 +392,13 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     public void setAttachments(List<AttachmentData> attachments) {
         this.attachments = attachments;
     }
-   
+
     public List<AnswerHeader> getQuestionnaireAnswers(DevelopmentProposal proposal, boolean finalDoc) {
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(pdDoc.getDevelopmentProposal());
         QuestionnaireAnswerService questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         return questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
     }
-    
+
     /**
      * Sort the attachments.
      * @param byteArrayInputStream
