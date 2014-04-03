@@ -27,7 +27,7 @@
 <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false"
 	tabTitle="Details - Report Tracking"
 	useCurrentTabIndexAsKey="true"
-	tabErrorKey="document.awardList[0].awardReportTermItems[${index}].awardReportings*, document.awardList[0].awardReportTermItems[${index}].frequencyBaseCode">
+	tabErrorKey="document.awardList[0].awardReportTermItems[${index}]*,reportTrackingBeans*,document.award.awardReportTermItems[${index}]*, document.awardList[0].awardReportTermItems[${index}].frequencyBaseCode">
 
 	<kra:softError softErrorKey="awardReportTerms-${KualiForm.document.award.awardReportTermItems[index].reportClassCode}-${KualiForm.document.award.awardReportTermItems[index].frequencyCode}-${KualiForm.document.award.awardReportTermItems[index].frequencyBaseCode}-${KualiForm.document.award.awardReportTermItems[index].ospDistributionCode}" />
 	<table cellpadding="0" cellspacing="0" summary="">
@@ -148,18 +148,23 @@
 				</td>
 				<td>
 					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerName" 
-						attributeEntry="${reportTrackingAttributes.preparerName}" readOnly="${reportTrackingReadOnly }"  />
+					onblur="loadContactPersonName('document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerName',
+										'preparer[${status.index}]',
+										'na',
+										'na',
+										'na',
+										'sub.reportTrackingBeans.div');"	attributeEntry="${reportTrackingAttributes.preparerName}" readOnly="${reportTrackingReadOnly }"  />
 					<c:if test="${!reportTrackingReadOnly}">
 	                	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 	                                fieldConversions="userName:document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerName,personId:document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" />
-                    </c:if>				
-					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" 
+                   </c:if>	
+                    <kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" 
 						attributeEntry="${reportTrackingAttributes.preparerId}" readOnly="${reportTrackingReadOnly }"  />
                     <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId:personId" />
                     <html:hidden styleId ="sub.reportTrackingBeans.div" property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" />
 					<br/>
 					<span id="preparer[${status.index}]">
-						<c:out value="${reportTracking.preparerFullname}"/>&nbsp;
+                    &nbsp;
 					</span>
 				</td>
 				<td>

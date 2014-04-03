@@ -96,6 +96,13 @@
 			<inverse-foreignkey field-ref="subAwardId"/>
 			<orderby name="attachmentId" sort="ASC" />
 		</collection-descriptor>
+		<collection-descriptor name="subAwardReportList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardReports" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="subAwardId"/>
+			<orderby name="subAwardReportId" sort="ASC" />
+		</collection-descriptor>
+		<collection-descriptor name="subAwardTemplateInfo" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardTemplateInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="subAwardId"/>
+		</collection-descriptor>
 	</class-descriptor>
 	
     <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardAmountInfo" table="SUBAWARD_AMOUNT_INFO">
@@ -299,6 +306,7 @@
 	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardReportType" table="SUBAWARD_REPORT_TYPE">
 		<field-descriptor name="subAwardReportTypeCode" column="REPORT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -338,4 +346,47 @@
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardReports" table="SUBAWARD_REPORTS">
+		<field-descriptor name="subAwardReportId" column="SUBAWARD_REPORT_ID" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_SUBAWARD_REPORT_ID" autoincrement="true"/>
+		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
+		<field-descriptor name="subAwardReportTypeCode" column="REPORT_TYPE_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="typeCode" class-ref="org.kuali.kra.subaward.bo.SubAwardReportType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="subAwardReportTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardTemplateInfo" table="SUBAWARD_TEMPLATE_INFO">
+        <field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" primarykey="true" />
+        <field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="sowOrSubProposalBudget" column="SOW_OR_SUB_PROPOSAL_BUDGET" jdbc-type="VARCHAR"/>
+        <field-descriptor name="subProposalDate" column="SUB_PROPOSAL_DATE" jdbc-type="DATE" />
+        <field-descriptor name="invoiceOrPaymentContact" column="INVOICE_OR_PAYMENT_CONTACT" jdbc-type="INTEGER"/>
+        <field-descriptor name="finalStmtOfCostscontact" column="FINAL_STMT_OF_COSTS_CONTACT" jdbc-type="INTEGER" />
+        <field-descriptor name="changeRequestsContact" column="CHANGE_REQUESTS_CONTACT" jdbc-type="INTEGER" />
+        <field-descriptor name="terminationContact" column="TERMINATION_CONTACT" jdbc-type="INTEGER" />
+        <field-descriptor name="noCostExtensionContact" column="NO_COST_EXTENSION_CONTACT" jdbc-type="INTEGER" />
+        <field-descriptor name="perfSiteDiffFromOrgAddr" column="PERF_SITE_DIFF_FROM_ORG_ADDR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="perfSiteSameAsSubPiAddr" column="PERF_SITE_SAME_AS_SUB_PI_ADDR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="subRegisteredInCcr" column="SUB_REGISTERED_IN_CCR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="subExemptFromReportingComp" column="SUB_EXEMPT_FROM_REPORTING_COMP" jdbc-type="VARCHAR"/>
+        <field-descriptor name="parentDunsNumber" column="PARENT_DUNS_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="parentCongressionalDistrict" column="PARENT_CONGRESSIONAL_DISTRICT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="exemptFromRprtgExecComp" column="EXEMPT_FROM_RPRTG_EXEC_COMP" jdbc-type="VARCHAR"/>
+        <field-descriptor name="copyRightType" column="COPYRIGHT_TYPE" jdbc-type="INTEGER" />
+        <field-descriptor name="automaticCarryForward" column="AUTOMATIC_CARRY_FORWARD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="carryForwardRequestsSentTo" column="CARRY_FORWARD_REQUESTS_SENT_TO" jdbc-type="INTEGER" />
+        <field-descriptor name="treatmentPrgmIncomeAdditive" column="TREATMENT_PRGM_INCOME_ADDITIVE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="applicableProgramRegulations" column="APPLICABLE_PROGRAM_REGULATIONS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="applicableProgramRegsDate" column="APPLICABLE_PROGRAM_REGS_DATE" jdbc-type="DATE" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
 </descriptor-repository>

@@ -1058,18 +1058,6 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
             IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol)protocolForm.getProtocolDocument().getProtocol(),IacucProtocolActionType.NOTIFY_IACUC, "Notify IACUC");
             returnPath = getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_ACTIONS_TAB);
         }
-        
-        
-        //We need to update the modify submission bean with the new submission data
-        protocolForm.getProtocolDocument().getProtocol().refreshReferenceObject("protocolSubmissions");
-        IacucProtocolModifySubmissionBean modifySubmissionBean =  actionHelper.getIacucProtocolModifySubmissionBean();         
-        IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();        
-        modifySubmissionBean.setSubmissionTypeCode(protocol.getProtocolSubmission().getSubmissionTypeCode());
-        modifySubmissionBean.setSubmissionQualifierTypeCode(protocol.getProtocolSubmission().getSubmissionTypeQualifierCode());
-        modifySubmissionBean.setProtocolReviewTypeCode(protocol.getProtocolSubmission().getProtocolReviewTypeCode());
-        modifySubmissionBean.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
-        modifySubmissionBean.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
-                
         return returnPath;
     }
     

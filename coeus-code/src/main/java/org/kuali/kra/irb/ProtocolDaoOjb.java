@@ -137,7 +137,7 @@ class ProtocolDaoOjb extends ProtocolDaoOjbBase<Protocol> implements OjbCollecti
                 ProtocolLookupConstants.Property.PERSON_NAME, 
                 ProtocolPerson.class));
         criteriaFields.add(new CriteriaFieldHelper(ProtocolLookupConstants.Property.FUNDING_SOURCE, 
-                ProtocolLookupConstants.Property.FUNDING_SOURCE, 
+                ProtocolLookupConstants.Property.FUNDING_SOURCE_NUMBER, 
                 ProtocolFundingSource.class));
         criteriaFields.add(new CriteriaFieldHelper(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID,
                 ProtocolLookupConstants.Property.ORGANIZATION_ID, 
