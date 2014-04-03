@@ -79,10 +79,10 @@
     <property name="shortLabel" value="Role"/>
     <property name="maxLength" value="500"/>
     <property name="control">
-      <bean p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalRoleValuesFinder" parent="SelectControlDefinition"/>
+      <bean p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.coeus.propdev.impl.auth.perm.ProposalRoleValuesFinder" parent="SelectControlDefinition"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalRoleValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.auth.perm.ProposalRoleValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
