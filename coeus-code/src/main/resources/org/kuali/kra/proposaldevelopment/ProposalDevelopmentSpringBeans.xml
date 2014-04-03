@@ -372,19 +372,7 @@
 		p:callbackService-ref="proposalAllUnitAdministratorDerivedRoleTypeService" 
 		p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
-    
-    <bean id="proposalCopyService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalCopyServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="keyPersonnelService" ref="keyPersonnelService" />
-        <property name="documentService" ref="documentService" />
-        <property name="parameterService" ref="parameterService" />
-        <property name="dateTimeService" ref="dateTimeService" />
-        <property name="budgetService" ref="budgetService" />
-        <property name="budgetSummaryService" ref="budgetSummaryService" />
-        <property name="questionnaireService" ref="questionnaireService"/>
-        <property name="questionnaireAnswerService" ref="questionnaireAnswerService"/>
-    </bean>
-    
+ 
     <bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="narrativeService" ref="narrativeService" />
