@@ -21,7 +21,7 @@ import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataType;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
-import org.kuali.kra.bo.ArgValueLookup;
+import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -44,7 +44,7 @@ import java.util.*;
 @Component("customAttributeService")
 public class CustomAttributeServiceImpl implements CustomAttributeService {
 
-    private static final String ARGVALUELOOKUPE_CLASS = "org.kuali.kra.bo.ArgValueLookup";
+    private static final String ARGVALUELOOKUPE_CLASS = ArgValueLookup.class.getName();
     
     @Autowired
     @Qualifier("dataObjectService")

@@ -61,7 +61,7 @@
     </c:when>
     <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.questionTypeId == 6}" >
         <c:choose>
-            <c:when test = "${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.lookupClass == 'org.kuali.kra.bo.ArgValueLookup'}">
+            <c:when test = "${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.lookupClass == 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup'}">
                 <kra-questionnaire:argValueLookupQuestion question="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
                     answer="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"
                     bean="${bean}" property="${property}" answerHeaderIndex = "${answerHeaderIndex}" 

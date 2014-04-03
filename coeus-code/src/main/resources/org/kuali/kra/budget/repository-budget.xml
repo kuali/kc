@@ -203,7 +203,7 @@
 	<class-descriptor class="org.kuali.kra.budget.core.BudgetCategoryType" table="BUDGET_CATEGORY_TYPE">
 		<field-descriptor name="budgetCategoryTypeCode" column="BUDGET_CATEGORY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -218,7 +218,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<collection-descriptor name="budgetCategoryMappings" proxy="true" element-class-ref="org.kuali.kra.budget.core.BudgetCategoryMapping" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="budgetCategoryMappings" proxy="true" element-class-ref="org.kuali.kra.budget.core.BudgetCategoryMapping" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="mappingName"/>
 			<inverse-foreignkey field-ref="targetCategoryCode"/>
 		</collection-descriptor>
@@ -752,7 +752,7 @@
 		<field-descriptor name="rateClassType" column="RATE_CLASS_TYPE" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="prefixActivityType" column="PREFIX_ACTIVITY_TYPE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>

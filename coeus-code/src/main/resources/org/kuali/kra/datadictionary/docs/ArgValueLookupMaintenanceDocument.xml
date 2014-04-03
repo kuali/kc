@@ -21,7 +21,7 @@
 
     <bean id="ArgValueLookupMaintenanceDocument" parent="ArgValueLookupMaintenanceDocument-parentBean" />
     <bean id="ArgValueLookupMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.ArgValueLookup" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.custom.arg.ArgValueLookup" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
@@ -30,7 +30,7 @@
         </property>
         <property name="lockingKeys" >
             <list>
-                <value>argValueLookupId</value>
+                <value>id</value>
             </list>
         </property>
         <property name="allowsRecordDeletion" value="true" />
@@ -47,7 +47,7 @@
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="argValueLookupId"
+                    p:name="id"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="argumentName"
