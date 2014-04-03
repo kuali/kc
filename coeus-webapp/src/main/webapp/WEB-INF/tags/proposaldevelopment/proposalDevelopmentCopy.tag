@@ -35,7 +35,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Copy to New Document</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria" altText="help"/></span>
         </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">

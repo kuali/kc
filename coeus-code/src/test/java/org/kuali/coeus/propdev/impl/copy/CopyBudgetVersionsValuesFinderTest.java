@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
+package org.kuali.coeus.propdev.impl.copy;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.copy.CopyBudgetVersionsValuesFinder;
+import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.util.ArrayList;
