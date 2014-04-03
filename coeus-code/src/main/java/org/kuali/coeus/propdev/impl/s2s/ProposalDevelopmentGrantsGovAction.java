@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.action;
+package org.kuali.coeus.propdev.impl.s2s;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -28,8 +28,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.krad.util.GlobalVariables;
 

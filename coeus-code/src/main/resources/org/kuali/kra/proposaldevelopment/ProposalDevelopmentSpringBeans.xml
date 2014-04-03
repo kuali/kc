@@ -743,7 +743,7 @@
 	</bean>
 	
     <bean id="proposalGrantsGovWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentGrantsGovAction" />
+        <property name="classname" value="org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentGrantsGovAction" />
         <property name="mappings">
             <map>
                 <entry key="printForms">
