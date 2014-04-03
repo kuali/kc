@@ -27,7 +27,6 @@ import gov.grants.apply.forms.rrKeyPersonV10.RRKeyPersonDocument.RRKeyPerson.Sup
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -138,8 +137,7 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                 profile.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
             }
             if(PI.getHomeUnit() != null) {
-                KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
-                KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
+                KcPerson kcPersons = PI.getPerson();
                 String departmentName =  kcPersons.getOrganizationIdentifier();
                 profile.setDepartmentName(departmentName);
             }
@@ -218,8 +216,7 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                     profileKeyPerson.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
                 }
                 if(keyPerson.getHomeUnit() != null) {
-                    KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
-                    KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(keyPerson.getPersonId());
+                    KcPerson kcPersons = keyPerson.getPerson();
                     String departmentName =  kcPersons.getOrganizationIdentifier();
                     profileKeyPerson.setDepartmentName(departmentName);
                 }

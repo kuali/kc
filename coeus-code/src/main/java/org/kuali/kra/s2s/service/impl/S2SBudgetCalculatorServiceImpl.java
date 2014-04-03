@@ -19,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -44,7 +43,6 @@ import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.depend.BudgetCategoryMapService;
 import org.kuali.kra.s2s.depend.BudgetPersonSalaryService;
-import org.kuali.kra.s2s.depend.ToBeNamePersonService;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -94,8 +92,6 @@ public class S2SBudgetCalculatorServiceImpl implements
     private static final String PRINCIPAL_INVESTIGATOR_ROLE = "PD/PI";
     private static final BigDecimal POINT_ZERO_ONE = new ScaleTwoDecimal(0.01).bigDecimalValue();
     private BudgetCategoryMapService budgetCategoryMapService;
-    private ToBeNamePersonService toBeNamePersonService;
-    private KcPersonService kcPersonService;
     private S2SUtilService s2SUtilService;
     private ParameterService parameterService;
     private ProposalBudgetService proposalBudgetService;
@@ -1671,7 +1667,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                 keyPersons.add(keyPerson);
                             }
                         }else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
-                            TbnPerson tbnPerson = toBeNamePersonService.findTbnPersonById(budgetPersonnelDetails.getBudgetPerson().getTbnId());
+                            TbnPerson tbnPerson = budgetPersonnelDetails.getBudgetPerson().getTbnPerson();
                             if (tbnPerson != null) {
                                 keyPerson = new KeyPersonInfo();
                                 keyPerson.setPersonId(tbnPerson.getJobCode());
@@ -1691,13 +1687,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                             }
                         }
                     }else {
-                        KcPerson kcPerson = null;
-                        try {
-                            kcPerson = kcPersonService.getKcPersonByPersonId(budgetPersonnelDetails.getPersonId());
-                        }
-                        catch (Exception e) {
-                            LOG.error("Person not found " + e);
-                        }
+                        KcPerson kcPerson = budgetPersonnelDetails.getBudgetPerson().getPerson();
                         if (kcPerson != null) {
                             keyPerson = new KeyPersonInfo();
                             keyPerson.setPersonId(kcPerson.getPersonId());
@@ -2050,30 +2040,11 @@ public class S2SBudgetCalculatorServiceImpl implements
         return budgetCategoryMapService;
     }
 
-    public ToBeNamePersonService getToBeNamePersonService() {
-        return toBeNamePersonService;
-    }
-
-    public void setToBeNamePersonService(ToBeNamePersonService toBeNamePersonService) {
-        this.toBeNamePersonService = toBeNamePersonService;
-    }
-
-    public KcPersonService getKcPersonService() {
-        return kcPersonService;
-    }
 
     public S2SUtilService getS2SUtilService() {
         return s2SUtilService;
     }
 
-    /**
-     * Sets the KC Person Service.
-     * 
-     * @param kcPersonService the kc person service
-     */
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
-    }
 
     protected ParameterService getParameterService() {
         return this.parameterService;

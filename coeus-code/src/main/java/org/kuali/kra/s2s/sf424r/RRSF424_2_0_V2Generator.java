@@ -35,7 +35,6 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -543,8 +542,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 
 	private void setDepartmentName(OrganizationContactPersonDataType PDPI,ProposalPerson PI) {
 	    if(PI.getHomeUnit() != null) {
-	        KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
-	        KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
+	        KcPerson kcPersons = PI.getPerson();
 	        String departmentName =  kcPersons.getOrganizationIdentifier();
 	        PDPI.setDepartmentName(departmentName);
 	    }
