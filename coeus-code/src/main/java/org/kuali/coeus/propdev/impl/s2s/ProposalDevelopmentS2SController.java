@@ -52,7 +52,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 		return s2SService;
 	}
 
-	protected void setS2SService(S2SService s2sService) {
+	public void setS2SService(S2SService s2sService) {
 		s2SService = s2sService;
 	}
 

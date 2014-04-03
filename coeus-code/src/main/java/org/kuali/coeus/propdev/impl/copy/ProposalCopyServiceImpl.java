@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.coeus.propdev.impl.copy;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
@@ -24,10 +24,8 @@ import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -44,12 +42,9 @@ import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sModuleQuestionnaireBean;
-import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
-import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -59,11 +54,14 @@ import org.kuali.rice.krad.bo.*;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -114,17 +112,14 @@ import java.util.*;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@Component("proposalCopyService")
 public class ProposalCopyServiceImpl implements ProposalCopyService {
     
     private static final String MODULE_NUMBER = "moduleNumber";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalCopyServiceImpl.class);
-    private BudgetService<DevelopmentProposal> budgetService;
-    private BudgetSummaryService budgetSummaryService;
-    private QuestionnaireService questionnaireService;
-    private QuestionnaireAnswerService questionnaireAnswerService;
-    
-    /**
+    	
+	/**
      * The set of Proposal Development Document properties that
      * must not be copied during step 2.
      */
@@ -140,7 +135,48 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                                                    "ProposalState",
                                                    "ProposalDocument",
                                                    "YnqGroupNames"};
+
+    @Autowired
+    @Qualifier("budgetSummaryService")
+    private BudgetSummaryService budgetSummaryService;
     
+    @Autowired
+    @Qualifier("questionnaireAnswerService")
+    private QuestionnaireAnswerService questionnaireAnswerService;
+    
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
+    
+	@Autowired
+    @Qualifier("unitService")
+    private UnitService unitService;
+    
+	@Autowired
+    @Qualifier("kcAuthorizationService")
+	private KcAuthorizationService kcAuthorizationService;
+	
+	@Autowired
+    @Qualifier("businessObjectService")
+	private BusinessObjectService businessObjectService;
+	
+	@Autowired
+    @Qualifier("keyPersonnelService")
+	private KeyPersonnelService keyPersonnelService;
+	
+	@Autowired
+    @Qualifier("documentService")
+	private DocumentService documentService;
+	
+	@Autowired
+    @Qualifier("parameterService")
+	private ParameterService parameterService;
+	
+	@Autowired
+    @Qualifier("dateTimeService")
+	private DateTimeService dateTimeService;
+	    
+
     /**
      * Each property in the document that can be copied is represented
      * by its getter and setter method.
@@ -157,20 +193,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
     }
 
-    private BusinessObjectService businessObjectService;
-    private KeyPersonnelService keyPersonnelService;
-    private DocumentService documentService;
-    private ParameterService parameterService;
-    private DateTimeService dateTimeService;
-    
-    /**
-     * Sets the ParameterService.
-     * @param parameterService the parameter service. 
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
     @Override
     public String copyProposal(ProposalDevelopmentDocument doc, ProposalCopyCriteria criteria) throws Exception {
         String newDocNbr = null;
@@ -185,8 +207,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             copyProposal(doc, newDoc, criteria);
             fixProposal(doc, newDoc, criteria);
 
-            DocumentService docService = KRADServiceLocatorWeb.getDocumentService();
-            docService.saveDocument(newDoc);
+            getDocumentService().saveDocument(newDoc); 
             
             // Can't initialize authorization until a proposal is saved
             // and we have a new proposal number.
@@ -204,14 +225,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             //copy existing questionnaires (if we can, otherwise copy the pieces of the questionnaires that we can. )
             if (criteria.getIncludeQuestionnaire()) {
                 ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(doc.getDevelopmentProposal(), true);
-                List<AnswerHeader> answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+                List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
                 ModuleQuestionnaireBean destModuleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(newDoc.getDevelopmentProposal(), false);
-                questionnaireAnswerService.copyAnswerHeaders(moduleQuestionnaireBean, destModuleQuestionnaireBean);
+                getQuestionnaireAnswerService().copyAnswerHeaders(moduleQuestionnaireBean, destModuleQuestionnaireBean);
                 
                 //also copy the s2s questionnaires/answers too 
                 moduleQuestionnaireBean = new ProposalDevelopmentS2sModuleQuestionnaireBean(doc.getDevelopmentProposal());
                 destModuleQuestionnaireBean = new ProposalDevelopmentS2sModuleQuestionnaireBean(newDoc.getDevelopmentProposal());
-                questionnaireAnswerService.copyAnswerHeaders(moduleQuestionnaireBean, destModuleQuestionnaireBean);                
+                getQuestionnaireAnswerService().copyAnswerHeaders(moduleQuestionnaireBean, destModuleQuestionnaireBean);                
             }
             
             copyCustomData(doc, newDoc);
@@ -234,8 +255,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     protected ProposalDevelopmentDocument createNewProposal(ProposalDevelopmentDocument srcDoc, ProposalCopyCriteria criteria) throws Exception {
         
-        DocumentService docService = KRADServiceLocatorWeb.getDocumentService();
-        ProposalDevelopmentDocument newDoc = (ProposalDevelopmentDocument) docService.getNewDocument(srcDoc.getClass());
+        ProposalDevelopmentDocument newDoc = (ProposalDevelopmentDocument) getDocumentService().getNewDocument(srcDoc.getClass());
         
         LOG.info("EXECUTING IN createNewProposal");
         
@@ -250,7 +270,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         setLeadUnit(newDoc, criteria.getLeadUnitNumber());
         
         newDoc.getDocumentHeader().setDocumentTemplateNumber(srcDoc.getDocumentNumber());
-        docService.saveDocument(newDoc);
+        getDocumentService().saveDocument(newDoc);
         
         return newDoc;
     }
@@ -476,8 +496,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param newLeadUnitNumber the new lead unit number
      */
     protected void setLeadUnit(ProposalDevelopmentDocument doc, String newLeadUnitNumber) {
-        UnitService unitService = KcServiceLocator.getService(UnitService.class);
-        Unit newLeadUnit = unitService.getUnit(newLeadUnitNumber);
+        Unit newLeadUnit = getUnitService().getUnit(newLeadUnitNumber);
         doc.getDevelopmentProposal().setOwnedByUnitNumber(newLeadUnitNumber);
         doc.getDevelopmentProposal().setOwnedByUnit(newLeadUnit);
     }
@@ -518,7 +537,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
         //update timestamp on abstracts to match doc creation time
         for (ProposalAbstract curAbstract : newDoc.getDevelopmentProposal().getProposalAbstracts()) {
-            curAbstract.setTimestampDisplay(dateTimeService.getCurrentTimestamp());
+            curAbstract.setTimestampDisplay(getDateTimeService().getCurrentTimestamp());
         }
     }
 
@@ -636,7 +655,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     protected void fixBudgetVersions(ProposalDevelopmentDocument doc) {
         if (doc.getBudgetDocumentVersions().size() > 0) {
-            String budgetStatusIncompleteCode = this.parameterService.getParameterValueAsString(
+            String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
                     BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             
             doc.getDevelopmentProposal().setBudgetStatus(budgetStatusIncompleteCode);
@@ -717,11 +736,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             }
         }
         doc.getDevelopmentProposal().setInvestigators(new ArrayList<ProposalPerson>());
-        keyPersonnelService.populateDocument(doc);
+        getKeyPersonnelService().populateDocument(doc);
     }
     
     protected ProposalPersonUnit createProposalPersonUnit(ProposalPerson person, String unitNumber, boolean isLeadUnit, boolean isDeletable, List<ProposalPersonUnit> oldProposalPersonUnits) {
-        ProposalPersonUnit proposalPersonUnit = keyPersonnelService.createProposalPersonUnit(unitNumber, person);
+        ProposalPersonUnit proposalPersonUnit = getKeyPersonnelService().createProposalPersonUnit(unitNumber, person);
         if (proposalPersonUnit.getUnitNumber() == null) {
             return null;
         }
@@ -760,8 +779,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     protected void initializeAuthorization(ProposalDevelopmentDocument doc) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-        kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, doc);
+        getKcAuthorizationService().addRole(userId, RoleConstants.AGGREGATOR, doc);
     }
     
     /**
@@ -859,7 +877,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         Map<String,String> primaryKey = new HashMap<String,String>();
         primaryKey.put(PROPOSAL_NUMBER, narrative.getProposalNumber());
         primaryKey.put(MODULE_NUMBER, narrative.getModuleNumber()+"");
-        NarrativeAttachment attachment = (NarrativeAttachment)businessObjectService.findByPrimaryKey(NarrativeAttachment.class, primaryKey);
+        NarrativeAttachment attachment = (NarrativeAttachment)getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, primaryKey);
         narrative.getNarrativeAttachmentList().clear();
         narrative.getNarrativeAttachmentList().add(attachment);
     }
@@ -874,7 +892,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         primaryKey.put(PROPOSAL_NUMBER, bio.getProposalNumber());
         primaryKey.put("biographyNumber", bio.getBiographyNumber()+"");
         primaryKey.put("proposalPersonNumber", bio.getProposalPersonNumber()+"");
-        ProposalPersonBiographyAttachment attachment = (ProposalPersonBiographyAttachment)businessObjectService.findByPrimaryKey(ProposalPersonBiographyAttachment.class, primaryKey);
+        ProposalPersonBiographyAttachment attachment = (ProposalPersonBiographyAttachment)getBusinessObjectService().findByPrimaryKey(ProposalPersonBiographyAttachment.class, primaryKey);
         bio.getPersonnelAttachmentList().clear();
         bio.getPersonnelAttachmentList().add(attachment);
     }
@@ -902,7 +920,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
     
     protected void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber, boolean resetRates) throws Exception {
-        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
+        BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
         List<BudgetSubAwards> budgetSubAwards = budgetDocument.getBudget().getBudgetSubAwards();
         for (BudgetSubAwards budgetSubAward : budgetSubAwards) {
             List<BudgetSubAwardFiles> budgetSubAwardFiles = budgetSubAward.getBudgetSubAwardFiles();
@@ -910,8 +928,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 Map param = new HashMap();
                 param.put("budgetId", budgetSubAward.getBudgetId());
                 param.put("subAwardNumber", budgetSubAward.getSubAwardNumber());
-                budgetSubAward.setBudgetSubAwardFiles((List)businessObjectService.findMatching(BudgetSubAwardFiles.class, param));
-                budgetSubAward.setBudgetSubAwardAttachments((List)businessObjectService.findMatching(BudgetSubAwardAttachment.class, param));
+                budgetSubAward.setBudgetSubAwardFiles((List)getBusinessObjectService().findMatching(BudgetSubAwardFiles.class, param));
+                budgetSubAward.setBudgetSubAwardAttachments((List)getBusinessObjectService().findMatching(BudgetSubAwardAttachment.class, param));
             }
         }
 
@@ -975,7 +993,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         budget.setBudgetDocument(budgetDocument);
         budget.setDocumentNumber(budgetDocument.getDocumentNumber());
         
-        documentService.saveDocument(budgetDocument);
+        getDocumentService().saveDocument(budgetDocument);
         
         for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
             BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod);
@@ -994,13 +1012,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         
         budget.setBudgetProjectIncomes(srcProjectIncomeList);
-        budgetSummaryService.calculateBudget(budgetDocument.getBudget());
+        getBudgetSummaryService().calculateBudget(budgetDocument.getBudget());
         if (resetRates) {
             budgetDocument.getBudget().getBudgetRates().clear();
             budgetDocument.getBudget().getBudgetLaRates().clear();
         }
-        documentService.saveDocument(budgetDocument);
-        documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
+        getDocumentService().saveDocument(budgetDocument);
+        getDocumentService().routeDocument(budgetDocument, "Route to Final", new ArrayList());
         budgetDocument.getParentDocument().refreshBudgetDocumentVersions();
     }
     
@@ -1063,7 +1081,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 Map<String, Object> primaryKeys = new HashMap<String, Object>();
                 primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, src.getDocumentNumber());
                 primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
-                CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue)businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
+                CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue)getBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
                 
                 // Store a new CustomAttributeDocValue using the new document's document number
                 if (customAttributeDocValue != null) {
@@ -1092,10 +1110,19 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         this.businessObjectService = businessObjectService;
     }
     
-    public void setDocumentService(DocumentService documentService) {
+    protected BusinessObjectService getBusinessObjectService() {
+		return businessObjectService;
+	}
+
+	protected DocumentService getDocumentService() {
+		return documentService;
+	}
+
+	public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-
+	
+	
     /**
      * Set the Key Personnel Service.  It is set via dependency injection.
      * 
@@ -1105,38 +1132,44 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         this.keyPersonnelService = keyPersonnelService;
     }
     
+    protected KeyPersonnelService getKeyPersonnelService() {
+		return keyPersonnelService;
+	}
+
+    protected KcAuthorizationService getKcAuthorizationService() {
+		return kcAuthorizationService;
+	}
+
+	public void setKcAuthorizationService(KcAuthorizationService kcAuthorizationService) {
+		this.kcAuthorizationService = kcAuthorizationService;
+	}
+
     /**
      * Get the Kuali Rule Service.
      * 
      * @return the Kuali Rule Service
      */
     protected KualiRuleService getKualiRuleService() {
-        return KcServiceLocator.getService(KualiRuleService.class);
+        return kualiRuleService;
     }
     
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+  		this.kualiRuleService = kualiRuleService;
+  	}
+    
+    protected UnitService getUnitService() {
+  		return unitService;
+  	}
 
-    /**
-     * Gets the questionnaireService attribute. 
-     * @return Returns the questionnaireService.
-     */
-    public QuestionnaireService getQuestionnaireService() {
-        return questionnaireService;
-    }
-
-    /**
-     * Sets the questionnaireService attribute value.
-     * @param questionnaireService The questionnaireService to set.
-     */
-    public void setQuestionnaireService(QuestionnaireService questionnaireService) {
-        this.questionnaireService = questionnaireService;
-    }
-
+	public void setUnitService(UnitService unitService) {
+  		this.unitService = unitService;
+  	}
 
     /**
      * Gets the questionnaireAnswerService attribute. 
      * @return Returns the questionnaireAnswerService.
      */
-    public QuestionnaireAnswerService getQuestionnaireAnswerService() {
+    protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return questionnaireAnswerService;
     }
 
@@ -1154,14 +1187,26 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @return true or false
      */
     protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
-        String proposalTypeCodeRenewal = this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        String proposalTypeCodeRevision = this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        String proposalTypeCodeContinuation = this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+        String proposalTypeCodeRenewal = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+        String proposalTypeCodeRevision = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        String proposalTypeCodeContinuation = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
          
         return !StringUtils.isEmpty(proposalTypeCode) &&
                (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
                 proposalTypeCode.equals(proposalTypeCodeRevision) ||
                 proposalTypeCode.equals(proposalTypeCodeContinuation));
+    }
+
+    /**
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    protected  ParameterService getParameterService() {
+        return parameterService;
     }
 
     protected DateTimeService getDateTimeService() {
@@ -1173,26 +1218,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
 
     /**
-     * Gets the budgetService attribute. 
-     * @return Returns the budgetService.
-     */
-    public BudgetService<DevelopmentProposal> getBudgetService() {
-        return budgetService;
-    }
-
-    /**
-     * Sets the budgetService attribute value.
-     * @param budgetService The budgetService to set.
-     */
-    public void setBudgetService(BudgetService<DevelopmentProposal> budgetService) {
-        this.budgetService = budgetService;
-    }
-
-    /**
      * Gets the budgetSummaryService attribute. 
      * @return Returns the budgetSummaryService.
      */
-    public BudgetSummaryService getBudgetSummaryService() {
+    protected BudgetSummaryService getBudgetSummaryService() {
         return budgetSummaryService;
     }
 
@@ -1203,4 +1232,5 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
         this.budgetSummaryService = budgetSummaryService;
     }
+    
 }

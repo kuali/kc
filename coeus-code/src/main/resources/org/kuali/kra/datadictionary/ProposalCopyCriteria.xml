@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalCopyCriteria" parent="ProposalCopyCriteria-parentBean" />
   <bean id="ProposalCopyCriteria-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria" />
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria" />
 		<property name="objectLabel" value="Proposal Copy Criteria" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentCopyCriteriaHelpUrl" p:parameterDetailType="Document"/>
@@ -83,10 +83,10 @@
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.CopyBudgetVersionsValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.copy.CopyBudgetVersionsValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.CopyBudgetVersionsValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.copy.CopyBudgetVersionsValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
