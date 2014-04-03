@@ -46,7 +46,9 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     private static final String EMPTY_STRING = "";
 
 
-    /**
+    private S2SService s2SService;
+    
+	/**
      *  
      * @see org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -100,7 +102,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         S2sOpportunity s2sOpportunity = proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity();
         try {
             if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
-                s2sOppForms = KcServiceLocator.getService(S2SService.class).parseOpportunityForms(s2sOpportunity);
+                s2sOppForms = getS2SService().parseOpportunityForms(s2sOpportunity);
                 if(s2sOppForms!=null){
                     for(S2sOppForms s2sOppForm:s2sOppForms){
                         if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
@@ -204,7 +206,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         try{
-            if(KcServiceLocator.getService(S2SService.class).refreshGrantsGov(proposalDevelopmentDocument)){
+            if(getS2SService().refreshGrantsGov(proposalDevelopmentDocument)){
                 proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("s2sAppSubmission");
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }else{
@@ -266,4 +268,11 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         return super.printForms(mapping, proposalDevelopmentForm, request, response);
        
     }
+    
+    protected S2SService getS2SService() {
+    	if (s2SService == null)
+    		s2SService = KcServiceLocator.getService(S2SService.class);
+		return s2SService;
+	}
+
 }
