@@ -215,6 +215,10 @@
         <property name="serviceName" value="questionnaireService" />
     </bean>
     
+    <bean id="questionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="questionService" />
+    </bean>
+    
     <bean id="questionnaireAnswerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="questionnaireAnswerService" />
     </bean>
@@ -343,7 +347,7 @@
         <property name="lookupDao" ref="lookupDao" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
     </bean>  
-
+    
     <bean id="lookupDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="lookupDao" />
     </bean>
@@ -471,17 +475,6 @@
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
     </bean>
 
-    <!-- Proposal Development Printing Services -->
-    
-    <bean id="proposalDevelopmentPrintingService" class="org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl"
-          lazy-init="true">
-        <property name="printCertificationPrint" ref="printCertificationPrint" />
-        <property name="proposalSponsorFormsPrint" ref="proposalSponsorFormsPrint" />
-        <property name="printingService" ref="printingService" />
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="parameterService" ref="parameterService" />
-    </bean>
-    
     <bean id="printCertificationPrint" class="org.kuali.coeus.propdev.impl.print.PrintCertificationPrint" scope="prototype">
         <property name="xmlStream" ref="printCertificationXmlStream" />
     </bean>
@@ -492,9 +485,18 @@
         <property name="proposalDevelopmentXmlStream" ref="proposalDevelopmentXmlStream" />
     </bean>
     
-    <bean id="proposalBaseStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalBaseStream" abstract="true">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="dateTimeService" ref="dateTimeService" />
+    <bean id="questionnairePrint" class="org.kuali.kra.questionnaire.print.QuestionnairePrint" scope="prototype">
+           <property name="xmlStream" ref="questionnaireXmlStream" />
+    </bean>
+
+    <bean id="questionnaireXmlStream" class="org.kuali.kra.questionnaire.print.QuestionnaireXmlStream" scope="prototype">
+            <property name="businessObjectService" ref="businessObjectService" />
+            <property name="dateTimeService" ref="dateTimeService" />
+            <property name="documentService" ref="documentService" />
+            <property name="questionnaireService" ref="questionnaireService" />
+            <property name="questionService" ref="questionService" />
+            <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
+            <property name="kcPersonService" ref="kcPersonService" />
     </bean>
     
     <bean id="printCertificationXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.PrintCertificationXmlStream" 
@@ -503,6 +505,11 @@
     <bean id="proposalSubmissionXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalSubmissionXmlStream" 
           parent="proposalBaseStream" />
 
+    <bean id="proposalBaseStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalBaseStream" abstract="true">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+    </bean>
+    
     <bean id="budgetPersonService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="budgetPersonService" />
     </bean>
@@ -519,7 +526,6 @@
     <bean id="nihResearchAndRelatedXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream"
           parent="abstractResearchAndRelatedStream" lazy-init="true">
         <property name="parameterService" ref="parameterService" />
-        <property name="awardService" ref="awardService" />
         <property name="sponsorService" ref="sponsorService" />
         <property name="proposalDevelopmentService" ref="proposalDevelopmentService" />
     </bean>
