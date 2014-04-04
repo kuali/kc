@@ -23,13 +23,13 @@ import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
+import org.kuali.coeus.propdev.impl.print.ProposalDevelopmentPrintingService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.PrintCertificationDocument.PrintCertification;
 import org.kuali.kra.proposaldevelopment.bo.*;
-import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 
 import java.util.*;
 
