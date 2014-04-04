@@ -58,10 +58,57 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
         return GlobalVariables.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
             @Override
             public ProcessDocReport call() throws Exception {
-                establishLastActionPrincipalId(statusChangeEvent);
+                establishLastActionPrincipalId(statusChangeEvent.getDocumentId());
                 return postProcessorService.doRouteStatusChange(statusChangeEvent);
             }
         });
+    }
+
+    @Override
+    public ProcessDocReport doRouteLevelChange(final DocumentRouteLevelChange levelChangeEvent) throws Exception {
+        return GlobalVariables.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
+            @Override
+            public ProcessDocReport call() throws Exception {
+                establishLastActionPrincipalId(levelChangeEvent.getDocumentId());
+                return postProcessorService.doRouteLevelChange(levelChangeEvent);
+            }
+        });
+    }
+
+    @Override
+    public ProcessDocReport doDeleteRouteHeader(DeleteEvent event) throws Exception {
+        return postProcessorService.doDeleteRouteHeader(event);
+    }
+
+    @Override
+    public ProcessDocReport doActionTaken(final ActionTakenEvent event) throws Exception {
+        return GlobalVariables.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
+            @Override
+            public ProcessDocReport call() throws Exception {
+                establishLastActionPrincipalId(event.getDocumentId());
+                return postProcessorService.doActionTaken(event);
+            }
+        });
+    }
+
+    @Override
+    public ProcessDocReport afterActionTaken(ActionType actionPerformed, ActionTakenEvent event) throws Exception {
+        return postProcessorService.afterActionTaken(actionPerformed, event);
+    }
+
+    @Override
+    public ProcessDocReport beforeProcess(BeforeProcessEvent processEvent) throws Exception {
+        return postProcessorService.beforeProcess(processEvent);
+    }
+
+    @Override
+    public ProcessDocReport afterProcess(AfterProcessEvent processEvent) throws Exception {
+        return postProcessorService.afterProcess(processEvent);
+    }
+
+    @Override
+    public List<String> getDocumentIdsToLock(DocumentLockingEvent lockingEvent) throws Exception {
+        return postProcessorService.getDocumentIdsToLock(lockingEvent);
     }
 
     /**
@@ -69,11 +116,11 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
      * the principal who triggered that event and places the principal id in a {@link GlobalVariables#getUserSession()}.
      * Once in the UserSession, the principal Id can be used with in any workflow callbacks.
      *
-     * @param statusChangeEvent the workflow event that triggered this PostProcessor.
+     * @param routeHeaderId the route header id (document id)
      */
-    protected void establishLastActionPrincipalId(final DocumentRouteStatusChange statusChangeEvent) {
+    protected void establishLastActionPrincipalId(final String routeHeaderId) {
 
-        final ActionTaken lastActionTaken = findLastActionTaken(statusChangeEvent.getDocumentId());
+        final ActionTaken lastActionTaken = findLastActionTaken(routeHeaderId);
 
         if (lastActionTaken != null) {
             GlobalVariables.getUserSession().addObject(LAST_ACTION_PRINCIPAL_ID, lastActionTaken.getPrincipalId());
@@ -98,41 +145,6 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
             return lastActionTaken;
         }
         return null;
-    }
-
-    @Override
-    public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange levelChangeEvent) throws Exception {
-        return postProcessorService.doRouteLevelChange(levelChangeEvent);
-    }
-
-    @Override
-    public ProcessDocReport doDeleteRouteHeader(DeleteEvent event) throws Exception {
-        return postProcessorService.doDeleteRouteHeader(event);
-    }
-
-    @Override
-    public ProcessDocReport doActionTaken(ActionTakenEvent event) throws Exception {
-        return postProcessorService.doActionTaken(event);
-    }
-
-    @Override
-    public ProcessDocReport afterActionTaken(ActionType actionPerformed, ActionTakenEvent event) throws Exception {
-        return postProcessorService.afterActionTaken(actionPerformed, event);
-    }
-
-    @Override
-    public ProcessDocReport beforeProcess(BeforeProcessEvent processEvent) throws Exception {
-        return postProcessorService.beforeProcess(processEvent);
-    }
-
-    @Override
-    public ProcessDocReport afterProcess(AfterProcessEvent processEvent) throws Exception {
-        return postProcessorService.afterProcess(processEvent);
-    }
-
-    @Override
-    public List<String> getDocumentIdsToLock(DocumentLockingEvent lockingEvent) throws Exception {
-        return postProcessorService.getDocumentIdsToLock(lockingEvent);
     }
 
     /* Replicating utilitity methods from rice post processor service */
