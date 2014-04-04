@@ -31,7 +31,7 @@ public class IacucProtocolModuleQuestionnaireBean extends ProtocolModuleQuestion
 
     public IacucProtocolModuleQuestionnaireBean(IacucProtocol protocol) {
         super(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 
-                protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved());
+                protocol.getProtocolDocument().getDocumentHeader().hasWorkflowDocument() ? protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved() : false);
         setProtocol(protocol);
         setProtocolSubItemCode(protocol) ;
     }

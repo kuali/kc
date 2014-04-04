@@ -2704,6 +2704,8 @@ public abstract class ActionHelperBase implements Serializable {
         private String description;
         private String status;
         private String createDate;
+        private ProtocolBase amendRenewProtocol;
+        private List <AnswerHeader> answerHeaders;
         
         public String getAmendmentType() {
             return amendmentType;
@@ -2722,6 +2724,12 @@ public abstract class ActionHelperBase implements Serializable {
         }
         public String getCreateDate() {
             return createDate;
+        }
+        public ProtocolBase getAmendRenewProtocol() {
+            return amendRenewProtocol;
+        }
+        public List <AnswerHeader> getAnswerHeaders() {
+            return answerHeaders;
         }
         
         public AmendmentSummary(ProtocolBase protocol) {
@@ -2745,8 +2753,12 @@ public abstract class ActionHelperBase implements Serializable {
                 ProtocolDocumentBase protocolDoc = (ProtocolDocumentBase)KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
                 Date docDate = new Date(protocolDoc.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
                 createDate = new SimpleDateFormat("MM/dd/yyyy").format(docDate);
+                amendRenewProtocol = protocolDoc.getProtocol();
+                answerHeaders = amendRenewProtocol.getAnswerHeaderForProtocol(amendRenewProtocol);
             } catch (Exception e) {
                 createDate = "";
+                amendRenewProtocol = null;
+                answerHeaders = new ArrayList<AnswerHeader>();
             }
         }
     }

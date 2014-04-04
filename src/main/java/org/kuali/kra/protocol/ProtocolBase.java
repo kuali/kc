@@ -1183,7 +1183,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     /*
      * get submit for review questionnaire answerheaders
      */
-    protected abstract List <AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol);
+    public abstract List <AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol);
     
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
