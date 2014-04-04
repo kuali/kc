@@ -198,7 +198,7 @@ public class Protocol extends ProtocolBase {
     /*
      * get submit for review questionnaire answerheaders
      */
-    protected List <AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol) {
+    public List <AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol) {
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean((Protocol) protocol);
         moduleQuestionnaireBean.setModuleSubItemCode("0");
         List <AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
