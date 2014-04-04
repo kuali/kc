@@ -31,11 +31,10 @@ import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.rule.event.ReplaceInstituteAttachmentEvent;
-import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardAttachments;
+import org.kuali.kra.subaward.bo.SubAwardReports;
 import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 import org.kuali.kra.subaward.subawardrule.events.AddSubAwardAttachmentEvent;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -184,6 +183,7 @@ public class SubAwardTemplateInformationAction extends SubAwardAction {
            SubAwardAttachments subAwardAttachments =
            subAwardDocument.getSubAward().getSubAwardAttachments().get(getSelectedLine(request));
            subAwardAttachments.populateAttachment();
+           subAwardAttachments.getFile().setName(subAwardAttachments.getFileName());
            if (subAwardAttachments.getSubAwardId() != null) {
                getBusinessObjectService().save(subAwardAttachments);
                subAwardAttachments.getFile().setName(subAwardAttachments.getNewFile().getFileName());
@@ -191,5 +191,49 @@ public class SubAwardTemplateInformationAction extends SubAwardAction {
            }
            return mapping.findForward(MAPPING_BASIC);
        }
+    /**.
+     * This method is for adding reports
+     * @param mapping the ActionMapping
+     * @param form the ActionForm
+     * @param request the Request
+     * @param response the Response
+     * @return ActionForward
+     * @throws Exception
+     */
+      public ActionForward addReport(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+            SubAwardReports subAwardReports = ((SubAwardForm)form).getSubAwardAttachmentFormBean().getNewReport();
+            SubAwardForm subAwardForm = ((SubAwardForm)form);
+            SubAwardDocument subAward = subAwardForm.getSubAwardDocument();
+             if(new SubAwardDocumentRule().
+                     processsAddSubawardReportRule(subAwardReports)){
+                 
+                 ((SubAwardForm) form).getSubAwardAttachmentFormBean().addNewReport();
+           }
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+       
+      /**
+       * Method called when deleting an attachment personnel.
+       * 
+       * @param mapping the action mapping
+       * @param form the form.
+       * @param request the request.
+       * @param response the response.
+       * @return an action forward.
+       * @throws Exception if there is a problem executing the request.
+       */
+      public ActionForward deleteReport(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+              HttpServletResponse response) throws Exception {
+          SubAwardForm subAwardForm = (SubAwardForm) form;
+          SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+          int selectedLineNumber = getSelectedLine(request);
+          SubAwardReports subAwardReports =
+          subAwardDocument.getSubAward().
+          getSubAwardReportList().get(selectedLineNumber);
+          subAwardDocument.getSubAward().
+          getSubAwardReportList().remove(selectedLineNumber);
+          return mapping.findForward(Constants.MAPPING_BASIC);
+      }
 
 }

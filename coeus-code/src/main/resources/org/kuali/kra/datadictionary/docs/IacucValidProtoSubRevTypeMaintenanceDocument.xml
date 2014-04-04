@@ -31,11 +31,12 @@
         </property>
         <property name="lockingKeys">
         	<list>
-        		<value>validProtocolSubRevTypeId</value>
+        		<value>validProtoSubRevTypeId</value>
         	</list>
         </property>
         <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="IacucValidProtoSubRevTypeMaintenanceDocument"/>
+        <property name="businessRulesClass" value="org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubRevTypeMaintenanceDocumentRule"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
 	</bean>
 	
@@ -49,7 +50,7 @@
 			<list>
 	<bean parent="MaintainableFieldDefinition" p:name="submissionTypeCode"
 		p:required="true" />
-	<bean parent="MaintainableFieldDefinition" p:name="iacucProtocolReviewTypeCode"
+	<bean parent="MaintainableFieldDefinition" p:name="protocolReviewTypeCode"
 		p:required="true" />
 	<!-- <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/> -->
 </list>

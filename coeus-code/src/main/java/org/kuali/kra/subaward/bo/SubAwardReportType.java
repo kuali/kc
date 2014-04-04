@@ -24,6 +24,8 @@ public class SubAwardReportType extends KcPersistableBusinessObjectBase {
     
     private String description;
 
+    private Integer sortId;
+
     public Integer getSubAwardReportTypeCode() {
         return subAwardReportTypeCode;
     }
@@ -38,6 +40,22 @@ public class SubAwardReportType extends KcPersistableBusinessObjectBase {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    /**
+     * Gets the sortId attribute. 
+     * @return Returns the sortId.
+     */
+    public Integer getSortId() {
+        return sortId;
+    }
+
+    /**
+     * Sets the sortId attribute value.
+     * @param sortId The sortId to set.
+     */
+    public void setSortId(Integer sortId) {
+        this.sortId = sortId;
     }
     
 
