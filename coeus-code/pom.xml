@@ -31,24 +31,9 @@
         <xmlbeans.gen.src.base>${project.build.directory}/generated-sources/xmlbeans</xmlbeans.gen.src.base>
         <xmlbeans.gen.cls.base>${project.build.directory}/generated-classes/xmlbeans</xmlbeans.gen.cls.base>
         <xmlbeans.gen.mrk.base>${project.build.directory}/xmlbeans-markers/xmlbeans</xmlbeans.gen.mrk.base>
-        <build.rice.kr.additionalSpringFiles />
-        <build.rice.krad.dev.mode>false</build.rice.krad.dev.mode>
     </properties>
 
     <build>
-        <resources>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>META-INF/kc-config-build.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.cxf</groupId>
@@ -600,27 +585,4 @@
             <artifactId>xstream</artifactId>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <build.rice.kr.additionalSpringFiles>classpath:org/kuali/rice/krad/devtools/datadictionary/ReloadingDataDictionarySpringBeans.xml</build.rice.kr.additionalSpringFiles>
-                <build.rice.krad.dev.mode>true</build.rice.krad.dev.mode>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.kuali.rice</groupId>
-                    <artifactId>rice-development-tools</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.kuali.rice</groupId>
-                    <artifactId>rice-krad-development-tools</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>

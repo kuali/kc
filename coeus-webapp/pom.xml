@@ -21,6 +21,9 @@
     </prerequisites>
 
     <properties>
+        <build.rice.kr.additionalSpringFiles />
+        <build.rice.krad.dev.mode>false</build.rice.krad.dev.mode>
+
         <!-- jetty & tomcat properties -->
         <kc.context.path>/kc-${build.environment}</kc.context.path>
         <kc.port>8080</kc.port>
@@ -67,6 +70,20 @@
      3) our unit test's jetty lifecycle assume all web content resides in directories (see point 3)
      -->
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>META-INF/kc-config-build.xml</include>
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -421,6 +438,10 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
+            <properties>
+                <build.rice.kr.additionalSpringFiles>classpath:org/kuali/rice/krad/devtools/datadictionary/ReloadingDataDictionarySpringBeans.xml</build.rice.kr.additionalSpringFiles>
+                <build.rice.krad.dev.mode>true</build.rice.krad.dev.mode>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.kuali.rice</groupId>
