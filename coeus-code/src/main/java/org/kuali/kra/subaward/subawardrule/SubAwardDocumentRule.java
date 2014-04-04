@@ -18,6 +18,7 @@ package org.kuali.kra.subaward.subawardrule;
 
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
@@ -38,7 +39,7 @@ import org.kuali.kra.subaward.subawardrule.AddSubAwardAttachmentRule;
 import static org.kuali.kra.infrastructure.KeyConstants.SUBAWARD_ATTACHMENT_FILE_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.SUBAWARD_ATTACHMENT_DESCRIPTION_REQUIRED;
-import org.apache.commons.lang3.StringUtils;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO;
 
 import java.util.Collections;
 
@@ -53,7 +54,8 @@ SubAwardContactRule,
 SubAwardCloseoutRule,
 SubAwardFundingSourceRule,
 DocumentAuditRule,
-AddSubAwardAttachmentRule {
+AddSubAwardAttachmentRule,
+SubAwardTemplateInfoRule {
 
     private static final String STATUS_CODE = ".statusCode";
     private static final String SUBAWARD_TYPE_CODE = ".subAwardTypeCode";
@@ -73,6 +75,7 @@ AddSubAwardAttachmentRule {
     private static final String CLOSEOUT_TYPE_CODE="newSubAwardCloseout.closeoutTypeCode";
     private static final String DATE_REQUESTED = "newSubAwardCloseout.dateRequested";
     private static final String DATE_FLLOWUP = "newSubAwardCloseout.dateFollowup";
+    private static final String REPORT_TYPE = "subAwardAttachmentFormBean.newReport.subAwardReportTypeCode";
     
     private static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
     private static final String AMOUNT_PERIOD_OF_PERFORMANCE_START_DATE = "newSubAwardAmountInfo.periodofPerformanceStartDate";
@@ -344,5 +347,37 @@ AddSubAwardAttachmentRule {
     
             }
        return valid;
+    }
+    public boolean processsAddSubawardReportRule(SubAwardReports subAwardReports) {
+        boolean valid = true;
+        
+        if(subAwardReports==null 
+                || subAwardReports.getSubAwardReportTypeCode()==null){
+            valid = false;            
+            reportError(REPORT_TYPE
+                    , KeyConstants.ERROR_REQUIRED_SUBAWARD_REPORT_TYPE_CODE);
+        }
+        return valid;
+        
+    }
+    public boolean processAddSubAwardTemplateInfoBusinessRules(SubAward subAward) {
+        boolean rulePassed = true;
+        rulePassed &= processSaveSubAwardTemplateInfoBusinessRules(subAward);
+        
+        return rulePassed;
+    }
+    protected boolean processSaveSubAwardTemplateInfoBusinessRules(SubAward subAward){
+        boolean rulePassed = true;   
+        for (SubAwardTemplateInfo subAwardTemplateInfo : subAward.getSubAwardTemplateInfo()) {
+          if (subAward!=null 
+                && ((subAwardTemplateInfo.getAutomaticCarryForward()!=null) && (subAwardTemplateInfo.getAutomaticCarryForward().equals("Y")))) {
+             if (subAwardTemplateInfo.getCarryForwardRequestsSentTo()==null) {
+                rulePassed = false;            
+                LOG.debug(ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
+                reportError("document.subAwardList[0].subAwardTemplateInfo[0].carryForwardRequestsSentTo", ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);  
+             }
+          }  
+        }
+        return rulePassed;
     }
 }

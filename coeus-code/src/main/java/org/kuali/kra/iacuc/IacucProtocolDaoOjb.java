@@ -101,7 +101,7 @@ public class IacucProtocolDaoOjb extends ProtocolDaoOjbBase<IacucProtocol> imple
                 ProtocolLookupConstants.Property.PERSON_NAME, 
                 IacucProtocolPerson.class));
         criteriaFields.add(new CriteriaFieldHelper(ProtocolLookupConstants.Property.FUNDING_SOURCE, 
-                ProtocolLookupConstants.Property.FUNDING_SOURCE, 
+                ProtocolLookupConstants.Property.FUNDING_SOURCE_NUMBER, 
                 IacucProtocolFundingSource.class));
         criteriaFields.add(new CriteriaFieldHelper(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID,
                 ProtocolLookupConstants.Property.ORGANIZATION_ID, 

@@ -39,7 +39,7 @@
 		<!-- Attribute Definitions -->
 		<bean id="IacucValidProtoSubRevType-validProtocolSubRevTypeId" parent="IacucValidProtoSubRevType-validProtocolSubRevTypeId-parentBean" />
 		<bean id="IacucValidProtoSubRevType-validProtocolSubRevTypeId-parentBean" abstract="true" parent="AttributeDefinition" >
-			<property name="name" value="validProtocolSubRevTypeId" />
+			<property name="name" value="validProtoSubRevTypeId" />
 			<property name="forceUppercase" value="false" />
 			<property name="label" value="Valid Protocol Submission Review Type Id" />
 			<property name="shortLabel" value="Valid Protocol Submission Review Type Id" />
@@ -62,7 +62,7 @@
 		
 		<bean id="IacucValidProtoSubRevType-iacucProtocolReviewTypeCode" parent="IacucValidProtoSubRevType-iacucProtocolReviewTypeCode-parentBean" />
 		<bean id="IacucValidProtoSubRevType-iacucProtocolReviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-			<property name="name" value="iacucProtocolReviewTypeCode" />
+			<property name="name" value="protocolReviewTypeCode" />
 			<property name="forceUppercase" value="false" />
 			<property name="label" value="IACUC Protocol Review Type Code" />
 			<property name="shortLabel" value="IACUC Protocol Review Type Code" />
@@ -136,9 +136,9 @@
 						<property name="numberOfColumns" value="1" />
 						<property name="inquiryFields" >
 							<list>
-              <bean parent="FieldDefinition" p:attributeName="validProtocolSubRevTypeId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="validProtoSubRevTypeId" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="submissionTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="iacucProtocolReviewTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="protocolReviewTypeCode"/>
             </list>
           </property>
         </bean>
@@ -156,9 +156,9 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="validProtocolSubRevTypeId" parent="Uif-DataField"/>
+              <bean p:propertyName="validProtoSubRevTypeId" parent="Uif-DataField"/>
               <bean p:propertyName="submissionTypeCode" parent="Uif-DataField"/>
-              <bean p:propertyName="iacucProtocolReviewTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="protocolReviewTypeCode" parent="Uif-DataField"/>
 							</list>
 						</property>
 					</bean>
@@ -178,14 +178,14 @@
 			<property name="lookupFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="submissionTypeCode" />
-					<bean parent="FieldDefinition" p:attributeName="iacucProtocolReviewTypeCode" />
+					<bean parent="FieldDefinition" p:attributeName="protocolReviewTypeCode" />
 				</list>
 			</property>
 			<property name="resultFields">
 				<list>
         <bean parent="FieldDefinition" p:attributeName="validProtocolSubRevTypeId" p:forceInquiry="true"/>
 					<bean parent="FieldDefinition" p:attributeName="submissionTypeCode" />
-					<bean parent="FieldDefinition" p:attributeName="iacucProtocolReviewTypeCode" />
+					<bean parent="FieldDefinition" p:attributeName="protocolReviewTypeCode" />
 				</list>
 			</property>
 		</bean>
@@ -207,14 +207,14 @@
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="submissionTypeCode" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="iacucProtocolReviewTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolReviewTypeCode" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="validProtocolSubRevTypeId" parent="Uif-DataField"/>
+        <bean p:propertyName="validProtoSubRevTypeId" parent="Uif-DataField"/>
         <bean p:propertyName="submissionTypeCode" parent="Uif-DataField"/>
-        <bean p:propertyName="iacucProtocolReviewTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolReviewTypeCode" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

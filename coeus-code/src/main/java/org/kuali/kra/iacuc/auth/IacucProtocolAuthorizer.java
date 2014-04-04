@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -22,6 +23,8 @@ import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.auth.ProtocolAuthorizerBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -95,6 +98,21 @@ public abstract class IacucProtocolAuthorizer extends ProtocolAuthorizerBase {
         return (IacucProtocolStatus.SUBMITTED_TO_IACUC.equals(lastAction.getProtocol().getProtocolStatusCode()) 
                 && IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE.equals(lastSubmission.getSubmissionStatusCode())
                 && IacucProtocolReviewType.DESIGNATED_MEMBER_REVIEW.equals(lastSubmission.getProtocolReviewTypeCode()));
+    }
+
+    protected ProtocolSubmissionBase findSubmission(ProtocolBase protocol) {
+        // need to loop thru to find the last submission.
+        // it may have submit/Wd/notify iacuc/submit, and this will cause problem if don't loop thru.
+        ProtocolSubmissionBase protocolSubmission = null;
+        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
+            if (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.PENDING) || 
+                StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) || 
+                (StringUtils.equals(protocol.getProtocolStatusCode(), IacucProtocolStatus.TABLED) &&
+                  StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.TABLED))) {
+                protocolSubmission = submission;
+            }
+        }
+        return protocolSubmission;
     }
 
 }

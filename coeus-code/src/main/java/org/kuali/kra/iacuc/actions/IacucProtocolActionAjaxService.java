@@ -20,5 +20,7 @@ import org.kuali.kra.protocol.actions.ProtocolActionAjaxService;
 public interface IacucProtocolActionAjaxService extends ProtocolActionAjaxService {
     
     String getDefaultCommitteeReviewTypeCode();
+    
+    String getModifySubmissionProtocolReviewers(String protocolId, String committeeId, String scheduleId, String protocolReviewTypeCode);
 
 }

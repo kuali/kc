@@ -17,6 +17,8 @@ package org.kuali.kra.award;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles;
 import org.kuali.coeus.common.permissions.impl.rule.PermissionsRule;
@@ -40,6 +42,8 @@ import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
 import org.kuali.kra.award.paymentreports.awardreports.*;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingBean;
 import org.kuali.kra.award.paymentreports.closeout.AddAwardCloseoutRuleEvent;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRule;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRuleEvent;
@@ -79,7 +83,10 @@ import org.kuali.rice.krad.util.MessageMap;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
@@ -117,9 +124,18 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     private List<AuditError> auditErrors;
     private List<AuditError> auditWarnings;
     private ParameterService parameterService;
+    private KcPersonService kcPersonService;
+    
     public AwardDocumentRule() {
         auditErrors = new ArrayList<AuditError>();
         auditWarnings = new ArrayList<AuditError>();
+    }
+
+    public KcPersonService getKcPersonService() {
+        if (kcPersonService == null) {
+            kcPersonService = KcServiceLocator.getService(KcPersonService.class);
+        }
+        return kcPersonService;
     }
 
     /**
@@ -516,6 +532,45 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         AwardReportTerm awardReportTermItem = awardDocument.getAward().getAwardReportTermItems().isEmpty() ? null : awardDocument.getAward().getAwardReportTermItems().get(0);
         AwardReportTermRuleEvent event = new AwardReportTermRuleEvent(AWARD_ERROR_PATH_PREFIX, awardDocument, awardDocument.getAward(), awardReportTermItem);
         return processAwardReportTermBusinessRules(event);
+    }
+    
+    public boolean processAwardReportTermSaveRules(AwardForm form) {
+        boolean isValid = true;
+        AwardForm awardForm = (AwardForm) form;
+        int reportTrackingBeanscount=0;
+        if(awardForm.getReportTrackingBeans()!=null && !(awardForm.getReportTrackingBeans().isEmpty())) {
+            List<ReportTrackingBean> reportTrackingBeanList=awardForm.getReportTrackingBeans();
+            for(ReportTrackingBean reportTrackingBeans : reportTrackingBeanList ) {                 
+                if(reportTrackingBeans.getPreparerName()!=null) {
+                    KcPerson preparerPerson = getKcPersonService().getKcPersonByUserName(reportTrackingBeans.getPreparerName());
+                    if (preparerPerson == null ) {
+                        isValid = false; 
+                        GlobalVariables.getMessageMap().putError("reportTrackingBeans["+reportTrackingBeanscount+"].preparerName", "error.preparername.duplicate");
+                    }
+                }
+                reportTrackingBeanscount++;
+            }
+            if(awardForm.getAwardDocument().getAward().getAwardReportTermItems()!=null) {
+                List<AwardReportTerm> awardReportTrackingItemList=awardForm.getAwardDocument().getAward().getAwardReportTermItems();
+                int awardReportTermItemscount=0;
+                for(AwardReportTerm awardReportTrackingTerm : awardReportTrackingItemList ) {
+                    if(awardReportTrackingTerm.getReportTrackings()!=null) {
+                        List<ReportTracking> reportTrackingsList = awardReportTrackingTerm.getReportTrackings();
+                        for (ReportTracking reportTrackingsItem : reportTrackingsList) {
+                            if(reportTrackingsItem.getPreparerName() != null) {
+                                KcPerson preparerPerson = getKcPersonService().getKcPersonByUserName(reportTrackingsItem.getPreparerName());
+                                if (preparerPerson == null ) {
+                                    isValid = false; 
+                                    GlobalVariables.getMessageMap().putError("document.award.awardReportTermItems["+awardReportTermItemscount+"].reportTrackings[0].preparerName", "error.preparername.duplicate");
+                                }
+                            }
+                        }
+                    }
+                    awardReportTermItemscount++;
+                } 
+            }
+        }
+        return isValid;
     }
     
     /**

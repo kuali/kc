@@ -137,10 +137,12 @@
 
                 <bean class="org.kuali.kra.iacuc.auth.CreateIacucAmendmentAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="createIacucAmendment" />
+                    <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
                 </bean>                          
 
                 <bean class="org.kuali.kra.iacuc.auth.CreateIacucAmendmentUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="createIacucAmendmentUnavailable" />
+                    <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
                 </bean>                          
 
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucAmendmentSectionsAuthorizer" parent="parentIacucProtocolAuthorizer">
@@ -161,18 +163,22 @@
 
                 <bean class="org.kuali.kra.iacuc.auth.CreateIacucRenewalAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="createIacucRenewal" />
+                    <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
                 </bean>                          
 
                 <bean class="org.kuali.kra.iacuc.auth.CreateIacucRenewalUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="createIacucRenewalUnavailable" />
+                    <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
                 </bean>                          
 
                 <bean class="org.kuali.kra.iacuc.auth.CreateIacucContinuationAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="createIacucContinuation" />
+                    <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
                 </bean>                          
 
                 <bean class="org.kuali.kra.iacuc.auth.CreateIacucContinuationUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="createIacucContinuationUnavailable" />
+                    <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
                 </bean>                          
 
                 <bean class="org.kuali.kra.iacuc.auth.WithdrawIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
@@ -292,10 +298,12 @@
                                                                             
                 <bean class="org.kuali.kra.iacuc.auth.NotifyIacucAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="iacucProtocolNotifyIacuc"/>
+                    <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.iacuc.auth.NotifyIacucUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="iacucProtocolNotifyIacucUnavailable"/>
+                    <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.iacuc.auth.ApproveIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
@@ -378,10 +386,12 @@
 
                 <bean class="org.kuali.kra.iacuc.auth.RequestDeactivateIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="iacucProtocolRequestDeactivate" />
+                    <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.iacuc.auth.RequestDeactivateIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="iacucProtocolRequestDeactivateUnavailable" />
+                    <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
                 </bean>   
                 
                 <bean class="org.kuali.kra.iacuc.auth.IacucHoldAuthorizer" parent="parentIacucProtocolAuthorizer">
@@ -442,9 +452,11 @@
                 
                 <bean class="org.kuali.kra.iacuc.auth.RequesstSuspensionIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                 	<property name="taskName" value="iacucProtocolRequestSuspension"/>
+                	<property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
                 </bean>
                 <bean class="org.kuali.kra.iacuc.auth.RequesstSuspensionIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                 	<property name="taskName" value="iacucProtocolRequestSuspensionUnavailable"/>
+                	<property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.iacuc.auth.IacucUndoLastActionProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">

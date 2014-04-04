@@ -182,6 +182,22 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
 
     }
     
+    public ActionForward getModifySubmissionProtocolReviewers(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+        String committeeId = request.getParameter("committeeId");
+        String scheduleId = request.getParameter("scheduleId");
+        String protocolId = request.getParameter("protocolId");
+        String protocolReviewTypeCode = request.getParameter("protocolReviewTypeCode");
+
+        JqueryAjaxForm ajaxForm = (JqueryAjaxForm) form;
+
+        String reviewers = ((IacucProtocolActionAjaxService)getProtocolAjaxService()).getModifySubmissionProtocolReviewers(protocolId, committeeId, scheduleId, protocolReviewTypeCode);
+        ajaxForm.setReturnVal(reviewers.toString());
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
     public ActionForward getProtocolReviewerTypes(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) {
             JqueryAjaxForm ajaxForm = (JqueryAjaxForm) form;

@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.protocol.auth;
 
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+
 
 /**
  * Is the user allowed to create an amendment for the protocol?
@@ -26,11 +29,17 @@ public abstract class CreateAmendmentAuthorizerBase extends ProtocolAuthorizerBa
         return !isAmendmentOrRenewal(task.getProtocol()) &&
                canExecuteAction(task.getProtocol(), getActionTypeAmendmentCreatedHook()) &&
                (hasPermission(userId, task.getProtocol(), getPermissionCreateAmendmentHook())
-                    || hasPermission(userId, task.getProtocol(), getPermissionCreateAnyAmendmentHook()));
+                    || hasPermission(userId, task.getProtocol(), getPermissionCreateAnyAmendmentHook())) &&
+               !(isRequestForSuspension(findSubmisionHook(task.getProtocol()), getProtocolSubmissionTypeHook()) 
+                     & !isAdmin(userId, getAdminNamespaceHook(), getAdminRoleHook()));
     }
     
     protected abstract String getActionTypeAmendmentCreatedHook();
     protected abstract String getPermissionCreateAmendmentHook();
     protected abstract String getPermissionCreateAnyAmendmentHook();
+    protected abstract String getAdminNamespaceHook();
+    protected abstract String getAdminRoleHook();
+    protected abstract String getProtocolSubmissionTypeHook();
+    protected abstract ProtocolSubmissionBase findSubmisionHook(ProtocolBase protocol);
     
 }

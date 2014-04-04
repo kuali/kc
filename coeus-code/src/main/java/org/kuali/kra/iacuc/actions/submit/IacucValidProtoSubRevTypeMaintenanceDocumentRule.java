@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.actions.submit;
 
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
+import org.kuali.kra.protocol.actions.submit.ValidProtoSubRevType;
 import org.kuali.kra.protocol.actions.submit.ValidProtoSubRevTypeMaintenanceDocumentRuleBase;
 
 public class IacucValidProtoSubRevTypeMaintenanceDocumentRule extends ValidProtoSubRevTypeMaintenanceDocumentRuleBase {
@@ -31,4 +32,8 @@ public class IacucValidProtoSubRevTypeMaintenanceDocumentRule extends ValidProto
         return IacucProtocolReviewType.class;
     }
 
+    @Override
+    protected Class<? extends ValidProtoSubRevType> getValidProtoSubRevTypeBOClassHook() {
+        return org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubRevType.class;
+    }
 }

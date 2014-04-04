@@ -49,8 +49,7 @@ public class SubmissionReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
             
         } else {
             for (IacucValidProtoSubRevType submRevType :  validProtoSubRevTypes) {
-                keyValues.add(new ConcreteKeyValue(submRevType.getIacucProtocolReviewTypeCode(), 
-                        submRevType.getIacucProtocolReviewType().getDescription()));
+                keyValues.add(new ConcreteKeyValue(submRevType.getProtocolReviewTypeCode(), submRevType.getProtocolReviewType().getDescription()));
             }
         }
         
