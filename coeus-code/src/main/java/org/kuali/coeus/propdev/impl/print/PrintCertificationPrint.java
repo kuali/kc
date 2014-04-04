@@ -17,7 +17,6 @@ package org.kuali.coeus.propdev.impl.print;
 
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
-import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;

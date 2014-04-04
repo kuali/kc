@@ -44,6 +44,7 @@
         <value>org.kuali.coeus.propdev.impl.auth</value>
         <value>org.kuali.coeus.propdev.impl.budget</value>
         <value>org.kuali.coeus.propdev.impl.core</value>
+        <value>org.kuali.coeus.propdev.impl.keyword</value>
         <value>org.kuali.coeus.propdev.impl.person</value>
         <value>org.kuali.coeus.propdev.impl.s2s</value>
         <value>org.kuali.coeus.propdev.impl.state</value>
