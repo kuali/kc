@@ -22,11 +22,6 @@ public class TrainingStipendRateServiceImpl implements TrainingStipendRateServic
     private BusinessObjectService businessObjectService;
 
     @Override
-    public List<? extends TrainingStipendRateContract> findAllTrainingStipendRates() {
-        return ListUtils.emptyIfNull((List<? extends TrainingStipendRateContract>) businessObjectService.findAll(TrainingStipendRate.class));
-    }
-
-    @Override
     public TrainingStipendRateContract findClosestMatchTrainingStipendRate(Date effectiveDate, String careerLevel, int experienceLevel) {
         if (effectiveDate == null) {
             throw new IllegalArgumentException("effectiveDate is null");
