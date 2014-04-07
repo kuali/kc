@@ -13,31 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.bo;
+package org.kuali.coeus.propdev.impl.docperm;
 
 import org.kuali.rice.krad.bo.BusinessObjectBase;
 
-import java.util.List;
+public class ProposalRoleState extends BusinessObjectBase {
 
-public class ProposalAssignedRole extends BusinessObjectBase {
-
-    private String roleName;
-
-    private List<String> userNames;
-
-    public ProposalAssignedRole(String roleName, List<String> userNames) {
-        this.roleName = roleName;
-        this.userNames = userNames;
+    private String name;
+    private Boolean state;
+    
+    public ProposalRoleState() {
+        name = null;
+        state = Boolean.FALSE;
+    }
+    
+    public ProposalRoleState(String name) {
+        this.name = name;
+        state = Boolean.FALSE;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getName() {
+        return name;
     }
 
-    public List<String> getUserNames() {
-        return userNames;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
     }
 
     public void refresh() {
+        // do nothing
     }
 }

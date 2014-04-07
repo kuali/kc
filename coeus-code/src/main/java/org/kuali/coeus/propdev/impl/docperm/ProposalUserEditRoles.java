@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.bo;
+package org.kuali.coeus.propdev.impl.docperm;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.rice.krad.bo.BusinessObjectBase;

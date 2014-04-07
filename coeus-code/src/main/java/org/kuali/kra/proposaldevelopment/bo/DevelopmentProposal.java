@@ -32,6 +32,7 @@ import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
+import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;

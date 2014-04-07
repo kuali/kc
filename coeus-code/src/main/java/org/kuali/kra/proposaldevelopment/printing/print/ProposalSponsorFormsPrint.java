@@ -19,10 +19,10 @@ import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
+import org.kuali.coeus.propdev.impl.print.ProposalDevelopmentPrintingServiceImpl;
+import org.kuali.coeus.propdev.impl.print.ProposalDevelopmentXmlStream;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl;
 import org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream;
-import org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import javax.xml.transform.Source;

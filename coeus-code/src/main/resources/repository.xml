@@ -947,7 +947,7 @@
 	
 	<!-- KIM OJB Mappings -->
     
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate" table="PROP_ROLE_TEMPLATE">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplate" table="PROP_ROLE_TEMPLATE">
         <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROP_ROLE_TEMPLATE_ID" />
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="roleName" column="ROLE_NAME" jdbc-type="VARCHAR" />
