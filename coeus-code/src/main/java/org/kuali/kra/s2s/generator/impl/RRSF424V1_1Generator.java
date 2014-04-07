@@ -541,8 +541,8 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 					}
 				}
 				if(PI.getHomeUnit() != null) {
-                    KcPerson kcPersons = PI.getPerson();
-                    String departmentName =  kcPersons.getOrganizationIdentifier();
+                    KcPerson kcPerson = PI.getPerson();
+                    String departmentName =  kcPerson.getOrganizationIdentifier();
                     PDPI.setDepartmentName(departmentName);
                 }
                 else
