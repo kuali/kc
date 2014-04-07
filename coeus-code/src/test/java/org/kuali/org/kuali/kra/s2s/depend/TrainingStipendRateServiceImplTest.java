@@ -25,39 +25,6 @@ public class TrainingStipendRateServiceImplTest {
         context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     }
 
-    @Test
-    public void test_findAllTrainingStipendRates_with_no_rates() {
-        final TrainingStipendRateServiceImpl rateService = new TrainingStipendRateServiceImpl();
-        final BusinessObjectService boService = context.mock(BusinessObjectService.class);
-
-        context.checking(new Expectations() {{
-            one(boService).findAll(TrainingStipendRate.class);
-            will(returnValue(null));
-        }});
-        rateService.setBusinessObjectService(boService);
-
-        assertNotNull(rateService.findAllTrainingStipendRates());
-    }
-
-    @Test
-    public void test_findAllTrainingStipendRates_with_rates() {
-        final TrainingStipendRateServiceImpl rateService = new TrainingStipendRateServiceImpl();
-        final BusinessObjectService boService = context.mock(BusinessObjectService.class);
-
-        context.checking(new Expectations() {{
-            one(boService).findAll(TrainingStipendRate.class);
-            will(returnValue(new ArrayList<TrainingStipendRate>() {{
-                add(new TrainingStipendRate());
-            }}));
-        }});
-        rateService.setBusinessObjectService(boService);
-
-        final List<? extends TrainingStipendRateContract> rates = rateService.findAllTrainingStipendRates();
-
-        assertNotNull(rates);
-        assertEquals(1, rates.size());
-    }
-
     @Test(expected = IllegalArgumentException.class)
     public void test_findClosestMatchTrainingStipendRate_null_effectiveDate() {
         final TrainingStipendRateServiceImpl rateService = new TrainingStipendRateServiceImpl();
