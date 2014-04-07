@@ -17,7 +17,7 @@ package org.kuali.kra.bo;
 
 
 import org.kuali.coeus.sys.api.model.Describable;
-import org.kuali.coeus.sys.api.model.Recorded;
+import org.kuali.coeus.sys.api.model.RecordedUpdate;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.api.model.Sortable;
 import org.kuali.rice.krad.datadictionary.AttributeReference;
@@ -27,7 +27,7 @@ import java.sql.Timestamp;
 /**
  * Attribute Reference Dummy Business Object.
  */
-public class KraAttributeReferenceDummy extends AttributeReference implements Sortable, Describable, Recorded {
+public class KraAttributeReferenceDummy extends AttributeReference implements Sortable, Describable, RecordedUpdate {
 
     private String description;
     private String bigDescription;

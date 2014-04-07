@@ -19,7 +19,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.coeus.sys.api.model.GloballyUnique;
-import org.kuali.coeus.sys.api.model.Recorded;
+import org.kuali.coeus.sys.api.model.RecordedUpdate;
 import org.kuali.coeus.sys.api.model.Versioned;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -42,7 +42,7 @@ import java.util.List;
 
 @DisableVersioning
 @MappedSuperclass
-public abstract class KcPersistableBusinessObjectBase extends PersistableBusinessObjectBase implements Recorded, Versioned, GloballyUnique {
+public abstract class KcPersistableBusinessObjectBase extends PersistableBusinessObjectBase implements RecordedUpdate, Versioned, GloballyUnique {
 
     protected static final int UPDATE_USER_LENGTH = 60;
 

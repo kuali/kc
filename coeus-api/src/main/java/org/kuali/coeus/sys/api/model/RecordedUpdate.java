@@ -5,8 +5,11 @@ import java.util.Date;
 /**
  * This interface can be used to identify a user and timestamp regarding when the object was last
  * modified (usually in regards to object persistence).
+ *
+ * If the object has just be persisted, then these fields will record the initial creator of the
+ * object otherwise it records information about the last update.
  */
-public interface Recorded {
+public interface RecordedUpdate {
 
     /**
      * The date and time of when the object was last inserted or updated
