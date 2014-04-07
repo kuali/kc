@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.auth.perm;
+package org.kuali.coeus.propdev.impl.docperm;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -25,33 +25,33 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.util.List;
 
 /**
- * The AddProposalUserEvent is generated when a Proposal User is to be added to
- * a Proposal Development Document.
+ * The EditUserProposalRolesEvent is generated when the proposal roles for a
+ * user has been modified.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class AddProposalUserEvent extends KcDocumentEventBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddProposalUserEvent.class);
+public class EditUserProposalRolesEvent extends KcDocumentEventBase {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(EditUserProposalRolesEvent.class);
     
-    private ProposalUser proposalUser;
+    private ProposalUserEditRoles editRoles;
     private List<ProposalUserRoles> list;
     
     /**
-     * Constructs an AddProposalUserEvent.
+     * Constructs an AddAbstractEvent.
      * 
      * @param document proposal development document
      * @param list the list of proposal user roles
-     * @param proposalUser the proposal user that is being added
+     * @param proposalAbstract the proposal abstract that is being added
      */
-    public AddProposalUserEvent(ProposalDevelopmentDocument document, List<ProposalUserRoles> list, ProposalUser proposalUser) {
-        super("adding proposal user to document " + getDocumentId(document), "", document);
+    public EditUserProposalRolesEvent(ProposalDevelopmentDocument document, List<ProposalUserRoles> list, ProposalUserEditRoles editRoles) {
+        super("editing proposal roles for document " + getDocumentId(document), "", document);
         
         this.list = list;
         
         // by doing a deep copy, we are ensuring that the business rule class can't update
         // the original object by reference
         
-        this.proposalUser = (ProposalUser) ObjectUtils.deepCopy(proposalUser);
+        this.editRoles = (ProposalUserEditRoles) ObjectUtils.deepCopy(editRoles);
     
         logEvent();
     }
@@ -59,8 +59,8 @@ public class AddProposalUserEvent extends KcDocumentEventBase {
     @Override
     public void validate() {
         super.validate();
-        if (this.proposalUser == null) {
-            throw new IllegalArgumentException("invalid (null) proposal user");
+        if (this.editRoles == null) {
+            throw new IllegalArgumentException("invalid (null) edit roles");
         }
     }
     
@@ -70,11 +70,11 @@ public class AddProposalUserEvent extends KcDocumentEventBase {
         logMessage.append(" with ");
 
         // vary logging detail as needed
-        if (this.proposalUser == null) {
-            logMessage.append("null proposalUser");
+        if (this.editRoles == null) {
+            logMessage.append("null editRoles");
         }
         else {
-            logMessage.append(this.proposalUser.toString());
+            logMessage.append(this.editRoles.toString());
         }
 
         LOG.debug(logMessage);
@@ -87,7 +87,7 @@ public class AddProposalUserEvent extends KcDocumentEventBase {
 
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((PermissionsRule) rule).processAddProposalUserBusinessRules((ProposalDevelopmentDocument) this.getDocument(), 
-                                                                            list, this.proposalUser);
+        return ((PermissionsRule) rule).processEditProposalUserRolesBusinessRules((ProposalDevelopmentDocument) this.getDocument(), 
+                                                                                  this.list, this.editRoles);
     }
 }

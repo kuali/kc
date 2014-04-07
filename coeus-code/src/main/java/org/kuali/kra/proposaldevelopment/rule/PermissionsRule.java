@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
-import org.kuali.coeus.propdev.impl.auth.perm.ProposalUser;
-import org.kuali.coeus.propdev.impl.auth.perm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.impl.auth.perm.ProposalUserEditRoles;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUser;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserEditRoles;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 import java.util.List;

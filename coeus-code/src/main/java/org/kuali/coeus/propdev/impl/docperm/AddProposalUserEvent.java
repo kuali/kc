@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.auth.perm;
+package org.kuali.coeus.propdev.impl.docperm;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
-import org.kuali.coeus.sys.impl.auth.perm.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -26,33 +25,33 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.util.List;
 
 /**
- * The EditUserProposalRolesEvent is generated when the proposal roles for a
- * user has been modified.
+ * The AddProposalUserEvent is generated when a Proposal User is to be added to
+ * a Proposal Development Document.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class EditUserProposalRolesEvent extends KcDocumentEventBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(EditUserProposalRolesEvent.class);
+public class AddProposalUserEvent extends KcDocumentEventBase {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddProposalUserEvent.class);
     
-    private ProposalUserEditRoles editRoles;
+    private ProposalUser proposalUser;
     private List<ProposalUserRoles> list;
     
     /**
-     * Constructs an AddAbstractEvent.
+     * Constructs an AddProposalUserEvent.
      * 
      * @param document proposal development document
      * @param list the list of proposal user roles
-     * @param proposalAbstract the proposal abstract that is being added
+     * @param proposalUser the proposal user that is being added
      */
-    public EditUserProposalRolesEvent(ProposalDevelopmentDocument document, List<ProposalUserRoles> list, ProposalUserEditRoles editRoles) {
-        super("editing proposal roles for document " + getDocumentId(document), "", document);
+    public AddProposalUserEvent(ProposalDevelopmentDocument document, List<ProposalUserRoles> list, ProposalUser proposalUser) {
+        super("adding proposal user to document " + getDocumentId(document), "", document);
         
         this.list = list;
         
         // by doing a deep copy, we are ensuring that the business rule class can't update
         // the original object by reference
         
-        this.editRoles = (ProposalUserEditRoles) ObjectUtils.deepCopy(editRoles);
+        this.proposalUser = (ProposalUser) ObjectUtils.deepCopy(proposalUser);
     
         logEvent();
     }
@@ -60,8 +59,8 @@ public class EditUserProposalRolesEvent extends KcDocumentEventBase {
     @Override
     public void validate() {
         super.validate();
-        if (this.editRoles == null) {
-            throw new IllegalArgumentException("invalid (null) edit roles");
+        if (this.proposalUser == null) {
+            throw new IllegalArgumentException("invalid (null) proposal user");
         }
     }
     
@@ -71,11 +70,11 @@ public class EditUserProposalRolesEvent extends KcDocumentEventBase {
         logMessage.append(" with ");
 
         // vary logging detail as needed
-        if (this.editRoles == null) {
-            logMessage.append("null editRoles");
+        if (this.proposalUser == null) {
+            logMessage.append("null proposalUser");
         }
         else {
-            logMessage.append(this.editRoles.toString());
+            logMessage.append(this.proposalUser.toString());
         }
 
         LOG.debug(logMessage);
@@ -88,7 +87,7 @@ public class EditUserProposalRolesEvent extends KcDocumentEventBase {
 
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((PermissionsRule) rule).processEditProposalUserRolesBusinessRules((ProposalDevelopmentDocument) this.getDocument(), 
-                                                                                  this.list, this.editRoles);
+        return ((PermissionsRule) rule).processAddProposalUserBusinessRules((ProposalDevelopmentDocument) this.getDocument(), 
+                                                                            list, this.proposalUser);
     }
 }
