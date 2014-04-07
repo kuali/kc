@@ -13,41 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.auth.perm;
+package org.kuali.coeus.propdev.impl.docperm;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.rice.krad.bo.BusinessObjectBase;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * A <b>ProposalUser</b> represents a user who has a role in a Proposal's ACL.
- * The roles are Aggregator, Budget Creator, Narrative Writer, Viewer, and
- * unassigned.  The unassigned role has no privileges.  This class is simply
- * used for adding users to a proposal.  When a user is added to a proposal,
- * he/she is assigned only one initial role.  Other roles can be assigned at
- * a later time by editing the roles for that user.  In other words, this
- * BO is simply used as a form.
- *
+ * A ProposalUserRoles corresponds to one user with access to a proposal. That user can have one or more assigned roles. This class
+ * is only used by the GUI for displaying the proposal users on a web page.
+ * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalUser extends BusinessObjectBase {
+public class ProposalUserRoles implements Serializable {
 
     private String username = "";
-
     private String fullname = "";
-
     private String unitNumber = "";
-
     private String unitName = "";
+    private List<String> roleNames;
 
-    private String roleName = "";
 
-
-    public ProposalUser() {
+    public ProposalUserRoles() {
+        roleNames = new ArrayList<String>();
     }
 
     /**
      * Get the user's username.
+     * 
      * @return the user's username.
      */
     public String getUsername() {
@@ -56,6 +52,7 @@ public class ProposalUser extends BusinessObjectBase {
 
     /**
      * Set the user's unique username.
+     * 
      * @param username the user's username
      */
     public void setUsername(String username) {
@@ -64,6 +61,7 @@ public class ProposalUser extends BusinessObjectBase {
 
     /**
      * Get the user's full name.
+     * 
      * @return the user's full name.
      */
     public String getFullname() {
@@ -72,6 +70,7 @@ public class ProposalUser extends BusinessObjectBase {
 
     /**
      * Set the user's full name.
+     * 
      * @param fullname the user's full name
      */
     public void setFullname(String fullname) {
@@ -80,6 +79,7 @@ public class ProposalUser extends BusinessObjectBase {
 
     /**
      * Get the user's home unit number.
+     * 
      * @return the user's home unit number.
      */
     public String getUnitNumber() {
@@ -88,6 +88,7 @@ public class ProposalUser extends BusinessObjectBase {
 
     /**
      * Set the user's home unit number.
+     * 
      * @param unitNumber the user's home unit number
      */
     public void setUnitNumber(String unitNumber) {
@@ -96,6 +97,7 @@ public class ProposalUser extends BusinessObjectBase {
 
     /**
      * Get the user's home unit name.
+     * 
      * @return the user's home unit name.
      */
     public String getUnitName() {
@@ -104,6 +106,7 @@ public class ProposalUser extends BusinessObjectBase {
 
     /**
      * Set the user's home unit name.
+     * 
      * @param unitName the user's home unit name
      */
     public void setUnitName(String unitName) {
@@ -112,50 +115,80 @@ public class ProposalUser extends BusinessObjectBase {
 
     /**
      * Get the user's role id in the proposal.
+     * 
      * @return the user's role id in the proposal.
      */
-    public String getRoleName() {
-        return roleName;
+    public List<String> getRoleNames() {
+        return roleNames;
     }
 
     /**
      * Set the user's role id.
+     * 
      * @param roleId the user's role id
      */
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setRoleNames(List<String> roleNames) {
+        this.roleNames = roleNames;
     }
 
     /**
-     * Get the user's role name in the proposal.
-     * @return the user's role name in the proposal.
+     * Add a role name.
+     * 
+     * @param roleName the role name
      */
-    public String getRoleLabel() {
-        if (RoleConstants.UNASSIGNED.equals(roleName)) {
-            return "unassigned";
-        } else if (RoleConstants.AGGREGATOR.equals(roleName)) {
-            return "Aggregator";
-        } else if (RoleConstants.BUDGET_CREATOR.equals(roleName)) {
-            return "Budget Creator";
-        } else if (RoleConstants.NARRATIVE_WRITER.equals(roleName)) {
-            return "Narrative Writer";
-        } else if (RoleConstants.VIEWER.equals(roleName)) {
-            return "Viewer";
-        } else {
-            return "";
-        }
+    public void addRoleName(String roleName) {
+        this.roleNames.add(roleName);
     }
 
-    @Override
-    public void refresh() {
+    /**
+     * Get the user's role labels in the proposal.
+     * 
+     * @return the user's role labels in the proposal.
+     */
+    public List<String> getRoleLabels() {
+        return roleNames;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj == this) return true;
-        if (!obj.getClass().equals(this.getClass())) return false;
-        ProposalUser user = (ProposalUser) obj;
-        return StringUtils.equals(this.username, user.username) && StringUtils.equals(this.roleName, user.roleName);
+        if (this == obj)
+            return true;
+        if ((obj == null) || (obj.getClass() != this.getClass()))
+            return false;
+
+        ProposalUserRoles theOther = (ProposalUserRoles) obj;
+
+        boolean isEqual = true;
+
+        isEqual &= StringUtils.equals(this.fullname, theOther.fullname);
+        isEqual &= StringUtils.equals(this.unitName, theOther.unitName);
+        isEqual &= StringUtils.equals(this.unitNumber, theOther.unitNumber);
+        isEqual &= StringUtils.equals(this.username, theOther.username);
+        isEqual &= this.roleNames.size() == theOther.roleNames.size();
+
+        if (isEqual) {
+            int i = 0;
+            for (String roleName : this.roleNames) {
+                isEqual &= StringUtils.equals(roleName, theOther.roleNames.get(i));
+                i++;
+            }
+        }
+
+        return isEqual;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + ObjectUtils.hashCode(fullname);
+        hash = 31 * hash + ObjectUtils.hashCode(unitName);
+        hash = 31 * hash + ObjectUtils.hashCode(unitNumber);
+        hash = 31 * hash + ObjectUtils.hashCode(username);
+        for (String roleName : roleNames) {
+            hash = 31 * hash + ObjectUtils.hashCode(roleName);
+        }
+        return hash;
+    }
+
+
 }
