@@ -21,6 +21,9 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
+import org.kuali.coeus.sys.api.model.GloballyUnique;
+import org.kuali.coeus.sys.api.model.RecordedUpdate;
+import org.kuali.coeus.sys.api.model.Versioned;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.SimpleBooleanSplitNodeAware;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -48,7 +51,7 @@ import java.util.*;
 @DisableVersioning
 @MappedSuperclass
 @AttributeOverride(name="documentNumber", column = @Column(name = "DOCUMENT_NUMBER",length=14) )
-public abstract class KcTransactionalDocumentBase extends TransactionalDocumentBase implements SimpleBooleanSplitNodeAware {
+public abstract class KcTransactionalDocumentBase extends TransactionalDocumentBase implements SimpleBooleanSplitNodeAware, RecordedUpdate, Versioned, GloballyUnique {
 
     private static final long serialVersionUID = -1879382692835231633L;
 
@@ -166,6 +169,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
 
     public abstract List<? extends DocumentCustomData> getDocumentCustomData();
 
+    @Override
     public Timestamp getUpdateTimestamp() {
         return updateTimestamp;
     }
@@ -174,6 +178,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
         this.updateTimestamp = updateTimestamp;
     }
 
+    @Override
     public String getUpdateUser() {
         return updateUser;
     }

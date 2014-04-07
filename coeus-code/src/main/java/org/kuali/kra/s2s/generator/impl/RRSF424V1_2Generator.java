@@ -420,34 +420,6 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	    }
 	}
 
-	/**
-     * 
-     * This method is used to get the answer for a particular Questionnaire question
-     * question based on the question id.
-     * 
-     * @param questionId
-     *            the question id to be passed.
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
-     */
-	private String getAnswer(String questionId) {
-	    List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-	    answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
-	    String answer = null;
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for (AnswerHeader answerHeader : answerHeaders) {
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for (Answer answers : answerDetails) {
-                    if (answers.getAnswer() != null && questionId.equals(answers.getQuestion().getQuestionId())) {
-                        answer = answers.getAnswer();
-                        return answer;
-                    }
-                }
-            }
-        }
-        return answer;        
-    }
-
 	private Enum getApplicationTypeCodeDataType() {
 		return ApplicationTypeCodeDataType.Enum.forInt(Integer.parseInt(pdDoc
 				.getDevelopmentProposal().getProposalTypeCode()));
