@@ -1670,7 +1670,6 @@ public class S2SBudgetCalculatorServiceImpl implements
                             TbnPerson tbnPerson = budgetPersonnelDetails.getBudgetPerson().getTbnPerson();
                             if (tbnPerson != null) {
                                 keyPerson = new KeyPersonInfo();
-                                keyPerson.setPersonId(tbnPerson.getJobCode());
                                 String[] tbnNames = tbnPerson.getPersonName().split(" ");
                                 int nameIndex = 0;
                                 keyPerson.setPersonId(tbnPerson.getTbnId());

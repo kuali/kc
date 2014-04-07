@@ -1217,12 +1217,9 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     private KeyPersonInfo getKeyPersonFromTbnPerson(BudgetPersonnelDetails budgetPersonnelDetails) {
         KeyPersonInfo keyPerson = null;
-        Map<String, String> searchMap = new HashMap<String, String>();
-        searchMap.put("tbnId", budgetPersonnelDetails.getBudgetPerson().getTbnId());
-        TbnPerson tbnPerson = (TbnPerson) businessObjectService.findByPrimaryKey(TbnPerson.class, searchMap);
+        TbnPerson tbnPerson = budgetPersonnelDetails.getBudgetPerson().getTbnPerson();
         if (tbnPerson != null) {
             keyPerson = new KeyPersonInfo();
-            keyPerson.setPersonId(tbnPerson.getJobCode());
             String[] tbnNames = tbnPerson.getPersonName().split(" ");
             int nameIndex = 0;
             keyPerson.setPersonId(tbnPerson.getTbnId());
