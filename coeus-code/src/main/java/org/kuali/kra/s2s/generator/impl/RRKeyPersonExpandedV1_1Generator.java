@@ -166,8 +166,8 @@ public class RRKeyPersonExpandedV1_1Generator extends
 						.getOrganizationName());
 			}
 			if(PI.getHomeUnit() != null) {
-                KcPerson kcPersons = PI.getPerson();
-                String departmentName =  kcPersons.getOrganizationIdentifier();
+                KcPerson kcPerson = PI.getPerson();
+                String departmentName =  kcPerson.getOrganizationIdentifier();
                 profile.setDepartmentName(departmentName);
             }
             else
@@ -270,8 +270,8 @@ public class RRKeyPersonExpandedV1_1Generator extends
 							.getOrganizationName());
 				}
 				if(keyPerson.getHomeUnit() != null) {
-                    KcPerson kcPersons = keyPerson.getPerson();
-                    String departmentName =  kcPersons.getOrganizationIdentifier();
+                    KcPerson kcPerson = keyPerson.getPerson();
+                    String departmentName =  kcPerson.getOrganizationIdentifier();
                     profileKeyPerson.setDepartmentName(departmentName);
                 }
                 else

@@ -223,8 +223,8 @@ public class RRKeyPersonExpandedV1_2Generator extends
 	 */
 	private void setDepartmentNameToProfile(Profile profile, ProposalPerson PI) {
 		if(PI.getHomeUnit() != null) {
-            KcPerson kcPersons = PI.getPerson();
-            String departmentName =  kcPersons.getOrganizationIdentifier();
+            KcPerson kcPerson = PI.getPerson();
+            String departmentName =  kcPerson.getOrganizationIdentifier();
             profile.setDepartmentName(departmentName);
         }
         else
