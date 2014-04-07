@@ -21,15 +21,22 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class YnqValidAnswersValuesFinder extends UifKeyValuesFinderBase {
 
+    private static final List<KeyValue> KEY_VALUES;
+    static {
+        final List<KeyValue> temp = new ArrayList<>();
+        temp.add(new ConcreteKeyValue(Constants.ANSWER_YES_NO.toString(), "Yes, No"));
+        temp.add(new ConcreteKeyValue(Constants.ANSWER_YES_NO_NA.toString(), "Yes, No, N/A"));
+        KEY_VALUES = Collections.unmodifiableList(temp);
+    }
+
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue(Constants.ANSWER_YES_NO.toString(), "Yes, No"));
-        keyValues.add(new ConcreteKeyValue(Constants.ANSWER_YES_NO_NA.toString(), "Yes, No, N/A"));
-        return keyValues;
+        return KEY_VALUES;
     }
+
 }

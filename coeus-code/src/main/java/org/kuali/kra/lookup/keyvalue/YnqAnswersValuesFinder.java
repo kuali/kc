@@ -15,20 +15,27 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class YnqAnswersValuesFinder extends UifKeyValuesFinderBase {
 
+    private static final List<KeyValue> KEY_VALUES;
+    static {
+        final List<KeyValue> temp = new ArrayList<>();
+        temp.add(new ConcreteKeyValue("Y", "Yes"));
+        temp.add(new ConcreteKeyValue("N", "No"));
+        KEY_VALUES = Collections.unmodifiableList(temp);
+    }
+
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("Y", "Yes"));
-        keyValues.add(new ConcreteKeyValue("N", "No"));
-        return keyValues;
+        return KEY_VALUES;
     }
 }
