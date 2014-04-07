@@ -3,7 +3,7 @@
   <bean id="ProposalRoleTemplateMaintenanceDocument" parent="ProposalRoleTemplateMaintenanceDocument-parentBean"/>
 
   <bean id="ProposalRoleTemplateMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplate"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

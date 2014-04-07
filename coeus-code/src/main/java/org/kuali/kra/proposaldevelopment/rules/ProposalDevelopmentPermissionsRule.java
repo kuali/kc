@@ -19,6 +19,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.docperm.ProposalRoleState;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUser;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserEditRoles;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -26,7 +30,6 @@ import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.*;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
-import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 
 import java.util.List;
 

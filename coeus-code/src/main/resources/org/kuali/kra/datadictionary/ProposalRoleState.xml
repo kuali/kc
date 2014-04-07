@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalRoleState" parent="ProposalRoleState-parentBean" />
   <bean id="ProposalRoleState-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalRoleState" />
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.docperm.ProposalRoleState" />
 		<property name="objectLabel" value="Proposal Role State" />
     <property name="attributes" >
       <list>

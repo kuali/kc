@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.printing.xmlstream;
+package org.kuali.coeus.propdev.impl.print;
 
 import edu.mit.coeus.utils.xml.v2.budget.BUDGETDocument.BUDGET;
 import edu.mit.coeus.utils.xml.v2.budget.BUDGETDocument.BUDGET.BudgetMaster;
@@ -61,6 +61,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.*;
+import org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalBaseStream;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 
 import java.math.BigDecimal;
