@@ -1,0 +1,19 @@
+var Kc = Kc || {};
+Kc.PropDev = Kc.PropDev || {};
+(function (namespace, $) {
+	namespace.updateSponsorName = function(sponsorCode, nameSelector) {
+		$.getJSON(window.location.pathname, 
+				{'sponsorCode': sponsorCode, 'methodToCall': 'getSponsor'}, 
+				function(json) {
+					var sponsorName = null;
+					if (json !== null) {
+						sponsorName = json['sponsorName'];
+					}
+					$(nameSelector).html(sponsorName);
+				});
+	};
+	namespace.sponsorSuggestSelect = function(event, ui) {
+		$(event.target).val(ui.item.value);
+		$(event.target).parents('.uif-inputField:first').find('.informationalText').html(ui.item.sponsorName);
+	};
+})(Kc.PropDev, jQuery);
