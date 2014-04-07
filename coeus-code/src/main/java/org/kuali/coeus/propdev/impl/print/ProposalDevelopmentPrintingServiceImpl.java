@@ -77,10 +77,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	@Autowired
 	@Qualifier("parameterService")
 	private ParameterService parameterService;
-	
-	/*	<bean id="questionnairePrint" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-     *  <property name="serviceName" value="questionnairePrint" />
-	*/
+
 	@Autowired
 	@Qualifier("questionnairePrint")
 	private QuestionnairePrint questionnairePrint;
