@@ -353,7 +353,7 @@
     </bean>
     
     <bean id="proposalAllUnitAdministratorDerivedRoleTypeService" 
-          class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl">
+          class="org.kuali.coeus.propdev.impl.auth.ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl">
         <property name="unitService" ref="unitService" />
     </bean>
 
