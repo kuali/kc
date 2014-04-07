@@ -119,6 +119,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private static final String DOCUMENT_APPROVE_QUESTION = "DocApprove";
     private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
     private static final String DOCUMENT_DELETE_QUESTION="ProposalDocDelete";
+    BusinessObjectService businessObjectService;
     
     private static final String CONFIRM_SUBMISSION_WITH_WARNINGS_KEY = "submitApplication";
     private static final String EMPTY_STRING = "";
@@ -469,7 +470,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             HttpServletResponse response) throws Exception {
 
         ActionForward nextWebPage = null;
-        
+        ProposalDevelopmentForm proposalDevelopmentForm1 = (ProposalDevelopmentForm) form;
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalCopyCriteria criteria = proposalDevelopmentForm.getCopyCriteria();
@@ -494,6 +495,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 nextWebPage = mapping.findForward(Constants.MAPPING_BASIC);
             }
             else {
+                Map<String, Object> keyMap = new HashMap<String, Object>();
+                if(proposalDevelopmentForm.getProposalDevelopmentDocument() != null) {
+                    for(DevelopmentProposal proposalDevelopmentFormObject:proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposalList()) {
+                        keyMap.put("proposalNumber", proposalDevelopmentFormObject.getProposalNumber());
+                     }
+                }
+                businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+                List<S2sAppSubmission> s2sAppSubmissionProposalList = (List<S2sAppSubmission>) businessObjectService.findMatching(S2sAppSubmission.class, keyMap);
+                
                 String newDocId = proposalCopyService.copyProposal(doc, criteria);
                 KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
                 
@@ -502,10 +512,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 
                 proposalDevelopmentForm.setDocId(newDocId);
                 this.loadDocument(proposalDevelopmentForm);  
-                
+                 
                 ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
                 initializeProposalUsers(copiedDocument);//add in any default permissions
-                copiedDocument.getDevelopmentProposal().setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
+                copiedDocument.getDevelopmentProposal().setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
+                for(S2sAppSubmission s2sAppSubmissionListValue:s2sAppSubmissionProposalList) {
+                          copiedDocument.getDevelopmentProposal().setPrevGrantsGovTrackingID(s2sAppSubmissionListValue.getGgTrackingId());
+                }
                  
                 DocumentService docService = KraServiceLocator.getService(DocumentService.class);
                 docService.saveDocument(copiedDocument);
