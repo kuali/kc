@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.custom.arg;
 
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -22,7 +22,7 @@ public class ArgValueLookup extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer argValueLookupId;
+    private Long id;
 
     private String argumentName;
 
@@ -30,15 +30,12 @@ public class ArgValueLookup extends KcPersistableBusinessObjectBase {
 
     private String description;
 
-    public ArgValueLookup() {
+    public Long getId() {
+        return id;
     }
 
-    public Integer getArgValueLookupId() {
-        return argValueLookupId;
-    }
-
-    public void setArgValueLookupId(Integer argValueLookupId) {
-        this.argValueLookupId = argValueLookupId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getArgumentName() {

@@ -79,7 +79,8 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     private BudgetPersonSalaryDetails personSalaryDetails;
     
     private List<BudgetPersonSalaryDetails>budgetPersonSalaryDetails;
-   
+
+    private TbnPerson tbnPerson;
 
     public List<BudgetPersonSalaryDetails> getBudgetPersonSalaryDetails() {
         BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
@@ -496,9 +497,12 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     public BudgetPersonSalaryDetails getPersonSalaryDetails() {
         return personSalaryDetails;
     }
-   
-  
-    
-    
-    
+
+    public TbnPerson getTbnPerson() {
+        return tbnPerson;
+    }
+
+    public void setTbnPerson(TbnPerson tbnPerson) {
+        this.tbnPerson = tbnPerson;
+    }
 }

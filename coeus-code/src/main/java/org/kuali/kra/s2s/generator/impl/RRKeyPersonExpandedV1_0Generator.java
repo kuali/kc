@@ -29,7 +29,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -142,9 +141,8 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
                 profile.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
             }
             if(PI.getHomeUnit() != null) {
-                KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
-                KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
-                String departmentName =  kcPersons.getOrganizationIdentifier();
+                KcPerson kcPerson = PI.getPerson();
+                String departmentName =  kcPerson.getOrganizationIdentifier();
                 profile.setDepartmentName(departmentName);
             }
             else
@@ -224,9 +222,8 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
                 profileKeyPerson.setEmail(keyPerson.getEmailAddress());
                 profileKeyPerson.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());               
                 if(keyPerson.getHomeUnit() != null) {
-                    KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
-                    KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(keyPerson.getPersonId());
-                    String departmentName =  kcPersons.getOrganizationIdentifier();
+                    KcPerson kcPerson = keyPerson.getPerson();
+                    String departmentName =  kcPerson.getOrganizationIdentifier();
                     profileKeyPerson.setDepartmentName(departmentName);
                 }
                 else

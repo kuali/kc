@@ -30,15 +30,14 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -47,7 +46,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.S2SException;
@@ -543,9 +541,8 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 					}
 				}
 				if(PI.getHomeUnit() != null) {
-                    KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
-                    KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
-                    String departmentName =  kcPersons.getOrganizationIdentifier();
+                    KcPerson kcPerson = PI.getPerson();
+                    String departmentName =  kcPerson.getOrganizationIdentifier();
                     PDPI.setDepartmentName(departmentName);
                 }
                 else
@@ -627,134 +624,105 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	 * @return applicantType(ApplicantType) type of applicant.
 	 */
 	private ApplicantType getApplicantType() {
-		ApplicantType applicantType = ApplicantType.Factory.newInstance();
-		SmallBusinessOrganizationType smallOrganizationType = SmallBusinessOrganizationType.Factory
-				.newInstance();
-		IsSociallyEconomicallyDisadvantaged isSociallyEconomicallyDisadvantaged = IsSociallyEconomicallyDisadvantaged.Factory
-				.newInstance();
-		IsWomenOwned isWomenOwned = IsWomenOwned.Factory.newInstance();
-		boolean smallBusflag = false;
-		int orgTypeCode = 0;
-		if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null
-				&& pdDoc.getDevelopmentProposal().getApplicantOrganization()
-						.getOrganization().getOrganizationTypes() != null
-				&& pdDoc.getDevelopmentProposal().getApplicantOrganization()
-						.getOrganization().getOrganizationTypes().size() > 0) {
-			orgTypeCode = pdDoc.getDevelopmentProposal()
-					.getApplicantOrganization().getOrganization()
-					.getOrganizationTypes().get(0).getOrganizationTypeCode();
-		}
-		ApplicantTypeCodeDataType.Enum applicantTypeCode = null;
-
-		switch (orgTypeCode) {
-		case 1:
-			applicantTypeCode = ApplicantTypeCodeDataType.C_CITY_OR_TOWNSHIP_GOVERNMENT;
-			break;
-		case 2:
-			applicantTypeCode = ApplicantTypeCodeDataType.A_STATE_GOVERNMENT;
-			break;
-		case 3:
-			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-			break;
-		case 4:
-			applicantTypeCode = ApplicantTypeCodeDataType.M_NONPROFIT_WITH_501_C_3_IRS_STATUS_OTHER_THAN_INSTITUTION_OF_HIGHER_EDUCATION;
-			break;
-		case 5:
-			applicantTypeCode = ApplicantTypeCodeDataType.N_NONPROFIT_WITHOUT_501_C_3_IRS_STATUS_OTHER_THAN_INSTITUTION_OF_HIGHER_EDUCATION;
-			break;
-		case 6:
-			applicantTypeCode = ApplicantTypeCodeDataType.Q_FOR_PROFIT_ORGANIZATION_OTHER_THAN_SMALL_BUSINESS;
-			break;
-		case 7:
-			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-			break;
-		case 8:
-			applicantTypeCode = ApplicantTypeCodeDataType.I_INDIAN_NATIVE_AMERICAN_TRIBAL_GOVERNMENT_FEDERALLY_RECOGNIZED;
-			break;
-		case 9:
-			applicantTypeCode = ApplicantTypeCodeDataType.P_INDIVIDUAL;
-			break;
-		case 10:
-			applicantTypeCode = ApplicantTypeCodeDataType.O_PRIVATE_INSTITUTION_OF_HIGHER_EDUCATION;
-			break;
-		case 11:
-			applicantTypeCode = ApplicantTypeCodeDataType.R_SMALL_BUSINESS;
-			break;
-		case 14:
-			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-			isSociallyEconomicallyDisadvantaged.setStringValue(VALUE_YES);
-			smallOrganizationType
-					.setIsSociallyEconomicallyDisadvantaged(isSociallyEconomicallyDisadvantaged);
-			smallBusflag = true;
-			break;
-		case 15:
-			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-			isWomenOwned.setStringValue(VALUE_YES);
-			smallOrganizationType.setIsWomenOwned(isWomenOwned);
-			smallBusflag = true;
-			break;
-		case 21:
-			applicantTypeCode = ApplicantTypeCodeDataType.H_PUBLIC_STATE_CONTROLLED_INSTITUTION_OF_HIGHER_EDUCATION;
-			break;
-		case 22:
-			applicantTypeCode = ApplicantTypeCodeDataType.B_COUNTY_GOVERNMENT;
-			break;
-		case 23:
-			applicantTypeCode = ApplicantTypeCodeDataType.D_SPECIAL_DISTRICT_GOVERNMENT;
-			break;
-		case 24:
-			applicantTypeCode = ApplicantTypeCodeDataType.G_INDEPENDENT_SCHOOL_DISTRICT;
-			break;
-		case 25:
-			applicantTypeCode = ApplicantTypeCodeDataType.L_PUBLIC_INDIAN_HOUSING_AUTHORITY;
-			break;
-		case 26:
-			applicantTypeCode = ApplicantTypeCodeDataType.J_INDIAN_NATIVE_AMERICAN_TRIBAL_GOVERNMENT_OTHER_THAN_FEDERALLY_RECOGNIZED;
-			break;
-		default:
-			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-			break;
-		}
-		if (smallBusflag) {
-			applicantType
-					.setSmallBusinessOrganizationType(smallOrganizationType);
-		}
-
-		if (orgTypeCode == 3) {
-			applicantType
-					.setApplicantTypeCodeOtherExplanation("Federal Government");
-		}
-		applicantType.setApplicantTypeCode(applicantTypeCode);
-		return applicantType;
-	}
-	
-	/**
-     * 
-     * This method is used to get the answer for a particular Questionnaire question
-     * question based on the question id.
-     * 
-     * @param questionId
-     *            the question id to be passed.
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
-     */
-	private String getAnswer(String questionId) {
-        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
-        String answer = null;
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for (AnswerHeader answerHeader : answerHeaders) {
-                List<QuestionnaireQuestion> questionnaireQuestions = answerHeader.getQuestionnaire().getQuestionnaireQuestions();
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for (Answer answers : answerDetails) {
-                    if (answers.getAnswer() != null && questionId.equals(answers.getQuestion().getQuestionId())) {
-                        answer = answers.getAnswer();
-                        return answer;
-                    }
-                }
-            }
+        ApplicantType applicantType = ApplicantType.Factory.newInstance();
+        SmallBusinessOrganizationType smallOrganizationType = SmallBusinessOrganizationType.Factory
+                .newInstance();
+        IsSociallyEconomicallyDisadvantaged isSociallyEconomicallyDisadvantaged = IsSociallyEconomicallyDisadvantaged.Factory
+                .newInstance();
+        IsWomenOwned isWomenOwned = IsWomenOwned.Factory.newInstance();
+        boolean smallBusflag = false;
+        int orgTypeCode = 0;
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null
+                && pdDoc.getDevelopmentProposal().getApplicantOrganization()
+                .getOrganization().getOrganizationTypes() != null
+                && pdDoc.getDevelopmentProposal().getApplicantOrganization()
+                .getOrganization().getOrganizationTypes().size() > 0) {
+            orgTypeCode = pdDoc.getDevelopmentProposal()
+                    .getApplicantOrganization().getOrganization()
+                    .getOrganizationTypes().get(0).getOrganizationTypeCode();
         }
-        return answer;        
+        ApplicantTypeCodeDataType.Enum applicantTypeCode = null;
+
+        switch (orgTypeCode) {
+            case 1:
+                applicantTypeCode = ApplicantTypeCodeDataType.C_CITY_OR_TOWNSHIP_GOVERNMENT;
+                break;
+            case 2:
+                applicantTypeCode = ApplicantTypeCodeDataType.A_STATE_GOVERNMENT;
+                break;
+            case 3:
+                applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
+                break;
+            case 4:
+                applicantTypeCode = ApplicantTypeCodeDataType.M_NONPROFIT_WITH_501_C_3_IRS_STATUS_OTHER_THAN_INSTITUTION_OF_HIGHER_EDUCATION;
+                break;
+            case 5:
+                applicantTypeCode = ApplicantTypeCodeDataType.N_NONPROFIT_WITHOUT_501_C_3_IRS_STATUS_OTHER_THAN_INSTITUTION_OF_HIGHER_EDUCATION;
+                break;
+            case 6:
+                applicantTypeCode = ApplicantTypeCodeDataType.Q_FOR_PROFIT_ORGANIZATION_OTHER_THAN_SMALL_BUSINESS;
+                break;
+            case 7:
+                applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
+                break;
+            case 8:
+                applicantTypeCode = ApplicantTypeCodeDataType.I_INDIAN_NATIVE_AMERICAN_TRIBAL_GOVERNMENT_FEDERALLY_RECOGNIZED;
+                break;
+            case 9:
+                applicantTypeCode = ApplicantTypeCodeDataType.P_INDIVIDUAL;
+                break;
+            case 10:
+                applicantTypeCode = ApplicantTypeCodeDataType.O_PRIVATE_INSTITUTION_OF_HIGHER_EDUCATION;
+                break;
+            case 11:
+                applicantTypeCode = ApplicantTypeCodeDataType.R_SMALL_BUSINESS;
+                break;
+            case 14:
+                applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
+                isSociallyEconomicallyDisadvantaged.setStringValue(VALUE_YES);
+                smallOrganizationType
+                        .setIsSociallyEconomicallyDisadvantaged(isSociallyEconomicallyDisadvantaged);
+                smallBusflag = true;
+                break;
+            case 15:
+                applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
+                isWomenOwned.setStringValue(VALUE_YES);
+                smallOrganizationType.setIsWomenOwned(isWomenOwned);
+                smallBusflag = true;
+                break;
+            case 21:
+                applicantTypeCode = ApplicantTypeCodeDataType.H_PUBLIC_STATE_CONTROLLED_INSTITUTION_OF_HIGHER_EDUCATION;
+                break;
+            case 22:
+                applicantTypeCode = ApplicantTypeCodeDataType.B_COUNTY_GOVERNMENT;
+                break;
+            case 23:
+                applicantTypeCode = ApplicantTypeCodeDataType.D_SPECIAL_DISTRICT_GOVERNMENT;
+                break;
+            case 24:
+                applicantTypeCode = ApplicantTypeCodeDataType.G_INDEPENDENT_SCHOOL_DISTRICT;
+                break;
+            case 25:
+                applicantTypeCode = ApplicantTypeCodeDataType.L_PUBLIC_INDIAN_HOUSING_AUTHORITY;
+                break;
+            case 26:
+                applicantTypeCode = ApplicantTypeCodeDataType.J_INDIAN_NATIVE_AMERICAN_TRIBAL_GOVERNMENT_OTHER_THAN_FEDERALLY_RECOGNIZED;
+                break;
+            default:
+                applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
+                break;
+        }
+        if (smallBusflag) {
+            applicantType
+                    .setSmallBusinessOrganizationType(smallOrganizationType);
+        }
+
+        if (orgTypeCode == 3) {
+            applicantType
+                    .setApplicantTypeCodeOtherExplanation("Federal Government");
+        }
+        applicantType.setApplicantTypeCode(applicantTypeCode);
+        return applicantType;
     }
 
 	/**

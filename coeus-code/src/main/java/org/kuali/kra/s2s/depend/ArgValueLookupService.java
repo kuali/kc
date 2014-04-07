@@ -1,6 +1,6 @@
 package org.kuali.kra.s2s.depend;
 
-import org.kuali.kra.bo.ArgValueLookup;
+import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 
 import java.util.List;
 

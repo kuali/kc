@@ -75,7 +75,7 @@
 								<c:if test="${not empty protocolCustomData.iacucProcedureCategoryCustomData.lookupClass}">
 								  <c:out value="${customAttributeValue}" />
 								  <c:choose>
-								   <c:when test="${protocolCustomData.iacucProcedureCategoryCustomData.lookupClass eq 'org.kuali.kra.bo.ArgValueLookup'}"> 
+								   <c:when test="${protocolCustomData.iacucProcedureCategoryCustomData.lookupClass eq 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup'}">
 										<kul:lookup boClassName="${protocolCustomData.iacucProcedureCategoryCustomData.lookupClass}" 
 											lookupParameters="'${protocolCustomData.iacucProcedureCategoryCustomData.lookupReturn}':argumentName"
 											readOnlyFields="argumentName"

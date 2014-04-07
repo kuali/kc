@@ -70,7 +70,7 @@ public class CustomAttributeDocumentTestUtilities {
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("8", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(11, "ARRA_FUNDING", "ARRA Funding", "1", new Integer(3), GROUP_NAME_4,"org.kuali.kra.bo.ArgValueLookup","yes_no_flag");
+        customAttribute = buildCustomAttribute(11, "ARRA_FUNDING", "ARRA Funding", "1", new Integer(3), GROUP_NAME_4,"org.kuali.coeus.common.framework.custom.arg.ArgValueLookup","yes_no_flag");
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("9", customAttributeDocument);
         

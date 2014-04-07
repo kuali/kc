@@ -32,7 +32,7 @@ public class RateClassType extends KcPersistableBusinessObjectBase {
     private String description;
 
     @Column(name = "SORT_ID")
-    private String sortId;
+    private Integer sortId;
 
     @Column(name = "PREFIX_ACTIVITY_TYPE")
     @Convert(converter = BooleanYNConverter.class)
@@ -54,11 +54,11 @@ public class RateClassType extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public String getSortId() {
+    public Integer getSortId() {
         return sortId;
     }
 
-    public void setSortId(String sortId) {
+    public void setSortId(Integer sortId) {
         this.sortId = sortId;
     }
 

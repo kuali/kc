@@ -17,7 +17,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="ArgValueLookup" parent="ArgValueLookup-parentBean" />
     <bean id="ArgValueLookup-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.ArgValueLookup" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.custom.arg.ArgValueLookup" />
 		<property name="objectLabel" value="Arg Value Lookup" />
         <property name="inquiryDefinition" >
             <ref bean="ArgValueLookup-inquiryDefinition" />
@@ -25,10 +25,10 @@
         <property name="lookupDefinition" >
             <ref bean="ArgValueLookup-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="argValueLookupId" />
+        <property name="titleAttribute" value="id" />
         <property name="attributes" >
             <list>
-                <ref bean="ArgValueLookup-argValueLookupId" />
+                <ref bean="ArgValueLookup-id" />
                 <ref bean="ArgValueLookup-argumentName" />
                 <ref bean="ArgValueLookup-value" />
                 <ref bean="ArgValueLookup-description" />
@@ -38,9 +38,9 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    <bean id="ArgValueLookup-argValueLookupId" parent="ArgValueLookup-argValueLookupId-parentBean" />
-    <bean id="ArgValueLookup-argValueLookupId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="argValueLookupId" />
+    <bean id="ArgValueLookup-id" parent="ArgValueLookup-id-parentBean" />
+    <bean id="ArgValueLookup-id-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="id" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Arg Value Lookup Id" />
         <property name="shortLabel" value="Arg Value Lookup Id" />
@@ -148,7 +148,7 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-              <bean parent="FieldDefinition" p:attributeName="argValueLookupId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="argumentName"/>
               <bean parent="FieldDefinition" p:attributeName="value"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
@@ -161,7 +161,7 @@
 
   <bean id="ArgValueLookup-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Arg Value Lookup Id"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.ArgValueLookup"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.custom.arg.ArgValueLookup"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -169,7 +169,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="argValueLookupId" parent="Uif-DataField"/>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
               <bean p:propertyName="argumentName" parent="Uif-DataField"/>
               <bean p:propertyName="value" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
@@ -191,7 +191,7 @@
         </property>
         <property name="lookupFields" >
             <list>
-        <bean parent="FieldDefinition" p:attributeName="argValueLookupId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="argumentName"/>
         <bean parent="FieldDefinition" p:attributeName="value"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
@@ -199,7 +199,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="argValueLookupId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="argumentName"/>
         <bean parent="FieldDefinition" p:attributeName="value"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
@@ -208,7 +208,7 @@
   </bean>
 
   <bean id="ArgValueLookup-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.ArgValueLookup"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.custom.arg.ArgValueLookup"/>
     <property name="headerText" value="Arg Value Lookup Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
@@ -223,7 +223,7 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="argValueLookupId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="argumentName" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="value" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
@@ -231,7 +231,7 @@
         </property>
         <property name="resultFields" >
             <list>
-        <bean p:propertyName="argValueLookupId" parent="Uif-DataField"/>
+        <bean p:propertyName="id" parent="Uif-DataField"/>
         <bean p:propertyName="argumentName" parent="Uif-DataField"/>
         <bean p:propertyName="value" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>

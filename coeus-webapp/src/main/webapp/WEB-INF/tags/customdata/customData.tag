@@ -86,7 +86,7 @@
 
 						<c:if test="${not empty customAttributeDocument.customAttribute.lookupClass}">
 						 <c:choose>
-						   <c:when test="${customAttributeDocument.customAttribute.lookupClass eq 'org.kuali.kra.bo.ArgValueLookup'}">
+						   <c:when test="${customAttributeDocument.customAttribute.lookupClass eq 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup'}">
 							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" 
 								lookupParameters="'${customAttributeDocument.customAttribute.lookupReturn}':argumentName"
 								readOnlyFields="argumentName"
