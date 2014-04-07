@@ -18,8 +18,23 @@
 		p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm"
 		p:documentClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument"
 		p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl"
-		p:viewName="initiate" p:stickyFooter="true" p:additionalScriptFiles="scripts/proposaldevelopment.js"
-		p:additionalCssFiles="css/proposaldevelopment.css" p:singlePageView="true">
+		p:viewName="initiate" p:stickyFooter="true" p:singlePageView="true">
+		<property name="additionalScriptFiles">
+			<list>
+				<value>rice-contrib/plugins/jquery.multiselect/jquery.multiselect.min.js</value>
+				<value>rice-contrib/plugins/jquery.multiselect/jquery.multiselect.filter.min.js</value>
+				<value>rice-contrib/multiselect.js</value>
+				<value>scripts/propdev/core.js</value>
+			</list>
+		</property>
+		<property name="additionalCssFiles">
+			<list>
+				<value>rice-contrib/plugins/jquery.multiselect/jquery.multiselect.css</value>
+				<value>rice-contrib/plugins/jquery.multiselect/jquery.multiselect.filter.css</value>
+				<value>rice-contrib/multiselect.css</value>
+				<value>css/common/core.css</value>
+			</list>
+		</property>
 		<property name="header">
 			<null />
 		</property>

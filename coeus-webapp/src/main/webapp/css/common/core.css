@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+ 
 /** overridding styles on controls to be 90% **/
 input[type="text"], .uif-textAreaControl {
     width: 100%;
@@ -154,34 +154,14 @@ input[type="text"], .uif-textAreaControl {
     padding-bottom: 15px !important;
 }
 
-.kc-personnel-table .dataTables_filter, .kc-personnel-table .dataTables_length {
-    display: none;
-}
-
-.kc-personnel-table th, .kc-personnel-table td, .kc-personnel-table table {
-    border: none !important;
-}
-
-.kc-personnel-table tr {
-    border-bottom: 1px solid #DDDDDD;
-}
-
-.kc-personnel-table tfoot {
-    display: none;
-}
-
-.kc-personnel-table th {
-    background-color: white !important;
-    color: black !important;
-}
-
 .uif-verticalRadioFieldset > span {
     margin-bottom: 5px;
 }
 
-.kc-personnel-table .uif-verticalRadioFieldset > span {
-    margin: 0;
+.ui-autocomplete-input {
+	background-image: none;
 }
+
 
 .btn {
     border-radius: 0 !important;
@@ -189,19 +169,6 @@ input[type="text"], .uif-textAreaControl {
 
 input[type="checkbox"] {
     margin-top: 8px;
-}
-
-.question label {
-	font-weight: normal;
-}
-
-.question input[type="radio"] + label,
-.question input[type="checkbox"] + label {
-	font-weight: bold;
-}
-
-.ui-autocomplete-input {
-	background-image: none;
 }
 
 .transparentField .belowInputField {
