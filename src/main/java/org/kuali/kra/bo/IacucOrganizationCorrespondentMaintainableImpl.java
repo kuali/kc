@@ -16,6 +16,7 @@
 package org.kuali.kra.bo;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.iacuc.correspondence.IacucCorrespondentType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.correspondence.CorrespondentType;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
@@ -125,7 +126,7 @@ public class IacucOrganizationCorrespondentMaintainableImpl extends KraMaintaina
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> validParams = new HashMap<String, String>();
         validParams.put("correspondentTypeCode", correspondentTypeCode.toString());
-        return !businessObjectService.findMatching(CorrespondentType.class, validParams).isEmpty();
+        return !businessObjectService.findMatching(IacucCorrespondentType.class, validParams).isEmpty();
     }
 
   
