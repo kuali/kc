@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.printing.service.impl;
+package org.kuali.coeus.propdev.impl.print;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
@@ -26,19 +26,21 @@ import org.kuali.coeus.common.framework.sponsor.form.SponsorForms;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint;
 import org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint;
-import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.print.QuestionnairePrint;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 
 import java.util.*;
 
@@ -50,14 +52,38 @@ import java.util.*;
  * 
  */
 
+@Component("proposalDevelopmentPrintingService")
 public class ProposalDevelopmentPrintingServiceImpl implements
 		ProposalDevelopmentPrintingService {
-	private PrintCertificationPrint printCertificationPrint;
-	private ProposalSponsorFormsPrint proposalSponsorFormsPrint;
-	private PrintingService printingService;
-	private BusinessObjectService businessObjectService;
-	private ParameterService parameterService;
+	
 	private static final String SPONSOR_CODE_DB_KEY = "sponsorCode";
+	
+	@Autowired
+	@Qualifier("printCertificationPrint")
+	private PrintCertificationPrint printCertificationPrint;
+	
+	@Autowired
+	@Qualifier("proposalSponsorFormsPrint")
+	private ProposalSponsorFormsPrint proposalSponsorFormsPrint;
+	
+	@Autowired
+	@Qualifier("printingService")
+	private PrintingService printingService;
+	
+	@Autowired
+	@Qualifier("businessObjectService")
+	private BusinessObjectService businessObjectService;
+	
+	@Autowired
+	@Qualifier("parameterService")
+	private ParameterService parameterService;
+	
+	/*	<bean id="questionnairePrint" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+     *  <property name="serviceName" value="questionnairePrint" />
+	*/
+	@Autowired
+	@Qualifier("questionnairePrint")
+	private QuestionnairePrint questionnairePrint;
 
 	/**
 	 * This method generates the required report and returns the PDF stream as
@@ -88,7 +114,6 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 		} else if (reportName.equals(PRINT_PROPOSAL_SPONSOR_FORMS)) {
 			printable = getProposalSponsorFormsPrint();
 		}
-		// TODO provide the XMLStream Object before printing.
 
 		printable.setPrintableBusinessObject(printableBusinessObject);
 		printable.setReportParameters(reportParameters);
@@ -133,8 +158,8 @@ public class ProposalDevelopmentPrintingServiceImpl implements
         if (sponsorFormTemplates.isEmpty()) {
             Collection<SponsorFormTemplateList> clsponsorFormTemplates = getSponsorTemplatesList(sponsorCode);
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
-            if(!parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.LOCAL_PRINT_FORM_SPONSOR_CODE).equals(sponsorCode)){
-                String genericSponsorCode = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.GENERIC_SPONSOR_CODE);
+            if(!getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.LOCAL_PRINT_FORM_SPONSOR_CODE).equals(sponsorCode)){
+                String genericSponsorCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.GENERIC_SPONSOR_CODE);
                 clsponsorFormTemplates = getSponsorTemplatesList(genericSponsorCode);
             }
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
@@ -230,11 +255,11 @@ public class ProposalDevelopmentPrintingServiceImpl implements
             ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
             AnswerHeader header = helper.getAnswerHeaders().get(0);            
             reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireIdAsInteger());
-            reportParameters.put("template", header.getQuestionnaire().getTemplate());            
-            AbstractPrint printable = KcServiceLocator.getService(QuestionnairePrint.class);
+            reportParameters.put("template", header.getQuestionnaire().getTemplate());  
+            AbstractPrint printable = getQuestionnairePrint();
             if (printable != null) {
-                printable.setPrintableBusinessObject(person);
-                printable.setReportParameters(reportParameters);
+            	printable.setPrintableBusinessObject(person);
+            	printable.setReportParameters(reportParameters);
             }
             printables.add(printable);
         }
@@ -245,7 +270,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	/**
 	 * @return the printingService
 	 */
-	public PrintingService getPrintingService() {
+	protected PrintingService getPrintingService() {
 		return printingService;
 	}
 
@@ -271,7 +296,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	 * 
 	 * @return Returns the businessObjectService.
 	 */
-	public BusinessObjectService getBusinessObjectService() {
+	protected BusinessObjectService getBusinessObjectService() {
 		return businessObjectService;
 	}
 
@@ -306,11 +331,21 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 		this.proposalSponsorFormsPrint = proposalSponsorFormsPrint;
 	}
 
-    public ParameterService getParameterService() {
+    protected ParameterService getParameterService() {
         return parameterService;
     }
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+    
+    protected QuestionnairePrint getQuestionnairePrint() {
+		return questionnairePrint;
+	}
+    
+    public void setQuestionnairePrint(QuestionnairePrint questionnairePrint) {
+		this.questionnairePrint = questionnairePrint;
+	}
+
+	
 }

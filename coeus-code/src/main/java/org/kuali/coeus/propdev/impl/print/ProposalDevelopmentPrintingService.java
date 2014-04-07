@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.printing.service;
+package org.kuali.coeus.propdev.impl.print;
 
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
