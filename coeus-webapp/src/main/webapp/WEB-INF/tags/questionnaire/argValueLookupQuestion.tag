@@ -31,7 +31,7 @@ ${kfunc:registerEditableProperty(KualiForm, prop)}
 <c:set target="${paramMap}" property="argName" value="${question.lookupReturn}" />
 <c:set var="answer" value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}"/>
 <html:select property="${prop}" tabindex="0"  styleClass="Qanswer answer questionnaireAnswer">
-	<c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder', paramMap)}" var="option">
+	<c:forEach items="${krafn:getOptionList('org.kuali.coeus.common.impl.custom.arg.ArgValueLookupValuesFinder', paramMap)}" var="option">
     	<option value="${option.key}" ${answer == option.key ? 'selected' : ''}>${option.value}</option>
 	</c:forEach>
 </html:select>		                    

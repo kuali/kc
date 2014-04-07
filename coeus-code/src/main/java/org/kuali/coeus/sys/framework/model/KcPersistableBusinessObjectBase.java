@@ -18,6 +18,9 @@ package org.kuali.coeus.sys.framework.model;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.coeus.sys.api.model.GloballyUnique;
+import org.kuali.coeus.sys.api.model.RecordedUpdate;
+import org.kuali.coeus.sys.api.model.Versioned;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -39,7 +42,7 @@ import java.util.List;
 
 @DisableVersioning
 @MappedSuperclass
-public abstract class KcPersistableBusinessObjectBase extends PersistableBusinessObjectBase {
+public abstract class KcPersistableBusinessObjectBase extends PersistableBusinessObjectBase implements RecordedUpdate, Versioned, GloballyUnique {
 
     protected static final int UPDATE_USER_LENGTH = 60;
 
@@ -122,6 +125,7 @@ public abstract class KcPersistableBusinessObjectBase extends PersistableBusines
         setUpdateTimestamp(((DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
     }
 
+    @Override
     public Timestamp getUpdateTimestamp() {
         return updateTimestamp;
     }
@@ -130,6 +134,7 @@ public abstract class KcPersistableBusinessObjectBase extends PersistableBusines
         this.updateTimestamp = updateTimestamp;
     }
 
+    @Override
     public String getUpdateUser() {
         return updateUser;
     }

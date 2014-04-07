@@ -326,7 +326,7 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
         RateClassType rateClassType = new RateClassType();
         rateClassType.setRateClassType("O");
         rateClassType.setPrefixActivityType(false);
-        rateClassType.setSortId("1");
+        rateClassType.setSortId(1);
         rateClass.setRateClassType("O");
         rateClass.setRateClassTypeT(rateClassType);
         instituteRate.setRateClass(rateClass);

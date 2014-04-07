@@ -20,12 +20,17 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.depend.SponsorHierarchyService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This abstract class has methods that are common to all the versions of RRSF424 form.
@@ -71,6 +76,34 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
         sponsorHierarchyService = KcServiceLocator.getService(SponsorHierarchyService.class);
         proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
         proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+    }
+
+    /**
+     *
+     * This method is used to get the answer for a particular Questionnaire question
+     * question based on the question id.
+     *
+     * @param questionId
+     *            the question id to be passed.
+     * @return returns the answer for a particular
+     *         question based on the question id passed.
+     */
+    protected String getAnswer(String questionId) {
+        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+        String answer = null;
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeader answerHeader : answerHeaders) {
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for (Answer answers : answerDetails) {
+                    if (answers.getAnswer() != null && questionId.equals(answers.getQuestion().getQuestionId())) {
+                        answer = answers.getAnswer();
+                        return answer;
+                    }
+                }
+            }
+        }
+        return answer;
     }
 
     /**

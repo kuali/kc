@@ -130,12 +130,6 @@
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />
 		</property>
-		<property name="kcPersonService">
-			<ref bean="kcPersonService" />
-		</property>
-        <property name="toBeNamePersonService">
-            <ref bean="toBeNamePersonService" />
-        </property>
         <property name="budgetCategoryMapService">
             <ref bean="budgetCategoryMapService" />
         </property>

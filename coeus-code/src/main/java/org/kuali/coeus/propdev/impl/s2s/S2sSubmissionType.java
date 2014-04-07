@@ -36,7 +36,7 @@ public class S2sSubmissionType extends KcPersistableBusinessObjectBase {
     private String description;
 
     @Column(name = "SORT_ID")
-    private String sortId;
+    private Integer sortId;
 
     public String getS2sSubmissionTypeCode() {
         return s2sSubmissionTypeCode;
@@ -54,11 +54,11 @@ public class S2sSubmissionType extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public String getSortId() {
+    public Integer getSortId() {
         return sortId;
     }
 
-    public void setSortId(String sortId) {
+    public void setSortId(Integer sortId) {
         this.sortId = sortId;
     }
 }

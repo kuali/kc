@@ -202,8 +202,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         else {
             ProposalAdminDetails proposalAdminDetails = proposalAdminDetailsList.get(0);
-            KcPerson person = null;
-            person = this.kcPersonService.getKcPersonByUserName(proposalAdminDetails.getSignedBy());
+            KcPerson person = this.kcPersonService.getKcPersonByUserName(proposalAdminDetails.getSignedBy());
 
             if (person != null) {
                 depPerson.setFirstName(person.getFirstName());
@@ -614,7 +613,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                         KcPerson unitAdmin = null;
                         for (UnitAdministrator admin : leadUnit.getUnitAdministrators()) {
                             if (contactType.equals(admin.getUnitAdministratorTypeCode())) {
-                                unitAdmin = getKcPersonService().getKcPersonByPersonId(admin.getPersonId());
+                                unitAdmin = admin.getPerson();
                                 depPerson.setLastName(unitAdmin.getLastName());
                                 depPerson.setFirstName(unitAdmin.getFirstName());
                                 if (unitAdmin.getMiddleName() != null) {
@@ -639,8 +638,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                             Unit parentUnit = getUnitService().getTopUnit();
                             for (UnitAdministrator parentAdmin : parentUnit.getUnitAdministrators()) {
                                 if (contactType.equals(parentAdmin.getUnitAdministratorTypeCode())) {
-                                    KcPerson parentUnitAdmin = getKcPersonService()
-                                            .getKcPersonByPersonId(parentAdmin.getPersonId());
+                                    KcPerson parentUnitAdmin = parentAdmin.getPerson();
                                     depPerson.setLastName(parentUnitAdmin.getLastName());
                                     depPerson.setFirstName(parentUnitAdmin.getFirstName());
                                     if (parentUnitAdmin.getMiddleName() != null) {

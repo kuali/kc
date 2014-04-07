@@ -22,19 +22,19 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  * 
  * BudgetCategoryType.java
  */
-public class BudgetCategoryType extends KcPersistableBusinessObjectBase implements Comparable {
+public class BudgetCategoryType extends KcPersistableBusinessObjectBase implements Comparable<BudgetCategoryType> {
 
     private String budgetCategoryTypeCode;
 
     private String description;
 
-    private String sortId;
+    private Integer sortId;
 
-    public String getSortId() {
+    public Integer getSortId() {
         return sortId;
     }
 
-    public void setSortId(String sortId) {
+    public void setSortId(Integer sortId) {
         this.sortId = sortId;
     }
 
@@ -74,13 +74,9 @@ public class BudgetCategoryType extends KcPersistableBusinessObjectBase implemen
 
     /**
      * This is for totals page 
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
-    public int compareTo(Object o) {
-        return compareTo((BudgetCategoryType) o);
-    }
-
-    public int compareTo(BudgetCategoryType budgetCategoryType) {
-        return this.sortId.compareTo(budgetCategoryType.sortId);
+    @Override
+    public int compareTo(BudgetCategoryType o) {
+        return this.sortId.compareTo(o.sortId);
     }
 }

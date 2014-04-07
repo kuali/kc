@@ -1,7 +1,7 @@
 package org.kuali.kra.s2s.depend;
 
 import org.apache.commons.collections4.ListUtils;
-import org.kuali.kra.bo.ArgValueLookup;
+import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,7 +18,7 @@ public class ArgValueLookupServiceImpl implements ArgValueLookupService {
 
     @Override
     public List<ArgValueLookup> findAllArgValueLookups() {
-        return ListUtils.emptyIfNull((List < ArgValueLookup >) businessObjectService.findAll(ArgValueLookup.class));
+        return ListUtils.emptyIfNull((List <ArgValueLookup>) businessObjectService.findAll(ArgValueLookup.class));
     }
 
     public BusinessObjectService getBusinessObjectService() {
