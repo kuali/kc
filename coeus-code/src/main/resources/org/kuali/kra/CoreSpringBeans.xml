@@ -80,8 +80,6 @@
             <list>
                 <!--<value>classpath:org/kuali/kra/datadictionary</value>-->
                 <!--<value>classpath:org/kuali/kra/datadictionary/docs</value>-->
-                <value>classpath:org/kuali/coeus/sys/impl/lock/PessimisticLockOverride.xml</value>
-
                 <value>classpath:org/kuali/kra/datadictionary/AbstractType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AccountType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ActivityType.xml</value>

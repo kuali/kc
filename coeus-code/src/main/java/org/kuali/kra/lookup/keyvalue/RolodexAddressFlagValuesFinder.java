@@ -21,16 +21,21 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RolodexAddressFlagValuesFinder extends UifKeyValuesFinderBase {
 
-    @Override
-    public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>(); 
-        keyValues.add(new ConcreteKeyValue(Constants.FALSE_FLAG,"N"));
-        keyValues.add(new ConcreteKeyValue(Constants.TRUE_FLAG,"Y"));
-        return keyValues;
+    private static final List<KeyValue> KEY_VALUES;
+    static {
+        final List<KeyValue> temp = new ArrayList<>();
+        temp.add(new ConcreteKeyValue(Constants.FALSE_FLAG,"N"));
+        temp.add(new ConcreteKeyValue(Constants.TRUE_FLAG,"Y"));
+        KEY_VALUES = Collections.unmodifiableList(temp);
     }
 
+    @Override
+    public List<KeyValue> getKeyValues() {
+        return KEY_VALUES;
+    }
 }

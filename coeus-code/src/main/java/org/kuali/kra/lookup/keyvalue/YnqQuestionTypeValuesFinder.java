@@ -20,18 +20,24 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class YnqQuestionTypeValuesFinder extends UifKeyValuesFinderBase {
 
+    private static final List<KeyValue> KEY_VALUES;
+    static {
+        final List<KeyValue> temp = new ArrayList<>();
+        temp.add(new ConcreteKeyValue("C", "Conflict Of Interest"));
+        temp.add(new ConcreteKeyValue("F", "Financial Entity"));
+        temp.add(new ConcreteKeyValue("I", "Individual"));
+        temp.add(new ConcreteKeyValue("O", "Organization"));
+        temp.add(new ConcreteKeyValue("P", "Proposal"));
+        KEY_VALUES = Collections.unmodifiableList(temp);
+    }
+
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("C", "Conflict Of Interest"));
-        keyValues.add(new ConcreteKeyValue("F", "Financial Entity"));
-        keyValues.add(new ConcreteKeyValue("I", "Individual"));
-        keyValues.add(new ConcreteKeyValue("O", "Organization"));
-        keyValues.add(new ConcreteKeyValue("P", "Proposal"));
-        return keyValues;
+        return KEY_VALUES;
     }
 }

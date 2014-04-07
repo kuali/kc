@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
 
@@ -30,27 +31,31 @@ import java.util.List;
 
 public class CountryCodeValuesFinder extends UifKeyValuesFinderBase {
 
-        private String getDefaultCountryCode() {
-            String postalCountryCode = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(KRADConstants.KNS_NAMESPACE,
-            KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DEFAULT_COUNTRY);
-            return postalCountryCode;
-        }
+    private CountryService countryService;
 
     @Override
     public List<KeyValue> getKeyValues() {
-            CountryService countryService = KcServiceLocator.getService(CountryService.class);
-            List<Country> countries = countryService.findAllCountries();
-            Country defaultCountry = countryService.getCountry(getDefaultCountryCode());;
-            List<KeyValue> keyValues = new ArrayList<KeyValue>();
-            if (defaultCountry != null) keyValues.add(new ConcreteKeyValue(defaultCountry.getAlternateCode(), defaultCountry.getName()));
-            for (Iterator<Country> iter = countries.iterator(); iter.hasNext();) {
-                Country country = (Country) iter.next();
-                keyValues.add(new ConcreteKeyValue(country.getAlternateCode(), country.getName())); 
+            final List<Country> countries = getCountryService().findAllCountries();
+            final Country defaultCountry = getCountryService().getDefaultCountry();
+            final List<KeyValue> keyValues = new ArrayList<KeyValue>();
+            if (defaultCountry != null) {
+                keyValues.add(new ConcreteKeyValue(defaultCountry.getAlternateCode(), defaultCountry.getName()));
+            }
+            for (Country country : countries) {
+                keyValues.add(new ConcreteKeyValue(country.getAlternateCode(), country.getName()));
              }
             return keyValues;
-            
-            
         }
-    
 
+    public CountryService getCountryService() {
+        if (countryService == null) {
+            countryService = KcServiceLocator.getService(CountryService.class);
+        }
+
+        return countryService;
+    }
+
+    public void setCountryService(CountryService countryService) {
+        this.countryService = countryService;
+    }
 }

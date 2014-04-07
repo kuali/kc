@@ -20,15 +20,21 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class YnqQuestionStatusValuesFinder extends UifKeyValuesFinderBase {
 
+    private static final List<KeyValue> KEY_VALUES;
+    static {
+        final List<KeyValue> temp = new ArrayList<>();
+        temp.add(new ConcreteKeyValue("A", "Active"));
+        temp.add(new ConcreteKeyValue("I", "Inactive"));
+        KEY_VALUES = Collections.unmodifiableList(temp);
+    }
+
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("A", "Active"));
-        keyValues.add(new ConcreteKeyValue("I", "Inactive"));
-        return keyValues;
+        return KEY_VALUES;
     }
 }
