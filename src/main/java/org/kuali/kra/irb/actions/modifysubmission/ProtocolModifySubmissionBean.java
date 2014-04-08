@@ -16,9 +16,11 @@
 package org.kuali.kra.irb.actions.modifysubmission;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.submit.*;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 import java.io.Serializable;
 import java.util.List;
@@ -74,9 +76,22 @@ public class ProtocolModifySubmissionBean extends ProtocolActionBean implements 
 
     /**
      * Prepare the Modify Protocol Submission for rendering with JSP.
-     * Leaving this function in place in case it is needed later.
      */
     public void prepareView() {
+        ProtocolSubmissionBase submission = getProtocol().getProtocolSubmission();        
+        if (submission != null) {
+            // whenever submission is not null, we will show the data chosen for the last submission
+            ProtocolForm protocolForm = (ProtocolForm)getActionHelper().getProtocolForm();
+            if (protocolForm.isReinitializeModifySubmissionFields()) {                
+                protocolForm.setReinitializeModifySubmissionFields(false); 
+                
+                submissionTypeCode = submission.getSubmissionTypeCode();
+                protocolReviewTypeCode = submission.getProtocolReviewTypeCode();
+                submissionQualifierTypeCode = submission.getSubmissionTypeQualifierCode();
+                billable = submission.isBillable(); 
+            }
+        }
+        
     }
 
     public String getSubmissionTypeCode() {
