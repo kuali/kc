@@ -1815,8 +1815,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             KraServiceLocator.getService(ProtocolModifySubmissionService.class).modifySubmission(protocolForm.getProtocolDocument(), bean);
             recordProtocolActionSuccess("Modify Submission Request");
         } else {
-            GlobalVariables.getMessageMap().clearErrorMessages();
-            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+            //need to check whether there are existing business rule error messages, do not want to lose them
+            if (GlobalVariables.getMessageMap().getErrorCount() <= 0) {            
+                GlobalVariables.getMessageMap().clearErrorMessages();
+                GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {});
+            }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
