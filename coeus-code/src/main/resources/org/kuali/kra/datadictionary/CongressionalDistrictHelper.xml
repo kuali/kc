@@ -19,10 +19,10 @@
   <bean id="CongressionalDistrictHelper-newState-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
     <property name="name" value="newState" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.CongDistrictStateCodeValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="stateCode" p:labelAttribute="stateCode"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.location.CongDistrictStateCodeValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="stateCode" p:labelAttribute="stateCode"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.CongDistrictStateCodeValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.location.CongDistrictStateCodeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
