@@ -36,8 +36,9 @@ import java.util.List;
  */
 @SuppressWarnings("unchecked")
 public class KeywordsServiceImpl implements KeywordsService {
+	
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeywordsServiceImpl.class);
-
+    
     @Override
     public void addKeyword(KeywordsManager document, ScienceKeyword scienceKeyword) {
         if (!isDuplicateKeyword(scienceKeyword.getScienceKeywordCode(), document.getKeywords())) {
@@ -73,7 +74,7 @@ public class KeywordsServiceImpl implements KeywordsService {
     }
 
     /**
-     * Method to add keywords into keywards list associated with particular BO/Document
+     * Method to add keywords into keywords list associated with particular BO/Document
      * @see org.kuali.coeus.common.framework.keyword.KeywordsService#addKeywords(org.kuali.coeus.common.framework.keyword.KeywordsManager, org.kuali.coeus.sys.framework.model.MultiLookupForm)
      */
     public void addKeywords(KeywordsManager document, MultiLookupForm multiLookUpForm) {
@@ -88,10 +89,9 @@ public class KeywordsServiceImpl implements KeywordsService {
                     Collection<PersistableBusinessObject> rawValues = KNSServiceLocator.getLookupResultsService()
                     .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getPrincipalId());
                     if (lookupResultsBOClass.isAssignableFrom(ScienceKeyword.class)) {
-                        KeywordsService keywordsService = KcServiceLocator.getService(KeywordsService.class);//move this to separate method and give protected access
                         for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                             ScienceKeyword scienceKeyword = (ScienceKeyword) iter.next();
-                            keywordsService.addKeyword(document, scienceKeyword);
+                            addKeyword(document, scienceKeyword);
                         }
                     }
                 }
