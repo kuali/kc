@@ -13,17 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.coeus.propdev.impl.location;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.proposaldevelopment.service.ProposalCountryService;
 import org.kuali.rice.location.api.country.CountryService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+@Component("proposalCountryService")
 public class ProposalCountryServiceImpl implements ProposalCountryService {
 
     private static final Log LOG = LogFactory.getLog(ProposalCountryServiceImpl.class);
 
+    @Autowired
+    @Qualifier("countryService")
     private CountryService countryService;
     
     public String convertAltCountryCodeToRealCountryCode(String currentCountryCode) {

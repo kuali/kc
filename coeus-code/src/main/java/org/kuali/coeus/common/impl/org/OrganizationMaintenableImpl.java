@@ -22,7 +22,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
-import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
+import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;

@@ -17,10 +17,10 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDistrictEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
-import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
+import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
+import org.kuali.coeus.propdev.impl.location.AddProposalCongressionalDistrictEvent;
+import org.kuali.coeus.propdev.impl.location.DeleteProposalCongressionalDistrictEvent;
+import org.kuali.coeus.propdev.impl.location.CongressionalDistrictHelper;
 
 import java.util.regex.Pattern;
 
@@ -32,7 +32,7 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
 
     /**
      * Checks that the site index is valid, and that a valid state code and district number has been entered.
-     * @see org.kuali.kra.proposaldevelopment.rule.AddCongressionalDistrictRule#processAddCongressionalDistrictRules(org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDistrictEvent)
+     * @see org.kuali.coeus.propdev.impl.location.AddCongressionalDistrictRule#processAddCongressionalDistrictRules(org.kuali.coeus.propdev.impl.location.AddProposalCongressionalDistrictEvent)
      */
     public boolean processAddCongressionalDistrictRules(AddProposalCongressionalDistrictEvent addCongressionalDistrictEvent) {
         String siteIndexStr = addCongressionalDistrictEvent.getSiteIndex();

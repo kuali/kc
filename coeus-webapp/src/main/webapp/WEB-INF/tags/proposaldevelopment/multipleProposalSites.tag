@@ -20,9 +20,9 @@
  This tag shows a list of Proposal Sites. If the user has permission to edit a proposal, sites can be added and deleted.
 --%>
 <%@ attribute name="tabTitle" required="true" description="The title string displayed at the top." %>
-<%@ attribute name="proposalSitesList" required="true" type="java.util.List" description="A List of org.kuali.kra.proposaldevelopment.bo.ProposalSite objects to be displayed." %>
+<%@ attribute name="proposalSitesList" required="true" type="java.util.List" description="A List of org.kuali.coeus.propdev.impl.location.ProposalSite objects to be displayed." %>
 <%@ attribute name="proposalSitesListName" required="true" description="The JSP name of proposalSitesList" %>
-<%@ attribute name="newProposalSite" required="true" type="org.kuali.kra.proposaldevelopment.bo.ProposalSite" description="A ProposalSite object for storing a new Proposal Site selected by the user." %>
+<%@ attribute name="newProposalSite" required="true" type="org.kuali.coeus.propdev.impl.location.ProposalSite" description="A ProposalSite object for storing a new Proposal Site selected by the user." %>
 <%@ attribute name="newProposalSiteField" required="true" description="The JSP name of the newProposalSite object" %>
 <%@ attribute name="locationNameEditable" required="false" description="If this is set to false, the location names cannot be edited." %>
 <%@ attribute name="congressionalDistrictHelperList" required="true" description="" %>
@@ -47,7 +47,7 @@
      	  	 <span class="subhead-right"><kul:help parameterNamespace="KC-PD" parameterDetailType="Document" parameterName="proposalDevelopmentperformancesitelocationsHelpUrl" altText="help"/></span>
 			</c:when>
 			<c:otherwise>
-        		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalSite" altText="help"/></span>
+        		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.propdev.impl.location.ProposalSite" altText="help"/></span>
  	    	</c:otherwise>
  	    </c:choose>
 </h3>

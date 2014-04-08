@@ -22,11 +22,11 @@
 <%@ attribute name="showTabTitle" required="true" type="java.lang.Boolean" description="If true, the tabTitle attribute is displayed." %>
 <%@ attribute name="parentTab" required="true" %>
 <%@ attribute name="addTable" required="false" type="java.lang.Boolean" description="If true, the HTML code is wrapped in a HTML table. Otherwise, the tag needs to be called from within a rowspan=2 row." %>
-<%@ attribute name="proposalSiteBo" required="true" type="org.kuali.kra.proposaldevelopment.bo.ProposalSite" description="The BO of type ProposalSite that is to be displayed" %>
+<%@ attribute name="proposalSiteBo" required="true" type="org.kuali.coeus.propdev.impl.location.ProposalSite" description="The BO of type ProposalSite that is to be displayed" %>
 <%@ attribute name="proposalSiteBoName" required="true" description="The JSP name of the ProposalSite BO" %>
 <%@ attribute name="locationNameEditable" required="false" description="If this is set to false, the location name cannot be edited." %>
 <%@ attribute name="addressSelectable" required="false" description="If this is set to true, a lookup icon is shown." %>
-<%@ attribute name="congressionalDistrictHelper" required="true" description="The JSP name of the org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper object to store added values in" %>
+<%@ attribute name="congressionalDistrictHelper" required="true" description="The JSP name of the org.kuali.coeus.propdev.impl.location.CongressionalDistrictHelper object to store added values in" %>
 <%@ attribute name="addDistrictMethodToCall" required="true" description="The method to call when the user clicks the Add button; this method should add a new congressional district" %>
 <%@ attribute name="deleteDistrictMethodToCall" required="true" description="The method to call when the user clicks the Delete button on the congressional district" %>
 <%@ attribute name="clearAddressMethodToCall" required="false" description="The method to call when the user clicks the Clear Address button; this method should delete the proposal site. If this parameter is not present, no Clear Address button is shown." %>
@@ -62,7 +62,7 @@
      	  	 <span class="subhead-right"><kul:help parameterNamespace="KC-PD" parameterDetailType="Document" parameterName="performingOrganizationDocumentHelpUrl" altText="help"/></span>
 			</c:when>
 			<c:otherwise>
-        		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalSite" altText="help"/></span>
+        		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.propdev.impl.location.ProposalSite" altText="help"/></span>
  	    	</c:otherwise>
  	    </c:choose>
     </h3>

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.osedu.org/licenses/ECL-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule;
+package org.kuali.coeus.propdev.impl.location;
 
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDistrictEvent;
+import org.kuali.coeus.propdev.impl.location.AddProposalSiteEvent;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface AddCongressionalDistrictRule extends BusinessRule {
-
+public interface AddProposalSiteRule  extends BusinessRule {
+    
     /**
-     * Rule invoked upon adding a congressional district
+     * Rule invoked upon adding a proposal location to a
      * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
      *
      * @return boolean
      */
-    public boolean processAddCongressionalDistrictRules(AddProposalCongressionalDistrictEvent addCongressionalDistrictEvent);
+    public boolean processAddProposalSiteBusinessRules(AddProposalSiteEvent addProposalLocationEvent);
 }

@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalChangedData" parent="ProposalChangedData-parentBean"/>
   <bean abstract="true" id="ProposalChangedData-parentBean" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.editable.ProposalChangedData"/>
 		<property name="objectLabel" value="Proposal Changed Data"/>
     <property name="inquiryDefinition">
       <ref bean="ProposalChangedData-inquiryDefinition"/>
@@ -70,10 +70,10 @@
       </bean>
     </property>
     <property name="control">
-      <bean p:includeKeyInLabel="false" p:script="updateOtherFields(this, updateOtherFields_Callback)" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalEditableColumnsValuesFinder" parent="SelectControlDefinition"/>
+      <bean p:includeKeyInLabel="false" p:script="updateOtherFields(this, updateOtherFields_Callback)" p:valuesFinderClass="org.kuali.coeus.propdev.impl.editable.ProposalEditableColumnsValuesFinder" parent="SelectControlDefinition"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalEditableColumnsValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.editable.ProposalEditableColumnsValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -252,7 +252,7 @@
 
   <bean id="ProposalChangedData-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Prop Changed Data"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.editable.ProposalChangedData"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -308,7 +308,7 @@
   </bean>
 
   <bean id="ProposalChangedData-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.editable.ProposalChangedData"/>
     <property name="headerText" value="Prop Changed Data Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

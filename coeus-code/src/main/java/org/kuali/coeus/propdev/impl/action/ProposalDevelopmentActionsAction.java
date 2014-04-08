@@ -34,6 +34,8 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
+import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
+import org.kuali.coeus.propdev.impl.editable.ProposalOverview;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
@@ -66,7 +68,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyServ
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.kra.proposaldevelopment.rule.event.BudgetDataOverrideEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
+import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rules.ProposalAttachmentSubmitToSponsorRule;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRejectionRule;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
@@ -780,7 +782,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     /**
      * Is this a valid submission?  
-     * @param proposalDevelopmentDocument
+     * @param proposalDevelopmentForm
      * @return OK, WARNING or ERROR
      */
     private int isValidSubmission(ProposalDevelopmentForm proposalDevelopmentForm) {
