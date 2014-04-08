@@ -328,7 +328,7 @@
        <property name="fiscalYearMonthService" ref="fiscalYearMonthService" />           
     </bean>
     
-    <bean id="keywordsService" class="org.kuali.kra.service.impl.KeywordsServiceImpl" />
+    <bean id="keywordsService" class="org.kuali.coeus.common.impl.keyword.KeywordsServiceImpl" />
     
     <bean id="awardHierarchyService" class="org.kuali.kra.award.awardhierarchy.AwardHierarchyServiceImpl">
         <property name="legacyDataAdapter" ref="legacyDataAdapter" />
