@@ -35,6 +35,7 @@
 
     <context:component-scan base-package="org.kuali.coeus.common.impl.attachment"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl.custom.attr"/>
+    <context:component-scan base-package="org.kuali.coeus.common.impl.keyword"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl.mail"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl.org"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl.person"/>
@@ -1444,9 +1445,7 @@
     <bean id="kcPersonExtendedAttributesLookupableHelperService" class="org.kuali.coeus.common.impl.person.attr.KcPersonExtendedAttributesLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" >
     </bean>
-    
-    <bean id="keywordsService" class="org.kuali.coeus.common.impl.keyword.KeywordsServiceImpl" />
-    
+        
     <bean id="messageOfTheDayService" class="org.kuali.kra.service.impl.MessageOfTheDayServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>

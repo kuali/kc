@@ -21,11 +21,11 @@ import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.keyword.KeywordsService;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.sys.framework.model.MultiLookupForm;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -35,6 +35,7 @@ import java.util.List;
  * This class is the implementation of KeywordsService to handle the requests from keywords panel in general
  */
 @SuppressWarnings("unchecked")
+@Component("keywordsService")
 public class KeywordsServiceImpl implements KeywordsService {
 	
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeywordsServiceImpl.class);
