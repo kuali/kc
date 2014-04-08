@@ -1,8 +1,8 @@
 package org.kuali.kra.test.infrastructure.test;
 
 import org.junit.Test;
+import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

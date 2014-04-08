@@ -16,12 +16,12 @@
 package org.kuali.coeus.common.impl.keyword;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.keyword.AbstractScienceKeyword;
 import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.keyword.KeywordsService;
+import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.sys.framework.model.MultiLookupForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.AbstractScienceKeyword;
-import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;

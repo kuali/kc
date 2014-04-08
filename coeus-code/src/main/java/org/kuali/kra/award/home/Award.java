@@ -17,6 +17,7 @@ package org.kuali.kra.award.home;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.keyword.KeywordsManager;
+import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
@@ -1669,7 +1670,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     /**
      * Add selected science keyword to award science keywords list.
-     * @see org.kuali.coeus.common.framework.keyword.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
+     * @see org.kuali.coeus.common.framework.keyword.KeywordsManager#addKeyword(org.kuali.coeus.common.framework.keyword.ScienceKeyword)
      */
     public void addKeyword(ScienceKeyword scienceKeyword) {
         AwardScienceKeyword awardScienceKeyword = new AwardScienceKeyword(getAwardId(), scienceKeyword);

@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.basic;
 
+import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
@@ -22,7 +23,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
-import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.exception.AuthorizationException;
