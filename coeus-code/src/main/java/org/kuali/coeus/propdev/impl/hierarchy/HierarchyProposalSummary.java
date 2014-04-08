@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.hierarchy.bo;
+package org.kuali.coeus.propdev.impl.hierarchy;
 
 import java.io.Serializable;
 
