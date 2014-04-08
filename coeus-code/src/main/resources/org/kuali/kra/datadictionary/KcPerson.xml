@@ -754,7 +754,7 @@
   <bean id="KcPerson-InquiryView" parent="KcPerson-InquiryView-parentBean"/>
   <bean id="KcPerson-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="KcPerson" />
-    <property name="inquirableClass" value="org.kuali.kra.inquiry.KcPersonInquirableImpl" />
+    <property name="inquirableClass" value="org.kuali.coeus.common.impl.person.KcPersonInquirableImpl" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -833,7 +833,7 @@
   <bean id="KcPerson-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="KcPerson"/>
     <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.person.KcPerson"/>
-    <property name="viewHelperServiceClass" value="org.kuali.kra.inquiry.KcPersonInquirableImpl"/>
+    <property name="viewHelperServiceClass" value="org.kuali.coeus.common.impl.person.KcPersonInquirableImpl"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">

@@ -16,6 +16,7 @@
 package org.kuali.kra.award.home;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
@@ -64,7 +65,6 @@ import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
-import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -1669,7 +1669,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     /**
      * Add selected science keyword to award science keywords list.
-     * @see org.kuali.kra.document.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
+     * @see org.kuali.coeus.common.framework.keyword.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
      */
     public void addKeyword(ScienceKeyword scienceKeyword) {
         AwardScienceKeyword awardScienceKeyword = new AwardScienceKeyword(getAwardId(), scienceKeyword);
@@ -1678,7 +1678,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     /**
      * It returns the ScienceKeyword object from keywords list
-     * @see org.kuali.kra.document.KeywordsManager#getKeyword(int)
+     * @see org.kuali.coeus.common.framework.keyword.KeywordsManager#getKeyword(int)
      */
     public AwardScienceKeyword getKeyword(int index) {
         return getKeywords().get(index);

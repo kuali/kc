@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.keyword;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.keyword.KeywordsManager;
+import org.kuali.coeus.common.framework.keyword.KeywordsService;
 import org.kuali.coeus.sys.framework.model.MultiLookupForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AbstractScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
-import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.KeywordsService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -74,7 +74,7 @@ public class KeywordsServiceImpl implements KeywordsService {
 
     /**
      * Method to add keywords into keywards list associated with particular BO/Document
-     * @see org.kuali.kra.service.KeywordsService#addKeywords(org.kuali.kra.document.KeywordsManager, org.kuali.coeus.sys.framework.model.MultiLookupForm)
+     * @see org.kuali.coeus.common.framework.keyword.KeywordsService#addKeywords(org.kuali.coeus.common.framework.keyword.KeywordsManager, org.kuali.coeus.sys.framework.model.MultiLookupForm)
      */
     public void addKeywords(KeywordsManager document, MultiLookupForm multiLookUpForm) {
         try{
