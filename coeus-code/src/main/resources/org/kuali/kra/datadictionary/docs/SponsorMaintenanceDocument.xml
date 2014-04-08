@@ -4,7 +4,7 @@
 
   <bean id="SponsorMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.Sponsor"/>
-    <property name="maintainableClass" value="org.kuali.kra.bo.SponsorMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.coeus.common.impl.sponsor.SponsorMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="SponsorMaintenanceDocument-EditSponsor"/>
