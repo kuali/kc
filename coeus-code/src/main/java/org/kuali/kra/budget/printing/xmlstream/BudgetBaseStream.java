@@ -2057,7 +2057,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		if (budgetPersRateAndBase != null && isRateAndBaseLASalary(budgetPersRateAndBase)) {
 			categoryCode = CATEGORY_CODE_LA_SALARY;
 		} else if(budgetPersonnelDetails.getCostElementBO()!=null && budgetPersonnelDetails.getCostElementBO().getBudgetCategory()!=null){
-			categoryCode = budgetPersonnelDetails.getCostElementBO().getBudgetCategory().getBudgetCategoryCode();
+			categoryCode = budgetPersonnelDetails.getCostElementBO().getBudgetCategory().getCode();
 		}
 		return categoryCode;
 	}

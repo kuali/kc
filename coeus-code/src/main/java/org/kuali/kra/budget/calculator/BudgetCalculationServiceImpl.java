@@ -635,19 +635,19 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
     protected void calculateNonPersonnelSummaryTotals(Budget budget) {
         for(BudgetCategoryType budgetCategoryType : budget.getObjectCodeListByBudgetCategoryType().keySet()) {
-            if(!StringUtils.equals(budgetCategoryType.getBudgetCategoryTypeCode(), "P")) {
+            if(!StringUtils.equals(budgetCategoryType.getCode(), "P")) {
                 List <ScaleTwoDecimal> nonPersonnelTotals = new ArrayList<ScaleTwoDecimal>();
                 for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
                     nonPersonnelTotals.add(i, ScaleTwoDecimal.ZERO);
                 }
-                budget.getBudgetSummaryTotals().put(budgetCategoryType.getBudgetCategoryTypeCode(), nonPersonnelTotals);
+                budget.getBudgetSummaryTotals().put(budgetCategoryType.getCode(), nonPersonnelTotals);
                 
                 List<CostElement> objectCodes = budget.getObjectCodeListByBudgetCategoryType().get(budgetCategoryType);
                 for(CostElement objectCode : objectCodes) {
                     if (!StringUtils.equalsIgnoreCase(objectCode.getCostElement(), KcServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"))) {
                         List<ScaleTwoDecimal> objectCodePeriodTotals = budget.getObjectCodeTotals().get(objectCode);
                         for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-                            budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).set(budgetPeriod.getBudgetPeriod() - 1, ((ScaleTwoDecimal) (budget.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).get(budgetPeriod.getBudgetPeriod() - 1))).add(objectCodePeriodTotals.get(budgetPeriod.getBudgetPeriod() - 1)));
+                            budget.getBudgetSummaryTotals().get(budgetCategoryType.getCode()).set(budgetPeriod.getBudgetPeriod() - 1, ((ScaleTwoDecimal) (budget.getBudgetSummaryTotals().get(budgetCategoryType.getCode()).get(budgetPeriod.getBudgetPeriod() - 1))).add(objectCodePeriodTotals.get(budgetPeriod.getBudgetPeriod() - 1)));
                         }
                     }
                 }

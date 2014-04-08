@@ -16,10 +16,11 @@
 package org.kuali.kra.budget.core;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.budget.api.category.BudgetCategoryContract;
 
-public class BudgetCategory extends KcPersistableBusinessObjectBase {
+public class BudgetCategory extends KcPersistableBusinessObjectBase implements BudgetCategoryContract {
 
-    private String budgetCategoryCode;
+    private String code;
 
     private String budgetCategoryTypeCode;
 
@@ -27,12 +28,13 @@ public class BudgetCategory extends KcPersistableBusinessObjectBase {
 
     private BudgetCategoryType budgetCategoryType;
 
-    public String getBudgetCategoryCode() {
-        return budgetCategoryCode;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    public void setBudgetCategoryCode(String budgetCategoryCode) {
-        this.budgetCategoryCode = budgetCategoryCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getBudgetCategoryTypeCode() {
@@ -43,6 +45,7 @@ public class BudgetCategory extends KcPersistableBusinessObjectBase {
         this.budgetCategoryTypeCode = budgetCategoryTypeCode;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -51,18 +54,11 @@ public class BudgetCategory extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    /**
-     * Gets the budgetCategoryType attribute. 
-     * @return Returns the budgetCategoryType.
-     */
+    @Override
     public BudgetCategoryType getBudgetCategoryType() {
         return budgetCategoryType;
     }
 
-    /**
-     * Sets the budgetCategoryType attribute value.
-     * @param budgetCategoryType The budgetCategoryType to set.
-     */
     public void setBudgetCategoryType(BudgetCategoryType budgetCategoryType) {
         this.budgetCategoryType = budgetCategoryType;
     }
