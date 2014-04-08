@@ -22,6 +22,8 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
+import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.bo.*;
@@ -543,7 +545,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
     /**
      * If the Lead Unit has changed in the previous {@link Document}, then this method corrects related
-     * properties {@link Organization} and {@link ProposalSite} instances
+     * properties {@link Organization} and {@link org.kuali.coeus.propdev.impl.location.ProposalSite} instances
      *
      * @param doc {@link ProposalDevelopmentDocument} to fix
      */

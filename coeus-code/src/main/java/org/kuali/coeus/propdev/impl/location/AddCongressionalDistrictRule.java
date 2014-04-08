@@ -13,21 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule;
+package org.kuali.coeus.propdev.impl.location;
 
-import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
+import org.kuali.coeus.propdev.impl.location.AddProposalCongressionalDistrictEvent;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * Rule interface for deleting a congressional district from a Proposal Site.
- */
-public interface DeleteCongressionalDistrictRule extends BusinessRule {
+public interface AddCongressionalDistrictRule extends BusinessRule {
 
     /**
-     * Rule invoked upon deleting a congressional district
+     * Rule invoked upon adding a congressional district
      * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
      *
      * @return boolean
      */
-    public boolean processDeleteCongressionalDistrictRules(DeleteProposalCongressionalDistrictEvent deleteCongressionalDistrictEvent);
+    public boolean processAddCongressionalDistrictRules(AddProposalCongressionalDistrictEvent addCongressionalDistrictEvent);
 }

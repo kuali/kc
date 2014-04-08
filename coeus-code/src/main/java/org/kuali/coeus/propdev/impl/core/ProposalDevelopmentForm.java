@@ -64,7 +64,7 @@ import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
+import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
@@ -74,7 +74,7 @@ import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sQue
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
-import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
+import org.kuali.coeus.propdev.impl.location.CongressionalDistrictHelper;
 import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;

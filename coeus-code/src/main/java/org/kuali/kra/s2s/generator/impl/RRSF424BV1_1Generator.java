@@ -22,7 +22,7 @@ import gov.grants.apply.forms.rrsf424SF424BV11.AuthorizedRepresentativeDocument.
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
+import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;

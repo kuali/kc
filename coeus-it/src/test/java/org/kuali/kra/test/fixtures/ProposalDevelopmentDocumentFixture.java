@@ -17,7 +17,7 @@ package org.kuali.kra.test.fixtures;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
+import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Date;

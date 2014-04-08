@@ -29,6 +29,7 @@ import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter;
 import org.kuali.coeus.propdev.impl.editable.ProposalOverview;
+import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
