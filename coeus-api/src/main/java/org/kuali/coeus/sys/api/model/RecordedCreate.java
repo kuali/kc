@@ -12,12 +12,12 @@ public interface RecordedCreate {
      * The date and time of when the object was last inserted
      * @return the date or null if the object is new
      */
-    public Date getCreateTimestamp();
+    Date getCreateTimestamp();
 
     /**
      * The user who last inserted the object
      * @return the user or null if the object is new
      */
-    public String getCreateUser();
+    String getCreateUser();
 
 }
