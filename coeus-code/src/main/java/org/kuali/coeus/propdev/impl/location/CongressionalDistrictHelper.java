@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.form;
+package org.kuali.coeus.propdev.impl.location;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 
 import java.io.Serializable;
 
@@ -24,7 +23,6 @@ import java.io.Serializable;
  * This class stores form data for adding a new congressional district to a Proposal Site.
  */
 public class CongressionalDistrictHelper implements Serializable {
-    private static final long serialVersionUID = 5292755756053197441L;
 
     private String newState;
     private String newDistrictNumber;

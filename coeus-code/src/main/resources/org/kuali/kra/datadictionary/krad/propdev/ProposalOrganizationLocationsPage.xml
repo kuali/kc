@@ -80,7 +80,7 @@
 		id="PropDev-OrganizationLocationsPage-CongressionalDistricts-parentBean"
 		abstract="true" parent="Uif-ListCollectionSubSection"
 		p:additionalCssClasses="col-md-2"
-		p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.location.CongressionalDistrict"
 		p:propertyName="congressionalDistricts" p:renderAddBlankLineButton="true"
 		p:addLinePlacement="BOTTOM">
 		<property name="items">

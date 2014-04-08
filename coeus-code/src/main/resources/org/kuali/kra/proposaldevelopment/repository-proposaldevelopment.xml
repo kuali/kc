@@ -152,7 +152,7 @@
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
         </collection-descriptor>
-        <collection-descriptor name="proposalSites" proxy="false" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalSite" 
+        <collection-descriptor name="proposalSites" proxy="false" element-class-ref="org.kuali.coeus.propdev.impl.location.ProposalSite"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="siteNumber" sort="ASC" />
             <inverse-foreignkey field-ref="proposalNumber"/>
@@ -316,7 +316,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict" table="EPS_PROP_CONG_DISTRICT">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.location.CongressionalDistrict" table="EPS_PROP_CONG_DISTRICT">
         <field-descriptor name="congressionalDistrictId" column="CONG_DISTRICT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_CONG_DISTRICT_ID_KRA" autoincrement="true"/>
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR"/>
         <field-descriptor name="siteNumber" column="SITE_NUMBER" jdbc-type="INTEGER"/>
@@ -597,7 +597,7 @@
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalSite" table="EPS_PROP_SITES">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.location.ProposalSite" table="EPS_PROP_SITES">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="siteNumber" column="SITE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
         <field-descriptor name="locationName" column="LOCATION_NAME" jdbc-type="VARCHAR" nullable="false"/>
@@ -616,7 +616,7 @@
             <foreignkey field-ref="organizationId"/>
         </reference-descriptor>
         
-        <collection-descriptor name="congressionalDistricts" proxy="false" element-class-ref="org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict" 
+        <collection-descriptor name="congressionalDistricts" proxy="false" element-class-ref="org.kuali.coeus.propdev.impl.location.CongressionalDistrict"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="siteNumber" sort="ASC" />
             <inverse-foreignkey field-ref="proposalNumber"/>

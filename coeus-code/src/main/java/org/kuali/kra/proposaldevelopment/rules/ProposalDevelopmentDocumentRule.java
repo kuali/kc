@@ -28,6 +28,7 @@ import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideRule;
 import org.kuali.coeus.propdev.impl.editable.ProposalDevelopmentDataOverrideRule;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
+import org.kuali.coeus.propdev.impl.location.*;
 import org.kuali.coeus.propdev.impl.resubmit.ResubmissionPromptRule;
 import org.kuali.coeus.propdev.impl.resubmit.ResubmissionRuleEvent;
 import org.kuali.coeus.propdev.impl.ynq.ProposalDevelopmentYnqAuditRule;

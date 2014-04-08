@@ -46,6 +46,7 @@
         <value>org.kuali.coeus.propdev.impl.core</value>
         <value>org.kuali.coeus.propdev.impl.editable</value>
         <value>org.kuali.coeus.propdev.impl.keyword</value>
+        <value>org.kuali.coeus.propdev.impl.location</value>
         <value>org.kuali.coeus.propdev.impl.person</value>
         <value>org.kuali.coeus.propdev.impl.s2s</value>
         <value>org.kuali.coeus.propdev.impl.state</value>

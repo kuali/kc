@@ -18,7 +18,7 @@
 <%--
  This tag generates a table row that lets the user add a Proposal Site to a list of Proposal Sites (see the multipleProposalSites tag).
 --%>
-<%@ attribute name="newProposalSite" required="true" type="org.kuali.kra.proposaldevelopment.bo.ProposalSite" description="A ProposalSite object for storing a new Proposal Site selected by the user." %>
+<%@ attribute name="newProposalSite" required="true" type="org.kuali.coeus.propdev.impl.location.ProposalSite" description="A ProposalSite object for storing a new Proposal Site selected by the user." %>
 <%@ attribute name="newProposalSiteField" required="true" description="The JSP name of the newProposalSite object" %>
 <%@ attribute name="locationNameEditable" required="false" description="If this is set to false, the location names cannot be edited." %>
 <%@ attribute name="addMethodToCall" required="true" description="The action method to call when the add button is clicked" %>
