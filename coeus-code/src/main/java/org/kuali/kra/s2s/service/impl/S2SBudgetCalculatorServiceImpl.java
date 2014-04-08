@@ -27,8 +27,6 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetCategoryMap;
-import org.kuali.kra.budget.core.BudgetCategoryMapping;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
@@ -41,7 +39,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.depend.BudgetCategoryMapService;
+import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
+import org.kuali.coeus.budget.api.category.BudgetCategoryMapService;
+import org.kuali.coeus.budget.api.category.BudgetCategoryMappingContract;
 import org.kuali.kra.s2s.depend.BudgetPersonSalaryService;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
@@ -155,7 +155,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                 if (lineItem
                         .getBudgetCategory()
                         .getBudgetCategoryType()
-                        .getBudgetCategoryTypeCode()
+                        .getCode()
                         .equals(budgetCategoryTypePersonnel)) {
                     lineItemCost = lineItemCost.add(lineItem.getLineItemCost());
                     if (canBudgetLineItemCostSharingInclude(budget, lineItem)) {
@@ -184,7 +184,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                         if (lineItem
                                 .getBudgetCategory()
                                 .getBudgetCategoryType()
-                                .getBudgetCategoryTypeCode()
+                                .getCode()
                                 .equals(budgetCategoryTypePersonnel)) {
                             fringeCost = fringeCost.add(lineItemCalAmt.getCalculatedCost());
                             if (canBudgetLineItemCostSharingInclude(budget, lineItem)) {
@@ -780,9 +780,9 @@ public class S2SBudgetCalculatorServiceImpl implements
         }
         else{
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                List<BudgetCategoryMapping> budgetCategoryList = budgetCategoryMapService.findCatMappingByTargetAndMappingName(category, S2SConstants.SPONSOR);
+                List<? extends BudgetCategoryMappingContract> budgetCategoryList = budgetCategoryMapService.findCatMappingByTargetAndMappingName(category, S2SConstants.SPONSOR);
 
-                for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
+                for (BudgetCategoryMappingContract categoryMapping : budgetCategoryList) {
                     if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode())) {
                         List<BudgetPersonnelDetails> lineItemPersonDetails = lineItem.getBudgetPersonnelDetailsList();
                         boolean personExist = !lineItemPersonDetails.isEmpty();
@@ -1082,13 +1082,13 @@ public class S2SBudgetCalculatorServiceImpl implements
         List<String> filterCategoryTypes = new ArrayList<String>();
         filterCategoryTypes.add(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 Constants.S2SBUDGET_FILTER_CATEGORY_TYPE_PERSONNEL));
-        List<BudgetCategoryMap> budgetCategoryMapList = getBudgetCategoryMapList(filterTargetCategoryCodes, filterCategoryTypes);
+        List<? extends BudgetCategoryMapContract> budgetCategoryMapList = getBudgetCategoryMapList(filterTargetCategoryCodes, filterCategoryTypes);
 
         boolean recordAdded;
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-            for (BudgetCategoryMap budgetCategoryMap : budgetCategoryMapList) {
+            for (BudgetCategoryMapContract budgetCategoryMap : budgetCategoryMapList) {
                 recordAdded = false;
-                for (BudgetCategoryMapping budgetCategoryMapping : budgetCategoryMap.getBudgetCategoryMappings()) {
+                for (BudgetCategoryMappingContract budgetCategoryMapping : budgetCategoryMap.getBudgetCategoryMappings()) {
                     if (lineItem.getBudgetCategoryCode().equals(budgetCategoryMapping.getBudgetCategoryCode())) {
                         CostInfo costInfo = new CostInfo();
                         costInfo.setBudgetPeriod(budgetPeriod.getBudgetPeriod().intValue());
@@ -1407,14 +1407,14 @@ public class S2SBudgetCalculatorServiceImpl implements
      * @return a List of BudgetCategoryMap.
      * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetCategoryMapList(java.util.List, java.util.List)
      */
-    public List<BudgetCategoryMap> getBudgetCategoryMapList(List<String> filterTargetCategoryCodes, List<String> filterCategoryTypes) {
-        List<BudgetCategoryMapping> budgetCategoryMappingList;
-        List<BudgetCategoryMap> budgetCategoryMapList = new ArrayList<BudgetCategoryMap>();
+    public List<? extends BudgetCategoryMapContract> getBudgetCategoryMapList(List<String> filterTargetCategoryCodes, List<String> filterCategoryTypes) {
+        List<? extends BudgetCategoryMappingContract> budgetCategoryMappingList;
+        List<BudgetCategoryMapContract> budgetCategoryMapList = new ArrayList<BudgetCategoryMapContract>();
         budgetCategoryMappingList = budgetCategoryMapService.findCatMappingByMappingName(S2SConstants.SPONSOR);
 
         boolean targetMatched;
         boolean duplicateExists;
-        for (BudgetCategoryMapping categoryMapping : budgetCategoryMappingList) {
+        for (BudgetCategoryMappingContract categoryMapping : budgetCategoryMappingList) {
             targetMatched = true;
             // Apply mapping list filtering only if targetCategoryCodes size>0
             if (filterTargetCategoryCodes.size() > 0) {
@@ -1427,24 +1427,15 @@ public class S2SBudgetCalculatorServiceImpl implements
             }
 
             if (targetMatched) {
-                Iterator<BudgetCategoryMap> filterList = budgetCategoryMapService.findCatMapByTargetAndMappingName(
+                Iterator<? extends BudgetCategoryMapContract> filterList = budgetCategoryMapService.findCatMapByTargetAndMappingName(
                         categoryMapping.getTargetCategoryCode(), categoryMapping.getMappingName()).iterator();
 
                 while (filterList.hasNext()) {
-                    BudgetCategoryMap filterMap = filterList.next();
-
-                    // The database defines category type as CHAR(200), causing
-                    // spaces to be appended
-                    // to the category name. Trim this. Can be removed if the db
-                    // is chaged to VARCHAR
-                    filterMap.setCategoryType(filterMap.getCategoryType().trim());
-
-                    // Apply categoryType filtering only if filterCategorytypes
-                    // size>0
+                    BudgetCategoryMapContract filterMap = filterList.next();
                     targetMatched = true;
                     if (filterCategoryTypes.size() > 0) {
                         for (String categoryType : filterCategoryTypes) {
-                            if (filterMap.getCategoryType().equals(categoryType)) {
+                            if (filterMap.getCategoryType().trim().equals(categoryType.trim())) {
                                 targetMatched = false;
                                 break;
                             }
@@ -1454,7 +1445,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                     if (targetMatched) {
                         // Avoid adding duplicates to list
                         duplicateExists = false;
-                        for (BudgetCategoryMap map : budgetCategoryMapList) {
+                        for (BudgetCategoryMapContract map : budgetCategoryMapList) {
                             if (filterMap.getTargetCategoryCode().equals(map.getTargetCategoryCode())) {
                                 duplicateExists = true;
                                 break;
@@ -1480,7 +1471,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     protected List<EquipmentInfo> getEquipment(BudgetPeriod budgetPeriod) {
         List<CostInfo> cvExtraEquipment = new ArrayList<CostInfo>();
         CostInfo equipCostInfo;
-        List<BudgetCategoryMap> budgetCategoryMapList = getBudgetCategoryMapList(new ArrayList<String>(), new ArrayList<String>());
+        List<? extends BudgetCategoryMapContract> budgetCategoryMapList = getBudgetCategoryMapList(new ArrayList<String>(), new ArrayList<String>());
 
         ScaleTwoDecimal totalEquipFund = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal totalExtraEquipFund = ScaleTwoDecimal.ZERO;
@@ -1489,9 +1480,9 @@ public class S2SBudgetCalculatorServiceImpl implements
         Map<String, CostInfo> costInfoMap = new HashMap<String, CostInfo>();
         List<CostInfo> costInfos = new ArrayList<CostInfo>();
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-            for (BudgetCategoryMap budgetCategoryMap : budgetCategoryMapList) {
+            for (BudgetCategoryMapContract budgetCategoryMap : budgetCategoryMapList) {
                 equipCostInfo = new CostInfo();
-                for (BudgetCategoryMapping budgetCategoryMapping : budgetCategoryMap.getBudgetCategoryMappings()) {
+                for (BudgetCategoryMappingContract budgetCategoryMapping : budgetCategoryMap.getBudgetCategoryMappings()) {
                     if (lineItem.getBudgetCategoryCode().equals(budgetCategoryMapping.getBudgetCategoryCode())
                             && (budgetCategoryMapping.getTargetCategoryCode().equals( getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                     Constants.S2SBUDGET_TARGET_CATEGORY_CODE_EQUIPMENT_COST)))
@@ -1636,7 +1627,7 @@ public class S2SBudgetCalculatorServiceImpl implements
         }
 
         boolean personAlreadyAdded = false;
-        List<BudgetCategoryMapping> budgetCategoryList = budgetCategoryMapService.findCatMappingByTargetAndMappingName(TARGET_CATEGORY_CODE_01, S2SConstants.SPONSOR);
+        List<? extends BudgetCategoryMappingContract> budgetCategoryList = budgetCategoryMapService.findCatMappingByTargetAndMappingName(TARGET_CATEGORY_CODE_01, S2SConstants.SPONSOR);
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 personAlreadyAdded = false;
@@ -1773,9 +1764,9 @@ public class S2SBudgetCalculatorServiceImpl implements
         return KEYPERSON_OTHER;
     }
 
-    private boolean isSeniorLineItem(List<BudgetCategoryMapping> budgetCategoryList, String budgetCategoryCode) {
+    private boolean isSeniorLineItem(List<? extends BudgetCategoryMappingContract> budgetCategoryList, String budgetCategoryCode) {
         boolean isSeniorLineItem = false;
-        for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
+        for (BudgetCategoryMappingContract categoryMapping : budgetCategoryList) {
             if (categoryMapping.getBudgetCategoryCode().equals(budgetCategoryCode)) {
                 isSeniorLineItem = true;
             }
@@ -1848,7 +1839,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                     else {
                         if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
                             if (lineItem.getBudgetCategory()
-                                    .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
+                                    .getCode().equals(budgetCatagoryCodePersonnel)) {
                                 if (lineItem.getSubmitCostSharingFlag()) {
                                     calendarMonths = calendarMonths.add(personDetails.getPercentEffort().bigDecimalValue().multiply(numberOfMonths)
                                             .multiply(POINT_ZERO_ONE));
@@ -1870,7 +1861,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                     }
                     if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
                         if(lineItem.getBudgetCategory()
-                                .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)){
+                                .getCode().equals(budgetCatagoryCodePersonnel)){
                                     totalSal = totalSal.add(personDetails.getSalaryRequested());
                                 }
                     }else{
@@ -1879,7 +1870,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                     if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
                         if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
                             if(lineItem.getBudgetCategory()
-                                    .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)){
+                                    .getCode().equals(budgetCatagoryCodePersonnel)){
                         totalSalCostSharing = totalSalCostSharing.add(personDetails.getCostSharingAmount());
                             }
                         }else{
@@ -1906,7 +1897,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                         Constants.S2SBUDGET_RATE_TYPE_ADMINISTRATIVE_SALARIES)))) {
                             if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
                                 if(lineItem.getBudgetCategory()
-                                        .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)){
+                                        .getCode().equals(budgetCatagoryCodePersonnel)){
                                     fringe = fringe.add(personCalculatedAmt.getCalculatedCost());
                                 }
                             }
@@ -1916,7 +1907,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                             if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
                                 if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
                                     if(lineItem.getBudgetCategory()
-                                            .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)){
+                                            .getCode().equals(budgetCatagoryCodePersonnel)){
                                         fringeCostSharing = fringeCostSharing.add(personCalculatedAmt.getCalculatedCostSharing());
                                     }
                                 }

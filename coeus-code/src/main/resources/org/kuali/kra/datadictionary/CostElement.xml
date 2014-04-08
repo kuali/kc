@@ -24,23 +24,6 @@
         <ref bean="CostElement-active"/>
       </list>
     </property>
-    <property name="relationships" >
-      <list>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="budgetCategory" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="budgetCategoryCode" p:targetName="budgetCategoryCode"/>
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="budgetCategory.description" p:targetName="description"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
   </bean>
 
 <!-- Attribute Definitions -->

@@ -51,7 +51,7 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
 
         for (CostElement costElement : costElements) {
             for(BudgetCategory budgetCategory : budgetCategoryCodes){
-                if (costElement.getBudgetCategoryCode().equalsIgnoreCase(budgetCategory.getBudgetCategoryCode())){
+                if (costElement.getBudgetCategoryCode().equalsIgnoreCase(budgetCategory.getCode())){
                     if (StringUtils.equalsIgnoreCase(budgetCategory.getBudgetCategoryTypeCode(),getBudgetCategoryTypeCode())){
                         if (costElement.isActive()) {
                             keyValues.add(new ConcreteKeyValue(costElement.getCostElement(), costElement.getDescription()));
