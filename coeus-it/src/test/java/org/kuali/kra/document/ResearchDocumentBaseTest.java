@@ -25,7 +25,9 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -49,7 +51,7 @@ public class ResearchDocumentBaseTest extends KcIntegrationTestBase {
         KcTransactionalDocumentBase researchDocumentBase = (KcTransactionalDocumentBase) KcServiceLocator.getService(DocumentService.class).getNewDocument(ProposalDevelopmentDocument.class);
         assertNull(researchDocumentBase.getUpdateTimestamp());
         assertNull(researchDocumentBase.getUpdateUser());
-        researchDocumentBase.prepareForSave();
+        prePersist(researchDocumentBase);
 
         assertEquals("quickstart", researchDocumentBase.getUpdateUser());
         Timestamp updateTimestamp = researchDocumentBase.getUpdateTimestamp();
@@ -67,7 +69,7 @@ public class ResearchDocumentBaseTest extends KcIntegrationTestBase {
         KcTransactionalDocumentBase researchDocumentBase = (KcTransactionalDocumentBase) KcServiceLocator.getService(DocumentService.class).getNewDocument(ProposalDevelopmentDocument.class);
         assertNull(researchDocumentBase.getUpdateTimestamp());
         assertNull(researchDocumentBase.getUpdateUser());
-        researchDocumentBase.prepareForSave();
+        prePersist(researchDocumentBase);
 
         assertEquals("jtester", researchDocumentBase.getUpdateUser());
         Timestamp updateTimestamp = researchDocumentBase.getUpdateTimestamp();
@@ -79,4 +81,9 @@ public class ResearchDocumentBaseTest extends KcIntegrationTestBase {
         assertTrue("Should be less than one second difference between dates", diff < 1000);
     }
 
+    private void prePersist(KcTransactionalDocumentBase o) {
+        final Method prePersist  = ReflectionUtils.findMethod(o.getClass(), "prePersist");
+        prePersist.setAccessible(true);
+        ReflectionUtils.invokeMethod(prePersist, o);
+    }
 }
