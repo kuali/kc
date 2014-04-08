@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalColumnsToAlter" parent="ProposalColumnsToAlter-parentBean" />
   <bean id="ProposalColumnsToAlter-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter" />
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter" />
 		<property name="objectLabel" value="Proposal Columns To Alter" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalColumnsToAlter-inquiryDefinition" />
@@ -40,10 +40,10 @@
       <bean parent="AnyCharacterPatternConstraint"/>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalColumnsValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.editable.ProposalColumnsValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalColumnsValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.editable.ProposalColumnsValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -114,10 +114,10 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalEditableFieldDataTypeValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.editable.ProposalEditableFieldDataTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalEditableFieldDataTypeValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.editable.ProposalEditableFieldDataTypeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -217,7 +217,7 @@
 
   <bean id="ProposalColumnsToAlter-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Prop Columns To Alter"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -277,7 +277,7 @@
   </bean>
 
   <bean id="ProposalColumnsToAlter-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter"/>
     <property name="headerText" value="Proposal Columns To Alter Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

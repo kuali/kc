@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.editable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
@@ -23,10 +23,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
-import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
-import org.kuali.kra.proposaldevelopment.rule.ProposalDataOverrideRule;
-import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -98,9 +94,9 @@ public class ProposalDevelopmentDataOverrideRule extends KcTransactionalDocument
     /**
      * 
      * This method is to validate the format/length of custom attribute
-     * @param customAttribute
-     * @param errorKey
-     * @return
+     * @param proposalOverriddenData
+     * @param dataDictionaryService
+     * @return boolean
      */
     private boolean validateAttributeFormat(ProposalChangedData proposalOverriddenData, DataDictionaryService dataDictionaryService) {
         ProposalDevelopmentService proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
