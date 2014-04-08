@@ -63,9 +63,9 @@
         <value>org.kuali.kra.proposaldevelopment.specialreview</value>
         <value>org.kuali.kra.budget.rates</value>
         <value>org.kuali.kra.document</value>
-        <value>org.kuali.coeus.propdev.impl.s2s</value>
         <value>org.kuali.coeus.common.specialreview.impl.bo</value>
         <value>org.kuali.coeus.common.framework.custom</value>
+        <value>org.kuali.coeus.common.framework.keyword</value>
         <value>org.kuali.coeus.common.framework.org</value>
         <value>org.kuali.coeus.common.framework.person</value>
         <value>org.kuali.coeus.common.framework.type</value>

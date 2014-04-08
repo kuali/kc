@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.home;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.keyword.KeywordsManager;
+import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
@@ -1375,7 +1376,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     /**
      * Add selected science keyword to award science keywords list.
-     * @see org.kuali.coeus.common.framework.keyword.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
+     * @see org.kuali.coeus.common.framework.keyword.KeywordsManager#addKeyword(org.kuali.coeus.common.framework.keyword.ScienceKeyword)
      */
     public void addKeyword(ScienceKeyword scienceKeyword) {
         InstitutionalProposalScienceKeyword institutionalProposalScienceKeyword = new InstitutionalProposalScienceKeyword(this,
