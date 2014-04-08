@@ -3,7 +3,7 @@
   <bean id="PropChangedDataMaintenanceDocument" parent="PropChangedDataMaintenanceDocument-parentBean"/>
 
   <bean id="PropChangedDataMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.editable.ProposalChangedData"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
