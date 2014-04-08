@@ -16,21 +16,12 @@
 package org.kuali.coeus.sys.framework.model;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.coeus.sys.api.model.GloballyUnique;
-import org.kuali.coeus.sys.api.model.RecordedUpdate;
-import org.kuali.coeus.sys.api.model.Versioned;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.krad.data.jpa.DisableVersioning;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.service.PersistenceStructureService;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -42,12 +33,7 @@ import java.util.List;
 
 @DisableVersioning
 @MappedSuperclass
-public abstract class KcPersistableBusinessObjectBase extends PersistableBusinessObjectBase implements RecordedUpdate, Versioned, GloballyUnique {
-
-    protected static final int UPDATE_USER_LENGTH = 60;
-
-    @Transient
-    private transient IdentityService identityService;
+public abstract class KcPersistableBusinessObjectBase extends PersistableBusinessObjectBase implements KcDataObject {
 
     @Column(name = "UPDATE_USER")
     private String updateUser;
@@ -61,11 +47,20 @@ public abstract class KcPersistableBusinessObjectBase extends PersistableBusines
     @Transient
     private transient PersistableBusinessObjectExtension temporaryExtension;
 
+    @Transient
+    private transient KcDataObjectService kcDataObjectService;
+
+    @Transient
+    private transient PersistenceStructureService persistenceStructureService;
+
     @Override
     protected void prePersist() {
+        getKcDataObjectService().initVersionNumberForPersist(this);
+        getKcDataObjectService().initUpdateFieldsForPersist(this);
+        getKcDataObjectService().initObjectIdForPersist(this);
+
         super.prePersist();
-        this.setVersionNumber(new Long(0));
-        setUpdateFields();
+
         if (extension != null) {
             temporaryExtension = extension;
             extension = null;
@@ -73,10 +68,10 @@ public abstract class KcPersistableBusinessObjectBase extends PersistableBusines
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected void postPersist() {
         if (temporaryExtension != null) {
-            List<String> fieldNames = KNSServiceLocator.getPersistenceStructureService().listPrimaryKeyFieldNames(getClass());
+            @SuppressWarnings("unchecked")
+            final List<String> fieldNames = getPersistenceStructureService().listPrimaryKeyFieldNames(getClass());
             try {
                 for (String fieldName : fieldNames) {
                     try {
@@ -100,29 +95,11 @@ public abstract class KcPersistableBusinessObjectBase extends PersistableBusines
 
     @Override
     protected void preUpdate() {
+        getKcDataObjectService().initObjectIdForUpdate(this);
+        getKcDataObjectService().initVersionNumberForUpdate(this);
+        getKcDataObjectService().initUpdateFieldsForUpdate(this);
+
         super.preUpdate();
-        // Optimistic Locking has been disabled so adding null check and setting version number to 0                                                                         
-        // If we ever turn Optimistic Locking back on, we need to remove this code                                                                         
-        if (this.getVersionNumber() == null) {
-            this.setVersionNumber(new Long(0));
-        }
-        setUpdateFields();
-    }
-
-    /**
-     * Set updateTimestamp and updateUser prior to persistence
-     */
-    private void setUpdateFields() {
-        if (!isUpdateUserSet()) {
-            String principalName = GlobalVariables.getUserSession().getPrincipalName();
-            String lastPrincipalId = (String) GlobalVariables.getUserSession().retrieveObject(Constants.LAST_ACTION_PRINCIPAL_ID);
-            if (StringUtils.isNotBlank(lastPrincipalId)) {
-                principalName = getIdentityService().getPrincipal(lastPrincipalId).getPrincipalName();
-            }
-
-            setUpdateUser(principalName);
-        }
-        setUpdateTimestamp(((DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
     }
 
     @Override
@@ -130,6 +107,7 @@ public abstract class KcPersistableBusinessObjectBase extends PersistableBusines
         return updateTimestamp;
     }
 
+    @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
     }
@@ -139,41 +117,40 @@ public abstract class KcPersistableBusinessObjectBase extends PersistableBusines
         return updateUser;
     }
 
-    /**
-     * Sets the update user, making sure it is not the system user and truncating the name so it will fit.
-     *
-     * @param updateUser the user who updated this object
-     */
+    @Override
     public void setUpdateUser(String updateUser) {
-        if (!KRADConstants.SYSTEM_USER.equals(updateUser)) {
-            this.updateUser = StringUtils.substring(updateUser, 0, UPDATE_USER_LENGTH);
-        }
+        this.updateUser = updateUser;
     }
 
-    /**
-     * Gets the updateUserSet attribute.
-     * @return Returns the updateUserSet.
-     */
+    @Override
     public boolean isUpdateUserSet() {
         return updateUserSet;
     }
 
-    /**
-     * Sets the updateUserSet attribute value.
-     * @param updateUserSet The updateUserSet to set.
-     */
+    @Override
     public void setUpdateUserSet(boolean updateUserSet) {
         this.updateUserSet = updateUserSet;
     }
 
-    /**
-     * Looks up and returns the IdentityService.
-     * @return the identity service.
-     */
-    private IdentityService getIdentityService() {
-        if (this.identityService == null) {
-            this.identityService = KcServiceLocator.getService(IdentityService.class);
+    KcDataObjectService getKcDataObjectService() {
+        if (this.kcDataObjectService == null) {
+            this.kcDataObjectService = KcServiceLocator.getService(KcDataObjectService.class);
         }
-        return this.identityService;
+        return this.kcDataObjectService;
+    }
+
+    PersistenceStructureService getPersistenceStructureService() {
+        if (this.persistenceStructureService == null) {
+            this.persistenceStructureService = KcServiceLocator.getService(PersistenceStructureService.class);
+        }
+        return this.persistenceStructureService;
+    }
+
+    void setKcDataObjectService(KcDataObjectService kcDataObjectService) {
+        this.kcDataObjectService = kcDataObjectService;
+    }
+
+    void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 }
