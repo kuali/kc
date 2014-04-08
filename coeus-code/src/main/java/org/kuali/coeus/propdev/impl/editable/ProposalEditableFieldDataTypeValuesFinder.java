@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.osedu.org/licenses/ECL-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,32 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
+package org.kuali.coeus.propdev.impl.editable;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
-import org.kuali.rice.location.framework.state.StateValuesFinder;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CongDistrictStateCodeValuesFinder extends UifKeyValuesFinderBase {
-
-    private String countryCode = "";
+public class ProposalEditableFieldDataTypeValuesFinder extends UifKeyValuesFinderBase {
 
     @Override
     public List<KeyValue> getKeyValues() {
-        StateValuesFinder svf = new StateValuesFinder();
-        svf.setCountryCode(countryCode);
-
-        List<KeyValue> labels = svf.getKeyValues();
-        labels.add(1, new ConcreteKeyValue("US", "US"));
-        labels.add(2, new ConcreteKeyValue("00", "00"));
-        
-        return labels;
-    }
-
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("STRING", "String"));
+        keyValues.add(new ConcreteKeyValue("DATE", "Date"));
+        keyValues.add(new ConcreteKeyValue("NUMBER", "Number"));
+        return keyValues;
     }
 }

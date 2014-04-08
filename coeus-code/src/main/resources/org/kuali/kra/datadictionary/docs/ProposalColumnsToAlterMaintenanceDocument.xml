@@ -3,7 +3,7 @@
   <bean id="ProposalColumnsToAlterMaintenanceDocument" parent="ProposalColumnsToAlterMaintenanceDocument-parentBean"/>
 
   <bean id="ProposalColumnsToAlterMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter"/>
     <property name="maintainableClass" value="org.kuali.kra.proposaldevelopment.document.ProposalColumnsToAlterMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -14,7 +14,9 @@
       <list>
         <value>columnName</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
+	
     
     
     

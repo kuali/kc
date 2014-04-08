@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule;
+package org.kuali.coeus.propdev.impl.editable;
 
-import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
+import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**

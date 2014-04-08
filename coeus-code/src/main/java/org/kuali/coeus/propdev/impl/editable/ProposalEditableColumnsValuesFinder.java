@@ -13,23 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
+package org.kuali.coeus.propdev.impl.editable;
 
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
-import java.util.ArrayList;
 import java.util.List;
+/**
+ * Finds the set of editable Proposal Fields.  See
+ * the method <code>getKeyValues()</code> for a full description.
+ * 
+ * @author KRADEV team
+ */
 
-public class ProposalEditableFieldDataTypeValuesFinder extends UifKeyValuesFinderBase {
+public class ProposalEditableColumnsValuesFinder extends UifKeyValuesFinderBase {
+    KeyValueFinderService keyValueFinderService= (KeyValueFinderService) KcServiceLocator.getService("keyValueFinderService");
 
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("STRING", "String"));
-        keyValues.add(new ConcreteKeyValue("DATE", "Date"));
-        keyValues.add(new ConcreteKeyValue("NUMBER", "Number"));
-        return keyValues;
+        return keyValueFinderService.getKeyValues(ProposalColumnsToAlter.class, "columnName", "columnLabel");
     }
 }

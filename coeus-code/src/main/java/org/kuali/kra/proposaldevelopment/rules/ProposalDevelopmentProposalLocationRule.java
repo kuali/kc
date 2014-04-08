@@ -18,10 +18,10 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
-import org.kuali.kra.proposaldevelopment.rule.AddProposalSiteRule;
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
+import org.kuali.coeus.propdev.impl.location.ProposalSite;
+import org.kuali.coeus.propdev.impl.location.AddProposalSiteRule;
+import org.kuali.coeus.propdev.impl.location.AddProposalSiteEvent;
+import org.kuali.coeus.propdev.impl.location.SaveProposalSitesEvent;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
@@ -33,7 +33,7 @@ public class ProposalDevelopmentProposalLocationRule extends KcTransactionalDocu
 
     /**
      * This method validates location names + organizations when a Proposal Site is added.
-     * @see org.kuali.kra.proposaldevelopment.rule.AddProposalSiteRule#processAddProposalSiteBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent)
+     * @see org.kuali.coeus.propdev.impl.location.AddProposalSiteRule#processAddProposalSiteBusinessRules(org.kuali.coeus.propdev.impl.location.AddProposalSiteEvent)
      * @param addProposalSiteEvent
      * @return
      */

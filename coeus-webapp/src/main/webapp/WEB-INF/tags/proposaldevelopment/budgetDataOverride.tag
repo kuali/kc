@@ -135,7 +135,7 @@
 	        <br>
 	        <h3>
 	    		<span class="subhead-left">Budget Change History</span>
-	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" altText="help"/></span>
+	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.propdev.impl.editable.ProposalChangedData" altText="help"/></span>
 	        </h3>
 	        
 		    <table cellpadding=0 cellspacing=0 summary="">

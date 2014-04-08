@@ -17,7 +17,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.rule.event.BasicProposalSiteEvent;
+import org.kuali.coeus.propdev.impl.location.BasicProposalSiteEvent;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 
 /**

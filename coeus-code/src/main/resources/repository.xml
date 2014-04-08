@@ -442,7 +442,7 @@
     	</reference-descriptor>
 	</class-descriptor>
 	
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalLocationType" table="LOCATION_TYPE">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.location.ProposalLocationType" table="LOCATION_TYPE">
         <field-descriptor name="locationTypeCode" column="LOCATION_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
         <field-descriptor name="locationTypeDesc" column="LOCATION_TYPE_DESC" jdbc-type="VARCHAR" nullable="false"/>
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>

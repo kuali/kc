@@ -32,7 +32,7 @@
 	 <kra:section permission="alterProposalData">  
     	<h3>
     		<span class="subhead-left">Proposal Data Override</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.propdev.impl.editable.ProposalChangedData" altText="help"/></span>
         </h3>
         
         
@@ -127,7 +127,7 @@
 	        <br>
 	        <h3>
 	    		<span class="subhead-left">Proposal Change History</span>
-	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" altText="help"/></span>
+	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.propdev.impl.editable.ProposalChangedData" altText="help"/></span>
 	        </h3>
 	        
 		    <table cellpadding=0 cellspacing=0 summary="">
