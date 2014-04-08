@@ -1234,7 +1234,7 @@
     
     <bean id="awardTemplateReportTermService" class="org.kuali.kra.award.service.impl.AwardTemplateReportTermServiceImpl" />
     
-    <bean id="citizenshipTypeService" class="org.kuali.kra.service.impl.CitizenshipTypeServiceImpl" />
+    <bean id="citizenshipTypeService" class="org.kuali.coeus.common.impl.person.attr.CitizenshipTypeServiceImpl" />
 
     <bean id="coiMessagesService" class="org.kuali.kra.coi.service.impl.CoiMessagesServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
