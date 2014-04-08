@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.home.keywords;
 
+import org.kuali.coeus.common.framework.keyword.AbstractScienceKeyword;
+import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.AbstractScienceKeyword;
-import org.kuali.kra.bo.ScienceKeyword;
 
 /**
  * 

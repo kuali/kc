@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.framework.keyword;
 
-import org.kuali.kra.bo.ScienceKeyword;
 
 import java.util.List;
 

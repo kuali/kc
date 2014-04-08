@@ -16,7 +16,6 @@
 package org.kuali.coeus.common.framework.keyword;
 
 import org.kuali.coeus.sys.framework.model.MultiLookupForm;
-import org.kuali.kra.bo.ScienceKeyword;
 
 /**
  * This service is to handle the requests from Keywords panel
