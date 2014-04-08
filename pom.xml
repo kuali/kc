@@ -52,7 +52,7 @@
                     <include>web.xml</include>
                 </includes>
                 <filtering>true</filtering>
-				<!-- <targetPath>${project.build.directory}</targetPath> -->
+				<targetPath>${project.build.directory}</targetPath>
             </resource>
         </resources>
         <testResources>
