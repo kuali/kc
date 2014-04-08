@@ -1,20 +1,4 @@
 var Kc = Kc || {};
-Kc.PropDev = Kc.PropDev || {};
-Kc.PropDev.updateSponsorName = function(sponsorCode, nameSelector) {
-	jQuery.getJSON(window.location.pathname, 
-			{'sponsorCode': sponsorCode, 'methodToCall': 'getSponsor'}, 
-			function(json) {
-				var sponsorName = null;
-				if (json !== null) {
-					sponsorName = json['sponsorName'];
-				}
-				jQuery(nameSelector).html(sponsorName);
-			});
-};
-Kc.PropDev.sponsorSuggestSelect = function(event, ui) {
-	jQuery(event.target).val(ui.item.value);
-	jQuery(event.target).parents('.uif-inputField:first').find('.informationalText').html(ui.item.sponsorName);
-};
 Kc.PropDev.Personnel = Kc.PropDev.Personnel || {};
 (function(namespace, $) {
 	namespace.unselectCollectionRadioButtons = function(selectedRadio, otherRadioSelector) {
