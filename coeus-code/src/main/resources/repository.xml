@@ -184,7 +184,7 @@
             <inverse-foreignkey field-ref="personId"/>
         </collection-descriptor>
 		
-		<reference-descriptor name="citizenshipType" class-ref="org.kuali.kra.bo.CitizenshipType" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<reference-descriptor name="citizenshipType" class-ref="org.kuali.coeus.common.framework.person.attr.CitizenshipType" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<foreignkey field-ref="citizenshipTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -1301,7 +1301,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.CitizenshipType" table="CITIZENSHIP_TYPE_T">
+	<class-descriptor class="org.kuali.coeus.common.framework.person.attr.CitizenshipType" table="CITIZENSHIP_TYPE_T">
         <field-descriptor name="citizenshipTypeCode" column="CITIZENSHIP_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
