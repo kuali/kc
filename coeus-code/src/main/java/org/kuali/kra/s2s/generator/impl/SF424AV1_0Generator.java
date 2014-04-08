@@ -41,13 +41,13 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetCategoryMap;
-import org.kuali.kra.budget.core.BudgetCategoryMapping;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
+import org.kuali.coeus.budget.api.category.BudgetCategoryMappingContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -137,11 +137,11 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             categorySet.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
         }
 
-        List<BudgetCategoryMap> budgetCategoryMapList = s2sBudgetCalculatorService.getBudgetCategoryMapList(
+        List<? extends BudgetCategoryMapContract> budgetCategoryMapList = s2sBudgetCalculatorService.getBudgetCategoryMapList(
                 new ArrayList<String>(), new ArrayList<String>());
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-            for (BudgetCategoryMap budgetCategoryMap : budgetCategoryMapList) {
-                for (BudgetCategoryMapping budgetCategoryMapping : budgetCategoryMap.getBudgetCategoryMappings()) {
+            for (BudgetCategoryMapContract budgetCategoryMap : budgetCategoryMapList) {
+                for (BudgetCategoryMappingContract budgetCategoryMapping : budgetCategoryMap.getBudgetCategoryMappings()) {
                     if (budgetLineItem.getBudgetCategoryCode().equals(budgetCategoryMapping.getBudgetCategoryCode())) {
                         if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_CONSTRUCTION)) {
                             constructionCost = constructionCost.add(budgetLineItem.getLineItemCost());

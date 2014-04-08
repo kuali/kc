@@ -10,10 +10,10 @@
     <property name="lookupDefinition" >
       <ref bean="BudgetCategoryType-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="budgetCategoryTypeCode" />
+    <property name="titleAttribute" value="code" />
     <property name="attributes" >
       <list>
-        <ref bean="BudgetCategoryType-budgetCategoryTypeCode" />
+        <ref bean="BudgetCategoryType-code" />
         <ref bean="BudgetCategoryType-sortId" />
         <ref bean="BudgetCategoryType-description" />
         <ref bean="BudgetCategoryType-versionNumber" />
@@ -24,10 +24,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetCategoryType-budgetCategoryTypeCode" parent="BudgetCategoryType-budgetCategoryTypeCode-parentBean" />
+  <bean id="BudgetCategoryType-code" parent="BudgetCategoryType-code-parentBean" />
 
-  <bean id="BudgetCategoryType-budgetCategoryTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="budgetCategoryTypeCode" />
+  <bean id="BudgetCategoryType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Budget Category Type" />
     <property name="shortLabel" value="Budget Category Type" />
@@ -87,7 +87,7 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="budgetCategoryTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
               <bean parent="FieldDefinition" p:attributeName="sortId"/>
             </list>
@@ -107,7 +107,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="budgetCategoryTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
               <bean p:propertyName="sortId" parent="Uif-DataField"/>
             </list>
@@ -128,13 +128,13 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="budgetCategoryTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="budgetCategoryTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
         <bean parent="FieldDefinition" p:attributeName="sortId"/>
       </list>
@@ -157,13 +157,13 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="budgetCategoryTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean p:propertyName="budgetCategoryTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
         <bean p:propertyName="sortId" parent="Uif-DataField"/>
       </list>

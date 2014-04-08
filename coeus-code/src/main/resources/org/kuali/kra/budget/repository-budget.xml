@@ -184,7 +184,7 @@
 		
     </class-descriptor>
 	<class-descriptor class="org.kuali.kra.budget.core.BudgetCategory" table="BUDGET_CATEGORY">
-		<field-descriptor name="budgetCategoryCode" column="BUDGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="code" column="BUDGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="budgetCategoryTypeCode" column="CATEGORY_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -192,11 +192,11 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="budgetCategoryType" class-ref="org.kuali.kra.budget.core.BudgetCategoryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="budgetCategoryTypeCode"/> 
+			<foreignkey field-ref="budgetCategoryTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.budget.core.BudgetCategoryType" table="BUDGET_CATEGORY_TYPE">
-		<field-descriptor name="budgetCategoryTypeCode" column="BUDGET_CATEGORY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="code" column="BUDGET_CATEGORY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>

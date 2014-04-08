@@ -16,8 +16,9 @@
 package org.kuali.kra.budget.core;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.budget.api.category.BudgetCategoryMappingContract;
 
-public class BudgetCategoryMapping extends KcPersistableBusinessObjectBase {
+public class BudgetCategoryMapping extends KcPersistableBusinessObjectBase implements BudgetCategoryMappingContract {
 
     private String budgetCategoryCode;
 
@@ -27,6 +28,7 @@ public class BudgetCategoryMapping extends KcPersistableBusinessObjectBase {
 
     private BudgetCategory budgetCategory;
 
+    @Override
     public String getBudgetCategoryCode() {
         return budgetCategoryCode;
     }
@@ -35,6 +37,7 @@ public class BudgetCategoryMapping extends KcPersistableBusinessObjectBase {
         this.budgetCategoryCode = budgetCategoryCode;
     }
 
+    @Override
     public String getMappingName() {
         return mappingName;
     }
@@ -43,6 +46,7 @@ public class BudgetCategoryMapping extends KcPersistableBusinessObjectBase {
         this.mappingName = mappingName;
     }
 
+    @Override
     public String getTargetCategoryCode() {
         return targetCategoryCode;
     }
@@ -51,18 +55,11 @@ public class BudgetCategoryMapping extends KcPersistableBusinessObjectBase {
         this.targetCategoryCode = targetCategoryCode;
     }
 
-    /**
-     * Gets the budgetCategory attribute. 
-     * @return Returns the budgetCategory.
-     */
+    @Override
     public BudgetCategory getBudgetCategory() {
         return budgetCategory;
     }
 
-    /**
-     * Sets the budgetCategory attribute value.
-     * @param budgetCategory The budgetCategory to set.
-     */
     public void setBudgetCategory(BudgetCategory budgetCategory) {
         this.budgetCategory = budgetCategory;
     }

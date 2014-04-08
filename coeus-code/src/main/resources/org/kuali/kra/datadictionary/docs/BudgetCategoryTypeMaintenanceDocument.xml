@@ -12,9 +12,11 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>budgetCategoryTypeCode</value>
+        <value>code</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
+	
     
     
     
@@ -36,7 +38,7 @@
     <property name="title" value="Edit Budget Category Types"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="budgetCategoryTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="sortId"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>

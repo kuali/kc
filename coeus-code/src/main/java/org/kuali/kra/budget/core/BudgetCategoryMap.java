@@ -16,11 +16,12 @@
 package org.kuali.kra.budget.core;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BudgetCategoryMap extends KcPersistableBusinessObjectBase {
+public class BudgetCategoryMap extends KcPersistableBusinessObjectBase implements BudgetCategoryMapContract {
 
     private String mappingName;
 
@@ -36,6 +37,7 @@ public class BudgetCategoryMap extends KcPersistableBusinessObjectBase {
         budgetCategoryMappings = new ArrayList<BudgetCategoryMapping>();
     }
 
+    @Override
     public String getMappingName() {
         return mappingName;
     }
@@ -44,6 +46,7 @@ public class BudgetCategoryMap extends KcPersistableBusinessObjectBase {
         this.mappingName = mappingName;
     }
 
+    @Override
     public String getTargetCategoryCode() {
         return targetCategoryCode;
     }
@@ -52,6 +55,7 @@ public class BudgetCategoryMap extends KcPersistableBusinessObjectBase {
         this.targetCategoryCode = targetCategoryCode;
     }
 
+    @Override
     public String getCategoryType() {
         return categoryType;
     }
@@ -60,6 +64,7 @@ public class BudgetCategoryMap extends KcPersistableBusinessObjectBase {
         this.categoryType = categoryType;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -68,18 +73,12 @@ public class BudgetCategoryMap extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    /**
-     * Gets the budgetCategoryMappings attribute. 
-     * @return Returns the budgetCategoryMappings.
-     */
+    @Override
     public List<BudgetCategoryMapping> getBudgetCategoryMappings() {
         return budgetCategoryMappings;
     }
 
-    /**
-     * Sets the budgetCategoryMappings attribute value.
-     * @param budgetCategoryMappings The budgetCategoryMappings to set.
-     */
+
     public void setBudgetCategoryMappings(List<BudgetCategoryMapping> budgetCategoryMappings) {
         this.budgetCategoryMappings = budgetCategoryMappings;
     }

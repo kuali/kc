@@ -16,60 +16,44 @@
 package org.kuali.kra.budget.core;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.budget.api.category.BudgetCategoryTypeContract;
 
 /**
  * Class representation of the BudgetCategory Type Business Object
- * 
- * BudgetCategoryType.java
  */
-public class BudgetCategoryType extends KcPersistableBusinessObjectBase implements Comparable<BudgetCategoryType> {
+public class BudgetCategoryType extends KcPersistableBusinessObjectBase implements Comparable<BudgetCategoryType>, BudgetCategoryTypeContract {
 
-    private String budgetCategoryTypeCode;
+    private String code;
 
     private String description;
 
     private Integer sortId;
 
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
     public Integer getSortId() {
         return sortId;
     }
 
     public void setSortId(Integer sortId) {
         this.sortId = sortId;
-    }
-
-    /**
-     * Retrieves the description attribute
-     * 
-     * @return String
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Assigns the description attribute
-     *
-     * @param description
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * Gets the budgetCategoryTypeCode attribute. 
-     * @return Returns the budgetCategoryTypeCode.
-     */
-    public String getBudgetCategoryTypeCode() {
-        return budgetCategoryTypeCode;
-    }
-
-    /**
-     * Sets the budgetCategoryTypeCode attribute value.
-     * @param budgetCategoryTypeCode The budgetCategoryTypeCode to set.
-     */
-    public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
-        this.budgetCategoryTypeCode = budgetCategoryTypeCode;
     }
 
     /**

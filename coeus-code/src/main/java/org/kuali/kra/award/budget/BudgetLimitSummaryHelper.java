@@ -59,7 +59,7 @@ public class BudgetLimitSummaryHelper implements Serializable {
      */
     public Set<CostElement> getCombinedPersonnelObjectCodes() {
         for (Map.Entry<BudgetCategoryType, Set<CostElement>> entry : getCombinedObjectCodeListByCategory().entrySet()) {
-            if (StringUtils.equals(entry.getKey().getBudgetCategoryTypeCode(), "P")) {
+            if (StringUtils.equals(entry.getKey().getCode(), "P")) {
                 return entry.getValue();
             }
         }
