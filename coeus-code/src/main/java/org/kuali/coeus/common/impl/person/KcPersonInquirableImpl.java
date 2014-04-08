@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.inquiry;
+package org.kuali.coeus.common.impl.person;
 
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
