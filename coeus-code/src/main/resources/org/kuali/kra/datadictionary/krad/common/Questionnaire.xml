@@ -91,7 +91,7 @@
 	<bean id="Questionnaire-InputField-parentBean" abstract="true"
 		class="org.kuali.kra.web.krad.QuestionField" parent="Uif-InputField"
 		p:propertyName="answer" p:useSuggest="false" p:fieldLabel.render="false"
-		p:additionalCssClasses="question" p:onChangeScript="QuestionnaireAnswer.answerChanged(this);">
+		p:additionalCssClasses="question" p:onChangeScript="Kc.Questionnaire.Answer.answerChanged(this);">
 		<property name="controlMappings">
 			<bean parent="Questionnaire-ControlMappings" />
 		</property>
