@@ -15,12 +15,12 @@ public interface RecordedUpdate {
      * The date and time of when the object was last inserted or updated
      * @return the date or null if the object is new
      */
-    public Date getUpdateTimestamp();
+    Date getUpdateTimestamp();
 
     /**
      * The user who last inserted or updated the object
      * @return the user or null if the object is new
      */
-    public String getUpdateUser();
+    String getUpdateUser();
 
 }
