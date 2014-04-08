@@ -49,7 +49,7 @@ public class BudgetCategoryTypeValuesFinder extends UifKeyValuesFinderBase {
         
         for (Iterator iter = budgetCategoryTypes.iterator(); iter.hasNext();) {
             BudgetCategoryType budgetCategoryType = (BudgetCategoryType) iter.next();
-            keyValues.add(new ConcreteKeyValue(budgetCategoryType.getBudgetCategoryTypeCode().toString(), budgetCategoryType.getDescription()));                            
+            keyValues.add(new ConcreteKeyValue(budgetCategoryType.getCode(), budgetCategoryType.getDescription()));
         }
                 
         return keyValues;

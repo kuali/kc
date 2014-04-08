@@ -66,8 +66,8 @@ public class BudgetCategoryExistenceRule extends KcMaintenanceDocumentRuleBase {
             
         }
         Map pkMap = new HashMap();
-        pkMap.put("budgetCategoryCode", budgetCategoryCode);
-        valid=checkExistenceFromTable(BudgetCategory.class,pkMap,"budgetCategoryCode", "Budget Category");
+        pkMap.put("code", budgetCategoryCode);
+        valid=checkExistenceFromTable(BudgetCategory.class,pkMap,"code", "Budget Category");
 
 
         return valid;

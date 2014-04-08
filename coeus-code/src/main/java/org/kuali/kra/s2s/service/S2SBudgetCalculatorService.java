@@ -18,11 +18,11 @@ package org.kuali.kra.s2s.service;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetCategoryMap;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
 import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
 import org.kuali.kra.s2s.generator.bo.BudgetSummaryInfo;
 import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
@@ -39,7 +39,7 @@ public interface S2SBudgetCalculatorService {
 
     /**
      * 
-     * This method returns a list of {@link BudgetCategoryMap} based on the input. The list returned will not contain the categories
+     * This method returns a list of {@link BudgetCategoryMapContract} based on the input. The list returned will not contain the categories
      * that the codes passed as a list of {@link String} and also will not contain those that match the types passed as list of
      * {@link String}. In case 2 empty lists are passed as parameters, the method will return entire list without applying any
      * filters.
@@ -48,7 +48,7 @@ public interface S2SBudgetCalculatorService {
      * @param filterCategoryTypes Category types that must be filtered
      * @return a List of BudgetCategoryMap.
      */
-    public List<BudgetCategoryMap> getBudgetCategoryMapList(List<String> filterTargetCategoryCodes, List<String> filterCategoryTypes);
+    public List<? extends BudgetCategoryMapContract> getBudgetCategoryMapList(List<String> filterTargetCategoryCodes, List<String> filterCategoryTypes);
 
     /**
      * 
