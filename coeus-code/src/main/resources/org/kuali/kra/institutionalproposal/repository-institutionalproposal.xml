@@ -552,7 +552,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<reference-descriptor name="scienceKeyword" class-ref="org.kuali.kra.bo.ScienceKeyword" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="scienceKeyword" class-ref="org.kuali.coeus.common.framework.keyword.ScienceKeyword" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scienceKeywordCode"/>
 		</reference-descriptor>
 		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 

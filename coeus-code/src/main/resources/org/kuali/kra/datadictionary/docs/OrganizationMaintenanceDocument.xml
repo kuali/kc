@@ -20,7 +20,7 @@
       </list>
     </property>	<property name="allowsRecordDeletion" value="true" />	
     <property name="documentTypeName" value="OrganizationMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.authorizer.OrganizationMaintenanceDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.coeus.common.impl.org.OrganizationMaintenanceDocumentAuthorizer"/>
     <property name="businessRulesClass" value="org.kuali.coeus.common.impl.org.OrganizationMaintenanceDocumentRule"/>
   </bean>
 

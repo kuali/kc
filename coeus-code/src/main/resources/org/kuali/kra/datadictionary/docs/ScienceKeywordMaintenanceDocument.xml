@@ -3,7 +3,7 @@
   <bean id="ScienceKeywordMaintenanceDocument" parent="ScienceKeywordMaintenanceDocument-parentBean"/>
 
   <bean id="ScienceKeywordMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.ScienceKeyword"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.keyword.ScienceKeyword"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

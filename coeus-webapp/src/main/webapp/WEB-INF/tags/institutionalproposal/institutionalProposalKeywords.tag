@@ -38,7 +38,7 @@
               <th width="10%" class="infoline">Add:</th>
               <td width="70%" class="infoline">${KualiForm.document.institutionalProposal.newDescription}
                     <c:if test="${!readOnly}">
-              		    <kul:multipleValueLookup boClassName="org.kuali.kra.bo.ScienceKeyword" 
+              		    <kul:multipleValueLookup boClassName="org.kuali.coeus.common.framework.keyword.ScienceKeyword" 
               		    lookedUpCollectionName="institutionalProposalScienceKeywords" 
               		    anchor="${tabKey}"/>
               		</c:if>
@@ -57,7 +57,7 @@
                 </div></td>
                 <td>
                 	 ${KualiForm.document.institutionalProposal.institutionalProposalScienceKeywords[ctr].scienceKeyword.description}
-					<kul:lookup boClassName="org.kuali.kra.bo.ScienceKeyword" 
+					<kul:lookup boClassName="org.kuali.coeus.common.framework.keyword.ScienceKeyword" 
 					fieldConversions="scienceKeywordCode:document.institutionalProposal.institutionalProposalScienceKeywords[${ctr}].scienceKeywordCode,description:document.institutionalProposal.institutionalProposalScienceKeywords[${ctr}].scienceKeyword.description"
 					lookupParameters="" hideReturnLink="false" />
                 </td>

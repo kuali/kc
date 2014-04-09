@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.authorizer;
+package org.kuali.coeus.common.impl.org;
 
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;

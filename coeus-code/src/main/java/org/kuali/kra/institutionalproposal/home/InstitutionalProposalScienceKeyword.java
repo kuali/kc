@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
+import org.kuali.coeus.common.framework.keyword.AbstractScienceKeyword;
+import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
-import org.kuali.kra.bo.AbstractScienceKeyword;
-import org.kuali.kra.bo.ScienceKeyword;
 
 public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword implements SequenceAssociate {
 

@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.document;
+package org.kuali.coeus.common.framework.keyword;
 
-import org.kuali.kra.bo.ScienceKeyword;
 
 import java.util.List;
 
