@@ -43,7 +43,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kew.api.KewApiConstants;

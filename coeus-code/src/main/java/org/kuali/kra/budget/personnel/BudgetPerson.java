@@ -25,7 +25,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.calculator.DateSortable;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;

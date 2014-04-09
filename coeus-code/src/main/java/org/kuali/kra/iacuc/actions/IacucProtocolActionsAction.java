@@ -74,7 +74,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesEvent;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;

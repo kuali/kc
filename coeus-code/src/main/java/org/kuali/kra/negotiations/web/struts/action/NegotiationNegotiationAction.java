@@ -29,7 +29,7 @@ import org.kuali.kra.negotiations.notifications.NegotiationCloseNotificationCont
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.web.struts.form.KualiForm;

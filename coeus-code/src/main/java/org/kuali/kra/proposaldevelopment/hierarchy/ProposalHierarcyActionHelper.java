@@ -20,6 +20,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyErrorDto;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -30,7 +32,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
-import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -41,7 +43,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
+import static org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants.*;
 
 
 public class ProposalHierarcyActionHelper {

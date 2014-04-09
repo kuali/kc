@@ -31,7 +31,7 @@ import org.kuali.kra.iacuc.committee.print.service.IacucScheduleCorrespondencePr
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;

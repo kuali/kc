@@ -20,7 +20,7 @@ import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.print.CoiReportType;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 
 import java.util.List;
 

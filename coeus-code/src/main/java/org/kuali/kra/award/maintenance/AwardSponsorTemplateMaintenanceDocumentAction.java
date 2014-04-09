@@ -24,7 +24,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;

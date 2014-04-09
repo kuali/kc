@@ -21,7 +21,7 @@ import org.kuali.coeus.common.framework.person.signature.PersonSignatureService;
 import org.kuali.coeus.common.framework.print.PrintableAttachment;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;

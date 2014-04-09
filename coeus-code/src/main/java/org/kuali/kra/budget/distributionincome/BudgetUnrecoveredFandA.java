@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.distributionincome;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 
 public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent implements HierarchyMaintainable {
     private static final long serialVersionUID = 6614520585838685080L;

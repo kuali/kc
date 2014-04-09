@@ -24,7 +24,7 @@ import org.kuali.kra.coi.print.CoiCertificationPrint;
 import org.kuali.kra.coi.print.CoiReportType;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

@@ -25,7 +25,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.budget.printing.print.*;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetPrintForm;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 

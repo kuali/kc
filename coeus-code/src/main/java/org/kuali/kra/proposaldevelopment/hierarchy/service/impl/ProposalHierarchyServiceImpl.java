@@ -51,12 +51,12 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyBudgetTypeConstants;
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
-import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyErrorDto;
-import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
-import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
-import org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyBudgetTypeConstants;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyErrorDto;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyProposalSummary;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDao;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
@@ -87,7 +87,7 @@ import java.sql.Date;
 import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.replace;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
+import static org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants.*;
 
 
 @Transactional
