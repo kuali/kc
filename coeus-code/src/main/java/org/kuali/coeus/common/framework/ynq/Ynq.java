@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.ynq;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -25,6 +25,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.kuali.kra.bo.KraSortablePersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "YNQ")

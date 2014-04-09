@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service;
+package org.kuali.coeus.common.framework.ynq;
 
-import org.kuali.coeus.common.framework.ynq.YnqGroupName;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
-import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.bo.YnqExplanationType;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 
 import java.util.List;

@@ -13,27 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.ynq;
 
+import org.kuali.coeus.common.framework.ynq.Ynq;
+import org.kuali.coeus.common.framework.ynq.YnqExplanationType;
 import org.kuali.coeus.common.framework.ynq.YnqGroupName;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
-import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.bo.YnqExplanationType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.YnqConstants;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component("ynqService")
 public class YnqServiceImpl implements YnqService {
 
+	@Autowired
+	@Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
-
     
     @Override
     @SuppressWarnings("unchecked")
