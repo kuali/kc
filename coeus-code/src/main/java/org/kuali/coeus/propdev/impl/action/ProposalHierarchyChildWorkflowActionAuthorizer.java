@@ -20,7 +20,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
-import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**

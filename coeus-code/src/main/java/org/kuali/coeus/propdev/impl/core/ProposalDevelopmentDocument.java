@@ -43,7 +43,7 @@ import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
-import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;

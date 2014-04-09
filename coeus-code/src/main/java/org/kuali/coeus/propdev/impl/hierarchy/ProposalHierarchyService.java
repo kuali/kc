@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.hierarchy.service;
+package org.kuali.coeus.propdev.impl.hierarchy;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
