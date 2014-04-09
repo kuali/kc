@@ -70,7 +70,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">${trunGroupName}</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Ynq" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.common.framework.ynq.Ynq" altText="help"/></span>
         </h3>
     	<div align="left" style="padding:12px;"> 
     		<strong>Full Group Name:</strong> 
@@ -145,10 +145,10 @@
                         <span class="fineprint"></span> </td>
                     <td width="10%" class="${tdClass}"><div align=center><span class="copy">
             			<!-- 
-            			<kul:directInquiry boClassName="org.kuali.kra.bo.Ynq" inquiryParameters="${iproposalYnq}.questionId:questionId" anchor="${tabKey}"/>
+            			<kul:directInquiry boClassName="org.kuali.coeus.common.framework.ynq.Ynq" inquiryParameters="${iproposalYnq}.questionId:questionId" anchor="${tabKey}"/>
             			 -->
 							<bean:define id= "questionId" name="KualiForm" property="${iproposalYnq}.questionId" />
-							<kul:inquiry boClassName="org.kuali.kra.bo.Ynq" keyValues="questionId=${questionId}" render="true">
+							<kul:inquiry boClassName="org.kuali.coeus.common.framework.ynq.Ynq" keyValues="questionId=${questionId}" render="true">
 								<image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' alt="inquiry" styleClass="tinybutton"/>
 							</kul:inquiry>
                       </span></div>

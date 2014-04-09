@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.rules;
 
-import org.kuali.kra.bo.Ynq;
+import org.kuali.coeus.common.framework.ynq.Ynq;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;

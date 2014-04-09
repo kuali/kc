@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import org.kuali.coeus.common.framework.ynq.Ynq;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Ynq;
 
 import java.sql.Date;
 
