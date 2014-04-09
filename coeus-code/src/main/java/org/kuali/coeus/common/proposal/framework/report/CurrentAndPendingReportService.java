@@ -3,7 +3,7 @@ package org.kuali.coeus.common.proposal.framework.report;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 
 import java.util.List;
 import java.util.Map;

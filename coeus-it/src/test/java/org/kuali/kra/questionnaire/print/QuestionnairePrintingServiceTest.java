@@ -27,7 +27,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.printing.util.PrintingServiceTestBase;
 import org.kuali.kra.printing.util.PrintingTestUtils;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.rice.kew.api.exception.WorkflowException;

@@ -25,6 +25,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 
 @Entity
 @Table(name = "NARRATIVE_ATTACHMENT")

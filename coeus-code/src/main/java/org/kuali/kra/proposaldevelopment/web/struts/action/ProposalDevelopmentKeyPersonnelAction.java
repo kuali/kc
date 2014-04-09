@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -621,7 +622,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentPrintingService printService = KcServiceLocator.getService(ProposalDevelopmentPrintingService.class);
         Map<String,Object> reportParameters = new HashMap<String,Object>();
         reportParameters.put(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_PERSON, selectedPerson);
-        AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(document.getDevelopmentProposal(), 
+        AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(document.getDevelopmentProposal(),
                 ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_REPORT, reportParameters);
         streamToResponse(dataStream, response);
         return null;

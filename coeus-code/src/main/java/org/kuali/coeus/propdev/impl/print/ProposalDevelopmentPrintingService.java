@@ -19,7 +19,7 @@ import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 import java.util.List;

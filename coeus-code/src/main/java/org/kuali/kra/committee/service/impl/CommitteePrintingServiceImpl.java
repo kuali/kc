@@ -28,7 +28,7 @@ import org.kuali.coeus.common.impl.print.PrintingServiceImpl;
 import org.kuali.kra.committee.print.*;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 
 /**
  * 

@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.print.PrintConstants;
 import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportService;
