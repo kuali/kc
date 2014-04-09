@@ -78,6 +78,12 @@
         <ref bean="Award-financialAccountDocumentNumber" /> 
         <ref bean="Award-financialAccountCreationDate" />
         <ref bean="Award-financialChartOfAccountsCode" />
+        <ref bean="Award-awardDocument.documentNumber" />
+        <ref bean="Award-awardStatus.description" /> 
+        <ref bean="Award-awardAmountInfo.obligationExpirationDate" />
+        <ref bean="Award-awardAmountInfo.amountObligatedToDate" />
+        <ref bean="Award-sponsor.sponsorName" />
+        
       </list>
     </property>
         <property name="collections">
@@ -1011,7 +1017,45 @@
         <property name="shortLabel" value="Investigator" />
         <property name="required" value="false" />    
     </bean>
+    
+    <bean id="Award-awardDocument.documentNumber" parent="Award-awardDocument.documentNumber-parentBean" />
+    <bean id="Award-awardDocument.documentNumber-parentBean" abstract="true" parent="AwardDocument-documentNumber">
+        <property name="name" value="awardDocument.documentNumber" />
+        <property name="label" value="Document Number" />
+        <property name="shortLabel" value="Document Number" />
+    </bean>
 
+    <bean id="Award-awardStatus.description" parent="Award-awardStatus.description-parentBean" />
+    <bean id="Award-awardStatus.description-parentBean" abstract="true" parent="AwardStatus-description">
+        <property name="name" value="awardStatus.description" />
+        <property name="label" value="Description" />
+        <property name="shortLabel" value="Description" />
+        <property name="required" value="false" />    
+    </bean>
+    
+    <bean id="Award-awardAmountInfo.obligationExpirationDate" parent="Award-awardAmountInfo.obligationExpirationDate-parentBean" />
+    <bean id="Award-awardAmountInfo.obligationExpirationDate-parentBean" abstract="true" parent="AwardAmountInfo-obligationExpirationDate">
+        <property name="name" value="awardAmountInfo.obligationExpirationDate" />
+        <property name="label" value="Obligation Expiration Date" />
+        <property name="shortLabel" value="Obligation Expiration Date" />
+        <property name="required" value="false" />    
+    </bean>
+    
+    <bean id="Award-awardAmountInfo.amountObligatedToDate" parent="Award-awardAmountInfo.amountObligatedToDate-parentBean" />
+    <bean id="Award-awardAmountInfo.amountObligatedToDate-parentBean" abstract="true" parent="AwardAmountInfo-amountObligatedToDate">
+        <property name="name" value="awardAmountInfo.amountObligatedToDate" />
+        <property name="label" value="Amount" />
+        <property name="shortLabel" value="Amount" />
+        <property name="required" value="false" />    
+    </bean>
+    
+    <bean id="Award-sponsor.sponsorName" parent="Award-sponsor.sponsorName-parentBean" />
+    <bean id="Award-sponsor.sponsorName-parentBean" abstract="true" parent="Sponsor-sponsorName">
+        <property name="name" value="sponsor.sponsorName" />
+        <property name="label" value="Sponsor Name" />
+        <property name="shortLabel" value="Sponsor Name" />
+        <property name="required" value="false" />    
+    </bean>
 	<!-- Business Object Inquiry Definition -->
 
   <bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean" />
