@@ -3,7 +3,7 @@
   <bean id="YnqExplanationMaintenanceDocument" parent="YnqExplanationMaintenanceDocument-parentBean"/>
 
   <bean id="YnqExplanationMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.YnqExplanation"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.ynq.YnqExplanation"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

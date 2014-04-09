@@ -21,6 +21,7 @@ import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDa
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipTypeService;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
+import org.springframework.stereotype.Component;
 
 /**
  * 
@@ -34,6 +35,7 @@ import org.kuali.kra.infrastructure.CitizenshipTypes;
  * 
  * getEnumValueOfCitizenshipType has been included as a convenience method should it be needed.
  */
+@Component("citizenshipTypeService")
 public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
     
     @Override

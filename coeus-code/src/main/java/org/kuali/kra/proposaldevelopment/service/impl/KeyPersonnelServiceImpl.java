@@ -26,6 +26,8 @@ import org.kuali.coeus.common.framework.person.attr.PersonDegree;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.ynq.Ynq;
+import org.kuali.coeus.common.framework.ynq.YnqService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.*;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
@@ -40,8 +42,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+<<<<<<< HEAD
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.service.YnqService;
+=======
+import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
+>>>>>>> KRACOEUS-7051: repackage ynq components
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;

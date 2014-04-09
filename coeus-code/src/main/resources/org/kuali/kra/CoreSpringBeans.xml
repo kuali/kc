@@ -43,6 +43,7 @@
     <context:component-scan base-package="org.kuali.coeus.common.impl.sponsor"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl.unit"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl.version"/>
+    <context:component-scan base-package="org.kuali.coeus.common.impl.ynq"/>
 
 	<context:component-scan base-package="org.kuali.kra.service.impl"/>
     <context:component-scan base-package="org.kuali.kra.multicampus"/>
@@ -1233,8 +1234,6 @@
     </bean>
     
     <bean id="awardTemplateReportTermService" class="org.kuali.kra.award.service.impl.AwardTemplateReportTermServiceImpl" />
-    
-    <bean id="citizenshipTypeService" class="org.kuali.coeus.common.impl.person.attr.CitizenshipTypeServiceImpl" />
 
     <bean id="coiMessagesService" class="org.kuali.kra.coi.service.impl.CoiMessagesServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -1608,10 +1607,6 @@
     
     
     <bean id="watermarkService" class="org.kuali.coeus.common.impl.print.watermark.WatermarkServiceImpl" />
-    
-    <bean id="ynqService" class="org.kuali.kra.service.impl.YnqServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
 
     <!-- Cross-Module Services -->
     

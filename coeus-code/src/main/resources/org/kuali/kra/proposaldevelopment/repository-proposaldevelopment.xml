@@ -577,7 +577,7 @@
             <foreignkey field-ref="proposalNumber"/> 
         </reference-descriptor>
         -->
-        <reference-descriptor name="ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="ynq" class-ref="org.kuali.coeus.common.framework.ynq.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="questionId"/> 
         </reference-descriptor>
     </class-descriptor>
@@ -705,7 +705,7 @@
             <foreignkey field-ref="proposalNumber"/> 
         </reference-descriptor>
          -->
-        <reference-descriptor name="ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="ynq" class-ref="org.kuali.coeus.common.framework.ynq.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="questionId"/> 
         </reference-descriptor>
     </class-descriptor>

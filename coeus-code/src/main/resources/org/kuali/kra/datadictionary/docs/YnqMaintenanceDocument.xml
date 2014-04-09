@@ -3,7 +3,7 @@
   <bean id="YnqMaintenanceDocument" parent="YnqMaintenanceDocument-parentBean"/>
 
   <bean id="YnqMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.Ynq"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.ynq.Ynq"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.YnqMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -61,7 +61,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="ynqExplanations"/>
-          <property name="businessObjectClass" value="org.kuali.kra.bo.YnqExplanation"/>
+          <property name="businessObjectClass" value="org.kuali.coeus.common.framework.ynq.YnqExplanation"/>
           <property name="includeAddLine" value="false"/>
           <property name="summaryFields">
             <list>
