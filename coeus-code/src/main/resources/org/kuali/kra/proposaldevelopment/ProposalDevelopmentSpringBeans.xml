@@ -393,7 +393,7 @@
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
     
-    <bean id="proposalHierarchyService" class="org.kuali.kra.proposaldevelopment.hierarchy.service.impl.ProposalHierarchyServiceImpl">
+    <bean id="proposalHierarchyService" class="org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
