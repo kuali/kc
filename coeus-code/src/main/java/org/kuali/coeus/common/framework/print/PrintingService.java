@@ -15,8 +15,6 @@
  */
 package org.kuali.coeus.common.framework.print;
 
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-
 import java.util.List;
 
 /**

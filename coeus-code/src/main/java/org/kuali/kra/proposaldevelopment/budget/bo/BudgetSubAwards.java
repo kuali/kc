@@ -20,7 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.kra.budget.core.BudgetAssociate;
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

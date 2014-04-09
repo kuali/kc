@@ -7,7 +7,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 
 import java.util.Map;
 

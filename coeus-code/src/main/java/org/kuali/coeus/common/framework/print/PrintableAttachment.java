@@ -15,8 +15,6 @@
  */
 package org.kuali.coeus.common.framework.print;
 
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-
 /**
  * 
  * This class populates the bytes of PDF document to be generated

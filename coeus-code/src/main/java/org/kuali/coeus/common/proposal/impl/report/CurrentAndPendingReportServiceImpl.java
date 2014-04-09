@@ -8,7 +8,7 @@ import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportS
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

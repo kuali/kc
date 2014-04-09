@@ -24,13 +24,13 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.s2s.S2SException;
@@ -96,7 +96,7 @@ public class PrintServiceImpl implements PrintService {
 	 * 
 	 * @see org.kuali.kra.s2s.service.PrintService#printForm(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
 	 */
-	public org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource printForm(
+	public AttachmentDataSource printForm(
 			ProposalDevelopmentDocument pdDoc) throws S2SException,
 			PrintingException {
 		List<Printable> printableList = null;

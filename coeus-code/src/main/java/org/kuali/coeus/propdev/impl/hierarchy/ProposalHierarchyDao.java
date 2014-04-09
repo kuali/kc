@@ -13,26 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.hierarchy;
+package org.kuali.coeus.propdev.impl.hierarchy;
 
-public class ProposalHierarchyException extends RuntimeException {
+import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 
-    private static final long serialVersionUID = -8511067467413187019L;
+import java.util.List;
 
-    public ProposalHierarchyException() {
-        super();
-    }
 
-    public ProposalHierarchyException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public ProposalHierarchyException(String message) {
-        super(message);
-    }
-
-    public ProposalHierarchyException(Throwable cause) {
-        super(cause);
-    }
-
+public interface ProposalHierarchyDao {
+    public List<String> getHierarchyChildProposalNumbers(String proposalNumber);
+    public List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String proposalNumber);
 }

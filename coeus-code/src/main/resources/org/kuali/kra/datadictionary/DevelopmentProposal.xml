@@ -964,10 +964,10 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
 		<property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -990,10 +990,10 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
 		<property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.hierarchy.HierarchyBudgetTypeValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.hierarchy.HierarchyBudgetTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.hierarchy.HierarchyBudgetTypeValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.hierarchy.HierarchyBudgetTypeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

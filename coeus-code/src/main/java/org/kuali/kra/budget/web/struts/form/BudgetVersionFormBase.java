@@ -21,8 +21,7 @@ import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;

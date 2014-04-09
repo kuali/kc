@@ -17,7 +17,7 @@ package org.kuali.kra.printing.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 
 import java.io.File;
 import java.io.FileOutputStream;
