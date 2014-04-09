@@ -89,11 +89,7 @@ import java.util.*;
  * 
  * This class represents the Award Form Struts class.
  */
-public class AwardForm extends BudgetVersionFormBase 
-                                        implements MultiLookupForm,
-        AuditableForm,
-                                                    PermissionsForm,
-                                                    CustomDataDocumentForm {
+public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,AuditableForm,PermissionsForm,CustomDataDocumentForm {
 
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";
