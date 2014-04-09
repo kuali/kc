@@ -30,6 +30,12 @@
         <ref bean="Organization-contactAddressId"/>
         <ref bean="Organization-rolodex.fullName"/>
         <ref bean="Organization-rolodex.addressLine1"/>
+        <ref bean="Organization-rolodex.firstName" />
+        <ref bean="Organization-rolodex.lastName" />
+        <ref bean="Organization-rolodex.addressLine2" />
+        <ref bean="Organization-rolodex.addressLine3" />
+        <ref bean="Organization-rolodex.city" />
+        <ref bean="Organization-rolodex.state" />
         <ref bean="Organization-county"/>
         <ref bean="Organization-dodacNumber"/>
         <ref bean="Organization-dunsNumber"/>
@@ -293,6 +299,55 @@
     <property name="label" value="Contact Address Id"/>
     <property name="shortLabel" value="Contact Address Id"/>
   </bean>
+  
+  <bean id="Organization-rolodex.firstName" parent="Organization-rolodex.firstName-parentBean"/>
+
+  <bean abstract="true" id="Organization-rolodex.firstName-parentBean" parent="Rolodex-firstName">
+    <property name="name" value="rolodex.firstName"/>
+    <property name="label" value="Contact First Name"/>
+    <property name="shortLabel" value="Contact First Name"/>
+  </bean>
+  
+  <bean id="Organization-rolodex.lastName" parent="Organization-rolodex.lastName-parentBean"/>
+
+  <bean abstract="true" id="Organization-rolodex.lastName-parentBean" parent="Rolodex-lastName">
+    <property name="name" value="rolodex.lastName"/>
+    <property name="label" value="Contact Last Name"/>
+    <property name="shortLabel" value="Contact Last Name"/>
+  </bean>
+  
+  <bean id="Organization-rolodex.addressLine2" parent="Organization-rolodex.addressLine2-parentBean"/>
+
+  <bean abstract="true" id="Organization-rolodex.addressLine2-parentBean" parent="Rolodex-addressLine2">
+    <property name="name" value="rolodex.addressLine2"/>
+    <property name="label" value="Contact Address Line2"/>
+    <property name="shortLabel" value="Contact Address Line2"/>
+  </bean>
+  
+  <bean id="Organization-rolodex.addressLine3" parent="Organization-rolodex.addressLine3-parentBean"/>
+
+  <bean abstract="true" id="Organization-rolodex.addressLine3-parentBean" parent="Rolodex-addressLine3">
+    <property name="name" value="rolodex.addressLine3"/>
+    <property name="label" value="Contact Address Line3"/>
+    <property name="shortLabel" value="Contact Address Line3"/>
+  </bean>
+  
+  <bean id="Organization-rolodex.city" parent="Organization-rolodex.city-parentBean"/>
+
+  <bean abstract="true" id="Organization-rolodex.city-parentBean" parent="Rolodex-city">
+    <property name="name" value="rolodex.city"/>
+    <property name="label" value="Contact Address city"/>
+    <property name="shortLabel" value="Contact Address city"/>
+  </bean>
+  
+  <bean id="Organization-rolodex.state" parent="Organization-rolodex.state-parentBean"/>
+
+  <bean abstract="true" id="Organization-rolodex.state-parentBean" parent="Rolodex-state">
+    <property name="name" value="rolodex.state"/>
+    <property name="label" value="Contact Address state"/>
+    <property name="shortLabel" value="Contact Address state"/>
+  </bean>
+  
   <bean id="Organization-county" parent="Organization-county-parentBean"/>
 
   <bean abstract="true" id="Organization-county-parentBean" parent="AttributeDefinition">

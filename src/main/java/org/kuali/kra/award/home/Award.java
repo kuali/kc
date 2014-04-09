@@ -2543,6 +2543,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.awardAmountInfos = awardAmountInfos;
     }
 
+    public AwardAmountInfo getAwardAmountInfo() {
+        return awardAmountInfos.get(0);
+    }
+    
     /**
      * Find the lead unit for the award
      * @return
