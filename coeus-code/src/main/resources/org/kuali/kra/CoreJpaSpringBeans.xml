@@ -72,6 +72,7 @@
         <value>org.kuali.coeus.common.framework.rolodex</value>
         <value>org.kuali.coeus.common.framework.sponsor</value>
         <value>org.kuali.coeus.common.framework.unit</value>
+        <value>org.kuali.coeus.common.framework.ynq</value>
         <!--converters -->
         <value>org.kuali.coeus.sys.framework.persistence</value>
         <value>org.kuali.rice.krad.data.jpa.converters</value>
