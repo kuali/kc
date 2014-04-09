@@ -17,7 +17,7 @@ package org.kuali.kra.subaward.reporting.printing.service;
 
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 
 import java.util.Map;

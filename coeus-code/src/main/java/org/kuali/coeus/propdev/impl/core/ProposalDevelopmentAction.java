@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.editable.PersonEditableService;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
@@ -1152,7 +1153,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         
         final int personIndex = this.getSelectedLine(request);
         ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(personIndex);
-        AttachmentDataSource dataStream = 
+        AttachmentDataSource dataStream =
                 getProposalDevelopmentPrintingService().printPersonCertificationQuestionnaire(Lists.newArrayList(person));
         if (dataStream.getContent() != null) {
             streamToResponse(dataStream, response);

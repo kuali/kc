@@ -25,7 +25,7 @@ import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.negotiations.printing.print.NegotiationActivityprint;
 import org.kuali.kra.negotiations.printing.service.NegotiationPrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 
 import java.util.Map;
 
