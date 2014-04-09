@@ -51,7 +51,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
-import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;

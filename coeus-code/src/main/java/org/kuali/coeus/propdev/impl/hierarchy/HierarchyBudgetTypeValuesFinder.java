@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.propdev.impl.hierarchy;
 
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyBudgetTypeConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
