@@ -13,13 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.hierarchy;
+package org.kuali.coeus.propdev.impl.hierarchy;
 
 
-public interface HierarchyMaintainable {
-
-    public String getHierarchyProposalNumber();
-    public void setHierarchyProposalNumber(String hierarchyProposalNumber);
-    public boolean isHiddenInHierarchy();
-    public void setHiddenInHierarchy(boolean hiddenInHierarchy);
+public enum HierarchyStatusConstants {
+    None ("N", "Not in a hierarchy"),
+    Parent ("P", "Parent"),
+    Child ("C", "Child");
+    
+    private final String code;
+    private final String description;
+    
+    HierarchyStatusConstants(String code, String description) {
+        this.code = code;
+        this.description = description;
+   }
+    
+    public String code() {
+        return code;
+    }
+    
+    public String description() {
+        return description;
+    }
 }
