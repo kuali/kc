@@ -21,6 +21,7 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;

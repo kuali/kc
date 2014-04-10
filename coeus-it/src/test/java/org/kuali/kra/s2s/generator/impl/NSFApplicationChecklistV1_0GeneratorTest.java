@@ -19,7 +19,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
+import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.kra.s2s.generator.S2STestBase;
 
 import java.sql.Date;

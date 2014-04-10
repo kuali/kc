@@ -13,17 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.coeus.propdev.impl.abstrct;
 
-import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
-import org.kuali.kra.proposaldevelopment.service.ProposalAbstractsService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+
 import java.util.List;
 
+@Component("proposalAbstractsService")
 public class ProposalAbstractsServiceImpl implements ProposalAbstractsService {
-    
+
+    @Autowired
+    @Qualifier("personService")
     private PersonService personService;
 
     public void loadAbstractsUploadUserFullName(List<ProposalAbstract> abstracts) {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.action;
+package org.kuali.coeus.propdev.impl.abstrct;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -25,16 +25,13 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.kra.proposaldevelopment.rule.event.*;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.service.ProposalAbstractsService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -123,9 +120,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         
         ActionForward actionForward = super.execute(mapping, form, request, response); 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)((ProposalDevelopmentForm)form).getDocument();
-        KcServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getDevelopmentProposal().getPropPersonBios());
-        KcServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(doc.getDevelopmentProposal());
-        KcServiceLocator.getService(ProposalAbstractsService.class).loadAbstractsUploadUserFullName(doc.getDevelopmentProposal().getProposalAbstracts());
+        getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getDevelopmentProposal().getPropPersonBios());
+        getService(NarrativeService.class).setNarrativeTimeStampUser(doc.getDevelopmentProposal());
+        getService(ProposalAbstractsService.class).loadAbstractsUploadUserFullName(doc.getDevelopmentProposal().getProposalAbstracts());
         return actionForward;
     }    
 

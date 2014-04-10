@@ -352,10 +352,10 @@
         <property name="serviceName" value="lookupDao" />
     </bean>
     
-    <bean id="proposalAbstractsService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAbstractsServiceImpl">
+    <!--<bean id="proposalAbstractsService" class="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstractsServiceImpl">
         <property name="personService" ref="personService" />
     </bean>
-    
+    -->
     <bean id="proposalAllUnitAdministratorDerivedRoleTypeService" 
           class="org.kuali.coeus.propdev.impl.auth.ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl">
         <property name="unitService" ref="unitService" />
@@ -778,7 +778,7 @@
     </bean>
 
 	<bean id="proposalAbstractsAttachmentsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
-		<property name="classname" value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAbstractsAttachmentsAction" />
+		<property name="classname" value="org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsAttachmentsAction" />
 		<property name="mappings">
 			<map>
 				<entry key="addProposalAttachment">

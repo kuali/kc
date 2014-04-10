@@ -41,6 +41,7 @@
 	<util:list id="jpaPackagesToScan">
 
         <value>org.kuali.kra.proposaldevelopment.bo</value>
+        <value>org.kuali.coeus.propdev.impl.abstrct</value>
         <value>org.kuali.coeus.propdev.impl.auth</value>
         <value>org.kuali.coeus.propdev.impl.budget</value>
         <value>org.kuali.coeus.propdev.impl.core</value>

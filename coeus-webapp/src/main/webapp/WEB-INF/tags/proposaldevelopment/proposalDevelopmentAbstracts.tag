@@ -28,7 +28,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Abstracts</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract" altText="help"/></span>
         </h3>
     
         <table id="abstracts-table" cellpadding="0" cellspacing="0" summary="">
