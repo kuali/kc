@@ -279,7 +279,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 
     /**
      * 
-     * This method fetches the attachments for {@link ProposalPerson}. For a given person or rolodex ID, it will fetch the document
+     * This method fetches the attachments for {@link org.kuali.coeus.propdev.impl.person.ProposalPerson}. For a given person or rolodex ID, it will fetch the document
      * of required type, also passed alongside as documentType
      * 
      * @param pdDoc {@link ProposalDevelopmentDocument} from which the attachments are to be fetched

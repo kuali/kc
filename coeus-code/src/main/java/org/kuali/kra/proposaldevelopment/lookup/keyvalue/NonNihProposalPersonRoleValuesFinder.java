@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 
+import org.kuali.coeus.propdev.impl.person.ProposalPersonRoleValuesFinder;
+
 public class NonNihProposalPersonRoleValuesFinder extends ProposalPersonRoleValuesFinder {
 
 }

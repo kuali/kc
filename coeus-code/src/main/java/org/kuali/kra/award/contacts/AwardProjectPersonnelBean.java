@@ -20,7 +20,7 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 
 import java.util.HashMap;
 import java.util.List;

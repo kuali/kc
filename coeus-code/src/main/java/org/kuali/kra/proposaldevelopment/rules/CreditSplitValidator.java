@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -32,8 +33,8 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_UPBOU
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_TOTAL_CREDIT_SPLIT_UPBOUND;
 
 /**
- * Validates Credit Splits on a <code>{@link ProposalPerson}</code> and/or <code>{@link ProposalPersonUnit}</code> by
- * traversing the tree of <code>{@link ProposalPerson}</code> <code>{@link ProposalPersonUnit}</code> instances.
+ * Validates Credit Splits on a <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPerson}</code> and/or <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPersonUnit}</code> by
+ * traversing the tree of <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPerson}</code> <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPersonUnit}</code> instances.
  *
  * @author $Author: gmcgrego $
  * @version $Revision: 1.11 $

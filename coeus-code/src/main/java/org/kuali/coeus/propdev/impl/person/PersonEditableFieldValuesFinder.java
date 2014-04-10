@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
+package org.kuali.coeus.propdev.impl.person;
 
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueComparator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.DataDictionaryService;

@@ -27,6 +27,7 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.person.*;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
@@ -35,7 +36,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.service.YnqService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -51,7 +51,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 /**
  * A Service implementation for persisted modifications of Key Personnel related business objects
  *
- * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
+ * @see org.kuali.coeus.propdev.impl.person.ProposalPerson
  * @author $Author: gmcgrego $
  * @version $Revision: 1.34 $
  */
@@ -582,7 +582,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @param roleId to check
      * @return true if the <code>roleId</code> is a value in the <code>personrole.readonly.roles</code> system parameter, and false
      *         if the <coderoleId</code> is null
-     * @see #isRoleReadOnly(ProposalPersonRole)
+     * @see #isRoleReadOnly(org.kuali.coeus.propdev.impl.person.ProposalPersonRole)
      */
     protected boolean isRoleReadOnly(String roleId) {
         if (roleId == null) {
