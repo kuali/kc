@@ -29,7 +29,11 @@
         <printing.schema.dir.base>src/main/resources/org/kuali/kra/printing/schema</printing.schema.dir.base>
         <printing.config.dir.base>src/main/config/org/kuali/kra/printing/schema</printing.config.dir.base>
         <xmlbeans.gen.src.base>${project.build.directory}/generated-sources/xmlbeans</xmlbeans.gen.src.base>
-        <xmlbeans.gen.cls.base>${project.build.directory}/generated-classes/xmlbeans</xmlbeans.gen.cls.base>
+        <!--
+         Maven does not support the concept of "generated-classes" therefore setting the generated classes directory
+         to the generated-sources directory that way these classes will be placed in the target/classes directory.
+         -->
+        <xmlbeans.gen.cls.base>${xmlbeans.gen.src.base}</xmlbeans.gen.cls.base>
         <xmlbeans.gen.mrk.base>${project.build.directory}/xmlbeans-markers/xmlbeans</xmlbeans.gen.mrk.base>
     </properties>
 
@@ -171,11 +175,6 @@
                             <sourceGenerationDirectory>${xmlbeans.gen.src.base}-printing</sourceGenerationDirectory>
                             <classGenerationDirectory>${xmlbeans.gen.cls.base}-printing</classGenerationDirectory>
                             <staleFile>${xmlbeans.gen.mrk.base}-printing</staleFile>
-                            <!--<xmlConfigs>
-                                <xmlConfig>
-                                    ${printing.schema.dir.base}/.xsdconfig
-                                </xmlConfig>
-                            </xmlConfigs> -->
                         </configuration>
                     </execution>
                 </executions>
