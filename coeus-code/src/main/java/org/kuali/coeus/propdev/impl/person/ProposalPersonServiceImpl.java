@@ -21,7 +21,6 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,10 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
     @Autowired
     @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
-     
+    @Autowired
+    @Qualifier("unitService")
+    private UnitService unitService;
+
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -62,6 +64,12 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         return kcPersonService;
     }
 
+    public void setUnitService (UnitService unitService){
+        this.unitService = unitService;
+    }
+    protected UnitService getUnitService (){
+        return unitService;
+    }
     public String getPersonName(ProposalDevelopmentDocument doc, String userId) {
         String propPersonName = null;
         List<ProposalPerson> proposalPersons = doc.getDevelopmentProposal().getProposalPersons();
@@ -99,8 +107,7 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
     public String getProposalPersonDivisionName(ProposalPerson proposalPerson){
         String personDivisionName = null;
         if(proposalPerson != null ) {
-            UnitService unitService = KcServiceLocator.getService(UnitService.class);
-            List<Unit> units = unitService.getUnitHierarchyForUnit(proposalPerson.getHomeUnit());
+            List<Unit> units = getUnitService().getUnitHierarchyForUnit(proposalPerson.getHomeUnit());
             if(units.size() > UNIT_HEIRARCHY_NODE){
                 Unit unit=units.get(UNIT_HEIRARCHY_NODE);
                 personDivisionName = unit.getUnitName();
