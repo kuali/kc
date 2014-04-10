@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="MailBy" parent="MailBy-parentBean" />
   <bean id="MailBy-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.MailBy" />
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.mailing.MailBy" />
 		<property name="objectLabel" value="Mail By" />
     <property name="inquiryDefinition" >
       <ref bean="MailBy-inquiryDefinition" />
@@ -77,7 +77,7 @@
 
   <bean id="MailBy-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Mail By"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.MailBy"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.mailing.MailBy"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -121,7 +121,7 @@
   </bean>
 
   <bean id="MailBy-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.MailBy"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.mailing.MailBy"/>
     <property name="headerText" value="Mail By Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
