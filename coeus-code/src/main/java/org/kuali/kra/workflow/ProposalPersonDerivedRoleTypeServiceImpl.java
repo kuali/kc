@@ -18,7 +18,7 @@ package org.kuali.kra.workflow;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonService;
 
 import java.util.ArrayList;
 import java.util.List;
