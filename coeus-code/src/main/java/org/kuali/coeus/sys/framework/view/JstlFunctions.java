@@ -53,7 +53,7 @@ public final class JstlFunctions {
                         <c:set var="roleStyle" value="background-color:#FFD5D5"/>
                     </c:if>
                     <html:select property="${proposalPerson}.proposalPersonRoleId" tabindex="0" style="${roleStyle}">
-                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder', paramMap)}" var="option">
+                    <c:forEach items="${krafn:getOptionList('org.kuali.coeus.propdev.impl.person.ProposalPersonRoleValuesFinder', paramMap)}" var="option">
                     <c:choose>
                         <c:when test="${KualiForm.document.proposalPersons[personIndex].proposalPersonRoleId == option.key}">
                         <option value="${option.key}" selected>${option.label}</option>
