@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalAbstract" parent="ProposalAbstract-parentBean" />
   <bean id="ProposalAbstract-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract" />
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract" />
 		<property name="objectLabel" value="Proposal Abstract" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalAbstract-inquiryDefinition" />
@@ -67,10 +67,10 @@
     </property>
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.AbstractTypeValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.abstrct.AbstractTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.AbstractTypeValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.abstrct.AbstractTypeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -130,7 +130,7 @@
 
   <bean id="ProposalAbstract-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Proposal Abstract"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -173,7 +173,7 @@
   </bean>
 
   <bean id="ProposalAbstract-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract"/>
     <property name="headerText" value="Proposal Abstract Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
