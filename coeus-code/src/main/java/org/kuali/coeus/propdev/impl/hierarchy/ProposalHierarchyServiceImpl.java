@@ -615,7 +615,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         for (ProposalSpecialReview review : childProposal.getPropSpecialReviews()) {
             ProposalSpecialReview newReview = (ProposalSpecialReview) ObjectUtils.deepCopy(review);
             newReview.setProposalSpecialReviewId(null);
-            newReview.setProposalNumber(hierarchyProposal.getProposalNumber());
+            newReview.setDevelopmentProposal(hierarchyProposal);
             newReview.setSpecialReviewNumber(hierarchyProposal.getProposalDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));            
             newReview.setVersionNumber(null);
             newReview.setHierarchyProposalNumber(childProposal.getProposalNumber());

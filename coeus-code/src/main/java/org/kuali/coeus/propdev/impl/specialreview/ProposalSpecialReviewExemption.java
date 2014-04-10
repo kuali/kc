@@ -15,10 +15,18 @@
  */
 package org.kuali.coeus.propdev.impl.specialreview;
 
-import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
-import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-import javax.persistence.*;
+import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.kra.bo.ExemptionType;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 /**
  * Defines a Special Review Exemption for a Development Proposal.
@@ -35,27 +43,25 @@ public class ProposalSpecialReviewExemption extends SpecialReviewExemption {
     @Column(name = "PROPOSAL_EXEMPT_NUMBER_ID")
     private Long proposalSpecialReviewExemptionId;
 
-    @Column(name = "PROPOSAL_SPECIAL_REVIEW_ID")
-    private Long proposalSpecialReviewId;
-
-    @ManyToOne(targetEntity = ProposalSpecialReview.class, cascade = { CascadeType.REFRESH } )
-    @JoinColumn(name = "PROPOSAL_SPECIAL_REVIEW_ID", referencedColumnName = "PROPOSAL_SPECIAL_REVIEW_ID", insertable = false, updatable = false)
+    @ManyToOne(cascade = { CascadeType.REFRESH } )
+    @JoinColumn(name = "PROPOSAL_SPECIAL_REVIEW_ID")
     private ProposalSpecialReview proposalSpecialReview;
 
+    public ProposalSpecialReviewExemption() {
+    }
+    
+    public ProposalSpecialReviewExemption(ProposalSpecialReview proposalSpecialReview, ExemptionType exemptionType) {
+        this.proposalSpecialReview = proposalSpecialReview;
+        setExemptionType(exemptionType);
+        setExemptionTypeCode(exemptionType.getExemptionTypeCode());
+    }
+    
     public Long getProposalSpecialReviewExemptionId() {
         return proposalSpecialReviewExemptionId;
     }
 
     public void setProposalSpecialReviewExemptionId(Long proposalSpecialReviewExemptionId) {
         this.proposalSpecialReviewExemptionId = proposalSpecialReviewExemptionId;
-    }
-
-    public Long getProposalSpecialReviewId() {
-        return proposalSpecialReviewId;
-    }
-
-    public void setProposalSpecialReviewId(Long proposalSpecialReviewId) {
-        this.proposalSpecialReviewId = proposalSpecialReviewId;
     }
 
     public ProposalSpecialReview getProposalSpecialReview() {

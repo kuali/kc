@@ -23,6 +23,12 @@
 				<ref bean="PropDev-CompliancePage-Section" />
 			</list>
 		</property>
+		<property name="header">
+			<bean parent="Uif-PageHeader" />
+		</property>
+		<property name="footer">
+			<null />
+		</property>
 	</bean>
 
 	<!-- Proposal Details Section -->
@@ -39,128 +45,72 @@
 
 	<bean id="PropDev-CompliancePage-CollectionGroup" parent="PropDev-CompliancePage-CollectionGroup-parentBean" />
 	<bean id="PropDev-CompliancePage-CollectionGroup-parentBean"
-		parent="Uif-TableCollectionGroup" p:title="Compliance" p:propertyName="propSpecialReviews"
+		parent="Uif-Disclosure-StackedCollectionSection" p:title="Compliance" p:propertyName="propSpecialReviews"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview"
-		p:layoutManager.numberOfColumns="6" p:renderAddLine="false"
-		p:renderAddBlankLineButton="true" p:addLinePlacement="BOTTOM"
-		p:layoutManager.sequencePropertyName="specialReviewNumber">
+		p:layoutManager.summaryTitle="@{#line.specialReviewType.description} @{#line.approvalType.description} @{#line.protocolNumber}"
+		p:addViaLightBox="true">
+		<property name="addViaLightBoxAction">
+			<bean parent="Uif-AddViaLightBoxAction" p:actionLabel="Add compliance entry" p:iconClass="icon-plus"/>
+		</property>
 		<property name="items">
 			<list>
-				<bean parent="PropDev-CompliancePage-SpecialReviewTypeCode"
-					p:order="10" />
-				<bean parent="PropDev-CompliancePage-ApprovalTypeCode" p:order="20" />
-				<bean parent="PropDev-CompliancePage-ProtocolNumber" p:order="30" />
-				<bean parent="PropDev-CompliancePage-Dates" p:propertyName="applicationDate"
-					p:order="40" />
-				<bean parent="PropDev-CompliancePage-Dates" p:propertyName="approvalDate"
-					p:order="50" />
-				<bean parent="PropDev-CompliancePage-Dates" p:propertyName="expirationDate"
-					p:order="60" />
-				<bean parent="PropDev-CompliancePage-ExemptionTypeCodes"
-					p:order="70" />
+						<bean parent="Uif-InputField" p:propertyName="specialReviewTypeCode" p:order="10" />
+						<bean parent="Uif-InputField" p:propertyName="approvalTypeCode" p:order="20" />
+						<bean parent="Uif-InputField" p:propertyName="protocolNumber" p:order="30" />
+						<bean parent="Uif-InputField" p:propertyName="applicationDate" p:order="40" />
+						<bean parent="Uif-InputField" p:propertyName="approvalDate" p:order="50" />
+						<bean parent="Uif-InputField" p:propertyName="expirationDate" p:order="60" />
+						<bean parent="PropDev-CompliancePage-ExemptionTypeCodes" p:order="70" />
+						<bean parent="Uif-InputField" p:propertyName="comments" p:order="80" />
 			</list>
 		</property>
-	</bean>
-
-	<bean id="PropDev-CompliancePage-SpecialReviewTypeCode" parent="PropDev-CompliancePage-SpecialReviewTypeCode-parentBean" />
-	<bean id="PropDev-CompliancePage-SpecialReviewTypeCode-parentBean"
-		abstract="true" parent="Uif-InputField" p:propertyName="specialReviewTypeCode"
-		p:readOnly="@{#lp.linkedToProtocol}">
-		<property name="control">
-			<bean parent="Uif-DropdownControl" />
+		<property name="addLineActions">
+			<list>
+				<bean parent="Uif-AddLineAction" p:actionLabel="Add Entry"/>
+				<bean parent="Uif-CancelAction"/>
+  			</list>
+  		</property>
+  		<property name="addLineLabel.messageText" value="Add New Protocol"/>
+  		<property name="lineActions">
+			<list/>
 		</property>
-	</bean>
-	<bean id="PropDev-CompliancePage-ApprovalTypeCode" parent="PropDev-CompliancePage-ApprovalTypeCode-parentBean" />
-	<bean id="PropDev-CompliancePage-ApprovalTypeCode-parentBean"
-		abstract="true" parent="Uif-InputField" p:propertyName="approvalTypeCode"
-		p:readOnlyDisplayReplacementPropertyName="approvalType.description"
-		p:refreshWhenChangedPropertyNames="#lp.specialReviewTypeCode"
-		p:required="@{#empty(#lp.protocolNumber) or !((#lp.specialReviewTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or (#lp.specialReviewTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))}"
-		p:readOnly="@{#lp.linkedToProtocol}">
-		<property name="control">
-			<bean parent="Uif-DropdownControl"
-				p:disabled="@{!#empty(#lp.protocolNumber) and ((#lp.specialReviewTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or (#lp.specialReviewTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))}" />
-		</property>
-	</bean>
-	<bean id="PropDev-CompliancePage-ProtocolNumber" parent="PropDev-CompliancePage-ProtocolNumber-parentBean" />
-	<bean id="PropDev-CompliancePage-ProtocolNumber-parentBean"
-		abstract="true" parent="Uif-InputField" p:propertyName="protocolNumber"
-		p:refreshWhenChangedPropertyNames="#lp.specialReviewTypeCode,#lp.approvalTypeCode"
-		p:additionalCssClasses="protocolQuickFinderWrapper">
-		<property name="control">
-			<bean parent="Uif-TextControl"
-				p:disabled="@{#lp.linkedToProtocol or (#lp.approvalTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewApprovalType).NOT_YET_APPLIED}' and ((#lp.specialReviewTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or (#lp.specialReviewTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled)))}"
-				p:onBlurScript="retrieveComponent('PropDev-SpecialReviewTableCollection', 'linkProtocol');" />
-			<!-- -->
-		</property>
-		<property name="quickfinder">
-			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kra.irb.Protocol"
-				p:render="@{!#lp.linkedToProtocol and ((#lp.specialReviewTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or (#lp.specialReviewTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))}"
-				p:fieldConversions="protocolNumber:protocolNumber"
-				p:lookupParameters="protocolNumber:protocolNumber"
-				p:quickfinderAction.additionalCssClasses="protocolQuickFinder"
-				p:quickfinderAction.disabled="@{#lp.approvalTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewApprovalType).NOT_YET_APPLIED}' and ((#lp.specialReviewTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or (#lp.specialReviewTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))}">
-				<property name="propertyReplacers">
-					<list>
-						<bean parent="Uif-ConditionalBeanPropertyReplacer"
-							p:propertyName="dataObjectClassName"
-							p:condition="#lp.specialReviewTypeCode == '#{T(org.kuali.kra.bo.SpecialReviewType).ANIMAL_USAGE}'">
-							<property name="replacement" value="org.kuali.kra.iacuc.IacucProtocol">
-							</property>
-						</bean>
-					</list>
+		<property name="layoutManager.lineGroupPrototype">
+			<bean parent="Uif-CollectionHorizontalBoxItem"
+				p:disclosure.render="true" p:disclosure.defaultOpen="false">
+				<property name="layoutManager">
+					<bean parent="Uif-SimpleLayout" />
+				</property>
+				<property name="header">
+					<bean parent="Uif-HeaderFour">
+						<property name="rightGroup">
+							<bean parent="Uif-VerticalBoxGroup">
+								<property name="items">
+									<list>
+										<bean parent="Uif-DeleteLineAction" p:actionLabel=""
+											p:iconClass="icon-close" p:order="10" />
+									</list>
+								</property>
+							</bean>
+						</property>
+					</bean>
 				</property>
 			</bean>
 		</property>
 	</bean>
-	<bean id="PropDev-CompliancePage-Dates" parent="PropDev-CompliancePage-Dates-parentBean" />
-	<bean id="PropDev-CompliancePage-Dates-parentBean" abstract="true"
-		parent="Uif-InputField">
-		<property name="propertyReplacers">
-			<ref bean="PropDev-CompliancePage-HiddenFieldPropertyReplacers" />
-		</property>
-	</bean>
-	<bean id="PropDev-CompliancePage-ExemptionTypeCodes" parent="PropDev-CompliancePage-ExemptionTypeCodes-parentBean" />
-	<bean id="PropDev-CompliancePage-ExemptionTypeCodes-parentBean"
-		abstract="true" parent="Uif-InputField" p:propertyName="exemptionTypeCodes"
-		p:fieldLabel.labelText="Exemption #">
+
+	<bean id="PropDev-CompliancePage-ExemptionTypeCodes" parent="PropDev-CompliancePage-ExemptionTypeCodes-parentBean"/>
+	<bean id="PropDev-CompliancePage-ExemptionTypeCodes-parentBean" abstract="true" parent="Uif-InputField"
+		p:propertyName="specialReviewExemptions" p:label="Exemption #">
 		<property name="control">
-			<bean parent="Uif-MultiSelectControl" />
+			<bean parent="Uif-AdvancedMultiSelectControl"/>
 		</property>
 		<property name="optionsFinder">
 			<bean
-				class="org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewExemptionValuesFinder" />
-		</property>
-		<property name="propertyReplacers">
-			<ref bean="PropDev-CompliancePage-HiddenFieldPropertyReplacers" />
+				class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" 
+				p:businessObjectClass="org.kuali.kra.bo.ExemptionType"
+				p:keyAttributeName="exemptionTypeCode"
+				p:labelAttributeName="description"/>
 		</property>
 	</bean>
-
-	<bean id="PropDev-CompliancePage-HiddenFieldPropertyReplacers"
-		parent="PropDev-CompliancePage-HiddenFieldPropertyReplacers-parentBean" />
-	<util:list
-		id="PropDev-CompliancePage-HiddenFieldPropertyReplacers-parentBean">
-		<bean parent="Uif-ConditionalBeanPropertyReplacer"
-			p:propertyName="progressiveRender"
-			p:condition="specialReviewHelper.IsIrbProtocolLinkingEnabled and specialReviewHelper.IsIacucProtocolLinkingEnabled">
-			<property name="replacement"
-				value="#lp.specialReviewTypeCode != '#{T(org.kuali.kra.bo.SpecialReviewType).HUMAN_SUBJECTS}' and #lp.specialReviewTypeCode != '#{T(org.kuali.kra.bo.SpecialReviewType).ANIMAL_USAGE}'">
-			</property>
-		</bean>
-		<bean parent="Uif-ConditionalBeanPropertyReplacer"
-			p:propertyName="progressiveRender"
-			p:condition="specialReviewHelper.IsIrbProtocolLinkingEnabled and !specialReviewHelper.IsIacucProtocolLinkingEnabled">
-			<property name="replacement"
-				value="#lp.specialReviewTypeCode != '#{T(org.kuali.kra.bo.SpecialReviewType).HUMAN_SUBJECTS}'">
-			</property>
-		</bean>
-		<bean parent="Uif-ConditionalBeanPropertyReplacer"
-			p:propertyName="progressiveRender"
-			p:condition="!specialReviewHelper.IsIrbProtocolLinkingEnabled and specialReviewHelper.IsIacucProtocolLinkingEnabled">
-			<property name="replacement"
-				value="#lp.specialReviewTypeCode != '#{T(org.kuali.kra.bo.SpecialReviewType).ANIMAL_USAGE}'">
-			</property>
-		</bean>
-	</util:list>
 
 </beans>
