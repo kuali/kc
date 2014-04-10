@@ -44,7 +44,7 @@
 	<bean id="PropDev-AbstractsPage-Collection-parentBean" abstract="true"
 		parent="PropDev-Attachment-Collection">
 		<property name="collectionObjectClass"
-			value="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract" />
+			value="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract" />
 		<property name="propertyName" value="proposalAbstracts" />
 		<property name="layoutManager.summaryTitle" value="@{#lp.abstractType.description}" />
 		<property name="items">
