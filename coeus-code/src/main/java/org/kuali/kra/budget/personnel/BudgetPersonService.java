@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.personnel;
 
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 
 /**
  * Budget Person Service interface

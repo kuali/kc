@@ -35,7 +35,7 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.*;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.s2s.S2SException;
@@ -1779,7 +1779,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      * 
      * @param proposalPerson ProposalPerson.
      * @return boolean true if Non MIT Person false otherwise.
-     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#isPersonNonMITPerson(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#isPersonNonMITPerson(org.kuali.coeus.propdev.impl.person.ProposalPerson)
      */
     public boolean isPersonNonMITPerson(ProposalPerson proposalPerson) {
         return proposalPerson.getPersonId() == null;

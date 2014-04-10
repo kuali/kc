@@ -30,7 +30,7 @@ import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;

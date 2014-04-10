@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 
 public class KeyPersonnelAddWizardHelper {
 

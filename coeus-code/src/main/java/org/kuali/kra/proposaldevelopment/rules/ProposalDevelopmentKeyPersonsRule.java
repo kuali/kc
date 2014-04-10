@@ -22,7 +22,10 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -291,7 +294,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
     /**
      * Either adding a degree or unit can trigger this rule to be validated
      * 
-     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.rice.krad.bo.BusinessObject)
+     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.coeus.propdev.impl.person.ProposalPerson, org.kuali.rice.krad.bo.BusinessObject)
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction#insertDegree(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction#insertUnit(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */

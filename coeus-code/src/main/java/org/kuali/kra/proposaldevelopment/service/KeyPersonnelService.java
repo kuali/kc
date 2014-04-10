@@ -19,9 +19,9 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 
 import java.util.Collection;
 import java.util.Map;
@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * A Service for persisted modifications of Key Personnel related business objects
  *
- * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
+ * @see org.kuali.coeus.propdev.impl.person.ProposalPerson
  * @author $Author: gmcgrego $
  * @version $Revision: 1.11 $
  */

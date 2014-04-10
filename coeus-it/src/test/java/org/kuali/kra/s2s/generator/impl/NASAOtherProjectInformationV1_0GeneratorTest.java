@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
