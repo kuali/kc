@@ -382,10 +382,10 @@
   <bean id="ProposalPerson-state" parent="ProposalPerson-state-parentBean" />
   <bean id="ProposalPerson-state-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
   	<property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.KcStateValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.person.KcStateValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.KcStateValuesFinder"
+      <bean class="org.kuali.coeus.propdev.impl.person.KcStateValuesFinder"
       	p:addBlankOption="false"/>
     </property>
     <property name="controlField">

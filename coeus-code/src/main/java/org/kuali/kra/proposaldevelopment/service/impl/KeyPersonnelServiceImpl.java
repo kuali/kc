@@ -35,7 +35,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonService;
 import org.kuali.kra.service.YnqService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

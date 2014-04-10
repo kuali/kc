@@ -33,7 +33,7 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
