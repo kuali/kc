@@ -236,7 +236,7 @@
 					</property>
 					<property name="optionsFinder">
 						<bean
-							class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder" />
+							class="org.kuali.coeus.propdev.impl.person.ProposalPersonRoleValuesFinder" />
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="multiplePi"

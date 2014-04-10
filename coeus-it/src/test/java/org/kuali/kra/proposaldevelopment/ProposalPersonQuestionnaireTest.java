@@ -29,7 +29,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.questionnaire.Questionnaire;

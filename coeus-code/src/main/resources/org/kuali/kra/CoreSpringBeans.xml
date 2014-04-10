@@ -1373,7 +1373,7 @@
     		<map>
     			<entry key="KC-PD:Investigators">
     				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-    					<property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" />
+    					<property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.person.ProposalPersonRole" />
     					<property name="keyAttributeName" value="proposalPersonRoleId"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>
@@ -1394,7 +1394,7 @@
     			</entry>
     			<entry key="KC-IP:Investigators">
 					<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-    					<property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" />
+    					<property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.person.ProposalPersonRole" />
     					<property name="keyAttributeName" value="proposalPersonRoleId"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>    			
@@ -1408,7 +1408,7 @@
     			</entry>
     			<entry key="KC-AWARD:Investigators">
 					<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-    					<property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" />
+    					<property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.person.ProposalPersonRole" />
     					<property name="keyAttributeName" value="proposalPersonRoleId"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>    			
