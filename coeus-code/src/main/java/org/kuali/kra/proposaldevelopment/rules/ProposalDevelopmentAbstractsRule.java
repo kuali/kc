@@ -22,8 +22,8 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.AbstractType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
-import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
+import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
+import org.kuali.coeus.propdev.impl.abstrct.AbstractsRule;
 import org.kuali.rice.core.api.criteria.CountFlag;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -44,7 +44,7 @@ public class ProposalDevelopmentAbstractsRule extends KcTransactionalDocumentRul
      * Don't allow abstracts with an invalid abstract type code or duplicate abstracts, i.e.
      * same abstract type code, into the database.
      * 
-     * @see org.kuali.kra.proposaldevelopment.rule.AbstractsRule#processAddAbstractBusinessRules(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalAbstract)
+     * @see org.kuali.coeus.propdev.impl.abstrct.AbstractsRule#processAddAbstractBusinessRules(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument, org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract)
      */
     public boolean processAddAbstractBusinessRules(ProposalDevelopmentDocument document, ProposalAbstract proposalAbstract) {
         boolean isValid = true;

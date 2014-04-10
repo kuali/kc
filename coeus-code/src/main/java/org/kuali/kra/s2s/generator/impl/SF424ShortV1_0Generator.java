@@ -27,7 +27,7 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
+import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
