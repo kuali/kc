@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Used to describe a <code>{@link BusinessObject}</code> with credit that can be split. Usually,
- * this is a <code>{@link ProposalPerson}</code> or the like.
+ * this is a <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPerson}</code> or the like.
  *
  * @author $Author: gmcgrego $
  * @version $Revision: 1.4 $

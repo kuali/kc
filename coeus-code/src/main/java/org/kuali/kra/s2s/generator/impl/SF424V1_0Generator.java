@@ -41,7 +41,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;

@@ -17,7 +17,7 @@ package org.kuali.kra.proposaldevelopment.dao;
 
 import java.util.List;
 
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 
 public interface ProposalPersonDao {
     /**

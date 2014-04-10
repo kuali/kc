@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.printing.service;
 
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 
 import java.util.List;
 

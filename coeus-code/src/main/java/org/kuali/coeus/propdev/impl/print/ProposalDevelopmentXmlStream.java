@@ -55,6 +55,8 @@ import edu.mit.coeus.utils.xml.v2.sponsor.SPONSORDocument.SPONSOR;
 import edu.mit.coeus.utils.xml.v2.userUnit.UNITDocument.UNIT;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;

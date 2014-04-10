@@ -29,7 +29,7 @@ import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrinti
 import org.kuali.kra.irb.actions.print.ProtocolPrintType;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.WebUtils;

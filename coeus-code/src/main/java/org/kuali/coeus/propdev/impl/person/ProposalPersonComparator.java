@@ -16,7 +16,6 @@
 package org.kuali.coeus.propdev.impl.person;
 
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
 import java.util.Comparator;
@@ -25,7 +24,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 /**
- * Used to order <code>{@link org.kuali.kra.proposaldevelopment.bo.ProposalPerson}</code> instances by <code>{@link ProposalPersonRole}</code>.
+ * Used to order <code>{@link ProposalPerson}</code> instances by <code>{@link ProposalPersonRole}</code>.
  * 
  */
 public class ProposalPersonComparator implements Comparator<ProposalPerson> {

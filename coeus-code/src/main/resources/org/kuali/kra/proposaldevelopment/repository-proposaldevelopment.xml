@@ -123,7 +123,7 @@
                 <attribute attribute-name="hiddenInHierarchy" attribute-value="N" />
             </query-customizer>
         </collection-descriptor>
-        <collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" 
+        <collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.person.ProposalPerson"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="ordinalPosition" sort="ASC" />
             <inverse-foreignkey field-ref="proposalNumber"/>
@@ -245,7 +245,7 @@
         <reference-descriptor name="ownedByUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="ownedByUnitNumber" />
         </reference-descriptor>
-        <collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" 
+        <collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.person.ProposalPerson"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
         </collection-descriptor>
@@ -326,7 +326,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" table="EPS_PROP_PERSON">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.person.ProposalPerson" table="EPS_PROP_PERSON">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalPersonRoleId" column="PROP_PERSON_ROLE_ID" jdbc-type="VARCHAR" />
@@ -420,7 +420,7 @@
            <foreignkey field-ref="proposalNumber" />
         </reference-descriptor>     
                 
-        <collection-descriptor name="proposalPersonDegrees" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree" 
+        <collection-descriptor name="proposalPersonDegrees" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.person.ProposalPersonDegree"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="proposalNumber"/>
             <inverse-foreignkey field-ref="proposalPersonNumber"/>
@@ -431,7 +431,7 @@
             <inverse-foreignkey field-ref="proposalNumber"/>
             <inverse-foreignkey field-ref="proposalPersonNumber"/>
         </collection-descriptor>
-        <collection-descriptor name="units" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit" 
+        <collection-descriptor name="units" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.person.ProposalPersonUnit"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="proposalNumber"/>
             <inverse-foreignkey field-ref="proposalPersonNumber"/>
@@ -498,7 +498,7 @@
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree" table="EPS_PROP_PERSON_DEGREE">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.person.ProposalPersonDegree" table="EPS_PROP_PERSON_DEGREE">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="degreeSequenceNumber" column="DEGREE_SEQUENCE_NUMBER" jdbc-type="INTEGER" primarykey="true" />
@@ -540,7 +540,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit" table="EPS_PROP_PERSON_UNITS">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.person.ProposalPersonUnit" table="EPS_PROP_PERSON_UNITS">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
@@ -572,7 +572,7 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         
         <!-- 
-        <reference-descriptor name="ProposalPerson" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="ProposalPerson" class-ref="org.kuali.coeus.propdev.impl.person.ProposalPerson" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="proposalPersonNumber"/> 
             <foreignkey field-ref="proposalNumber"/> 
         </reference-descriptor>
