@@ -16,11 +16,8 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.impl.location.*;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
-import org.kuali.coeus.propdev.impl.location.AddProposalCongressionalDistrictEvent;
-import org.kuali.coeus.propdev.impl.location.DeleteProposalCongressionalDistrictEvent;
-import org.kuali.coeus.propdev.impl.location.CongressionalDistrictHelper;
 
 import java.util.regex.Pattern;
 
