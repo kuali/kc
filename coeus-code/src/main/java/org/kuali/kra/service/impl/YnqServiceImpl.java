@@ -23,14 +23,12 @@ import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.bo.YnqExplanationType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.YnqConstants;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;
-
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class YnqServiceImpl implements YnqService {
 

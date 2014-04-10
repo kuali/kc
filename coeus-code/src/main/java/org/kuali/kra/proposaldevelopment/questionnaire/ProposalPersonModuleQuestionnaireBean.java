@@ -19,7 +19,7 @@ import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 
 
 public class ProposalPersonModuleQuestionnaireBean extends ProposalDevelopmentModuleQuestionnaireBean {

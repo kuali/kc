@@ -20,7 +20,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
@@ -97,7 +97,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
     /**
      * 
      * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#removePersonnelAttachmentForDeletedPerson(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument,
-     *      org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     *      org.kuali.coeus.propdev.impl.person.ProposalPerson)
      */
     public void removePersonnelAttachmentForDeletedPerson(ProposalDevelopmentDocument proposaldevelopmentDocument,
             ProposalPerson person) {

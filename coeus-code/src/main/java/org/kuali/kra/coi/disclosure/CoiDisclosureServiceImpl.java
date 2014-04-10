@@ -56,7 +56,7 @@ import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.medusa.MedusaNode;
 import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;

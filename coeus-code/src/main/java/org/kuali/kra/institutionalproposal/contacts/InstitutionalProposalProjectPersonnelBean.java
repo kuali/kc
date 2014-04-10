@@ -18,7 +18,7 @@ package org.kuali.kra.institutionalproposal.contacts;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 
 import java.util.HashMap;
 import java.util.List;

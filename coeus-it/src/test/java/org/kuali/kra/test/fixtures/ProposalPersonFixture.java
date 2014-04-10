@@ -16,6 +16,8 @@
 package org.kuali.kra.test.fixtures;
 
 import org.kuali.coeus.common.framework.editable.PersonEditableService;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
