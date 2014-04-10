@@ -295,7 +295,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 					.getDescription());
 			propSplReview.setSPECIALREVIEW(splReview);
 			propSplReview.setPROTOCOLNUMBER(specialReview.getProtocolNumber());
-			propSplReview.setPROPOSALNUMBER(specialReview.getProposalNumber());
+			propSplReview.setPROPOSALNUMBER(specialReview.getDevelopmentProposal().getProposalNumber());
 			propSplReviewList.add(propSplReview);
 		}
 		return propSplReviewList.toArray(new PROPSPECIALREVIEW[0]);

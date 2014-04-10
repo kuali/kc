@@ -68,7 +68,7 @@ public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSp
             
             if (specialReview.getClass().equals(ProposalSpecialReview.class)) {
                 ProposalSpecialReview psr = (ProposalSpecialReview) specialReview;
-                DevelopmentProposal dp = getPropososalDevelopment(psr.getProposalNumber());
+                DevelopmentProposal dp = getPropososalDevelopment(psr.getDevelopmentProposal().getProposalNumber());
                 if (dp != null 
                         && (StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.APPROVED_AND_SUBMITTED)
                                 || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.DISAPPROVED)

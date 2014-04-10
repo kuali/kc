@@ -73,7 +73,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                     specialReview.setSpecialReviewNumber(specialReviewNumber);
                     specialReview.setApprovalTypeCode(SpecialReviewApprovalType.PENDING);
                     specialReview.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
-                    specialReview.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+                    specialReview.setDevelopmentProposal(document.getDevelopmentProposal());
                     specialReview.setProtocolStatus(protocolDocument.getProtocol().getProtocolStatus().getDescription());
                     specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
 
@@ -95,7 +95,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                     specialReview.setSpecialReviewNumber(specialReviewNumber);
                     specialReview.setApprovalTypeCode(SpecialReviewApprovalType.PENDING);
                     specialReview.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
-                    specialReview.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+                    specialReview.setDevelopmentProposal(document.getDevelopmentProposal());
                     specialReview.setProtocolStatus(protocolDocument.getProtocol().getProtocolStatus().getDescription());
                     specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
         
