@@ -16,7 +16,6 @@
 package org.kuali.coeus.propdev.impl.person;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 import java.util.List;
 

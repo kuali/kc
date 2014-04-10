@@ -22,7 +22,7 @@ import gov.grants.apply.system.globalLibraryV10.HumanNameDataType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;
 
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 

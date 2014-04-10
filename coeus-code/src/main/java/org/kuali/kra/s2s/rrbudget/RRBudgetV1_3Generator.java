@@ -35,12 +35,11 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.generator.impl.RRBudgetBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

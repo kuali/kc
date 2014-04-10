@@ -22,8 +22,6 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;

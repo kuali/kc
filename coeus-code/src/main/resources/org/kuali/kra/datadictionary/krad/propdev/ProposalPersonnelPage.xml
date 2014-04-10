@@ -184,7 +184,7 @@
 	<bean id="PropDev-PersonnelPage-WizardPage2-Results" parent="PropDev-PersonnelPage-WizardPage2-Results-parentBean" />
 	<bean id="PropDev-PersonnelPage-WizardPage2-Results-parentBean"
 		abstract="true" parent="Uif-TableCollectionSection" p:headerText="Search Results"
-		p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPerson"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
 		p:propertyName="results" p:additionalCssClasses="kc-personnel-table"
 		p:renderAddLine="false" p:renderLineActions="false"
 		p:layoutManager.renderSequenceField="false">
@@ -247,7 +247,7 @@
 				</bean>
 				<bean parent="Uif-InputField"
 					p:propertyName="keyPersonProjectRole"
-					p:dictionaryObjectEntry="org.kuali.kra.proposaldevelopment.bo.ProposalPerson"
+					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson"
 					p:dictionaryAttributeName="projectRole" p:required="true"
 					p:label="Key Person's role will be" p:progressiveRender="@{#fp.personRole == 'T(org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole).KEY_PERSON_CODE'}"
 					p:order="30" />
@@ -272,7 +272,7 @@
 
 	<bean id="PropDev-PersonnelPage-Collection" parent="PropDev-PersonnelPage-Collection-parentBean" />
 	<bean id="PropDev-PersonnelPage-Collection-parentBean" abstract="true"
-		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPerson"
+		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
 		p:propertyName="document.developmentProposal.proposalPersons"
 		p:layoutManager.summaryTitle="@{#lp.fullName} (@{#lp.proposalPersonRoleId})"
 		p:renderAddLine="false">
@@ -468,7 +468,7 @@
 	<bean id="PropDev-PersonnelPage-UnitDetails-parentBean" abstract="true"
 		parent="Uif-TableCollectionSection" p:headerText="Unit Details"
 		p:propertyName="units"
-		p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonUnit"
 		p:renderAddLine="false" p:layoutManager.renderSequenceField="false">
 		<property name="layoutManager.pagerWidget">
 			<null />
@@ -492,7 +492,7 @@
 	<bean id="PropDev-PersonnelPage-Degrees-parentBean" abstract="true"
 		parent="Uif-TableCollectionSection" p:headerText="Degrees"
 		p:propertyName="proposalPersonDegrees"
-		p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonDegree"
 		p:renderAddBlankLineButton="true" p:layoutManager.richTable.render="true"
 		p:layoutManager.renderSequenceField="false" p:addLinePlacement="BOTTOM">
 		<property name="items">
