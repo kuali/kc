@@ -37,7 +37,7 @@ import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.questionnaire.Questionnaire;
@@ -804,7 +804,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * Implementation should return one of the enums defined in PHS398CareerDevelopmentAwardSup11V11 form schema. For now, it
      * returns US RESIDENT as default
      * 
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getCitizenship(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getCitizenship(org.kuali.coeus.propdev.impl.person.ProposalPerson)
      * 
      */
     public CitizenshipTypes getCitizenship(ProposalPerson proposalPerson) {

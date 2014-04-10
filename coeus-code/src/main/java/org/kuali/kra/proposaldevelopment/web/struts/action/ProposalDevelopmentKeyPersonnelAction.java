@@ -27,6 +27,10 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.print.ProposalDevelopmentPrintingService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -178,8 +182,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
     
     /**
-     * Called to handle situations when the <code>{@link ProposalPersonRole}</code> is changed on a <code>{@link ProposalPerson}</code>. It
-     * does this by looping through a <code>{@link List}</code> of <code>{@link ProposalPerson}</code> instances in a 
+     * Called to handle situations when the <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPersonRole}</code> is changed on a <code>{@link ProposalPerson}</code>. It
+     * does this by looping through a <code>{@link List}</code> of <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPerson}</code> instances in a
      * <code>{@link ProposalDevelopmentDocument}</code>
      *  
      * @param document <code>{@link ProposalDevelopmentDocument}</code> instance with <code>{@link List}</code> of 
