@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -22,25 +22,31 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.lookup.keyvalue.KcStateValuesFinder;
-import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
-import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component("proposalPersonService")
 public class ProposalPersonServiceImpl implements ProposalPersonService {
     
     private static final Integer UNIT_HEIRARCHY_NODE = 3;
     
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
      
-    public BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -54,7 +60,10 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
-    
+    protected KcPersonService getKcPersonService(){
+        return kcPersonService;
+    }
+
     public String getPersonName(ProposalDevelopmentDocument doc, String userId) {
         String propPersonName = null;
         List<ProposalPerson> proposalPersons = doc.getDevelopmentProposal().getProposalPersons();
