@@ -33,7 +33,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;

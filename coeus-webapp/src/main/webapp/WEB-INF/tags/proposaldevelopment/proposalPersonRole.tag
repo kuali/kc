@@ -46,7 +46,7 @@
 
                 <%-- // START SNIPPET: jstlFunctionJspExample2 --%>
                 <html:select property="${proposalPerson}.proposalPersonRoleId" tabindex="0" style="${roleStyle}">
-                <c:forEach items="${krafn:getOptionList('org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder', paramMap)}" var="option">
+                <c:forEach items="${krafn:getOptionList('org.kuali.coeus.propdev.impl.person.ProposalPersonRoleValuesFinder', paramMap)}" var="option">
                 <c:choose>
                     <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == option.key}">
                     <option value="${option.key}" selected>${option.value}</option>

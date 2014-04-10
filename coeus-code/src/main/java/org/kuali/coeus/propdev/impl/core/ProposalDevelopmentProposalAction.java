@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.location.*;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ScienceKeyword;

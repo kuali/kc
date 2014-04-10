@@ -23,9 +23,8 @@ import org.kuali.kra.personmasschange.service.ProposalDevelopmentPersonMassChang
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;

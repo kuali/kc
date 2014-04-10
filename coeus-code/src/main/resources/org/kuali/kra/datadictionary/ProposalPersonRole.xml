@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalPersonRole" parent="ProposalPersonRole-parentBean" />
   <bean id="ProposalPersonRole-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" />
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.person.ProposalPersonRole" />
 		<property name="objectLabel" value="Proposal Person Role" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalPersonRole-inquiryDefinition" />
@@ -67,7 +67,7 @@
 
   <bean id="ProposalPersonRole-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Proposal Person Role"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.person.ProposalPersonRole"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -109,7 +109,7 @@
   </bean>
 
   <bean id="ProposalPersonRole-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.person.ProposalPersonRole"/>
     <property name="headerText" value="Proposal Person Role"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

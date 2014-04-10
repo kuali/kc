@@ -27,6 +27,7 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
@@ -582,7 +583,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @param roleId to check
      * @return true if the <code>roleId</code> is a value in the <code>personrole.readonly.roles</code> system parameter, and false
      *         if the <coderoleId</code> is null
-     * @see #isRoleReadOnly(ProposalPersonRole)
+     * @see #isRoleReadOnly(org.kuali.coeus.propdev.impl.person.ProposalPersonRole)
      */
     protected boolean isRoleReadOnly(String roleId) {
         if (roleId == null) {
