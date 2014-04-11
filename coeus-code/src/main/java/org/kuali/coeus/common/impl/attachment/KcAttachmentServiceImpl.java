@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.impl.attachment;
 
+import org.kuali.coeus.common.api.attachment.KcAttachment;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Component;
@@ -45,6 +46,7 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
      * Currently determining the icon based only on the mime type and using the default icon
      * if a mime type is not mapped in mimeTypeIcons. The full attachment is being passed here
      * so more advanced file type detection can be implemented if necessary.
+     * @see org.kuali.coeus.common.framework.attachment.KcAttachmentService#getFileTypeIcon(org.kuali.coeus.common.api.attachment.KcAttachment)
      */
     @Override
     public String getFileTypeIcon(String type) {
