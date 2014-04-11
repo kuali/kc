@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.proposaldevelopment.printing.xmlstream;
+package org.kuali.coeus.propdev.impl.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
@@ -26,7 +26,6 @@ import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
-import org.kuali.coeus.propdev.impl.print.ProposalDevelopmentPrintingService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.kra.infrastructure.Constants;
