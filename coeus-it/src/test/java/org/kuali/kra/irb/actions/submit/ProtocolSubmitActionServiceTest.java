@@ -87,7 +87,7 @@ public class ProtocolSubmitActionServiceTest extends KcIntegrationTestBase {
         protocolSubmitActionService = KcServiceLocator.getService(ProtocolSubmitActionService.class);
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         rolodexService = KcServiceLocator.getService(RolodexService.class);
-        documentService = KcServiceLocator.getService("kraDocumentService");
+        documentService = KcServiceLocator.getService(DocumentService.class);
         identityManagementService = KcServiceLocator.getService(IdentityService.class);
         defaultReviewers = getDefaultReviewers();
         
