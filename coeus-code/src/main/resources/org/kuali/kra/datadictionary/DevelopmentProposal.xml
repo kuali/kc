@@ -747,11 +747,11 @@
   <bean id="DevelopmentProposal-mailBy-parentBean" abstract="true" parent="MailBy-mailByCode">
 		<property name="name" value="mailBy" />
 		<property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.propdev.impl.mailing.MailBy" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="mailByCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.proposal.framework.mail.MailBy" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="mailByCode" p:labelAttribute="description"/>
 		</property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.mailing.MailBy"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.proposal.framework.mail.MailBy"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="keyAttributeName" value="mailByCode"/>
         <property name="labelAttributeName" value="description"/>
@@ -778,11 +778,11 @@
     </property>
 		<property name="required" value="false" />
 		<property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.propdev.impl.mailing.MailType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="mailType" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.proposal.framework.mail.MailType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="mailType" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.mailing.MailType"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.proposal.framework.mail.MailType"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="keyAttributeName" value="mailType"/>
         <property name="labelAttributeName" value="description"/>
