@@ -20,22 +20,25 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AMPMValuesFinder extends UifKeyValuesFinderBase {
     
     public static final String AM = "AM";
     public static final String PM = "PM";
-    
-    public AMPMValuesFinder() {
+
+    private static final List<KeyValue> KEY_VALUES;
+    static {
+        final List<KeyValue> temp = new ArrayList<>();
+        temp.add(new ConcreteKeyValue(AM, AM));
+        temp.add(new ConcreteKeyValue(PM, PM));
+        KEY_VALUES = Collections.unmodifiableList(temp);
     }
 
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue(AM, AM));
-        keyValues.add(new ConcreteKeyValue(PM, PM));
-        return keyValues;
+        return KEY_VALUES;
     }
 
 }

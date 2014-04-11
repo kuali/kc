@@ -36,7 +36,7 @@ public class CommitteeFactory {
     protected static final String DEFAULT_REVIEW_TYPE_CODE = "1"; // FULL
   
     public static CommitteeDocument createCommitteeDocument(String committeeId) throws WorkflowException {
-        DocumentService documentService = KcServiceLocator.getService("kraDocumentService");//KRADServiceLocatorWeb.getDocumentService();
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         CommitteeDocument committeeDocument = (CommitteeDocument) documentService.getNewDocument("CommitteeDocument");
         setRequiredFields(committeeDocument, committeeId);
         documentService.saveDocument(committeeDocument);

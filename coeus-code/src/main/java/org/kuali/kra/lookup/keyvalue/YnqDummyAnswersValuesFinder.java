@@ -20,18 +20,23 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class YnqDummyAnswersValuesFinder extends UifKeyValuesFinderBase {
 
-    @Override
-    public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("Y", "Yes"));
-        keyValues.add(new ConcreteKeyValue("N", "No"));
-        keyValues.add(new ConcreteKeyValue("X", "N/A"));
-        return keyValues;
+    private static final List<KeyValue> KEY_VALUES;
+    static {
+        final List<KeyValue> temp = new ArrayList<>();
+        temp.add(new ConcreteKeyValue("Y", "Yes"));
+        temp.add(new ConcreteKeyValue("N", "No"));
+        temp.add(new ConcreteKeyValue("X", "N/A"));
+        KEY_VALUES = Collections.unmodifiableList(temp);
     }
 
+    @Override
+    public List<KeyValue> getKeyValues() {
+        return KEY_VALUES;
+    }
 }
 

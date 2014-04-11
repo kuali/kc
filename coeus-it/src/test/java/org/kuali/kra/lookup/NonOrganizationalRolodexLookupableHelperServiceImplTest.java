@@ -31,7 +31,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 /**
- * Tests the {@link NonOrganizationalLookupableHelperServiceImpl}.
+ * Tests the {@link NonOrganizationalRolodexLookupableHelperServiceImpl}.
  */
 public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends KcIntegrationTestBase {
     
