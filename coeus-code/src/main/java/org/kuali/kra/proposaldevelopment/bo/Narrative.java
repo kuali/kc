@@ -20,8 +20,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
-import org.kuali.coeus.common.framework.attachment.KcAttachment;
-import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
+import org.kuali.coeus.common.api.attachment.KcAttachment;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
@@ -633,10 +632,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         } else {
             return getNarrativeAttachmentList().get(0).getContent();
         }
-    }
-
-    public String getIconPath() {
-        return KcServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
     }
 
     public String getName() {

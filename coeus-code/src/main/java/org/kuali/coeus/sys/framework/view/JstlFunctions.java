@@ -16,7 +16,10 @@
 package org.kuali.coeus.sys.framework.view;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.kuali.coeus.common.api.attachment.KcAttachment;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 import java.math.BigDecimal;
@@ -85,6 +88,10 @@ public final class JstlFunctions {
      */
     public static BigDecimal getBigDecimal(ScaleTwoDecimal scaleTwoDecimal) {
         return scaleTwoDecimal.bigDecimalValue();
+    }
+
+    public static String getIconPath(KcAttachment attachment) {
+        return KcServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(attachment);
     }
 
     /**

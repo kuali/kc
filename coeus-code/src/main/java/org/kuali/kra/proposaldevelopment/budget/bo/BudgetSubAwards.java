@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.budget.bo;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
@@ -30,7 +31,7 @@ import java.util.List;
  * 
  * This class maintains the attributes needed for a subaward budget line.
  */
-public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintainable, Comparable<BudgetSubAwards> {
+public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintainable, Comparable<BudgetSubAwards>, BudgetSubAwardsContract {
 
 
     private static final long serialVersionUID = -857485535655759499L;
@@ -91,6 +92,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         budgetSubAwardPeriodDetails = new ArrayList<BudgetSubAwardPeriodDetail>();
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -99,6 +101,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public Integer getSubAwardNumber() {
         return subAwardNumber;
     }
@@ -107,6 +110,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.subAwardNumber = subAwardNumber;
     }
 
+    @Override
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
     }
@@ -115,6 +119,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.budgetVersionNumber = budgetVersionNumber;
     }
 
+    @Override
     public String getComments() {
         return comments;
     }
@@ -123,6 +128,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.comments = comments;
     }
 
+    @Override
     public String getOrganizationName() {
         return organizationName;
     }
@@ -131,6 +137,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.organizationName = organizationName;
     }
 
+    @Override
     public Integer getSubAwardStatusCode() {
         return subAwardStatusCode;
     }
@@ -139,6 +146,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.subAwardStatusCode = subAwardStatusCode;
     }
 
+    @Override
     public String getSubAwardXfdFileName() {
         return subAwardXfdFileName;
     }
@@ -147,6 +155,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.subAwardXfdFileName = subAwardXfdFileName;
     }
 
+    @Override
     public String getTranslationComments() {
         return translationComments;
     }
@@ -155,6 +164,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.translationComments = translationComments;
     }
 
+    @Override
     public Timestamp getXfdUpdateTimestamp() {
         return xfdUpdateTimestamp;
     }
@@ -163,6 +173,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.xfdUpdateTimestamp = xfdUpdateTimestamp;
     }
 
+    @Override
     public String getXfdUpdateUser() {
         return xfdUpdateUser;
     }
@@ -171,6 +182,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.xfdUpdateUser = xfdUpdateUser;
     }
 
+    @Override
     public Timestamp getXmlUpdateTimestamp() {
         return xmlUpdateTimestamp;
     }
@@ -179,6 +191,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.xmlUpdateTimestamp = xmlUpdateTimestamp;
     }
 
+    @Override
     public String getXmlUpdateUser() {
         return xmlUpdateUser;
     }
@@ -191,6 +204,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
      * Gets the budgetSubAwardAttachments attribute. 
      * @return Returns the budgetSubAwardAttachments.
      */
+    @Override
     public List<BudgetSubAwardAttachment> getBudgetSubAwardAttachments() {
         if (budgetSubAwardAttachments == null) {
             budgetSubAwardAttachments = new ArrayList<BudgetSubAwardAttachment>();
@@ -202,7 +216,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         final String SEPARATOR = "; ";
         StringBuilder sb = new StringBuilder();
         for (BudgetSubAwardAttachment attachment : getBudgetSubAwardAttachments()) {
-            sb.append(attachment.getContentId());
+            sb.append(attachment.getName());
             sb.append(SEPARATOR);
         }
         sb.deleteCharAt(sb.length() - 2);
@@ -217,18 +231,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.budgetSubAwardAttachments = budgetSubAwardAttachments;
     }
 
-    //    public FormFile getSubAwardXfdFile() { 
-    //        return subAwardXfdFile; 
-    //    } 
-    // 
-    //    public void setSubAwardXfdFile(FormFile subAwardXfdFile) throws Exception { 
-    //        this.subAwardXfdFile = subAwardXfdFile; 
-    //        if(subAwardXfdFile != null && subAwardXfdFile.getFileData().length > 0) { 
-    //            setSubAwardXfdFileData(subAwardXfdFile.getFileData()); 
-    //            setSubAwardXfdFileName(subAwardXfdFile.getFileName()); 
-    //            parseDataFromXfdFile(); 
-    //        } 
-    //    } 
+    @Override
     public byte[] getSubAwardXfdFileData() {
         return subAwardXfdFileData;
     }
@@ -237,6 +240,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.subAwardXfdFileData = subAwardXfdFileData;
     }
 
+    @Override
     public String getSubAwardXmlFileData() {
         return subAwardXmlFileData;
     }
@@ -245,34 +249,11 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.subAwardXmlFileData = subAwardXmlFileData;
     }
 
-    //    @SuppressWarnings("unchecked") 
-    //    private void parseDataFromXfdFile() throws Exception { 
-    //        BudgetSubAwardBean budgetSubAwardBean = new BudgetSubAwardBean(); 
-    //        budgetSubAwardBean.setSubAwardXFD(getSubAwardXfdFileData()); 
-    //        new BudgetSubAwardReader().populateSubAward(budgetSubAwardBean); 
-    //         
-    //        setSubAwardStatusCode(budgetSubAwardBean.getSubAwardStatusCode()); 
-    //        setSubAwardXmlFileData(new String(budgetSubAwardBean.getSubAwardXML())); 
-    //        setTranslationComments(budgetSubAwardBean.getTranslationComments()); 
-    //        setSubAwardStatusCode(budgetSubAwardBean.getSubAwardStatusCode()); 
-    //         
-    //        parseAttachmentDataFromBudgetSubAwardBean(budgetSubAwardBean); 
-    //    } 
-    //    @SuppressWarnings("unchecked") 
-    //    private void parseAttachmentDataFromBudgetSubAwardBean(BudgetSubAwardBean budgetSubAwardBean) { 
-    //        List<BudgetSubAwardAttachmentBean> budgetSubAwardBeanAttachments = (List<BudgetSubAwardAttachmentBean>) budgetSubAwardBean.getAttachments(); 
-    //        List<BudgetSubAwardAttachment> budgetSubAwardAttachments =  new ArrayList<BudgetSubAwardAttachment>(); 
-    //         
-    //        for(BudgetSubAwardAttachmentBean budgetSubAwardAttachmentBean: budgetSubAwardBeanAttachments) { 
-    //            budgetSubAwardAttachments.add(new BudgetSubAwardAttachment(budgetSubAwardAttachmentBean, getBudgetVersionNumber(), getSubAwardNumber()));             
-    //        } 
-    //         
-    //        setBudgetSubAwardAttachments(budgetSubAwardAttachments); 
-    //    } 
     /**
      * Gets the budgetSubAwardFiles attribute. 
      * @return Returns the budgetSubAwardFiles.
      */
+    @Override
     public List<BudgetSubAwardFiles> getBudgetSubAwardFiles() {
         return budgetSubAwardFiles;
     }
@@ -289,6 +270,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
      * Gets the hierarchyProposalNumber attribute. 
      * @return Returns the hierarchyProposalNumber.
      */
+    @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
@@ -305,6 +287,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
      * Gets the hiddenInHierarchy attribute. 
      * @return Returns the hiddenInHierarchy.
      */
+    @Override
     public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
@@ -321,6 +304,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
      * Gets the namespace attribute. 
      * @return Returns the namespace.
      */
+    @Override
     public String getNamespace() {
         return namespace;
     }
@@ -337,6 +321,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
      * Gets the formName attribute. 
      * @return Returns the formName.
      */
+    @Override
     public String getFormName() {
         return formName;
     }
@@ -391,6 +376,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         return retVal;
     }
 
+    @Override
     public List<BudgetSubAwardPeriodDetail> getBudgetSubAwardPeriodDetails() {
         return budgetSubAwardPeriodDetails;
     }
@@ -399,6 +385,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         this.budgetSubAwardPeriodDetails = budgetSubAwardPeriodDetails;
     }
 
+    @Override
     public String getOrganizationId() {
         return organizationId;
     }

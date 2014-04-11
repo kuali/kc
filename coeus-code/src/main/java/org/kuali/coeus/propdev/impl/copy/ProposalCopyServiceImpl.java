@@ -963,9 +963,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         objectMap.clear();
         fixNumericProperty(budgetDocument, "setBudgetRateAndBaseId", Long.class, null, objectMap);
         objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetSubawardAttachmentId", Long.class, null, objectMap);
-        objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetSubAwardDetailId", Long.class, null, objectMap);
+        fixNumericProperty(budgetDocument, "setId", Long.class, null, objectMap);
         objectMap.clear();
         fixNumericProperty(budgetDocument, "setVersionNumber", Integer.class, null, objectMap);
         objectMap.clear();

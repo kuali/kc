@@ -32,12 +32,12 @@ public interface BudgetSubAwardService {
      */
     public void populateBudgetSubAwardFiles(Budget budget, BudgetSubAwards budgetSubAwards, String newFileName, byte[] newFileData);
     /**
-     * 
+     *
      * This method is to handle subaward attachments
      * @param budget
      */
     public void populateBudgetSubAwardAttachments(Budget budget);
-    
+
     public void removeSubAwardAttachment(BudgetSubAwards subAward);
     
     public void generateSubAwardLineItems(BudgetSubAwards subAward, Budget budget);

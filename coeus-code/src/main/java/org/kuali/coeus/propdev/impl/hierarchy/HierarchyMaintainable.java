@@ -16,10 +16,10 @@
 package org.kuali.coeus.propdev.impl.hierarchy;
 
 
-public interface HierarchyMaintainable {
+import org.kuali.coeus.propdev.api.hierarchy.HierarchicalProposal;
 
-    public String getHierarchyProposalNumber();
+public interface HierarchyMaintainable extends HierarchicalProposal {
+
     public void setHierarchyProposalNumber(String hierarchyProposalNumber);
-    public boolean isHiddenInHierarchy();
     public void setHiddenInHierarchy(boolean hiddenInHierarchy);
 }

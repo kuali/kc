@@ -2,6 +2,8 @@ package org.kuali.kra.s2s.depend;
 
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsService;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class BudgetSubAwardsServiceImpl implements BudgetSubAwardsService {
     private BusinessObjectService businessObjectService;
 
     @Override
-    public List<BudgetSubAwards> findBudgetSubAwardsByBudgetId(Long budgetId) {
+    public List<? extends BudgetSubAwardsContract> findBudgetSubAwardsByBudgetId(Long budgetId) {
         if (budgetId == null) {
             throw new IllegalArgumentException("budgetId is null");
         }
@@ -31,7 +33,7 @@ public class BudgetSubAwardsServiceImpl implements BudgetSubAwardsService {
     }
 
     @Override
-    public List<BudgetSubAwards> findBudgetSubAwardsByBudgetIdAndNamespace(Long budgetId, String namespace) {
+    public List<? extends BudgetSubAwardsContract> findBudgetSubAwardsByBudgetIdAndNamespace(Long budgetId, String namespace) {
         if (budgetId == null) {
             throw new IllegalArgumentException("budgetId is null");
         }
@@ -47,7 +49,7 @@ public class BudgetSubAwardsServiceImpl implements BudgetSubAwardsService {
     }
 
     @Override
-    public List<BudgetSubAwards> findBudgetSubAwardsByBudgetIdAndNullNamespace(Long budgetId) {
+    public List<? extends BudgetSubAwardsContract> findBudgetSubAwardsByBudgetIdAndNullNamespace(Long budgetId) {
         if (budgetId == null) {
             throw new IllegalArgumentException("budgetId is null");
         }

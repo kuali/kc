@@ -20,8 +20,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
-import org.kuali.coeus.common.framework.attachment.KcAttachment;
-import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
+import org.kuali.coeus.common.api.attachment.KcAttachment;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -57,12 +56,6 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      @Override
      public byte[] getData() {
          return getDocument();
-     }
-
-     @Override
-     public String getIconPath() {
-     return KcServiceLocator.getService(
-      KcAttachmentService.class).getFileTypeIcon(this);
      }
      
      public SubAwardAttachmentType getTypeAttachment() {

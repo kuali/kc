@@ -16,17 +16,18 @@
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardPeriodDetailContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 
-public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
+public class BudgetSubAwardPeriodDetail extends BudgetAssociate implements BudgetSubAwardPeriodDetailContract {
 
     private static final long serialVersionUID = 2327612798304765405L;
     
     @DeepCopyIgnore
-    private Long budgetSubAwardDetailId;
+    private Long id;
     
     private Integer subAwardNumber;
     
@@ -53,15 +54,17 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
         this.budgetId = period.getBudgetId();
         this.budgetPeriod = period.getBudgetPeriod();
     }
-    
-    public Long getBudgetSubAwardDetailId() {
-        return budgetSubAwardDetailId;
+
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public void setBudgetSubAwardDetailId(Long budgetSubAwardDetailId) {
-        this.budgetSubAwardDetailId = budgetSubAwardDetailId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
+    @Override
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }
@@ -70,6 +73,7 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
         this.budgetPeriod = budgetPeriod;
     }
 
+    @Override
     public ScaleTwoDecimal getDirectCost() {
         return directCost;
     }
@@ -81,6 +85,7 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
         this.directCost = directCost;
     }
 
+    @Override
     public ScaleTwoDecimal getIndirectCost() {
         return indirectCost;
     }
@@ -92,6 +97,7 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
         this.indirectCost = indirectCost;
     }
 
+    @Override
     public ScaleTwoDecimal getCostShare() {
         return costShare;
     }
@@ -103,6 +109,7 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
         this.costShare = costShare;
     }
 
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
@@ -111,6 +118,7 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
         this.budgetId = budgetId;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalCost() {
         return totalCost;
     }
@@ -119,6 +127,7 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
         this.totalCost = totalCost;
     }
 
+    @Override
     public Integer getSubAwardNumber() {
         return subAwardNumber;
     }

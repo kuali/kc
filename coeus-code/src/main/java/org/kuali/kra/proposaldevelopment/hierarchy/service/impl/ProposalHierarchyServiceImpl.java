@@ -709,7 +709,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 newPerson = (BudgetPerson) ObjectUtils.deepCopy(person);
                 newPerson.setPersonSequenceNumber(parentBudget.getBudgetDocument().getHackedDocumentNextValue(
                         Constants.PERSON_SEQUENCE_NUMBER));
-//                newPerson.setBudget(parentBudget);
                 newPerson.setBudgetId(parentBudget.getBudgetId());
                 newPerson.setHierarchyProposalNumber(childProposalNumber);
                 newPerson.setVersionNumber(null);
@@ -723,21 +722,18 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 childSubAwards.refreshReferenceObject("budgetSubAwardFiles");
                 newSubAwards = (BudgetSubAwards) ObjectUtils.deepCopy(childSubAwards);
                 newSubAwards.setBudgetId(parentBudget.getBudgetId());
-//                newSubAwards.setBudget(parentBudget);
                 newSubAwards.setBudgetVersionNumber(parentBudget.getBudgetVersionNumber());
                 newSubAwards.setSubAwardNumber(parentBudget.getBudgetDocument().getHackedDocumentNextValue("subAwardNumber") != null ? parentBudget.getBudgetDocument().getHackedDocumentNextValue("subAwardNumber") : 1);
                 newSubAwards.setVersionNumber(null);
                 newSubAwards.setHierarchyProposalNumber(childProposalNumber);
                 for (BudgetSubAwardAttachment attachment : newSubAwards.getBudgetSubAwardAttachments()) {
                     attachment.setSubAwardNumber(newSubAwards.getSubAwardNumber());
-//                    attachment.setBudget(parentBudget);
                     attachment.setBudgetId(parentBudget.getBudgetId());
-                    attachment.setBudgetSubawardAttachmentId(null);
+                    attachment.setId(null);
                     attachment.setVersionNumber(null);
                 }
                 for (BudgetSubAwardFiles files : newSubAwards.getBudgetSubAwardFiles()) {
                     files.setSubAwardNumber(newSubAwards.getSubAwardNumber());
-//                    files.setBudget(parentBudget);
                     files.setBudgetId(parentBudget.getBudgetId());
                     files.setVersionNumber(null);
                 }

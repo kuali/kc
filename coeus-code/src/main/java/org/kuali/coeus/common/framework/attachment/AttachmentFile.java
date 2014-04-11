@@ -16,8 +16,8 @@
 package org.kuali.coeus.common.framework.attachment;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.api.attachment.KcAttachment;
 import org.kuali.coeus.common.framework.sequence.associate.SeparateAssociate;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -217,10 +217,6 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
         public CreateException(Throwable t) {
             super(t);
         }
-    }
-
-    public String getIconPath() {
-        return KcServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
     }
 
     public Long getId() {

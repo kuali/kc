@@ -22,8 +22,8 @@ import gov.grants.apply.forms.rrSubawardBudget13V13.RRSubawardBudget13Document.R
 import gov.grants.apply.forms.rrSubawardBudget13V13.RRSubawardBudget13Document.RRSubawardBudget13.BudgetAttachments;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.impl.S2SAdobeFormAttachmentBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -59,12 +59,12 @@ public class RRSubAwardBudget1_3V1_3Generator extends S2SAdobeFormAttachmentBase
         RRSubawardBudget13Document rrSubawardBudgetDocument = RRSubawardBudget13Document.Factory.newInstance();
         RRSubawardBudget13 rrSubawardBudget = RRSubawardBudget13.Factory.newInstance();
         BudgetAttachments budgetAttachments = BudgetAttachments.Factory.newInstance();
-        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(pdDoc,RR_BUDGET1_3_NAMESPACE_URI,false);
+        List<BudgetSubAwardsContract> budgetSubAwardsList = getBudgetSubAwards(pdDoc,RR_BUDGET1_3_NAMESPACE_URI,false);
         RRBudget13[] budgetList = new RRBudget13[budgetSubAwardsList.size()];
         rrSubawardBudget.setFormVersion(S2SConstants.FORMVERSION_1_3);
 
         int attCount = 1;
-        for (BudgetSubAwards budgetSubAwards : budgetSubAwardsList) {
+        for (BudgetSubAwardsContract budgetSubAwards : budgetSubAwardsList) {
             RRBudget13 rrBudget = getRRBudget10(budgetSubAwards).getRRBudget13();
             switch (attCount) {
                 case 1:
@@ -125,7 +125,7 @@ public class RRSubAwardBudget1_3V1_3Generator extends S2SAdobeFormAttachmentBase
      * @param budgetSubAwards(BudgetSubAwards) budget sub awards entry.
      * @return RRBudget corresponding to the BudgetSubAwards object.
      */
-    private RRBudget13Document getRRBudget10(BudgetSubAwards budgetSubAwards) {
+    private RRBudget13Document getRRBudget10(BudgetSubAwardsContract budgetSubAwards) {
         RRBudget13Document rrBudget = RRBudget13Document.Factory.newInstance();
         String subAwdXML = budgetSubAwards.getSubAwardXmlFileData();
         Document subAwdFormsDoc;

@@ -15,31 +15,24 @@
  */
 package org.kuali.kra.budget.core;
 
+import org.kuali.coeus.budget.api.core.IdentifiableBudget;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * This class is for associating common Budget properties to the extended Budget children BOs
  */
-public abstract class BudgetAssociate extends KcPersistableBusinessObjectBase implements BudgetAssociateInterface {
+public abstract class BudgetAssociate extends KcPersistableBusinessObjectBase implements IdentifiableBudget {
 
 
     private static final long serialVersionUID = 3219654486879418421L;
 
-    //    private Budget budget; 
     private Long budgetId;
 
-    /**
-     * Gets the budgetId attribute. 
-     * @return Returns the budgetId.
-     */
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
 
-    /**
-     * Sets the budgetId attribute value.
-     * @param budgetId The budgetId to set.
-     */
     public void setBudgetId(Long budgetId) {
         this.budgetId = budgetId;
     }
