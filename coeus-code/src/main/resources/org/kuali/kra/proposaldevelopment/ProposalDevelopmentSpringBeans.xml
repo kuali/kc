@@ -474,7 +474,7 @@
         <property name="xmlStream" ref="printCertificationXmlStream" />
     </bean>
     
-    <bean id="proposalSponsorFormsPrint" class="org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint" scope="prototype" lazy-init="true">
+    <bean id="proposalSponsorFormsPrint" class="org.kuali.coeus.propdev.impl.print.ProposalSponsorFormsPrint" scope="prototype" lazy-init="true">
         <property name="nihResearchAndRelatedXmlStream" ref="nihResearchAndRelatedXmlStream" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="proposalDevelopmentXmlStream" ref="proposalDevelopmentXmlStream" />
@@ -494,13 +494,13 @@
             <property name="kcPersonService" ref="kcPersonService" />
     </bean>
     
-    <bean id="printCertificationXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.PrintCertificationXmlStream" 
+    <bean id="printCertificationXmlStream" class="org.kuali.coeus.propdev.impl.print.PrintCertificationXmlStream"
           parent="proposalBaseStream" />
 
-    <bean id="proposalSubmissionXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalSubmissionXmlStream" 
+    <bean id="proposalSubmissionXmlStream" class="org.kuali.coeus.propdev.impl.print.ProposalSubmissionXmlStream"
           parent="proposalBaseStream" />
 
-    <bean id="proposalBaseStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalBaseStream" abstract="true">
+    <bean id="proposalBaseStream" class="org.kuali.coeus.propdev.impl.print.ProposalBaseStream" abstract="true">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
@@ -509,16 +509,16 @@
         <property name="serviceName" value="budgetPersonService" />
     </bean>
 
-    <bean id="abstractResearchAndRelatedStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.AbstractResearchAndRelatedStream" abstract="true" 
+    <bean id="abstractResearchAndRelatedStream" class="org.kuali.coeus.propdev.impl.print.AbstractResearchAndRelatedStream" abstract="true"
           parent="proposalBaseStream">
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="budgetPersonService" ref="budgetPersonService" />
     </bean>
     
-    <bean id="researchAndRelatedXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ResearchAndRelatedXmlStream" 
+    <bean id="researchAndRelatedXmlStream" class="org.kuali.coeus.propdev.impl.print.ResearchAndRelatedXmlStream"
           parent="abstractResearchAndRelatedStream" />
     
-    <bean id="nihResearchAndRelatedXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream"
+    <bean id="nihResearchAndRelatedXmlStream" class="org.kuali.coeus.propdev.impl.print.NIHResearchAndRelatedXmlStream"
           parent="abstractResearchAndRelatedStream" lazy-init="true">
         <property name="parameterService" ref="parameterService" />
         <property name="sponsorService" ref="sponsorService" />

@@ -1,4 +1,4 @@
-package org.kuali.kra.proposaldevelopment.printing.xmlstream;
+package org.kuali.coeus.propdev.impl.print;
 
 import edu.mit.coeus.utils.xml.v2.lookuptypes.ACTIVITYTYPEDocument.ACTIVITYTYPE;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.APPLICABLEREVIEWTYPEDocument.APPLICABLEREVIEWTYPE;
