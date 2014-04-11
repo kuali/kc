@@ -80,8 +80,6 @@
             <list>
                 <!--<value>classpath:org/kuali/kra/datadictionary</value>-->
                 <!--<value>classpath:org/kuali/kra/datadictionary/docs</value>-->
-                <value>classpath:org/kuali/coeus/sys/impl/lock/PessimisticLockOverride.xml</value>
-
                 <value>classpath:org/kuali/kra/datadictionary/AbstractType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AccountType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ActivityType.xml</value>
@@ -1307,11 +1305,6 @@
         <entry key="application/xml" value="static/images/xml.gif" />
         <entry key="default" value="static/images/ebinary_attachment.gif"/>
     </util:map>
-
-    <bean id="kraDocumentService" class="org.kuali.kra.service.impl.KraDocumentServiceImpl">
-    	<property name="delegateDocumentService" ref="documentService"/>
-    	<property name="legacyDataAdapter" ref="legacyDataAdapter"/>
-    </bean>
 
     <bean id="documentDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="documentDao" />

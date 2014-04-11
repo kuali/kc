@@ -1027,7 +1027,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
     }
 
     private DocumentService getKraDocumentService() {
-        return (DocumentService) KcServiceLocator.getService("kraDocumentService");
+        return KcServiceLocator.getService(DocumentService.class);
     }
 
     @Override
