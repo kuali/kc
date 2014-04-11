@@ -223,6 +223,9 @@
                         <useIncrementalCompilation>false</useIncrementalCompilation>
                         <source>${project.compile.source}</source>
                         <target>${project.compile.target}</target>
+                        <fork>true</fork>
+                        <meminitial>512m</meminitial>
+                        <maxmem>1024m</maxmem>
                     </configuration>
                 </plugin>
 
