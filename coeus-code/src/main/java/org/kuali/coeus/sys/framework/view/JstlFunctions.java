@@ -16,7 +16,6 @@
 package org.kuali.coeus.sys.framework.view;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.kuali.coeus.common.api.attachment.KcAttachment;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -36,9 +35,10 @@ import java.util.Map;
 public final class JstlFunctions {
     private static final String SETTING_PARAMS_PROLOG = "Setting params ";
     private static final String PROPERTY_SETTING_EXC_PROLOG = "Could not set property ";
-    private static final String IN_PREPOSITION = " in ";
     private static final String VALUES_FINDER_CLASS_EXC_PROLOG = "Could not find valuesFinder class ";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(JstlFunctions.class);
+
+    private static KcAttachmentService KC_ATTACHMENT_SERVICE;
 
     private JstlFunctions() {}
     
@@ -90,8 +90,8 @@ public final class JstlFunctions {
         return scaleTwoDecimal.bigDecimalValue();
     }
 
-    public static String getIconPath(KcAttachment attachment) {
-        return KcServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(attachment);
+    public static String getIconPath(String type) {
+        return getKcAttachmentService().getFileTypeIcon(type);
     }
 
     /**
@@ -162,5 +162,17 @@ public final class JstlFunctions {
         if (LOG.isWarnEnabled()) {
             LOG.warn(message, e);
         }
+    }
+
+    public static KcAttachmentService getKcAttachmentService() {
+        if (KC_ATTACHMENT_SERVICE == null) {
+            KC_ATTACHMENT_SERVICE = KcServiceLocator.getService(KcAttachmentService.class);
+        }
+
+        return KC_ATTACHMENT_SERVICE;
+    }
+
+    public static void setKcAttachmentService(KcAttachmentService kcAttachmentService) {
+        KC_ATTACHMENT_SERVICE = kcAttachmentService;
     }
 }

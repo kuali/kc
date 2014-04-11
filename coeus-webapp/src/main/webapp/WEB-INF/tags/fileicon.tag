@@ -20,4 +20,4 @@
 <c:set var="height" value="16"/>
 <c:set var="width" value="16"/>
 
-<img src="${krafn:getIconPath(attachment)}" height="${height}" width="${width}" alt="${attachment.type}" title="${attachment.type}"/>
+<img src="${krafn:getIconPath(attachment.type)}" height="${height}" width="${width}" alt="${attachment.type}" title="${attachment.type}"/>

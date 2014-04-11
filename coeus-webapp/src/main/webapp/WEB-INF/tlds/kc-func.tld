@@ -46,4 +46,12 @@
         <example>&lt;c:set var="cumTotalCost" value="${cumTotalCost + krafn:getFloatValue(budgetPeriodObj.totalCost)}" /"&gt;</example>
     </function>
 
+    <function>
+        <description>Gets the icon path for a mine type</description>
+        <name>getIconPath</name>
+        <function-class>org.kuali.coeus.sys.framework.view.JstlFunctions</function-class>
+        <function-signature>java.lang.String getIconPath(java.lang.String)</function-signature>
+        <example>&lt;img src=/"${krafn:getIconPath(attachment.type)}/" ... &gt;</example>
+    </function>
+
 </taglib>
