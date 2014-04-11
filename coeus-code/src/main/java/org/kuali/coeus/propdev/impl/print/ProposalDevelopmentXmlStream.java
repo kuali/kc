@@ -63,7 +63,6 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.*;
-import org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalBaseStream;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 
 import java.math.BigDecimal;
@@ -424,8 +423,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
             proposalmaster.setSPONSORCOST(getCurrencyFormat(budget.getTotalCost().bigDecimalValue()));
             proposalmaster.setCOSTSHARING(getCurrencyFormat(budget.getCostSharingAmount().bigDecimalValue()));
         }
-        // proposalmaster.setOTHERCOMMENTS(otherComments);
-        
+
         return proposalmaster;
     }
 
@@ -447,9 +445,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         ROLODEX rolodex = ROLODEX.Factory.newInstance();
         NAME name = NAME.Factory.newInstance();
         ADDRESS address = ADDRESS.Factory.newInstance();
-        // address.setStringValue(arg0)
         rolodex.setADDRESS(address);
-        // name.setFIRSTNAME(developmentProposal.get)
         rolodex.setNAME(name);
         organization.setROLODEX(rolodex);
         return organization;
@@ -521,7 +517,6 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
             
             propInvestigator.setPROPUNITSArray(getPROPUNITSArray(proposalPerson));
             propInvestigator.setFACULTYFLAG(getFlag(proposalPerson.getFacultyFlag()));
-//          propInvestigator.setMULTIPI(getFlag(proposalPerson.isMultiplePi()));
             if(proposalPerson.getPercentageEffort()!=null){
                 propInvestigator.setPERCENTAGEEFFORT(proposalPerson.getPercentageEffort().bigDecimalValue());
             }
@@ -544,7 +539,6 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
     }
 
     private PROPLOCATION[] getPROPLOCATIONArray() {
-        // proposalDevelopmentDocument.getDevelopmentProposal().getProposal
         return null;
     }
 

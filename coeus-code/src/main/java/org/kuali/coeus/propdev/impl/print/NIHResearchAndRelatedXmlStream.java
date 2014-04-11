@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.printing.xmlstream;
+package org.kuali.coeus.propdev.impl.print;
 
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.AssuranceType;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.ContactInfoType;
@@ -90,6 +90,7 @@ import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
+import org.kuali.kra.proposaldevelopment.printing.xmlstream.KeyPersonInfo;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
@@ -107,7 +108,7 @@ import java.util.*;
  * 
  */
 public class NIHResearchAndRelatedXmlStream extends
-AbstractResearchAndRelatedStream {
+        AbstractResearchAndRelatedStream {
 
     private static final Log LOG = LogFactory
     .getLog(NIHResearchAndRelatedXmlStream.class);
