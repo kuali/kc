@@ -21,3 +21,4 @@
 <c:set var="width" value="16"/>
 
 <img src="${krafn:getIconPath(attachment.type)}" height="${height}" width="${width}" alt="${attachment.type}" title="${attachment.type}"/>
+>>>>>>> KCINFR-979: establishing a service api for propdev budget subaward, promoting KcAttachment,  making attachment data structures not have to understand the location of a file icon.
