@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.core;
+package org.kuali.coeus.budget.api.core;
 
-public interface BudgetAssociateInterface {
-    public Long getBudgetId();
-//    public Budget getBudget();
+public interface IdentifiableBudget {
+    Long getBudgetId();
 }

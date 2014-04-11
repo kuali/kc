@@ -1057,12 +1057,12 @@
 	</class-descriptor>
     
     <class-descriptor class="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment" table="BUDGET_SUB_AWARD_ATT"> 
-		<field-descriptor name="budgetSubawardAttachmentId" column="SUB_AWARD_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_SUB_AWD_BGT_ATT_ID"/> 
-		<field-descriptor name="contentId" column="CONTENT_ID" jdbc-type="VARCHAR"/> 
+		<field-descriptor name="id" column="SUB_AWARD_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_SUB_AWD_BGT_ATT_ID"/>
+		<field-descriptor name="name" column="CONTENT_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" /> 
 		<field-descriptor name="subAwardNumber" column="SUB_AWARD_NUMBER" jdbc-type="INTEGER"/> 
-		<field-descriptor name="attachment" column="ATTACHMENT" jdbc-type="BINARY"/> 
-		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR"/> 
+		<field-descriptor name="data" column="ATTACHMENT" jdbc-type="BINARY"/>
+		<field-descriptor name="type" column="CONTENT_TYPE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/> 
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/> 
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -1398,7 +1398,7 @@
 	</class-descriptor>	
 	
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail" table="BUDGET_SUB_AWARD_PERIOD_DETAIL">
-		<field-descriptor name="budgetSubAwardDetailId" column="SUBAWARD_PERIOD_DETAIL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_SUBAWARD_PER_DET"/>
+		<field-descriptor name="id" column="SUBAWARD_PERIOD_DETAIL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_SUBAWARD_PER_DET"/>
 		<field-descriptor name="subAwardNumber" column="SUBAWARD_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />

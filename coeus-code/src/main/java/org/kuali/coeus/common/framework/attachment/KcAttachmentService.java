@@ -16,6 +16,8 @@
 package org.kuali.coeus.common.framework.attachment;
 
 
+import org.kuali.coeus.common.api.attachment.KcAttachment;
+
 /**
  * KC Attachment Service.
  */

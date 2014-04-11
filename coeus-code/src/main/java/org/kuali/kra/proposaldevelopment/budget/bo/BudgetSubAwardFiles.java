@@ -15,9 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardFilesContract;
 import org.kuali.kra.budget.core.BudgetAssociate;
 
-public class BudgetSubAwardFiles extends BudgetAssociate {
+public class BudgetSubAwardFiles extends BudgetAssociate implements BudgetSubAwardFilesContract {
 
 
     private static final long serialVersionUID = 9212512161341725983L;
@@ -34,6 +35,7 @@ public class BudgetSubAwardFiles extends BudgetAssociate {
      * Gets the subAwardNumber attribute. 
      * @return Returns the subAwardNumber.
      */
+    @Override
     public Integer getSubAwardNumber() {
         return subAwardNumber;
     }
@@ -50,6 +52,7 @@ public class BudgetSubAwardFiles extends BudgetAssociate {
      * Gets the subAwardXfdFileData attribute. 
      * @return Returns the subAwardXfdFileData.
      */
+    @Override
     public byte[] getSubAwardXfdFileData() {
         return subAwardXfdFileData;
     }
@@ -66,6 +69,7 @@ public class BudgetSubAwardFiles extends BudgetAssociate {
      * Gets the subAwardXfdFileName attribute. 
      * @return Returns the subAwardXfdFileName.
      */
+    @Override
     public String getSubAwardXfdFileName() {
         return subAwardXfdFileName;
     }
@@ -82,6 +86,7 @@ public class BudgetSubAwardFiles extends BudgetAssociate {
      * Gets the subAwardXmlFileData attribute. 
      * @return Returns the subAwardXmlFileData.
      */
+    @Override
     public String getSubAwardXmlFileData() {
         return subAwardXmlFileData;
     }
