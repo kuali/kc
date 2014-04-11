@@ -18,7 +18,7 @@ package org.kuali.kra.infrastructure;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.propdev.impl.mailing.MailType;
+import org.kuali.coeus.common.proposal.framework.mail.MailType;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;

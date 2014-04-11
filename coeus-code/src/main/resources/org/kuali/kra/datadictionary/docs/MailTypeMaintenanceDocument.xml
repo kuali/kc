@@ -3,7 +3,7 @@
   <bean id="MailTypeMaintenanceDocument" parent="MailTypeMaintenanceDocument-parentBean"/>
 
   <bean id="MailTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.mailing.MailType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.proposal.framework.mail.MailType"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
