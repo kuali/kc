@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.printing.xmlstream;
+package org.kuali.coeus.propdev.impl.print;
 
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.AssuranceType;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.ContactInfoType;
@@ -466,10 +466,6 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 		keyPersonType.setName(personFullNameType);
 		ContactInfoType contactInfoType = getContactInfoType(proposalPerson);
 		keyPersonType.setContactInformation(contactInfoType);
-		// TODO :AuthenticationCredential Not found
-		// keyPersonType.setAuthenticationCredential();
-		// TODO :BiographicalSketch Not found
-		// keyPersonType.setBiographicalSketch();
 		KeyPersonFlag keyPersonFlag = getKeyPersonFlag(proposalPerson);
 		keyPersonType.setKeyPersonFlag(keyPersonFlag);
 		keyPersonType.setSocialSecurityNumber(proposalPerson
@@ -480,8 +476,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 		}
 		Organization organization = getOrganizationFromDevelopmentProposal(developmentProposal);
 		keyPersonType.setOrganizationName(organization.getOrganizationName());
-		// TODO :OrganizationDivision Not found
-		// keyPersonType.setOrganizationDivision();
+
 		if (proposalPerson.getPrimaryTitle() != null) {
 			keyPersonType.setPositionTitle(proposalPerson.getPrimaryTitle());
 		}
@@ -518,7 +513,6 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 		keyPersonType.setOrganizationDivision(DEFAULT_VALUE_UNKNOWN);
 		keyPersonType.setOrganizationName(DEFAULT_VALUE_UNKNOWN);
 		keyPersonType.setPositionTitle(DEFAULT_VALUE_UNKNOWN);
-		// TODO: Need to confirm is it Account Identifier is same as ssn
 		keyPersonType.setSocialSecurityNumber(DEFAULT_VALUE_FOR_SSN);
 		return keyPersonType;
 	}

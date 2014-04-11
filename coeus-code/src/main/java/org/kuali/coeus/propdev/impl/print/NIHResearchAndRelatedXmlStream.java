@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.printing.xmlstream;
+package org.kuali.coeus.propdev.impl.print;
 
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.AssuranceType;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.ContactInfoType;
@@ -107,7 +107,7 @@ import java.util.*;
  * 
  */
 public class NIHResearchAndRelatedXmlStream extends
-AbstractResearchAndRelatedStream {
+        AbstractResearchAndRelatedStream {
 
     private static final Log LOG = LogFactory
     .getLog(NIHResearchAndRelatedXmlStream.class);

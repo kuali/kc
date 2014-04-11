@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.printing.xmlstream;
+package org.kuali.coeus.propdev.impl.print;
 
+
+import org.kuali.kra.proposaldevelopment.printing.xmlstream.CompensationInfo;
 
 public class KeyPersonInfo extends CompensationInfo {
 
