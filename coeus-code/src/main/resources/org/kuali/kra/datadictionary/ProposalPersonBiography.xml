@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ProposalPersonBiography" parent="ProposalPersonBiography-parentBean" />
   <bean id="ProposalPersonBiography-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography" />
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography" />
 		<property name="objectLabel" value="Proposal Person Biography" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalPersonBiography-inquiryDefinition" />
@@ -280,7 +280,7 @@
 
   <bean id="ProposalPersonBiography-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Proposal Person Biography"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -333,7 +333,7 @@
   </bean>
 
   <bean id="ProposalPersonBiography-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography"/>
     <property name="headerText" value="Proposal Person Biography Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

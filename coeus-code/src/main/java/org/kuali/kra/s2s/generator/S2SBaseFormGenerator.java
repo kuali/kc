@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.impl.util.Base64;
 import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;

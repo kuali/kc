@@ -62,7 +62,7 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;

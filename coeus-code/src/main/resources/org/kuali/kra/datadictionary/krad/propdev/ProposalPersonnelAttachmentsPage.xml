@@ -43,7 +43,7 @@
 	<bean id="PropDev-PersonnelAttachmentsPage-Collection" parent="PropDev-PersonnelAttachmentsPage-Collection-parentBean" />
 	<bean id="PropDev-PersonnelAttachmentsPage-Collection-parentBean"
 		abstract="true" parent="PropDev-Attachment-Collection"
-		p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography"
 		p:propertyName="propPersonBios">
 		<property name="items">
 			<list>

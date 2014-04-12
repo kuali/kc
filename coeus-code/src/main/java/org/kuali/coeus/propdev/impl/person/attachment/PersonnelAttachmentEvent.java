@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule.event;
+package org.kuali.coeus.propdev.impl.person.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 /**
  * Event triggered when a personnel attachment state is modified on a 
