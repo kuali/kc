@@ -650,13 +650,13 @@
             <foreignkey field-ref="approvalTypeCode"/>
         </reference-descriptor>
         
-        <collection-descriptor name="specialReviewExemptions" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReviewExemption" 
+        <collection-descriptor name="specialReviewExemptions" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalSpecialReviewId"/>
         </collection-descriptor> 
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReviewExemption" table="EPS_PROP_EXEMPT_NUMBER">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption" table="EPS_PROP_EXEMPT_NUMBER">
         <field-descriptor name="proposalSpecialReviewExemptionId" column="PROPOSAL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_EPS_PROP_EXEMPT_NUMBER_ID"/>
         <field-descriptor name="proposalSpecialReviewId" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" access="anonymous" />
         <field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" />

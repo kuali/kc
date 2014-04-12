@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.specialreview;
 
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 

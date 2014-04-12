@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.specialreview;
+package org.kuali.coeus.propdev.impl.specialreview;
 
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 import javax.persistence.*;
