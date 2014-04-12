@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.questionnaire;
+package org.kuali.coeus.propdev.impl.question;
 
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
@@ -25,6 +25,7 @@ import org.kuali.rice.krad.data.DataObjectService;
 
 public class ProposalDevelopmentModuleQuestionnaireBean extends ModuleQuestionnaireBean {
     
+    private DataObjectService dataObjectService;
     private DevelopmentProposal developmentProposal;
     
     public ProposalDevelopmentModuleQuestionnaireBean(DevelopmentProposal developmentProposal) {
@@ -53,10 +54,15 @@ public class ProposalDevelopmentModuleQuestionnaireBean extends ModuleQuestionna
     }
     
     protected KrmsRulesContext loadKrmsRulesContext(String proposalNumber) {
-        DevelopmentProposal proposal = KcServiceLocator.getService(DataObjectService.class).find(DevelopmentProposal.class, proposalNumber);
+        DevelopmentProposal proposal = getDataObjectService().find(DevelopmentProposal.class, proposalNumber);
         return proposal.getKrmsRulesContext();
     }
 
+    protected DataObjectService getDataObjectService (){
+        if (dataObjectService == null)
+        dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        return dataObjectService;
+    }
     public DevelopmentProposal getDevelopmentProposal() {
         return developmentProposal;
     }
