@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule;
+package org.kuali.coeus.propdev.impl.person.attachment;
 
-import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
+import org.kuali.coeus.propdev.impl.person.attachment.SavePersonnelAttachmentEvent;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface AddPersonnelAttachmentRule extends BusinessRule {
+public interface SavePersonnelAttachmentRule extends BusinessRule {
     
     /**
      * Rule invoked upon adding a personnel attachment 
@@ -26,5 +26,5 @@ public interface AddPersonnelAttachmentRule extends BusinessRule {
      *
      * @return boolean
      */
-    public boolean processAddPersonnelAttachmentBusinessRules(AddPersonnelAttachmentEvent addPersonnelAttachmentEvent);
+    public boolean processSavePersonnelAttachmentBusinessRules(SavePersonnelAttachmentEvent savePersonnelAttachmentEvent);
 }
