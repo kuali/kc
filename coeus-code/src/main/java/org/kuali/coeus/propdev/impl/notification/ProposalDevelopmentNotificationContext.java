@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.notification;
+package org.kuali.coeus.propdev.impl.notification;
 
 import org.kuali.coeus.common.framework.mail.EmailAttachment;
 import org.kuali.coeus.common.framework.module.CoeusModule;
@@ -39,6 +39,28 @@ public class ProposalDevelopmentNotificationContext extends NotificationContextB
     private String contextName;
     private List<EmailAttachment> emailAttachments;
 
+    private transient KcNotificationService kcNotificationService;
+    private transient KcNotificationModuleRoleService kcNotificationModuleRoleService;
+    private transient ProposalDevelopmentNotificationRoleQualifierService proposalDevelopmentNotificationRoleQualifierService;
+
+    protected KcNotificationService getKcNotificationService (){
+        if (kcNotificationService == null)
+            kcNotificationService = KcServiceLocator.getService(KcNotificationService.class);
+        return kcNotificationService;
+    }
+
+
+    protected ProposalDevelopmentNotificationRoleQualifierService getProposalDevelopmentNotificationRoleQualifierService(){
+        if (proposalDevelopmentNotificationRoleQualifierService == null)
+            proposalDevelopmentNotificationRoleQualifierService = KcServiceLocator.getService(ProposalDevelopmentNotificationRoleQualifierService.class);
+        return proposalDevelopmentNotificationRoleQualifierService;
+    }
+
+    protected KcNotificationModuleRoleService getKcNotificationModuleRoleService(){
+        if(kcNotificationModuleRoleService == null)
+               kcNotificationModuleRoleService = KcServiceLocator.getService(KcNotificationModuleRoleService.class);
+        return kcNotificationModuleRoleService;
+    }
     /**
      * Constructs a Proposal Development notification context and sets the necessary services.
      * @param developmentProposal
@@ -55,9 +77,9 @@ public class ProposalDevelopmentNotificationContext extends NotificationContextB
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         
-        setNotificationService(KcServiceLocator.getService(KcNotificationService.class));
-        setNotificationModuleRoleService(KcServiceLocator.getService(KcNotificationModuleRoleService.class));
-        ProposalDevelopmentNotificationRoleQualifierService roleQualifier = KcServiceLocator.getService(ProposalDevelopmentNotificationRoleQualifierService.class);
+        setNotificationService(getKcNotificationService());
+        setNotificationModuleRoleService(getKcNotificationModuleRoleService());
+        ProposalDevelopmentNotificationRoleQualifierService roleQualifier = getProposalDevelopmentNotificationRoleQualifierService();
         roleQualifier.setDevelopmentProposal(developmentProposal);
         setNotificationRoleQualifierService(roleQualifier);
     }
@@ -70,9 +92,8 @@ public class ProposalDevelopmentNotificationContext extends NotificationContextB
      * @param contextName
      */
     public ProposalDevelopmentNotificationContext(DevelopmentProposal developmentProposal, String actionTypeCode, String contextName) {
-        this(developmentProposal, actionTypeCode, contextName, 
+        this(developmentProposal, actionTypeCode, contextName,
                 KcServiceLocator.getService(ProposalDevelopmentNotificationRenderer.class));
-        ((ProposalDevelopmentNotificationRenderer) this.getRenderer()).setDevelopmentProposal(developmentProposal);
     }
     
     @Override

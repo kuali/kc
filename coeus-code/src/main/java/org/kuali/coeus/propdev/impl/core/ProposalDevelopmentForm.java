@@ -68,7 +68,7 @@ import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyProposalSummary;
-import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationContext;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
