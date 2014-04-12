@@ -16,8 +16,6 @@
 package org.kuali.coeus.propdev.impl.print;
 
 
-import org.kuali.kra.proposaldevelopment.printing.xmlstream.CompensationInfo;
-
 public class KeyPersonInfo extends CompensationInfo {
 
 

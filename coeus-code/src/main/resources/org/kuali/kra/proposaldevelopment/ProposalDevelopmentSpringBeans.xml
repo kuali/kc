@@ -389,7 +389,7 @@
     		<property name="dataDictionaryService" ref="dataDictionaryService"/>
     		<property name="dataObjectService" ref="dataObjectService" />
     </bean>
-    
+
     <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dbPlatform" />
     </bean>
@@ -542,12 +542,12 @@
         <property name="xmlStream" ref="pendingProposalXmlStream" />
     </bean>
 
-    <bean id="currentProposalXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.CurrentProposalXmlStream">
+    <bean id="currentProposalXmlStream" class="org.kuali.coeus.propdev.impl.print.CurrentProposalXmlStream">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
     
-    <bean id="pendingProposalXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.PendingProposalXmlStream">
+    <bean id="pendingProposalXmlStream" class="org.kuali.coeus.propdev.impl.print.PendingProposalXmlStream">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
