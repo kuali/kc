@@ -1,7 +1,8 @@
-package org.kuali.kra.proposaldevelopment.printing.xmlstream;
+package org.kuali.coeus.propdev.impl.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.PrintConstants;
+import org.kuali.coeus.propdev.impl.print.CurrentAndPendingBaseStream;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;

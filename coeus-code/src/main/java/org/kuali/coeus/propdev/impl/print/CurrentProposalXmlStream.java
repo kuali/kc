@@ -1,7 +1,8 @@
-package org.kuali.kra.proposaldevelopment.printing.xmlstream;
+package org.kuali.coeus.propdev.impl.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.PrintConstants;
+import org.kuali.coeus.propdev.impl.print.CurrentAndPendingBaseStream;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.customdata.AwardCustomData;
@@ -26,6 +27,11 @@ public class CurrentProposalXmlStream extends CurrentAndPendingBaseStream {
 
     private List<String> columsList;
     private ParameterService parameterService;
+    protected ParameterService getParameterService(){
+        if (parameterService ==null)
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        return parameterService;
+    }
 	/**
 	 * This method generates XML for Current Proposal Report. It uses data
 	 * passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The
@@ -109,7 +115,7 @@ public class CurrentProposalXmlStream extends CurrentAndPendingBaseStream {
 	 */
 	private CurrentSupport[] getCurrentSupportInformation(List<CurrentReportBean> currentReportBeans) {
 		List<CurrentSupport> currentSupports = new ArrayList<CurrentSupport>();
-		 parameterService = KcServiceLocator.getService(ParameterService.class);
+		 parameterService = getParameterService();
 		 String directIndirectEnabledValue = parameterService.getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
 
 		for (CurrentReportBean bean : currentReportBeans) {
