@@ -55,7 +55,7 @@ import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
-import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.*;
 import org.kuali.coeus.propdev.impl.print.ProposalDevelopmentPrintingService;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
