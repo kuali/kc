@@ -21,6 +21,11 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
+import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Map;
@@ -28,6 +33,9 @@ import java.util.Map;
 /**
  * Renders fields for the Proposal Development notifications.
  */
+
+@Component("proposalDevelopmentNotificationRenderer")
+@Scope("prototype")
 public class ProposalDevelopmentNotificationRenderer extends NotificationRendererBase {
 
     private static final long serialVersionUID = 1143944858168503090L;
@@ -35,7 +43,9 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
     private DevelopmentProposal developmentProposal;
     private ProposalChangedData proposalChangedData;
     private Narrative modifiedNarrative;
-    
+
+    @Autowired
+    @Qualifier("proposalDevelopmentService")
     private transient ProposalDevelopmentService proposalDevelopmentService;
     
     public ProposalDevelopmentNotificationRenderer() {

@@ -390,14 +390,6 @@
     		<property name="dataObjectService" ref="dataObjectService" />
     </bean>
     
-    <bean id="proposalDevelopmentNotificationRenderer" class="org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer"
-          scope="prototype">
-        <property name="proposalDevelopmentService" ref="proposalDevelopmentService"/>
-    </bean>
-    
-    <bean id="proposalDevelopmentNotificationRoleQualifierService" 
-          class="org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRoleQualifierServiceImpl" scope="prototype" />
-
     <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dbPlatform" />
     </bean>

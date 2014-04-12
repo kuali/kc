@@ -20,10 +20,15 @@ import org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifi
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kim.api.KimConstants;
+import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
+
 
 /**
  * Implements the DevelopmentProposalNotificationRoleQualifierService.
  */
+@Component("proposalDevelopmentNotificationRoleQualifierService")
+@Scope("prototype")
 public class ProposalDevelopmentNotificationRoleQualifierServiceImpl implements ProposalDevelopmentNotificationRoleQualifierService {
 
     private DevelopmentProposal developmentProposal;
