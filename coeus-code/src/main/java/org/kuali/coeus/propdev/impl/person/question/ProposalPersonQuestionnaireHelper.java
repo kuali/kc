@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.questionnaire;
+package org.kuali.coeus.propdev.impl.person.question;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -73,7 +73,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
         //ProposalDevelopmentDocument propDevDoc = getProposalDevelopmentDocument(); 
-        ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean = 
+        ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean =
             new ProposalPersonModuleQuestionnaireBean(getProposalPerson().getDevelopmentProposal(), getProposalPerson());
         return moduleQuestionnaireBean;
     }

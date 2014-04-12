@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.notification;
+package org.kuali.coeus.propdev.impl.notification;
 
 import org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
