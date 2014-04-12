@@ -60,7 +60,7 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.Approved
 import org.kuali.kra.award.permissions.PermissionsHelper;
 import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.award.printing.AwardTransactionSelectorBean;
-import org.kuali.kra.award.specialreview.SpecialReviewHelper;
+import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.award.external.award.web.AccountCreationPresentationHelper;
 import org.kuali.kra.infrastructure.Constants;

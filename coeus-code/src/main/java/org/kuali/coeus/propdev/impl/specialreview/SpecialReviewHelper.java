@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.specialreview;
+package org.kuali.coeus.propdev.impl.specialreview;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.kuali.coeus.common.specialreview.impl.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
