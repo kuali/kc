@@ -54,6 +54,7 @@
         <ref bean="KcPerson-extendedAttributes.directoryTitle" />
         <ref bean="KcPerson-organizationIdentifier" />
         <ref bean="KcPerson-unit.unitName" />
+        <ref bean="KcPerson-unit.unitNumber" />
         <ref bean="KcPerson-facultyFlag" />
         <ref bean="KcPerson-graduateStudentStaffFlag" />
         <ref bean="KcPerson-researchStaffFlag" />
@@ -491,6 +492,14 @@
     <property name="name" value="unit.unitName" />
     <property name="label" value="Home Unit" />
     <property name="shortLabel" value="Home Unit" />
+  </bean>
+  
+  <bean id="KcPerson-unit.unitNumber" parent="KcPerson-unit.unitNumber-parentBean" />
+
+  <bean id="KcPerson-unit.unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+    <property name="name" value="unit.unitNumber" />
+    <property name="label" value="Home Unit Number" />
+    <property name="shortLabel" value="Home Unit Number" />
   </bean>
   
   <bean id="KcPerson-facultyFlag" parent="KcPerson-facultyFlag-parentBean" />

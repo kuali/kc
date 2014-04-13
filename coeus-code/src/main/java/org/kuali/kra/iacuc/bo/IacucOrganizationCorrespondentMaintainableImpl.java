@@ -21,7 +21,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
-import org.kuali.kra.irb.correspondence.CorrespondentType;
+import org.kuali.kra.iacuc.correspondence.IacucCorrespondentType;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -120,7 +120,7 @@ public class IacucOrganizationCorrespondentMaintainableImpl extends KraMaintaina
         BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> validParams = new HashMap<String, String>();
         validParams.put("correspondentTypeCode", correspondentTypeCode.toString());
-        return !businessObjectService.findMatching(CorrespondentType.class, validParams).isEmpty();
+        return !businessObjectService.findMatching(IacucCorrespondentType.class, validParams).isEmpty();
     }
 
   

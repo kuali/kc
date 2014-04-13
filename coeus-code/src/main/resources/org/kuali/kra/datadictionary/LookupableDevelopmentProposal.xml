@@ -38,6 +38,7 @@
 				<ref bean="LookupableDevelopmentProposal-deadlineDate" />
 				<ref bean="LookupableDevelopmentProposal-investigator" />
 				<ref bean="LookupableDevelopmentProposal-documentNumber" />
+				<ref bean="LookupableDevelopmentProposal-sponsor.sponsorName" />
             </list>
         </property>
     </bean>
@@ -257,6 +258,14 @@
 		<property name="description" value="Investigator" />
 	</bean>
 
+    <bean id="LookupableDevelopmentProposal-sponsor.sponsorName" parent="LookupableDevelopmentProposal-sponsor.sponsorName-parentBean" />
+    <bean id="LookupableDevelopmentProposal-sponsor.sponsorName-parentBean" abstract="true" parent="Sponsor-sponsorName">
+        <property name="name" value="sponsor.sponsorName" />
+        <property name="label" value="Sponsor Name" />
+        <property name="shortLabel" value="Sponsor Name" />
+        <property name="required" value="false" />    
+    </bean>
+    
     <bean id="LookupableDevelopmentProposal-lookupDefinition" parent="LookupableDevelopmentProposal-lookupDefinition-parentBean" />
   <bean id="LookupableDevelopmentProposal-LookupView" parent="LookupableDevelopmentProposal-LookupView-parentBean"/>
     <bean id="LookupableDevelopmentProposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">

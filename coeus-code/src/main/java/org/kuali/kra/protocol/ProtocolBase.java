@@ -1168,7 +1168,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     /*
      * get submit for review questionnaire answerheaders
      */
-    protected abstract List <AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol);
+    public abstract List <AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol);
     
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KcServiceLocator.getService(QuestionnaireAnswerService.class);

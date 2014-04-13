@@ -93,25 +93,24 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
         ProtocolSubmissionBase submission = getProtocol().getProtocolSubmission();
 
         if (submission != null) {
-            // whenever submission is not null, we will show the cmt and schedule chosen for the last submission
+            // whenever submission is not null, we will show the data chosen for the last submission          
             IacucProtocolForm iacucProtocolForm = (IacucProtocolForm)getActionHelper().getProtocolForm();
             reviewers.clear();
             if (iacucProtocolForm.isReinitializeModifySubmissionFields()) {
                 iacucProtocolForm.setReinitializeModifySubmissionFields(false);
+                submissionTypeCode = submission.getSubmissionTypeCode();
+                protocolReviewTypeCode = submission.getProtocolReviewTypeCode();
+                submissionQualifierTypeCode = submission.getSubmissionTypeQualifierCode();
+                billable = submission.isBillable();
                 committeeId = submission.getCommitteeId();
                 scheduleId = submission.getScheduleId();
+            }
                  
-                if (!StringUtils.isBlank(scheduleId) && !StringUtils.isBlank(committeeId)) {
-                    //this condition automatically deals with a full committee review requiring a schedule date when obtaining reviewers
+            if (!StringUtils.isBlank(committeeId)) {
+                if (!StringUtils.isBlank(scheduleId) || !isFullCommmitteeReview(submission)) {
                     populateReviewers(committeeId, scheduleId, submission);
                 }
             }
-
-            //committeeId and scheduleId may not have changed but submission review type could have
-            //get reviewers based solely on committeeId letting scheduleId be null when submission review type is not a full committee review            
-            if (!StringUtils.isBlank(committeeId) && !isFullCommmitteeReview(submission)) {
-                populateReviewers(committeeId, scheduleId, submission);
-            }              
         }   
     }    
     
