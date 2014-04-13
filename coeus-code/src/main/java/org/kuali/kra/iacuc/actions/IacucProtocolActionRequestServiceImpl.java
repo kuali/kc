@@ -1052,6 +1052,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
             getProtocolNotifyService().submitIacucNotification((IacucProtocol)protocolForm.getProtocolDocument().getProtocol(),
                     actionHelper.getIacucProtocolNotifyIacucBean());
             protocolForm.getQuestionnaireHelper().setAnswerHeaders(new ArrayList<AnswerHeader>());
+            protocolForm.setReinitializeModifySubmissionFields(true);
             LOG.info("notifyIacucProtocol " + protocolForm.getProtocolDocument().getDocumentNumber());
             generateActionCorrespondence(IacucProtocolActionType.NOTIFY_IACUC, protocolForm.getProtocolDocument().getProtocol());
             recordProtocolActionSuccess(ACTION_NAME_NOTIFY);
