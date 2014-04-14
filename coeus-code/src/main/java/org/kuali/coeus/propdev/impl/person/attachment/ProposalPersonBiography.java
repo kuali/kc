@@ -20,10 +20,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
-import org.kuali.coeus.common.framework.attachment.KcAttachment;
-import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
+import org.kuali.coeus.common.api.attachment.KcAttachment;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.PropPerDocType;
 
 import javax.persistence.*;
@@ -236,10 +234,6 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
     public String getType() {
         return getContentType();
-    }
-
-    public String getIconPath() {
-        return KcServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
     }
 
     public int getPositionNumber() {

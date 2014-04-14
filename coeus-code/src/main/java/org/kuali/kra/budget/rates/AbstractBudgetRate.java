@@ -16,13 +16,13 @@
 package org.kuali.kra.budget.rates;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.kuali.coeus.budget.api.core.IdentifiableBudget;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetAssociateInterface;
 
-public abstract class AbstractBudgetRate extends AbstractInstituteRate implements BudgetAssociateInterface {
+public abstract class AbstractBudgetRate extends AbstractInstituteRate implements IdentifiableBudget {
 
 
     private static final long serialVersionUID = -7152006670699620080L;

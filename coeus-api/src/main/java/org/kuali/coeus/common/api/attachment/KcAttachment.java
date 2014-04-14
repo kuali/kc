@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.attachment;
+package org.kuali.coeus.common.api.attachment;
 
 /**
  * Simple interface to provide common attachment methods.
@@ -22,22 +22,17 @@ public interface KcAttachment {
 
     /**
      * Returns file name of the attached file.
-     * @return
+     * @return name
      */
     String getName();
     /**
      * Returns the mime type of the attachment.
-     * @return
+     * @return type
      */
     String getType();
     /**
      * Returns the data of this attachment
-     * @return
+     * @return data
      */
     byte[] getData();
-    /**
-     * Return the image file path based on mime type or other criteria.
-     * @return
-     */
-    String getIconPath();
 }

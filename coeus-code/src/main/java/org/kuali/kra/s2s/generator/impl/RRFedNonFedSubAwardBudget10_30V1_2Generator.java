@@ -23,8 +23,8 @@ import gov.grants.apply.forms.rrFedNonFedSubawardBudget1030V12.RRFedNonFedSubawa
 import gov.grants.apply.forms.rrFedNonFedSubawardBudgetV12.RRFedNonFedSubawardBudgetDocument;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.w3c.dom.Document;
@@ -60,12 +60,12 @@ public class RRFedNonFedSubAwardBudget10_30V1_2Generator extends S2SAdobeFormAtt
         RRFedNonFedSubawardBudget1030Document rrSubawardBudgetDocument = RRFedNonFedSubawardBudget1030Document.Factory.newInstance();
         RRFedNonFedSubawardBudget1030 rrSubawardBudget = RRFedNonFedSubawardBudget1030.Factory.newInstance();
         BudgetAttachments budgetAttachments = BudgetAttachments.Factory.newInstance();
-        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(pdDoc,RR_FED_NON_FED_BUDGET1030_11_NAMESPACE_URI,false);
+        List<BudgetSubAwardsContract> budgetSubAwardsList = getBudgetSubAwards(pdDoc,RR_FED_NON_FED_BUDGET1030_11_NAMESPACE_URI,false);
         RRFedNonFedBudget10[] budgetList = new RRFedNonFedBudget10[budgetSubAwardsList.size()];
         rrSubawardBudget.setFormVersion(S2SConstants.FORMVERSION_1_2);
 
         int attCount = 1;
-        for (BudgetSubAwards budgetSubAwards : budgetSubAwardsList) {
+        for (BudgetSubAwardsContract budgetSubAwards : budgetSubAwardsList) {
             RRFedNonFedBudget10 rrBudget = getRRFedNonFedBudget(budgetSubAwards).getRRFedNonFedBudget10();
             switch (attCount) {
                 case 1:
@@ -206,7 +206,7 @@ public class RRFedNonFedSubAwardBudget10_30V1_2Generator extends S2SAdobeFormAtt
      * @param budgetSubAwards(BudgetSubAwards) budget sub awards entry.
      * @return RRFedNonFedBudget corresponding to the BudgetSubAwards object.
      */
-    private RRFedNonFedBudget10Document getRRFedNonFedBudget(BudgetSubAwards budgetSubAwards) {
+    private RRFedNonFedBudget10Document getRRFedNonFedBudget(BudgetSubAwardsContract budgetSubAwards) {
         RRFedNonFedBudget10Document rrBudget = RRFedNonFedBudget10Document.Factory.newInstance();
         String subAwdXML = budgetSubAwards.getSubAwardXmlFileData();
         Document subAwdFormsDoc;

@@ -16,16 +16,16 @@
 package org.kuali.kra.s2s.generator.impl;
 
 
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardAttachmentContract;
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.depend.BudgetSubAwardsService;
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -147,7 +147,7 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
      * @param budgetSubAwards(BudgetSubAwards) budget sub award entry.
      * @return String attachment name for the budget sub awards.
      */
-    protected String prepareAttName(BudgetSubAwards budgetSubAwards) {
+    protected String prepareAttName(BudgetSubAwardsContract budgetSubAwards) {
         StringBuilder attachmentName = new StringBuilder();
         boolean hasSameFileName = false;
         boolean isAlreadyprinted = false;
@@ -176,9 +176,9 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
         String cleanSubAwardOrganizationName = getKcAttachmentService()
                 .checkAndReplaceInvalidCharacters(budgetSubAwards.getOrganizationName());
         attachmentName.append(cleanSubAwardOrganizationName);
-        List<BudgetSubAwards> budgetSubAwardsList =  getBudgetSubAwardsService().findBudgetSubAwardsByBudgetId(budgetSubAwards.getBudgetId());
+        List<? extends BudgetSubAwardsContract> budgetSubAwardsList =  getBudgetSubAwardsService().findBudgetSubAwardsByBudgetId(budgetSubAwards.getBudgetId());
         ArrayList<String> attachments = new ArrayList<String> ();
-        for (BudgetSubAwards budgetSubAward: budgetSubAwardsList) {
+        for (BudgetSubAwardsContract budgetSubAward: budgetSubAwardsList) {
             StringBuilder existingAttachmentName = new StringBuilder();
             String subAward_OrganizationName = getKcAttachmentService()
                     .checkAndReplaceInvalidCharacters(budgetSubAward.getOrganizationName());
@@ -226,15 +226,14 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
     /**
      * Adding attachments to subaward
      */
-    protected void addSubAwdAttachments(BudgetSubAwards budgetSubAwards) {
-        budgetSubAwards.refreshReferenceObject("budgetSubAwardAttachments");
-        List<BudgetSubAwardAttachment> subAwardAttachments = budgetSubAwards.getBudgetSubAwardAttachments();
-        for (BudgetSubAwardAttachment budgetSubAwardAttachment : subAwardAttachments) {
+    protected void addSubAwdAttachments(BudgetSubAwardsContract budgetSubAwards) {
+        List<? extends BudgetSubAwardAttachmentContract> subAwardAttachments = budgetSubAwards.getBudgetSubAwardAttachments();
+        for (BudgetSubAwardAttachmentContract budgetSubAwardAttachment : subAwardAttachments) {
             AttachmentData attachmentData = new AttachmentData();
-            attachmentData.setContent(budgetSubAwardAttachment.getAttachment());
-            attachmentData.setContentId(budgetSubAwardAttachment.getContentId());
-            attachmentData.setContentType(budgetSubAwardAttachment.getContentType());
-            attachmentData.setFileName(budgetSubAwardAttachment.getContentId());
+            attachmentData.setContent(budgetSubAwardAttachment.getData());
+            attachmentData.setContentId(budgetSubAwardAttachment.getName());
+            attachmentData.setContentType(budgetSubAwardAttachment.getType());
+            attachmentData.setFileName(budgetSubAwardAttachment.getName());
             addAttachment(attachmentData);
         }
     }
@@ -245,9 +244,9 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
      * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
      * @return List<BudgetSubAwards> list of budget sub awards.
      */
-    protected List<BudgetSubAwards> getBudgetSubAwards(ProposalDevelopmentDocument proposalDevelopmentDocument,
+    protected List<BudgetSubAwardsContract> getBudgetSubAwards(ProposalDevelopmentDocument proposalDevelopmentDocument,
             String namespace,boolean checkNull) {
-        List<BudgetSubAwards> budgetSubAwardsList = new ArrayList<BudgetSubAwards>();
+        List<BudgetSubAwardsContract> budgetSubAwardsList = new ArrayList<BudgetSubAwardsContract>();
         Budget budget = findBudgetFromProposal(proposalDevelopmentDocument);
         if(budget==null){
             getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.SUB_AWARD_BUDGET_NOT_FOUND));
@@ -268,8 +267,8 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
      * @return
      */
     @SuppressWarnings("unchecked")
-    private List<BudgetSubAwards> findBudgetSubawards(String namespace, Budget budget,boolean checkNull) {
-        List<BudgetSubAwards> budgetSubAwardsList = new ArrayList<>();
+    private List<BudgetSubAwardsContract> findBudgetSubawards(String namespace, Budget budget,boolean checkNull) {
+        List<BudgetSubAwardsContract> budgetSubAwardsList = new ArrayList<>();
         budgetSubAwardsList.addAll(getBudgetSubAwardsService().findBudgetSubAwardsByBudgetIdAndNamespace(budget.getBudgetId(), namespace));
 
         if(checkNull){

@@ -4,10 +4,10 @@
   <bean id="BudgetSubAwardPeriodDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail" />
 		<property name="objectLabel" value="Budget Subaward Period Detail" />
-    <property name="titleAttribute" value="budgetSubAwardDetailId" />
+    <property name="titleAttribute" value="id" />
     <property name="attributes" >
       <list>
-      	<ref bean="BudgetSubAwardPeriodDetail-budgetSubAwardDetailId" />
+      	<ref bean="BudgetSubAwardPeriodDetail-id" />
         <ref bean="BudgetSubAwardPeriodDetail-subAwardNumber" />
 		<ref bean="BudgetSubAwardPeriodDetail-budgetPeriod" />
 		<ref bean="BudgetSubAwardPeriodDetail-directCost" />
@@ -22,13 +22,13 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="BudgetSubAwardPeriodDetail-budgetSubAwardDetailId" parent="BudgetSubAwardPeriodDetail-budgetSubAwardDetailId-parentBean" />
+  <bean id="BudgetSubAwardPeriodDetail-id" parent="BudgetSubAwardPeriodDetail-id-parentBean" />
 
-  <bean id="BudgetSubAwardPeriodDetail-budgetSubAwardDetailId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="budgetSubAwardDetailId" />
+  <bean id="BudgetSubAwardPeriodDetail-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="budgetSubAwardDetailId" />
-    <property name="shortLabel" value="budgetSubAwardDetailId" />
+    <property name="label" value="id" />
+    <property name="shortLabel" value="id" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -42,8 +42,8 @@
     <property name="controlField">
       <bean parent="Uif-HiddenControl"/>
     </property>
-    <property name="summary" value="budgetSubAwardDetailId" />
-    <property name="description" value="budgetSubAwardDetailId" />
+    <property name="summary" value="id" />
+    <property name="description" value="id" />
   </bean>
 
   <bean id="BudgetSubAwardPeriodDetail-subAwardNumber" parent="BudgetSubAwardPeriodDetail-subAwardNumber-parentBean" />

@@ -91,7 +91,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         
         newSubAwardFile.setSubAwardXfdFileData(subAward.getSubAwardXfdFileData());
         if (subawardBudgetExtracted) {
-            newSubAwardFile.setSubAwardXmlFileData(new String(subAward.getSubAwardXmlFileData()));
+            newSubAwardFile.setSubAwardXmlFileData(subAward.getSubAwardXmlFileData());
         }
         newSubAwardFile.setSubAwardXfdFileName(newFileName);
         newSubAwardFile.setBudgetId(subAward.getBudgetId());
@@ -211,9 +211,9 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
      */
     private boolean hasBeenChanged(BudgetSubAwardPeriodDetail detail, boolean checkDirect) {
         boolean changed = false;
-        if (detail != null && detail.getBudgetSubAwardDetailId() != null) {
+        if (detail != null && detail.getId() != null) {
             Map primaryKeys = new HashMap();
-            primaryKeys.put("SUBAWARD_PERIOD_DETAIL_ID", detail.getBudgetSubAwardDetailId());
+            primaryKeys.put("SUBAWARD_PERIOD_DETAIL_ID", detail.getId());
             BudgetSubAwardPeriodDetail dbDetail = getBusinessObjectService().findByPrimaryKey(BudgetSubAwardPeriodDetail.class, primaryKeys);
             if (checkDirect) {
                 changed = !ScaleTwoDecimal.returnZeroIfNull(detail.getDirectCost()).equals(ScaleTwoDecimal.returnZeroIfNull(dbDetail.getDirectCost()));
@@ -559,10 +559,6 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         org.w3c.dom.NodeList lstMimeType = document.getElementsByTagName("att:MimeType");
         org.w3c.dom.NodeList lstHashValue = document.getElementsByTagName("glob:HashValue");
 
-        if((lstFileName.getLength() != lstFileLocation.getLength()) || (lstFileLocation.getLength() != lstHashValue.getLength())) {
-//            throw new RuntimeException("Tag occurances mismatch in XML File");
-        }
-
         org.w3c.dom.Node fileNode, hashNode, mimeTypeNode;
         org.w3c.dom.NamedNodeMap fileNodeMap, hashNodeMap;
         String fileName;
@@ -605,10 +601,10 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             String contentType = mimeTypeNode.getFirstChild().getNodeValue();
                 
             BudgetSubAwardAttachment budgetSubAwardAttachmentBean = new BudgetSubAwardAttachment();
-            budgetSubAwardAttachmentBean.setAttachment(fileBytes);
-            budgetSubAwardAttachmentBean.setContentId(encodedContentId);
+            budgetSubAwardAttachmentBean.setData(fileBytes);
+            budgetSubAwardAttachmentBean.setName(encodedContentId);
 
-            budgetSubAwardAttachmentBean.setContentType(contentType);
+            budgetSubAwardAttachmentBean.setType(contentType);
             budgetSubAwardAttachmentBean.setBudgetId(budgetSubAwardBean.getBudgetId());
             budgetSubAwardAttachmentBean.setSubAwardNumber(budgetSubAwardBean.getSubAwardNumber());
 
@@ -642,12 +638,8 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         List<BudgetSubAwards> subAwards = budget.getBudgetSubAwards();
         for (BudgetSubAwards budgetSubAwards : subAwards) {
             budgetSubAwards.refreshReferenceObject("budgetSubAwardAttachments");
-            List<BudgetSubAwardAttachment> attList = budgetSubAwards.getBudgetSubAwardAttachments();
-            for (BudgetSubAwardAttachment budgetSubAwardAttachment : attList) {
-                //budgetSubAwardAttachment.setAttachment(null);
-            }
-        }        
-    }   
+        }
+    }
     protected void removeAllEmptyNodes(Document document,String xpath,int parentLevel) throws TransformerException {
         NodeList emptyElements =  XPathAPI.selectNodeList(document,xpath);
         

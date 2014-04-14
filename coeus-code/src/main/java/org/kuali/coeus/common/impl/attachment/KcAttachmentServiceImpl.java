@@ -15,12 +15,8 @@
  */
 package org.kuali.coeus.common.impl.attachment;
 
-import org.kuali.coeus.common.framework.attachment.KcAttachment;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -49,10 +45,10 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
      * Currently determining the icon based only on the mime type and using the default icon
      * if a mime type is not mapped in mimeTypeIcons. The full attachment is being passed here
      * so more advanced file type detection can be implemented if necessary.
-     * @see org.kuali.coeus.common.framework.attachment.KcAttachmentService#getFileTypeIcon(org.kuali.coeus.common.framework.attachment.KcAttachment)
      */
-    public String getFileTypeIcon(KcAttachment attachment) {
-        String iconPath = getMimeTypeIcons().get(attachment.getType());
+    @Override
+    public String getFileTypeIcon(String type) {
+        String iconPath = getMimeTypeIcons().get(type);
         if (iconPath == null) {
             return kcAttachmentMimeTypeIcons.get(DEFAULT_ICON);
         } else {
@@ -71,7 +67,8 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
     protected String getDefaultIcon() {
         return kcAttachmentMimeTypeIcons.get(DEFAULT_ICON);
     }
-    
+
+    @Override
     public String getInvalidCharacters(String text) {
         if (ObjectUtils.isNotNull(text)) {
             
@@ -90,8 +87,8 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
 
     /**
      * This method checks string for invalid characters and replaces with underscores.
-     * @see org.kuali.coeus.common.framework.attachment.KcAttachmentService#checkAndReplaceInvalidCharacters(java.lang.String)
      */
+    @Override
     public String checkAndReplaceInvalidCharacters(String text) {     
         String cleanText = text;
         if (ObjectUtils.isNotNull(text)) {
@@ -104,7 +101,8 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
         }
         return cleanText;
     }
-    
+
+    @Override
     public boolean getSpecialCharacter(String text) {
         if (ObjectUtils.isNotNull(text)) {
             Pattern pattern = Pattern.compile(REGEX_TITLE_SPECIAL_CHARACTER_PATTERN);
@@ -114,8 +112,9 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
             }
         }        
         return false;    
-    }   
-    
+    }
+
+    @Override
     public String checkAndReplaceSpecialCharacters(String text) {     
         String cleanText = text;
         if (ObjectUtils.isNotNull(text)) {

@@ -28,8 +28,8 @@ import java.util.List;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.impl.S2SAdobeFormAttachmentBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -61,11 +61,11 @@ public class PHS398TrainingSubAwardBudgetV2_0Generator extends S2SAdobeFormAttac
         PHS398TrainingSubawardBudget20 phs398TrainingSubawardBudget20 = PHS398TrainingSubawardBudget20.Factory.newInstance();
 
         BudgetAttachments budgetAttachments = BudgetAttachments.Factory.newInstance();
-        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(pdDoc,PHS398_TRAINING_BUDGET_20_NAMESPACE_URI,true);
+        List<BudgetSubAwardsContract> budgetSubAwardsList = getBudgetSubAwards(pdDoc,PHS398_TRAINING_BUDGET_20_NAMESPACE_URI,true);
         PHS398TrainingBudget[] budgetList = new PHS398TrainingBudget[budgetSubAwardsList.size()];
         phs398TrainingSubawardBudget20.setFormVersion(S2SConstants.FORMVERSION_2_0);
         int attCount = 1;
-        for (BudgetSubAwards budgetSubAwards : budgetSubAwardsList) {
+        for (BudgetSubAwardsContract budgetSubAwards : budgetSubAwardsList) {
             switch (attCount) {
                 case 1:
                     phs398TrainingSubawardBudget20.setATT1(prepareAttName(budgetSubAwards));
@@ -124,7 +124,7 @@ public class PHS398TrainingSubAwardBudgetV2_0Generator extends S2SAdobeFormAttac
      * @param budgetSubAwards(BudgetSubAwards) budget sub awards entry.
      * @return PHS398TrainingBudget corresponding to the BudgetSubAwards object.
      */
-    private PHS398TrainingBudget getPHS398TrainingBudget(BudgetSubAwards budgetSubAwards) throws S2SException{
+    private PHS398TrainingBudget getPHS398TrainingBudget(BudgetSubAwardsContract budgetSubAwards) throws S2SException{
         PHS398TrainingBudget rrBudget = PHS398TrainingBudget.Factory.newInstance();
         PHS398TrainingBudgetDocument rrBudgetDocument = PHS398TrainingBudgetDocument.Factory.newInstance();
         String subAwdXML = budgetSubAwards.getSubAwardXmlFileData();
@@ -170,7 +170,7 @@ public class PHS398TrainingSubAwardBudgetV2_0Generator extends S2SAdobeFormAttac
 
 
     /**
-     * This method creates {@link XmlObject} of type {@link RRSubawardBudgetDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type {@link PHS398TrainingSubawardBudget20Document} by populating data from the given
      * {@link ProposalDevelopmentDocument}
      * 
      * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created

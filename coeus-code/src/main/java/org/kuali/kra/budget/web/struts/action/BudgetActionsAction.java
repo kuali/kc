@@ -184,7 +184,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         getBudgetSubAwardService().populateBudgetSubAwardAttachments(budget);
         return forward;
     }
-    
+
     public ActionForward addSubAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm)form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
@@ -757,9 +757,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             budgetForm.getDocument().refreshPessimisticLocks();
         }  
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-        //return mapping.findForward(Constants.BUDGET_PERIOD_PAGE);
         return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
-        //return mapping.findForward("parameters");
     }
     
 }
