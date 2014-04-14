@@ -61,6 +61,7 @@ public class ProposalDevelopmentNotificationContext extends NotificationContextB
                kcNotificationModuleRoleService = KcServiceLocator.getService(KcNotificationModuleRoleService.class);
         return kcNotificationModuleRoleService;
     }
+
     /**
      * Constructs a Proposal Development notification context and sets the necessary services.
      * @param developmentProposal

@@ -2,9 +2,7 @@ package org.kuali.coeus.propdev.impl.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.PrintConstants;
-import org.kuali.coeus.propdev.impl.print.CurrentAndPendingBaseStream;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.infrastructure.Constants;
@@ -15,6 +13,9 @@ import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAnd
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.CurrentSupport.CurrentReportCEColomnValues;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 /**
@@ -23,13 +24,20 @@ import java.util.*;
  * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  * 
  */
+
+@Component("currentProposalXmlStream")
 public class CurrentProposalXmlStream extends CurrentAndPendingBaseStream {
 
     private List<String> columsList;
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+
+    public void setParameterService (ParameterService parameterService){
+        this.parameterService = parameterService;
+    }
+
     protected ParameterService getParameterService(){
-        if (parameterService ==null)
-            parameterService = KcServiceLocator.getService(ParameterService.class);
         return parameterService;
     }
 	/**

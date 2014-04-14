@@ -13,6 +13,8 @@ import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAnd
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport.PendingReportCEColomnValues;
 
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 
 /**
@@ -21,6 +23,7 @@ import java.util.*;
  * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  * 
  */
+@Component("pendingProposalXmlStream")
 public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 	private ArrayList columsList;
     private static final String PROP_SEQ_STATUS = "ACTIVE";

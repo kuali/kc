@@ -19,6 +19,9 @@ import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
 /**
  * This class will contain all common methods that can be used across
  * Institution Proposal XML generator streams . All those report XML stream
@@ -26,7 +29,13 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  */
 public abstract class CurrentAndPendingBaseStream implements XmlStream {
-	protected DateTimeService dateTimeService;
+
+    @Autowired
+    @Qualifier("dateTimeService")
+    protected DateTimeService dateTimeService;
+
+    @Autowired
+    @Qualifier("businessObjectService")
 	protected BusinessObjectService businessObjectService = null;
 
 	/**
