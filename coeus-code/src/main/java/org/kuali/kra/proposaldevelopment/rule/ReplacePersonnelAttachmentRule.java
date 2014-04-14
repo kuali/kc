@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
+import org.kuali.coeus.propdev.impl.person.attachment.AddPersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.ReplacePersonnelAttachmentEvent;
 
 public interface ReplacePersonnelAttachmentRule extends AddPersonnelAttachmentRule {

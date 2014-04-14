@@ -389,14 +389,6 @@
     		<property name="dataDictionaryService" ref="dataDictionaryService"/>
     		<property name="dataObjectService" ref="dataObjectService" />
     </bean>
-    
-    <bean id="proposalDevelopmentNotificationRenderer" class="org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRenderer" 
-          scope="prototype">
-        <property name="proposalDevelopmentService" ref="proposalDevelopmentService"/>
-    </bean>
-    
-    <bean id="proposalDevelopmentNotificationRoleQualifierService" 
-          class="org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRoleQualifierServiceImpl" scope="prototype" />
 
     <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dbPlatform" />
@@ -424,12 +416,6 @@
         <property name="kraDocumentRejectionService" ref="kcDocumentRejectionService" />
         <property name="sessionDocumentService" ref="knsSessionDocumentService" />
         <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />       
-    </bean>
-
-    <bean id="proposalPersonBiographyService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonBiographyServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="attachmentDao" ref="attachmentDao" />
-        <property name="personService" ref="personService" />
     </bean>
     
     <bean id="proposalRoleService" class="org.kuali.kra.kim.service.impl.ProposalRoleServiceImpl">
@@ -548,16 +534,6 @@
     
     <bean id="pendingProposalPrint" class="org.kuali.coeus.common.proposal.impl.report.PendingProposalPrint" scope="prototype">
         <property name="xmlStream" ref="pendingProposalXmlStream" />
-    </bean>
-
-    <bean id="currentProposalXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.CurrentProposalXmlStream">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="dateTimeService" ref="dateTimeService" />
-    </bean>
-    
-    <bean id="pendingProposalXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.PendingProposalXmlStream">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 
 	<!-- Proposal Development Task Authorizers -->
