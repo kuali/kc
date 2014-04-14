@@ -11,14 +11,14 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component("budgetCategoryMapService")
+@Service("budgetCategoryMapService")
 public class BudgetCategoryMapServiceImpl implements BudgetCategoryMapService {
 
     public static final String KEY_MAPPING_NAME = "mappingName";

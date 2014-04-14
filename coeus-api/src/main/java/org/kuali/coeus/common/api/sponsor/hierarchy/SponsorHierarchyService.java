@@ -1,4 +1,4 @@
-package org.kuali.kra.s2s.depend;
+package org.kuali.coeus.common.api.sponsor.hierarchy;
 
 
 public interface SponsorHierarchyService {

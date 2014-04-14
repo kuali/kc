@@ -1,7 +1,6 @@
 package org.kuali.kra.s2s.depend;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.coeus.budget.api.rate.TrainingStipendRateContract;
