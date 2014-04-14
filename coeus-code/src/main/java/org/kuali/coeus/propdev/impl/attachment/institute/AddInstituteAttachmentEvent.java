@@ -13,51 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule.event;
+package org.kuali.coeus.propdev.impl.attachment.institute;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * Event triggered when a Key Person is added to a
- * <code>{@link ProposalDevelopmentDocument}</code>
- *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.2 $
- */
-public class AddNarrativeEvent extends NarrativeEventBase{
+public class AddInstituteAttachmentEvent extends NarrativeEventBase {
     /**
-     * Constructs an AddNarrativeEvent with the given errorPathPrefix, document, and proposalPerson.
+     * Constructs an AddInstituteAttachmentEvent with the given errorPathPrefix, document, and narrative.
      * 
      * @param errorPathPrefix
      * @param proposalDevelopmentDocument
      * @param narrative
      */
-    public AddNarrativeEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative narrative) {
-        super("adding narrative to document " + getDocumentId(document), errorPathPrefix, document, narrative);
+    public AddInstituteAttachmentEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative narrative) {
+        super("adding institute attachment to document " + getDocumentId(document), errorPathPrefix, document, narrative);
     }
 
     /**
-     * Constructs an AddNarrativeEvent with the given errorPathPrefix, document, and proposalPerson.
+     * Constructs an AddInstituteAttachmentEvent with the given errorPathPrefix, document, and narrative.
      * 
      * @param errorPathPrefix
      * @param document
      * @param narrative
      */
-    public AddNarrativeEvent(String errorPathPrefix, Document document, Narrative narrative) {
+    public AddInstituteAttachmentEvent(String errorPathPrefix, Document document, Narrative narrative) {
         this(errorPathPrefix, (ProposalDevelopmentDocument) document, narrative);
     }
 
     @Override
     public Class getRuleInterfaceClass() {
-        return AddNarrativeRule.class;
+        return AddInstituteAttachmentRule.class;
     }
 
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddNarrativeRule) rule).processAddNarrativeBusinessRules(this);
+        return ((AddInstituteAttachmentRule) rule).processAddInstituteAttachmentBusinessRules(this);
     }
+
 }

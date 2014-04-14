@@ -13,24 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule.event;
+package org.kuali.coeus.propdev.impl.attachment.institute;
 
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-
-/**
- * Event triggered when a Narrative state is modified on a 
- * <code>{@link ProposalDevelopmentDocument}</code>
- *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.2 $
- */
-public interface NarrativeEvent extends KualiDocumentEvent {
+public interface AddInstituteAttachmentRule extends BusinessRule {
     
     /**
-     * @return <code>{@link Narrative}</code> that triggered this event.
+     * Rule invoked upon adding an institutional attachment 
+     * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
+     *
+     * @return boolean
      */
-    public Narrative getNarrative();
+    public boolean processAddInstituteAttachmentBusinessRules(AddInstituteAttachmentEvent addInstituteAttachmentEvent);
 }

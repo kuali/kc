@@ -28,16 +28,16 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
-import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
-import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
+import org.kuali.coeus.propdev.impl.attachment.AddNarrativeRule;
+import org.kuali.coeus.propdev.impl.attachment.NewNarrativeUserRightsRule;
 import org.kuali.kra.proposaldevelopment.rule.ReplaceNarrativeRule;
-import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
-import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
+import org.kuali.coeus.propdev.impl.attachment.SaveNarrativesRule;
+import org.kuali.coeus.propdev.impl.attachment.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ReplaceNarrativeEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
+import org.kuali.coeus.propdev.impl.attachment.SaveNarrativesEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -79,7 +79,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
     /**
      * This method is used to validate narratives and institute proposal attachments before adding.
      * It checks whether the narratives are duplicated for those of which have allowMultiple flag set as false.
-     * @see org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule#processAddNarrativeBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent)
+     * @see org.kuali.coeus.propdev.impl.attachment.AddNarrativeRule#processAddNarrativeBusinessRules(org.kuali.coeus.propdev.impl.attachment.AddNarrativeEvent)
      */
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent narrativeEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)narrativeEvent.getDocument();
@@ -140,7 +140,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
     /**
      * This method is used to validate narratives and institute proposal attachments before saving.
      * It checks whether the narratives are duplicated for those of which have allowMultiple flag set as false.
-     * @see org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule#processSaveNarrativesBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent)
+     * @see org.kuali.coeus.propdev.impl.attachment.SaveNarrativesRule#processSaveNarrativesBusinessRules(org.kuali.coeus.propdev.impl.attachment.SaveNarrativesEvent)
      */
     public boolean processSaveNarrativesBusinessRules(SaveNarrativesEvent saveNarrativesEvent) {
         

@@ -13,26 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.authorization;
+package org.kuali.coeus.propdev.impl.attachment.institute;
 
 import org.apache.struts.action.ActionForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.auth.task.Task;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeTaskFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * The Proposal Attachment Task Factory will create a Narrative Task using
- * an proposal attachment narrative.
+ * The Institute Attachment Task Factory will create a Narrative Task using
+ * an institute attachment narrative.
  */
-public class ProposalAttachmentTaskFactory extends NarrativeTaskFactory {
+public class InstituteAttachmentTaskFactory extends NarrativeTaskFactory {
     
     protected Narrative getNarrative(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         int index = getLineNumber(request);
-        return proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getNarrative(index);
+        return proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getInstituteAttachment(index);
     }
     
     public Task createTask(ActionForm form, HttpServletRequest request) {

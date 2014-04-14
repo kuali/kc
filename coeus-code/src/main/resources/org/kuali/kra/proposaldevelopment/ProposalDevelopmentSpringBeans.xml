@@ -762,22 +762,22 @@
 					</bean>
 				</entry>
 				<entry key="addProposalAttachmentRights">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalAttachmentTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
 						<property name="taskName" value="modifyNarrativeRights" />
 					</bean>
 				</entry>
 				<entry key="downloadProposalAttachment">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalAttachmentTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
 						<property name="taskName" value="downloadNarrative" />
 					</bean>
 				</entry>
 				<entry key="deleteProposalAttachment">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalAttachmentTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
 						<property name="taskName" value="deleteNarrative" />
 					</bean>
 				</entry>
 				<entry key="replaceProposalAttachment">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalAttachmentTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
 						<property name="taskName" value="replaceNarrative" />
 					</bean>
 				</entry>
@@ -787,27 +787,27 @@
 					</bean>
 				</entry>
 				<entry key="addInstituteAttachmentRights">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.InstituteAttachmentTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
 						<property name="taskName" value="modifyNarrativeRights" />
 					</bean>
 				</entry>
 				<entry key="downloadInstituteAttachment">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.InstituteAttachmentTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
 						<property name="taskName" value="downloadNarrative" />
 					</bean>
 				</entry>
 				<entry key="deleteInstitutionalAttachment">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.InstituteAttachmentTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
 						<property name="taskName" value="deleteNarrative" />
 					</bean>
 				</entry>
 				<entry key="replaceInstituteAttachment">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.InstituteAttachmentTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
 						<property name="taskName" value="replaceNarrative" />
 					</bean>
 				</entry>
 				<entry key="save">
-					<bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.NarrtivesCommonTaskFactory">
+					<bean class="org.kuali.coeus.propdev.impl.attachment.NarrtivesCommonTaskFactory">
 						<property name="taskName" value="modifyNarratives" />
 					</bean>
 				</entry>

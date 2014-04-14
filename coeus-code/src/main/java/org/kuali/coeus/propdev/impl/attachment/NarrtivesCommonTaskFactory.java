@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.authorization;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.apache.struts.action.ActionForm;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeTaskFactory;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;

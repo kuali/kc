@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule.event;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
@@ -30,7 +28,7 @@ import java.util.List;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.4 $
  */
-public class SaveNarrativesEvent extends NarrativeEventBase{
+public class SaveNarrativesEvent extends NarrativeEventBase {
 
     private List<Narrative> originalNarratives;
     

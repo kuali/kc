@@ -719,7 +719,7 @@
  -->
   
 	<!--  Narrative tables mapping -->
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.Narrative" table="NARRATIVE">
+	<class-descriptor class="org.kuali.coeus.propdev.impl.attachment.Narrative" table="NARRATIVE">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="moduleNumber" column="MODULE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
@@ -742,14 +742,14 @@
 			<inverse-foreignkey field-ref="moduleNumber"/>
 		</collection-descriptor>
 		
-		<collection-descriptor name="narrativeUserRights" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="narrativeUserRights" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="moduleNumber"/>
 		</collection-descriptor> 
 		<reference-descriptor name="narrativeType" class-ref="org.kuali.kra.proposaldevelopment.bo.NarrativeType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="narrativeTypeCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="narrativeStatus" class-ref="org.kuali.kra.proposaldevelopment.bo.NarrativeStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="narrativeStatus" class-ref="org.kuali.coeus.propdev.impl.attachment.NarrativeStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="moduleStatusCode"/> 
 		</reference-descriptor>
 		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
@@ -766,13 +766,13 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<!-- <reference-descriptor name="Narrative" class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<!-- <reference-descriptor name="Narrative" class-ref="org.kuali.coeus.propdev.impl.attachment.Narrative" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="moduleNumber"/> 
 			<foreignkey field-ref="proposalNumber"/> 
 		</reference-descriptor>
 -->
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights" table="NARRATIVE_USER_RIGHTS">
+	<class-descriptor class="org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights" table="NARRATIVE_USER_RIGHTS">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="moduleNumber" column="MODULE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="userId" column="USER_ID" jdbc-type="VARCHAR" primarykey="true"/>
@@ -781,13 +781,13 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<!-- <reference-descriptor name="Narrative" class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<!-- <reference-descriptor name="Narrative" class-ref="org.kuali.coeus.propdev.impl.attachment.Narrative" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="moduleNumber"/> 
 			<foreignkey field-ref="proposalNumber"/> 
 		</reference-descriptor>
 -->
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.NarrativeStatus" table="NARRATIVE_STATUS">
+	<class-descriptor class="org.kuali.coeus.propdev.impl.attachment.NarrativeStatus" table="NARRATIVE_STATUS">
 		<field-descriptor name="narrativeStatusCode" column="NARRATIVE_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -1288,7 +1288,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />    
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ValidNarrForms" table="VALID_NARR_FORMS">
+	<class-descriptor class="org.kuali.coeus.propdev.impl.attachment.ValidNarrForms" table="VALID_NARR_FORMS">
 		<field-descriptor name="validNarrFormsId" column="VALID_NARR_FORMS_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_VALID_NARR_FORMS_ID" autoincrement="true"/>
 		<field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="narrativeTypeCode" column="NARRATIVE_TYPE_CODE" jdbc-type="VARCHAR" />
