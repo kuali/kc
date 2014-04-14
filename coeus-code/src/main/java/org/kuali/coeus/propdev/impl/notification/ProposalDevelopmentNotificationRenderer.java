@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Map;
@@ -35,7 +35,7 @@ import java.util.Map;
  */
 
 @Component("proposalDevelopmentNotificationRenderer")
-@Scope("prototype")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ProposalDevelopmentNotificationRenderer extends NotificationRendererBase {
 
     private static final long serialVersionUID = 1143944858168503090L;
