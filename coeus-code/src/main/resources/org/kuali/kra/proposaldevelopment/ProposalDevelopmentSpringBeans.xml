@@ -536,16 +536,6 @@
         <property name="xmlStream" ref="pendingProposalXmlStream" />
     </bean>
 
-    <bean id="currentProposalXmlStream" class="org.kuali.coeus.propdev.impl.print.CurrentProposalXmlStream">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="dateTimeService" ref="dateTimeService" />
-    </bean>
-    
-    <bean id="pendingProposalXmlStream" class="org.kuali.coeus.propdev.impl.print.PendingProposalXmlStream">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="dateTimeService" ref="dateTimeService" />
-    </bean>
-
 	<!-- Proposal Development Task Authorizers -->
 
 	<bean id="parentProposalAuthorizer" abstract="true">
