@@ -15,35 +15,38 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardAttachmentContract;
 import org.kuali.kra.budget.core.BudgetAssociate;
 
-public class BudgetSubAwardAttachment extends BudgetAssociate {
+public class BudgetSubAwardAttachment extends BudgetAssociate implements BudgetSubAwardAttachmentContract {
 
 
     private static final long serialVersionUID = -2467480179750426256L;
 
-    private byte[] attachment;
+    private byte[] data;
 
-    private String contentId;
+    private String name;
 
-    private String contentType;
+    private String type;
 
     private Integer subAwardNumber;
 
-    private Long budgetSubawardAttachmentId;
+    private Long id;
 
     public BudgetSubAwardAttachment() {
         super();
     }
 
-    public String getContentId() {
-        return contentId;
+    @Override
+    public String getName() {
+        return name;
     }
 
-    public void setContentId(String contentId) {
-        this.contentId = contentId;
+    public void setName(String contentId) {
+        this.name = name;
     }
 
+    @Override
     public Integer getSubAwardNumber() {
         return subAwardNumber;
     }
@@ -52,27 +55,30 @@ public class BudgetSubAwardAttachment extends BudgetAssociate {
         this.subAwardNumber = subAwardNumber;
     }
 
-    public byte[] getAttachment() {
-        return attachment;
+    @Override
+    public byte[] getData() {
+        return data;
     }
 
-    public void setAttachment(byte[] attachment) {
-        this.attachment = attachment;
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
-    public String getContentType() {
-        return contentType;
+    @Override
+    public String getType() {
+        return type;
     }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public void setType(String contentType) {
+        this.type = type;
     }
 
-    public Long getBudgetSubawardAttachmentId() {
-        return budgetSubawardAttachmentId;
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public void setBudgetSubawardAttachmentId(Long budgetSubawardAttachmentId) {
-        this.budgetSubawardAttachmentId = budgetSubawardAttachmentId;
+    public void setId(Long id) {
+        this.id = id;
     }
 }

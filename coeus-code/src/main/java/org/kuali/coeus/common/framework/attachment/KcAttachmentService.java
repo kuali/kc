@@ -15,18 +15,17 @@
  */
 package org.kuali.coeus.common.framework.attachment;
 
-
 /**
  * KC Attachment Service.
  */
 public interface KcAttachmentService {
 
     /**
-     * Based on the attachment provided determine and return a path to the icon for the file.
-     * @param attachment
+     * Based on the mime type provided determine and return a path to the icon for the file.
+     * @param type
      * @return
      */
-    String getFileTypeIcon(KcAttachment attachment);
+    String getFileTypeIcon(String type);
    
     
     /**

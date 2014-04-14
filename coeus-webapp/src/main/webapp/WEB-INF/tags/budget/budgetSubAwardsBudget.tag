@@ -146,7 +146,7 @@
     						<table cellpadding=0 cellspacing=0 summary="">
     							<tr>		        					
 					        		<th width="25%"><div align="right">Attachments:</div></th>
-					        		<td><div align="left"><bean:write name="budgetSubAwards" property="attachmentContentIds" filter="false" /></div></td>
+					        		<td><div align="left"><bean:write name="budgetSubAwards" property="attachmentNames" filter="false" /></div></td>
 			        			</tr>
 			        			<tr>		        					
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.xfdUpdateTimestamp}" noColon="true" /></div></th>

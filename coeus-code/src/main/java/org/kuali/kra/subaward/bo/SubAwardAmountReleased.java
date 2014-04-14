@@ -16,8 +16,7 @@
 package org.kuali.kra.subaward.bo;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.coeus.common.framework.attachment.KcAttachment;
-import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
+import org.kuali.coeus.common.api.attachment.KcAttachment;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -257,11 +256,6 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAtta
         return getDocument();
     }
 
-    @Override
-    public String getIconPath() {
-return KcServiceLocator.getService(
-        KcAttachmentService.class).getFileTypeIcon(this);
-    }
     public byte[] getAttachmentContent() {
         return getDocument();
     }

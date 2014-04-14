@@ -22,8 +22,8 @@ import gov.grants.apply.forms.phs398TrainingSubawardBudgetV10.PHS398TrainingSuba
 import gov.grants.apply.forms.phs398TrainingSubawardBudgetV10.PHS398TrainingSubawardBudgetDocument.PHS398TrainingSubawardBudget.BudgetAttachments;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.w3c.dom.Document;
@@ -59,11 +59,11 @@ public class PHS398TrainingSubAwardBudgetV1_0Generator extends S2SAdobeFormAttac
         PHS398TrainingSubawardBudget phs398TrainingSubawardBudget = PHS398TrainingSubawardBudget.Factory.newInstance();
 
         BudgetAttachments budgetAttachments = BudgetAttachments.Factory.newInstance();
-        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(pdDoc,PHS398_TRAINING_BUDGET_10_NAMESPACE_URI,true);
+        List<BudgetSubAwardsContract> budgetSubAwardsList = getBudgetSubAwards(pdDoc,PHS398_TRAINING_BUDGET_10_NAMESPACE_URI,true);
         PHS398TrainingBudget[] budgetList = new PHS398TrainingBudget[budgetSubAwardsList.size()];
         phs398TrainingSubawardBudget.setFormVersion(S2SConstants.FORMVERSION_1_0);
         int attCount = 1;
-        for (BudgetSubAwards budgetSubAwards : budgetSubAwardsList) {
+        for (BudgetSubAwardsContract budgetSubAwards : budgetSubAwardsList) {
             switch (attCount) {
                 case 1:
                     phs398TrainingSubawardBudget.setATT1(prepareAttName(budgetSubAwards));
@@ -122,7 +122,7 @@ public class PHS398TrainingSubAwardBudgetV1_0Generator extends S2SAdobeFormAttac
      * @param budgetSubAwards(BudgetSubAwards) budget sub awards entry.
      * @return PHS398TrainingBudget corresponding to the BudgetSubAwards object.
      */
-    private PHS398TrainingBudget getPHS398TrainingBudget(BudgetSubAwards budgetSubAwards) throws S2SException{
+    private PHS398TrainingBudget getPHS398TrainingBudget(BudgetSubAwardsContract budgetSubAwards) throws S2SException{
         PHS398TrainingBudget rrBudget = PHS398TrainingBudget.Factory.newInstance();
         PHS398TrainingBudgetDocument rrBudgetDocument = PHS398TrainingBudgetDocument.Factory.newInstance();
         String subAwdXML = budgetSubAwards.getSubAwardXmlFileData();

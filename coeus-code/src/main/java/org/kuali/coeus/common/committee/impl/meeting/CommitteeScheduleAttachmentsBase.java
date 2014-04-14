@@ -22,8 +22,7 @@ package org.kuali.coeus.common.committee.impl.meeting;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
-import org.kuali.coeus.common.framework.attachment.KcAttachment;
-import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
+import org.kuali.coeus.common.api.attachment.KcAttachment;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -356,10 +355,4 @@ public abstract class CommitteeScheduleAttachmentsBase extends KcPersistableBusi
     public byte[] getData() {
         return getDocument();
     }
-
-    @Override
-    public String getIconPath() {
-        return KcServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
-    }
-
 }

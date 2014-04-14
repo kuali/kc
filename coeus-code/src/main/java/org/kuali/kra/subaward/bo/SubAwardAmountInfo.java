@@ -17,9 +17,7 @@ package org.kuali.kra.subaward.bo;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
-import org.kuali.coeus.common.framework.attachment.KcAttachment;
-import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.api.attachment.KcAttachment;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.io.FileNotFoundException;
@@ -352,11 +350,6 @@ public class SubAwardAmountInfo extends
         return getDocument();
     }
 
-    @Override
-    public String getIconPath() {
-        return KcServiceLocator.getService(
-                KcAttachmentService.class).getFileTypeIcon(this);
-    }
     /**
      * Sets the contentType.
      * @param contentType the contentType.
