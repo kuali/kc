@@ -1,4 +1,4 @@
-package org.kuali.kra.s2s.depend;
+package org.kuali.coeus.common.impl.sponsor.hierarchy;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
@@ -41,6 +41,32 @@ public class SponsorHierarchyServiceImpl implements SponsorHierarchyService {
         valueMap.put("hierarchyName", hierarchyName);
         valueMap.put("level" + level, levelName);
         return businessObjectService.countMatching(SponsorHierarchy.class, valueMap) > 0;
+    }
+
+    @Override
+    public boolean isSponsorInHierarchy(String sponsorCode, String hierarchyName) {
+        if (StringUtils.isBlank(sponsorCode)) {
+            throw new IllegalArgumentException("The sponsorCode cannot be blank");
+        }
+
+        if (StringUtils.isBlank(hierarchyName)) {
+            throw new IllegalArgumentException("The hierarchyName cannot be blank");
+        }
+
+        final Map<String, String> valueMap = new HashMap<String, String>();
+        valueMap.put("sponsorCode", sponsorCode);
+        valueMap.put("hierarchyName", hierarchyName);
+        return businessObjectService.countMatching(SponsorHierarchy.class, valueMap) > 0;
+    }
+
+    @Override
+    public boolean isSponsorNihMultiplePi(String sponsorCode) {
+        return isSponsorInHierarchy(sponsorCode, SPONSOR_HIERARCHY_NIH_MULT_PI);
+    }
+
+    @Override
+    public boolean isSponsorNihOsc(String sponsorCode) {
+        return isSponsorInHierarchy(sponsorCode, SPONSOR_HIERARCHY_NIH_OSC);
     }
 
     public BusinessObjectService getBusinessObjectService() {

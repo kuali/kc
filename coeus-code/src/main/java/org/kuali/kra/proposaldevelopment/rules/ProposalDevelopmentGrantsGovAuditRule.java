@@ -18,11 +18,11 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -62,8 +62,8 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
             valid &= false;
             auditErrors.add(new AuditError("document.developmentProposalList[0].s2sOpportunity.revisionCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
         }
-        if((getSponsorService().isSponsorNihOsc(proposalDevelopmentDocument.getDevelopmentProposal())|| 
-                    getSponsorService().isSponsorNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal()))&& 
+        if((getSponsorHierarchyService().isSponsorNihOsc(proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode())||
+                    getSponsorHierarchyService().isSponsorNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode()))&&
                     proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!=null &&
                     proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId()!=null &&
                     proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId().equals("ADOBE-FORMS-A")){
@@ -87,8 +87,8 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         }
         return valid;
     }
-    private SponsorService getSponsorService() {
-        return KcServiceLocator.getService(SponsorService.class);
+    private SponsorHierarchyService getSponsorHierarchyService() {
+        return KcServiceLocator.getService(SponsorHierarchyService.class);
     }
     private S2SService getS2sValidatorService() {
         return KcServiceLocator.getService(S2SService.class);

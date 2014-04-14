@@ -16,7 +16,6 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -25,6 +24,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -67,7 +67,7 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
         int  personCount = 0;
         for (ProposalPerson person : pd.getDevelopmentProposal().getProposalPersons()) {
             retval &= validateInvestigator(person);
-            if (KcServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pd.getDevelopmentProposal())) {
+            if (KcServiceLocator.getService(SponsorHierarchyService.class).isSponsorNihMultiplePi(pd.getDevelopmentProposal().getSponsorCode())) {
                 if (person.isMultiplePi() || person.getRole().getProposalPersonRoleId().equalsIgnoreCase(Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
                     retval &= validateEraCommonUserName(person, personCount);
                 }

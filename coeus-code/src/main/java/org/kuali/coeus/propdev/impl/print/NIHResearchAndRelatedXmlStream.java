@@ -55,7 +55,6 @@ import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
@@ -147,7 +146,6 @@ public class NIHResearchAndRelatedXmlStream extends
     private static final BigDecimal POINT_ZERO_ONE = new ScaleTwoDecimal(0.01).bigDecimalValue();
 
     protected ParameterService parameterService;
-    private SponsorService sponsorService;
     private ProposalDevelopmentService proposalDevelopmentService;
     private ScaleTwoDecimal cumulativeCalendarMonthsFunded = ScaleTwoDecimal.ZERO;
 
@@ -904,7 +902,7 @@ public class NIHResearchAndRelatedXmlStream extends
             BudgetModular budgetModular = budgetPeriod.getBudgetModular();
             consortiumDirectCost = budgetModular.getConsortiumFna();
         }else{
-            boolean isNih = sponsorService.isSponsorNihOsc(developmentProposal) || sponsorService.isSponsorNihMultiplePi(developmentProposal);
+            boolean isNih = getSponsorHierarchyService().isSponsorNihOsc(developmentProposal.getSponsorCode()) || getSponsorHierarchyService().isSponsorNihMultiplePi(developmentProposal.getSponsorCode());
             String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
 
             String fnaGt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_GT_25K");
@@ -995,7 +993,7 @@ public class NIHResearchAndRelatedXmlStream extends
     private void setNSFOtherPersonnels(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod,
             gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType) {
         NSFOtherPersonnelType otherPersonnelType  = budgetPeriodType.addNewNSFOtherPersonnel();
-        boolean isNih = sponsorService.isSponsorNihOsc(developmentProposal) || sponsorService.isSponsorNihMultiplePi(developmentProposal);
+        boolean isNih = getSponsorHierarchyService().isSponsorNihOsc(developmentProposal.getSponsorCode()) || getSponsorHierarchyService().isSponsorNihMultiplePi(developmentProposal.getSponsorCode());
         String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
 
         OtherPersonInfo otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-Secretarial");
@@ -1782,22 +1780,6 @@ public class NIHResearchAndRelatedXmlStream extends
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-    /**
-     * Gets the sponsorService attribute. 
-     * @return Returns the sponsorService.
-     */
-    public SponsorService getSponsorService() {
-        return sponsorService;
-    }
-
-    /**
-     * Sets the sponsorService attribute value.
-     * @param sponsorService The sponsorService to set.
-     */
-    public void setSponsorService(SponsorService sponsorService) {
-        this.sponsorService = sponsorService;
     }
 
     public ProposalDevelopmentService getProposalDevelopmentService() {
