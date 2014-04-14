@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule.event;
+package org.kuali.coeus.propdev.impl.person.keyperson;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
+import org.kuali.coeus.propdev.impl.person.keyperson.ChangeKeyPersonRule;
+import org.kuali.coeus.propdev.impl.person.keyperson.KeyPersonEventBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;

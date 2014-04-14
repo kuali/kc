@@ -13,26 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule;
+package org.kuali.coeus.propdev.impl.person.keyperson;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 
 /**
- * Interface for adding key persons
+ * Interface for saving key persons
  *
  * @author $Author: gmcgrego $
  * @version $Revision: 1.2 $
  */
-public interface AddKeyPersonRule extends BusinessRule {
+public interface SaveKeyPersonRule extends BusinessRule {
     
     /**
-     * Rule invoked upon adding a key person to a 
+     * Rule invoked upon saving persons to a 
      * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
      *
      * @return boolean
      */
-    public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person);
+    public boolean processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument document);
 }
