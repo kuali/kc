@@ -22,13 +22,13 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kim.api.KimConstants;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
-
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 
 /**
  * Implements the DevelopmentProposalNotificationRoleQualifierService.
  */
 @Component("proposalDevelopmentNotificationRoleQualifierService")
-@Scope("prototype")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ProposalDevelopmentNotificationRoleQualifierServiceImpl implements ProposalDevelopmentNotificationRoleQualifierService {
 
     private DevelopmentProposal developmentProposal;
