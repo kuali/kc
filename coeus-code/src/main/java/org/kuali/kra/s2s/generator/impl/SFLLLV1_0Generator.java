@@ -29,9 +29,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -83,8 +81,7 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
             String primeSponsorCode = pdDoc.getDevelopmentProposal().getPrimeSponsorCode();
 
             if (primeSponsorCode != null) {
-                SponsorService sponsorService = KcServiceLocator.getService(SponsorService.class);
-                Sponsor primeSponsor = sponsorService.getSponsor(primeSponsorCode);
+                Sponsor primeSponsor = pdDoc.getDevelopmentProposal().getPrimeSponsor();
                 if (primeSponsor.getSponsorName() != null) {
                     if (primeSponsor.getSponsorName().length() > SPONSOR_NAME_MAX_LENGTH) {
                         lobbyingDisclosure.setFederalAgencyDepartment(primeSponsor.getSponsorName().substring(0,

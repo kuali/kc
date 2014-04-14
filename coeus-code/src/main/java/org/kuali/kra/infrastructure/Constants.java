@@ -93,9 +93,9 @@ public interface Constants {
     public static final String LOCAL_PRINT_FORM_SPONSOR_CODE = "LOCAL_PRINT_FORM_SPONSOR_CODE";
     public static final String SPONSOR_LEVEL_HIERARCHY = "sponsorLevelHierarchy";
     public static final String SPONSOR_HIERARCHY_NAME = "sponsorGroupHierarchyName";
-    public static final String SPONSOR_HIERARCHY_NIH_MULT_PI = "NIH Multiple PI";
+
     public static final String SPONSOR_HIERARCHY_ROUTING = "Routing";
-    public static final String SPONSOR_HIERARCHY_NIH_OSC = "NIH Other Significant Contributor";
+
     public static final String MODULE_NAMESPACE_PROTOCOL = "KC-PROTOCOL"; 
     public static final String MODULE_DOC_ROLE_NAMESPACE_PROTOCOL = "KC-PROTOCOL-DOC"; 
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID1 = "irb.protocol.referenceID1";

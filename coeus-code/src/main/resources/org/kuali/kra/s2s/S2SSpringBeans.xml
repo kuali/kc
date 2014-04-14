@@ -105,9 +105,6 @@
 		<property name="kcPersonService">
 			<ref bean="kcPersonService" />
 		</property>
-		<property name="sponsorService">
-			<ref bean="sponsorService" />
-		</property>
 		<property name="narrativeService">
 			<ref bean="narrativeService" />
 		</property>
@@ -126,6 +123,9 @@
 		class="org.kuali.kra.s2s.service.impl.S2SBudgetCalculatorServiceImpl">
         <property name="parameterService">
             <ref bean="parameterService" />
+        </property>
+        <property name="sponsorHierarchyService">
+            <ref bean="sponsorHierarchyService" />
         </property>
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />

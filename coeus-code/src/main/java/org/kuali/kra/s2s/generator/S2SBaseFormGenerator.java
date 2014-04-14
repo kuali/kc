@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.impl.util.Base64;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -33,6 +32,7 @@ import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.generator.impl.GlobalLibraryV1_0Generator;
 import org.kuali.kra.s2s.generator.impl.GlobalLibraryV2_0Generator;
@@ -343,9 +343,9 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     }
     
     protected boolean isSponsorNIH(ProposalDevelopmentDocument document) {
-		SponsorService sponsorService = KcServiceLocator
-				.getService(SponsorService.class);
-		return sponsorService.isSponsorNihMultiplePi(document.getDevelopmentProposal());
+		SponsorHierarchyService sponsorHierarchyService = KcServiceLocator
+				.getService(SponsorHierarchyService.class);
+		return sponsorHierarchyService.isSponsorNihMultiplePi(document.getDevelopmentProposal().getSponsorCode());
 	}
     
 	protected Narrative saveNarrative(byte[] attachment, String narrativeTypeCode,String fileName,String comment) {
