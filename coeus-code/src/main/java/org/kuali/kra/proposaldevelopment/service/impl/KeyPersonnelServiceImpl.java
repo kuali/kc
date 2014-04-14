@@ -28,6 +28,8 @@ import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.*;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
@@ -272,7 +274,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                 }
                 if (origPerson.getExtendedAttributes().getAttachments() != null) {
                     for (PersonBiosketch attachment : origPerson.getExtendedAttributes().getAttachments()) {
-                        ProposalPersonBiography bio = new ProposalPersonBiography(); 
+                        ProposalPersonBiography bio = new ProposalPersonBiography();
                         bio.setProposalPersonNumber(person.getProposalPersonNumber());
                         bio.setDocumentTypeCode(getDefaultPersonAttachmentDocType());
                         bio.setDescription(attachment.getDescription());

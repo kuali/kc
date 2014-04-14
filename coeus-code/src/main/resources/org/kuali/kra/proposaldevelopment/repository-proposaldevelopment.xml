@@ -148,7 +148,7 @@
                 <attribute attribute-name="narrativeType.narrativeTypeGroup" attribute-value="instituteNarrativeTypeGroup" />
             </query-customizer>
         </collection-descriptor>
-        <collection-descriptor name="propPersonBios" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography" 
+        <collection-descriptor name="propPersonBios" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
         </collection-descriptor>
@@ -443,7 +443,7 @@
         </collection-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography" table="EPS_PROP_PERSON_BIO">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography" table="EPS_PROP_PERSON_BIO">
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="biographyNumber" column="BIO_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
@@ -462,7 +462,7 @@
             <foreignkey field-ref="documentTypeCode"/> 
         </reference-descriptor>
         
-        <collection-descriptor name="personnelAttachmentList" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment" 
+        <collection-descriptor name="personnelAttachmentList" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object"> 
             <inverse-foreignkey field-ref="proposalPersonNumber"/>
             <inverse-foreignkey field-ref="biographyNumber"/>
@@ -470,7 +470,7 @@
         </collection-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment" table="EPS_PROP_PERSON_BIO_ATTACHMENT">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment" table="EPS_PROP_PERSON_BIO_ATTACHMENT">
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="biographyNumber" column="BIO_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
@@ -650,13 +650,13 @@
             <foreignkey field-ref="approvalTypeCode"/>
         </reference-descriptor>
         
-        <collection-descriptor name="specialReviewExemptions" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReviewExemption" 
+        <collection-descriptor name="specialReviewExemptions" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalSpecialReviewId"/>
         </collection-descriptor> 
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReviewExemption" table="EPS_PROP_EXEMPT_NUMBER">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption" table="EPS_PROP_EXEMPT_NUMBER">
         <field-descriptor name="proposalSpecialReviewExemptionId" column="PROPOSAL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_EPS_PROP_EXEMPT_NUMBER_ID"/>
         <field-descriptor name="proposalSpecialReviewId" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" access="anonymous" />
         <field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" />
