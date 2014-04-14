@@ -24,9 +24,11 @@
         <ref bean="NonOrganizationalRolodex-firstName" />
         <ref bean="NonOrganizationalRolodex-lastName" />
         <ref bean="NonOrganizationalRolodex-middleName" />
+        <ref bean="NonOrganizationalRolodex-fullName"/>
         <ref bean="NonOrganizationalRolodex-organization" />
         <ref bean="NonOrganizationalRolodex-ownedByUnit" />
         <ref bean="NonOrganizationalRolodex-unit.unitName" />
+        <ref bean="NonOrganizationalRolodex-unit.unitNumber" />
         <ref bean="NonOrganizationalRolodex-phoneNumber" />
         <ref bean="NonOrganizationalRolodex-postalCode" />
         <ref bean="NonOrganizationalRolodex-prefix" />
@@ -75,6 +77,20 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="NonOrganizationalRolodex-fullName" parent="NonOrganizationalRolodex-fullName-parentBean"/>
+
+  <bean abstract="true" id="NonOrganizationalRolodex-fullName-parentBean" parent="AttributeDefinition">
+    <property name="name" value="fullName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Full Name"/>
+    <property name="shortLabel" value="Full Name"/>
+    <property name="maxLength" value="63"/>
+    <property name="control">
+      <bean p:size="63" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Full Name"/>
+    <property name="description" value="Full Name"/>
+  </bean> 
 
   <bean id="NonOrganizationalRolodex-rolodexId" parent="NonOrganizationalRolodex-rolodexId-parentBean" />
 
@@ -372,6 +388,13 @@
     <property name="name" value="unit.unitName" />
     <property name="label" value="Owned By Unit" />
     <property name="shortLabel" value="Owned By Unit" />
+  </bean>  
+  <bean id="NonOrganizationalRolodex-unit.unitNumber" parent="NonOrganizationalRolodex-unit.unitNumber-parentBean" />
+
+  <bean id="NonOrganizationalRolodex-unit.unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+    <property name="name" value="unit.unitNumber" />
+    <property name="label" value="Owned By Unit Number" />
+    <property name="shortLabel" value="Owned By Unit Number" />
   </bean>
 
   <bean id="NonOrganizationalRolodex-phoneNumber" parent="NonOrganizationalRolodex-phoneNumber-parentBean"/>

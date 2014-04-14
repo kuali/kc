@@ -1036,6 +1036,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         if (isMandatoryQuestionnaireComplete(answerHeaders, "actionHelper.protocolNotifyIrbBean.datavalidation")) {
             getProtocolNotifyIrbService().submitIrbNotification(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolNotifyIrbBean());
             protocolForm.getQuestionnaireHelper().setAnswerHeaders(new ArrayList<AnswerHeader>());
+            protocolForm.setReinitializeModifySubmissionFields(true);
             LOG.info("notifyIrbProtocol " + protocolForm.getProtocolDocument().getDocumentNumber());
             generateActionCorrespondence(ProtocolActionType.NOTIFY_IRB, protocolForm.getProtocolDocument().getProtocol());
             recordProtocolActionSuccess(ACTION_NAME_NOTIFY_IRB);
