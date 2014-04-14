@@ -27,7 +27,7 @@
 <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false"
 	tabTitle="Details - Report Tracking"
 	useCurrentTabIndexAsKey="true"
-	tabErrorKey="document.awardList[0].awardReportTermItems[${index}]*,reportTrackingBeans*,document.award.awardReportTermItems[${index}]*, document.awardList[0].awardReportTermItems[${index}].frequencyBaseCode">
+	tabErrorKey="document.awardList[0].awardReportTermItems[${index}]*,reportTrackingBeans[${index}]*,document.award.awardReportTermItems[${index}]*, document.awardList[0].awardReportTermItems[${index}].frequencyBaseCode">
 
 	<kra:softError softErrorKey="awardReportTerms-${KualiForm.document.award.awardReportTermItems[index].reportClassCode}-${KualiForm.document.award.awardReportTermItems[index].frequencyCode}-${KualiForm.document.award.awardReportTermItems[index].frequencyBaseCode}-${KualiForm.document.award.awardReportTermItems[index].ospDistributionCode}" />
 	<table cellpadding="0" cellspacing="0" summary="">

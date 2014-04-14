@@ -144,7 +144,7 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
     
     protected boolean displayNotifyIacuc(String currentStatus, ProtocolBase protocol) {
         String validStatuses[] = { IacucProtocolStatus.ACTIVE,  IacucProtocolStatus.ADMINISTRATIVELY_APPROVED };
-        String validSumissionStatuses[] = { IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE};        
+        String validSumissionStatuses[] = { IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE, IacucProtocolSubmissionStatus.PENDING};        
         String currentSubmissionStatus = protocol.getProtocolSubmission().getSubmissionStatusCode();
         return validateCurrentStatus(currentStatus, validStatuses)  && validateCurrentSubmissionStatus(currentSubmissionStatus, validSumissionStatuses);
     }

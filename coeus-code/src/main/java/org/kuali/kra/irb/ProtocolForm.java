@@ -75,6 +75,8 @@ public class ProtocolForm extends ProtocolFormBase {
     private static final String ONLINE_REVIEW_NAV_TO = "onlineReview";
     private static final String CUSTOM_DATA_NAV_TO = "customData";
     
+    private boolean reinitializeModifySubmissionFields = true;
+    
     public ProtocolForm() throws Exception {
         super();
     }
@@ -389,4 +391,13 @@ public class ProtocolForm extends ProtocolFormBase {
         retVal.add(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
         return retVal;
     }
+    
+    public boolean isReinitializeModifySubmissionFields() {
+        return reinitializeModifySubmissionFields;
+    }
+
+    public void setReinitializeModifySubmissionFields(boolean reinitializeModifySubmissionFields) {
+        this.reinitializeModifySubmissionFields = reinitializeModifySubmissionFields;
+    }
+    
 }
