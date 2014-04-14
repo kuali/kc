@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule.event;
+package org.kuali.coeus.propdev.impl.attachment.institute;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.SaveInstituteAttachmentsRule;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class SaveInstituteAttachmentsEvent extends NarrativeEventBase{
+public class SaveInstituteAttachmentsEvent extends NarrativeEventBase {
     /**
      * Constructs an SaveInstituteAttachmentsEvent with the given errorPathPrefix, document, and proposalPerson.
      * 

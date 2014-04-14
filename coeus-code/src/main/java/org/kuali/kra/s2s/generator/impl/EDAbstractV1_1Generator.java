@@ -20,7 +20,7 @@ import gov.grants.apply.forms.edAbstractV11.AbstractAttachmentsDocument.Abstract
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**

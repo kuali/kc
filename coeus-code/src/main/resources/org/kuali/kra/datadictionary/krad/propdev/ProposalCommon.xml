@@ -32,7 +32,7 @@
 	<bean id="PropDev-Attachment-Collection" abstract="true"
 		parent="PropDev-Attachment-Collection-parentBean" />
 	<bean id="PropDev-Attachment-Collection-parentBean" abstract="true"
-		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.Narrative"
+		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
 		p:propertyName="narratives" p:layoutManager.summaryTitle="@{#lp.fileName}">
 		<property name="layoutManager.addLineGroup">
 			<bean parent="Uif-VerticalBoxSection">

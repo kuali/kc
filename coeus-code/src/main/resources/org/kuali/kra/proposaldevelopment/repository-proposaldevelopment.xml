@@ -131,7 +131,7 @@
                 <attribute attribute-name="hiddenInHierarchy" attribute-value="N" />
             </query-customizer>
         </collection-descriptor>
-        <collection-descriptor name="narratives" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" 
+        <collection-descriptor name="narratives" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.attachment.Narrative"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
             <query-customizer class="org.kuali.kra.proposaldevelopment.dao.ProposalQueryCustomizer">
@@ -141,7 +141,7 @@
                 <attribute attribute-name="hiddenInHierarchy" attribute-value="N" />
             </query-customizer>
         </collection-descriptor>
-        <collection-descriptor name="instituteAttachments" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" 
+        <collection-descriptor name="instituteAttachments" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.attachment.Narrative"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
             <query-customizer class="org.kuali.kra.proposaldevelopment.dao.ProposalQueryCustomizer">

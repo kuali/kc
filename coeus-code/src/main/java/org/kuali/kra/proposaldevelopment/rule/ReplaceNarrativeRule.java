@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
+import org.kuali.coeus.propdev.impl.attachment.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.event.ReplaceNarrativeEvent;
 
 

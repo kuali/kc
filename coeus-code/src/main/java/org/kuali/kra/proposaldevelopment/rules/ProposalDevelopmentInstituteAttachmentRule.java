@@ -22,11 +22,11 @@ import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
+import org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.ReplaceInstituteAttachmentRule;
-import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
+import org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ReplaceInstituteAttachmentEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -68,7 +68,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
      *   attachment type code, status code exist. 
      *   file name is required.
      *   If attachment type does not allow multiple entries, then ensure one entry only for that type.
-     * @see org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule#processAddInstituteAttachmentBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent)
+     * @see org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentRule#processAddInstituteAttachmentBusinessRules(org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentEvent)
      */
     public boolean processAddInstituteAttachmentBusinessRules(AddInstituteAttachmentEvent addInstituteAttachmentEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)addInstituteAttachmentEvent.getDocument();

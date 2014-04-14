@@ -21,7 +21,7 @@
 
     <bean id="ValidNarrFormsMaintenanceDocument" parent="ValidNarrFormsMaintenanceDocument-parentBean" />
     <bean id="ValidNarrFormsMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ValidNarrForms" />
+        <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.attachment.ValidNarrForms" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>

@@ -13,23 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule;
+package org.kuali.coeus.propdev.impl.attachment;
 
-import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
+import org.kuali.coeus.propdev.impl.attachment.AddNarrativeEvent;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 
 /**
- * Interface for saving proposal narratives
+ * Interface for adding proposal narratives
  *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.2 $
+ * @author kualidev@oncourse.iu.edu
+ * @version 1.0
  */
-public interface SaveNarrativesRule extends BusinessRule {
+public interface AddNarrativeRule extends BusinessRule {
     
     /**
-     * Rule invoked upon saving narratives 
+     * Rule invoked upon adding a key person to a 
+     * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
+     *
      * @return boolean
      */
-    public boolean processSaveNarrativesBusinessRules(SaveNarrativesEvent saveNarrativesEvent);
+    public boolean processAddNarrativeBusinessRules(AddNarrativeEvent addNarrativeEvent);
 }
