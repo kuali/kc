@@ -23,9 +23,8 @@ UPDATE_USER, VER_NBR, OBJ_ID)  values
 (select QUESTION_REF_ID from QUESTION where QUESTION = 'Does this project have an actual or potential impact - positive or negative - on the environment?'
  AND SEQUENCE_STATUS = 'C'),'E','If yes, Enter explanation of the actual or potential impact on the environment in the following question. Supports RR Other Project Information form.',
  SYSDATE, 'admin', '1', SYS_GUID())
- /
- 
- -- Make sure new version of ID123 (environmental impact) is pulled in.
+/
+-- Make sure new version of ID123 (environmental impact) is pulled in.
  
  insert into QUESTIONNAIRE_QUESTIONS (QUESTIONNAIRE_QUESTIONS_ID,QUESTIONNAIRE_REF_ID_FK,QUESTION_REF_ID_FK,
  QUESTION_NUMBER,PARENT_QUESTION_NUMBER,CONDITION_FLAG,CONDITION_TYPE,CONDITION_VALUE,UPDATE_TIMESTAMP,
