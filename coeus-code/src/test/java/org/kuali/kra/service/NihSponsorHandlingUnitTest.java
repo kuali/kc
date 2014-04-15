@@ -3,14 +3,14 @@ package org.kuali.kra.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
-import org.kuali.coeus.common.impl.sponsor.SponsorServiceImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyServiceImpl;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.service.impl.adapters.KeyPersonnelServiceAdapter;
 import org.kuali.kra.service.impl.adapters.ParameterServiceAdapter;
@@ -42,7 +42,7 @@ public class NihSponsorHandlingUnitTest {
         Sponsorable sponsorable = new Award();
         sponsorable.setSponsorCode(NihSponsorHandlingTestHelper.SPONSOR_CODE_FOR_HIERARCHY_A);
         BusinessObjectService bos = getBusinessObjectService();
-        helper = new NihSponsorHandlingTestHelper(sponsorable, bos, getSponsorService(bos), getKeyPersonnelService());
+        helper = new NihSponsorHandlingTestHelper(sponsorable, bos, getSponsorHierarchyService(bos), getKeyPersonnelService());
     }
 
     @After
@@ -161,10 +161,9 @@ public class NihSponsorHandlingUnitTest {
         };
     }
 
-    private SponsorService getSponsorService(BusinessObjectService bos) {
-        SponsorServiceImpl impl = new SponsorServiceImpl();
+    private SponsorHierarchyService getSponsorHierarchyService(BusinessObjectService bos) {
+        SponsorHierarchyServiceImpl impl = new SponsorHierarchyServiceImpl();
         impl.setBusinessObjectService(bos);
-        impl.setParameterService(getParameterService());
         return impl;
     }
 }

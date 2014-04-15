@@ -329,7 +329,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
             this.getNegotationService().promoteProposalLogNegotiation(proposalLog.getProposalNumber(), ip.getProposalNumber());
         }
-        ip.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(ip));
+        ip.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(ip.getSponsorCode()));
         return forward;
     }   
     

@@ -24,7 +24,6 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
@@ -54,7 +53,6 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
     private static final int OFFICE_PHONE_MAX_LENGTH = 25;
     private static final int EMAIL_ADDRESS_MAX_LENGTH = 60;
     private static final int FAX_NUMBER_MAX_LENGTH = 25;
-    private SponsorService sponsorService = KcServiceLocator.getService(SponsorService.class);
 
     /**
      * 
@@ -80,7 +78,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         sf424Short.setAuthorizedRepresentativePhoneNumber("");
         sf424Short.setAuthorizedRepresentativeEmail("");
 
-        Sponsor sponsor = sponsorService.getSponsor(pdDoc.getDevelopmentProposal().getPrimeSponsorCode());
+        Sponsor sponsor = pdDoc.getDevelopmentProposal().getPrimeSponsor();
         if (pdDoc.getDevelopmentProposal().getSponsor() != null && pdDoc.getDevelopmentProposal().getSponsor().getSponsorName() != null) {
             if (pdDoc.getDevelopmentProposal().getSponsor().getSponsorName().length() > SPONSOR_NAME_MAX_LENGTH) {
                 sf424Short.setAgencyName(pdDoc.getDevelopmentProposal().getSponsor().getSponsorName().substring(0, SPONSOR_NAME_MAX_LENGTH));

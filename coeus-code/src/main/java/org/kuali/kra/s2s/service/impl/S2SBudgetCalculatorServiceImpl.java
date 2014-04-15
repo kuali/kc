@@ -20,11 +20,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -43,6 +41,7 @@ import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
 import org.kuali.coeus.budget.api.category.BudgetCategoryMapService;
 import org.kuali.coeus.budget.api.category.BudgetCategoryMappingContract;
 import org.kuali.kra.s2s.depend.BudgetPersonSalaryService;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -98,6 +97,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     private BudgetPersonSalaryService budgetPersonSalaryService;
     private BudgetPersonService budgetPersonService;
     private ProposalDevelopmentService proposalDevelopmentService;
+    private SponsorHierarchyService sponsorHierarchyService;
 
     /**
      * 
@@ -1598,8 +1598,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             keyPerson.setMiddleName(coInvestigator.getMiddleName());
             keyPerson.setNonMITPersonFlag(isPersonNonMITPerson(coInvestigator));
 
-            SponsorService sponsorService = KcServiceLocator.getService(SponsorService.class);
-            if (sponsorService.isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
+            if (sponsorHierarchyService.isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())) {
                 if (coInvestigator.isMultiplePi()){
                     keyPerson.setRole(NID_PD_PI);
                 }else{
@@ -2074,5 +2073,13 @@ public class S2SBudgetCalculatorServiceImpl implements
 
     public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
         this.proposalDevelopmentService = proposalDevelopmentService;
+    }
+
+    public SponsorHierarchyService getSponsorHierarchyService() {
+        return sponsorHierarchyService;
+    }
+
+    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
+        this.sponsorHierarchyService = sponsorHierarchyService;
     }
 }

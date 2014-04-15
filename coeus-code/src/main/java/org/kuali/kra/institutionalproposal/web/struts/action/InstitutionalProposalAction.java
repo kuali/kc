@@ -29,7 +29,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
@@ -41,6 +40,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalLockService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -342,7 +342,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         InstitutionalProposal proposal = ((InstitutionalProposalForm) kualiDocumentFormBase).getInstitutionalProposalDocument().getInstitutionalProposal();
-        proposal.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(proposal));
+        proposal.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(proposal.getSponsorCode()));
         //work around to make sure project person reference to inst prop is to the same instance as the document has
         //without this the references were different causing issues when the sponsor was changed.
         if (!proposal.getProjectPersons().isEmpty()) {
@@ -397,8 +397,8 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         return KcServiceLocator.getService(InstitutionalProposalLockService.class);
     }
     
-    protected SponsorService getSponsorService() {
-        return KcServiceLocator.getService(SponsorService.class);
+    protected SponsorHierarchyService getSponsorHierarchyService() {
+        return KcServiceLocator.getService(SponsorHierarchyService.class);
     }
     
     protected KcNotificationService getNotificationService() {

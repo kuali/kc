@@ -23,7 +23,6 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
@@ -78,7 +77,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private KcPersonService kcPersonService;
-    private SponsorService sponsorService;
     private NarrativeService narrativeService;
     private CitizenshipTypeService citizenshipTypeService;
     private UnitService unitService;
@@ -757,24 +755,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         fullMonthCount = fullMonthCount - 1;
         monthCount = monthCount.add(new ScaleTwoDecimal(fullMonthCount)).add(new ScaleTwoDecimal(startMonthFraction)).add(new ScaleTwoDecimal(endMonthFraction));
         return monthCount;
-    }
-
-    /**
-     * Gets the sponsorService attribute.
-     * 
-     * @return Returns the sponsorService.
-     */
-    public SponsorService getSponsorService() {
-        return sponsorService;
-    }
-
-    /**
-     * Sets the sponsorService attribute value.
-     * 
-     * @param sponsorService The sponsorService to set.
-     */
-    public void setSponsorService(SponsorService sponsorService) {
-        this.sponsorService = sponsorService;
     }
 
     /**

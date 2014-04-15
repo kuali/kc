@@ -18,10 +18,8 @@ import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
@@ -35,6 +33,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
@@ -94,6 +93,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
     private BudgetPersonService budgetPersonService;
+    private SponsorHierarchyService sponsorHierarchyService;
 
     /*
      * This method will set the values to animal subject attributes like
@@ -214,8 +214,8 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
 
     private BudgetCategoryMap getBudgetCategoryMap(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
-        boolean isNih = getSponsorService().isSponsorNihOsc(developmentProposal) 
-                                || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
+        boolean isNih = getSponsorHierarchyService().isSponsorNihOsc(developmentProposal.getSponsorCode())
+                                || getSponsorHierarchyService().isSponsorNihMultiplePi(developmentProposal.getSponsorCode());
         String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
         BudgetCategoryMap budgetCategoryMap = null;
         Map<String, String> categoryMap = new HashMap<String, String>();
@@ -233,11 +233,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
             }
         }
         return budgetCategoryMap;
-    }
-
-
-    private SponsorService getSponsorService() {
-        return KcServiceLocator.getService(SponsorService.class);
     }
 
     /*
@@ -1403,5 +1398,13 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
         this.budgetPersonService = budgetPersonService;
+    }
+
+    public SponsorHierarchyService getSponsorHierarchyService() {
+        return sponsorHierarchyService;
+    }
+
+    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
+        this.sponsorHierarchyService = sponsorHierarchyService;
     }
 }
