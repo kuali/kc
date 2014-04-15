@@ -128,6 +128,13 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
+    private transient TaskAuthorizationService taskAuthorizationService;
+    protected TaskAuthorizationService getTaskAuthorizationService(){
+        if (taskAuthorizationService == null)
+            taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthorizationService;
+    }
+
     public Narrative() {
         narrativeAttachmentList = new ArrayList<NarrativeAttachment>(1);
         narrativeUserRights = new ArrayList<NarrativeUserRights>();
@@ -317,7 +324,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
-        TaskAuthorizationService taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DOWNLOAD_NARRATIVE, getDocument(), this));
     }
 
@@ -329,7 +336,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
-        TaskAuthorizationService taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.REPLACE_NARRATIVE, getDocument(), this));
     }
 
@@ -341,7 +348,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
-        TaskAuthorizationService taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DELETE_NARRATIVE, getDocument(), this));
     }
 
@@ -353,7 +360,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
-        TaskAuthorizationService taskAuthorizatioNService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthorizatioNService = getTaskAuthorizationService();
         return taskAuthorizatioNService.isAuthorized(userId, new NarrativeTask(TaskName.MODIFY_NARRATIVE_STATUS, getDocument(), this));
     }
 
@@ -365,7 +372,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
-        TaskAuthorizationService taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.MODIFY_NARRATIVE_RIGHTS, getDocument(), this));
     }
 
@@ -694,3 +701,4 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         }
     }
 }
+
