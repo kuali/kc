@@ -16,75 +16,125 @@
 package org.kuali.coeus.propdev.impl.specialreview;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.specialreview.impl.web.struts.form.SpecialReviewHelperBase;
-import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.specialreview.AwardSpecialReview;
-import org.kuali.kra.bo.FundingSourceType;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalDevelopmentSpecialReviewService;
+import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Defines the Special Review Helper for Award.
+ * Defines the Special Review Helper for Development Proposal.
  */
-public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialReview> {
+public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecialReview> {
 
-    private static final long serialVersionUID = 6164616866447994314L;
+    private static final long serialVersionUID = 8832539481443727887L;
 
-    private static final String PROTOCOL_AWARD_LINKING_ENABLED_PARAMETER = "irb.protocol.award.linking.enabled";
-    private static final String IACUC_PROTOCOL_AWARD_LINKING_ENABLED_PARAMETER = "iacuc.protocol.award.linking.enabled";
-    private AwardForm form;
+    private ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService;
+    private ProposalDevelopmentDocument proposalDevelopmentDocument;
+    private boolean modifySpecialReviewPermission;
     
     /**
      * Constructs a SpecialReviewHelper.
      * @param form the container form
      */
-    public SpecialReviewHelper(AwardForm form) {
-        this.form = form;
-        setNewSpecialReview(new AwardSpecialReview());
+    public SpecialReviewHelper(ProposalDevelopmentForm form) {
+        proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
+        modifySpecialReviewPermission = BooleanUtils.toBoolean((String) form.getEditingMode().get("modifyProposal"));
+        setNewSpecialReview(new ProposalSpecialReview());
         setLinkedProtocolNumbers(new ArrayList<String>());
     }
     
-    /**
-     * Synchronizes the information between this Award's Special Reviews and the corresponding Protocol Funding Sources.
-     */
-    public void syncProtocolFundingSourcesWithSpecialReviews() {
-        String fundingSourceNumber = form.getAwardDocument().getAward().getAwardNumber();
-        String fundingSourceTypeCode = FundingSourceType.AWARD;
-        String fundingSourceName = form.getAwardDocument().getAward().getSponsorName();
-        String fundingSourceTitle = form.getAwardDocument().getAward().getTitle();
-        syncProtocolFundingSourcesWithSpecialReviews(fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
+    public SpecialReviewHelper(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean modifySpecialReviewPermission) {
+        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
+        this.modifySpecialReviewPermission = modifySpecialReviewPermission;
+        setNewSpecialReview(new ProposalSpecialReview());
+        setLinkedProtocolNumbers(new ArrayList<String>()); 
     }
+    
 
     @Override
     protected boolean hasModifySpecialReviewPermission(String principalId) {
-        return BooleanUtils.toBoolean((String) form.getEditingMode().get(AuthorizationConstants.EditMode.FULL_ENTRY));
+        return modifySpecialReviewPermission;
     }
     
     @Override
     protected boolean isIrbProtocolLinkingEnabledForModule() {
-        return getParameterService().getParameterValueAsBoolean(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_AWARD_LINKING_ENABLED_PARAMETER);
+        return getProposalDevelopmentSpecialReviewService().isIrbLinkingEnabled();
     }
 
     @Override
     protected boolean isIacucProtocolLinkingEnabledForModule() {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, PARAMETER_CODE, IACUC_PROTOCOL_AWARD_LINKING_ENABLED_PARAMETER);
+        return getProposalDevelopmentSpecialReviewService().isIacucLinkingEnabled();
     }
 
     @Override
-    protected List<AwardSpecialReview> getSpecialReviews() {
-        return form.getAwardDocument().getAward().getSpecialReviews();
+    protected List<ProposalSpecialReview> getSpecialReviews() {
+        return getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews();
     }
- 
+
     @Override
-     public boolean isCanCreateIrbProtocol() {
-        return false;
+    public boolean isCanCreateIrbProtocol() {
+        return getProposalDevelopmentSpecialReviewService().canCreateIrbProtocol(getProposalDevelopmentDocument());
     }
+
     @Override
     public boolean isCanCreateIacucProtocol() {
-        return false;
+        return getProposalDevelopmentSpecialReviewService().canCreateIacucProtocol(getProposalDevelopmentDocument());
     }
-    
+
+    private TaskAuthorizationService getTaskAuthorizationService() {
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
+    }
+
+    private String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
+   }
+
+    public void populatePropSpecialReviewApproverView(String summarySpecialReview)
+    {
+
+        if (!StringUtils.isEmpty(summarySpecialReview) )
+       {
+           String [] splitString =StringUtils.split(summarySpecialReview, ",");
+           List<ProposalSpecialReview> propSpecialReviewFilteredList = new ArrayList<ProposalSpecialReview>();
+            for(ProposalSpecialReview proposalSpecialReview : getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews())
+            {
+                for(int i=0; i<splitString.length; i++ ) {
+                    if ( proposalSpecialReview.getSpecialReviewTypeCode().equals(splitString[i] ) )
+                    {
+                        propSpecialReviewFilteredList.add(proposalSpecialReview);
+                    }
+                }
+            }
+            getProposalDevelopmentDocument().getDevelopmentProposal().setPropSpecialReviews(propSpecialReviewFilteredList);
+       }
+   }
+
+    public ProposalDevelopmentSpecialReviewService getProposalDevelopmentSpecialReviewService() {
+        if (proposalDevelopmentSpecialReviewService == null) {
+            proposalDevelopmentSpecialReviewService = KcServiceLocator.getService(ProposalDevelopmentSpecialReviewService.class);
+        }
+        return proposalDevelopmentSpecialReviewService;
+    }
+
+    public void setProposalDevelopmentSpecialReviewService(
+            ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService) {
+        this.proposalDevelopmentSpecialReviewService = proposalDevelopmentSpecialReviewService;
+    }
+
+    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
+        return proposalDevelopmentDocument;
+    }
+
+    public void setProposalDevelopmentDocument(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
+    }
+
 }
