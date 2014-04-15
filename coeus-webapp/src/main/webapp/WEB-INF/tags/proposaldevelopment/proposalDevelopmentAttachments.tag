@@ -1,3 +1,4 @@
+<%@ tag import="org.kuali.coeus.propdev.impl.attachment.Narrative" %>
 <%--
  Copyright 2005-2014 The Kuali Foundation
  
@@ -18,7 +19,7 @@
 <%@ attribute name="htmlFormAction" required="false" %>
 <%@ attribute name="renderMultipart" required="false" %>
 
-<%! static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(org.kuali.kra.proposaldevelopment.bo.Narrative.class); %>
+<%! static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(Narrative.class); %>
 <% long startTime = 0; %>
 <% long endTime = 0; %>
 
@@ -80,7 +81,7 @@ internal attachements.  We are just going to loop through the narratives and see
 	    <kra:section permission="addNarratives">
 	    	<h3>
 	    		<span class="subhead-left">Add Proposal Attachments</span>
-	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
+	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.propdev.impl.attachment.Narrative" altText="help"/></span>
 	        </h3>
         </kra:section>
 		<c:if test="${canUpdateAllStatuses}">
