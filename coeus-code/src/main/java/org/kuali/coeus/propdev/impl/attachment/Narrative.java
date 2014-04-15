@@ -127,7 +127,8 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     @Column(name = "HIDE_IN_HIERARCHY")
     @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
-
+ 
+    @Transient
     private transient TaskAuthorizationService taskAuthorizationService;
     protected TaskAuthorizationService getTaskAuthorizationService(){
         if (taskAuthorizationService == null)
