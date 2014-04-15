@@ -13,21 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.coeus.propdev.impl.attachment.ValidNarrForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;
@@ -50,6 +47,7 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
     private static final String NO = "N";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalNarrativeTypeValuesFinder.class);
     private ParameterService parameterService;
+    private  BusinessObjectService businessObjectService;
 
     /**
      * Looks up and returns the ParameterService.
@@ -60,6 +58,12 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
+    }
+
+    protected BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null)
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        return businessObjectService;
     }
     
     @Override
@@ -147,10 +151,6 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
         return !developmentProposal.getS2sOppForms().isEmpty();
     }
 
-
-    private BusinessObjectService getBusinessObjectService() {
-        return KNSServiceLocator.getBusinessObjectService();
-    }
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
         Map<String, String> pk = new HashMap<String, String>();
         pk.put("proposalNumber", proposalNumber);

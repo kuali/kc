@@ -34,7 +34,6 @@ import org.kuali.coeus.propdev.impl.person.attachment.SavePersonnelAttachmentEve
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.kra.proposaldevelopment.rule.event.*;

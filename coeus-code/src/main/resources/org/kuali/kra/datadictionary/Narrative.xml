@@ -281,10 +281,10 @@
     </property>
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NarrativeType" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalNarrativeTypeValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="narrativeTypeCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NarrativeType" p:valuesFinderClass="org.kuali.coeus.propdev.impl.attachment.ProposalNarrativeTypeValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="narrativeTypeCode" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalNarrativeTypeValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalNarrativeTypeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
