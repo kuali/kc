@@ -22,7 +22,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;

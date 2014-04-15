@@ -19,8 +19,8 @@ import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

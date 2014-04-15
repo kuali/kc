@@ -210,7 +210,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     </class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType" table="INV_CREDIT_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.framework.type.InvestigatorCreditType" table="INV_CREDIT_TYPE">
 		<field-descriptor name="invCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="addsToHundred" column="ADDS_TO_HUNDRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>

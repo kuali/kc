@@ -24,7 +24,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Combined Credit Split</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.common.framework.type.InvestigatorCreditType" altText="help"/></span>
         </h3>
 
         <table cellpadding="0" cellspacing="0" summary="">

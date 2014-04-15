@@ -283,7 +283,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 
-    	<reference-descriptor name="investigatorCreditType" class-ref="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType">
+    	<reference-descriptor name="investigatorCreditType" class-ref="org.kuali.coeus.common.framework.type.InvestigatorCreditType">
 			<foreignkey field-ref="invCreditTypeCode" />
 		</reference-descriptor>
 		<reference-descriptor name="awardPerson" class-ref="org.kuali.kra.award.contacts.AwardPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -328,7 +328,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 
-    	<reference-descriptor name="investigatorCreditType" class-ref="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType">
+    	<reference-descriptor name="investigatorCreditType" class-ref="org.kuali.coeus.common.framework.type.InvestigatorCreditType">
 			<foreignkey field-ref="invCreditTypeCode" />
 		</reference-descriptor>
 		<reference-descriptor name="awardPersonUnit" class-ref="org.kuali.kra.award.contacts.AwardPersonUnit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
