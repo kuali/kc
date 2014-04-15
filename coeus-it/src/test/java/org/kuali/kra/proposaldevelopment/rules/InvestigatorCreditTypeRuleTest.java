@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;

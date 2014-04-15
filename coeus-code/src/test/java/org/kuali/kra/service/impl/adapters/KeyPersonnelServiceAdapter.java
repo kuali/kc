@@ -2,7 +2,7 @@ package org.kuali.kra.service.impl.adapters;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;

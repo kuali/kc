@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 

@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="InvestigatorCreditType" parent="InvestigatorCreditType-parentBean"/>
   <bean abstract="true" id="InvestigatorCreditType-parentBean" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.InvestigatorCreditType"/>
 		<property name="objectLabel" value="Investigator Credit Type"/>
     <property name="inquiryDefinition">
       <ref bean="InvestigatorCreditType-inquiryDefinition"/>
@@ -89,7 +89,7 @@
 
   <bean id="InvestigatorCreditType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Investigator Credit Type"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.type.InvestigatorCreditType"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -134,7 +134,7 @@
   </bean>
 
   <bean id="InvestigatorCreditType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.type.InvestigatorCreditType"/>
     <property name="headerText" value="Investigator Credit Type Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

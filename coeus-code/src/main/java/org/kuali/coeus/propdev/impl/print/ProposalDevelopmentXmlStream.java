@@ -54,6 +54,7 @@ import edu.mit.coeus.utils.xml.v2.rolodex.ROLODEXDocument.ROLODEX;
 import edu.mit.coeus.utils.xml.v2.sponsor.SPONSORDocument.SPONSOR;
 import edu.mit.coeus.utils.xml.v2.userUnit.UNITDocument.UNIT;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;

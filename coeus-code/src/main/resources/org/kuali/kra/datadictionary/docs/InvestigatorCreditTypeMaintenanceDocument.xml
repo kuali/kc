@@ -3,7 +3,7 @@
   <bean id="InvestigatorCreditTypeMaintenanceDocument" parent="InvestigatorCreditTypeMaintenanceDocument-parentBean"/>
 
   <bean id="InvestigatorCreditTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.InvestigatorCreditType"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -14,7 +14,9 @@
       <list>
         <value>invCreditTypeCode</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
+	
     
     
     
