@@ -20,9 +20,9 @@ import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBas
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.bo.ValidNarrForms;
+import org.kuali.coeus.propdev.impl.attachment.ValidNarrForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;

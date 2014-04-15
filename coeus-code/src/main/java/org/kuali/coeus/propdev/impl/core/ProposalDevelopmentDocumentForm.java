@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
-import org.kuali.kra.proposaldevelopment.web.krad.KeyPersonnelAddWizardHelper;
+import org.kuali.coeus.propdev.impl.person.keyperson.KeyPersonnelAddWizardHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;

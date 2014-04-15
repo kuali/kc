@@ -27,12 +27,12 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
-import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;

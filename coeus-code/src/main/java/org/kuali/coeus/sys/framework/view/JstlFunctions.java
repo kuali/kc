@@ -16,6 +16,7 @@
 package org.kuali.coeus.sys.framework.view;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.kuali.coeus.common.api.attachment.KcAttachment;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

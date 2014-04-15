@@ -45,7 +45,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.printing.GenericPrintable;
 import org.kuali.kra.s2s.util.S2SConstants;

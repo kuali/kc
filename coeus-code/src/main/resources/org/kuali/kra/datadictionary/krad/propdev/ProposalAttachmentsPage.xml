@@ -41,7 +41,7 @@
 
 	<bean id="PropDev-ProposalAttachmentsPage-Collection" parent="PropDev-ProposalAttachmentsPage-Collection-parentBean" />
 	<bean id="PropDev-ProposalAttachmentsPage-Collection-parentBean" abstract="true"
-		parent="PropDev-Attachment-Collection" p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.Narrative"
+		parent="PropDev-Attachment-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
 		p:layoutManager.summaryTitle="@{#lp.narrativeType.description + (#lp.narrativeType?.allowMultiple == 'Y' ? ' (' + #lp.moduleTitle + ')' : '')}"
 		p:propertyName="narratives">
 		<property name="items">

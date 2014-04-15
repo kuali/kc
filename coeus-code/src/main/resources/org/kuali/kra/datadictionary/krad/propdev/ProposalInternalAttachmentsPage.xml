@@ -43,7 +43,7 @@
 	<bean id="PropDev-InternalAttachmentsPage-Collection" parent="PropDev-InternalAttachmentsPage-Collection-parentBean" />
 	<bean id="PropDev-InternalAttachmentsPage-Collection-parentBean"
 		abstract="true" parent="PropDev-Attachment-Collection"
-		p:collectionObjectClass="org.kuali.kra.proposaldevelopment.bo.Narrative"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
 		p:propertyName="instituteAttachments">
 		<property name="items">
 			<list>
@@ -70,7 +70,7 @@
 		p:readOnlyDisplayReplacementPropertyName="narrativeType.description">
 		<property name="optionsFinder">
 			<bean
-				class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.InstituteAttachmentTypeValuesFinder" />
+				class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTypeValuesFinder" />
 		</property>
 	</bean>
 </beans>

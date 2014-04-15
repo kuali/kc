@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
+import org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentEvent;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.proposaldevelopment.rule.ReplaceInstituteAttachmentRule;
-import org.kuali.kra.proposaldevelopment.rule.ReplaceNarrativeRule;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class ReplaceInstituteAttachmentEvent extends AddInstituteAttachmentEvent {

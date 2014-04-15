@@ -1,6 +1,6 @@
 package org.kuali.kra.s2s.depend;
 
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
 
 import java.util.List;
 

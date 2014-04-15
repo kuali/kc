@@ -30,9 +30,9 @@ import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.*;
-import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
+import org.kuali.coeus.propdev.impl.person.keyperson.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
-import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
+import org.kuali.coeus.propdev.impl.person.keyperson.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -184,7 +184,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
      *   <li>0 or more Key Persons or Co-Investigators are allowed</li>
      *   <li>A person cannot have multiple roles, ie. a person can only be added as a key person once.</li>
      * </ul>
-     * @see org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument,ProposalPerson)
+     * @see org.kuali.coeus.propdev.impl.person.keyperson.AddKeyPersonRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument,ProposalPerson)
      */
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         boolean retval = true;
@@ -294,7 +294,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
     /**
      * Either adding a degree or unit can trigger this rule to be validated
      * 
-     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.coeus.propdev.impl.person.ProposalPerson, org.kuali.rice.krad.bo.BusinessObject)
+     * @see org.kuali.coeus.propdev.impl.person.keyperson.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.coeus.propdev.impl.person.ProposalPerson, org.kuali.rice.krad.bo.BusinessObject)
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction#insertDegree(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction#insertUnit(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
