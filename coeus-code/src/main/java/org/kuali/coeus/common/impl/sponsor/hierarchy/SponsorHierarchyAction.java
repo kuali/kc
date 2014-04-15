@@ -90,7 +90,6 @@ public class SponsorHierarchyAction extends KualiAction {
         if (this.getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
                 KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE, PermissionConstants.SPONSOR_HIERARCHY_DELETE)) {
             KcServiceLocator.getService(SponsorService.class).deleteSponsorHierarchy((SponsorHierarchyForm)form);
-            //((SponsorHierarchyForm)form).setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
             ((SponsorHierarchyForm)form).setHierarchyNameList((KcServiceLocator.getService(SponsorService.class).getTopSponsorHierarchyList()));
             ((SponsorHierarchyForm)form).setMessage("Sponsor Hierarchy was deleted successfully");
             return mapping.findForward(Constants.MAPPING_BASIC);

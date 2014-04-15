@@ -36,7 +36,6 @@ import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestion
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.s2s.depend.OrganizationYnqService;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -212,10 +211,9 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 		}
 		Organization organization = getOrganizationFromDevelopmentProposal(pdDoc.getDevelopmentProposal());
 		List<OrganizationYnq> organizationYnqs = null;
-		if (organization != null && organization.getOrganizationId() != null) {
-			organizationYnqs = getOrganizationYNQ(organization
-					.getOrganizationId());
-		}
+		if (organization != null) {
+			organizationYnqs = organization.getOrganizationYnqs();
+        }
 		for (OrganizationYnq organizationYnq : organizationYnqs) {
 			if (organizationYnq.getQuestionId().equals(LOBBYING_QUESTION_ID)) {
 					if(getAnswerFromOrganizationYnq(organizationYnq)){
@@ -235,12 +233,7 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
     protected boolean getAnswerFromOrganizationYnq(OrganizationYnq organizationYnq) {
         return organizationYnq.getAnswer().equals(ANSWER_INDICATOR_VALUE) ? true : false;
     }
-	 /*
-     * This method will get the list of Organization YNQ for given question id.
-     */
-	    private List<OrganizationYnq> getOrganizationYNQ(String questionId) {
-	        return KcServiceLocator.getService(OrganizationYnqService.class).findOrganizationYnqByOrgId(questionId);
-	    }
+
 	/*
      * This method will get the Organization from the Development proposal.
      */

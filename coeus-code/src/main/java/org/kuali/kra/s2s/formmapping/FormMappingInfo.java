@@ -55,7 +55,7 @@ public class FormMappingInfo{
     /**
      * Setter for property MainClass.
      * 
-     * @param MainClass New value of property MainClass.
+     * @param mainClass New value of property MainClass.
      */
     public void setMainClass(String mainClass) {
         this.mainClass = mainClass;
@@ -110,7 +110,7 @@ public class FormMappingInfo{
     /**
      * Setter for property StyleSheet.
      * 
-     * @param StyleSheet New value of property StyleSheet.
+     * @param stylesheet New value of property StyleSheet.
      */
     public void setStyleSheet(String stylesheet) {
         this.stylesheet = stylesheet;

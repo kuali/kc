@@ -22,7 +22,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
@@ -62,6 +61,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -101,7 +101,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private VersionHistoryService versionHistoryService;  
     private RoleService roleService;
     private S2SService s2sService;
-    private SponsorService sponsorService;
+    private SponsorHierarchyService sponsorHierarchyService;
     private KeyPersonnelService keyPersonnelService;
     private UnitService unitService;
     private SystemAuthorizationService systemAuthorizationService;
@@ -745,10 +745,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
     
     public void updateNIHDescriptions(DevelopmentProposal proposal) {
-        SponsorService sponsorService = getSponsorService();
+        SponsorHierarchyService sponsorHierarchyService = getSponsorHierarchyService();
         // Update the NIH related properties since this information is not persisted with the document
         // (isSponsorNih sets the nih property as a side effect)
-        if (sponsorService.isSponsorNihMultiplePi(proposal)) {
+        if (sponsorHierarchyService.isSponsorNihMultiplePi(proposal.getSponsorCode())) {
             proposal.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
         }
         boolean multiPIFlag = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class,
@@ -757,8 +757,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             proposal.setSponsorNihMultiplePi(true);
             proposal.setSponsorNihOsc(true);
         } else {
-            proposal.setSponsorNihMultiplePi(sponsorService.isSponsorNihMultiplePi(proposal));
-            proposal.setSponsorNihOsc(sponsorService.isSponsorNihOsc(proposal));
+            proposal.setSponsorNihMultiplePi(sponsorHierarchyService.isSponsorNihMultiplePi(proposal.getSponsorCode()));
+            proposal.setSponsorNihOsc(sponsorHierarchyService.isSponsorNihOsc(proposal.getSponsorCode()));
         }
     }
     
@@ -1059,7 +1059,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 }
             }
         }
-        if (federalId != null && sponsorService.isSponsorNihMultiplePi(proposal)) {
+        if (federalId != null && sponsorHierarchyService.isSponsorNihMultiplePi(proposal.getSponsorCode())) {
             return fromatFederalId(federalId);
         }
         return federalId;
@@ -1206,12 +1206,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     public void setS2sService(S2SService s2sService) {
         this.s2sService = s2sService;
     }
-    public SponsorService getSponsorService() {
-        return sponsorService;
-    }
-    public void setSponsorService(SponsorService sponsorService) {
-        this.sponsorService = sponsorService;
-    }
     public KeyPersonnelService getKeyPersonnelService() {
         return keyPersonnelService;
     }
@@ -1253,5 +1247,13 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public DataObjectService getDataObjectService() {
         return dataObjectService;
+    }
+
+    public SponsorHierarchyService getSponsorHierarchyService() {
+        return sponsorHierarchyService;
+    }
+
+    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
+        this.sponsorHierarchyService = sponsorHierarchyService;
     }
 }

@@ -324,7 +324,6 @@ public class AwardContactsAction extends AwardAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
-        SponsorService sponsorService = getSponsorService();
         Award award = getAward(form);
 
         return actionForward;

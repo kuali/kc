@@ -24,7 +24,6 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.attr.PersonBiosketch;
 import org.kuali.coeus.common.framework.person.attr.PersonDegree;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.*;
@@ -38,6 +37,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.service.YnqService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -69,7 +69,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     private NarrativeService narrativeService;
     private YnqService ynqService;
     private ParameterService parameterService;
-    private SponsorService sponsorService;
+    private SponsorHierarchyService sponsorHierarchyService;
     
     @Autowired
     @Qualifier("personEditableService")
@@ -635,7 +635,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
     
     public boolean isSponsorNihMultiplePi(ProposalDevelopmentDocument document){
-        return getSponsorService().isSponsorNihMultiplePi(document.getDevelopmentProposal());
+        return getSponsorHierarchyService().isSponsorNihMultiplePi(document.getDevelopmentProposal().getSponsorCode());
     }
 
     /**
@@ -651,8 +651,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         return roleDescriptions;
     }
 
-    protected SponsorService getSponsorService() {
-        return sponsorService;
+    protected SponsorHierarchyService getSponsorHierarchyService() {
+        return sponsorHierarchyService;
     }
 
     protected String findRoleDescription(ContactRole role, boolean sponsorIsNih) {
@@ -674,7 +674,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
     
     public String getPersonnelRoleDesc(PersonRolodex person) {
-        if (getSponsorService().isSponsorNihMultiplePi(person.getParent())) {
+        if (getSponsorHierarchyService().isSponsorNihMultiplePi(person.getParent().getSponsorCode())) {
             String parmName = createRoleDescriptionParameterName(person.getContactRole(), NIH_PARM_KEY);
             if (StringUtils.equals(person.getContactRole().getRoleCode(), ContactRole.COI_CODE)
                     && person.isMultiplePi()) {
@@ -686,8 +686,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         }
     }
     
-    public void setSponsorService(SponsorService sponsorService) {
-        this.sponsorService = sponsorService;
+    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
+        this.sponsorHierarchyService = sponsorHierarchyService;
     }
 	protected PersonEditableService getPersonEditableService() {
 		return personEditableService;

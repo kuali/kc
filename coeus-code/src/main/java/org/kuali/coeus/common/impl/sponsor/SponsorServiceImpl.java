@@ -456,30 +456,6 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         GlobalVariables.getUserSession().removeObject(SESSION_KEY);
     }
 
-
-    public boolean isSponsorNihMultiplePi(Sponsorable sponsorable) {
-        return isSponsorInHierarchy(sponsorable, Constants.SPONSOR_HIERARCHY_NIH_MULT_PI);
-    }
-    
-    public boolean isSponsorNihOsc(Sponsorable sponsorable) {
-        return isSponsorInHierarchy(sponsorable, Constants.SPONSOR_HIERARCHY_NIH_OSC);
-    }
-
-    /**
-     * This method tests whether a document's sponsor is in a given sponsor hierarchy.
-     * @param sponsorable
-     * @param sponsorHierarchy The name of a sponsor hierarchy
-     * @return
-     */
-    protected boolean isSponsorInHierarchy(Sponsorable sponsorable, String sponsorHierarchy) {
-        Map<String, String> valueMap = new HashMap<String, String>();
-        valueMap.put("sponsorCode", sponsorable.getSponsorCode());
-        valueMap.put("hierarchyName", sponsorHierarchy);
-        int matchingHierarchies = businessObjectService.countMatching(SponsorHierarchy.class, valueMap);
-        
-        return matchingHierarchies > 0;
-    }
-
     @Override
     public List<String> getUniqueGroupingNames(String hierarchyName, Integer level) {
        List<String> result = getSponsorHierarchyDao().getUniqueNamesAtLevel(hierarchyName, level);

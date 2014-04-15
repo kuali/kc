@@ -23,7 +23,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
@@ -62,7 +61,6 @@ import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinde
 import org.kuali.kra.award.service.AwardDirectFandADistributionService;
 import org.kuali.kra.award.service.AwardReportsService;
 import org.kuali.kra.award.service.AwardSponsorTermService;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
@@ -70,7 +68,7 @@ import org.kuali.kra.award.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
-import org.kuali.kra.service.*;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -160,12 +158,7 @@ public class AwardAction extends BudgetParentActionBase {
     
     private static final String ADD_SYNC_CHANGE_QUESTION = "document.question.awardhierarchy.sync";
     private static final String DEL_SYNC_CHANGE_QUESTION = "document.question.awardhierarchy.sync";    
-   
-    /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(
-     * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
-     * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -536,7 +529,6 @@ public class AwardAction extends BudgetParentActionBase {
      * Create the original set of Award Users for a new Award Document.
      * The creator the award is assigned to the AWARD_MODIFIER role, if the creator isn't already an AWARD_MODIFIER.
      *
-     * @param doc
      */
     protected void createInitialAwardUsers(Award award) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
@@ -681,8 +673,6 @@ public class AwardAction extends BudgetParentActionBase {
     /**
      * If an Award has associated Time and Money document or been versioned and no previous version has been edited in a Time and Money document, 
      * then we want the money and date fields on Award to be read only.
-     * @param awardDocument
-     * @param awardForm
      */
     public void setBooleanAwardHasTandMOrIsVersioned (Award award) {
         boolean previousVersionHasBeenEditedInTandMDocument = false;
@@ -711,10 +701,8 @@ public class AwardAction extends BudgetParentActionBase {
      * @return
      */
     public ActionForward contacts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        SponsorService sponsorService = getSponsorService();
         Award award = getAward(form);
-        AwardForm awardForm = (AwardForm) form;
-        
+
         award.initCentralAdminContacts();
 
         return mapping.findForward(Constants.MAPPING_AWARD_CONTACTS_PAGE);
@@ -1285,18 +1273,13 @@ public class AwardAction extends BudgetParentActionBase {
     protected void loadDocument(KualiDocumentFormBase kualiForm) throws WorkflowException {
         super.loadDocument(kualiForm);
         Award award = ((AwardForm) kualiForm).getAwardDocument().getAward();
-        award.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(award));
+        award.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(award.getSponsorCode()));
     }
    
    /**
     *
     * loadDocumentInForm
-    * @param mapping
-    * @param form
-    * @param request
-    * @param response
-    * @return
-    */    
+    */
     protected void loadDocumentInForm(HttpServletRequest request, AwardForm awardForm)
     throws WorkflowException {
         String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
@@ -1619,8 +1602,8 @@ public class AwardAction extends BudgetParentActionBase {
         return syncScopesList;
     }
 
-    protected SponsorService getSponsorService() {
-        return KcServiceLocator.getService(SponsorService.class);
+    protected SponsorHierarchyService getSponsorHierarchyService() {
+        return KcServiceLocator.getService(SponsorHierarchyService.class);
     }
 
     @Override

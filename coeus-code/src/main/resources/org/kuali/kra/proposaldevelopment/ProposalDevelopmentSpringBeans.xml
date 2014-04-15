@@ -304,7 +304,11 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="lookupResultsService" ref="lookupResultsService" />
     </bean>
-    
+
+    <bean id="sponsorHierarchyService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="sponsorHierarchyService"/>
+    </bean>
+
     <!-- Proposal Development Services -->
 	<bean id="proposalDevelopmentService" class="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -317,7 +321,7 @@
 		<property name="documentService" ref="documentService" />
 		<property name="roleService" ref="roleService" />
 		<property name="s2sService" ref="s2SService" />
-		<property name="sponsorService" ref="sponsorService" />
+		<property name="sponsorHierarchyService" ref="sponsorHierarchyService" />
 		<property name="keyPersonnelService" ref="keyPersonnelService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
         <property name="unitService" ref="unitService" />
@@ -382,7 +386,7 @@
         <property name="narrativeService" ref="narrativeService" />
         <property name="parameterService" ref="parameterService" />
         <property name="ynqService" ref="ynqService" />
-        <property name="sponsorService" ref="sponsorService"/>
+        <property name="sponsorHierarchyService" ref="sponsorHierarchyService"/>
     </bean>
 
     <bean id="proposalLockService" class="org.kuali.coeus.propdev.impl.lock.ProposalLockServiceImpl">
@@ -499,6 +503,7 @@
           parent="proposalBaseStream">
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="budgetPersonService" ref="budgetPersonService" />
+        <property name="sponsorHierarchyService" ref="sponsorHierarchyService" />
     </bean>
     
     <bean id="researchAndRelatedXmlStream" class="org.kuali.coeus.propdev.impl.print.ResearchAndRelatedXmlStream"
@@ -507,7 +512,6 @@
     <bean id="nihResearchAndRelatedXmlStream" class="org.kuali.coeus.propdev.impl.print.NIHResearchAndRelatedXmlStream"
           parent="abstractResearchAndRelatedStream" lazy-init="true">
         <property name="parameterService" ref="parameterService" />
-        <property name="sponsorService" ref="sponsorService" />
         <property name="proposalDevelopmentService" ref="proposalDevelopmentService" />
     </bean>
     

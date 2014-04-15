@@ -18,7 +18,6 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -32,6 +31,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -55,7 +55,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAttachmentsAuditRule.class);
     
-    private SponsorService sponsorService;
+    private SponsorHierarchyService sponsorHierarchyService;
     private ParameterService parameterService;
 
     public boolean processRunAuditBusinessRules(Document document) {
@@ -113,7 +113,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
 
     public boolean checkNihRelatedAttachments(DevelopmentProposal developmentProposal) {
         boolean valid = true;
-            if(getSponsorService().isSponsorNihMultiplePi(developmentProposal)
+            if(getSponsorHierarchyService().isSponsorNihMultiplePi(developmentProposal.getSponsorCode())
                     && developmentProposal.getS2sOpportunity() != null){
                 boolean attachment = false;   
                 boolean hasPI= false;
@@ -207,11 +207,11 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
         return auditErrors;
     }
     
-    private SponsorService getSponsorService() {
-        if(sponsorService == null) {
-            sponsorService = KcServiceLocator.getService(SponsorService.class);
+    private SponsorHierarchyService getSponsorHierarchyService() {
+        if(sponsorHierarchyService == null) {
+            sponsorHierarchyService = KcServiceLocator.getService(SponsorHierarchyService.class);
         }
-        return sponsorService;
+        return sponsorHierarchyService;
     }
 
     protected ParameterService getParameterService() {
