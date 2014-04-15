@@ -66,9 +66,6 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 
     private List<AttachmentData> attachments;
     public static final String KEY_VALUE_SEPARATOR = "-";
-    public static final String DESCRIPTION = "DESCRIPTION";
-    public static final String TITLE = "TITLE";
-    public static final String MODULE_NUMBER = "M";
     public static final String AREAS_AFFECTED_ABSTRACT_TYPE_CODE="16";
     private static final String NARRATIVE_ATTACHMENT_FILE_LOCATION = "att:FileLocation";
        

@@ -46,7 +46,6 @@ import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
@@ -1767,7 +1766,6 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
     private KeyPersonCompensationDataType getCompensation(KeyPersonInfo keyPerson, int budgetPeriod) {
 
         KeyPersonCompensationDataType keyPersonCompensation = KeyPersonCompensationDataType.Factory.newInstance();
-        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         ScaleTwoDecimal baseSalaryByPeriod;
         if (keyPerson != null) {
             if (keyPerson.getAcademicMonths() != null) {

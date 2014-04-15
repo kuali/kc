@@ -21,7 +21,6 @@ import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
 import org.apache.commons.lang3.text.WordUtils;
-import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -66,9 +65,7 @@ public class GlobalLibraryV2_0Generator {
 	/**
 	 * Create a StateCodeDataType.Enum as defined in UniversalCodes 2.0 from the
 	 * given name of the state.
-	 * 
-	 * @param StateCode
-	 *            The state name
+	 *
 	 * @return The StateCodeDataType type corresponding to the given State code.
 	 */
 	public StateCodeDataType.Enum getStateCodeDataType(String countryAlternateCode, String stateName) {
@@ -181,41 +178,6 @@ public class GlobalLibraryV2_0Generator {
         return addressDataType;
     }
 
-    /**
-     * Create AddressDataType from Person
-     * 
-     * @param person Person
-     * @return AddressDataType corresponding to the KcPerson object.
-     */
-    public AddressDataType getAddressDataType(KcPerson person) {
-        AddressDataType addressType = AddressDataType.Factory.newInstance();
-        if (person != null) {
-
-			String street1 = person.getAddressLine1();
-			addressType.setStreet1(street1);
-			String street2 = person.getAddressLine2();
-			if (street2 != null && !street2.equals("")) {
-				addressType.setStreet2(street2);
-			}
-			String city = person.getCity();
-			addressType.setCity(city);
-			String county = person.getCounty();
-			if (county != null && !county.equals("")) {
-				addressType.setCounty(county);
-			}
-			String country = person.getCountryCode();
-			String state = person.getState();
-			if (state != null && !state.equals("")) {
-				addressType.setState(getStateCodeDataType(country, state));
-			}
-			String postalCode = person.getPostalCode();
-			if (postalCode != null && !postalCode.equals("")) {
-				addressType.setZipPostalCode(postalCode);
-			}
-			addressType.setCountry(getCountryCodeDataType(country));
-		}
-		return addressType;
-	}
 
 	/**
 	 * Create AddressDataType from ProposalPerson
@@ -311,33 +273,6 @@ public class GlobalLibraryV2_0Generator {
 		return humanName;
 	}
 
-	/**
-	 * Create HumanNameDataType from explanation string. The string is expected
-	 * to be comma separated values of firstname, lastname, in order.
-	 * 
-	 * @param explanation
-	 *            Comma separated string of first name and last name
-	 * @return HumanNameDataType created from the string explanation
-	 */
-	public HumanNameDataType getHumanNameDataType(String explanation) {
-		HumanNameDataType humanNameDataType = HumanNameDataType.Factory
-				.newInstance();
-		String firstName = null;
-		String lastName = null;
-		String formerName = explanation;
-		if (formerName != null) {
-			int commaPos = formerName.indexOf(",");
-			if (commaPos > 0) {
-				lastName = formerName.substring(0, commaPos);
-				firstName = formerName.substring(commaPos + 1);
-			} else {
-				lastName = formerName;
-			}
-		}
-		humanNameDataType.setLastName(lastName);
-		humanNameDataType.setFirstName(firstName);
-		return humanNameDataType;
-	}
 
 	/**
 	 * Create a HumanNameDataType from Rolodex object
@@ -360,26 +295,6 @@ public class GlobalLibraryV2_0Generator {
 		return humanName;
 	}
 
-	/**
-	 * Create a HumanNameDataType from Rolodex object
-	 * 
-	 * @param rolodex
-	 *            Rolodex object
-	 * @return HumanNameDataType corresponding to the rolodex object.
-	 */
-	public HumanNameDataType getHumanNameDataType(KcPerson person) {
-
-		HumanNameDataType humanName = HumanNameDataType.Factory.newInstance();
-		if (person != null) {
-			humanName.setFirstName(person.getFirstName());
-			humanName.setLastName(person.getLastName());
-			String middleName = person.getMiddleName();
-			if (middleName != null && !middleName.equals("")) {
-				humanName.setMiddleName(middleName);
-			}
-		}
-		return humanName;
-	}
 	/**
 	 * Create HumanNameDataType from KeyPersonInfo object
 	 * 
@@ -434,40 +349,6 @@ public class GlobalLibraryV2_0Generator {
 		return contactPerson;
 	}
 
-	/**
-	 * Create ContactPersonDataType from Rolodex object
-	 * 
-	 * @param person
-	 *            Rolodex
-	 * @return ContactPersonDataType created from Rolodex object
-	 */
-	public ContactPersonDataType getContactPersonDataType(Rolodex rolodex) {
-
-		ContactPersonDataType contactPerson = ContactPersonDataType.Factory
-				.newInstance();
-		if (rolodex != null) {
-
-			contactPerson.setName(getHumanNameDataType(rolodex));
-			String phone = rolodex.getPhoneNumber();
-			if (phone != null && !phone.equals("")) {
-				contactPerson.setPhone(phone);
-			}
-			String fax = rolodex.getFaxNumber();
-			if (fax != null && !fax.equals("")) {
-				contactPerson.setFax(fax);
-			}
-			String email = rolodex.getEmailAddress();
-			if (email != null && !email.equals("")) {
-				contactPerson.setEmail(rolodex.getEmailAddress());
-			}
-			String title = rolodex.getTitle();
-			if (title != null && !title.equals("")) {
-				contactPerson.setTitle(title);
-			}
-			contactPerson.setAddress(getAddressDataType(rolodex));
-		}
-		return contactPerson;
-	}
 
     public ContactPersonDataType getContactPersonDataType(ProposalDevelopmentDocument proposalDocument) {
         ContactPersonDataType contactPerson = ContactPersonDataType.Factory.newInstance();

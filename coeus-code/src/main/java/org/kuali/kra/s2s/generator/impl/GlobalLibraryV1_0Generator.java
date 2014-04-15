@@ -267,36 +267,6 @@ public class GlobalLibraryV1_0Generator {
     }
 
     /**
-     * Create HumanNameDataType from explanation string. The string is expected to be comma separated values of firstname, lastname,
-     * in order.
-     * 
-     * @param explanation Comma separated string of first name and last name
-     * @return HumanNameDataType created from the string explanation
-     */
-    public HumanNameDataType getHumanNameDataType(String explanation) {
-
-        HumanNameDataType humanNameDataType = HumanNameDataType.Factory.newInstance();
-        String firstName = null;
-        String lastName = null;
-        String formerName = explanation;
-        int commaPos = 0;
-        if (formerName != null) {
-            commaPos = formerName.indexOf(",");
-
-            if (commaPos > 0) {
-                lastName = formerName.substring(0, commaPos);
-                firstName = formerName.substring(commaPos + 1);
-            }
-            else {
-                lastName = formerName;
-            }
-        }
-        humanNameDataType.setLastName(lastName);
-        humanNameDataType.setFirstName(firstName);
-        return humanNameDataType;
-    }
-
-    /**
      * Create a HumanNameDataType from Rolodex object
      * 
      * @param rolodex Rolodex object

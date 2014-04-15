@@ -42,8 +42,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -1168,7 +1166,6 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 
 		KeyPersonCompensationDataType compensation = KeyPersonCompensationDataType.Factory
 				.newInstance();
-		BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         ScaleTwoDecimal baseSalaryByPeriod;
 		if (keyPerson != null) {
 			compensation.setAcademicMonths(keyPerson.getAcademicMonths()
