@@ -26,6 +26,7 @@ import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;
 import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentActionsAction;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
@@ -34,7 +35,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 
 import javax.servlet.http.HttpServletRequest;
