@@ -91,7 +91,6 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 	protected static final int PRIOR_SUPPORT = 1114;
 	protected static final int HR_QUESTION = 1108;
 	protected static final int HR_REQUIRED_INFO = 1117;
-	protected static final Integer QUESTIONNAIRE_ID_1025 = 1025;
 
 	protected S2SUtilService s2sUtilService = null;
     protected ParameterService parameterService;

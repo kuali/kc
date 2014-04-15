@@ -27,7 +27,6 @@ import org.kuali.kra.s2s.service.S2SUtilService;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class PHS398ChecklistBaseGenerator extends S2SBaseFormGenerator {
-    protected S2SUtilService s2sUtilService;
     protected ProposalBudgetService proposalBudgetService;
     protected ProposalDevelopmentService proposalDevelopmentService;
     protected static final int NARRATIVE_CODE_CERTIFICATIONS_ATTACHMENT = 38;
@@ -45,7 +44,6 @@ public abstract class PHS398ChecklistBaseGenerator extends S2SBaseFormGenerator 
 
 
     public PHS398ChecklistBaseGenerator() {
-        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
         proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
     }

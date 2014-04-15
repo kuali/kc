@@ -573,25 +573,6 @@ public class RROtherProjectInfo_1_3_V1Generator extends
 
 	/*
 	 * 
-	 * This method is used to get the answer for ProposalYnq
-	 * 
-	 */
-	private ProposalYnq getAnswer(String questionId) {
-		String question;
-		ProposalYnq ynQ = null;
-		for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal()
-				.getProposalYnqs()) {
-			question = proposalYnq.getQuestionId();
-			if (question != null && question.equals(questionId)) {
-				ynQ = proposalYnq;
-				break;
-			}
-		}
-		return ynQ;
-	}
-
-	/*
-	 * 
 	 * This method is used to get List of attachments from
 	 * NarrativeAttachmentList
 	 */

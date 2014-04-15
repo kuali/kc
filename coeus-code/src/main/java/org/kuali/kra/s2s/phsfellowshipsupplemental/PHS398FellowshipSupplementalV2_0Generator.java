@@ -116,8 +116,6 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
     
     private static final String ANSWER_YES = "Yes";
     private static final String ANSWER_NO = "No";
-    private static final String ANSWER_Y = "Y";
-    private static final String ANSWER_N = "N";
     /*
      * This method is used to get PHSFellowshipSupplemental20 XMLObject and set the data to it from DevelopmentProposal data.
      */

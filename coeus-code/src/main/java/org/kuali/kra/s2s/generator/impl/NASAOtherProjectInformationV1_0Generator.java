@@ -26,12 +26,8 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -68,9 +64,6 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private static final int NON_US_ORGANIZATION_LETTERS_OF_ENDORSEMENT = 49;
     private static final int NARRATIVE_IRB_ACUC_LETTERS = 50;
     private static final int MAX_EXPLANATION_LENGTH = 2000;
-    private static final String COUNTRY_CODE_USA = "USA";
-    private static final String COUNTRY_CODE_PUERTO_RICO = "PRI";
-    private static final String COUNTRY_CODE_VIRGIN_ISLANDS = "VIR";
     private static final String NOT_ANSWERED = "No";
     
     private static final int FISCAL_YEAR_2006 = 2006;
@@ -438,39 +431,6 @@ public class NASAOtherProjectInformationV1_0Generator extends
             }
         }
         return answerList;
-    }
-
-    /*
-     * This method checks whether the Rolodex association is Foreign
-     */
-    private boolean isRolodexPersonForeign(ProposalPerson proposalPerson) {
-        boolean isForeign = false;
-        if (proposalPerson.getRolodexId() != null) {
-            Rolodex rolodex = KcServiceLocator
-                    .getService(RolodexService.class).getRolodex(
-                            proposalPerson.getRolodexId());
-            if (rolodex != null) {
-                if (rolodex.getSponsor() != null
-                        && rolodex.getSponsor().getSponsorTypeCode() != null) {
-                    if (Integer.parseInt(rolodex.getSponsor()
-                            .getSponsorTypeCode()) > 9) {
-                        isForeign = true;
-                    }
-                } else if (rolodex.getCountryCode() != null) {
-                    if (rolodex.getCountryCode().equals(
-                            COUNTRY_CODE_PUERTO_RICO)
-                            || rolodex.getCountryCode()
-                                    .equals(COUNTRY_CODE_USA)
-                            || rolodex.getCountryCode().equals(
-                                    COUNTRY_CODE_VIRGIN_ISLANDS)) {
-                        isForeign = false;
-                    } else {
-                        isForeign = true;
-                    }
-                }
-            }
-        }
-        return isForeign;
     }
 
     /**

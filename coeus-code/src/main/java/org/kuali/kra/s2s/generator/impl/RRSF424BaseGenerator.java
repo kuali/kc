@@ -39,7 +39,6 @@ import java.util.List;
  */
 public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected S2SUtilService s2sUtilService;
-    protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
     protected ParameterService parameterService;
     protected SponsorHierarchyService sponsorHierarchyService;
     protected ProposalBudgetService proposalBudgetService;
@@ -71,7 +70,6 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
 
     public RRSF424BaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-        s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
         parameterService = KcServiceLocator.getService(ParameterService.class);
         sponsorHierarchyService = KcServiceLocator.getService(SponsorHierarchyService.class);
         proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);

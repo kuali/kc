@@ -745,22 +745,6 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 		return applicantType;
 	}
 
-	private ProposalYnq getAnswer(String questionId,
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		String question;
-		ProposalYnq ynq = null;
-		for (ProposalYnq proposalYnq : proposalDevelopmentDocument
-				.getDevelopmentProposal().getProposalYnqs()) {
-			question = proposalYnq.getQuestionId();
-
-			if (question != null && question.equals(questionId)) {
-				ynq = proposalYnq;
-				break;
-			}
-		}
-		return ynq;
-	}
-
 	private String getSubmissionTypeCode() {
 		String submissionTypeCode = null;
 		S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal()
