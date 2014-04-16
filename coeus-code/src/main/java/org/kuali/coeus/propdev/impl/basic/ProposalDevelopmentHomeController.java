@@ -29,6 +29,7 @@ import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,23 +56,17 @@ import java.util.List;
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
 
-   @Autowired
-   @Qualifier("uifExportControllerService")
-   private UifExportControllerService uifExportControllerService;
-
+   @MethodAccessible
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
-   public ModelAndView createProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+   public ModelAndView createProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-       ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
+       ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
        initialSave(proposalDevelopmentDocument);
        save(form, result, request, response);
        initializeProposalUsers(proposalDevelopmentDocument);
-
-       //hack for rice upgrade m5
-       form.setPageId("PropDev-DetailsPage");
-
+       //setting to null so the previous page id(PropDev-InitiatePage) doesn't override the default 
+       form.setPageId(null);
        return getTransactionalDocumentControllerService().getUIFModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
    
@@ -106,6 +101,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return navigate(form, result, request, response);
    }
    
+   @MethodAccessible
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getSponsor")
    public @ResponseBody Sponsor sponsorByCode(@RequestParam("sponsorCode") String sponsorCode) {
        Sponsor sponsor = getLegacyDataAdapter().findBySinglePrimaryKey(Sponsor.class, sponsorCode);
@@ -183,6 +179,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return super.save(pdForm, result, request, response);
    }
 
+   @MethodAccessible
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=docHandler")
    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
            HttpServletResponse response) throws Exception {
@@ -213,153 +210,4 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    protected ScienceKeyword getScienceKeyword(Object element) {
 	   return (ScienceKeyword) getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("scienceKeywordCode", element).build());
    }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=defaultMapping")
-   public ModelAndView defaultMapping(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
-           HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().defaultMapping(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=start")
-   public ModelAndView start(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().start(form, request, response);
-   }
-
-   public void checkViewAuthorization(@ModelAttribute("KualiForm") DocumentFormBase form, String methodToCall) throws AuthorizationException {
-       getTransactionalDocumentControllerService().checkViewAuthorization(form, methodToCall);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=reload")
-   public ModelAndView reload(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
-           throws Exception {
-       return getTransactionalDocumentControllerService().reload(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sessionTimeout")
-   public ModelAndView sessionTimeout(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
-           HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().sessionTimeout(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addLine")
-   public ModelAndView addLine(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().addLine(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=complete")
-   public ModelAndView complete(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
-           HttpServletResponse response) throws Exception {
-       return getTransactionalDocumentControllerService().complete(form, result, request, response);
-   }
-
-   @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=addBlankLine")
-   public ModelAndView addBlankLine(@ModelAttribute("KualiForm") UifFormBase uifForm, HttpServletRequest request,
-           HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().addBlankLine(uifForm, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveLine")
-   public ModelAndView saveLine(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().saveLine(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=deleteLine")
-   public ModelAndView deleteLine(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
-           HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().deleteLine(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=back")
-   public ModelAndView back(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().back(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=returnToPrevious")
-   public ModelAndView returnToPrevious(@ModelAttribute("KualiForm") UifFormBase form) {
-       return getTransactionalDocumentControllerService().returnToPrevious(form);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=returnToHub")
-   public ModelAndView returnToHub(@ModelAttribute("KualiForm") UifFormBase form) {
-       return getTransactionalDocumentControllerService().returnToHub(form);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=returnToHistory")
-   public ModelAndView returnToHistory(@ModelAttribute("KualiForm") UifFormBase form, boolean homeFlag) {
-       return getTransactionalDocumentControllerService().returnToHistory(form, homeFlag);
-   }
-   
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=navigate")
-   public ModelAndView navigate(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().navigate(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=refresh")
-   public ModelAndView refresh(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
-           throws Exception {
-       return getTransactionalDocumentControllerService().refresh(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performLookup")
-   public ModelAndView performLookup(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
-           HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().performLookup(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=checkForm")
-   public ModelAndView checkForm(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().checkForm(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performFieldSuggest")
-   public @ResponseBody AttributeQueryResult performFieldSuggest(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
-           HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().performFieldSuggest(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=downloadAttachment")
-   public ModelAndView downloadAttachment(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
-           HttpServletResponse response) throws ServletRequestBindingException, FileNotFoundException, IOException {
-       return getTransactionalDocumentControllerService().downloadAttachment(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performFieldQuery")
-   public @ResponseBody AttributeQueryResult performFieldQuery(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
-           HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().performFieldQuery(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=returnFromLightbox")
-   public ModelAndView returnFromLightbox(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
-           HttpServletResponse response) {
-       return getTransactionalDocumentControllerService().returnFromLightbox(form, result, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=tableCsvRetrieval", produces = {"text/csv"})
-   @ResponseBody
-   public String tableCsvRetrieval(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-       return uifExportControllerService.tableCsvRetrieval(form, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=tableXlsRetrieval", produces = {"text/csv"})
-   @ResponseBody
-   public String tableXlsRetrieval(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-       return uifExportControllerService.tableXlsRetrieval(form, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=tableXmlRetrieval", produces = {"text/csv"})
-   @ResponseBody
-   public String tableXmlRetrieval(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-       return uifExportControllerService.tableXmlRetrieval(form, request, response);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=tableJsonRetrieval")
-   public ModelAndView tableJsonRetrieval(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
-           HttpServletResponse response) {
-       return uifExportControllerService.tableJsonRetrieval(form, result, request, response);
-   }
-
-    public void setUifExportControllerService(UifExportControllerService uifExportControllerService) {
-        this.uifExportControllerService = uifExportControllerService;
-    }
 }
