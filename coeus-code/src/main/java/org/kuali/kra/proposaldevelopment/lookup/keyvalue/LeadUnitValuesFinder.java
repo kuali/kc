@@ -38,13 +38,19 @@ import java.util.List;
  */
 public class LeadUnitValuesFinder extends UifKeyValuesFinderBase {
 
+    private ProposalDevelopmentService proposalDevelopmentService;
+    protected ProposalDevelopmentService getProposalDevelopmentService (){
+        if (proposalDevelopmentService == null)
+            proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+        return proposalDevelopmentService;
+    }
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
         
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        ProposalDevelopmentService authService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+        ProposalDevelopmentService authService = getProposalDevelopmentService ();
         List<Unit> userUnits = authService.getUnitsForCreateProposal(userId);
 
         // Sort the list of units by Unit Number.  If there are lots of units,

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
+package org.kuali.coeus.propdev.impl.budget;
 
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -31,11 +31,13 @@ import java.util.Map;
 
 public class BudgetColumnsValuesFinder extends UifKeyValuesFinderBase {
     private DataDictionaryService dataDictionaryService;
+    private KcPersistenceStructureService kcPersistenceStructureService;
+
     @Override
     public List<KeyValue> getKeyValues() {
         BusinessObjectEntry proposalEntry = 
             (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Budget.class.getName());
-        KcPersistenceStructureService persistenceStructureService = KcServiceLocator.getService(KcPersistenceStructureService.class);
+        KcPersistenceStructureService persistenceStructureService = getKcPersistenceStructureService();
         Map<String, String> attrToColumnMap = persistenceStructureService.getPersistableAttributesColumnMap(Budget.class);        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (AttributeDefinition entry : proposalEntry.getAttributes()) {
@@ -52,7 +54,12 @@ public class BudgetColumnsValuesFinder extends UifKeyValuesFinderBase {
         
         return keyValues;
     }
-    
+
+    protected  KcPersistenceStructureService getKcPersistenceStructureService (){
+        if (kcPersistenceStructureService == null)
+            kcPersistenceStructureService = KcServiceLocator.getService(KcPersistenceStructureService.class);
+        return kcPersistenceStructureService;
+    }
     private DataDictionaryService getDataDictionaryService() {
         if (dataDictionaryService == null) {
             dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);

@@ -20,7 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.specialreview.impl.web.struts.form.SpecialReviewHelperBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalDevelopmentSpecialReviewService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
@@ -92,10 +91,6 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
-
-    private String getUserIdentifier() {
-        return GlobalVariables.getUserSession().getPrincipalId();
-   }
 
     public void populatePropSpecialReviewApproverView(String summarySpecialReview)
     {
