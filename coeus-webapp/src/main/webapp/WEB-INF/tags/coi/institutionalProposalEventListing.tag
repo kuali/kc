@@ -51,7 +51,7 @@
                                     <th><div align="center">Institutional Proposal Number</div></th> 
                                     <th><div align="center">Institutional Proposal Name</div></th> 
                                     <th><div align="center">Sponsor</div></th> 
-                                    <th><div align="center">start Date</div></th> 
+                                    <th><div align="center">Start Date</div></th> 
                                     <th><div align="center">End Date</div></th> 
                                     <th><div align="center">Action</div></th> 
                                 </tr>
