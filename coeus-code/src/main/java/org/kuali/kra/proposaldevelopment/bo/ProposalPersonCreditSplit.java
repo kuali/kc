@@ -19,6 +19,8 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;

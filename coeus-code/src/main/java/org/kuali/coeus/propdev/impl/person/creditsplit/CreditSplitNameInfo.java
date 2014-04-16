@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.bo;
+package org.kuali.coeus.propdev.impl.person.creditsplit;
 
 import java.lang.annotation.*;
 
 /**
- * Method metadata for {@link CreditSplit} instances to determine the <code>name</code> property of a {@link CreditSplit}. Attach the 
- * <code>@CreditSplitNameInfo</code> annotation to a property method of a {@link CreditSplit} implementation to declare it as the 
+ * Method metadata for {@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit} instances to determine the <code>name</code> property of a {@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit}. Attach the
+ * <code>@CreditSplitNameInfo</code> annotation to a property method of a {@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit} implementation to declare it as the
  * <code>name</code> property
  * 
  */

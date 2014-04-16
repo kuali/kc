@@ -23,7 +23,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentS2sQuestionnaireService;
+import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.rice.kns.util.AuditCluster;

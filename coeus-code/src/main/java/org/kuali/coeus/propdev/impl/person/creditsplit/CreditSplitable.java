@@ -13,37 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.bo;
+package org.kuali.coeus.propdev.impl.person.creditsplit;
 
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
 import org.kuali.rice.krad.bo.BusinessObject;
 
+import java.util.List;
+
 /**
- * Used to describe a <code>{@link BusinessObject}</code> that represents a credit split. 
+ * Used to describe a <code>{@link BusinessObject}</code> with credit that can be split. Usually,
+ * this is a <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPerson}</code> or the like.
  *
  * @author $Author: gmcgrego $
  * @version $Revision: 1.4 $
  */
-public interface CreditSplit {
-    
+public interface CreditSplitable {
     /**
-     * Get the value of the split
+     * Get a <code>{@link List}</code> of credit splits
      *
-     * @return ScaleTwoDecimal
+     * @return List<T>
      */ 
-    public ScaleTwoDecimal getCredit();
-
-    /**
-     * Gets the value of invCreditTypeCode
-     *
-     * @return the value of invCreditTypeCode
-     */
-    public String getInvCreditTypeCode();
-
-    /**
-     * Sets the value of invCreditTypeCode
-     *
-     * @param argInvCreditTypeCode Value to assign to this.invCreditTypeCode
-     */
-    public void setInvCreditTypeCode(String argInvCreditTypeCode);
+    public List<? extends CreditSplit> getCreditSplits();
+  
 }

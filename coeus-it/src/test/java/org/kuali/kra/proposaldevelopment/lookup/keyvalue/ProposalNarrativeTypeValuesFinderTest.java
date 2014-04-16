@@ -19,6 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.attachment.ProposalNarrativeTypeValuesFinder;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;

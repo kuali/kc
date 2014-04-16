@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.s2s;
+package org.kuali.coeus.propdev.impl.s2s.question;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;
-import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -62,7 +63,7 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
      * Gets the AnswerHeaders for a particular proposal.  This is filtered by the oppNameSpace and the formName.  If oppNameSpace and formName are null, no filtering is done on that field.
      * @param developmentProposal The proposal
      * @param oppNameSpace The name space of the opportuniy form to filter the answer headers on. If null no filtering is done.
-     * @param form name The formName to filter the results by.  If formName is null no filtering is done.
+     * @param formName The formName to filter the results by.  If formName is null no filtering is done.
      * @return
      */
     protected List<AnswerHeader> getProposalS2sAnswerHeaders(DevelopmentProposal developmentProposal,String oppNameSpace, String formName) {

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 
 
 

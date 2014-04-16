@@ -210,7 +210,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     </class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType" table="INV_CREDIT_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.framework.type.InvestigatorCreditType" table="INV_CREDIT_TYPE">
 		<field-descriptor name="invCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="addsToHundred" column="ADDS_TO_HUNDRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -736,7 +736,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR"/>
-		<collection-descriptor name="narrativeAttachmentList" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment" 
+		<collection-descriptor name="narrativeAttachmentList" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment"
 						collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="moduleNumber"/>
@@ -756,7 +756,7 @@
 		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment" table="NARRATIVE_ATTACHMENT">
+	<class-descriptor class="org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment" table="NARRATIVE_ATTACHMENT">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="moduleNumber" column="MODULE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
