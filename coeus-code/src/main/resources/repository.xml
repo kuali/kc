@@ -267,7 +267,7 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.NarrativeType" table="NARRATIVE_TYPE">
+	<class-descriptor class="org.kuali.coeus.propdev.impl.attachment.NarrativeType" table="NARRATIVE_TYPE">
 		<field-descriptor name="narrativeTypeCode" column="NARRATIVE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="systemGenerated" column="SYSTEM_GENERATED" jdbc-type="VARCHAR" />
@@ -746,7 +746,7 @@
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="moduleNumber"/>
 		</collection-descriptor> 
-		<reference-descriptor name="narrativeType" class-ref="org.kuali.kra.proposaldevelopment.bo.NarrativeType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="narrativeType" class-ref="org.kuali.coeus.propdev.impl.attachment.NarrativeType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="narrativeTypeCode"/> 
 		</reference-descriptor>
 		<reference-descriptor name="narrativeStatus" class-ref="org.kuali.coeus.propdev.impl.attachment.NarrativeStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1296,7 +1296,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="narrativeType" class-ref="org.kuali.kra.proposaldevelopment.bo.NarrativeType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="narrativeType" class-ref="org.kuali.coeus.propdev.impl.attachment.NarrativeType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="narrativeTypeCode"/> 
 		</reference-descriptor>
 	</class-descriptor>

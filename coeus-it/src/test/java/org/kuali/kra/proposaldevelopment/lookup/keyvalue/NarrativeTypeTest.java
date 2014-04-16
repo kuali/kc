@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
