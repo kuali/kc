@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="NarrativeType" parent="NarrativeType-parentBean" />
   <bean id="NarrativeType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.NarrativeType" />
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.attachment.NarrativeType" />
 		<property name="objectLabel" value="Narrative Type" />
     <property name="inquiryDefinition" >
       <ref bean="NarrativeType-inquiryDefinition" />
@@ -152,7 +152,7 @@
 
   <bean id="NarrativeType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Narrative Type"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.NarrativeType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.attachment.NarrativeType"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -205,7 +205,7 @@
   </bean>
 
   <bean id="NarrativeType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.NarrativeType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.attachment.NarrativeType"/>
     <property name="headerText" value="Narrative Type Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

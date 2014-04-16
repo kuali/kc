@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.hierarchy;
 
-import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
 
 import java.util.List;
 

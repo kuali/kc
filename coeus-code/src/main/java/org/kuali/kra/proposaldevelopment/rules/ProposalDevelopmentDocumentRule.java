@@ -38,6 +38,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.attachment.AddPersonnelAttachmentEvent;
 import org.kuali.coeus.propdev.impl.person.attachment.AddPersonnelAttachmentRule;
 import org.kuali.coeus.propdev.impl.person.attachment.SavePersonnelAttachmentEvent;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CalculateCreditSplitRule;
 import org.kuali.coeus.propdev.impl.person.keyperson.AddKeyPersonRule;
 import org.kuali.coeus.propdev.impl.person.keyperson.ChangeKeyPersonRule;
 import org.kuali.coeus.propdev.impl.person.keyperson.SaveKeyPersonRule;
