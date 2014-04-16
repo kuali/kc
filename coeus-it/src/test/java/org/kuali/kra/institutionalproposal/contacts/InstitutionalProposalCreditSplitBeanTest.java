@@ -26,7 +26,7 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 

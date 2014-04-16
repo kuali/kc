@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.service;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
@@ -153,7 +153,7 @@ public interface KeyPersonnelService {
      * 
      * 
      * @return true if credit split enabled configuration parameter is on
-     * @see org.kuali.kra.proposaldevelopment.bo.CreditSplit
+     * @see org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit
      */
     public boolean isCreditSplitEnabled();
     

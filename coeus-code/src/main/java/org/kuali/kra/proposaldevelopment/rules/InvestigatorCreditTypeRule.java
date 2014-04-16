@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -31,7 +31,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_CREDI
 /**
  * Business Rules implementation for modifying <code>{@link InvestigatorCreditType}</code> Business Object instances.
  * 
- * @see org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType
+ * @see org.kuali.coeus.common.framework.type.InvestigatorCreditType
  */
 public class InvestigatorCreditTypeRule extends MaintenanceDocumentRuleBase {
 

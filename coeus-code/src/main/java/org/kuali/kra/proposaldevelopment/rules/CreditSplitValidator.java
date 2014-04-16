@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.*;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitNameInfo;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitable;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -111,7 +114,7 @@ public class CreditSplitValidator {
     }
 
     /**
-     * Validates a collection of anything splitable. This implies that it contains <code>{@link CreditSplit}</code> instances.
+     * Validates a collection of anything splitable. This implies that it contains <code>{@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit}</code> instances.
      * 
      * @param splitable_it
      * @param creditType
@@ -137,7 +140,7 @@ public class CreditSplitValidator {
     
     /**
      * Determines if the total credit split value for a {@link CreditSplitable} instance is valid or not. The upper and lower bounds for {@link CreditSplit} are 100.00 and 0.00.
-     * 0.00 is used as the lower bound and is significant because this is where {@link CreditSplit} is initiated. This is valid. 100.00 is the upper bound and represents an 
+     * 0.00 is used as the lower bound and is significant because this is where {@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit} is initiated. This is valid. 100.00 is the upper bound and represents an
      * adequate split of credit. Anything other than these is not considered valid 
      *
      * @param total value of the credit split
@@ -358,7 +361,7 @@ public class CreditSplitValidator {
                 } 
                 catch (Exception e) {
                     LOG.warn("Could not find the name property for the credit splitable object of class " + splitable.getClass().getName()
-                            + ". Make sure the " + CreditSplitNameInfo.class.getSimpleName() + " annotation is declared on the name property of " 
+                            + ". Make sure the " + CreditSplitNameInfo.class.getSimpleName() + " annotation is declared on the name property of "
                                 + splitable.getClass().getSimpleName());
 
                 }
