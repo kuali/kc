@@ -45,6 +45,7 @@
 		<property name="header" ref="PropDev-DocumentHeader" />
 		<property name="footer" ref="PropDev-DocumentFooter" />
 		<property name="navigation" ref="PropDev-Menu" />
+		<property name="entryPageId" value="PropDev-DetailsPage"/>
 		<property name="items">
 			<list>
 				<ref bean="PropDev-DetailsPage" />
