@@ -139,10 +139,10 @@
     <property name="label" value="Non-NIH Proposal Person Role Id" />
     <property name="shortLabel" value="Non-NIH Prop Per Role Id" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NonNihProposalPersonRoleValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.person.NonNihProposalPersonRoleValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NonNihProposalPersonRoleValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.person.NonNihProposalPersonRoleValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

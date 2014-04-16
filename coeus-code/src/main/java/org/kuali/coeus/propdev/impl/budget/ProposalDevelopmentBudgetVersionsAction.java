@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.action;
+package org.kuali.coeus.propdev.impl.budget;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -51,6 +51,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.Document;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -65,6 +66,8 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
+
+    private BudgetRatesService budgetRatesService;
 
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
@@ -124,7 +127,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
+        BudgetService budgetService = getBudgetService();
 
         if (StringUtils.equalsIgnoreCase("TRUE", (String) pdForm.getEditingMode().get("modifyProposalBudget"))) {
             save(mapping, form, request, response);
@@ -133,7 +136,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
-        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = getDocumentService();
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
@@ -205,7 +208,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
-        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = getDocumentService();
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocumentToOpen.getDocumentNumber());
         String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forward = buildForwardUrl(routeHeaderId);
@@ -274,7 +277,6 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             pdForm.setSaveAfterCopy(!valid);
         }
 
-        // if(pdForm.isAuditActivated()) {
         // A Budget cannot be marked 'Complete' if there are outstanding Audit Errors
         valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(pdForm.getProposalDevelopmentDocument());
 
@@ -295,7 +297,6 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             }
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        // }
 
         this.setBudgetParentStatus(pdForm.getProposalDevelopmentDocument());
         // this.setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
@@ -388,7 +389,9 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
                 message, "");
     }    
     
-    private BudgetRatesService getBudgetRatesService() {
-        return KcServiceLocator.getService(BudgetRatesService.class);
+    protected BudgetRatesService getBudgetRatesService() {
+        if (budgetRatesService == null)
+            budgetRatesService = KcServiceLocator.getService(BudgetRatesService.class);
+        return budgetRatesService;
     }
 }

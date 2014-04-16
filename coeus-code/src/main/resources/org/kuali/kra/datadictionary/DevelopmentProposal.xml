@@ -290,10 +290,10 @@
 		<property name="name" value="ownedByUnitNumber" />
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder" p:includeKeyInLabel="false"/>
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.basic.LeadUnitValuesFinder" p:includeKeyInLabel="false"/>
 		</property>
 		<property name="optionsFinder">
-			<bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder"/>
+			<bean class="org.kuali.coeus.propdev.impl.basic.LeadUnitValuesFinder"/>
 		</property>
 		<property name="controlField">
 			<bean parent="Uif-DropdownControl"/>

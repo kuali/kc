@@ -67,10 +67,10 @@
       </bean>
     </property>
     <property name="control">
-      <bean p:includeKeyInLabel="false" p:script="updateBudgetFields(this, updateOtherFields_Callback)" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.BudgetEditableColumnsValuesFinder" parent="SelectControlDefinition"/>
+      <bean p:includeKeyInLabel="false" p:script="updateBudgetFields(this, updateOtherFields_Callback)" p:valuesFinderClass="org.kuali.coeus.propdev.impl.budget.editable.BudgetEditableColumnsValuesFinder" parent="SelectControlDefinition"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.BudgetEditableColumnsValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.budget.editable.BudgetEditableColumnsValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
