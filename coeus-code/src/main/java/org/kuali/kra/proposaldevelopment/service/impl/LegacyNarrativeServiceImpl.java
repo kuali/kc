@@ -31,8 +31,8 @@ import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
+import org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
-import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -48,7 +48,7 @@ import java.util.*;
 /**
  * This class is primarily to add/delete proposal/institute attachments. 
  */
-public class NarrativeServiceImpl implements NarrativeService {
+public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
 
     private NarrativeAuthZService narrativeAuthZService;
     private ProposalPersonService proposalPersonService;
@@ -73,15 +73,9 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
 
     private Narrative changeDataManagementPlanAttachmentName(Narrative narrative) {
-        int counter=0;
-        narrative.setFileName("NSF_DATA_MANAGEMENT_PLAN.pdf");
-        for (NarrativeAttachment attachment : narrative.getNarrativeAttachmentList()) {
-            narrative.getNarrativeAttachmentList().get(counter).setFileName("NSF_DATA_MANAGEMENT_PLAN.pdf");  
-            counter = counter + 1;
-        }
+        narrative.setName("NSF_DATA_MANAGEMENT_PLAN.pdf");
+        narrative.getNarrativeAttachment().setName("NSF_DATA_MANAGEMENT_PLAN.pdf");
         return narrative;
-      
-        
     }
 
     protected Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
@@ -217,10 +211,8 @@ public class NarrativeServiceImpl implements NarrativeService {
         NarrativeAttachment narrAtt = new NarrativeAttachment();
         narrAtt.setProposalNumber(narrative.getProposalNumber());
         narrAtt.setModuleNumber(narrative.getModuleNumber());
-        if (narrative.getNarrativeAttachmentList().isEmpty())
-            narrative.getNarrativeAttachmentList().add(narrAtt);
-        else
-            narrative.getNarrativeAttachmentList().set(0, narrAtt);
+        narrative.setNarrativeAttachment(narrAtt);
+
         narratives.remove(lineToDelete);
 
     }
@@ -252,7 +244,7 @@ public class NarrativeServiceImpl implements NarrativeService {
 
     /**
      * Method to populate personname for all user who have narrative rights
-     * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#populatePersonNameForNarrativeUserRights(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument, org.kuali.coeus.propdev.impl.attachment.Narrative)
+     * @see org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService#populatePersonNameForNarrativeUserRights(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument, org.kuali.coeus.propdev.impl.attachment.Narrative)
      */
     public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
 //        populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
@@ -264,7 +256,7 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
 
     public void replaceAttachment(Narrative narrative) {
-        narrative.refreshReferenceObject("narrativeAttachmentList");
+        narrative.refreshReferenceObject("narrativeAttachment");
         narrative.populateAttachment();
         if (narrative.getNarrativeTypeCode().equalsIgnoreCase("200")) {
             narrative = changeDataManagementPlanAttachmentName(narrative);

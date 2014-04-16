@@ -54,7 +54,7 @@ import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -661,8 +661,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     /**
      * Fix data related to Budget Versions.
      * @param doc the proposal development document
-     * @param oldLeadUnitNumber the old lead unit number
-     * @param newLeadUnitNumber the new lead unit number
      */
     protected void fixBudgetVersions(ProposalDevelopmentDocument doc) {
         if (doc.getBudgetDocumentVersions().size() > 0) {
@@ -804,7 +802,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     protected void copyAttachments(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest) throws Exception {
         
-        NarrativeService narrativeService = dest.getDevelopmentProposal().getNarrativeService();
+        LegacyNarrativeService narrativeService = dest.getDevelopmentProposal().getNarrativeService();
         ProposalPersonBiographyService propPersonBioService = dest.getDevelopmentProposal().getProposalPersonBiographyService();
  
         loadAttachmentContents(src);
@@ -888,9 +886,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         Map<String,String> primaryKey = new HashMap<String,String>();
         primaryKey.put(PROPOSAL_NUMBER, narrative.getProposalNumber());
         primaryKey.put(MODULE_NUMBER, narrative.getModuleNumber()+"");
-        NarrativeAttachment attachment = (NarrativeAttachment)getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, primaryKey);
-        narrative.getNarrativeAttachmentList().clear();
-        narrative.getNarrativeAttachmentList().add(attachment);
+        NarrativeAttachment attachment = getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, primaryKey);
+        narrative.setNarrativeAttachment(attachment);
     }
     
     /**
@@ -903,9 +900,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         primaryKey.put(PROPOSAL_NUMBER, bio.getProposalNumber());
         primaryKey.put("biographyNumber", bio.getBiographyNumber()+"");
         primaryKey.put("proposalPersonNumber", bio.getProposalPersonNumber()+"");
-        ProposalPersonBiographyAttachment attachment = (ProposalPersonBiographyAttachment)getBusinessObjectService().findByPrimaryKey(ProposalPersonBiographyAttachment.class, primaryKey);
-        bio.getPersonnelAttachmentList().clear();
-        bio.getPersonnelAttachmentList().add(attachment);
+        ProposalPersonBiographyAttachment attachment = getBusinessObjectService().findByPrimaryKey(ProposalPersonBiographyAttachment.class, primaryKey);
+        bio.setPersonnelAttachment(attachment);
     }
     
     /**

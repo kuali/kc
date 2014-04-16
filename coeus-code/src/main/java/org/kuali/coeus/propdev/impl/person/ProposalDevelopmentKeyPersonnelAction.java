@@ -756,7 +756,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         reportParameters.put("template", header.getQuestionnaire().getTemplate());
 
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(person, reportParameters);
-        if (dataStream.getContent() != null) {
+        if (dataStream.getData() != null) {
             streamToResponse(dataStream, response);
             forward = null;
         }

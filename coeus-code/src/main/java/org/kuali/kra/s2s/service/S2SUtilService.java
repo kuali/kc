@@ -206,13 +206,6 @@ public interface S2SUtilService {
      */
     public DepartmentalPerson getContactPerson(ProposalDevelopmentDocument pdDoc) ;
     
-    /**
-     * 
-     * This method is used to delete all auto generated pdfs as part of s2s forms creation
-     * @param pdDoc
-     */
-    public void deleteSystemGeneratedAttachments(ProposalDevelopmentDocument pdDoc);
-    
     public ScaleTwoDecimal getNumberOfMonths(Date dateStart, Date dateEnd);
 
     /**

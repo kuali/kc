@@ -373,7 +373,7 @@
  
     <bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="narrativeService" ref="narrativeService" />
+        <property name="narrativeService" ref="legacyNarrativeService" />
         <property name="parameterService" ref="parameterService" />
         <property name="ynqService" ref="ynqService" />
         <property name="sponsorHierarchyService" ref="sponsorHierarchyService"/>
@@ -397,7 +397,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
-        <property name="narrativeService" ref="narrativeService" />
+        <property name="narrativeService" ref="legacyNarrativeService" />
         <property name="proposalHierarchyDao" ref="proposalHierarchyDao" />
         <property name="budgetService" ref="budgetService" />
         <property name="budgetSummaryService" ref="budgetSummaryService" />
@@ -429,7 +429,7 @@
 		p:localServiceName="proposalRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 	
-	<bean id="narrativeService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeServiceImpl">
+	<bean id="legacyNarrativeService" class="org.kuali.kra.proposaldevelopment.service.impl.LegacyNarrativeServiceImpl">
 		<property name="systemAuthorizationService" ref="systemAuthorizationService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="businessObjectService" ref="businessObjectService" />

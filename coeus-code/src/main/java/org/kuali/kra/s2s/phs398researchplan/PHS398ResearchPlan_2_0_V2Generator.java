@@ -42,7 +42,7 @@ import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -94,10 +94,10 @@ public class PHS398ResearchPlan_2_0_V2Generator extends
 				.newInstance();
 
         ResearchStrategy researchStrategy = ResearchStrategy.Factory.newInstance();
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 		    AttachedFileDataType attachedFileDataType=null;
-		    switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
+		    switch (Integer.parseInt(narrative.getNarrativeType().getCode())) {
 			case INTRODUCTION_TO_APPLICATION:
 			    attachedFileDataType = getAttachedFileType(narrative);
 	            if(attachedFileDataType == null){
@@ -249,7 +249,7 @@ public class PHS398ResearchPlan_2_0_V2Generator extends
 /**
 	 * 
 	 * This method is used to get List of appendix attachments from
-	 * NarrativeAttachmentList
+	 * NarrativeAttachment
 	 * 
 	 * @return AttachedFileDataType[] array of attachments for the corresponding
 	 *         narrative type code APPENDIX.
@@ -259,17 +259,17 @@ public class PHS398ResearchPlan_2_0_V2Generator extends
 		AttachedFileDataType[] attachedFileDataTypes = null;
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
-		for (Narrative narrative : developmentProposal.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
+		for (NarrativeContract narrative : developmentProposal.getNarratives()) {
+			if (narrative.getNarrativeType().getCode() != null
+					&& Integer.parseInt(narrative.getNarrativeType().getCode()) == APPENDIX) {
 				size++;
 			}
 		}
 		attachedFileDataTypes = new AttachedFileDataType[size];
 		int attachments = 0;
-		for (Narrative narrative : developmentProposal.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
+		for (NarrativeContract narrative : developmentProposal.getNarratives()) {
+			if (narrative.getNarrativeType().getCode() != null
+					&& Integer.parseInt(narrative.getNarrativeType().getCode()) == APPENDIX) {
 				attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
 				attachments++;
 			}

@@ -20,6 +20,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.s2s.depend.NarrativeUserRightsContract;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,7 +28,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "NARRATIVE_USER_RIGHTS")
 @IdClass(NarrativeUserRights.NarrativeUserRightsId.class)
-public class NarrativeUserRights extends KcPersistableBusinessObjectBase {
+public class NarrativeUserRights extends KcPersistableBusinessObjectBase implements NarrativeUserRightsContract {
 
     @Id
     @Column(name = "MODULE_NUMBER")
@@ -47,6 +48,7 @@ public class NarrativeUserRights extends KcPersistableBusinessObjectBase {
     @Transient
     private String personName;
 
+    @Override
     public Integer getModuleNumber() {
         return moduleNumber;
     }
@@ -55,6 +57,7 @@ public class NarrativeUserRights extends KcPersistableBusinessObjectBase {
         this.moduleNumber = moduleNumber;
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -63,6 +66,7 @@ public class NarrativeUserRights extends KcPersistableBusinessObjectBase {
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public String getUserId() {
         return userId;
     }
@@ -71,6 +75,7 @@ public class NarrativeUserRights extends KcPersistableBusinessObjectBase {
         this.userId = userId;
     }
 
+    @Override
     public String getAccessType() {
         return accessType;
     }

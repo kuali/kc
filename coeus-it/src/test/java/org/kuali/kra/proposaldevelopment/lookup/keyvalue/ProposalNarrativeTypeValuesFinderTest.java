@@ -33,8 +33,6 @@ import java.util.List;
 
 public class ProposalNarrativeTypeValuesFinderTest extends KcIntegrationTestBase {
 
-    private static final String NO = "N";
-    private static final String YES = "Y";
     private NarrativeType bioNarrativeType;
     private ProposalDevelopmentDocument document;
     private ProposalNarrativeTypeValuesFinder finder;
@@ -78,16 +76,16 @@ public class ProposalNarrativeTypeValuesFinderTest extends KcIntegrationTestBase
     private Narrative createNarrative(NarrativeType narrativeType) {
         Narrative narrative = new MockNarrative();
         narrative.setNarrativeType(narrativeType);
-        narrative.setNarrativeTypeCode(narrativeType.getNarrativeTypeCode());
+        narrative.setNarrativeTypeCode(narrativeType.getCode());
         
         return narrative;
     }
 
     private NarrativeType createNarrativeType(String narrativeTypeCode, String narrativeDescription, boolean allowMultiple) {
         NarrativeType narrativeType = new NarrativeType();
-        narrativeType.setNarrativeTypeCode(narrativeTypeCode);
+        narrativeType.setCode(narrativeTypeCode);
         narrativeType.setDescription(narrativeDescription);
-        narrativeType.setAllowMultiple(allowMultiple ? YES : NO);
+        narrativeType.setAllowMultiple(allowMultiple);
         allNarrativeTypes.add(narrativeType);
         allNarrativeTypesAsKeyValues.add(new ConcreteKeyValue(narrativeTypeCode ,narrativeDescription));
         

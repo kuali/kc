@@ -224,7 +224,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
 
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(
                 protocol, reportParameters);
-        if (dataStream.getContent() != null) {
+        if (dataStream.getData() != null) {
             streamToResponse(dataStream, response);
             forward = null;
         }

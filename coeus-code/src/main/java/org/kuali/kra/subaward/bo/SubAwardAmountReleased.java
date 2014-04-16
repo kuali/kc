@@ -16,7 +16,7 @@
 package org.kuali.kra.subaward.bo;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.coeus.common.api.attachment.KcAttachment;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -31,7 +31,7 @@ import java.sql.Timestamp;
  * This class represents a subAwardAmountReleased.  It mainly deals with the
  * Amount released for a subAward.
  */
-public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAttachment, PersistableAttachment {
+public class SubAwardAmountReleased  extends SubAwardAssociate implements KcFile, PersistableAttachment {
 
     private static final long serialVersionUID = 1L;
     private Integer subAwardAmtReleasedId;

@@ -31,11 +31,12 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;
-import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.kra.s2s.depend.NarrativeContract;
+import org.kuali.kra.s2s.depend.NarrativeService;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.generator.impl.GlobalLibraryV1_0Generator;
 import org.kuali.kra.s2s.generator.impl.GlobalLibraryV2_0Generator;
@@ -50,8 +51,6 @@ import java.io.ByteArrayInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -77,6 +76,11 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 
     protected ProposalDevelopmentDocument pdDoc = null;
     private List<AuditError> auditErrors;
+    private NarrativeService narrativeService;
+
+    public S2SBaseFormGenerator() {
+        narrativeService = KcServiceLocator.getService(NarrativeService.class);
+    }
 
     /*
      * Reference to global library generators are defined here. The actual form generator will decide which object to be used for
@@ -122,11 +126,10 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      * 
      * Generates the contentId or href for narrative attachments in S2S
      */
-    public String createContentId(Narrative narrative) {
+    public String createContentId(NarrativeContract narrative) {
         String retVal = "N-" + narrative.getModuleNumber();
         if(narrative.getNarrativeType()!=null){
-            if (narrative.getNarrativeType().getAllowMultiple() != null
-                    && narrative.getNarrativeType().getAllowMultiple().equals("Y") &&
+            if (narrative.getNarrativeType().isAllowMultiple() &&
                     StringUtils.isNotBlank(narrative.getModuleTitle())) {
                 retVal += "_" + narrative.getModuleTitle().trim();
             }else{
@@ -207,12 +210,11 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         }
     }
 
-    protected AttachedFileDataType getAttachedFileType(Narrative narrative) {
+    protected AttachedFileDataType getAttachedFileType(NarrativeContract narrative) {
         AttachedFileDataType attachedFileDataType = null;
         byte[] attachementContent = null;
-        //narrative.refreshReferenceObject("narrativeAttachmentList");
-        if(narrative.getNarrativeAttachmentList()!= null && narrative.getNarrativeAttachmentList().size() > 0 ){
-        	attachementContent = narrative.getNarrativeAttachmentList().get(0).getContent();
+        if(narrative.getNarrativeAttachment()!= null){
+        	attachementContent = narrative.getNarrativeAttachment().getData();
         }
 	    if(attachementContent != null && attachementContent.length > 0 ){
 	    	
@@ -222,22 +224,21 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 	    	
 	        attachedFileDataType = AttachedFileDataType.Factory.newInstance();
 	        attachedFileDataType.setFileLocation(fileLocation);
-	        attachedFileDataType.setFileName(narrative.getFileName());
+	        attachedFileDataType.setFileName(narrative.getNarrativeAttachment().getName());
 	        attachedFileDataType.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-	        //narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
 			attachedFileDataType.setHashValue(getHashValue(attachementContent));
 	        AttachmentData attachmentData = new AttachmentData();
 	        attachmentData.setContent(attachementContent);
 	        attachmentData.setContentId(contentId);
 	        attachmentData.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-	        attachmentData.setFileName(narrative.getFileName());
+	        attachmentData.setFileName(narrative.getNarrativeAttachment().getName());
 	        addAttachment(attachmentData);
 	    }
         return attachedFileDataType;
     }
     /**
      * 
-     * This method is used to get List of Other attachments from NarrativeAttachmentList
+     * This method is used to get List of Other attachments from NarrativeAttachment
      * 
      * @return AttachedFileDataType[] based on the narrative type code.
      */
@@ -263,7 +264,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     }
     /**
      * 
-     * This method is used to get List of Other attachments from NarrativeAttachmentList
+     * This method is used to get List of Other attachments from NarrativeAttachment
      * 
      * @return AttachedFileDataType[] based on the narrative type code.
      */
@@ -309,16 +310,15 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
                 fileLocation.setHref(contentId);
                 AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
                 attachedFileDataType.setFileLocation(fileLocation);
-                attachedFileDataType.setFileName(proposalPersonBiography.getFileName());
+                attachedFileDataType.setFileName(proposalPersonBiography.getName());
                 attachedFileDataType.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-                //proposalPersonBiography.refreshReferenceObject("personnelAttachmentList");
-                attachedFileDataType.setHashValue(getHashValue(proposalPersonBiography.getPersonnelAttachmentList().get(0)
-                        .getContent()));
+                attachedFileDataType.setHashValue(getHashValue(proposalPersonBiography.getPersonnelAttachment()
+                        .getData()));
                 AttachmentData attachmentData = new AttachmentData();
-                attachmentData.setContent(proposalPersonBiography.getPersonnelAttachmentList().get(0).getContent());
+                attachmentData.setContent(proposalPersonBiography.getPersonnelAttachment().getData());
                 attachmentData.setContentId(contentId);
                 attachmentData.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-                attachmentData.setFileName(proposalPersonBiography.getFileName());
+                attachmentData.setFileName(proposalPersonBiography.getName());
                 addAttachment(attachmentData);
                 return attachedFileDataType;
             }
@@ -348,44 +348,10 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 		return sponsorHierarchyService.isSponsorNihMultiplePi(document.getDevelopmentProposal().getSponsorCode());
 	}
     
-	protected Narrative saveNarrative(byte[] attachment, String narrativeTypeCode,String fileName,String comment) {
-		Narrative narrative = null;
-		narrative = new Narrative();
-		narrative.setModuleStatusCode("C");
-		narrative.setNarrativeTypeCode(narrativeTypeCode);
-		narrative.setComments(comment);
-		narrative.setModuleTitle(comment);
-		NarrativeType narrativeType = new NarrativeType();
-		narrativeType.setDescription(comment);
-		narrativeType.setSystemGenerated("Y");
-		narrativeType.setNarrativeTypeCode(narrativeTypeCode);
-		narrative.setNarrativeType(narrativeType);
-		narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(pdDoc));
-		NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
-		narrativeAttachment
-				.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-		narrativeAttachment.setNarrativeData(attachment);
-		narrativeAttachment.setFileName(fileName);
-		narrative.setFileName(fileName);
-		narrative.getNarrativeAttachmentList().add(narrativeAttachment);
-		KcServiceLocator.getService(NarrativeService.class).addNarrative(
-					pdDoc, narrative);
-		return narrative;
+	protected NarrativeContract saveNarrative(byte[] attachment, String narrativeTypeCode,String fileName,String comment) {
+        return narrativeService.createSystemGeneratedNarrative(pdDoc.getDevelopmentProposal().getProposalNumber(), narrativeTypeCode, attachment, fileName, comment);
 	}
-    private Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
-        List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
-        List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
-        List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();
-        mergedNarrativeList.addAll(narrativeList);
-        mergedNarrativeList.addAll(instituteAttachmentsList);
-        if(mergedNarrativeList.isEmpty()) return 1;
-        Collections.sort(mergedNarrativeList, new Comparator<Narrative>(){
-            public int compare(Narrative n1, Narrative n2) { 
-                return (n1.getModuleSequenceNumber()).compareTo(n2.getModuleSequenceNumber()); 
-              } 
-        });
-        return mergedNarrativeList.get(mergedNarrativeList.size()-1).getModuleSequenceNumber().intValue()+1;
-    }
+
     /**
      * Sets the attachments attribute value.
      * @param attachments The attachments to set.
@@ -441,5 +407,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
                 attachments.add(tempAttachment);
             } 
         }
-    }     
+    }
+
+
 }

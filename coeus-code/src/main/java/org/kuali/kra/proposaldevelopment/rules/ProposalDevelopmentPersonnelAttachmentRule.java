@@ -73,7 +73,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
             rulePassed = false;
             reportError(buildErrorPath(PROPOSAL_PERSON_NUMBER), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
         }
-        if (StringUtils.isBlank(proposalPersonBiography.getFileName())) {
+        if (StringUtils.isBlank(proposalPersonBiography.getName())) {
             rulePassed = false;
             reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, FILE_NAME_PARM);
         }
@@ -129,7 +129,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         KcAttachmentService attachmentService = getKcAttachmentService();
         boolean rulePassed = true;
         // Checking attachment file name for invalid characters.
-        String attachmentFileName = proposalPersonBiography.getFileName();
+        String attachmentFileName = proposalPersonBiography.getName();
         String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
         if (ObjectUtils.isNotNull(invalidCharacters)) {
             String parameter = getParameterService().
@@ -189,7 +189,6 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
     }
     /**
      * Gets the parameter service.
-     * @see org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase#getParameterService()
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null ) {

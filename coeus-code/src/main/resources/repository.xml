@@ -210,7 +210,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     </class-descriptor>
 
-	<class-descriptor class="org.kuali.coeus.common.framework.type.InvestigatorCreditType" table="INV_CREDIT_TYPE">
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType" table="INV_CREDIT_TYPE">
 		<field-descriptor name="invCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="addsToHundred" column="ADDS_TO_HUNDRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -268,10 +268,10 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.coeus.propdev.impl.attachment.NarrativeType" table="NARRATIVE_TYPE">
-		<field-descriptor name="narrativeTypeCode" column="NARRATIVE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="code" column="NARRATIVE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="systemGenerated" column="SYSTEM_GENERATED" jdbc-type="VARCHAR" />
-		<field-descriptor name="allowMultiple" column="ALLOW_MULTIPLE" jdbc-type="VARCHAR" />
+		<field-descriptor name="systemGenerated" column="SYSTEM_GENERATED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="allowMultiple" column="ALLOW_MULTIPLE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="narrativeTypeGroup" column="NARRATIVE_TYPE_GROUP" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -703,20 +703,6 @@
 		<field-descriptor name="multiplesFlag" column="MULTIPLES_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 	</class-descriptor>
-
-
-<!-- TODO : refactoring to remove this 
-  <class-descriptor class="org.kuali.kra.bo.UnitHierarchy" table="UNIT_HIERARCHY">
-    <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
-    <field-descriptor name="hasChildrenFlag" column="HAS_CHILDREN_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-    <field-descriptor name="parentUnitNumber" column="PARENT_UNIT_NUMBER" jdbc-type="VARCHAR"/>
-    <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="parentUnit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-      <foreignkey field-ref="parentUnitNumber"/> 
-    </reference-descriptor>
-  </class-descriptor>
- -->
   
 	<!--  Narrative tables mapping -->
 	<class-descriptor class="org.kuali.coeus.propdev.impl.attachment.Narrative" table="NARRATIVE">
@@ -734,13 +720,12 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR"/>
-		<collection-descriptor name="narrativeAttachmentList" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment"
-						collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object"> 
-			<inverse-foreignkey field-ref="proposalNumber"/>
-			<inverse-foreignkey field-ref="moduleNumber"/>
-		</collection-descriptor>
+		<field-descriptor name="name" column="FILE_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="type" column="CONTENT_TYPE" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="narrativeAttachment" proxy="false" class-ref="org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment" auto-retrieve="false" auto-update="object" auto-delete="object">
+			<foreignkey field-ref="proposalNumber"/>
+			<foreignkey field-ref="moduleNumber"/>
+		</reference-descriptor>
 		
 		<collection-descriptor name="narrativeUserRights" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
@@ -759,18 +744,13 @@
 	<class-descriptor class="org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment" table="NARRATIVE_ATTACHMENT">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="moduleNumber" column="MODULE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
-		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="narrativeData" column="NARRATIVE_DATA" jdbc-type="LONGVARBINARY"/>
+		<field-descriptor name="name" column="FILE_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="type" column="CONTENT_TYPE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="data" column="NARRATIVE_DATA" jdbc-type="LONGVARBINARY"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<!-- <reference-descriptor name="Narrative" class-ref="org.kuali.coeus.propdev.impl.attachment.Narrative" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="moduleNumber"/> 
-			<foreignkey field-ref="proposalNumber"/> 
-		</reference-descriptor>
--->
 	</class-descriptor>
 	<class-descriptor class="org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights" table="NARRATIVE_USER_RIGHTS">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
@@ -781,14 +761,9 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<!-- <reference-descriptor name="Narrative" class-ref="org.kuali.coeus.propdev.impl.attachment.Narrative" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="moduleNumber"/> 
-			<foreignkey field-ref="proposalNumber"/> 
-		</reference-descriptor>
--->
 	</class-descriptor>
 	<class-descriptor class="org.kuali.coeus.propdev.impl.attachment.NarrativeStatus" table="NARRATIVE_STATUS">
-		<field-descriptor name="narrativeStatusCode" column="NARRATIVE_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="code" column="NARRATIVE_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -990,11 +965,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" nullable="false" />
-		<!--  tempary commented out 
-		<collection-descriptor name="personFinIntDisclosures" proxy="true" element-class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
-			<inverse-foreignkey field-ref="entityTypeCode"/>
-		</collection-descriptor>
-		-->
+
 	</class-descriptor>
 	<class-descriptor class="org.kuali.coeus.common.framework.org.OrganizationIndirectcost" table="ORGANIZATION_IDC">
 		<field-descriptor name="idcNumber" column="IDC_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
@@ -1049,11 +1020,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" nullable="false" />
-		<!-- 
-		<reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="organizationId"/> 
-		</reference-descriptor>
-		-->
+
 		<reference-descriptor name="organizationTypeList" class-ref="org.kuali.coeus.common.framework.org.type.OrganizationTypeList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="organizationTypeCode"/> 
 		</reference-descriptor>
@@ -1121,14 +1088,6 @@
 			<foreignkey field-ref="sponsorFormId"/>
 		</reference-descriptor>
 	</class-descriptor>
-
-	<!--<class-descriptor class="org.kuali.kra.bo.Parameter" table="OSP$PARAMETER">
-		<field-descriptor name="parameter" column="PARAMETER" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="effectiveDate" column="EFFECTIVE_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-	</class-descriptor>-->
 	
 	<!-- Award Tables - moved to award-repository.xml -->
 	
@@ -1142,17 +1101,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-<!-- 
-		<collection-descriptor name="CommMemberExpertise" proxy="true" element-class-ref="org.kuali.kra.bo.CommMemberExpertise" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
-			<inverse-foreignkey field-ref="researchAreaCode"/>
-		</collection-descriptor>
-		<collection-descriptor name="CommResearchAreas" proxy="true" element-class-ref="org.kuali.kra.bo.CommResearchAreas" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
-			<inverse-foreignkey field-ref="researchAreaCode"/>
-		</collection-descriptor>
-		<collection-descriptor name="ProtocolResearchAreas" proxy="true" element-class-ref="org.kuali.kra.bo.ProtocolResearchAreas" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
-			<inverse-foreignkey field-ref="researchAreaCode"/>
-		</collection-descriptor>
--->
+
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.bo.RiskLevel" table="RISK_LEVEL">
@@ -1162,11 +1111,7 @@
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-<!-- 
-		<collection-descriptor name="protocolRiskLevels" proxy="true" element-class-ref="org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<inverse-foreignkey field-ref="riskLevelCode"/>
-		</collection-descriptor>
--->
+
 
 	<class-descriptor class="org.kuali.kra.bo.Training" table="TRAINING">
 		<field-descriptor name="trainingCode" column="TRAINING_CODE" jdbc-type="INTEGER" primarykey="true" />
@@ -1296,7 +1241,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="narrativeType" class-ref="org.kuali.coeus.propdev.impl.attachment.NarrativeType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="narrativeType" class-ref="org.kuali.kra.proposaldevelopment.bo.NarrativeType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="narrativeTypeCode"/> 
 		</reference-descriptor>
 	</class-descriptor>

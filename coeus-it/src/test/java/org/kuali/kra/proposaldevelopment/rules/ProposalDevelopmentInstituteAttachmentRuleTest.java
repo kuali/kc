@@ -99,9 +99,9 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         
         Narrative newNarrative = new Narrative();
-        newNarrative.setNarrativeTypeCode(narrativeTypes.get(1).getNarrativeTypeCode());
+        newNarrative.setNarrativeTypeCode(narrativeTypes.get(1).getCode());
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-        newNarrative.setFileName("test.dat");
+        newNarrative.setName("test.dat");
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertTrue(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
     }
@@ -117,9 +117,9 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         
         Narrative newNarrative = new Narrative();
-        newNarrative.setNarrativeTypeCode(narrativeTypes.get(1).getNarrativeTypeCode());
+        newNarrative.setNarrativeTypeCode(narrativeTypes.get(1).getCode());
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-        newNarrative.setFileName("test.dat");
+        newNarrative.setName("test.dat");
         newNarrative.setModuleTitle(STRING_151_CHARS_LONG);
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
@@ -143,7 +143,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(EMPTY_STRING);
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-        newNarrative.setFileName("test.dat");
+        newNarrative.setName("test.dat");
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
@@ -164,9 +164,9 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     public void testUnspecifiedNarrativeStatus() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         Narrative newNarrative = new Narrative();
-        newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
+        newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getCode());
         newNarrative.setModuleStatusCode(EMPTY_STRING);
-        newNarrative.setFileName("test.dat");
+        newNarrative.setName("test.dat");
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
@@ -189,8 +189,8 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         
         Narrative narrative = new Narrative();
         Narrative newNarrative = new Narrative();
-        narrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
-        newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
+        narrative.setNarrativeTypeCode(narrativeTypes.get(0).getCode());
+        newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         document.getDevelopmentProposal().getInstituteAttachments().add(narrative);
@@ -214,7 +214,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         
         Narrative narrative = new Narrative();
-        narrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
+        narrative.setNarrativeTypeCode(narrativeTypes.get(0).getCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         narrative.setModuleTitle("description field");
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,narrative);

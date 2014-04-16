@@ -15,8 +15,8 @@
       <list>
         <ref bean="NarrativeAttachment-moduleNumber" />
         <ref bean="NarrativeAttachment-proposalNumber" />
-        <ref bean="NarrativeAttachment-fileName" />
-        <ref bean="NarrativeAttachment-narrativeData" />
+        <ref bean="NarrativeAttachment-name" />
+        <ref bean="NarrativeAttachment-data" />
       </list>
     </property>
   </bean>
@@ -71,9 +71,9 @@
     <property name="description" value="Proposal Number" />
   </bean>
 
-  <bean id="NarrativeAttachment-fileName" parent="NarrativeAttachment-fileName-parentBean"/>
-  <bean id="NarrativeAttachment-fileName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fileName" />
+  <bean id="NarrativeAttachment-name" parent="NarrativeAttachment-name-parentBean"/>
+  <bean id="NarrativeAttachment-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="File Name" />
     <property name="shortLabel" value="File Name" />
@@ -97,9 +97,9 @@
     <property name="description" value="File Name" />
   </bean>
 
-  <bean id="NarrativeAttachment-narrativeData" parent="NarrativeAttachment-narrativeData-parentBean"/>
-  <bean id="NarrativeAttachment-narrativeData-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="narrativeData" />
+  <bean id="NarrativeAttachment-data" parent="NarrativeAttachment-data-parentBean"/>
+  <bean id="NarrativeAttachment-data-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="data" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Attachment File" />
     <property name="shortLabel" value="Attachment" />
@@ -135,8 +135,8 @@
             <list>
               <bean parent="FieldDefinition" p:attributeName="moduleNumber" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="fileName"/>
-              <bean parent="FieldDefinition" p:attributeName="narrativeData"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="data"/>
             </list>
           </property>
         </bean>
@@ -156,8 +156,8 @@
             <list>
               <bean p:propertyName="moduleNumber" parent="Uif-DataField"/>
               <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
-              <bean p:propertyName="fileName" parent="Uif-DataField"/>
-              <bean p:propertyName="narrativeData" parent="Uif-DataField"/>
+              <bean p:propertyName="name" parent="Uif-DataField"/>
+              <bean p:propertyName="data" parent="Uif-DataField"/>
             </list>
           </property>
         </bean>
@@ -178,16 +178,16 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="moduleNumber"/>
         <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="fileName"/>
-        <bean parent="FieldDefinition" p:attributeName="narrativeData"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="data"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="moduleNumber" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="fileName"/>
-        <bean parent="FieldDefinition" p:attributeName="narrativeData"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="data"/>
       </list>
     </property>
   </bean>
@@ -210,16 +210,16 @@
       <list>
         <bean p:propertyName="moduleNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="fileName" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="narrativeData" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="name" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="data" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
         <bean p:propertyName="moduleNumber" parent="Uif-DataField"/>
         <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="fileName" parent="Uif-DataField"/>
-        <bean p:propertyName="narrativeData" parent="Uif-DataField"/>
+        <bean p:propertyName="name" parent="Uif-DataField"/>
+        <bean p:propertyName="data" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

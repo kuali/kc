@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -67,7 +67,7 @@ public class BudgetV1_1Generator extends S2SBaseFormGenerator {
 
     /**
      * 
-     * This method is used to get List of attachments from NarrativeAttachmentList
+     * This method is used to get List of attachments from NarrativeAttachment
      * 
      * @return attachedFileDataTypes(AttachedFileDataType[])- returns an array of AttachedFileDataType if the NarrativeTypeCode is
      *         BUDGET_ATTACHMENTS
@@ -76,9 +76,9 @@ public class BudgetV1_1Generator extends S2SBaseFormGenerator {
         LOG.debug("Getting AttachedFileDataType ");
         List<AttachedFileDataType> attachedFileDataTypes = new ArrayList<AttachedFileDataType>();
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_ATTACHMENTS ) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == BUDGET_ATTACHMENTS ) {
             	attachedFileDataType = getAttachedFileType(narrative);
             	if (attachedFileDataType != null) {
 					attachedFileDataTypes.add(attachedFileDataType);

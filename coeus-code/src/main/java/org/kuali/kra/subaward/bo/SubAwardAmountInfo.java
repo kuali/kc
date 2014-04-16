@@ -17,7 +17,7 @@ package org.kuali.kra.subaward.bo;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
-import org.kuali.coeus.common.api.attachment.KcAttachment;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.io.FileNotFoundException;
@@ -29,7 +29,7 @@ import java.sql.Date;
  * released and allowed for the subAward.
  */
 public class SubAwardAmountInfo extends
- SubAwardAssociate implements KcAttachment {
+ SubAwardAssociate implements KcFile {
 
     private static final long serialVersionUID = 1L;
 

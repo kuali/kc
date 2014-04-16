@@ -53,7 +53,7 @@ public abstract class NarrativeEventBase extends KcDocumentEventBase implements 
             this.narrative = (Narrative) ObjectUtils.deepCopy(narrative);
             // deepcopy can not copy narrativefile
             if (narrative.getNarrativeFile() != null) {
-                this.narrative.setFileName(narrative.getNarrativeFile().getFileName());
+                this.narrative.setName(narrative.getNarrativeFile().getFileName());
             }
         }
         narratives = new ArrayList<Narrative>();

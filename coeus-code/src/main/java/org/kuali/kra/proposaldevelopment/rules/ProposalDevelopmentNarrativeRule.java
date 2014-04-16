@@ -63,10 +63,9 @@ import static org.kuali.kra.infrastructure.KeyConstants.*;
  * @version 1.0
  */
 public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRuleBase implements AddNarrativeRule, ReplaceNarrativeRule, SaveNarrativesRule, NewNarrativeUserRightsRule { 
-    private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
     private static final String DOCUMENT_NARRATIVES = "document.narratives";
     private static final String PROPOSAL = "Proposal";
-    private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
+    private static final String NARRATIVE_TYPE_CODE = "code";
     private static final String MODULE_STATUS_CODE_COMPLETED = "C";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentNarrativeRule.class);
@@ -93,13 +92,13 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         
         if(!StringUtils.isBlank(narrative.getModuleStatusCode()) 
                 && narrative.getModuleStatusCode().equalsIgnoreCase(MODULE_STATUS_CODE_COMPLETED)
-                && StringUtils.isBlank(narrative.getFileName())) {
+                && StringUtils.isBlank(narrative.getName())) {
             LOG.debug(ERROR_NARRATIVE_STATUS_INVALID);
             reportError("newNarrative.moduleStatusCode", ERROR_NARRATIVE_STATUS_INVALID);
             rulePassed = false;
         }
         
-        if (StringUtils.isBlank(narrative.getFileName())) {
+        if (StringUtils.isBlank(narrative.getName())) {
             rulePassed = false;
             reportError("newNarrative.narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
         }
@@ -116,8 +115,8 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         return rulePassed;
     }
     private boolean validFileNameCharacters(Narrative narrative) {
-        String attachmentFileName = narrative.getFileName();
-        KcAttachmentService attachmentService = getKcAttachmentService();
+        String attachmentFileName = narrative.getName();
+        KcAttachmentService attachmentService = getKcFileService();
         boolean rulePassed = true;
         // Checking attachment file name for invalid characters.
         String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
@@ -161,7 +160,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         populateNarrativeType(narrative);
         if(!StringUtils.isBlank(narrative.getModuleStatusCode()) 
                 && narrative.getModuleStatusCode().equalsIgnoreCase(MODULE_STATUS_CODE_COMPLETED)
-                && StringUtils.isBlank(narrative.getFileName())) {
+                && StringUtils.isBlank(narrative.getName())) {
             LOG.debug(ERROR_NARRATIVE_STATUS_INVALID);
             reportError("newNarrative.moduleStatusCode", ERROR_NARRATIVE_STATUS_INVALID);
             rulePassed = false;
@@ -277,7 +276,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         if (rulePassed) {
             populateNarrativeType(narrative);
             String[] param = {PROPOSAL, narrative.getNarrativeType().getDescription()};
-            if (narrative.getNarrativeType().getAllowMultiple().equalsIgnoreCase(NARRATIVE_TYPE_ALLOWMULTIPLE_NO)) {
+            if (!narrative.getNarrativeType().isAllowMultiple()) {
                 for (Narrative narr : narrativeList) {
                     if (narr!=null && StringUtils.equals(narr.getNarrativeTypeCode(),narrative.getNarrativeTypeCode())) {
                         LOG.debug(ERROR_NARRATIVE_TYPE_DUPLICATE);
@@ -379,16 +378,13 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
      * This method gets the attachment service
      * @return
      */
-    protected KcAttachmentService getKcAttachmentService() {
+    protected KcAttachmentService getKcFileService() {
         if(this.kcAttachmentService == null) {
             this.kcAttachmentService = KcServiceLocator.getService(KcAttachmentService.class);
         }
         return this.kcAttachmentService;
     }
-    /**
-     * Gets the parameter service.
-     * @see org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase#getParameterService()
-     */
+
     protected ParameterService getParameterService() {
         if (this.parameterService == null ) {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);

@@ -16,7 +16,6 @@
 package org.kuali.coeus.sys.framework.view;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.kuali.coeus.common.api.attachment.KcAttachment;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -173,7 +172,7 @@ public final class JstlFunctions {
         return KC_ATTACHMENT_SERVICE;
     }
 
-    public static void setKcAttachmentService(KcAttachmentService kcAttachmentService) {
-        KC_ATTACHMENT_SERVICE = kcAttachmentService;
+    public static void setKcAttachmentService(KcAttachmentService KcAttachmentService) {
+        KC_ATTACHMENT_SERVICE = KcAttachmentService;
     }
 }

@@ -44,10 +44,9 @@ import static org.kuali.kra.infrastructure.KeyConstants.*;
 
 
 public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalDocumentRuleBase implements AddInstituteAttachmentRule, ReplaceInstituteAttachmentRule { 
-    private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
     private static final String INSTITUTE = "Institute";
     private static final String NEW_INSTITUTE_ATTACHMENT = "newInstituteAttachment";
-    private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
+    private static final String NARRATIVE_TYPE_CODE = "code";
     private static final String NARRATIVE_FILE = ".narrativeFile";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentInstituteAttachmentRule.class);
     private ParameterService parameterService;
@@ -97,8 +96,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
         if (rulePassed) {
             populateNarrativeType(narrative);
             String[] param = {INSTITUTE, narrative.getNarrativeType().getDescription()};
-            String instituteNarrativeTypeGroup = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, INSTITUTE_NARRATIVE_TYPE_GROUP);
-            if (narrative.getNarrativeType().getAllowMultiple().equalsIgnoreCase(NARRATIVE_TYPE_ALLOWMULTIPLE_NO)) {
+            if (!narrative.getNarrativeType().isAllowMultiple()) {
                 for (Narrative narr : document.getDevelopmentProposal().getInstituteAttachments()) {
                     if (narr!=null && StringUtils.equals(narr.getNarrativeTypeCode(),narrative.getNarrativeTypeCode())) {
                         LOG.debug(ERROR_NARRATIVE_TYPE_DUPLICATE);
@@ -115,7 +113,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
                 rulePassed = false;
             }
         }
-        if (StringUtils.isBlank(narrative.getFileName())) {
+        if (StringUtils.isBlank(narrative.getName())) {
             rulePassed = false;
             reportError(errorPath + NARRATIVE_FILE, KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
         }
@@ -133,9 +131,9 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
     private boolean validFileNameCharacters(Narrative narrative, String errorPath) {
         boolean rulePassed = true;
         
-        KcAttachmentService attachmentService = getKcAttachmentService();
+        KcAttachmentService attachmentService = getKcFileService();
         // Checking attachment file name for invalid characters.
-        String attachmentFileName = narrative.getFileName();
+        String attachmentFileName = narrative.getName();
         String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
         if (ObjectUtils.isNotNull(invalidCharacters)) {
             String parameter = getParameterService().
@@ -173,7 +171,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
      * This method returns the kc attachment service
      * @return
      */
-    protected KcAttachmentService getKcAttachmentService() {
+    protected KcAttachmentService getKcFileService() {
         if(this.kcAttachmentService == null) {
             this.kcAttachmentService = KcServiceLocator.getService(KcAttachmentService.class);
         }

@@ -24,14 +24,13 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.generator.impl.RROtherProjectInfoBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -507,9 +506,9 @@ public class RROtherProjectInfo_1_3_V1Generator extends
         AttachedFileDataType attachedFileDataType;
         ProjectNarrativeAttachments projectNarrativeAttachments = ProjectNarrativeAttachments.Factory.newInstance();
         AbstractAttachments abstractAttachments = AbstractAttachments.Factory.newInstance();
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null) {               
-                switch(Integer.parseInt(narrative.getNarrativeTypeCode())){
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null) {
+                switch(Integer.parseInt(narrative.getNarrativeType().getCode())){
                     case(EQUIPMENT_ATTACHMENT):
                         attachedFileDataType = getAttachedFileType(narrative);
                         if(attachedFileDataType != null){
@@ -574,16 +573,16 @@ public class RROtherProjectInfo_1_3_V1Generator extends
 	/*
 	 * 
 	 * This method is used to get List of attachments from
-	 * NarrativeAttachmentList
+	 * NarrativeAttachment
 	 */
 	private AttachedFileDataType[] getAttachedFileDataTypes() {
 		AttachedFileDataType attachedFileDataType = null;
 		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
-		for (Narrative narrative : developmentProposal.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& (Integer.parseInt(narrative.getNarrativeTypeCode()) == NSF_DATAMGMNT_ATTAACHMENT)) {
+		for (NarrativeContract narrative : developmentProposal.getNarratives()) {
+			if (narrative.getNarrativeType().getCode() != null
+					&& (Integer.parseInt(narrative.getNarrativeType().getCode()) == NSF_DATAMGMNT_ATTAACHMENT)) {
 				attachedFileDataType= getAttachedFileType(narrative);
 				if(attachedFileDataType != null){
 					attachedFileDataTypeList.add(attachedFileDataType);

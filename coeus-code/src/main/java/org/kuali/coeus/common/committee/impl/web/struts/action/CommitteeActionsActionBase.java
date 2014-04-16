@@ -340,7 +340,7 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
                 printableArtifactList.addAll(correspondencePrintables);
 
                 AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
-                if (dataStream.getContent() != null) {
+                if (dataStream.getData() != null) {
                     streamToResponse(dataStream, response);
                     actionForward = RESPONSE_ALREADY_HANDLED;
                 }

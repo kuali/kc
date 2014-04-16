@@ -74,6 +74,9 @@
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />
 		</property>
+        <property name="narrativeService">
+            <ref bean="narrativeService" />
+        </property>
 		<property name="configurationService" ref="kualiConfigurationService"/>
 	</bean>
 
@@ -91,6 +94,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+        <property name="narrativeService">
+            <ref bean="narrativeService" />
+        </property>
 		<property name="printingService" ref="printingService" />
 
 	</bean>
@@ -104,9 +110,6 @@
 		</property>
 		<property name="kcPersonService">
 			<ref bean="kcPersonService" />
-		</property>
-		<property name="narrativeService">
-			<ref bean="narrativeService" />
 		</property>
 		<property name="citizenshipTypeService">
 			<ref bean="citizenshipTypeService" />

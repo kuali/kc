@@ -21,7 +21,7 @@ import gov.grants.apply.forms.phs398CoverLetterV10.PHS398CoverLetterDocument.PHS
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -46,8 +46,8 @@ public class PHS398CoverLetterV1_0Generator extends PHS398CoverLetterBaseGenerat
         CoverLetterFile coverLetterFile = CoverLetterFile.Factory.newInstance();
         phsCoverLetter.setFormVersion(S2SConstants.FORMVERSION_1_0);
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == PHS_COVER_LETTER) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null && Integer.parseInt(narrative.getNarrativeType().getCode()) == PHS_COVER_LETTER) {
                 attachedFileDataType = getAttachedFileType(narrative);
                 if(attachedFileDataType != null){
                 	coverLetterFile.setCoverLetterFilename(attachedFileDataType);

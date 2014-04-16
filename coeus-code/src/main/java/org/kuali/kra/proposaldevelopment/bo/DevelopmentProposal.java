@@ -292,7 +292,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private Unit ownedByUnit;
 
     @Transient
-    private transient NarrativeService narrativeService;
+    private transient LegacyNarrativeService narrativeService;
 
     @Transient
     private transient ProposalPersonBiographyService proposalPersonBiographyService;
@@ -1627,9 +1627,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * 
      * @return Returns the narrativeService.
      */
-    public NarrativeService getNarrativeService() {
+    public LegacyNarrativeService getNarrativeService() {
         if (narrativeService == null) {
-            narrativeService = KcServiceLocator.getService(NarrativeService.class);
+            narrativeService = KcServiceLocator.getService(LegacyNarrativeService.class);
         }
         return narrativeService;
     }
@@ -1639,7 +1639,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * 
      * @param narrativeService The narrativeService to set.`
      */
-    public void setNarrativeService(NarrativeService narrativeService) {
+    public void setNarrativeService(LegacyNarrativeService narrativeService) {
         this.narrativeService = narrativeService;
     }
 
@@ -2420,7 +2420,7 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
             for (Narrative narrative : narratives) {
                 if (narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
                     narrative.setNarrativeStatus(narrativeStatus);
-                    narrative.setModuleStatusCode(narrativeStatus.getNarrativeStatusCode());
+                    narrative.setModuleStatusCode(narrativeStatus.getCode());
                     narrative.refreshReferenceObject("narrativeStatus");
                     getBusinessObjectService().save(narrative);
                 }

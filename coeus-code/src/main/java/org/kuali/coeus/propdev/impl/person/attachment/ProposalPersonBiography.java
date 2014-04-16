@@ -20,7 +20,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
-import org.kuali.coeus.common.api.attachment.KcAttachment;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.PropPerDocType;
 
@@ -39,7 +39,7 @@ import java.util.List;
 @Entity
 @Table(name = "EPS_PROP_PERSON_BIO")
 @IdClass(ProposalPersonBiography.ProposalPersonBiographyId.class)
-public class ProposalPersonBiography extends KcPersistableBusinessObjectBase implements KcAttachment {
+public class ProposalPersonBiography extends KcPersistableBusinessObjectBase implements KcFile {
 
     @Id
     @Column(name = "PROP_PERSON_NUMBER")
@@ -66,18 +66,16 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     private String documentTypeCode;
 
     @Column(name = "FILE_NAME")
-    private String fileName;
+    private String name;
 
     @Column(name = "CONTENT_TYPE")
-    private String contentType;
+    private String type;
 
     @Transient
     private transient FormFile personnelAttachmentFile;
 
-    @OneToMany(targetEntity = ProposalPersonBiographyAttachment.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
-
-    @JoinColumns({ @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "BIO_NUMBER", referencedColumnName = "BIO_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false) })
-    private List<ProposalPersonBiographyAttachment> personnelAttachmentList;
+    @OneToOne(mappedBy = "proposalPersonBiography", cascade = CascadeType.ALL)
+    private ProposalPersonBiographyAttachment personnelAttachment;
 
     @ManyToOne(targetEntity = PropPerDocType.class, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "DOCUMENT_TYPE_CODE", referencedColumnName = "DOCUMENT_TYPE_CODE", insertable = false, updatable = false)
@@ -94,11 +92,6 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
     @Transient
     private transient int positionNumber;
-
-    public ProposalPersonBiography() {
-        super();
-        personnelAttachmentList = new ArrayList<ProposalPersonBiographyAttachment>(1);
-    }
 
     public Integer getProposalPersonNumber() {
         return proposalPersonNumber;
@@ -148,12 +141,12 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.personnelAttachmentFile = personnelAttachmentFile;
     }
 
-    public List<ProposalPersonBiographyAttachment> getPersonnelAttachmentList() {
-        return personnelAttachmentList;
+    public ProposalPersonBiographyAttachment getPersonnelAttachment() {
+        return personnelAttachment;
     }
 
-    public void setPersonnelAttachmentList(List<ProposalPersonBiographyAttachment> personnelAttachmentList) {
-        this.personnelAttachmentList = personnelAttachmentList;
+    public void setPersonnelAttachment(ProposalPersonBiographyAttachment personnelAttachment) {
+        this.personnelAttachment = personnelAttachment;
     }
 
     public PropPerDocType getPropPerDocType() {
@@ -164,12 +157,12 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.propPerDocType = propPerDocType;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getName() {
+        return name;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getRolodexId() {
@@ -212,28 +205,20 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.uploadUserFullName = uploadUserFullName;
     }
 
-    public String getContentType() {
-        return contentType;
+    public String getType() {
+        return type;
     }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public byte[] getData() {
-        if (getPersonnelAttachmentList().isEmpty()) {
+        if (getPersonnelAttachment() == null) {
             return null;
         } else {
-            return getPersonnelAttachmentList().get(0).getContent();
+            return getPersonnelAttachment().getData();
         }
-    }
-
-    public String getName() {
-        return getFileName();
-    }
-
-    public String getType() {
-        return getContentType();
     }
 
     public int getPositionNumber() {
@@ -252,32 +237,23 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         try {
             personnellFileData = personnelFile.getFileData();
             if (personnellFileData.length > 0) {
-                ProposalPersonBiographyAttachment personnelAttachment;
-                if (getPersonnelAttachmentList().isEmpty()) {
+                ProposalPersonBiographyAttachment personnelAttachment = getPersonnelAttachment();
+                if (personnelAttachment == null) {
                     personnelAttachment = new ProposalPersonBiographyAttachment();
-                    getPersonnelAttachmentList().add(personnelAttachment);
-                } else {
-                    personnelAttachment = getPersonnelAttachmentList().get(0);
-                    if (personnelAttachment == null) {
-                        personnelAttachment = new ProposalPersonBiographyAttachment();
-                        getPersonnelAttachmentList().set(0, personnelAttachment);
-                    }
+                    setPersonnelAttachment(personnelAttachment);
                 }
                 String fileName = personnelFile.getFileName();
-                personnelAttachment.setFileName(fileName);
-                personnelAttachment.setContentType(personnelFile.getContentType());
-                personnelAttachment.setBiographyData(personnelFile.getFileData());
+                personnelAttachment.setName(fileName);
+                personnelAttachment.setType(personnelFile.getContentType());
+                personnelAttachment.setData(personnelFile.getFileData());
                 personnelAttachment.setProposalNumber(getProposalNumber());
-                //personnelAttachment.setPositionNumber(getPositionNumber()); 
-                setFileName(personnelAttachment.getFileName());
-                setContentType(personnelAttachment.getContentType());
+                setName(personnelAttachment.getName());
+                setType(personnelAttachment.getType());
             } else {
-                getPersonnelAttachmentList().clear();
+                setPersonnelAttachment(null);
             }
-        } catch (FileNotFoundException e) {
-            getPersonnelAttachmentList().clear();
         } catch (IOException e) {
-            getPersonnelAttachmentList().clear();
+            setPersonnelAttachment(null);
         }
     }
 

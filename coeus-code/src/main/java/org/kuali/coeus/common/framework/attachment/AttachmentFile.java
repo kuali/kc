@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.framework.attachment;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.coeus.common.api.attachment.KcAttachment;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.common.framework.sequence.associate.SeparateAssociate;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ import java.util.Arrays;
 /**
  * Represents a Attachment File.
  */
-public class AttachmentFile extends SeparateAssociate implements KcAttachment {
+public class AttachmentFile extends SeparateAssociate implements KcFile {
 
     /** the max file name length. length={@value}*/
     public static final int MAX_FILE_NAME_LENGTH = 150;

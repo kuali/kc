@@ -271,7 +271,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
         printable.setReportParameters(reportParameters);
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         printableArtifactList.add(printable);
-        protocolCorrespondence.setCorrespondence(getCommitteePrintingService().print(printableArtifactList).getContent());
+        protocolCorrespondence.setCorrespondence(getCommitteePrintingService().print(printableArtifactList).getData());
 
         protocolCorrespondence.setFinalFlag(false);
         protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());

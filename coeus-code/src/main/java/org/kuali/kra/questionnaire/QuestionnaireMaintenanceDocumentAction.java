@@ -583,7 +583,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         }
         // TODO : this is not a transaction document, so set to null ?
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaire(null, reportParameters);
-        if (dataStream.getContent() != null) {
+        if (dataStream.getData() != null) {
             PrintingUtils.streamToResponse(dataStream, response);
             forward = null;
         }

@@ -20,12 +20,12 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
-import org.kuali.coeus.common.api.attachment.KcAttachment;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 
-public class SubAwardAttachments extends SubAwardAssociate implements Comparable<SubAwardAttachments>,KcAttachment {
+public class SubAwardAttachments extends SubAwardAssociate implements Comparable<SubAwardAttachments>,KcFile {
 
      private String  subAwardCode;
      private Integer sequenceNumber;

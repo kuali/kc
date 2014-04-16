@@ -20,7 +20,7 @@ import gov.grants.apply.forms.edAbstractV10.AbstractAttachmentsDocument.Abstract
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -47,8 +47,8 @@ public class EDAbstractV1_0Generator extends EDAbstractBaseGenerator {
         abstractAttachments.setFormVersion(S2SConstants.FORMVERSION_1_0);
         abstractAttachments.setAttachments(AttachedFileDataType.Factory.newInstance());
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null && narrative.getNarrativeTypeCode().equals(ABSTRACT_ATTACHMENT_CODE)) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null && narrative.getNarrativeType().getCode().equals(ABSTRACT_ATTACHMENT_CODE)) {
             	attachedFileDataType = getAttachedFileType(narrative);
             	if(attachedFileDataType != null){
             		abstractAttachments.setAttachments(attachedFileDataType);

@@ -16,21 +16,21 @@
 package org.kuali.coeus.propdev.impl.attachment;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.kra.s2s.depend.NarrativeAttachmentContract;
 
 @Entity
 @Table(name = "NARRATIVE_ATTACHMENT")
+@AttributeOverride(name = "data",  column = @Column(name = "NARRATIVE_DATA"))
 @IdClass(NarrativeAttachment.NarrativeAttachmentId.class)
-public class NarrativeAttachment extends AttachmentDataSource {
+public class NarrativeAttachment extends AttachmentDataSource implements NarrativeAttachmentContract {
 
     @Id
     @Column(name = "MODULE_NUMBER")
@@ -40,11 +40,11 @@ public class NarrativeAttachment extends AttachmentDataSource {
     @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
-    //	private String fileName;  
-    //	private String contentType;  
-    @Column(name = "NARRATIVE_DATA")
-    private byte[] narrativeData;
+    @OneToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "MODULE_NUMBER", referencedColumnName = "MODULE_NUMBER", insertable = false, updatable = false) })
+    private Narrative narrative;
 
+    @Override
     public Integer getModuleNumber() {
         return moduleNumber;
     }
@@ -53,6 +53,7 @@ public class NarrativeAttachment extends AttachmentDataSource {
         this.moduleNumber = moduleNumber;
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -61,16 +62,12 @@ public class NarrativeAttachment extends AttachmentDataSource {
         this.proposalNumber = proposalNumber;
     }
 
-    public byte[] getNarrativeData() {
-        return narrativeData;
+    public Narrative getNarrative() {
+        return narrative;
     }
 
-    public void setNarrativeData(byte[] narrativePdf) {
-        this.narrativeData = narrativePdf;
-    }
-
-    public byte[] getContent() {
-        return narrativeData;
+    public void setNarrative(Narrative narrative) {
+        this.narrative = narrative;
     }
 
     public static final class NarrativeAttachmentId implements Serializable, Comparable<NarrativeAttachmentId> {
