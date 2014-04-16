@@ -181,6 +181,10 @@ public abstract class ProposalDevelopmentControllerBase {
                              .getDocumentNumber(), e);
          }
      }
+     
+     protected ModelAndView navigate(ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+    	 return getTransactionalDocumentControllerService().navigate(form, result, request, response);
+     }
 
     protected KcAuthorizationService getKraAuthorizationService() {
         return kraAuthorizationService;
