@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
+package org.kuali.coeus.propdev.impl.budget.editable;
 
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -24,9 +24,14 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import java.util.List;
 
 public class BudgetEditableColumnsValuesFinder extends UifKeyValuesFinderBase {
-    KeyValueFinderService keyValueFinderService= (KeyValueFinderService) KcServiceLocator.getService("keyValueFinderService");
+    private KeyValueFinderService keyValueFinderService ;
+    protected  KeyValueFinderService getKeyValueFinderService (){
+        if (keyValueFinderService==null)
+            keyValueFinderService = KcServiceLocator.getService(KeyValueFinderService.class);
+        return keyValueFinderService;
+    }
     @Override
     public List<KeyValue> getKeyValues() {
-        return keyValueFinderService.getKeyValues(BudgetColumnsToAlter.class, "columnName", "columnLabel");
+        return getKeyValueFinderService().getKeyValues(BudgetColumnsToAlter.class, "columnName", "columnLabel");
     }
 }
