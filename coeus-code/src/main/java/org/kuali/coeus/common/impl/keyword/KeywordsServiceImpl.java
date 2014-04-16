@@ -23,6 +23,7 @@ import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.sys.framework.model.MultiLookupForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -43,7 +44,11 @@ import java.util.List;
 public class KeywordsServiceImpl implements KeywordsService {
 	
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeywordsServiceImpl.class);
-    
+
+    @Autowired
+    @Qualifier("lookupResultsService")
+    private LookupResultsService lookupResultsService;
+
     @Override
     public void addKeyword(KeywordsManager document, ScienceKeyword scienceKeyword) {
         if (!isDuplicateKeyword(scienceKeyword.getScienceKeywordCode(), document.getKeywords())) {
@@ -92,7 +97,7 @@ public class KeywordsServiceImpl implements KeywordsService {
                 String lookupResultsSequenceNumber = multiLookUpForm.getLookupResultsSequenceNumber();//implement MultiLookupFormSupport
                 if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                     Class lookupResultsBOClass = Class.forName(multiLookUpForm.getLookupResultsBOClassName());
-                    Collection<PersistableBusinessObject> rawValues = KNSServiceLocator.getLookupResultsService()
+                    Collection<PersistableBusinessObject> rawValues = lookupResultsService
                     		.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getPrincipalId());
                     if (lookupResultsBOClass.isAssignableFrom(ScienceKeyword.class)) {
                         for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
@@ -106,5 +111,13 @@ public class KeywordsServiceImpl implements KeywordsService {
             LOG.error(ex.getMessage(), ex);
         }
         
+    }
+
+    public LookupResultsService getLookupResultsService() {
+        return lookupResultsService;
+    }
+
+    public void setLookupResultsService(LookupResultsService lookupResultsService) {
+        this.lookupResultsService = lookupResultsService;
     }
 }
