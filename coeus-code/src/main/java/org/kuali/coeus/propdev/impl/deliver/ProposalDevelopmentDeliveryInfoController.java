@@ -1,4 +1,4 @@
-package org.kuali.coeus.propdev.impl.mailing;
+package org.kuali.coeus.propdev.impl.deliver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

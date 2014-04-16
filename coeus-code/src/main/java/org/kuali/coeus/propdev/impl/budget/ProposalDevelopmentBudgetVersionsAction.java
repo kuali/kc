@@ -67,7 +67,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
 
-    private transient BudgetRatesService budgetRatesService;
+    private BudgetRatesService budgetRatesService;
 
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
