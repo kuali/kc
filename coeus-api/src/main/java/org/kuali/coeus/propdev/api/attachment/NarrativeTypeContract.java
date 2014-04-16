@@ -1,4 +1,4 @@
-package org.kuali.kra.s2s.depend;
+package org.kuali.coeus.propdev.api.attachment;
 
 import org.kuali.coeus.sys.api.model.Coded;
 import org.kuali.coeus.sys.api.model.Describable;

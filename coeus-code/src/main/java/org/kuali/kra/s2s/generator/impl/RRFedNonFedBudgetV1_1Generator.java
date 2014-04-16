@@ -48,7 +48,7 @@ import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.s2s.depend.NarrativeContract;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.printing.GenericPrintable;
 import org.kuali.kra.s2s.util.S2SConstants;

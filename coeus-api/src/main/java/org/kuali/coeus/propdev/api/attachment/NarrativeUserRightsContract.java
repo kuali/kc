@@ -1,4 +1,4 @@
-package org.kuali.kra.s2s.depend;
+package org.kuali.coeus.propdev.api.attachment;
 
 public interface NarrativeUserRightsContract {
     Integer getModuleNumber();

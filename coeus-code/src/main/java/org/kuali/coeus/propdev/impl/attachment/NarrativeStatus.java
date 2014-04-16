@@ -17,7 +17,7 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.s2s.depend.NarrativeStatusContract;
+import org.kuali.coeus.propdev.api.attachment.NarrativeStatusContract;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
