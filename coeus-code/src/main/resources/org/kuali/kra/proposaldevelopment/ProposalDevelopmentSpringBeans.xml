@@ -725,7 +725,7 @@
     </bean>
     
     <bean id="proposalKeyPersonnelWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction" />
+        <property name="classname" value="org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonnelAction" />
         <property name="mappings">
             <map>
                 <entry key="addCertificationQuestion">
@@ -816,7 +816,7 @@
 	</bean>
 	
     <bean id="proposalBudgetVersionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentBudgetVersionsAction" />
+        <property name="classname" value="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetVersionsAction" />
         <property name="mappings">
             <map>
                 <entry key="addBudgetVersion">

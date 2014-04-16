@@ -62,7 +62,7 @@ import org.kuali.kra.proposaldevelopment.service.*;
 import org.kuali.coeus.propdev.impl.print.ProposalDevelopmentPrintingService;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
-import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction;
+import org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonnelAction;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
