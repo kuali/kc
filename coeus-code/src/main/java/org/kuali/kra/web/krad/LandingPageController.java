@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.sys.framework.controller.UifControllerService;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,7 @@ public class LandingPageController {
 
     private UifControllerService uifControllerService;
     
+    @MethodAccessible
     @RequestMapping(value = "/landingPage")
     public ModelAndView defaultRequest(@ModelAttribute("KualiForm") LandingPageForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -48,28 +50,33 @@ public class LandingPageController {
         this.uifControllerService = uifControllerService;
     }
 
+    @MethodAccessible
     @ModelAttribute(value = "KualiForm")
     public LandingPageForm initForm(HttpServletRequest request, HttpServletResponse response) {
         return (LandingPageForm) uifControllerService.initForm(new LandingPageForm(), request, response);
     }
 
+    @MethodAccessible
     @RequestMapping(value = "/landingPage", params = "methodToCall=defaultMapping")
     public ModelAndView defaultMapping(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request,
             HttpServletResponse response) {
         return uifControllerService.defaultMapping(form, result, request, response);
     }
 
+    @MethodAccessible
     @RequestMapping(value = "/landingPage", params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute(value = "KualiForm") LandingPageForm form, HttpServletRequest request, HttpServletResponse response) {
         return uifControllerService.start(form, request, response);
     }
 
+    @MethodAccessible
     @RequestMapping(value = "/landingPage", params = "methodToCall=sessionTimeout")
     public ModelAndView sessionTimeout(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request,
             HttpServletResponse response) {
         return uifControllerService.sessionTimeout(form, result, request, response);
     }
 
+    @MethodAccessible
     @RequestMapping(value = "/landingPage", params = "methodToCall=checkForm")
     public ModelAndView checkForm(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         return uifControllerService.checkForm(form, result, request, response);

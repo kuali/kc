@@ -133,7 +133,7 @@
 		p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
 		p:renderLineActions="false" p:pageSize="100"
 		p:layoutManager.richTable.disableTableSort="true"
-		p:layoutManager.richTable.showSearchAndExportOptions="false">
+		p:layoutManager.richTable.showExportOption="false">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="formName" />
