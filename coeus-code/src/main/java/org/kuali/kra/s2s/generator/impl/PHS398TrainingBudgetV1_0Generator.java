@@ -36,7 +36,7 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.budget.api.rate.TrainingStipendRateService;
-import org.kuali.kra.s2s.depend.NarrativeContract;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.IndirectCostDetails;
 import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;

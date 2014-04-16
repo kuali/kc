@@ -17,7 +17,7 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.s2s.depend.NarrativeTypeContract;
+import org.kuali.coeus.propdev.api.attachment.NarrativeTypeContract;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;

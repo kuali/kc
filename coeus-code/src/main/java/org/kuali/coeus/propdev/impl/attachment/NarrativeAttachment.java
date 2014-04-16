@@ -23,8 +23,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.kra.s2s.depend.NarrativeAttachmentContract;
+import org.kuali.coeus.propdev.api.attachment.NarrativeAttachmentContract;
 
 @Entity
 @Table(name = "NARRATIVE_ATTACHMENT")

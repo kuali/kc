@@ -20,7 +20,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.s2s.depend.NarrativeUserRightsContract;
+import org.kuali.coeus.propdev.api.attachment.NarrativeUserRightsContract;
 
 import javax.persistence.*;
 import java.io.Serializable;

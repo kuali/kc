@@ -1,9 +1,11 @@
 package org.kuali.kra.s2s.depend;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.coeus.propdev.api.attachment.NarrativeService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.core.api.criteria.OrderByField;
 import org.kuali.rice.core.api.criteria.OrderDirection;
