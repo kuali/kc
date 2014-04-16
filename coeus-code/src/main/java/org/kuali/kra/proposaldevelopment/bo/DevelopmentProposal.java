@@ -29,13 +29,10 @@ import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.ynq.YnqGroupName;
-<<<<<<< HEAD
+import org.kuali.coeus.common.framework.ynq.YnqService;
+import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeStatus;
-import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
-=======
-import org.kuali.coeus.common.framework.ynq.YnqService;
->>>>>>> KRACOEUS-7051: repackage ynq components
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
