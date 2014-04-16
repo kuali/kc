@@ -281,7 +281,7 @@
     </property>
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NarrativeType" p:valuesFinderClass="org.kuali.coeus.propdev.impl.attachment.ProposalNarrativeTypeValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="narrativeTypeCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.propdev.impl.attachment.NarrativeType" p:valuesFinderClass="org.kuali.coeus.propdev.impl.attachment.ProposalNarrativeTypeValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="narrativeTypeCode" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalNarrativeTypeValuesFinder"/>

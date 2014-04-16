@@ -16,7 +16,6 @@
 package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 

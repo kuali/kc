@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.kuali.coeus.propdev.impl.attachment.ProposalNarrativeTypeValuesFinder;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;

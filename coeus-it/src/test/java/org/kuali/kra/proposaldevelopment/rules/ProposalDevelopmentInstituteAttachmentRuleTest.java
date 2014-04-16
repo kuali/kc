@@ -24,7 +24,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeStatus;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentEvent;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;

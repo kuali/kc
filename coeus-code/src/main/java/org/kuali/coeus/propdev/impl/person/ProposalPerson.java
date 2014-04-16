@@ -35,7 +35,7 @@ import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitNameInfo;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitable;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
+import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
