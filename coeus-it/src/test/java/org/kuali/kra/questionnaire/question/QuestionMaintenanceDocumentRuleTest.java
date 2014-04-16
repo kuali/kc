@@ -204,7 +204,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         Question question = new Question();
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_LOOKUP);
         question.setStatus("A");
-        question.setLookupClass("org.kuali.kra.proposaldevelopment.bo.AbstractType");
+        question.setLookupClass("org.kuali.coeus.propdev.impl.abstrct.AbstractType");
         question.setLookupReturn("abstractTypeCode");
         question.setMaxAnswers(1);
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
@@ -243,7 +243,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         question.setQuestionIdFromInteger(1);
         question.setStatus("A");
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_LOOKUP);
-        question.setLookupClass("org.kuali.kra.proposaldevelopment.bo.AbstractType");
+        question.setLookupClass("org.kuali.coeus.propdev.impl.abstrct.AbstractType");
         question.setLookupReturn("eomProcessFlag");
         question.setMaxAnswers(1);
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
