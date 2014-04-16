@@ -35,7 +35,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyServ
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelperComparator;
 import org.kuali.coeus.propdev.impl.person.keyperson.AddKeyPersonEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.CalculateCreditSplitEvent;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CalculateCreditSplitEvent;
 import org.kuali.coeus.propdev.impl.person.keyperson.ChangeKeyPersonEvent;
 import org.kuali.coeus.propdev.impl.person.keyperson.SaveKeyPersonEvent;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -70,6 +70,30 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     
     private static final String ERROR_REMOVE_HIERARCHY_PI = "error.hierarchy.personnel.removePrincipleInvestigator";
     private static final String ERROR_FIELD_REMOVE_HIERARCHY_PI ="document.developmentProposalList[0].proposalPersons[%s].delete";
+
+    private QuestionnaireAnswerService questionnaireAnswerService;
+    private QuestionnairePrintingService questionnairePrintingService;
+    private ProposalHierarchyService proposalHierarchyService;
+
+    protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        if (questionnaireAnswerService == null)
+            questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
+        return questionnaireAnswerService;
+    }
+
+    protected QuestionnairePrintingService getQuestionnairePrintingService() {
+        if (questionnairePrintingService == null)
+            questionnairePrintingService = KcServiceLocator.getService(QuestionnairePrintingService.class);
+        return questionnairePrintingService;
+    }
+
+    protected  ProposalHierarchyService getProposalHierarchyService(){
+        if (proposalHierarchyService == null)
+            proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
+        return proposalHierarchyService;
+
+    }
+
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#execute(ActionMapping, ActionForm, HttpServletRequest,
      *      HttpServletResponse)
@@ -214,7 +238,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      *   <li>Deleting units and credit splits from key persons</li>
      * </ul>
      * <br/> 
-     * This method is typically called from <code>{@link #handleRoleChangeEvents(ProposalDevelopmentDocument)</code>
+     * This method is typically called from <code>{@link #handleRoleChangeEvents(ProposalDevelopmentDocument)}</code>
      * 
      * @param person
      * @param document
@@ -311,10 +335,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
         return mapping.findForward(MAPPING_BASIC);
     }
-    
-    protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KcServiceLocator.getService(QuestionnaireAnswerService.class);
-    }
 
     /**
      * Clears the <code>{@link ProposalPerson}</code> buffer
@@ -408,7 +428,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         else {
             ProposalPerson parentPi = null;
             if (proposal.isChild()) {
-                parentPi = KcServiceLocator.getService(ProposalHierarchyService.class).getParentDocument(document).getDevelopmentProposal().getPrincipalInvestigator();
+                parentPi = getProposalHierarchyService().getParentDocument(document).getDevelopmentProposal().getPrincipalInvestigator();
             }
             int index = 0;
             for (Iterator<ProposalPerson> person_it = proposal.getProposalPersons().iterator(); person_it.hasNext(); index++) {
@@ -619,7 +639,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
-        ProposalDevelopmentPrintingService printService = KcServiceLocator.getService(ProposalDevelopmentPrintingService.class);
+        ProposalDevelopmentPrintingService printService = getProposalDevelopmentPrintingService();
         Map<String,Object> reportParameters = new HashMap<String,Object>();
         reportParameters.put(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_PERSON, selectedPerson);
         AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(document.getDevelopmentProposal(),
@@ -743,11 +763,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         
         return forward;
     }   
-    
-    protected QuestionnairePrintingService getQuestionnairePrintingService() {
-        return KcServiceLocator.getService(QuestionnairePrintingService.class);
-    }
-    
+
     public ActionForward updateAnswerToNewVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
