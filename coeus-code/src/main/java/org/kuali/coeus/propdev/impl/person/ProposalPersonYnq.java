@@ -23,12 +23,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.ynq.Ynq;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-<<<<<<< HEAD
-import org.kuali.kra.bo.Ynq;
-=======
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson.ProposalPersonId;
->>>>>>> KRACOEUS-7051: repackage ynq components
 
 @Entity
 @Table(name = "EPS_PROP_PERS_YNQ")
