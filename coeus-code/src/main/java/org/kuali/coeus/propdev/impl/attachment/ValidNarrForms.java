@@ -16,7 +16,6 @@
 package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 
 public class ValidNarrForms extends KcPersistableBusinessObjectBase {
 

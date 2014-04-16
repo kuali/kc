@@ -21,7 +21,7 @@
     <property name="maxLength" value="2" />
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.FundingProposalMergeTypeValuesFinder" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NarrativeType" p:includeKeyInLabel="false" p:keyAttribute="narrativeTypeCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.FundingProposalMergeTypeValuesFinder" p:businessObjectClass="org.kuali.coeus.propdev.impl.attachment.NarrativeType" p:includeKeyInLabel="false" p:keyAttribute="narrativeTypeCode" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.kra.award.lookup.keyvalue.FundingProposalMergeTypeValuesFinder"/>
