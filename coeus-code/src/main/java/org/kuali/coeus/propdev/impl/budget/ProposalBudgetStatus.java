@@ -16,7 +16,6 @@
 package org.kuali.coeus.propdev.impl.budget;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.proposaldevelopment.bo.BudgetStatus;
 
 import javax.persistence.*;
 
