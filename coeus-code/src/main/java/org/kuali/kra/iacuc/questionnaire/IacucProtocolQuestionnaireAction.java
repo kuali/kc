@@ -147,7 +147,7 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
         reportParameters.put("template", ((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
 
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(protocolForm.getProtocolDocument().getProtocol(), reportParameters);
-        if (dataStream.getContent() != null) {
+        if (dataStream.getData() != null) {
             streamToResponse(dataStream, response);
             forward = null;
         }

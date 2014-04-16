@@ -56,7 +56,7 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 	 * 
 	 * @param printableBO
 	 *            Award data using which report is generated
-	 * @param reportName
+	 * @param awardReportType
 	 *            report to be generated
 	 * @param reportParameters
 	 *            {@link Map} of parameters required for report generation
@@ -124,8 +124,8 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 			printable.setReportParameters(reportParameters);
 			source = getPrintingService().print(printable);
 			
-			source.setFileName(getReportName(repoprtFileNamePrefix, awardReportType.getAwardPrintType()));
-			source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+			source.setName(getReportName(repoprtFileNamePrefix, awardReportType.getAwardPrintType()));
+			source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
 		}
 		return source;
 	}

@@ -88,7 +88,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	 * generates XML which is then passed to {@link PrintingService} for
 	 * transforming into PDF.
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            Document data using which report is generated
 	 * @param reportName
 	 *            report to be generated
@@ -114,8 +114,8 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 		printable.setPrintableBusinessObject(printableBusinessObject);
 		printable.setReportParameters(reportParameters);
 		source = getPrintingService().print(printable);
-		source.setFileName(getReportName(printableBusinessObject, reportName));
-		source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+		source.setName(getReportName(printableBusinessObject, reportName));
+		source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
 		return source;
 	}
 
@@ -317,10 +317,10 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	}
 
 	/**
-	 * Sets the printProposalSponsorForms attribute value.
+	 * Sets the proposalSponsorFormsPrint attribute value.
 	 * 
-	 * @param printProposalSponsorForms
-	 *            The printProposalSponsorForms to set.
+	 * @param proposalSponsorFormsPrint
+	 *            The proposalSponsorFormsPrint to set.
 	 */
 	public void setProposalSponsorFormsPrint(
 			ProposalSponsorFormsPrint proposalSponsorFormsPrint) {

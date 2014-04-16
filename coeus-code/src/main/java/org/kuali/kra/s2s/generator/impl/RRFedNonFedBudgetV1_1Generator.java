@@ -41,14 +41,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.printing.GenericPrintable;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -799,9 +799,9 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
     private BudgetYear1DataType getBudgetJustificationAttachment(BudgetYear1DataType budgetYear) {
         AttachedFileDataType attachedFileDataType = null;
         budgetYear.setBudgetJustificationAttachment(null);
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
                 attachedFileDataType = getAttachedFileType(narrative);
                 if(attachedFileDataType != null){
                     budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
@@ -1284,7 +1284,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 
             }
         }
-        Narrative narrative = saveExtraEquipment(periodInfo);
+        NarrativeContract narrative = saveExtraEquipment(periodInfo);
         AttachedFileDataType attachedFileDataType = null;
         if(narrative!=null){
             attachedFileDataType = getAttachedFileType(narrative);
@@ -1296,8 +1296,8 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
     }
 
 
-    private Narrative saveExtraEquipment(BudgetPeriodInfo periodInfo) {
-        Narrative narrative=null;
+    private NarrativeContract saveExtraEquipment(BudgetPeriodInfo periodInfo) {
+        NarrativeContract narrative=null;
         List<CostInfo> extraEquipmentList = periodInfo.getEquipment().get(0).getExtraEquipmentList();
         if (extraEquipmentList.size() > 0) {
             AdditionalEquipmentList additionalEquipmentList = AdditionalEquipmentList.Factory
@@ -1330,12 +1330,12 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             PrintingService printingService = KcServiceLocator
                     .getService(PrintingService.class);
             try {
-                AttachmentDataSource printData = printingService
+                KcFile printData = printingService
                         .print(printable);
                 String fileName = pdDoc.getDevelopmentProposal()
                         .getProposalNumber()
                         + "_ADDITIONAL_EQUIPMENT.pdf";
-                narrative = saveNarrative(printData.getContent(),
+                narrative = saveNarrative(printData.getData(),
                         ADDITIONAL_EQUIPMENT_NARRATIVE_TYPE_CODE, fileName,
                         ADDITIONAL_EQUIPMENT_NARRATIVE_COMMENT);
             } catch (PrintingException e) {
@@ -1365,8 +1365,8 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         return additionalEquipmentListList
                 .toArray(new gov.grants.apply.coeus.additionalEquipment.AdditionalEquipmentListDocument.AdditionalEquipmentList.EquipmentList[0]);
     }
-    private Narrative saveExtraKeyPersons(BudgetPeriodInfo periodInfo) {
-        Narrative extraKPNarrative = null;
+    private NarrativeContract saveExtraKeyPersons(BudgetPeriodInfo periodInfo) {
+        NarrativeContract extraKPNarrative = null;
         if (periodInfo.getExtraKeyPersons() != null && !periodInfo.getExtraKeyPersons().isEmpty()) {
             ExtraKeyPersonListDocument  extraKeyPersonListDocument = ExtraKeyPersonListDocument.Factory.newInstance();
             ExtraKeyPersonList extraKeyPersonList = ExtraKeyPersonList.Factory.newInstance(); 
@@ -1387,9 +1387,9 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             printable.setStreamMap(streamMap);
             PrintingService printingService= KcServiceLocator.getService(PrintingService.class);
             try {
-                AttachmentDataSource printData = printingService.print(printable);
+                KcFile printData = printingService.print(printable);
                 String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+"_"+periodInfo.getBudgetPeriod()+"_"+EXTRA_KEYPERSONS+".pdf";
-                extraKPNarrative = saveNarrative(printData.getContent(), ""+EXTRA_KEYPERSONS_TYPE, fileName, EXTRA_KEYPERSONS_COMMENT);
+                extraKPNarrative = saveNarrative(printData.getData(), ""+EXTRA_KEYPERSONS_TYPE, fileName, EXTRA_KEYPERSONS_COMMENT);
             } catch (PrintingException e) {
                 LOG.error(e.getMessage(), e);
             }
@@ -1697,12 +1697,12 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 for (KeyPersonInfo keyPerson : periodInfo.getKeyPersons()) {
                   if(keyPerson.getRole().equals(NID_PD_PI) || hasPersonnelBudget(keyPerson,periodInfo.getBudgetPeriod())){
                     KeyPersonDataType keyPersonDataType = KeyPersonDataType.Factory.newInstance();
-                    keyPersonDataType.setName(globLibV20Generator.getHumanNameDataType(keyPerson));                
+                    keyPersonDataType.setName(globLibV20Generator.getHumanNameDataType(keyPerson));
                     if(keyPerson.getKeyPersonRole()!=null){
                         keyPersonDataType.setProjectRole(keyPerson.getKeyPersonRole());
                     }
                     else {
-                        keyPersonDataType.setProjectRole(keyPerson.getRole());                        
+                        keyPersonDataType.setProjectRole(keyPerson.getRole());
                     }
                     keyPersonDataType.setCompensation(getCompensation(keyPerson, periodInfo.getBudgetPeriod()));
                     keyPersonList.add(keyPersonDataType);
@@ -1740,19 +1740,14 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             summaryAttachedKey.setTotalFedNonFedSummary(totalFederalSummary.add(totalNonFederalSummary));
             keyPersons.setTotalFundForAttachedKeyPersons(summaryAttachedKey);
         }
-        Narrative extraKeyPersonNarr = saveExtraKeyPersons(periodInfo);
+        NarrativeContract extraKeyPersonNarr = saveExtraKeyPersons(periodInfo);
         AttachedFileDataType attachedFileDataType = null;
-//        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-//            if (narrative.getNarrativeTypeCode() != null
-//                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_KEYPERSONS_ATTACHMENT) {
         if(extraKeyPersonNarr!=null){
             attachedFileDataType = getAttachedFileType(extraKeyPersonNarr);
             if(attachedFileDataType != null){
                 keyPersons.setAttachedKeyPersons(attachedFileDataType);
-//              break;
             }
         }
-//        }
         return keyPersons;
     }
 

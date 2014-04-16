@@ -15,44 +15,53 @@
  */
 package org.kuali.coeus.common.framework.print;
 
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 /**
  * 
  * This class helps create the foundation of attachment data sources.
  */
 @MappedSuperclass
-public abstract class AttachmentDataSource extends KcPersistableBusinessObjectBase {
+public abstract class AttachmentDataSource extends KcPersistableBusinessObjectBase implements KcFile {
 
     @Column(name = "FILE_NAME")
-    private String fileName;
+    private String name;
 
     @Column(name = "CONTENT_TYPE")
-    private String contentType;
+    private String type;
 
-    public String getFileName() {
-        return fileName;
+    @Column(name = "DATA")
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
+    private byte[] data;
+
+    @Override
+    public String getName() {
+        return name;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getContentType() {
-        return contentType;
+    @Override
+    public String getType() {
+        return type;
     }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    /**
-     * 
-     * This method requires sub classes to define a byteArray that represents the content of the attachment.
-     * @return
-     */
-    public abstract byte[] getContent();
+    @Override
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 }

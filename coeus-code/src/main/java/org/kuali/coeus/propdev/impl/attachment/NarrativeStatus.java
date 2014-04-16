@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.s2s.depend.NarrativeStatusContract;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,23 +26,25 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "NARRATIVE_STATUS")
-public class NarrativeStatus extends KcPersistableBusinessObjectBase {
+public class NarrativeStatus extends KcPersistableBusinessObjectBase implements NarrativeStatusContract {
 
     @Id
     @Column(name = "NARRATIVE_STATUS_CODE")
-    private String narrativeStatusCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
-    public String getNarrativeStatusCode() {
-        return narrativeStatusCode;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    public void setNarrativeStatusCode(String narrativeStatusCode) {
-        this.narrativeStatusCode = narrativeStatusCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -59,7 +62,7 @@ public class NarrativeStatus extends KcPersistableBusinessObjectBase {
             return true;
         if (obj instanceof NarrativeStatus) {
             NarrativeStatus other = (NarrativeStatus) obj;
-            return StringUtils.equals(this.narrativeStatusCode, other.narrativeStatusCode) && StringUtils.equals(this.description, other.description);
+            return StringUtils.equals(this.code, other.code) && StringUtils.equals(this.description, other.description);
         }
         return false;
     }

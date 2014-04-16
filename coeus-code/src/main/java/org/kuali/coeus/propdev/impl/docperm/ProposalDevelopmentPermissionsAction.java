@@ -29,7 +29,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -142,7 +142,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             
             // Add the person to the narratives.
             
-            NarrativeService narrativeService = KcServiceLocator.getService(NarrativeService.class);
+            LegacyNarrativeService narrativeService = KcServiceLocator.getService(LegacyNarrativeService.class);
             narrativeService.addPerson(proposalUser.getUsername(), doc, proposalUser.getRoleName());
         }
         
@@ -207,7 +207,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             
             // Remove the user from all of the Narratives.
             
-            NarrativeService narrativeService = KcServiceLocator.getService(NarrativeService.class);
+            LegacyNarrativeService narrativeService = KcServiceLocator.getService(LegacyNarrativeService.class);
             narrativeService.deletePerson(getPersonService().getPersonByPrincipalName(proposalUserRoles.getUsername()).getPrincipalId(), doc); 
         }
         
@@ -349,7 +349,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             // permissions regarding narratives, his/her narrative rights may need to
             // be down-graded.
             
-            NarrativeService narrativeService = KcServiceLocator.getService(NarrativeService.class);
+            LegacyNarrativeService narrativeService = KcServiceLocator.getService(LegacyNarrativeService.class);
             narrativeService.readjustRights(getPersonService().getPersonByPrincipalName(proposalUserRoles.getUsername()).getPrincipalId(), doc, roleNames); 
        
             // If Javascript was enabled, we can simply cause the pop-up window to close.

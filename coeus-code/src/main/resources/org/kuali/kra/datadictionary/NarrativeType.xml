@@ -10,10 +10,10 @@
     <property name="lookupDefinition" >
       <ref bean="NarrativeType-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="narrativeTypeCode" />
+    <property name="titleAttribute" value="code" />
     <property name="attributes" >
       <list>
-        <ref bean="NarrativeType-narrativeTypeCode" />
+        <ref bean="NarrativeType-code" />
         <ref bean="NarrativeType-systemGenerated" />
         <ref bean="NarrativeType-allowMultiple" />
         <ref bean="NarrativeType-narrativeTypeGroup" />
@@ -26,10 +26,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="NarrativeType-narrativeTypeCode" parent="NarrativeType-narrativeTypeCode-parentBean" />
+  <bean id="NarrativeType-code" parent="NarrativeType-code-parentBean" />
 
-  <bean id="NarrativeType-narrativeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="narrativeTypeCode" />
+  <bean id="NarrativeType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Narrative Type" />
     <property name="shortLabel" value="Narrative Type" />
@@ -51,47 +51,19 @@
   </bean>
 
   <bean id="NarrativeType-systemGenerated" parent="NarrativeType-systemGenerated-parentBean"/>
-  <bean id="NarrativeType-systemGenerated-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NarrativeType-systemGenerated-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="systemGenerated" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="System Generated" />
     <property name="shortLabel" value="System Generated" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="4" parent="Uif-TextControl"/>
-    </property>
     <property name="summary" value="System Generated" />
     <property name="description" value="System Generated" />
   </bean>
 
   <bean id="NarrativeType-allowMultiple" parent="NarrativeType-allowMultiple-parentBean"/>
-  <bean id="NarrativeType-allowMultiple-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NarrativeType-allowMultiple-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="allowMultiple" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Allow Multiple" />
     <property name="shortLabel" value="Allow Multiple" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="4" parent="Uif-TextControl"/>
-    </property>
     <property name="summary" value="Allow Multiple" />
     <property name="description" value="Allow Multiple" />
   </bean>
@@ -138,7 +110,7 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="narrativeTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
               <bean parent="FieldDefinition" p:attributeName="systemGenerated"/>
               <bean parent="FieldDefinition" p:attributeName="allowMultiple"/>
@@ -160,7 +132,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="narrativeTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
               <bean p:propertyName="systemGenerated" parent="Uif-DataField"/>
               <bean p:propertyName="allowMultiple" parent="Uif-DataField"/>
@@ -186,7 +158,7 @@
    	</property>      
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="narrativeTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
         <bean parent="FieldDefinition" p:attributeName="systemGenerated"/>
         <bean parent="FieldDefinition" p:attributeName="allowMultiple"/>
@@ -195,7 +167,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="narrativeTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
         <bean parent="FieldDefinition" p:attributeName="systemGenerated"/>
         <bean parent="FieldDefinition" p:attributeName="allowMultiple"/>
@@ -220,7 +192,7 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="narrativeTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="systemGenerated" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="allowMultiple" parent="Uif-LookupCriteriaInputField"/>
@@ -229,7 +201,7 @@
     </property>
     <property name="resultFields" >
       <list>
-        <bean p:propertyName="narrativeTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
         <bean p:propertyName="systemGenerated" parent="Uif-DataField"/>
         <bean p:propertyName="allowMultiple" parent="Uif-DataField"/>

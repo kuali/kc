@@ -53,27 +53,26 @@ public class EDGEPA427V1_0GeneratorTest extends S2STestBase<EDGEPA427V1_0Generat
         InputStream inStream = resource.getInputStream();
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
-        narrativeAttachment.setNarrativeData(narrativePdf);
-        List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
-        narrativeList.add(narrativeAttachment);
+        narrativeAttachment.setData(narrativePdf);
+
         narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
         narrative.setNarrativeTypeCode("51");
-        narrative.setNarrativeAttachmentList(narrativeList);
+        narrative.setNarrativeAttachment(narrativeAttachment);
         narrative.setObjectId("12345678890abcd");
-        narrative.setFileName("exercise3");
+        narrative.setName("exercise3");
         NarrativeType narrativeType = new NarrativeType();
-        narrativeType.setNarrativeTypeCode("1");
-        narrativeType.setAllowMultiple("Y");
-        narrativeType.setSystemGenerated("N");
+        narrativeType.setCode("1");
+        narrativeType.setAllowMultiple(true);
+        narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for EDGEPA427 Attachment");
         getService(DataObjectService.class).save(narrativeType);
         narrative.setNarrativeType(narrativeType);
         narrative.setNarrativeTypeCode("1");
         naList.add(narrative);
-        narrative.getNarrativeAttachmentList().clear();
+        narrative.setNarrativeAttachment(null);
         document.getDevelopmentProposal().setNarratives(naList);
     }
 }

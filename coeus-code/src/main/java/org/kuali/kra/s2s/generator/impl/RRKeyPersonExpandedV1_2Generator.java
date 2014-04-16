@@ -29,7 +29,6 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.RolodexService;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
@@ -38,6 +37,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -90,10 +90,10 @@ public class RRKeyPersonExpandedV1_2Generator extends
 				setCurrentPendingTypeAttachment(rrKeyPersonExpanded,
 						extraPerson);
 			}
-			for (Narrative narrative : pdDoc.getDevelopmentProposal()
+			for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 					.getNarratives()) {
-				if (narrative.getNarrativeTypeCode() != null) {
-					if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROFILE_TYPE) {
+				if (narrative.getNarrativeType().getCode() != null) {
+					if (Integer.parseInt(narrative.getNarrativeType().getCode()) == PROFILE_TYPE) {
 						setProfileTypeAttachment(rrKeyPersonExpanded, narrative);
 					}
 				}
@@ -105,7 +105,7 @@ public class RRKeyPersonExpandedV1_2Generator extends
 	 * This method is used to add profile type attachment to rrKeyPersonExpanded
 	 */
 	private void setProfileTypeAttachment(
-			RRKeyPersonExpanded12 rrKeyPersonExpanded, Narrative narrative) {
+			RRKeyPersonExpanded12 rrKeyPersonExpanded, NarrativeContract narrative) {
 		AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
 		if(attachedFileDataType != null){
 			AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory

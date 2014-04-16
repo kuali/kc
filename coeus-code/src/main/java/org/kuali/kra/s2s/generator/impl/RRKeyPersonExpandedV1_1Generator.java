@@ -31,10 +31,10 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -73,10 +73,10 @@ public class RRKeyPersonExpandedV1_1Generator extends
 
 		AttachedFileDataType attachedFileDataType = null;
         BioSketchsAttached bioSketchAttached = BioSketchsAttached.Factory.newInstance();
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null) {
-				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BIOSKETCH_DOC_TYPE) {
+			if (narrative.getNarrativeType().getCode() != null) {
+				if (Integer.parseInt(narrative.getNarrativeType().getCode()) == BIOSKETCH_DOC_TYPE) {
 					attachedFileDataType = getAttachedFileType(narrative);
 					if (attachedFileDataType != null) {
 						bioSketchAttached.setBioSketchAttached(attachedFileDataType);
@@ -87,10 +87,10 @@ public class RRKeyPersonExpandedV1_1Generator extends
 			}
 		}
         
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null) {
-				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == CURRENTPENDING_DOC_TYPE) {
+			if (narrative.getNarrativeType().getCode() != null) {
+				if (Integer.parseInt(narrative.getNarrativeType().getCode()) == CURRENTPENDING_DOC_TYPE) {
 					attachedFileDataType = getAttachedFileType(narrative);
 					if (attachedFileDataType != null) {
 						SupportsAttached supportsAttached = SupportsAttached.Factory
@@ -104,10 +104,10 @@ public class RRKeyPersonExpandedV1_1Generator extends
 				}
 			}
 		}
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null) {
-				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROFILE_TYPE) {
+			if (narrative.getNarrativeType().getCode() != null) {
+				if (Integer.parseInt(narrative.getNarrativeType().getCode()) == PROFILE_TYPE) {
 					attachedFileDataType = getAttachedFileType(narrative);
 					if (attachedFileDataType != null) {
 						AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory

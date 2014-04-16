@@ -361,7 +361,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
         if (budgetFormToPrint != null) {
                 AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budget,budgetFormToPrint);
-                if(dataStream.getContent()!=null){
+                if(dataStream.getData()!=null){
                     streamToResponse(dataStream, response);
                     forward = null;
                 }

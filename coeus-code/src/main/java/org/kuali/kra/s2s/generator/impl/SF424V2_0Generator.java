@@ -42,12 +42,12 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -299,9 +299,9 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                 sf424V2.setCongressionalDistrictProgramProject(congDistrictProject);
             }
         }
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == CONGRESSIONAL_DISTRICTS_ATTACHMENT) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == CONGRESSIONAL_DISTRICTS_ATTACHMENT) {
                 AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
                 if(attachedFileDataType != null){
                 	sf424V2.setAdditionalCongressionalDistricts(attachedFileDataType);
@@ -551,16 +551,16 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
 
     /**
      * 
-     * This method is used to get List of project title attachments from NarrativeAttachmentList
+     * This method is used to get List of project title attachments from NarrativeAttachment
      * 
      * @return AttachedFileDataType[] array of attachments for project title attachment type.
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
         List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_TITLE_ATTACHMENT) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == PROJECT_TITLE_ATTACHMENT) {
                 attachedFileDataType = getAttachedFileType(narrative);
                 if(attachedFileDataType != null){
                 	attachedFileDataTypeList.add(attachedFileDataType);

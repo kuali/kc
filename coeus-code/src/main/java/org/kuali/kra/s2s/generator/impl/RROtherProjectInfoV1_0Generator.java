@@ -27,10 +27,10 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
@@ -252,9 +252,9 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         AttachedFileDataType attachedFileDataType;
         ProjectNarrativeAttachments projectNarrativeAttachments = ProjectNarrativeAttachments.Factory.newInstance();
         AbstractAttachments abstractAttachments = AbstractAttachments.Factory.newInstance();
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null) {
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == EQUIPMENT_ATTACHMENT) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == EQUIPMENT_ATTACHMENT) {
                     // EQUIPMENT
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
@@ -264,7 +264,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                     equipmentAttachments.setEquipmentAttachment(attachedFileDataType);
                     rrOtherProjectInfo.setEquipmentAttachments(equipmentAttachments);
                 }
-                else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == FACILITIES_ATTACHMENT) {
+                else if (Integer.parseInt(narrative.getNarrativeType().getCode()) == FACILITIES_ATTACHMENT) {
                     // facilities
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
@@ -274,14 +274,14 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                     facilitiesAttachments.setFacilitiesAttachment(attachedFileDataType);
                     rrOtherProjectInfo.setFacilitiesAttachments(facilitiesAttachments);
                 }
-                else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_ATTACHMENT) {
+                else if (Integer.parseInt(narrative.getNarrativeType().getCode()) == NARRATIVE_ATTACHMENT) {
                     // NARRATIVE
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType != null){
                         projectNarrativeAttachments.setProjectNarrativeAttachment(attachedFileDataType);
                     }
                 }
-                else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BIBLIOGRAPHY_ATTACHMENT) {
+                else if (Integer.parseInt(narrative.getNarrativeType().getCode()) == BIBLIOGRAPHY_ATTACHMENT) {
                     // BIBLIOGRAPHY
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
@@ -291,7 +291,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                     bibliographyAttachments.setBibliographyAttachment(attachedFileDataType);
                     rrOtherProjectInfo.setBibliographyAttachments(bibliographyAttachments);
                 }
-                else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == ABSTRACT_PROJECT_SUMMARY_ATTACHMENT) {
+                else if (Integer.parseInt(narrative.getNarrativeType().getCode()) == ABSTRACT_PROJECT_SUMMARY_ATTACHMENT) {
                     // ABSTRACT - PROJECT SUMMARY
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType != null){
@@ -370,7 +370,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
 
     /**
      * 
-     * This method is used to get List of Other attachments from NarrativeAttachmentList
+     * This method is used to get List of Other attachments from NarrativeAttachment
      * 
      * @return attachedFileDataTypes(AttachedFileDataType[]) Array of other attachments based on narrative type code.
      */
@@ -378,10 +378,9 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         LOG.info("Getting AttachedFileDataType ");
         List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && (Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENT || Integer.parseInt(narrative
-                            .getNarrativeTypeCode()) == SUPPLIMENTARY_ATTACHMENT)) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && (Integer.parseInt(narrative.getNarrativeType().getCode()) == OTHER_ATTACHMENT || Integer.parseInt(narrative.getNarrativeType().getCode()) == SUPPLIMENTARY_ATTACHMENT)) {
             	attachedFileDataType = getAttachedFileType(narrative);
             	if(attachedFileDataType != null){
             		attachedFileDataTypeList.add(attachedFileDataType);

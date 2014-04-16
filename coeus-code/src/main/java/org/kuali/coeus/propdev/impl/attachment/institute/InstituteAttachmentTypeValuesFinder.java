@@ -54,6 +54,6 @@ public class InstituteAttachmentTypeValuesFinder  extends UifKeyValuesFinderBase
             Map<String,String> queryMap = new HashMap<String,String>();
             queryMap.put("narrativeTypeGroup", instituteNarrativeTypeGroup);
             queryMap.put("systemGenerated", "N");
-            return keyValueFinderService.getKeyValues(NarrativeType.class, "narrativeTypeCode", "description",queryMap);
+            return keyValueFinderService.getKeyValues(NarrativeType.class, "code", "description",queryMap);
         }
 }

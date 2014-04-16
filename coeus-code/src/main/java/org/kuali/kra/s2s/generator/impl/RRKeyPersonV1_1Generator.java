@@ -33,10 +33,10 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -69,9 +69,9 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
         if (extraPersons.size() > 0) {
     		AttachedFileDataType attachedFileDataType = null;
             BioSketchsAttached bioSketchAttached = BioSketchsAttached.Factory.newInstance();
-            for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-                if (narrative.getNarrativeTypeCode() != null) {
-                    switch(Integer.parseInt(narrative.getNarrativeTypeCode())){
+            for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+                if (narrative.getNarrativeType().getCode() != null) {
+                    switch(Integer.parseInt(narrative.getNarrativeType().getCode())){
                         case(BIOSKETCH_DOC_TYPE):
                             attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType != null) {

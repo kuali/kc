@@ -33,9 +33,9 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -171,10 +171,10 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
 			phsChecklist.setProgramIncome(YesNoDataType.N_NO);
 		}
 		AttachedFileDataType attachedFileDataType = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == CERTIFICATIONS_ATTACHMENT_CODE) {
+			if (narrative.getNarrativeType().getCode() != null
+					&& Integer.parseInt(narrative.getNarrativeType().getCode()) == CERTIFICATIONS_ATTACHMENT_CODE) {
 				attachedFileDataType = getAttachedFileType(narrative);
 				if(attachedFileDataType != null){
 					CertificationExplanation certExplanation = CertificationExplanation.Factory.newInstance();

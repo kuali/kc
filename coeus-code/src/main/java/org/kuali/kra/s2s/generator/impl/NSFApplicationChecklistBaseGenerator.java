@@ -20,8 +20,8 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -199,10 +199,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 8: {
-			for (Narrative narrative : pdDoc.getDevelopmentProposal()
+			for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 					.getNarratives()) {
-				if (narrative.getNarrativeTypeCode() != null
-						&& narrative.getNarrativeTypeCode().equals(
+				if (narrative.getNarrativeType().getCode() != null
+						&& narrative.getNarrativeType().getCode().equals(
 								NARRATIVE_TYPE_CODE_5)) {
 					answer = ANSWER_YES;
 					break;
@@ -214,10 +214,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 9: {
-			for (Narrative narrative : pdDoc.getDevelopmentProposal()
+			for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 					.getNarratives()) {
-				if (narrative.getNarrativeTypeCode() != null
-						&& narrative.getNarrativeTypeCode().equals(
+				if (narrative.getNarrativeType().getCode() != null
+						&& narrative.getNarrativeType().getCode().equals(
 								NARRATIVE_TYPE_DEFAULT)) {
 					answer = ANSWER_YES;
 					break;
@@ -255,10 +255,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 14: {
-			for (Narrative narrative : pdDoc.getDevelopmentProposal()
+			for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 					.getNarratives()) {
-				if (narrative.getNarrativeTypeCode() != null
-						&& narrative.getNarrativeTypeCode().equals(
+				if (narrative.getNarrativeType().getCode() != null
+						&& narrative.getNarrativeType().getCode().equals(
 								NARRATIVE_TYPE_BIBLIOGRAPHY)) {
 					answer = ANSWER_YES;
 				} else {
@@ -269,10 +269,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 15: {
-			for (Narrative narrative : pdDoc.getDevelopmentProposal()
+			for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 					.getNarratives()) {
-				if (narrative.getNarrativeTypeCode() != null
-						&& narrative.getNarrativeTypeCode().equals(
+				if (narrative.getNarrativeType().getCode() != null
+						&& narrative.getNarrativeType().getCode().equals(
 								NARRATIVE_TYPE_FACILITIES)) {
 					answer = ANSWER_YES;
 				} else {
@@ -283,10 +283,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 16: {
-			for (Narrative narrative : pdDoc.getDevelopmentProposal()
+			for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 					.getNarratives()) {
-				if (narrative.getNarrativeTypeCode() != null
-						&& narrative.getNarrativeTypeCode().equals(
+				if (narrative.getNarrativeType().getCode() != null
+						&& narrative.getNarrativeType().getCode().equals(
 								NARRATIVE_TYPE_EQUIPMENT)) {
 					answer = ANSWER_YES;
 				} else {
@@ -297,10 +297,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 17: {
-			for (Narrative narrative : pdDoc.getDevelopmentProposal()
+			for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 					.getNarratives()) {
-				if (narrative.getNarrativeTypeCode() != null
-						&& narrative.getNarrativeTypeCode().equals(
+				if (narrative.getNarrativeType().getCode() != null
+						&& narrative.getNarrativeType().getCode().equals(
 								NARRATIVE_TYPE_SUPLIMENTARY_DOC)) {
 					answer = ANSWER_YES;
 				} else {
@@ -335,10 +335,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 24: {
-			for (Narrative narrative : pdDoc.getDevelopmentProposal()
+			for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 					.getNarratives()) {
-				if (narrative.getNarrativeTypeCode() != null
-						&& narrative.getNarrativeTypeCode().equals(
+				if (narrative.getNarrativeType().getCode() != null
+						&& narrative.getNarrativeType().getCode().equals(
 								NARRATIVE_TYPE_BUDGET_JUSTIFICATION)) {
 					answer = ANSWER_YES;
 				} else {

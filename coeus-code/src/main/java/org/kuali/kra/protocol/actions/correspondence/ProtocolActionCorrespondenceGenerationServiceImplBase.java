@@ -109,10 +109,10 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
                 ProtocolBase protocol = printableCorrespondence.getProtocol();
                 AttachmentDataSource ads = this.printingService.print(printableCorrespondence);
                 applySignatureInDocument(printableCorrespondence, ads);
-                if (ads.getContent().length > 0) {
+                if (ads.getData().length > 0) {
                     //only need to do this, if there is actually printable correspondence to save
                     //this may not be the case if a bad template is put in place, or under certain testing conditions.
-                    buildAndAttachProtocolCorrespondence(protocol, ads.getContent(), printableCorrespondence.getProtoCorrespTypeCode());
+                    buildAndAttachProtocolCorrespondence(protocol, ads.getData(), printableCorrespondence.getProtoCorrespTypeCode());
                 }
             }
         }
@@ -134,9 +134,9 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
     protected void applySignatureInDocument(ProtocolActionsCorrespondenceBase printableCorrespondence, AttachmentDataSource attachmentDataSource) {
         try {  
             PrintableAttachment printablePdf = (PrintableAttachment)attachmentDataSource;
-            byte[] pdfBytes = printablePdf.getContent();
+            byte[] pdfBytes = printablePdf.getData();
             pdfBytes = getPersonSignatureServiceHook().applySignature(pdfBytes);
-            printablePdf.setContent(pdfBytes);
+            printablePdf.setData(pdfBytes);
         } catch (Exception e) {
             LOG.error("Exception Occured in ProtocolActionCorrespondenceGenerationServiceImplBase. Person Signature Exception: ",e);    
         }  

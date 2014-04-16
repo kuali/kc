@@ -44,7 +44,7 @@ public class NarrativeTypeTest extends KcIntegrationTestBase {
         assertTrue("Narrative Types not loaded",narrativeTypes.size()>0);
         for (NarrativeType narrativeType : narrativeTypes) {
             boolean propNarrLoaded = false;
-            if(propNarrLoaded = narrativeType.getNarrativeTypeCode().equals(paramValue)){
+            if(propNarrLoaded = narrativeType.getCode().equals(paramValue)){
                 assertTrue(propNarrLoaded);
                 break;
             }

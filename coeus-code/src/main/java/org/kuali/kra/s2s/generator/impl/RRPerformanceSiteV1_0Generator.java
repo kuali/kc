@@ -25,8 +25,8 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.List;
@@ -79,9 +79,9 @@ public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerat
                 siteLocation.setOrganizationName(proposalSite.getLocationName());
             }
         }
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == PERFORMANCE_SITES_ATTACHMENT) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == PERFORMANCE_SITES_ATTACHMENT) {
             	AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
             	if(attachedFileDataType != null){
             		rrPerformanceSite.setAttachedFile(attachedFileDataType);

@@ -22,7 +22,7 @@ import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.*;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.kra.s2s.depend.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -66,9 +66,9 @@ public class AttachmentsV1_1Generator extends S2SBaseFormGenerator {
         ATT15 att15 = ATT15.Factory.newInstance();
         int countAttachments = 0;
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVECODE_ATTACHMENTS) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == NARRATIVECODE_ATTACHMENTS) {
             	attachedFileDataType = getAttachedFileType(narrative);
             	if(attachedFileDataType == null){
             		continue;

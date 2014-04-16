@@ -17,7 +17,7 @@ package org.kuali.kra.s2s.service;
 
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.kra.s2s.S2SException;
 
 /**
@@ -31,7 +31,7 @@ public interface PrintService {
 	 * @throws S2SException
 	 * 
 	 */
-	public AttachmentDataSource printForm(ProposalDevelopmentDocument pdDoc)
+	public KcFile printForm(ProposalDevelopmentDocument pdDoc)
 			throws S2SException, PrintingException;
 
 }

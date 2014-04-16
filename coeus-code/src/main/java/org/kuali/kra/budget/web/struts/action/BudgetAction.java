@@ -177,7 +177,6 @@ public class BudgetAction extends BudgetActionBase {
     
     /**
      * Need to suppress buttons here when 'Totals' tab is clicked.
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -661,7 +660,7 @@ public class BudgetAction extends BudgetActionBase {
      * @throws Exception
      */
     public void streamToResponse(AttachmentDataSource attachmentDataSource,HttpServletResponse response) throws Exception{
-        byte[] xbts = attachmentDataSource.getContent();
+        byte[] xbts = attachmentDataSource.getData();
         
         ByteArrayOutputStream baos = null;
         if(xbts!=null)
@@ -669,7 +668,7 @@ public class BudgetAction extends BudgetActionBase {
             baos = new ByteArrayOutputStream(xbts.length);
             baos.write(xbts);
             
-            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
+            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getType(), baos, attachmentDataSource.getName());
         }finally{
             try{
                 if(baos!=null){

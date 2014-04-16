@@ -88,7 +88,7 @@ public class AwardSponsorTemplateMaintenanceDocumentAction extends KualiMaintena
     }
     protected void streamToResponse(AttachmentDataSource attachmentDataSource,
             HttpServletResponse response) throws Exception {
-        byte[] xbts = attachmentDataSource.getContent();
+        byte[] xbts = attachmentDataSource.getData();
         ByteArrayOutputStream baos = null;
         try {
             baos = new ByteArrayOutputStream(xbts.length);
@@ -96,8 +96,8 @@ public class AwardSponsorTemplateMaintenanceDocumentAction extends KualiMaintena
 
             WebUtils
                     .saveMimeOutputStreamAsFile(response, attachmentDataSource
-                            .getContentType(), baos, attachmentDataSource
-                            .getFileName());
+                            .getType(), baos, attachmentDataSource
+                            .getName());
 
         } finally {
             try {

@@ -23,7 +23,7 @@
         <ref bean="ProposalPersonBiography-updateUser" />
         <ref bean="ProposalPersonBiography-updateTimestamp" />
         <ref bean="ProposalPersonBiography-propPerDocType.description" />
-        <ref bean="ProposalPersonBiography-fileName" />
+        <ref bean="ProposalPersonBiography-name" />
       </list>
     </property>
   </bean>
@@ -227,9 +227,9 @@
     <property name="description" value="Proposal person document type description" />
   </bean>
 
-  <bean id="ProposalPersonBiography-fileName" parent="ProposalPersonBiography-fileName-parentBean"/>
-  <bean id="ProposalPersonBiography-fileName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fileName" />
+  <bean id="ProposalPersonBiography-name" parent="ProposalPersonBiography-name-parentBean"/>
+  <bean id="ProposalPersonBiography-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="File Name" />
     <property name="shortLabel" value="File Name" />

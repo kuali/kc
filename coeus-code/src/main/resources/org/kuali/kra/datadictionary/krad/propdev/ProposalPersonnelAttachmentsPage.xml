@@ -48,7 +48,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="kradFile"
-					p:readOnlyDisplayReplacementPropertyName="fileName" p:required="true"
+					p:readOnlyDisplayReplacementPropertyName="name" p:required="true"
 					p:order="10" />
 				<bean parent="Uif-InputField" p:propertyName="proposalPersonNumber"
 					p:order="20" />

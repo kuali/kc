@@ -539,7 +539,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         reportParameters.put("coeusModuleSubItemCode", answerHeader.getModuleSubItemCode());
         
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(protocol, reportParameters);
-        if (dataStream.getContent() != null) {
+        if (dataStream.getData() != null) {
             streamToResponse(dataStream, response);
             forward = null;
         }

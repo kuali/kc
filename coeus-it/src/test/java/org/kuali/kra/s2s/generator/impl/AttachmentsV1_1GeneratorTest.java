@@ -46,17 +46,17 @@ public class AttachmentsV1_1GeneratorTest extends S2STestBase<AttachmentsV1_1Gen
         narrative.setModuleStatusCode("C");
         narrative.setNarrativeTypeCode("52");
         narrative.setObjectId("12345678890abcd");
-        narrative.setFileName("exercise1");
+        narrative.setName("exercise1");
         NarrativeType narrativeType = new NarrativeType();
-        narrativeType.setNarrativeTypeCode("1");
-        narrativeType.setAllowMultiple("Y");
-        narrativeType.setSystemGenerated("N");
+        narrativeType.setCode("1");
+        narrativeType.setAllowMultiple(true);
+        narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for Attachments Attachment");
         getService(DataObjectService.class).save(narrativeType);
         narrative.setNarrativeType(narrativeType);
         narrative.setNarrativeTypeCode("1");
         naList.add(narrative);
-        narrative.getNarrativeAttachmentList().clear();
+        narrative.setNarrativeAttachment(null);
         document.getDevelopmentProposal().setNarratives(naList);
     }
 }
