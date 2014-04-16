@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.action;
+package org.kuali.coeus.propdev.impl.print;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,6 +40,14 @@ import java.util.Map;
 public class CurrentOrPendingReportAction extends KualiAction{
     
     private static final Log LOG = LogFactory.getLog(CurrentOrPendingReportAction.class);
+
+    private CurrentAndPendingReportService currentAndPendingReportService;
+
+    protected CurrentAndPendingReportService getCurrentAndPendingReportService (){
+        if (currentAndPendingReportService == null)
+            currentAndPendingReportService = KcServiceLocator.getService (CurrentAndPendingReportService.class);
+        return currentAndPendingReportService;
+    }
     /**
      * Prepare current report (i.e. Awards that selected person is on)
      * 
@@ -52,8 +60,8 @@ public class CurrentOrPendingReportAction extends KualiAction{
      */
     public ActionForward printCurrentReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        CurrentAndPendingReportService currentAndPendingReportService = KcServiceLocator
-                .getService(CurrentAndPendingReportService.class);
+        CurrentAndPendingReportService currentAndPendingReportService =
+                getCurrentAndPendingReportService();
         ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(PrintConstants.PERSON_ID_KEY, helper.getPersonId());
@@ -69,8 +77,8 @@ public class CurrentOrPendingReportAction extends KualiAction{
      */
     public ActionForward printPendingReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        CurrentAndPendingReportService currentAndPendingReportService = KcServiceLocator
-                .getService(CurrentAndPendingReportService.class);
+        CurrentAndPendingReportService currentAndPendingReportService =
+                getCurrentAndPendingReportService();
         ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(PrintConstants.PERSON_ID_KEY, helper.getPersonId());
@@ -108,7 +116,9 @@ public class CurrentOrPendingReportAction extends KualiAction{
     /**
     *
     * Handy method to stream the byte array to response object
-    * @param attachmentDataSource
+    * @param fileContents
+    * @param fileName
+    * @param fileContentType
     * @param response
     * @throws Exception
     */
