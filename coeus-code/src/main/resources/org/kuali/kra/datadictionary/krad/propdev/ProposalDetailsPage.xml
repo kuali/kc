@@ -198,7 +198,7 @@
 			<bean parent="Uif-DropdownControl"/>
 		</property>
 		<property name="optionsFinder">
-			<bean class="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder" p:addBlankOption="false"/>
+			<bean class="org.kuali.coeus.propdev.impl.basic.LeadUnitValuesFinder" p:addBlankOption="false"/>
 		</property>
         </bean>
 

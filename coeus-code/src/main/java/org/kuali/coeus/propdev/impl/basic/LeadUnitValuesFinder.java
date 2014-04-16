@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
+package org.kuali.coeus.propdev.impl.basic;
 
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
@@ -50,7 +50,7 @@ public class LeadUnitValuesFinder extends UifKeyValuesFinderBase {
         keyValues.add(new ConcreteKeyValue("", "select"));
         
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        ProposalDevelopmentService authService = getProposalDevelopmentService ();
+        ProposalDevelopmentService authService = getProposalDevelopmentService();
         List<Unit> userUnits = authService.getUnitsForCreateProposal(userId);
 
         // Sort the list of units by Unit Number.  If there are lots of units,
