@@ -531,7 +531,7 @@
 
 	<!-- Proposal Development Task Authorizers -->
 
-	<bean id="parentProposalAuthorizer" class="org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer" abstract="true">
+	<bean id="parentProposalAuthorizer" class="org.kuali.coeus.propdev.impl.core.ProposalAuthorizer" abstract="true">
 	</bean>
 
 	<bean id="proposalTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
