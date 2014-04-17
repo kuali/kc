@@ -50,6 +50,8 @@ import java.util.*;
  */
 public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
 
+    private static final String NSF_DATA_MANAGEMENT_PLAN_PDF = "NSF_DATA_MANAGEMENT_PLAN.pdf";
+
     private NarrativeAuthZService narrativeAuthZService;
     private ProposalPersonService proposalPersonService;
     private BusinessObjectService businessObjectService;
@@ -73,8 +75,8 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     }
 
     private Narrative changeDataManagementPlanAttachmentName(Narrative narrative) {
-        narrative.setName("NSF_DATA_MANAGEMENT_PLAN.pdf");
-        narrative.getNarrativeAttachment().setName("NSF_DATA_MANAGEMENT_PLAN.pdf");
+        narrative.setName(NSF_DATA_MANAGEMENT_PLAN_PDF);
+        narrative.getNarrativeAttachment().setName(NSF_DATA_MANAGEMENT_PLAN_PDF);
         return narrative;
     }
 
@@ -247,7 +249,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
      * @see org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService#populatePersonNameForNarrativeUserRights(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument, org.kuali.coeus.propdev.impl.attachment.Narrative)
      */
     public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
-//        populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
         for (NarrativeUserRights narrativeUserRight : narrativeUserRights) {
             String personName = proposalPersonService.getPersonName(proposaldevelopmentDocument, narrativeUserRight.getUserId());
