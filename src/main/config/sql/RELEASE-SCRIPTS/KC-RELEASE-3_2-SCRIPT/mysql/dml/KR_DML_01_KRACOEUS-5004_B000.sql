@@ -3,7 +3,7 @@ INSERT INTO KRIM_PERM_ID_BS_S VALUES(NULL)
 /
 -- add a new permission for modifying award report tracking
 INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
-VALUES ((SELECT (MAX(ID)) FROM KRIM_PERM_ID_BS_S), UUID(), 1, (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NM = 'Edit Document'),
+VALUES ((SELECT (MAX(ID)) FROM KRIM_PERM_ID_BS_S), UUID(), 1, (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NM = 'Edit Document' and NMSPC_CD = 'KR-NS'),
 'KC-AWARD', 'Modify Award Report Tracking', 'Modify the report tracking records of an award at any time.', 'Y')
 /
 INSERT INTO KRIM_ROLE_PERM_ID_BS_S VALUES(NULL)
