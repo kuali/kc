@@ -712,6 +712,22 @@
 		</collection-descriptor>-->
 	</class-descriptor>
 	
+    <class-descriptor class="org.kuali.kra.award.home.ContactUsage" table="CONTACT_USAGE">
+        <field-descriptor name="contactUsageId" column="CONTACT_USAGE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_CONTACT_USAGE_ID" autoincrement="true"/> 
+        <field-descriptor name="contactTypeCode" column="CONTACT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <reference-descriptor name="contactType" class-ref="org.kuali.kra.award.home.ContactType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="contactTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="coeusModule" class-ref="org.kuali.kra.bo.CoeusModule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="moduleCode"/>
+        </reference-descriptor>
+    </class-descriptor>
+	
 	<class-descriptor class="org.kuali.kra.award.paymentreports.Report" table="REPORT">
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
