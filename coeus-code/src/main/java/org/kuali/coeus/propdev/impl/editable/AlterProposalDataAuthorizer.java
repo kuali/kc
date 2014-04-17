@@ -21,7 +21,7 @@ import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
-import org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer;
+import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 
 /**

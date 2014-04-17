@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
