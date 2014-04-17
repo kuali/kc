@@ -13,32 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorization;
+package org.kuali.coeus.propdev.impl.auth.task;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 
 /**
- * A Narrative Task is a task that corresponds to
- * task on a particular Narrative.
+ * A Proposal Task is a task that performs an action against a
+ * Proposal Development Document.  To assist authorization, the
+ * Proposal Development Document is available.
  */
-public class NarrativeTask extends Task {
-   
+public final class ProposalTask extends Task {
+    
     private ProposalDevelopmentDocument document;
-    private Narrative narrative;
+    public static final String CREATE_IRB_PROTOCOL_FROM_PROPOSAL = "createIrbProtocolFromProposal";
+    public static final String CREATE_IACUC_PROTOCOL_FROM_PROPOSAL = "createIacucProtocolFromProposal";
     
     /**
-     * Constructs a NarrativeTask.
+     * Constructs a ProposalTask.
      * @param taskName the name of the task
      * @param document the Proposal Development Document
-     * @param narrative the narrative
      */
-    public NarrativeTask(String taskName, ProposalDevelopmentDocument document, Narrative narrative) {
-        super(TaskGroupName.NARRATIVE, taskName);
+    public ProposalTask(String taskName, ProposalDevelopmentDocument document) {
+        super(TaskGroupName.PROPOSAL, taskName);
         this.document = document;
-        this.narrative = narrative;
     }
 
     /**
@@ -47,13 +46,5 @@ public class NarrativeTask extends Task {
      */
     public ProposalDevelopmentDocument getDocument() {
         return document;
-    }
-    
-    /**
-     * Get the Narrative.
-     * @return the Narrative
-     */
-    public Narrative getNarrative() {
-        return narrative;
     }
 }

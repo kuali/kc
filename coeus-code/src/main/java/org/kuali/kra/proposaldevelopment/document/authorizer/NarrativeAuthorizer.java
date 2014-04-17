@@ -23,7 +23,7 @@ import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
-import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeTask;
 
 import java.util.List;
 
