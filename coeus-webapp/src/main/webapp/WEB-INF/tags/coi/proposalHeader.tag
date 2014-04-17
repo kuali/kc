@@ -29,7 +29,7 @@
 			</div></td>
 		</tr>
 		<tr>
-			<th><div align="right">start Date:</div></th> 
+			<th><div align="right">Start Date:</div></th> 
 			<td align="left" valign="middle"><div align="left">
 				${disclProject.proposal.requestedStartDateInitial}
 			</div></td>
