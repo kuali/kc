@@ -987,6 +987,9 @@ public final class KeyConstants {
     public static final String SUBAWARD_ATTACHMENT_DESCRIPTION_REQUIRED = "error.Subaward.attachment.descriptionRequired";
     public static final String ERROR_REQUIRED_SUBAWARD_REPORT_TYPE_CODE = "error.required.subaward.report.type.code";
     public static final String ERROR_CONTACT_TYPE_CODE_FOREIGN_KEY_EXISTS = "error.contact.type.code.foreign.key.exists";
+    public static final String ERROR_CONTACT_TYPE_NOT_EXISTS = "error.contact.type.not.exists";
+    public static final String ERROR_MODULE_NOT_EXISTS = "error.module.not.exists";
+    public static final String ERROR_CONTACT_TYPE_MODULE_EXISTS = "error.contacttypemodule.exists";
     
     //negotiations
     public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";
