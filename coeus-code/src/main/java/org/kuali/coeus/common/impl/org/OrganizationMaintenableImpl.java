@@ -18,12 +18,12 @@ package org.kuali.coeus.common.impl.org;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
+import org.kuali.coeus.common.framework.ynq.Ynq;
+import org.kuali.coeus.common.framework.ynq.YnqService;
+import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
-import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
-import org.kuali.kra.service.YnqService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -66,7 +66,6 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
     
     /**
      * This is just trying to populate existing organization that has no ynq.
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.core.maintenance.Maintainable)
      */
     @Override
     public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
@@ -124,7 +123,7 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
      * This method pads the district number to CongressionalDistrict.DISTRICT_NUMBER_LENGTH
      * characters (A congressional district consists of a state code, followed by a dash,
      * followed by a district number).
-     * @param getOrganization
+     * @param organization
      */
     private void formatCongressionalDistrict(Organization organization) {
         String district = organization.getCongressionalDistrict();

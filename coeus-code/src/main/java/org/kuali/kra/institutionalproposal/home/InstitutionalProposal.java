@@ -17,6 +17,8 @@ package org.kuali.kra.institutionalproposal.home;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.keyword.KeywordsManager;
+import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
@@ -38,7 +40,6 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
@@ -1375,7 +1376,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     /**
      * Add selected science keyword to award science keywords list.
-     * @see org.kuali.kra.document.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
+     * @see org.kuali.coeus.common.framework.keyword.KeywordsManager#addKeyword(org.kuali.coeus.common.framework.keyword.ScienceKeyword)
      */
     public void addKeyword(ScienceKeyword scienceKeyword) {
         InstitutionalProposalScienceKeyword institutionalProposalScienceKeyword = new InstitutionalProposalScienceKeyword(this,
@@ -1385,7 +1386,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     /**
      * It returns the ScienceKeyword object from keywords list
-     * @see org.kuali.kra.document.KeywordsManager#getKeyword(int)
+     * @see org.kuali.coeus.common.framework.keyword.KeywordsManager#getKeyword(int)
      */
     public InstitutionalProposalScienceKeyword getKeyword(int index) {
         return getKeywords().get(index);

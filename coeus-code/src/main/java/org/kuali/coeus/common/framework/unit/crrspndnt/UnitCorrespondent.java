@@ -15,8 +15,8 @@
  */
 package org.kuali.coeus.common.framework.unit.crrspndnt;
 
+import org.kuali.coeus.common.framework.crrspndnt.Correspondent;
 import org.kuali.coeus.common.framework.unit.Unit;
-import org.kuali.kra.bo.Correspondent;
 
 public class UnitCorrespondent extends Correspondent {
 

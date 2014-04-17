@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="YnqExplanationType" parent="YnqExplanationType-parentBean" />
   <bean id="YnqExplanationType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.YnqExplanationType" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.ynq.YnqExplanationType" />
 		<property name="objectLabel" value="Ynq Explanation Type" />
     <property name="lookupDefinition" >
       <ref bean="YnqExplanationType-lookupDefinition" />
@@ -81,7 +81,7 @@
   </bean>
 
   <bean id="YnqExplanationType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.YnqExplanationType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.ynq.YnqExplanationType"/>
     <property name="headerText" value="Ynq Explanation Type Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

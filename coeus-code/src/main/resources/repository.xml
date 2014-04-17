@@ -184,7 +184,7 @@
             <inverse-foreignkey field-ref="personId"/>
         </collection-descriptor>
 		
-		<reference-descriptor name="citizenshipType" class-ref="org.kuali.kra.bo.CitizenshipType" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<reference-descriptor name="citizenshipType" class-ref="org.kuali.coeus.common.framework.person.attr.CitizenshipType" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<foreignkey field-ref="citizenshipTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -240,7 +240,7 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.ScienceKeyword" table="SCIENCE_KEYWORD">
+	<class-descriptor class="org.kuali.coeus.common.framework.keyword.ScienceKeyword" table="SCIENCE_KEYWORD">
 		<field-descriptor name="scienceKeywordCode" column="SCIENCE_KEYWORD_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -509,7 +509,7 @@
 		</collection-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.Ynq" table="YNQ">
+	<class-descriptor class="org.kuali.coeus.common.framework.ynq.Ynq" table="YNQ">
 		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="dateRequiredFor" column="DATE_REQUIRED_FOR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
@@ -524,13 +524,13 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<collection-descriptor name="ynqExplanations" element-class-ref="org.kuali.kra.bo.YnqExplanation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="ynqExplanations" element-class-ref="org.kuali.coeus.common.framework.ynq.YnqExplanation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="questionId"/>
 		</collection-descriptor>
 
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.YnqExplanation" table="YNQ_EXPLANATION">
+	<class-descriptor class="org.kuali.coeus.common.framework.ynq.YnqExplanation" table="YNQ_EXPLANATION">
 		<field-descriptor name="explanationType" column="EXPLANATION_TYPE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="explanation" column="EXPLANATION" jdbc-type="CLOB"/>
@@ -538,12 +538,12 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<reference-descriptor name="ynqExplanationType" class-ref="org.kuali.kra.bo.YnqExplanationType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="ynqExplanationType" class-ref="org.kuali.coeus.common.framework.ynq.YnqExplanationType" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="explanationType" />
     	</reference-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.YnqExplanationType" table="YNQ_EXPLANATION_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.framework.ynq.YnqExplanationType" table="YNQ_EXPLANATION_TYPE">
 		<field-descriptor name="explanationType" column="EXPLANATION_TYPE" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -1038,7 +1038,7 @@
 		<reference-descriptor name="organization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="organizationId"/> 
 		</reference-descriptor>
-		<reference-descriptor name="ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="ynq" class-ref="org.kuali.coeus.common.framework.ynq.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="questionId"/> 
 		</reference-descriptor>
 	</class-descriptor>
@@ -1301,7 +1301,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.bo.CitizenshipType" table="CITIZENSHIP_TYPE_T">
+	<class-descriptor class="org.kuali.coeus.common.framework.person.attr.CitizenshipType" table="CITIZENSHIP_TYPE_T">
         <field-descriptor name="citizenshipTypeCode" column="CITIZENSHIP_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />

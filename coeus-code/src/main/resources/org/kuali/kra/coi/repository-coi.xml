@@ -332,7 +332,7 @@
 		<reference-descriptor name="personFinIntDisclosure" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="personFinIntDisclosureId"/>
 		</reference-descriptor>
-		<reference-descriptor name="ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="ynq" class-ref="org.kuali.coeus.common.framework.ynq.Ynq" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="questionId"/>
 		</reference-descriptor>
 	</class-descriptor>

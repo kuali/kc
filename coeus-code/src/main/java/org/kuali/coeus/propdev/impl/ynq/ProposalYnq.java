@@ -31,8 +31,8 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.framework.ynq.Ynq;
 import org.kuali.kra.bo.KraSortablePersistableBusinessObjectBase;
-import org.kuali.kra.bo.Ynq;
 
 @Entity
 @Table(name = "EPS_PROP_YNQ")
