@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="BudgetStatus" parent="BudgetStatus-parentBean" />
   <bean id="BudgetStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.BudgetStatus" />
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.budget.BudgetStatus" />
 		<property name="objectLabel" value="Budget Status" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetStatus-inquiryDefinition" />
@@ -77,7 +77,7 @@
 
   <bean id="BudgetStatus-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Budget Status"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.BudgetStatus"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.budget.BudgetStatus"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -121,7 +121,7 @@
   </bean>
 
   <bean id="BudgetStatus-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.bo.BudgetStatus"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.budget.BudgetStatus"/>
     <property name="headerText" value="Budget Status Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

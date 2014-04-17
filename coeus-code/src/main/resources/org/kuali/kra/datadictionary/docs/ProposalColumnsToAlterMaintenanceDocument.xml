@@ -4,7 +4,7 @@
 
   <bean id="ProposalColumnsToAlterMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter"/>
-    <property name="maintainableClass" value="org.kuali.kra.proposaldevelopment.document.ProposalColumnsToAlterMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlterMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="ProposalColumnsToAlterMaintenanceDocument-EditProposalColumnsToAlter"/>

@@ -261,7 +261,7 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     
-        <reference-descriptor name="abstractType" class-ref="org.kuali.kra.proposaldevelopment.bo.AbstractType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="abstractType" class-ref="org.kuali.coeus.propdev.impl.abstrct.AbstractType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="abstractTypeCode"/> 
         </reference-descriptor>
         <!--
@@ -279,7 +279,7 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         
-        <reference-descriptor name="budgetStatus" class-ref="org.kuali.kra.proposaldevelopment.bo.BudgetStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="budgetStatus" class-ref="org.kuali.coeus.propdev.impl.budget.BudgetStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="budgetStatusCode" />
         </reference-descriptor>
     </class-descriptor>
