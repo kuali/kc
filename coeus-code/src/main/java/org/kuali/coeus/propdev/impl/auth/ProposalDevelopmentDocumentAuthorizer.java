@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorization;
+package org.kuali.coeus.propdev.impl.auth;
 
+import gov.grants.apply.forms.basicWorkPlanV10.BasicWorkPlanDocument;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+//import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -44,7 +46,13 @@ import java.util.Set;
  */
 public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
 
-    
+    private TaskAuthorizationService taskAuthenticationService;
+    public void setTaskAuthenticationService (TaskAuthorizationService taskAuthenticationService){
+        this.taskAuthenticationService = taskAuthenticationService;
+    }
+    protected  TaskAuthorizationService getTaskAuthenticationService (){
+        return taskAuthenticationService;
+    }
 
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
@@ -107,9 +115,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
      * to modify the proposal.  Note that permissions are always signified as 
      * either TRUE or FALSE.
      * 
-     * @param username the user's unique username
+     * @param userId the user's unique username
      * @param doc the Proposal Development Document
-     * @param editModeMap the edit mode map
+     * @param editModes the edit mode map
      */
     private void setPermissions(String userId, ProposalDevelopmentDocument doc, Set<String> editModes) {
         if (editModes.contains(AuthorizationConstants.EditMode.FULL_ENTRY)) {
@@ -208,10 +216,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             }
         }
         
-        TaskAuthorizationService taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
-        
+
         int i = 0;
-        boolean canReplace = taskAuthorizationService.isAuthorized(userId, new ProposalTask(TaskName.REPLACE_PERSONNEL_ATTACHMENT, doc));
+        boolean canReplace = getTaskAuthorizationService().isAuthorized(userId, new ProposalTask(TaskName.REPLACE_PERSONNEL_ATTACHMENT, doc));
         for (ProposalPersonBiography ppb : doc.getDevelopmentProposal().getPropPersonBios()) {
             ppb.setPositionNumber(i);
             //boolean canReplace taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.REPLACE_NARRATIVE, doc, ppb));
@@ -227,7 +234,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
 
     /**
      * Can the user execute the given task?
-     * @param username the user's username
+     * @param userId the user's username
      * @param doc the proposal development document
      * @param taskName the name of the task
      * @return "TRUE" if has permission; otherwise "FALSE"
@@ -238,14 +245,14 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     
     /**
      * Does the user have the given permission for the given proposal?
-     * @param username the user's username
+     * @param userId the user's username
      * @param doc the proposal development document
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteProposalTask(String userId, ProposalDevelopmentDocument doc, String taskName) {
         ProposalTask task = new ProposalTask(taskName, doc);       
-        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = getTaskAuthenticationService();
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     
@@ -269,14 +276,13 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
      */
     private boolean canCreateProposal(Person user) {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
-        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        TaskAuthorizationService taskAuthenticationService = getTaskAuthenticationService();
         return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
     
     @Override
     public boolean canEdit(Document document, Person user) {
         ProposalDevelopmentDocument proposalDocument = (ProposalDevelopmentDocument) document;
-        //KRACOEUS-5529 Added check if document is in Disapproved status.
         String proposalStateTypeCode = "";
         if (proposalDocument.getDevelopmentProposal().getProposalState() != null){
             proposalStateTypeCode = proposalDocument.getDevelopmentProposal().getProposalState().getStateTypeCode();

@@ -20,7 +20,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 
 import javax.servlet.http.HttpServletRequest;
 

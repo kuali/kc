@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.document.authorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 
 /**
  * The Submit to Sponsor Authorizer determines if the user can
