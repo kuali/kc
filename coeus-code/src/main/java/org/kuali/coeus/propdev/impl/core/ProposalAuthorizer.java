@@ -16,33 +16,19 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+//import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
-
 
 /**
  * A Proposal Authorizer determines if a user can perform
  * a given task on a proposal.  
  */
-
-@Component("parentProposalAuthorizer")
 public abstract class ProposalAuthorizer extends TaskAuthorizerBase {
-    
-    @Autowired
-    @Qualifier("kcAuthorizationService")
-    private KcAuthorizationService kcAuthorizationService;
-    @Autowired
-    @Qualifier("unitAuthorizationService")
-    private UnitAuthorizationService unitAuthorizationService;
 
+    private KcAuthorizationService kraAuthorizationService;
     private boolean requiresWritableDoc = false;
 
     @Override
@@ -64,13 +50,13 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerBase {
     
     /**
      * Set the Kra Authorization Service.  Injected by the Spring Framework.
-     * @param kcAuthorizationService the Kra Authorization Service
+     * @param kraAuthorizationService the Kra Authorization Service
      */
-    public final void setKcAuthorizationService(KcAuthorizationService kcAuthorizationService) {
-        this.kcAuthorizationService = kcAuthorizationService;
+    public final void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
 
-    protected KcAuthorizationService getKcAuthorizationService (){return kcAuthorizationService;}
+    protected KcAuthorizationService getKraAuthorizationService (){return kraAuthorizationService;}
     /**
      * Does the given user has the permission for this proposal development document?
      * @param userId the unique username of the user
@@ -79,7 +65,7 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerBase {
      * @return true if the person has the permission; otherwise false
      */
     protected final boolean hasProposalPermission(String userId, ProposalDevelopmentDocument doc, String permissionName) {
-        return getKcAuthorizationService().hasPermission(userId, doc, permissionName);
+        return getKraAuthorizationService().hasPermission(userId, doc, permissionName);
     }
 
     public boolean isRequiresWritableDoc() {

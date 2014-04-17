@@ -16,7 +16,6 @@
 package org.kuali.coeus.propdev.impl.editable;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -37,20 +36,20 @@ public class AlterProposalDataAuthorizer extends ProposalAuthorizer {
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AlterProposalDataAuthorizer.class);
 
-    private KcWorkflowService kraWorkflowService;
+    private KcWorkflowService kcWorkflowService;
     private ProposalHierarchyService proposalHierarchyService;
 
 
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
         //standard is authorized calculation without taking child status into account.
-        boolean ret = kraWorkflowService.isEnRoute(doc) &&
+        boolean ret = getKcWorkflowService().isEnRoute(doc) &&
         !doc.getDevelopmentProposal().getSubmitFlag() &&
         hasProposalPermission(userId, doc, PermissionConstants.ALTER_PROPOSAL_DATA);
        
         //check to see if the parent is enroute, if so deny the edit attempt.
         if( doc.getDevelopmentProposal().isChild() ) {
-            ProposalHierarchyService hService = KcServiceLocator.getService(ProposalHierarchyService.class);
+            ProposalHierarchyService hService = getProposalHierarchyService();
             try {
                 if( hService.getParentWorkflowDocument(doc).isEnroute() )
                     ret = false;
@@ -62,11 +61,17 @@ public class AlterProposalDataAuthorizer extends ProposalAuthorizer {
         return ret;
     }
 
-    public KcWorkflowService getKraWorkflowService() {
-        return kraWorkflowService;
+    public KcWorkflowService getKcWorkflowService() {
+        return kcWorkflowService;
     }
 
-    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
-        this.kraWorkflowService = kraWorkflowService;
+    public void setKcWorkflowService(KcWorkflowService kcWorkflowService) {
+        this.kcWorkflowService = kcWorkflowService;
+    }
+    public void setProposalHierarchyService (ProposalHierarchyService proposalHierarchyService){
+        this.proposalHierarchyService = proposalHierarchyService;
+    }
+    protected ProposalHierarchyService getProposalHierarchyService (){
+        return proposalHierarchyService;
     }
 }
