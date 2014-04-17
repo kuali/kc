@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+//import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
@@ -27,10 +27,10 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
  * a given task on a proposal.  
  */
 public abstract class ProposalAuthorizer extends TaskAuthorizerBase {
-    
+
     private KcAuthorizationService kraAuthorizationService;
     private boolean requiresWritableDoc = false;
-    
+
     @Override
     public final boolean isAuthorized(String userId, Task task) {
         if (isRequiresWritableDoc() && ((ProposalTask)task).getDocument().isViewOnly() && task.getTaskName() != null && !StringUtils.equals(task.getTaskName(),"rejectProposal")) {
@@ -42,7 +42,7 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerBase {
 
     /**
      * Is the user authorized to execute the given proposal task?
-     * @param username the user's unique username
+     * @param userId the user's unique username
      * @param task the proposal task
      * @return true if the user is authorized; otherwise false
      */
@@ -55,16 +55,17 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerBase {
     public final void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
-    
+
+    protected KcAuthorizationService getKraAuthorizationService (){return kraAuthorizationService;}
     /**
      * Does the given user has the permission for this proposal development document?
-     * @param username the unique username of the user
+     * @param userId the unique username of the user
      * @param doc the proposal development document
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
     protected final boolean hasProposalPermission(String userId, ProposalDevelopmentDocument doc, String permissionName) {
-        return kraAuthorizationService.hasPermission(userId, doc, permissionName);
+        return getKraAuthorizationService().hasPermission(userId, doc, permissionName);
     }
 
     public boolean isRequiresWritableDoc() {

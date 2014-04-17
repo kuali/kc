@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.abstrct;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -21,9 +21,6 @@ import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.bo.AbstractType;
-import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
-import org.kuali.coeus.propdev.impl.abstrct.AbstractsRule;
 import org.kuali.rice.core.api.criteria.CountFlag;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -39,6 +36,13 @@ import java.util.Map;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentAbstractsRule extends KcTransactionalDocumentRuleBase implements AbstractsRule {
+
+    private DataObjectService dataObjectService ;
+    protected DataObjectService getDataObjectService (){
+        if (dataObjectService == null)
+            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        return dataObjectService;
+    }
 
     /**
      * Don't allow abstracts with an invalid abstract type code or duplicate abstracts, i.e.
@@ -79,10 +83,9 @@ public class ProposalDevelopmentAbstractsRule extends KcTransactionalDocumentRul
      */
     private boolean isInvalid(String abstractTypeCode) {
         if (abstractTypeCode != null) {
-            DataObjectService dataObjectService = KcServiceLocator.getService(DataObjectService.class);
             Map<String,String> fieldValues = new HashMap<String,String>();
             fieldValues.put("abstractTypeCode", abstractTypeCode);
-            if (dataObjectService.findMatching(AbstractType.class,
+            if (getDataObjectService().findMatching(AbstractType.class,
                     QueryByCriteria.Builder.andAttributes(fieldValues).setCountFlag(CountFlag.ONLY).build()).getTotalRowCount() == 1) {
                 return false;
             }

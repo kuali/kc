@@ -1076,11 +1076,11 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
 		<property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.BudgetStatus" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="budgetStatusCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.propdev.impl.budget.BudgetStatus" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="budgetStatusCode" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.BudgetStatus"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.budget.BudgetStatus"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="keyAttributeName" value="budgetStatusCode"/>
         <property name="labelAttributeName" value="description"/>
