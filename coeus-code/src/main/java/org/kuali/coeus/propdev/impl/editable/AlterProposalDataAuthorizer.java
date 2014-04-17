@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.editable;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -21,6 +21,7 @@ import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
+import org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 
 /**
@@ -37,6 +38,8 @@ public class AlterProposalDataAuthorizer extends ProposalAuthorizer {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AlterProposalDataAuthorizer.class);
 
     private KcWorkflowService kraWorkflowService;
+    private ProposalHierarchyService proposalHierarchyService;
+
 
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();

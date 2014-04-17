@@ -79,7 +79,7 @@
     </bean>
  
 	<context:annotation-config />
-	<context:component-scan base-package="org.kuali.kra.proposaldevelopment.web.krad"/> 
+	<!--context:component-scan base-package="org.kuali.kra.proposaldevelopment.web.krad"/-->
         <context:component-scan base-package="org.kuali.coeus.propdev.impl"/>
     
     <bean id="transactionalDocumentControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -531,9 +531,7 @@
 
 	<!-- Proposal Development Task Authorizers -->
 
-	<bean id="parentProposalAuthorizer" abstract="true">
-		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
+	<bean id="parentProposalAuthorizer" class="org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer" abstract="true">
 	</bean>
 
 	<bean id="proposalTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
@@ -580,7 +578,7 @@
 					<property name="taskName" value="showAlterProposalData" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.AlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.editable.AlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="alterProposalData" />
 					<property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
