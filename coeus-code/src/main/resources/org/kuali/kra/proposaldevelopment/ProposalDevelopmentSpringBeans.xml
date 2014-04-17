@@ -79,7 +79,6 @@
     </bean>
  
 	<context:annotation-config />
-	<!--context:component-scan base-package="org.kuali.kra.proposaldevelopment.web.krad"/-->
         <context:component-scan base-package="org.kuali.coeus.propdev.impl"/>
     
     <bean id="transactionalDocumentControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -532,7 +531,9 @@
 	<!-- Proposal Development Task Authorizers -->
 
 	<bean id="parentProposalAuthorizer" class="org.kuali.coeus.propdev.impl.core.ProposalAuthorizer" abstract="true">
-	</bean>
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
+    </bean>
 
 	<bean id="proposalTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
 		<property name="groupName" value="proposal" />
@@ -581,7 +582,8 @@
 				<bean class="org.kuali.coeus.propdev.impl.editable.AlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="alterProposalData" />
 					<property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="kcWorkflowService" ref="kcWorkflowService" />
+                    <property name="proposalHierarchyService" ref="proposalHierarchyService" />
 				</bean>
 				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalPermissionsAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="modifyProposalRoles" />
