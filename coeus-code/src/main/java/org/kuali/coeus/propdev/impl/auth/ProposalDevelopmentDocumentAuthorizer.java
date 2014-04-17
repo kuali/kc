@@ -15,14 +15,13 @@
  */
 package org.kuali.coeus.propdev.impl.auth;
 
-import gov.grants.apply.forms.basicWorkPlanV10.BasicWorkPlanDocument;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-//import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -47,10 +46,9 @@ import java.util.Set;
 public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
 
     private TaskAuthorizationService taskAuthenticationService;
-    public void setTaskAuthenticationService (TaskAuthorizationService taskAuthenticationService){
-        this.taskAuthenticationService = taskAuthenticationService;
-    }
     protected  TaskAuthorizationService getTaskAuthenticationService (){
+        if (taskAuthenticationService == null)
+            taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService;
     }
 
@@ -221,8 +219,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         boolean canReplace = getTaskAuthorizationService().isAuthorized(userId, new ProposalTask(TaskName.REPLACE_PERSONNEL_ATTACHMENT, doc));
         for (ProposalPersonBiography ppb : doc.getDevelopmentProposal().getPropPersonBios()) {
             ppb.setPositionNumber(i);
-            //boolean canReplace taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.REPLACE_NARRATIVE, doc, ppb));
-            //boolean canReplace = false;
             String prefix = "biographyAttachments." + ppb.getPositionNumber() + ".";
             if (canReplace) {
                 editModes.add(prefix + "replace");
