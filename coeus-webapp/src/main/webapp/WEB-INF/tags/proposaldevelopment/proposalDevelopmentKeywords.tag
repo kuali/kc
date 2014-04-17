@@ -26,7 +26,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Keywords</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.ScienceKeyword" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.common.framework.keyword.ScienceKeyword" altText="help"/></span>
         </h3>
        
         <table id="keywords-table" cellpadding=0 cellspacing="0"  summary="">
@@ -39,7 +39,7 @@
             <tr>
               <th width="10%" class="infoline">Add:</th>
               <td width="70%" class="infoline">${KualiForm.document.developmentProposalList[0].newDescription}
-              		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ScienceKeyword" 
+              		<kul:multipleValueLookup boClassName="org.kuali.coeus.common.framework.keyword.ScienceKeyword" 
               		lookedUpCollectionName="propScienceKeywords" 
               		anchor="${tabKey}"/>
 			  </td>
@@ -57,7 +57,7 @@
                 </div></td>
                 <td>
                 	 ${KualiForm.document.developmentProposalList[0].propScienceKeywords[ctr].scienceKeyword.description}
-					<kul:lookup boClassName="org.kuali.kra.bo.ScienceKeyword" 
+					<kul:lookup boClassName="org.kuali.coeus.common.framework.keyword.ScienceKeyword" 
 					fieldConversions="scienceKeywordCode:document.developmentProposalList[0].propScienceKeyword[${ctr}].scienceKeywordCode,description:document.developmentProposalList[0].propScienceKeyword[${ctr}].scienceKeyword.description"
 					lookupParameters="" hideReturnLink="false" />
                 </td>

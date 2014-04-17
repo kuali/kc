@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service;
+package org.kuali.coeus.common.framework.person.attr;
 
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
-import org.kuali.kra.bo.CitizenshipType;
+
 import org.kuali.kra.infrastructure.CitizenshipTypes;
 
 /**

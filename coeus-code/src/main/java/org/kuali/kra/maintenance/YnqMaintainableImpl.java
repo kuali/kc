@@ -16,11 +16,11 @@
 package org.kuali.kra.maintenance;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.kuali.coeus.common.framework.ynq.Ynq;
+import org.kuali.coeus.common.framework.ynq.YnqExplanation;
+import org.kuali.coeus.common.framework.ynq.YnqExplanationType;
+import org.kuali.coeus.common.framework.ynq.YnqService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.bo.YnqExplanation;
-import org.kuali.kra.bo.YnqExplanationType;
-import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;

@@ -20,8 +20,9 @@ import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDa
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
+import org.kuali.coeus.common.framework.person.attr.CitizenshipTypeService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.service.CitizenshipTypeService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

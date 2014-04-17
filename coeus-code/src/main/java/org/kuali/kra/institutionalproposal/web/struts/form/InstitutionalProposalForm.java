@@ -51,9 +51,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase implements AuditableForm,
-        MultiLookupForm, ReportHelperBeanContainer,
-                                                                        CustomDataDocumentForm {
+public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase implements AuditableForm, MultiLookupForm, ReportHelperBeanContainer,CustomDataDocumentForm {
 
 
     private static final long serialVersionUID = 4564236415580911082L;

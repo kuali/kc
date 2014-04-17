@@ -15,9 +15,9 @@
  */
 package org.kuali.coeus.common.framework.org.crrspndnt;
 
+import org.kuali.coeus.common.framework.crrspndnt.Correspondent;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.kra.bo.Correspondent;
 import org.kuali.kra.irb.correspondence.CorrespondentType;
 
 public class OrganizationCorrespondent extends Correspondent {
