@@ -347,19 +347,10 @@
         <property name="documentService" ref="documentService" />
     </bean>
     
-    <bean id="proposalPersonDao" parent="platformAwareDao" class="org.kuali.kra.proposaldevelopment.dao.ojb.ProposalPersonDaoOjb">
-        <property name="lookupDao" ref="lookupDao" />
-        <property name="dataDictionaryService" ref="dataDictionaryService" />
-    </bean>  
-    
-    <bean id="lookupDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+      <bean id="lookupDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="lookupDao" />
     </bean>
-    
-    <!--<bean id="proposalAbstractsService" class="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstractsServiceImpl">
-        <property name="personService" ref="personService" />
-    </bean>
-    -->
+
     <bean id="proposalAllUnitAdministratorDerivedRoleTypeService" 
           class="org.kuali.coeus.propdev.impl.auth.ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl">
         <property name="unitService" ref="unitService" />

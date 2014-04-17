@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.dao.ojb;
+package org.kuali.coeus.propdev.impl.person;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,22 +23,27 @@ import java.util.Map;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.dao.ProposalPersonDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.dao.LookupDao;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * This class created to get a list of proposal persons with a case-insensitive search on name.
  */
 
+@Component("proposalPersonDao")
 public class ProposalPersonDaoOjb  extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ProposalPersonDao {
 
+    @Autowired
+    @Qualifier("lookupDao")
     private LookupDao lookupDao;
-    private DataDictionaryService dataDictionaryService;
+
+    protected LookupDao getLookupDao(){return lookupDao;}
 
     @Override
     @SuppressWarnings("unchecked")
@@ -55,14 +60,7 @@ public class ProposalPersonDaoOjb  extends PlatformAwareDaoBaseOjb implements Oj
     public void setLookupDao(LookupDao lookupDao) {
         this.lookupDao = lookupDao;
     }
-    
-    /**
-     * @param lookupDao
-     */
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-    }
-    
+
     /*
      * 
      * Builds up criteria object based on the object and map.
