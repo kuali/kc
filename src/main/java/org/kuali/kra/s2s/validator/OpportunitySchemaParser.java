@@ -67,7 +67,7 @@ public class OpportunitySchemaParser {
      * @param schema {@link String}
      * @return {@link HashMap} containing all form information
      */
-    public ArrayList<S2sOppForms> getForms(String schema) throws S2SException{
+    public ArrayList<S2sOppForms> getForms(String proposalNumber,String schema) throws S2SException{
         boolean mandatory;
         boolean available;
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
@@ -111,11 +111,7 @@ public class OpportunitySchemaParser {
             String formName = fullFormName.substring(0, fullFormName.indexOf(CH_COLON));
             String minOccurs = ((Element) form).getAttribute(MIN_OCCURS);
             String nameSpace = schemaElement.getAttribute(XMLNS + formName);
-            FormMappingInfo info = null;
-            try {
-                info = new FormMappingLoader().getFormInfo(nameSpace);
-            }catch (S2SGeneratorNotFoundException e) {
-            }
+            FormMappingInfo info = new FormMappingLoader().getFormInfo(proposalNumber,nameSpace);
             String displayFormName = info==null?formName:info.getFormName();
             formNames[formIndex] = nameSpace;
             for (int impIndex = 0; impIndex < importList.getLength(); impIndex++) {

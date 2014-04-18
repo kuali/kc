@@ -46,6 +46,8 @@ import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.kra.s2s.bo.S2sUserAttachedForm;
+import org.kuali.kra.s2s.bo.S2sUserAttachedFormAtt;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -527,6 +529,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         fixProposalNumbers(newDoc, newDoc.getDevelopmentProposal().getProposalNumber(), list);
         fixKeyPersonnel(newDoc, srcDoc.getDevelopmentProposal().getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
         fixCongressionalDistricts(newDoc);
+        fixS2sUserAttachedForms(newDoc);
         // reset organization / location info only if lead unit changed
         if (!StringUtils.equals(srcDoc.getDevelopmentProposal().getUnitNumber(), newDoc.getDevelopmentProposal().getUnitNumber())) {
             fixOrganizationAndLocations(newDoc);
@@ -543,6 +546,20 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         for (ProposalAbstract curAbstract : newDoc.getDevelopmentProposal().getProposalAbstracts()) {
             curAbstract.setTimestampDisplay(dateTimeService.getCurrentTimestamp());
         }
+    }
+
+    private void fixS2sUserAttachedForms(ProposalDevelopmentDocument newDoc) {
+        DevelopmentProposal developmentProposal = newDoc.getDevelopmentProposal();
+        List<S2sUserAttachedForm> userAttachedForms = developmentProposal.getS2sUserAttachedForms();
+        for (S2sUserAttachedForm s2sUserAttachedForm : userAttachedForms) {
+            s2sUserAttachedForm.refresh();
+            s2sUserAttachedForm.setS2sUserAttachedFormId(null);
+            List<S2sUserAttachedFormAtt> attachments = s2sUserAttachedForm.getS2sUserAttachedFormAtts();
+            for (S2sUserAttachedFormAtt s2sUserAttachedFormAtt : attachments) {
+                s2sUserAttachedFormAtt.setS2sUserAttachedFormAttId(null);
+            }
+        }
+        
     }
 
     /**

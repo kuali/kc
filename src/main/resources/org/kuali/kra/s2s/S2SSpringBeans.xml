@@ -99,6 +99,9 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="s2SUserAttachedFormService">
+			<ref bean="s2SUserAttachedFormService" />
+		</property>
 	</bean>
 
 	<bean id="printService"
@@ -405,6 +408,15 @@
 				<ref bean="postValidationTrigger" />
 				<ref bean="errorOutTrigger" />
 			</list>
+		</property>
+	</bean>
+	<bean id="s2SUserAttachedFormService"
+		class="org.kuali.kra.s2s.service.impl.S2SUserAttachedFormServiceImpl">
+		<property name="s2SValidatorService">
+			<ref bean="s2SValidatorService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 	

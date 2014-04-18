@@ -79,6 +79,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 
     protected ProposalDevelopmentDocument pdDoc = null;
     private List<AuditError> auditErrors;
+    private String namespace;
 
     /*
      * Reference to global library generators are defined here. The actual form generator will decide which object to be used for
@@ -453,5 +454,21 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
                 attachments.add(tempAttachment);
             } 
         }
-    }     
+    }
+
+    /**
+     * Gets the namespace attribute. 
+     * @return Returns the namespace.
+     */
+    public String getNamespace() {
+        return namespace;
+    }
+
+    /**
+     * Sets the namespace attribute value.
+     * @param namespace The namespace to set.
+     */
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
 }

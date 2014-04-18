@@ -116,69 +116,13 @@ public class FormMappingInfo{
         this.stylesheet = stylesheet;
     }
 
-    /**
-     * Getter for property beanName.
-     * 
-     * @return Value of property beanName.
-     */
-    public String getPkgName() {
-        return pkgname;
-    }
-
-    /**
-     * Setter for property beanName.
-     * 
-     * @param beanName New value of property beanName.
-     */
-
-    public void setPkgName(String pkgname) {
-        this.pkgname = pkgname;
-    }
-
     public String toString() {
         Map<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put(KEY_NAMESPACE, getNameSpace());
         hashMap.put(KEY_MAIN_CLASS, getMainClass());
         hashMap.put(KEY_FORM_NAME, getFormName());
         hashMap.put(KEY_STYLE_SHEET, getStyleSheet());
-        hashMap.put(KEY_PACKAGE_NAME, getPkgName());
         return hashMap.toString();
-    }
-
-    /**
-     * Gets the stylesheet attribute.
-     * 
-     * @return Returns the stylesheet.
-     */
-    public String getStylesheet() {
-        return stylesheet;
-    }
-
-    /**
-     * Sets the stylesheet attribute value.
-     * 
-     * @param stylesheet The stylesheet to set.
-     */
-    public void setStylesheet(String stylesheet) {
-        this.stylesheet = stylesheet;
-    }
-
-    /**
-     * Gets the pkgname attribute.
-     * 
-     * @return Returns the pkgname.
-     */
-    public String getPkgname() {
-        return pkgname;
-    }
-
-    /**
-     * Sets the pkgname attribute value.
-     * 
-     * @param pkgname The pkgname to set.
-     */
-    public void setPkgname(String pkgname) {
-        this.pkgname = pkgname;
     }
 
     /**
