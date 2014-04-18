@@ -544,7 +544,7 @@
             <foreignkey field-ref="unitNumber" />
         </reference-descriptor>
 
-        <collection-descriptor name="creditSplits" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit" 
+        <collection-descriptor name="creditSplits" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
             <inverse-foreignkey field-ref="proposalPersonNumber"/>
@@ -657,7 +657,7 @@
         </reference-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit" table="EPS_PROP_UNIT_CREDIT_SPLIT">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit" table="EPS_PROP_UNIT_CREDIT_SPLIT">
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="invCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />

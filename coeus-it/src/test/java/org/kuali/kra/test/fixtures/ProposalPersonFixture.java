@@ -19,7 +19,7 @@ import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
-import org.kuali.kra.proposaldevelopment.bo.*;
+import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;

@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstractsService;
+import org.kuali.coeus.propdev.impl.budget.CostShareInfoDO;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService.ProposalLockingRegion;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
