@@ -13,29 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.action;
+package org.kuali.coeus.propdev.impl.core;
 
-import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 
 /**
- * The Submit to Workflow Authorizer determines if the user can
- * submit a proposal to workflow.  This is only allowed if the
- * proposal is not already in workflow and the person has the
- * necessary permission and the proposal is not a child in a 
- * hierarchy.
+ * The View Proposal Authorizer determines if a user has the right
+ * to view a specific proposal.
  */
-public class SubmitToWorkflowAuthorizer extends ProposalAuthorizer {
+public class ViewProposalAuthorizer extends ProposalAuthorizer {
+
     private KcWorkflowService kraWorkflowService;
 
+    @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
-        return !kraWorkflowService.isInWorkflow(doc) &&
-               hasProposalPermission(userId, doc, PermissionConstants.SUBMIT_PROPOSAL) &&
-               !doc.getDevelopmentProposal().isChild();
+        
+        return hasProposalPermission(userId, doc, PermissionConstants.VIEW_PROPOSAL)
+            || kraWorkflowService.hasWorkflowPermission(userId, doc);
     }
 
     public KcWorkflowService getKraWorkflowService() {

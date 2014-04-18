@@ -13,27 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.docperm;
+package org.kuali.coeus.propdev.impl.core;
 
-import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalAuthorizer;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 
 /**
- * Determines if the document is in the correct state and the user
- * has the appropriate permissions to delete a proposal.
+ * The Submit to Workflow Authorizer determines if the user can
+ * submit a proposal to workflow.  This is only allowed if the
+ * proposal is not already in workflow and the person has the
+ * necessary permission and the proposal is not a child in a 
+ * hierarchy.
  */
-public class DeleteProposalAuthorizer extends ProposalAuthorizer {
-
+public class SubmitToWorkflowAuthorizer extends ProposalAuthorizer {
     private KcWorkflowService kraWorkflowService;
 
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
-        boolean result = hasProposalPermission(userId, doc, PermissionConstants.DELETE_PROPOSAL);
-        result &= !kraWorkflowService.isInWorkflow(doc);
-        return result;
+        return !kraWorkflowService.isInWorkflow(doc) &&
+               hasProposalPermission(userId, doc, PermissionConstants.SUBMIT_PROPOSAL) &&
+               !doc.getDevelopmentProposal().isChild();
     }
 
     public KcWorkflowService getKraWorkflowService() {
