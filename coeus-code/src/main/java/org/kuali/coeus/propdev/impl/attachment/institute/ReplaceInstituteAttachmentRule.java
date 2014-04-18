@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.osedu.org/licenses/ECL-2.0
+ * http://www.opensource.org/licenses/ecl1.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,25 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule;
+package org.kuali.coeus.propdev.impl.attachment.institute;
 
-import org.kuali.coeus.propdev.impl.attachment.AddNarrativeRule;
-import org.kuali.kra.proposaldevelopment.rule.event.ReplaceNarrativeEvent;
+public interface ReplaceInstituteAttachmentRule extends AddInstituteAttachmentRule {
 
-
-/**
- * Interface for adding proposal narratives
- *
- * @author kualidev@oncourse.iu.edu
- * @version 1.0
- */
-public interface ReplaceNarrativeRule extends AddNarrativeRule {
-    
     /**
-     * Rule invoked upon replacing a proposal attachment within a
+     * Rule invoked upon replacing an institute attachment within a
      * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
-     *
-     * @return boolean
+
+     * @param event The <code>{@link ReplaceInstituteAttachmentEvent}</code> that triggered this rule to run.
+     * @return true if the business rules pass, false otherwise.
      */
-    public boolean processReplaceNarrativeBusinessRules(ReplaceNarrativeEvent replaceNarrativeEvent);
+    public boolean processReplaceInstituteAttachmentBusinessRules(ReplaceInstituteAttachmentEvent event);
+    
 }

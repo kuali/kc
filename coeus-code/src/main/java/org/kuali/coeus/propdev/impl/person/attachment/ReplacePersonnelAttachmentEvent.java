@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule.event;
+package org.kuali.coeus.propdev.impl.person.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.attachment.AddPersonnelAttachmentEvent;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
-import org.kuali.kra.proposaldevelopment.rule.ReplacePersonnelAttachmentRule;
+import org.kuali.coeus.propdev.impl.person.attachment.ReplacePersonnelAttachmentRule;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class ReplacePersonnelAttachmentEvent extends AddPersonnelAttachmentEvent {
@@ -27,8 +27,8 @@ public class ReplacePersonnelAttachmentEvent extends AddPersonnelAttachmentEvent
      * Constructs a ReplacePersonnelAttachmentEvent with the given errorPathPrefix, document, and ProposalPersonBiography.
      * 
      * @param errorPathPrefix
-     * @param proposalDevelopmentDocument
-     * @param narrative
+     * @param document
+     * @param proposalPersonBiography
      */
     public ReplacePersonnelAttachmentEvent(String errorPathPrefix, ProposalDevelopmentDocument document,
             ProposalPersonBiography proposalPersonBiography) {

@@ -33,10 +33,10 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.attachment.AddNarrativeRule;
 import org.kuali.coeus.propdev.impl.attachment.NewNarrativeUserRightsRule;
-import org.kuali.kra.proposaldevelopment.rule.ReplaceNarrativeRule;
+import org.kuali.coeus.propdev.impl.attachment.ReplaceNarrativeRule;
 import org.kuali.coeus.propdev.impl.attachment.SaveNarrativesRule;
 import org.kuali.coeus.propdev.impl.attachment.AddNarrativeEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.ReplaceNarrativeEvent;
+import org.kuali.coeus.propdev.impl.attachment.ReplaceNarrativeEvent;
 import org.kuali.coeus.propdev.impl.attachment.SaveNarrativesEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -173,7 +173,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
     /**
      * This method is used to validate characters in the attachment file name, and should be invoked when a user attempts
      * to replace a narrative post-route.
-     * @see org.kuali.kra.proposaldevelopment.rule.ReplaceNarrativeRule#processReplaceNarrativeBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.ReplaceNarrativeEvent)
+     * @see org.kuali.coeus.propdev.impl.attachment.ReplaceNarrativeRule#processReplaceNarrativeBusinessRules(org.kuali.coeus.propdev.impl.attachment.ReplaceNarrativeEvent)
      */
     public boolean processReplaceNarrativeBusinessRules(ReplaceNarrativeEvent replaceNarrativeEvent) {
         Narrative narrative = replaceNarrativeEvent.getNarrative();

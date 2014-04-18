@@ -62,7 +62,7 @@ import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.krms.KrmsRulesContext;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
+import org.kuali.coeus.propdev.impl.budget.editable.BudgetChangedData;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
