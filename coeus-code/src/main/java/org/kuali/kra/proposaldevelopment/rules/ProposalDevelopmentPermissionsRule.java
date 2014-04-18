@@ -30,7 +30,7 @@ import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.*;
-import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
+import org.kuali.coeus.propdev.impl.docperm.PermissionsRule;
 
 import java.util.List;
 

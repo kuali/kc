@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule.event;
+package org.kuali.coeus.propdev.impl.budget.editable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
-import org.kuali.kra.proposaldevelopment.rule.BudgetDataOverrideRule;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class BudgetDataOverrideEvent extends KcDocumentEventBase {
@@ -32,7 +30,7 @@ private static final org.apache.commons.logging.Log LOG = org.apache.commons.log
      * Constructs an BudgetDataOverrideEvent.
      * 
      * @param document proposal development document
-     * @param criteria the budget Changed Data
+     * @param budgetChangedData the budget Changed Data
      */
     public BudgetDataOverrideEvent(ProposalDevelopmentDocument document, BudgetChangedData budgetChangedData) {
         super("Override Budget Data " + getDocumentId(document), "", document);

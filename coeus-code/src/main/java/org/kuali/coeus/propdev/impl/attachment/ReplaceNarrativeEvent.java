@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule.event;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.attachment.AddNarrativeEvent;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.kra.proposaldevelopment.rule.ReplaceNarrativeRule;
+import org.kuali.coeus.propdev.impl.attachment.ReplaceNarrativeRule;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
@@ -34,7 +34,7 @@ public class ReplaceNarrativeEvent extends AddNarrativeEvent {
      * Constructs a ReplaceNarrativeEvent with the given errorPathPrefix, document, and narrative.
      * 
      * @param errorPathPrefix
-     * @param proposalDevelopmentDocument
+     * @param document
      * @param narrative
      */
     public ReplaceNarrativeEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative narrative) {

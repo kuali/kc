@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rule;
-
-import org.kuali.coeus.propdev.impl.person.attachment.AddPersonnelAttachmentRule;
-import org.kuali.kra.proposaldevelopment.rule.event.ReplacePersonnelAttachmentEvent;
+package org.kuali.coeus.propdev.impl.person.attachment;
 
 public interface ReplacePersonnelAttachmentRule extends AddPersonnelAttachmentRule {
 
@@ -24,7 +21,7 @@ public interface ReplacePersonnelAttachmentRule extends AddPersonnelAttachmentRu
      * Rule invoked upon replacing a personnel attachment to a
      * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
 
-     * @param event The <code>{@link org.kuali.kra.proposaldevelopment.rule.event.ReplacePersonnelAttachmentEvent}</code> that triggered this rule to run.
+     * @param event The <code>{@link ReplacePersonnelAttachmentEvent}</code> that triggered this rule to run.
      * @return true if the business rules pass, false otherwise.
      */
     public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event);
