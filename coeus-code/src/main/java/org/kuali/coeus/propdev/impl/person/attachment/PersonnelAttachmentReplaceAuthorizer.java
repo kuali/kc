@@ -16,7 +16,7 @@
 package org.kuali.coeus.propdev.impl.person.attachment;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
