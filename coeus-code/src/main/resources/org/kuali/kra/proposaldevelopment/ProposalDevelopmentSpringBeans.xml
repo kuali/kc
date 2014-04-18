@@ -539,43 +539,44 @@
 		<property name="groupName" value="proposal" />
 		<property name="taskAuthorizers">
 			<list>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.docperm.ModifyProposalAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="modifyProposal" />
 					<property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ViewProposalAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.docperm.ViewProposalAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="viewProposal" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.AddNoteProposalAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.note.AddNoteProposalAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="proposalAddNoteAttachment" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="unitAuthorizationService" ref="unitAuthorizationService" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.basic.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="maintainProposalHierarchy" />
 					<property name="permission" value="Maintain ProposalHierarchy" />
 					<property name="requiresWritableDoc" value="true" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.basic.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="printProposal" />
 					<property name="permission" value="Print Proposal" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SubmitToSponsorAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.action.SubmitToSponsorAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="submitToSponsor" />
 					<property name="requiresWritableDoc" value="true" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SubmitToWorkflowAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.action.SubmitToWorkflowAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="submitToWorkflow" />
 					<property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.basic.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="certify" />
 					<property name="permission" value="Certify" />
 					<property name="requiresWritableDoc" value="true" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ShowAlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.docperm.ShowAlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="showAlterProposalData" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
@@ -585,20 +586,21 @@
                     <property name="kcWorkflowService" ref="kcWorkflowService" />
                     <property name="proposalHierarchyService" ref="proposalHierarchyService" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalPermissionsAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.docperm.ModifyProposalPermissionsAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="modifyProposalRoles" />
 					<property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ProposalHierarchyChildWorkflowActionAuthorizer" 
+				<bean class="org.kuali.coeus.propdev.impl.docperm.ProposalHierarchyChildWorkflowActionAuthorizer"
 				      parent="parentProposalAuthorizer">
                     <property name="taskName" value="hierarchyChildWorkflowAction" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ProposalHierarchyChildWorkflowActionAuthorizer" 
+                <bean class="org.kuali.coeus.propdev.impl.docperm.ProposalHierarchyChildWorkflowActionAuthorizer"
                       parent="parentProposalAuthorizer">
                     <property name="taskName" value="hierarchyChildAcknowledgeAction" />
+                    <property name="proposalHierarchyService" ref="proposalHierarchyService" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.RejectProposalAuthorizer" parent="parentProposalAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.action.RejectProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="rejectProposal" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
@@ -607,7 +609,7 @@
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                     <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.DeleteProposalAuthorizer" parent="parentProposalAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.docperm.DeleteProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="deleteProposal" />
                     <property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
@@ -638,19 +640,22 @@
 					<property name="taskName" value="openBudgets" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyBudgetPermission" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.budget.ModifyBudgetPermission" parent="parentProposalAuthorizer">
 					<property name="taskName" value="modifyBudget" />
 					<property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
 				</bean>
 				
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.CreateProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.docperm.CreateProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="createIrbProtocolFromProposal" />
+                    <!--property name="taskAuthorizationService" value="taskAuthorizationService" /-->
                 </bean>   
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.CreateIacucProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.docperm.CreateIacucProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="createIacucProtocolFromProposal" />
+                    <!--property name="taskAuthorizationService" value="taskAuthorizationService" /-->
                 </bean>   
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.RecallAuthorizer" parent="parentProposalAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.action.RecallAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="recallProposal" />
                 </bean>
 			</list>
@@ -677,7 +682,7 @@
 					<property name="taskName" value="replaceNarrative" />
 					<property name="requiresWritableDoc" value="true" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyNarrativesAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.attachment.ModifyNarrativesAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="modifyNarratives" />
 					<property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />

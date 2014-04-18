@@ -16,7 +16,7 @@
       </list>
     </property>
     <property name="documentTypeName" value="SponsorMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.proposaldevelopment.document.authorizer.SponsorDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.coeus.propdev.impl.docperm.SponsorDocumentAuthorizer"/>
     <property name="webScriptFiles">
         <list>
             <value>../dwr/interface/StateService.js</value>

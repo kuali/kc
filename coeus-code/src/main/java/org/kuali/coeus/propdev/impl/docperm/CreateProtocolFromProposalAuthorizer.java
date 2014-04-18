@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.docperm;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
@@ -29,7 +29,15 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This service class is used to do authorization for create protocol task for protocol document.  
  */
 public class CreateProtocolFromProposalAuthorizer extends ProposalAuthorizer {
+   /* private TaskAuthorizationService taskAuthorizationService;
 
+    public void setTaskAuthorizationService (TaskAuthorizationService taskAuthorizationService){
+        this.taskAuthorizationService = taskAuthorizationService;
+    }
+    public TaskAuthorizationService getTaskAuthorizationService (){
+        return taskAuthorizationService;
+    }
+*/
     @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
 
@@ -41,8 +49,8 @@ public class CreateProtocolFromProposalAuthorizer extends ProposalAuthorizer {
     private boolean canCreateProtocol()
     {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);       
-        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
-        boolean canCreateProtocol = taskAuthenticationService.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
+        TaskAuthorizationService taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        boolean canCreateProtocol = taskAuthorizationService.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
         return canCreateProtocol;
     }
         

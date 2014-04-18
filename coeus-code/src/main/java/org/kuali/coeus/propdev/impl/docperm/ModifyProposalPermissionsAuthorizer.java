@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.docperm;
 
 import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -36,7 +36,7 @@ public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
     
     /**
      * This method checks if the user has full (pre-workflow/pre-submission) proposal access maintenance rights
-     * @param username the name of the user requesting access
+     * @param userId the name of the user requesting access
      * @param task the task object
      * @return true if the user has full (pre-workflow/pre-submission) proposal access maintenance rights
      */
@@ -51,7 +51,7 @@ public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
     
     /**
      * This method checks if the user has rights to add proposal viewers.
-     * @param username the name of the user requesting access
+     * @param userId the name of the user requesting access
      * @param task the task object
      * @return
      */

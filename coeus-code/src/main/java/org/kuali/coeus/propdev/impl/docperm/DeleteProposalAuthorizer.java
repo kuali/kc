@@ -13,41 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.docperm;
 
 import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 
-
 /**
- * The Modify Narratives Authorizer checks to see if the user has 
- * permission to modify the Narratives tab. Authorization depends upon whether
- * the user has MODIFY_NARRATIVES permission.  
+ * Determines if the document is in the correct state and the user
+ * has the appropriate permissions to delete a proposal.
  */
- 
-public class ModifyNarrativesAuthorizer extends ProposalAuthorizer {
+public class DeleteProposalAuthorizer extends ProposalAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
     public boolean isAuthorized(String userId, ProposalTask task) {
-        KcDocumentRejectionService documentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
         ProposalDevelopmentDocument doc = task.getDocument();
-        boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
-        boolean hasPermission = false;
-        boolean inWorkflow = kraWorkflowService.isInWorkflow(doc);
-        if ((!inWorkflow || rejectedDocument) && !doc.getDevelopmentProposal().getSubmitFlag()) {
-            hasPermission = hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE);
-        } else if(inWorkflow && !rejectedDocument && !doc.getDevelopmentProposal().getSubmitFlag()) {
-            if(hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE)) {
-                hasPermission = hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE);
-            }
-        }
-        return hasPermission;
+        boolean result = hasProposalPermission(userId, doc, PermissionConstants.DELETE_PROPOSAL);
+        result &= !kraWorkflowService.isInWorkflow(doc);
+        return result;
     }
 
     public KcWorkflowService getKraWorkflowService() {
