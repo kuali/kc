@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.docperm;
 
 import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
@@ -35,13 +34,21 @@ public class ProposalHierarchyChildWorkflowActionAuthorizer extends ProposalAuth
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalHierarchyChildWorkflowActionAuthorizer.class);
 
+    private ProposalHierarchyService proposalHierarchyService;
+    public  void setProposalHierarchyService (ProposalHierarchyService proposalHierarchyService){
+        this.proposalHierarchyService = proposalHierarchyService;
+    }
+    public  ProposalHierarchyService getProposalHierarchyService (){
+        return proposalHierarchyService;
+    }
+
     public boolean isAuthorized(String username, ProposalTask task) {
         boolean authorized = true;
         ProposalDevelopmentDocument doc = task.getDocument();
         
         if( doc.getDevelopmentProposal().isChild() ) {
             try {
-                WorkflowDocument parentWDoc  = KcServiceLocator.getService(ProposalHierarchyService.class).getParentWorkflowDocument(doc);
+                WorkflowDocument parentWDoc  = getProposalHierarchyService().getParentWorkflowDocument(doc);
                 if( task.getTaskName().equals(TaskName.PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION)) {
                     if( (!parentWDoc.isAcknowledgeRequested()) || parentWDoc.isInitiated() ) authorized = false; 
                 } else if ( task.getTaskName().equals(TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION) ) {
@@ -56,8 +63,5 @@ public class ProposalHierarchyChildWorkflowActionAuthorizer extends ProposalAuth
          
         return authorized;
     }
-
-
-
 
 }
