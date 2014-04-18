@@ -53,7 +53,7 @@ public class OtherV1_0Generator extends OtherBaseGenerator {
 
     /**
      * 
-     * This method is used to get List of Other attachments from NarrativeAttachmentList
+     * This method is used to get List of Other attachments from NarrativeAttachment
      * 
      * @return AttachedFileDataType[] based on the narrative type code.
      */

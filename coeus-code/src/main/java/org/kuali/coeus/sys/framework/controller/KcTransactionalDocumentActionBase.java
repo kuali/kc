@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
@@ -986,9 +987,9 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
         return bo;
     }
     
-    protected void streamToResponse(AttachmentDataSource attachmentDataSource,
+    protected void streamToResponse(KcFile attachmentDataSource,
             HttpServletResponse response) throws Exception {
-        byte[] xbts = attachmentDataSource.getContent();
+        byte[] xbts = attachmentDataSource.getData();
         ByteArrayOutputStream baos = null;
         try {
             baos = new ByteArrayOutputStream(xbts.length);
@@ -996,8 +997,8 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
 
             WebUtils
                     .saveMimeOutputStreamAsFile(response, attachmentDataSource
-                            .getContentType(), baos, attachmentDataSource
-                            .getFileName());
+                            .getType(), baos, attachmentDataSource
+                            .getName());
 
         } finally {
             try {

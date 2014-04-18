@@ -44,10 +44,6 @@ public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
     public static final int PROGRAM_ANNOUNCEMENT_TITLE_LENGTH = 120;
     public static final int AREAS_AFFECTED_MAX_LENGTH = 250;
 
-    public static final String CERTIFICATION_AGREE_YES = "Y: Yes";
-    public static final String APPLICANT_OTHERSPECIFY_FEDERAL = "Federal Government";
-    public static final String APPLICANT_OTHERSPECIFY_DISADVANTAGED = "socially and Economically Disadvantaged";
-    public static final String APPLICANT_OTHERSPECIFY_WOMEN = "Women owned";
     public static final String REVISIONCODE_STARTS_WITH_E = "E";
     public static final int CONGRESSIONAL_DISTRICTS_ATTACHMENT = 42;
     public static final int PROJECT_TITLE_ATTACHMENT = 41;
@@ -81,8 +77,6 @@ public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
 
     protected static final String RATE_CLASS_TYPE_EMPLOYEE_BENEFITS = "E";
     protected static final String RATE_CLASS_TYPE_VACATION = "V";
-    protected static final int RATE_TYPE_ADMINISTRATIVE_SALARIES = 2;
-    protected static final int RATE_TYPE_SUPPORT_STAFF_SALARIES = 3;
     protected static final String PROGRAM_TYPE = "Non-Construction";
 
     protected static final String INCREASE_AWARD_CODE = "A";

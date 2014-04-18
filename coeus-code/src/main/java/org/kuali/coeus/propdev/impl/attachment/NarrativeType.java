@@ -17,11 +17,10 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.propdev.api.attachment.NarrativeTypeContract;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Business Object for narratives added to a proposal. Narratives are the same as Proposal Attachments and vice-versa.
@@ -31,32 +30,36 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "NARRATIVE_TYPE")
-public class NarrativeType extends KcPersistableBusinessObjectBase {
+public class NarrativeType extends KcPersistableBusinessObjectBase implements NarrativeTypeContract {
 
     @Id
     @Column(name = "NARRATIVE_TYPE_CODE")
-    private String narrativeTypeCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
     @Column(name = "SYSTEM_GENERATED")
-    private String systemGenerated;
+    @Convert(converter = BooleanYNConverter.class)
+    private boolean systemGenerated;
 
     @Column(name = "ALLOW_MULTIPLE")
-    private String allowMultiple;
+    @Convert(converter = BooleanYNConverter.class)
+    private boolean allowMultiple;
 
     @Column(name = "NARRATIVE_TYPE_GROUP")
     private String narrativeTypeGroup;
 
-    public String getAllowMultiple() {
+    @Override
+    public boolean isAllowMultiple() {
         return allowMultiple;
     }
 
-    public void setAllowMultiple(String allowMultiple) {
+    public void setAllowMultiple(boolean allowMultiple) {
         this.allowMultiple = allowMultiple;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -65,14 +68,16 @@ public class NarrativeType extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public String getNarrativeTypeCode() {
-        return narrativeTypeCode;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    public void setNarrativeTypeCode(String narrativeTypeCode) {
-        this.narrativeTypeCode = narrativeTypeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
+    @Override
     public String getNarrativeTypeGroup() {
         return narrativeTypeGroup;
     }
@@ -81,11 +86,12 @@ public class NarrativeType extends KcPersistableBusinessObjectBase {
         this.narrativeTypeGroup = narrativeTypeGroup;
     }
 
-    public String getSystemGenerated() {
+    @Override
+    public boolean isSystemGenerated() {
         return systemGenerated;
     }
 
-    public void setSystemGenerated(String systemGenerated) {
+    public void setSystemGenerated(boolean systemGenerated) {
         this.systemGenerated = systemGenerated;
     }
 
@@ -98,7 +104,7 @@ public class NarrativeType extends KcPersistableBusinessObjectBase {
             return true;
         if (obj instanceof NarrativeType) {
             NarrativeType other = (NarrativeType) obj;
-            return StringUtils.equals(this.narrativeTypeCode, other.narrativeTypeCode) && StringUtils.equals(this.description, other.description) && StringUtils.equals(this.systemGenerated, other.systemGenerated) && StringUtils.equals(this.allowMultiple, other.allowMultiple) && StringUtils.equals(this.narrativeTypeGroup, other.narrativeTypeGroup);
+            return StringUtils.equals(this.code, other.code) && StringUtils.equals(this.description, other.description) && this.systemGenerated == other.systemGenerated && this.allowMultiple == other.allowMultiple && StringUtils.equals(this.narrativeTypeGroup, other.narrativeTypeGroup);
         }
         return false;
     }

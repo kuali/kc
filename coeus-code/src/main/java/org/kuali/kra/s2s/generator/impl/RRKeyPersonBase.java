@@ -13,13 +13,13 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.printing.GenericPrintable;
 
@@ -59,13 +59,13 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 	    }
 	}
 
-	private Narrative[] saveKeyPersonAttachments() {
+	private NarrativeContract[] saveKeyPersonAttachments() {
 		List<String> bioSketchBookMarks = new ArrayList<String>();
 		List<String> curPendBookMarks = new ArrayList<String>();
 		List<byte[]> bioSketchDataList = new ArrayList<byte[]>();
 		List<byte[]> curPendDataList = new ArrayList<byte[]>();
 
-		Narrative[] extraKeyPersonAttachments = new Narrative[2];
+        NarrativeContract[] extraKeyPersonAttachments = new NarrativeContract[2];
 		for (ProposalPerson proposalPerson : extraPersons) {
 			setBookMarkAndData(bioSketchBookMarks, bioSketchDataList,
 					proposalPerson, BIOSKETCH_TYPE);
@@ -108,9 +108,8 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 
 		for (ProposalPersonBiography personBiography : getPernonnelAttachments(
 				pdDoc, proposalPerson, docType)) {
-			personBiography.refreshReferenceObject("personnelAttachmentList");
-			byte[] content = personBiography.getPersonnelAttachmentList()
-					.get(0).getContent();
+			personBiography.refreshReferenceObject("personnelAttachment");
+			byte[] content = personBiography.getPersonnelAttachment().getData();
 			if (content != null && content.length > 0) {
 				dataList.add(content);
 				bookMarksList.add(personId);
@@ -420,8 +419,8 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			extraPerson.setDepartmentName(departmentName);
 
 	}
-	private Narrative saveKeypersonProfileObject() {
-	    Narrative narrative = null;
+	private NarrativeContract saveKeypersonProfileObject() {
+        NarrativeContract narrative = null;
 		if (extraPersons != null && !extraPersons.isEmpty()) {
 			PersonProfileList extraPersonProfileList = PersonProfileList.Factory.newInstance();
 
@@ -446,9 +445,9 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			printable.setStreamMap(streamMap);
 			PrintingService printingService= KcServiceLocator.getService(PrintingService.class);
 			try {
-				AttachmentDataSource printData = printingService.print(printable);
+				KcFile printData = printingService.print(printable);
 				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber() +"_"+PROFILE_COMMENT+".pdf";
-				narrative = saveNarrative(printData.getContent(), ""+PROFILE_TYPE,fileName,COMMENT +PROFILE_COMMENT);
+				narrative = saveNarrative(printData.getData(), ""+PROFILE_TYPE,fileName,COMMENT +PROFILE_COMMENT);
 			} catch (PrintingException e) {
 				LOG.error("Auto generation of Profile attachment for extra Keypersons failed",e);
 			}

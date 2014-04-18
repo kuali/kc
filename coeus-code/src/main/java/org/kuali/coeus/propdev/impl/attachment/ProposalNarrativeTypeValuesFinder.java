@@ -43,7 +43,6 @@ import java.util.*;
  * database and service lookups. 
  */
 public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValuesFinderBase {
-    private static final String NO = "N";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalNarrativeTypeValuesFinder.class);
     private ParameterService parameterService;
     private  BusinessObjectService businessObjectService;
@@ -100,7 +99,7 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
         List<KeyValue> KeyValues = new ArrayList<KeyValue>();
         KeyValues.add(new ConcreteKeyValue("", "select"));
         for (NarrativeType narrativeType : narrativeTypes) {
-            String key = narrativeType.getNarrativeTypeCode();
+            String key = narrativeType.getCode();
             String label = narrativeType.getDescription();
             KeyValues.add(new ConcreteKeyValue(key, label));
         }
@@ -134,7 +133,7 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
         for (NarrativeType narrativeType : narrativeTypes) {
             boolean exists = false;
             for (ValidNarrForms validNarrForm : validNarrativeForms) {
-                if(validNarrForm.getNarrativeTypeCode().equals(narrativeType.getNarrativeTypeCode())){
+                if(validNarrForm.getNarrativeTypeCode().equals(narrativeType.getCode())){
                     exists = true;
                     break;
                 }
@@ -163,7 +162,7 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
             List<ValidNarrForms>  validNarrativeForms = (List)getBusinessObjectService().findMatching(ValidNarrForms.class, queryMap);
             for (ValidNarrForms validNarrForms : validNarrativeForms) {
                 if(isProposalGroup(validNarrForms)){
-                    if(!isNarrativeAlreadyAdded(validaNarrativeTypes,validNarrForms.getNarrativeType()) && validNarrForms.getNarrativeType().getSystemGenerated().equals("N")){
+                    if(!isNarrativeAlreadyAdded(validaNarrativeTypes,validNarrForms.getNarrativeType()) && !validNarrForms.getNarrativeType().isSystemGenerated()){
                         validaNarrativeTypes.add(validNarrForms.getNarrativeType());
                     }
                 }
@@ -173,7 +172,7 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
     }
     private boolean isNarrativeAlreadyAdded(List<NarrativeType> validaNarrativeTypes, NarrativeType validNarrativeType) {
         for (NarrativeType narrativeType : validaNarrativeTypes) {
-            if(narrativeType.getNarrativeTypeCode().equals(validNarrativeType.getNarrativeTypeCode())){
+            if(narrativeType.getCode().equals(validNarrativeType.getCode())){
                 return true;
             }
         }
@@ -213,10 +212,10 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
     
 
     protected boolean filterCondition(NarrativeType documentNarrativeType, NarrativeType narrativeType) {
-        return documentNarrativeType.getNarrativeTypeCode().equals(narrativeType.getNarrativeTypeCode()) && multiplesNotAllowed(narrativeType);
+        return documentNarrativeType.getCode().equals(narrativeType.getCode()) && multiplesNotAllowed(narrativeType);
     }
 
     private boolean multiplesNotAllowed(NarrativeType narrativeType) {
-        return narrativeType.getAllowMultiple().equals(NO);
+        return !narrativeType.isAllowMultiple();
     }
 }

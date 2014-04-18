@@ -70,11 +70,11 @@ public class CoiPrintingServiceImpl  implements CoiPrintingService {
          CoiDisclosure coiDisclosure = (CoiDisclosure) certificationPrint.getPrintableBusinessObject();
          fileName = "PendingDisclosure" + Constants.PDF_FILE_EXTENSION;
           try {
-               attachmentDataSource.setFileName(URLEncoder.encode(fileName,"UTF-8"));
+               attachmentDataSource.setName(URLEncoder.encode(fileName,"UTF-8"));
            } catch (UnsupportedEncodingException e) {
-               attachmentDataSource.setFileName(fileName);
+               attachmentDataSource.setName(fileName);
            }
-           attachmentDataSource.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+           attachmentDataSource.setType(Constants.PDF_REPORT_CONTENT_TYPE);
 
            return attachmentDataSource;
        }

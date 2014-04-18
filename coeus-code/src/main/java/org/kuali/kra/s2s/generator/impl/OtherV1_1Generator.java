@@ -21,7 +21,7 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class OtherV1_1Generator extends OtherBaseGenerator {
 
     /**
      * 
-     * This method is used to get List of Other attachments from NarrativeAttachmentList
+     * This method is used to get List of Other attachments from NarrativeAttachment
      * 
      * @return AttachedFileDataType[] based on the narrative type code.
      */
@@ -65,9 +65,9 @@ public class OtherV1_1Generator extends OtherBaseGenerator {
 
         List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENTS_FORM) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == OTHER_ATTACHMENTS_FORM) {
             	attachedFileDataType = getAttachedFileType(narrative);
             	if(attachedFileDataType != null){
             		attachedFileDataTypeList.add(attachedFileDataType);

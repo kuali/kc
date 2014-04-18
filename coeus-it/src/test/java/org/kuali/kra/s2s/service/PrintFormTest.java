@@ -81,14 +81,13 @@ public class PrintFormTest extends KcIntegrationTestBase {
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         bis.read(narrativePdf);
-        narrativeAttachment.setNarrativeData(narrativePdf);
+        narrativeAttachment.setData(narrativePdf);
 
 
-        List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
-        narrativeList.add(0, narrativeAttachment);
         narrative.setNarrativeTypeCode("40");
-        narrative.setNarrativeAttachmentList(narrativeList);
-        narrative.setFileName("OpportunityForm");
+        narrative.refreshReferenceObject("narrativeType");
+        narrative.setNarrativeAttachment(narrativeAttachment);
+        narrative.setName("OpportunityForm");
         naList.add(narrative);
         document.getDevelopmentProposal().setNarratives(naList);
         S2sOppForms forms = new S2sOppForms();
@@ -97,7 +96,7 @@ public class PrintFormTest extends KcIntegrationTestBase {
         List<S2sOppForms> oppForms = new ArrayList<S2sOppForms>();
         oppForms.add(forms);
         document.getDevelopmentProposal().setS2sOppForms(oppForms);
-        PrintService printService = ((PrintService) KcServiceLocator.getService(PrintService.class));
+        PrintService printService = KcServiceLocator.getService(PrintService.class);
         printService.printForm(document);
     }
 

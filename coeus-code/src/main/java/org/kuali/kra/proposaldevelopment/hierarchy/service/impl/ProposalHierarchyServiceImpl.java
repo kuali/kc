@@ -66,7 +66,7 @@ import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyProposalSummary;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDao;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
-import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -107,7 +107,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private DocumentService documentService;
     private KcAuthorizationService kraAuthorizationService;
     private ProposalHierarchyDao proposalHierarchyDao;
-    private NarrativeService narrativeService;
+    private LegacyNarrativeService narrativeService;
     private BudgetService budgetService;
     private BudgetSummaryService budgetSummaryService;
     private ProposalPersonBiographyService propPersonBioService;
@@ -134,7 +134,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public void setProposalHierarchyDao(ProposalHierarchyDao proposalHierarchyDao) {
         this.proposalHierarchyDao = proposalHierarchyDao;
     }
-    public void setNarrativeService(NarrativeService narrativeService) {
+    public void setNarrativeService(LegacyNarrativeService narrativeService) {
         this.narrativeService = narrativeService;
     }
     public void setBudgetService(BudgetService budgetService) {
@@ -585,14 +585,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         String instituteNarrativeTypeGroup = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, 
                 PARAMETER_NAME_INSTITUTE_NARRATIVE_TYPE_GROUP);
         for (Narrative narrative : childProposal.getNarratives()) {
-            if (!StringUtils.equalsIgnoreCase(narrative.getNarrativeType().getAllowMultiple(), "N")
+            if (!narrative.getNarrativeType().isAllowMultiple()
                     && !StringUtils.equalsIgnoreCase(narrative.getNarrativeType().getNarrativeTypeGroup(), instituteNarrativeTypeGroup)) {
                 Map<String,String> primaryKey = new HashMap<String,String>();            
                 primaryKey.put("proposalNumber", narrative.getProposalNumber());
                 primaryKey.put("moduleNumber", narrative.getModuleNumber() + "");
                 NarrativeAttachment attachment = (NarrativeAttachment) businessObjectService.findByPrimaryKey(NarrativeAttachment.class, primaryKey);
-                narrative.getNarrativeAttachmentList().clear();
-                narrative.getNarrativeAttachmentList().add(attachment);
+                narrative.setNarrativeAttachment(attachment);
                 
                 Narrative newNarrative = (Narrative) ObjectUtils.deepCopy(narrative);
                 newNarrative.setVersionNumber(null);
@@ -956,9 +955,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 if ((bioPersonId != null && bioPersonId.equals(person.getPersonId())) 
                         || (bioRolodexId != null && bioRolodexId.equals(person.getRolodexId()))) {
                     bio.setProposalPersonNumber(person.getProposalPersonNumber());
-                    for (ProposalPersonBiographyAttachment attachment : bio.getPersonnelAttachmentList()) {
-                        attachment.setProposalPersonNumber(person.getProposalPersonNumber());
-                    }
+                    bio.getPersonnelAttachment().setProposalPersonNumber(person.getProposalPersonNumber());
                     keep = true;
                     break;
                 }
@@ -1357,7 +1354,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         Narrative destNarrative;
         for (Narrative srcNarrative : srcProposal.getNarratives()) {
-            if (StringUtils.equalsIgnoreCase(srcNarrative.getNarrativeType().getAllowMultiple(), "N") 
+            if (!srcNarrative.getNarrativeType().isAllowMultiple()
                     && !srcProposal.getInstituteAttachments().contains(srcNarrative)
                     && !StringUtils.equalsIgnoreCase(srcNarrative.getNarrativeType().getNarrativeTypeGroup(), instituteNarrativeTypeGroup)) {
                 loadAttachmentContent(srcNarrative);
@@ -1373,8 +1370,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         primaryKey.put("proposalNumber", narrative.getProposalNumber());
         primaryKey.put("moduleNumber", narrative.getModuleNumber()+"");
         NarrativeAttachment attachment = (NarrativeAttachment)businessObjectService.findByPrimaryKey(NarrativeAttachment.class, primaryKey);
-        narrative.getNarrativeAttachmentList().clear();
-        narrative.getNarrativeAttachmentList().add(attachment);
+        narrative.setNarrativeAttachment(attachment);
     }
     
     protected void loadBioContent(ProposalPersonBiography bio){
@@ -1383,8 +1379,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         primaryKey.put("biographyNumber", bio.getBiographyNumber()+"");
         primaryKey.put("proposalPersonNumber", bio.getProposalPersonNumber()+"");
         ProposalPersonBiographyAttachment attachment = (ProposalPersonBiographyAttachment)businessObjectService.findByPrimaryKey(ProposalPersonBiographyAttachment.class, primaryKey);
-        bio.getPersonnelAttachmentList().clear();
-        bio.getPersonnelAttachmentList().add(attachment);
+        bio.setPersonnelAttachment(attachment);
     }
 
     protected String getHierarchyChildRouteStatus( String oldStatus, String newStatus) {
@@ -1549,7 +1544,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         if (rejectFile != null && rejectFile.getFileData().length > 0) {
             Narrative narrative = new Narrative();
-            narrative.setFileName(rejectFile.getFileName());
+            narrative.setName(rejectFile.getFileName());
             narrative.setComments(reason);
             narrative.setNarrativeFile(rejectFile);
             narrative.setNarrativeTypeCode(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.REJECT_NARRATIVE_TYPE_CODE_PARAM));
@@ -1557,7 +1552,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             keys.put("NARRATIVE_STATUS_CODE", "C");
             NarrativeStatus status = (NarrativeStatus) this.businessObjectService.findByPrimaryKey(NarrativeStatus.class, keys);
             narrative.setNarrativeStatus(status);
-            narrative.setModuleStatusCode(status.getNarrativeStatusCode());
+            narrative.setModuleStatusCode(status.getCode());
             narrative.setModuleTitle("Proposal rejection attachment.");
             narrative.setContactName(GlobalVariables.getUserSession().getPrincipalName());
             narrative.setPhoneNumber(GlobalVariables.getUserSession().getPerson().getPhoneNumber());
@@ -1848,7 +1843,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     protected ProposalHierarchyDao getProposalHierarchyDao() {
         return proposalHierarchyDao;
     }
-    protected NarrativeService getNarrativeService() {
+    protected LegacyNarrativeService getNarrativeService() {
         return narrativeService;
     }
     protected BudgetService getBudgetService() {

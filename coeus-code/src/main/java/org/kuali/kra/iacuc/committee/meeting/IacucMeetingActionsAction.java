@@ -100,7 +100,7 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
                 AttachmentDataSource dataSource = generateCorrespondenceDocumentAndAttach(protocol, protocolCorrespondence);
                 PrintableAttachment source = new PrintableAttachment();
                 if (dataSource != null) {
-                    protocolCorrespondence.setCorrespondence(dataSource.getContent());
+                    protocolCorrespondence.setCorrespondence(dataSource.getData());
                     protocolCorrespondence.setFinalFlag(false);
                     protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
                     protocolCorrespondence.setCreateTimestamp(KcServiceLocator.getService(DateTimeService.class)

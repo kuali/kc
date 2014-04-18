@@ -246,7 +246,7 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
         ProtocolPrintHelper printHelper = getProtocolPrintHelper(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT);
         String reportName = protocol.getProtocolNumber() + "-" + printHelper.getReportName();
         AttachmentDataSource dataSource = print(reportName, getPrintArtifacts(protocolForm));
-        dataSource.setFileName(getProtocolPrintHelper(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT).getFileName());
+        dataSource.setName(getProtocolPrintHelper(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT).getFileName());
         return dataSource;
     }
     

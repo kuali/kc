@@ -1024,7 +1024,7 @@ public class CoiDisclosureAction extends CoiAction {
         reportParameters.put("coeusModuleSubItemCode", answerHeader.getModuleSubItemCode());
         
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(disclosure, reportParameters);
-        if (dataStream.getContent() != null) {
+        if (dataStream.getData() != null) {
             streamToResponse(dataStream, response);
             forward = null;
         }

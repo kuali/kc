@@ -26,14 +26,10 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -68,9 +64,6 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private static final int NON_US_ORGANIZATION_LETTERS_OF_ENDORSEMENT = 49;
     private static final int NARRATIVE_IRB_ACUC_LETTERS = 50;
     private static final int MAX_EXPLANATION_LENGTH = 2000;
-    private static final String COUNTRY_CODE_USA = "USA";
-    private static final String COUNTRY_CODE_PUERTO_RICO = "PRI";
-    private static final String COUNTRY_CODE_VIRGIN_ISLANDS = "VIR";
     private static final String NOT_ANSWERED = "No";
     
     private static final int FISCAL_YEAR_2006 = 2006;
@@ -124,10 +117,10 @@ public class NASAOtherProjectInformationV1_0Generator extends
         nasaOtherInformationDocument
                 .setNASAOtherProjectInformation(nasaOtherProjectInformation);
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal()
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
                 .getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROGRAM_SPECIFIC_DATA) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == PROGRAM_SPECIFIC_DATA) {
                 attachedFileDataType = getAttachedFileType(narrative);
                 if(attachedFileDataType != null){
                     nasaOtherProjectInformation.setPSDataAttach(attachedFileDataType);
@@ -440,43 +433,10 @@ public class NASAOtherProjectInformationV1_0Generator extends
         return answerList;
     }
 
-    /*
-     * This method checks whether the Rolodex association is Foreign
-     */
-    private boolean isRolodexPersonForeign(ProposalPerson proposalPerson) {
-        boolean isForeign = false;
-        if (proposalPerson.getRolodexId() != null) {
-            Rolodex rolodex = KcServiceLocator
-                    .getService(RolodexService.class).getRolodex(
-                            proposalPerson.getRolodexId());
-            if (rolodex != null) {
-                if (rolodex.getSponsor() != null
-                        && rolodex.getSponsor().getSponsorTypeCode() != null) {
-                    if (Integer.parseInt(rolodex.getSponsor()
-                            .getSponsorTypeCode()) > 9) {
-                        isForeign = true;
-                    }
-                } else if (rolodex.getCountryCode() != null) {
-                    if (rolodex.getCountryCode().equals(
-                            COUNTRY_CODE_PUERTO_RICO)
-                            || rolodex.getCountryCode()
-                                    .equals(COUNTRY_CODE_USA)
-                            || rolodex.getCountryCode().equals(
-                                    COUNTRY_CODE_VIRGIN_ISLANDS)) {
-                        isForeign = false;
-                    } else {
-                        isForeign = true;
-                    }
-                }
-            }
-        }
-        return isForeign;
-    }
-
     /**
      * 
      * This method is used to get List of attachments for Appendices from
-     * NarrativeAttachmentList
+     * NarrativeAttachment
      * 
      * @return AttachedFileDataType[] array of attached files based on the
      *         Narrative Type Code.
@@ -484,10 +444,10 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private AttachedFileDataType[] getAppendixFileDataTypes() {
         List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal()
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
                 .getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDICES) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == APPENDICES) {
                 attachedFileDataType = getAttachedFileType(narrative);
                 if(attachedFileDataType != null){
                     attachedFileDataTypeList.add(attachedFileDataType);
@@ -500,7 +460,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
     /**
      * 
      * This method is used to get List of attachments for non-US organization
-     * letters of endorsement type from NarrativeAttachmentList
+     * letters of endorsement type from NarrativeAttachment
      * 
      * @return AttachedFileDataType[] array of attached files based on the
      *         Narrative Type Code.
@@ -508,10 +468,10 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private AttachedFileDataType[] getEndorsementFileDataTypes() {
         List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal()
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
                 .getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == NON_US_ORGANIZATION_LETTERS_OF_ENDORSEMENT) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == NON_US_ORGANIZATION_LETTERS_OF_ENDORSEMENT) {
                 attachedFileDataType = getAttachedFileType(narrative);
                 if(attachedFileDataType != null){
                     attachedFileDataTypeList.add(attachedFileDataType);
@@ -524,7 +484,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
     /**
      * 
      * This method is used to get List of attachments for IRB-ACUC-LETTERS type
-     * from NarrativeAttachmentList
+     * from NarrativeAttachment
      * 
      * @return AttachedFileDataType[] array of attached files based on the
      *         Narrative Type Code.
@@ -532,10 +492,10 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private AttachedFileDataType[] getIRBACUCLettersFileDataTypes() {
         List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal()
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
                 .getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_IRB_ACUC_LETTERS) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == NARRATIVE_IRB_ACUC_LETTERS) {
                 attachedFileDataType = getAttachedFileType(narrative);
                 if(attachedFileDataType != null){
                     attachedFileDataTypeList.add(attachedFileDataType);

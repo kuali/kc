@@ -20,7 +20,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
-import org.kuali.coeus.common.api.attachment.KcAttachment;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
@@ -28,11 +28,11 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -41,14 +41,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * 
- * This class is BO for narrarive
- */
 @Entity
 @Table(name = "NARRATIVE")
 @IdClass(Narrative.NarrativeId.class)
-public class Narrative extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, KcAttachment {
+public class Narrative extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, KcFile, NarrativeContract {
 
     @Id
     @Column(name = "PROPOSAL_NUMBER")
@@ -82,6 +78,19 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
 
+    @Column(name = "FILE_NAME")
+    private String name;
+
+    @Column(name = "CONTENT_TYPE")
+    private String type;
+
+    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
+    private String hierarchyProposalNumber;
+
+    @Column(name = "HIDE_IN_HIERARCHY")
+    @Convert(converter = BooleanYNConverter.class)
+    private boolean hiddenInHierarchy;
+
     @ManyToOne(targetEntity = NarrativeType.class, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "NARRATIVE_TYPE_CODE", referencedColumnName = "NARRATIVE_TYPE_CODE", insertable = false, updatable = false)
     private NarrativeType narrativeType;
@@ -90,21 +99,12 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     @JoinColumn(name = "MODULE_STATUS_CODE", referencedColumnName = "NARRATIVE_STATUS_CODE", insertable = false, updatable = false)
     private NarrativeStatus narrativeStatus;
 
-    @Column(name = "FILE_NAME")
-    private String fileName;
-
-    @Column(name = "CONTENT_TYPE")
-    private String contentType;
-
     @OneToMany(targetEntity = NarrativeUserRights.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-
     @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "MODULE_NUMBER", referencedColumnName = "MODULE_NUMBER", insertable = false, updatable = false) })
     private List<NarrativeUserRights> narrativeUserRights;
 
-    @OneToMany(targetEntity = NarrativeAttachment.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
-
-    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "MODULE_NUMBER", referencedColumnName = "MODULE_NUMBER", insertable = false, updatable = false) })
-    private List<NarrativeAttachment> narrativeAttachmentList;
+    @OneToOne(mappedBy = "narrative", cascade = CascadeType.ALL)
+    private NarrativeAttachment narrativeAttachment;
 
     @Transient
     private transient FormFile narrativeFile;
@@ -117,16 +117,10 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     @Transient
     private String uploadUserFullName;
-
-    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
-    private String hierarchyProposalNumber;
-
-    @Column(name = "HIDE_IN_HIERARCHY")
-    @Convert(converter = BooleanYNConverter.class)
-    private boolean hiddenInHierarchy;
  
     @Transient
     private transient TaskAuthorizationService taskAuthorizationService;
+
     protected TaskAuthorizationService getTaskAuthorizationService(){
         if (taskAuthorizationService == null)
             taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
@@ -134,10 +128,10 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     }
 
     public Narrative() {
-        narrativeAttachmentList = new ArrayList<NarrativeAttachment>(1);
         narrativeUserRights = new ArrayList<NarrativeUserRights>();
     }
 
+    @Override
     public Integer getModuleNumber() {
         return moduleNumber;
     }
@@ -146,6 +140,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.moduleNumber = moduleNumber;
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -154,6 +149,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public String getComments() {
         return comments;
     }
@@ -162,6 +158,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.comments = comments;
     }
 
+    @Override
     public String getContactName() {
         return contactName;
     }
@@ -170,6 +167,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.contactName = contactName;
     }
 
+    @Override
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -178,6 +176,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.emailAddress = emailAddress;
     }
 
+    @Override
     public Integer getModuleSequenceNumber() {
         return moduleSequenceNumber;
     }
@@ -194,6 +193,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.moduleStatusCode = moduleStatusCode;
     }
 
+    @Override
     public String getModuleTitle() {
         return moduleTitle;
     }
@@ -210,6 +210,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.narrativeTypeCode = narrativeTypeCode;
     }
 
+    @Override
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -218,6 +219,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.phoneNumber = phoneNumber;
     }
 
+    @Override
     public NarrativeType getNarrativeType() {
         return narrativeType;
     }
@@ -226,6 +228,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.narrativeType = narrativeType;
     }
 
+    @Override
     public List<NarrativeUserRights> getNarrativeUserRights() {
         if (narrativeUserRights != null) {
             Collections.sort(this.narrativeUserRights, new Comparator() {
@@ -250,30 +253,22 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.narrativeUserRights = narrativeUserRights;
     }
 
-    /**
-     * Gets the narrativeStatus attribute.
-     * 
-     * @return Returns the narrativeStatus.
-     */
+    @Override
     public NarrativeStatus getNarrativeStatus() {
         return narrativeStatus;
     }
 
-    /**
-     * Sets the narrativeStatus attribute value.
-     * 
-     * @param narrativeStatus The narrativeStatus to set.
-     */
     public void setNarrativeStatus(NarrativeStatus narrativeStatus) {
         this.narrativeStatus = narrativeStatus;
     }
 
-    public List<NarrativeAttachment> getNarrativeAttachmentList() {
-        return narrativeAttachmentList;
+    @Override
+    public NarrativeAttachment getNarrativeAttachment() {
+        return narrativeAttachment;
     }
 
-    public void setNarrativeAttachmentList(List<NarrativeAttachment> narrativePdfList) {
-        this.narrativeAttachmentList = narrativePdfList;
+    public void setNarrativeAttachment(NarrativeAttachment narrativeAttachment) {
+        this.narrativeAttachment = narrativeAttachment;
     }
 
     public FormFile getNarrativeFile() {
@@ -284,12 +279,13 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.narrativeFile = narrativeFile;
     }
 
-    public String getFileName() {
-        return fileName;
+    @Override
+    public String getName() {
+        return name;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -401,32 +397,24 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         try {
             narrativeFileData = narrativeFile.getFileData();
             if (narrativeFileData.length > 0) {
-                NarrativeAttachment narrativeAttachment;
-                if (getNarrativeAttachmentList().isEmpty()) {
+                NarrativeAttachment narrativeAttachment = getNarrativeAttachment();
+                if (narrativeAttachment == null) {
                     narrativeAttachment = new NarrativeAttachment();
-                    getNarrativeAttachmentList().add(narrativeAttachment);
-                } else {
-                    narrativeAttachment = getNarrativeAttachmentList().get(0);
-                    if (narrativeAttachment == null) {
-                        narrativeAttachment = new NarrativeAttachment();
-                        getNarrativeAttachmentList().set(0, narrativeAttachment);
-                    }
+                    setNarrativeAttachment(narrativeAttachment);
                 }
                 String fileName = narrativeFile.getFileName();
-                narrativeAttachment.setFileName(fileName);
-                narrativeAttachment.setContentType(narrativeFile.getContentType());
-                narrativeAttachment.setNarrativeData(narrativeFile.getFileData());
+                narrativeAttachment.setName(fileName);
+                narrativeAttachment.setType(narrativeFile.getContentType());
+                narrativeAttachment.setData(narrativeFile.getFileData());
                 narrativeAttachment.setProposalNumber(getProposalNumber());
                 narrativeAttachment.setModuleNumber(getModuleNumber());
-                setFileName(narrativeAttachment.getFileName());
-                setContentType(narrativeAttachment.getContentType());
+                setName(narrativeAttachment.getName());
+                setType(narrativeAttachment.getType());
             } else {
-                getNarrativeAttachmentList().clear();
+                setNarrativeAttachment(null);
             }
-        } catch (FileNotFoundException e) {
-            getNarrativeAttachmentList().clear();
         } catch (IOException e) {
-            getNarrativeAttachmentList().clear();
+            setNarrativeAttachment(null);
         }
     }
 
@@ -444,7 +432,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     }
 
     public void clearAttachment() {
-        getNarrativeAttachmentList().clear();
+        setNarrativeAttachment(null);
     }
 
     @Override
@@ -461,7 +449,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         result = prime * result + ((comments == null) ? 0 : comments.hashCode());
         result = prime * result + ((contactName == null) ? 0 : contactName.hashCode());
         result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
-        result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((moduleNumber == null) ? 0 : moduleNumber.hashCode());
         result = prime * result + ((moduleSequenceNumber == null) ? 0 : moduleSequenceNumber.hashCode());
         result = prime * result + ((moduleStatusCode == null) ? 0 : moduleStatusCode.hashCode());
@@ -498,10 +486,10 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
                 return false;
         } else if (!emailAddress.equals(other.emailAddress))
             return false;
-        if (fileName == null) {
-            if (other.fileName != null)
+        if (name == null) {
+            if (other.name != null)
                 return false;
-        } else if (!fileName.equals(other.fileName))
+        } else if (!name.equals(other.name))
             return false;
         if (moduleNumber == null) {
             if (other.moduleNumber != null)
@@ -557,7 +545,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         result = prime * result + ((comments == null) ? 0 : comments.hashCode());
         result = prime * result + ((contactName == null) ? 0 : contactName.hashCode());
         result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
-        result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((moduleNumber == null) ? 0 : moduleNumber.hashCode());
         result = prime * result + ((moduleSequenceNumber == null) ? 0 : moduleSequenceNumber.hashCode());
         result = prime * result + ((moduleStatusCode == null) ? 0 : moduleStatusCode.hashCode());
@@ -597,6 +585,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
      * Gets the hierarchyProposalNumber attribute. 
      * @return Returns the hierarchyProposalNumber.
      */
+    @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
@@ -613,6 +602,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
      * Gets the hiddenInHierarchy attribute. 
      * @return Returns the hiddenInHierarchy.
      */
+    @Override
     public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
@@ -625,29 +615,20 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
 
-    public String getContentType() {
-        return contentType;
+    @Override
+    public String getType() {
+        return type;
     }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public void setType(String contentType) {
+        this.type = type;
     }
 
     public byte[] getData() {
-        if (getNarrativeAttachmentList().isEmpty()) {
-            return null;
-        } else {
-            return getNarrativeAttachmentList().get(0).getContent();
-        }
+        return getNarrativeAttachment() != null ? getNarrativeAttachment().getData() : null;
     }
 
-    public String getName() {
-        return getFileName();
-    }
 
-    public String getType() {
-        return getContentType();
-    }
 
     public static final class NarrativeId implements Serializable, Comparable<NarrativeId> {
 

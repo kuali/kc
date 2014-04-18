@@ -54,26 +54,24 @@ public class ProjectV1_1GeneratorTest extends S2STestBase<ProjectV1_1Generator> 
         InputStream inStream = resource.getInputStream();
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
-        narrativeAttachment.setNarrativeData(narrativePdf);
+        narrativeAttachment.setData(narrativePdf);
         narrativeAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrativeAttachment.setModuleNumber(1);
-        narrativeAttachment.setFileName("exercise1.pdf");
+        narrativeAttachment.setName("exercise1.pdf");
         saveBO(narrativeAttachment);
 
-        List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
-        narrativeList.add(narrativeAttachment);
         narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
         narrative.setNarrativeTypeCode("53");
-        narrative.setNarrativeAttachmentList(narrativeList);
-        narrative.setFileName("exercise1.pdf");
+        narrative.setNarrativeAttachment(narrativeAttachment);
+        narrative.setName("exercise1.pdf");
 
         NarrativeType narrativeType = new NarrativeType();
-        narrativeType.setNarrativeTypeCode("53");
-        narrativeType.setAllowMultiple("Y");
-        narrativeType.setSystemGenerated("N");
+        narrativeType.setCode("53");
+        narrativeType.setAllowMultiple(true);
+        narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for Project Attachment");
         getService(DataObjectService.class).save(narrativeType);
         narrative.setNarrativeType(narrativeType);

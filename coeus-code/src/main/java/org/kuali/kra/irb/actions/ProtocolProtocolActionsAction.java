@@ -327,7 +327,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @param response the HTTP response
      * @return the destination
      * @throws Exception
-     * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
      */
     public ActionForward confirmSubmitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
@@ -666,8 +665,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
             String reportName = protocol.getProtocolNumber()+"-"+printType.getReportName();
             AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName,getPrintReportArtifacts(protocolForm, fileName));
-            if (dataStream.getContent() != null) {
-                dataStream.setFileName(fileName.toString());
+            if (dataStream.getData() != null) {
+                dataStream.setName(fileName.toString());
                 PrintingUtils.streamToResponse(dataStream, response);
                 forward = null;
             }
@@ -722,8 +721,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
         String reportName = protocol.getProtocolNumber() + "-" + printType.getReportName();
         AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getPrintArtifacts(protocolForm));
-        if (dataStream.getContent() != null) {
-            dataStream.setFileName(fileName.toString());
+        if (dataStream.getData() != null) {
+            dataStream.setName(fileName.toString());
             PrintingUtils.streamToResponse(dataStream, response);
             forward = null;
         }
@@ -741,8 +740,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         String fileName = "Protocol_questionnaire_Report.pdf";
         String reportName = protocol.getProtocolNumber() + "-" + "ProtocolQuestionnaires";
         AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getQuestionnairePrintingService().getQuestionnairePrintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
-        if (dataStream.getContent() != null) {
-            dataStream.setFileName(fileName.toString());
+        if (dataStream.getData() != null) {
+            dataStream.setName(fileName.toString());
             PrintingUtils.streamToResponse(dataStream, response);
             forward = null;
         }
@@ -758,8 +757,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         String fileName = "IRB_Protocol_Ccorrespondence_Report.pdf";
         String reportName = protocol.getProtocolNumber() + "-" + "ProtocolCorrespondences";
         AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getIrbCorrespondencePrintingService().getCorrespondencePrintable(protocol, protocolForm.getActionHelper().getCorrespondencesToPrint()));
-        if (dataStream.getContent() != null) {
-            dataStream.setFileName(fileName.toString());
+        if (dataStream.getData() != null) {
+            dataStream.setName(fileName.toString());
             PrintingUtils.streamToResponse(dataStream, response);
             forward = null;
         }
@@ -874,8 +873,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     /**
      * 
      * This method for set the attachment with the watermark which selected  by the client .
-     * @param protocolForm form
-     * @param protocolAttachmentBase attachment
+     * @param form form
+     * @param attachment attachment
      * @return attachment file
      */
     private byte[] getProtocolAttachmentFile(ProtocolForm form,ProtocolAttachmentProtocol attachment) {
@@ -2796,9 +2795,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionHelper actionHelper = ((ProtocolForm) form).getActionHelper();
         PrintableAttachment source = new PrintableAttachment();
         ProtocolCorrespondence correspondence = (ProtocolCorrespondence) actionHelper.getProtocolCorrespondence();
-        source.setContent(correspondence.getCorrespondence());
-        source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-        source.setFileName("Correspondence-" + correspondence.getProtocolCorrespondenceType().getDescription() + Constants.PDF_FILE_EXTENSION);
+        source.setData(correspondence.getCorrespondence());
+        source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
+        source.setName("Correspondence-" + correspondence.getProtocolCorrespondenceType().getDescription() + Constants.PDF_FILE_EXTENSION);
         PrintingUtils.streamToResponse(source, response);
         
         return null;
@@ -2864,7 +2863,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         Protocol protocol = (Protocol) protocolCorrespondence.getProtocol();
         AttachmentDataSource dataSource = generateCorrespondenceDocument(protocol, protocolCorrespondence);
         if (dataSource != null) {
-            protocolCorrespondence.setCorrespondence(dataSource.getContent());
+            protocolCorrespondence.setCorrespondence(dataSource.getData());
             protocolCorrespondence.setFinalFlag(false);
             protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
             protocolCorrespondence.setCreateTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());

@@ -152,7 +152,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      * This method checks if the passed in forms are included.
      * see FN_S2S_BUDGET_RULE.
      * @param developmentProposal
-     * @param formName a comma delimited list of s2s forms to check against.
+     * @param formNames a comma delimited list of s2s forms to check against.
      * @return 'true' if true
      */
     @Override
@@ -209,7 +209,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      * 
      * This method determines if the proposal has more than the maximum number of attachments of the types provided in the narativeTypes list.
      * see FN_S2S_RESPLAN_RULE.
-     * @param developmentProposal.
+     * @param developmentProposal
      * @param narativeTypes a comma delimited list of narrative types.
      * @param maxNumber the maximum number to check.
      * @return 'true' if true
@@ -264,7 +264,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String biosketchFileNameRule(DevelopmentProposal developmentProposal) {
         for (ProposalPersonBiography ppb : developmentProposal.getPropPersonBios()) {
             if (StringUtils.equalsIgnoreCase(ppb.getPropPerDocType().getDescription(), "Biosketch")) {
-                if (StringUtils.equals(FALSE, specialCharacterRule(ppb.getFileName()))) {
+                if (StringUtils.equals(FALSE, specialCharacterRule(ppb.getName()))) {
                     return FALSE;
                 }
             }
@@ -546,7 +546,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String attachmentFileNameRule(DevelopmentProposal developmentProposal) {
         for (Narrative narr : developmentProposal.getNarratives()) {
             for (String character : restrictedElements) {
-                if (StringUtils.containsIgnoreCase(narr.getFileName(), character)) {
+                if (StringUtils.containsIgnoreCase(narr.getName(), character)) {
                     return FALSE;
                 }
             }
@@ -871,7 +871,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String narrativeFileName(DevelopmentProposal developmentProposal) {
         for (Narrative narrative : developmentProposal.getNarratives()) {
             if (StringUtils.equalsIgnoreCase(narrative.getNarrativeType().getNarrativeTypeGroup(), "P")
-                    && StringUtils.equals(FALSE, specialCharacterRule(narrative.getFileName()))) {
+                    && StringUtils.equals(FALSE, specialCharacterRule(narrative.getName()))) {
                 return FALSE;
             }
             if (StringUtils.equalsIgnoreCase(narrative.getNarrativeTypeCode(), "8")

@@ -24,7 +24,7 @@
         <ref bean="Narrative-moduleStatusCode" />
         <ref bean="Narrative-narrativeStatus.description" />
         <ref bean="Narrative-moduleTitle" />
-        <ref bean="Narrative-fileName" />
+        <ref bean="Narrative-name" />
         <ref bean="Narrative-narrativeTypeCode" />
         <ref bean="Narrative-institutionalAttachmentTypeCode" />
         <ref bean="Narrative-narrativeType.description" />
@@ -238,9 +238,9 @@
     <property name="description" value="This field is a free-form text field in which the user is able to name the attachment they are uploading beyond merely the type.  Ex. 'Mass Spectrometer Quotation' instead of merely having &quot;equipment&quot; as an attachment type."/>
   </bean>
 
-  <bean id="Narrative-fileName" parent="Narrative-fileName-parentBean"/>
-  <bean id="Narrative-fileName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fileName" />
+  <bean id="Narrative-name" parent="Narrative-name-parentBean"/>
+  <bean id="Narrative-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="File Name" />
     <property name="shortLabel" value="File Name" />

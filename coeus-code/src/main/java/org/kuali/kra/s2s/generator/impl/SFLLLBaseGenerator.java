@@ -29,7 +29,6 @@ public abstract class SFLLLBaseGenerator extends S2SBaseFormGenerator {
     public static final String NOT_APPLICABLE = "N/A";
     protected S2SUtilService s2sUtilService;
     protected static final int SPONSOR_NAME_MAX_LENGTH = 40;
-    protected static final String KEY_SPONSOR_CODE = "sponsorCode"; 
     protected static final int ADDRESS_LINE1_MAX_LENGTH = 55;
     protected static final int ADDRESS_LINE2_MAX_LENGTH = 55;
     protected static final int CITY_MAX_LENGTH = 35;

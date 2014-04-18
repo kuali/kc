@@ -26,7 +26,7 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
@@ -55,9 +55,9 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
         ResearchPlanAttachments researchPlanAttachments = ResearchPlanAttachments.Factory.newInstance();
         HumanSubjectSection humanSubjectSection = HumanSubjectSection.Factory.newInstance();
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null) {
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == INTRODUCTION_TO_APPLICATION) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == INTRODUCTION_TO_APPLICATION) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -66,7 +66,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     introductionToApplication.setAttFile(attachedFileDataType);
                     researchPlanAttachments.setIntroductionToApplication(introductionToApplication);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == SPECIFIC_AIMS) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == SPECIFIC_AIMS) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -75,7 +75,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     specificAims.setAttFile(attachedFileDataType);
                     researchPlanAttachments.setSpecificAims(specificAims);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BACKGROUND_SIGNIFICANCE) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == BACKGROUND_SIGNIFICANCE) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -84,7 +84,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     backgroundSignificance.setAttFile(attachedFileDataType);
                     researchPlanAttachments.setBackgroundSignificance(backgroundSignificance);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROGRESS_REPORT) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == PROGRESS_REPORT) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -93,7 +93,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     progressReport.setAttFile(attachedFileDataType);
                     researchPlanAttachments.setProgressReport(progressReport);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == RESEARCH_DESIGN_METHODS) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == RESEARCH_DESIGN_METHODS) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -102,7 +102,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     researchDesignMethods.setAttFile(attachedFileDataType);
                     researchPlanAttachments.setResearchDesignMethods(researchDesignMethods);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROTECTION_OF_HUMAN_SUBJECTS) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == PROTECTION_OF_HUMAN_SUBJECTS) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -111,7 +111,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     protectionOfHumanSubjects.setAttFile(attachedFileDataType);
                     humanSubjectSection.setProtectionOfHumanSubjects(protectionOfHumanSubjects);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == INCLUSION_OF_WOMEN_AND_MINORITIES) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == INCLUSION_OF_WOMEN_AND_MINORITIES) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -121,7 +121,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     inclusionOfWomenAndMinorities.setAttFile(attachedFileDataType);
                     humanSubjectSection.setInclusionOfWomenAndMinorities(inclusionOfWomenAndMinorities);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == TARGETED_PLANNED_ENROLLMENT_TABLE) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == TARGETED_PLANNED_ENROLLMENT_TABLE) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -131,7 +131,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     targetedPlannedEnrollmentTable.setAttFile(attachedFileDataType);
                     humanSubjectSection.setTargetedPlannedEnrollmentTable(targetedPlannedEnrollmentTable);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == INCLUSION_OF_CHILDREN) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == INCLUSION_OF_CHILDREN) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -140,7 +140,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     inclusionOfChildren.setAttFile(attachedFileDataType);
                     humanSubjectSection.setInclusionOfChildren(inclusionOfChildren);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == DATA_AND_SAFETY_MONITORING_PLAN) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == DATA_AND_SAFETY_MONITORING_PLAN) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -149,7 +149,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     dataAndSafetyMonitoringPlan.setAttFile(attachedFileDataType);
                     humanSubjectSection.setDataAndSafetyMonitoringPlan(dataAndSafetyMonitoringPlan);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == VERTEBRATE_ANIMALS) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == VERTEBRATE_ANIMALS) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -158,7 +158,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     vertebrateAnimals.setAttFile(attachedFileDataType);
                     humanSubjectSection.setVertebrateAnimals(vertebrateAnimals);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == CONSORTIUM_CONTRACTUAL_ARRANGEMENTS) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == CONSORTIUM_CONTRACTUAL_ARRANGEMENTS) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -168,7 +168,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     consortiumContractualArrangements.setAttFile(attachedFileDataType);
                     humanSubjectSection.setConsortiumContractualArrangements(consortiumContractualArrangements);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == LETTERS_OF_SUPPORT) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == LETTERS_OF_SUPPORT) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -177,7 +177,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
                     lettersOfSupport.setAttFile(attachedFileDataType);
                     humanSubjectSection.setLettersOfSupport(lettersOfSupport);
                 }
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == RESOURCE_SHARING_PLANS) {
+                if (Integer.parseInt(narrative.getNarrativeType().getCode()) == RESOURCE_SHARING_PLANS) {
                     attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType == null){
                         continue;
@@ -218,15 +218,15 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
 
     /**
      * 
-     * This method is used to get List of appendix attachments from NarrativeAttachmentList
+     * This method is used to get List of appendix attachments from NarrativeAttachment
      * 
      * @return AttachedFileDataType[]  array of attachments for the corresponding narrative type code APPENDIX.
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
         List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null && Integer.parseInt(narrative.getNarrativeType().getCode()) == APPENDIX) {
             	attachedFileDataType = getAttachedFileType(narrative);
             	if(attachedFileDataType != null){
             		attachedFileDataTypeList.add(attachedFileDataType);

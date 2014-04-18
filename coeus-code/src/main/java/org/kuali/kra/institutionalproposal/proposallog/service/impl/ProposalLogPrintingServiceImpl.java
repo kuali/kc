@@ -46,7 +46,7 @@ public class ProposalLogPrintingServiceImpl implements ProposalLogPrintingServic
         printable.setPrintableBusinessObject(null);
         printable.setReportParameters(reportParams);
         AttachmentDataSource source = getPrintingService().print(printable);
-        source.setFileName("ProposalLog-" + log.getProposalNumber());
+        source.setName("ProposalLog-" + log.getProposalNumber());
         return source;
     }
     

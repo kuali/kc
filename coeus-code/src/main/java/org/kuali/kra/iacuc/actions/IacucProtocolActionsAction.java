@@ -732,8 +732,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         String fileName = "Protocol_questionnaire_Report.pdf";
         String reportName = protocol.getProtocolNumber() + "-" + "ProtocolQuestionnaires";
         AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getIacucQuestionnairePrintingService().getQuestionnairePrintable(protocol, protocolForm.getActionHelper().getQuestionnairesToPrints()));
-        if (dataStream.getContent() != null) {
-            dataStream.setFileName(fileName.toString());
+        if (dataStream.getData() != null) {
+            dataStream.setName(fileName.toString());
             PrintingUtils.streamToResponse(dataStream, response);
             forward = null;
         }
@@ -747,8 +747,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         String fileName = "IACUC_Protocol_Correspondence_Report.pdf";
         String reportName = protocol.getProtocolNumber() + "-" + "ProtocolCorrespondences";
         AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getIacucCorrespondencePrintingService().getCorrespondencePrintable(protocol, protocolForm.getActionHelper().getCorrespondencesToPrint()));
-        if (dataStream.getContent() != null) {
-            dataStream.setFileName(fileName.toString());
+        if (dataStream.getData() != null) {
+            dataStream.setName(fileName.toString());
             PrintingUtils.streamToResponse(dataStream, response);
             forward = null;
         }
@@ -2219,9 +2219,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         PrintableAttachment source = new PrintableAttachment();
         ProtocolCorrespondence correspondence = actionHelper.getProtocolCorrespondence();
             
-        source.setContent(correspondence.getCorrespondence());
-        source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-        source.setFileName("Correspondence-" + correspondence.getProtocolCorrespondenceType().getDescription() + Constants.PDF_FILE_EXTENSION);
+        source.setData(correspondence.getCorrespondence());
+        source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
+        source.setName("Correspondence-" + correspondence.getProtocolCorrespondenceType().getDescription() + Constants.PDF_FILE_EXTENSION);
         PrintingUtils.streamToResponse(source, response);
         
         return null;
@@ -2288,7 +2288,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         AttachmentDataSource dataSource = generateCorrespondenceDocument(protocol, protocolCorrespondence);
         PrintableAttachment source = new PrintableAttachment();
         if (dataSource != null) {
-            protocolCorrespondence.setCorrespondence(dataSource.getContent());
+            protocolCorrespondence.setCorrespondence(dataSource.getData());
             protocolCorrespondence.setFinalFlag(false);
             protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
             protocolCorrespondence.setCreateTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
@@ -2356,7 +2356,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         protocolForm.setDocument(ipd);
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         AttachmentDataSource dataStream = getIacucProtocolPrintingService().printProtocolSelectedItems(protocolForm);
-        if (dataStream.getContent() != null) {
+        if (dataStream.getData() != null) {
             PrintingUtils.streamToResponse(dataStream, response);
             forward = null;
         }
@@ -2385,7 +2385,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         if (applyRules(new ProtocolActionPrintEvent(protocolForm.getProtocolDocument(), actionHelper.getSummaryReport(),
             actionHelper.getFullReport(), actionHelper.getHistoryReport(), actionHelper.getReviewCommentsReport()))) {
             AttachmentDataSource dataStream = getIacucProtocolPrintingService().printProtocolDocument(protocolForm);
-            if (dataStream.getContent() != null) {
+            if (dataStream.getData() != null) {
                 PrintingUtils.streamToResponse(dataStream, response);
                 forward = null;
             }

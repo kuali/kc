@@ -41,7 +41,7 @@ public class ProposalLogPrintAction extends KualiAction {
     
     private void streamToResponse(AttachmentDataSource attachmentDataSource,
             HttpServletResponse response) throws Exception {
-        byte[] xbts = attachmentDataSource.getContent();
+        byte[] xbts = attachmentDataSource.getData();
         ByteArrayOutputStream baos = null;
         try {
             baos = new ByteArrayOutputStream(xbts.length);
@@ -49,8 +49,8 @@ public class ProposalLogPrintAction extends KualiAction {
 
             WebUtils
                     .saveMimeOutputStreamAsFile(response, attachmentDataSource
-                            .getContentType(), baos, attachmentDataSource
-                            .getFileName());
+                            .getType(), baos, attachmentDataSource
+                            .getName());
 
         } finally {
             try {

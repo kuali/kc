@@ -61,7 +61,7 @@ public class ProposalDevelopmentCustomDataHelper extends CustomDataHelperBase<Cu
             for(KeyValue keyValue : getNarrativeStatuses()) {
                 if(StringUtils.equals(keyValue.getKey(),narrativeStatusKey)) {
                     narrativeStatus = new NarrativeStatus();
-                    narrativeStatus.setNarrativeStatusCode(keyValue.getKey());
+                    narrativeStatus.setCode(keyValue.getKey());
                     narrativeStatus.setDescription(keyValue.getValue());
                     break;
                 }

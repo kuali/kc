@@ -43,6 +43,7 @@ import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDet
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.impl.s2s.*;
+import org.kuali.coeus.propdev.api.attachment.NarrativeService;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -84,6 +85,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	private S2SUtilService s2SUtilService;
 	private S2SValidatorService s2SValidatorService;
 	private ConfigurationService configurationService;
+    private NarrativeService narrativeService;
 	private static final String GRANTS_GOV_STATUS_ERROR = "ERROR";
 	private static final String KEY_PROPOSAL_NUMBER = "proposalNumber";
 
@@ -635,7 +637,7 @@ public class KRAS2SServiceImpl implements S2SService {
 		if (attList == null) {
 		    attList = new ArrayList<AttachmentData>();
 		}
-	    getS2sUtilService().deleteSystemGeneratedAttachments(pdDoc);
+	    getNarrativeService().deleteSystemGeneratedNarratives(pdDoc.getDevelopmentProposal().getNarratives());
 		for (S2sOppForms opportunityForm : opportunityForms) {
 			if (!opportunityForm.getInclude()) {
 				continue;
@@ -925,5 +927,13 @@ public class KRAS2SServiceImpl implements S2SService {
 
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
+    }
+
+    public NarrativeService getNarrativeService() {
+        return narrativeService;
+    }
+
+    public void setNarrativeService(NarrativeService narrativeService) {
+        this.narrativeService = narrativeService;
     }
 }

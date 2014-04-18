@@ -161,7 +161,7 @@ public class PrintingServiceImpl implements PrintingService {
      * This method receives a {@link Printable} object, generates XML for it, transforms into PDF after applying style-sheet and
      * returns the PDF bytes as {@link AttachmentDataSource}
      * 
-     * @param printableArtifact to be printed
+     * @param printableArtifacts to be printed
      * @return {@link AttachmentDataSource} PDF bytes
      * @throws PrintingException in case of any errors occur during printing process
      */
@@ -175,7 +175,7 @@ public class PrintingServiceImpl implements PrintingService {
      * This method receives a {@link List} of {@link Printable} object, generates XML for it, transforms into PDF after applying
      * style-sheet and returns the PDF bytes as {@link AttachmentDataSource}
      * 
-     * @param List of printableArtifact to be printed
+     * @param printableArtifactList List of printableArtifact to be printed
      * @return {@link AttachmentDataSource} PDF bytes
      * @throws PrintingException in case of any errors occur during printing process
      */
@@ -212,12 +212,12 @@ public class PrintingServiceImpl implements PrintingService {
             mergedPdfBytes = new byte[0];
         }
 
-        printablePdf.setContent(mergedPdfBytes);
+        printablePdf.setData(mergedPdfBytes);
         StringBuilder fileName = new StringBuilder();
         fileName.append(getReportName());
         fileName.append(Constants.PDF_FILE_EXTENSION);
-        printablePdf.setFileName(fileName.toString());
-        printablePdf.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+        printablePdf.setName(fileName.toString());
+        printablePdf.setType(Constants.PDF_REPORT_CONTENT_TYPE);
         return printablePdf;
     }
 

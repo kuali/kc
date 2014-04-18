@@ -51,8 +51,7 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 	protected static final char STRING_SEPRATOR = '-';
 	protected static final String SUB_CATEGORY_NOT_FOUND = "SUB CATEGORY NOT FOUND";
 	protected static final String PROPOSAL_TYPE_CODE_NEW7 = "7";
-	protected static final Integer QUESTIONNAIRE_ID_1 = 1;
-	
+
     protected static final int INTRODUCTION_TO_APPLICATION = 97;
     protected static final int SPECIFIC_AIMS = 98;
     protected static final int INCLUSION_ENROLLMENT_REPORT = 102;
