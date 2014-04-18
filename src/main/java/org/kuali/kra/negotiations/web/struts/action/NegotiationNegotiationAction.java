@@ -84,31 +84,18 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         if (negotiationForm.getDocument().getDocumentNumber() == null) {
-            //if we are entering this from the search results
-            loadDocumentInForm(request, negotiationForm);
+            // if we are entering this from the search results
+            // modified to use rice's loadDoc method so that authorization takes place,
+            // otherwise people with no permissions can view the document through medusa.
+            // This is not a problem in other docs since in those cases, the lookup results are automatically
+            // filtered with permissions. If that filter is removed, it will become an issue.
+            super.loadDocument(negotiationForm);
         }
         //close the document overview as it can't be default closed via jsp.
         negotiationForm.getTabStates().put("DocumentOverview", "false");
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    /**
-    *
-    * loadDocumentInForm
-    * @param mapping
-    * @param form
-    * @param request
-    * @param response
-    * @return
-    */    
-    protected void loadDocumentInForm(HttpServletRequest request, NegotiationForm negotiationForm)
-    throws WorkflowException {
-        String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
-        NegotiationDocument retrievedDocument = (NegotiationDocument) getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-        negotiationForm.setDocument(retrievedDocument);
-        request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
-    }    
-
     /**
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(
