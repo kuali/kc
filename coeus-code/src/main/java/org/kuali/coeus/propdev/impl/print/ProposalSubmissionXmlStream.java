@@ -38,7 +38,7 @@ import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.*;
-import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 
 import java.sql.Date;
 import java.util.*;

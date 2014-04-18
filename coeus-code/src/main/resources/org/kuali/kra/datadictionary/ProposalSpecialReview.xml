@@ -19,7 +19,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans                            http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="ProposalSpecialReview" parent="ProposalSpecialReview-parentBean" />
     <bean id="ProposalSpecialReview-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview" />
+        <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview" />
 		<property name="objectLabel" value="Proposal Special Review" />
         <property name="inquiryDefinition" >
             <ref bean="ProposalSpecialReview-inquiryDefinition" />
@@ -131,7 +131,7 @@
 
   <bean id="ProposalSpecialReview-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Proposal Special Review"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -193,7 +193,7 @@
   </bean>
 
   <bean id="ProposalSpecialReview-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview"/>
     <property name="headerText" value="Proposal Special Review Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

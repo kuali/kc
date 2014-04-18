@@ -101,7 +101,7 @@
             <foreignkey field-ref="noticeOfOpportunityCode"/>
         </reference-descriptor>
         
-        <collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview" 
+        <collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
             <query-customizer class="org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl">
@@ -608,7 +608,7 @@
         </collection-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview" table="EPS_PROP_SPECIAL_REVIEW">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview" table="EPS_PROP_SPECIAL_REVIEW">
         <field-descriptor name="proposalSpecialReviewId" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_EPS_PROP_SPECIAL_REVIEW_ID" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
@@ -652,7 +652,7 @@
         <reference-descriptor name="exemptionType" class-ref="org.kuali.kra.bo.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none">
             <foreignkey field-ref="exemptionTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="proposalSpecialReview" class-ref="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="proposalSpecialReview" class-ref="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="proposalSpecialReviewId"/>
         </reference-descriptor>
     </class-descriptor>
