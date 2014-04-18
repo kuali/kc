@@ -1219,6 +1219,12 @@ module of int tests -->
             <artifactId>sf424-2.1-gg</artifactId>
             <version>${sf424-2.1-gg.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.kuali.kra.s2s</groupId>
+            <artifactId>s2s-gg-forms-z</artifactId>
+            <version>${s2s-gg-forms-z.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.kuali.rice</groupId>
@@ -2079,6 +2085,7 @@ module of int tests -->
         <gg-forms6.version>1.0</gg-forms6.version>
         <gg-forms7.version>1.0.1</gg-forms7.version>
         <gg-forms8.version>2.6</gg-forms8.version>
+        <s2s-gg-forms-z.version>1.0.0</s2s-gg-forms-z.version>
         <gg-system.version>1.0</gg-system.version>
         <hamcrest-library.version>1.3</hamcrest-library.version>
         <itext.version>2.1.7</itext.version>
