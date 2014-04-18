@@ -39,6 +39,7 @@ import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReviewExem
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.kra.s2s.bo.S2sUserAttachedForm;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -152,6 +153,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     private List<S2sAppSubmission> s2sAppSubmission;
 
+    private List<S2sUserAttachedForm> s2sUserAttachedForms;
+    
     private String newScienceKeywordCode;
 
     private String newDescription;
@@ -413,6 +416,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         investigators = new ArrayList<ProposalPerson>();
         s2sOppForms = new ArrayList<S2sOppForms>();
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
+        s2sUserAttachedForms = new ArrayList<S2sUserAttachedForm>();
         proposalChangedDataList = new AutoPopulatingList<ProposalChangedData>(ProposalChangedData.class);
         proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
         budgetChangedDataList = new AutoPopulatingList<BudgetChangedData>(BudgetChangedData.class);
@@ -1207,6 +1211,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
             managedLists.add(new ArrayList<S2sOppForms>());
         }
         managedLists.add(opportunities);
+        managedLists.add(getS2sUserAttachedForms());
         return managedLists;
     }
 
@@ -2318,6 +2323,22 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
             narrative.refreshReferenceObject("narrativeStatus");
             getBusinessObjectService().save(narrative);
         }
+    }
+
+    /**
+     * Gets the s2sUserAttachedForms attribute. 
+     * @return Returns the s2sUserAttachedForms.
+     */
+    public List<S2sUserAttachedForm> getS2sUserAttachedForms() {
+        return s2sUserAttachedForms;
+    }
+
+    /**
+     * Sets the s2sUserAttachedForms attribute value.
+     * @param s2sUserAttachedForms The s2sUserAttachedForms to set.
+     */
+    public void setS2sUserAttachedForms(List<S2sUserAttachedForm> s2sUserAttachedForms) {
+        this.s2sUserAttachedForms = s2sUserAttachedForms;
     }
 
 }

@@ -209,6 +209,10 @@
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <inverse-foreignkey field-ref="proposalNumber"/>
         </collection-descriptor>
+        <collection-descriptor name="s2sUserAttachedForms" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sUserAttachedForm" 
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+            <inverse-foreignkey field-ref="proposalNumber"/>
+        </collection-descriptor>
         <collection-descriptor name="proposalChangedDataList" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" 
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
             <orderby name="columnName" sort="DESC" /> 

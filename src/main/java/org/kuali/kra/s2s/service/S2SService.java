@@ -22,6 +22,7 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.kra.s2s.bo.S2sUserAttachedForm;
 import org.kuali.rice.kns.util.AuditError;
 
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
@@ -180,4 +181,12 @@ public interface S2SService {
 	public boolean checkForSubmissionStatusChange(
 			ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission)
 			throws S2SException;
+
+	/**
+	 * 
+	 * This method extracts all the forms within the pdf form and saves each form individually to the database.
+	 * @param s2sUserAttachedForm
+	 * @return
+	 */
+    public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(S2sUserAttachedForm s2sUserAttachedForm);
 }

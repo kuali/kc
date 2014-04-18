@@ -48,10 +48,12 @@ import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
@@ -102,6 +104,8 @@ public class S2SBudgetCalculatorServiceImpl implements
     private KcPersonService kcPersonService;
     private S2SUtilService s2SUtilService;
     private ParameterService parameterService;
+    private List<AuditError> auditErrors;
+
 
    protected ParameterService getParameterService() {
         if (this.parameterService == null) {
@@ -1004,25 +1008,29 @@ public class S2SBudgetCalculatorServiceImpl implements
         boolean firstLoop = true;
 
         if (budget.getModularBudgetFlag()) {
-            for (BudgetModularIdc budgetModularIdc : budgetPeriod.getBudgetModular().getBudgetModularIdcs()) {
-                if (firstLoop) {
-                    appliedRate = appliedRate.add(budgetModularIdc.getIdcRate());
-                    description = budgetModularIdc.getDescription();
-                    firstLoop = false;
+            if(budgetPeriod.getBudgetModular()==null){
+                S2SErrorHandler.getError(S2SConstants.MODULAR_BUDGET_REQUIRED);
+            }else{
+                for (BudgetModularIdc budgetModularIdc : budgetPeriod.getBudgetModular().getBudgetModularIdcs()) {
+                    if (firstLoop) {
+                        appliedRate = appliedRate.add(budgetModularIdc.getIdcRate());
+                        description = budgetModularIdc.getDescription();
+                        firstLoop = false;
+                    }
+                    baseCost = baseCost.add(budgetModularIdc.getIdcBase());
+                    calculatedCost = calculatedCost.add(budgetModularIdc.getFundsRequested());
                 }
-                baseCost = baseCost.add(budgetModularIdc.getIdcBase());
-                calculatedCost = calculatedCost.add(budgetModularIdc.getFundsRequested());
-            }
-            indirectCostDetails = new IndirectCostDetails();
-            indirectCostDetails.setBase(baseCost);
-            indirectCostDetails.setBaseCostSharing(baseCostSharing);
-            indirectCostDetails.setCostSharing(calculatedCostSharing);
-            indirectCostDetails.setCostType(description);
-            indirectCostDetails.setFunds(calculatedCost);
-            indirectCostDetails.setRate(appliedRate);
-            indirectCostDetailList.add(indirectCostDetails);
-            totalIndirectCosts = totalIndirectCosts.add(calculatedCost);
-            totalIndirectCostSharing = totalIndirectCostSharing.add(calculatedCostSharing);
+                indirectCostDetails = new IndirectCostDetails();
+                indirectCostDetails.setBase(baseCost);
+                indirectCostDetails.setBaseCostSharing(baseCostSharing);
+                indirectCostDetails.setCostSharing(calculatedCostSharing);
+                indirectCostDetails.setCostType(description);
+                indirectCostDetails.setFunds(calculatedCost);
+                indirectCostDetails.setRate(appliedRate);
+                indirectCostDetailList.add(indirectCostDetails);
+                totalIndirectCosts = totalIndirectCosts.add(calculatedCost);
+                totalIndirectCostSharing = totalIndirectCostSharing.add(calculatedCostSharing);
+            }            
         }
         else {
             Map<String, IndirectCostDetails> costDetailsMap = new HashMap<String, IndirectCostDetails>();

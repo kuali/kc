@@ -1479,14 +1479,8 @@ class S2sOppFormsComparator2 implements Comparator<S2sOppForms> {
 
 class S2sOppFormsComparator3 implements Comparator<S2sOppForms> {
     public int compare(S2sOppForms s2sOppForms1, S2sOppForms s2sOppForms2) {
-        FormMappingInfo info1 = null;
-        FormMappingInfo info2 = null;
-        try {
-            info1 = new FormMappingLoader().getFormInfo(s2sOppForms1.getOppNameSpace()); 
-            info2 = new FormMappingLoader().getFormInfo(s2sOppForms2.getOppNameSpace());
-        }
-        catch (S2SGeneratorNotFoundException e) {
-        }
+        FormMappingInfo info1 = new FormMappingLoader().getFormInfo(s2sOppForms1.getOppNameSpace()); 
+        FormMappingInfo info2 = new FormMappingLoader().getFormInfo(s2sOppForms2.getOppNameSpace());
         if(info1 != null && info2 != null) {
             Integer sortIndex1 = info1.getSortIndex();               
             Integer sortIndex2 = info2.getSortIndex();  

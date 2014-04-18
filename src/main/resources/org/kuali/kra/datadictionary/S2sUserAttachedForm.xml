@@ -1,0 +1,281 @@
+<!--
+ Copyright 2005-2010 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="S2sUserAttachedForm" parent="S2sUserAttachedForm-parentBean" />
+    <bean id="S2sUserAttachedForm-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sUserAttachedForm" />
+        <property name="objectLabel" value="S2s User Attached Form" />
+        <property name="inquiryDefinition" >
+            <ref bean="S2sUserAttachedForm-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="S2sUserAttachedForm-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="s2sUserAttachedFormId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="S2sUserAttachedForm-s2sUserAttachedFormId" />
+                <ref bean="S2sUserAttachedForm-proposalNumber" />
+                <ref bean="S2sUserAttachedForm-namespace" />
+                <ref bean="S2sUserAttachedForm-formName" />
+                <ref bean="S2sUserAttachedForm-formFileName" />
+                <ref bean="S2sUserAttachedForm-formFile" />
+                <ref bean="S2sUserAttachedForm-xmlFile" />
+                <ref bean="S2sUserAttachedForm-description" />
+                <ref bean="S2sUserAttachedForm-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="S2sUserAttachedForm-s2sUserAttachedFormId" parent="S2sUserAttachedForm-s2sUserAttachedFormId-parentBean" />
+    <bean id="S2sUserAttachedForm-s2sUserAttachedFormId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="s2sUserAttachedFormId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="S2s User Attached Form Id" />
+        <property name="shortLabel" value="S2s User Attached Form Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="S2s User Attached Form Id" />
+        <property name="description" value="S2s User Attached Form Id" />
+    </bean>
+
+    <bean id="S2sUserAttachedForm-proposalNumber" parent="S2sUserAttachedForm-proposalNumber-parentBean" />
+    <bean id="S2sUserAttachedForm-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Number" />
+        <property name="shortLabel" value="Proposal Number" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Proposal Number" />
+        <property name="description" value="Proposal Number" />
+    </bean>
+
+    <bean id="S2sUserAttachedForm-namespace" parent="S2sUserAttachedForm-namespace-parentBean" />
+    <bean id="S2sUserAttachedForm-namespace-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="namespace" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Namespace" />
+        <property name="shortLabel" value="Namespace" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Namespace" />
+        <property name="description" value="Namespace" />
+    </bean>
+
+    <bean id="S2sUserAttachedForm-formName" parent="S2sUserAttachedForm-formName-parentBean" />
+    <bean id="S2sUserAttachedForm-formName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="formName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Form Name" />
+        <property name="shortLabel" value="Form Name" />
+        <property name="maxLength" value="100" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Form Name" />
+        <property name="description" value="Form Name" />
+    </bean>
+
+    <bean id="S2sUserAttachedForm-formFileName" parent="S2sUserAttachedForm-formFileName-parentBean" />
+    <bean id="S2sUserAttachedForm-formFileName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="formFileName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Form File Name" />
+        <property name="shortLabel" value="Form File Name" />
+        <property name="maxLength" value="100" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Form File Name" />
+        <property name="description" value="Form File Name" />
+    </bean>
+
+    <bean id="S2sUserAttachedForm-formFile" parent="S2sUserAttachedForm-formFile-parentBean" />
+    <bean id="S2sUserAttachedForm-formFile-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="formFile" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Form File" />
+        <property name="shortLabel" value="Form File" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Form File" />
+        <property name="description" value="Form File" />
+    </bean>
+
+    <bean id="S2sUserAttachedForm-xmlFile" parent="S2sUserAttachedForm-xmlFile-parentBean" />
+    <bean id="S2sUserAttachedForm-xmlFile-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="xmlFile" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Xml File" />
+        <property name="shortLabel" value="Xml File" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="3"
+                p:cols="20" />
+        </property>
+        <property name="summary" value="Xml File" />
+        <property name="description" value="Xml File" />
+    </bean>
+
+    <bean id="S2sUserAttachedForm-description" parent="S2sUserAttachedForm-description-parentBean" />
+    <bean id="S2sUserAttachedForm-description-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Description" />
+        <property name="shortLabel" value="Description" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="30" />
+        </property>
+        <property name="summary" value="Description" />
+        <property name="description" value="Description" />
+    </bean>
+
+    <bean id="S2sUserAttachedForm-versionNumber" parent="S2sUserAttachedForm-versionNumber-parentBean" />
+    <bean id="S2sUserAttachedForm-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="S2sUserAttachedForm-inquiryDefinition" parent="S2sUserAttachedForm-inquiryDefinition-parentBean" />
+    <bean id="S2sUserAttachedForm-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="S2s User Attached Form Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="S2s User Attached Form Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="s2sUserAttachedFormId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="proposalNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="namespace" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="formName" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="formFileName" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="formFile" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="xmlFile" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="description" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="S2sUserAttachedForm-lookupDefinition" parent="S2sUserAttachedForm-lookupDefinition-parentBean" />
+    <bean id="S2sUserAttachedForm-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="S2s User Attached Form Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="s2sUserAttachedFormId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="namespace" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="formName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="formFileName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="formFile" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="xmlFile" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="s2sUserAttachedFormId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="namespace" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="formName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="formFileName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="formFile" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="xmlFile" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+        </property>
+    </bean>
+</beans>

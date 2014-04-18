@@ -39,7 +39,7 @@ public interface S2SFormGeneratorService {
      * @throws S2SGeneratorNotFoundException 
      * 
      */
-    public S2SFormGenerator getS2SGenerator(String nameSpace) throws S2SException, S2SGeneratorNotFoundException;
+    public S2SFormGenerator getS2SGenerator(String proposalNumber,String nameSpace) throws S2SException;
     /**
      * This method is to get the namespace prefixes for some individual forms like, Subaward Budget and PHS398_ResearchTrainingProgramPlan
      * @return
