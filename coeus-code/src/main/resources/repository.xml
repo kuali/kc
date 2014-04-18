@@ -338,7 +338,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.DeadlineType" table="DEADLINE_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.framework.type.DeadlineType" table="DEADLINE_TYPE">
 		<field-descriptor name="deadlineTypeCode" column="DEADLINE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
