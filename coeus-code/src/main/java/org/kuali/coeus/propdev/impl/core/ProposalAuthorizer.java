@@ -20,7 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 
 /**
  * A Proposal Authorizer determines if a user can perform

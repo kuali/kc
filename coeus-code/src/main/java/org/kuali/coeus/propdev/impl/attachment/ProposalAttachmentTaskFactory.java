@@ -18,7 +18,6 @@ package org.kuali.coeus.propdev.impl.attachment;
 import org.apache.struts.action.ActionForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.auth.task.Task;
-import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
 
 import javax.servlet.http.HttpServletRequest;
 

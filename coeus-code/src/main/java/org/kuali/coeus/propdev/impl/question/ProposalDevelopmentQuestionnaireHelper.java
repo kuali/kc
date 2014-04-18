@@ -19,7 +19,7 @@ import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
