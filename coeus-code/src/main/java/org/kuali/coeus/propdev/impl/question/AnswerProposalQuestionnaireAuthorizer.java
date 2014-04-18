@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.question;
 
 import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
@@ -25,23 +24,22 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-
 /**
  * 
  * This class is to check authorization to answer protocol questionnaire.
  */
 public class AnswerProposalQuestionnaireAuthorizer extends ProposalAuthorizer {
+
     private KcWorkflowService kraWorkflowService;
-  
+    private KcDocumentRejectionService kcDocumentRejectionService;
+
     @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
-        boolean hasBeenRejected= KcServiceLocator.getService(KcDocumentRejectionService.class).isDocumentOnInitialNode(doc);
+        boolean hasBeenRejected= getKcDocumentRejectionService().isDocumentOnInitialNode(doc);
         return !task.getDocument().isViewOnly()
                 && !isPessimisticLocked(task.getDocument())
                 && (!kraWorkflowService.isInWorkflow(task.getDocument()) || hasBeenRejected);
-        // kcirb-876 : Answer questionnaire permission is not needed   
-           //     && hasPermission(userId, task.getProtocol(), PermissionConstants.ANSWER_PROTOCOL_QUESTIONNAIRE);
     }
     
     protected boolean isPessimisticLocked(Document document) {
@@ -61,5 +59,12 @@ public class AnswerProposalQuestionnaireAuthorizer extends ProposalAuthorizer {
 
     public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
         this.kraWorkflowService = kraWorkflowService;
+    }
+
+    public void setKcDocumentRejectionService (KcDocumentRejectionService kcDocumentRejectionService){
+        this.kcDocumentRejectionService = kcDocumentRejectionService;
+    }
+    protected KcDocumentRejectionService getKcDocumentRejectionService(){
+        return kcDocumentRejectionService;
     }
 }

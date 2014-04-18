@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.hierarchy;
+package org.kuali.coeus.propdev.impl.hierarchy;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyErrorDto;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -32,7 +30,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
-import org.kuali.coeus.propdev.impl.hierarchy.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -51,6 +48,20 @@ public class ProposalHierarcyActionHelper {
 
     private ProposalHierarchyService hierarchyService;
     private KcAuthorizationService authorizationService;
+    private ParameterService parameterService;
+    private ProposalBudgetStatusService proposalBudgetStatusService;
+
+    protected ProposalBudgetStatusService getProposalBudgetStatusService(){
+        if (proposalBudgetStatusService == null)
+        proposalBudgetStatusService = KcServiceLocator.getService(ProposalBudgetStatusService.class);
+        return proposalBudgetStatusService;
+    }
+
+    protected  ParameterService getParameterService (){
+        if (parameterService == null)
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        return parameterService;
+    }
 
     public void syncAllHierarchy(ProposalDevelopmentDocument doc) {
         syncAllHierarchy(doc, false);
@@ -298,8 +309,8 @@ public class ProposalHierarcyActionHelper {
     }
 
     private boolean hasCompleteBudget(DevelopmentProposal proposal) {
-        String completeCode = KcServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        KcServiceLocator.getService(ProposalBudgetStatusService.class).loadBudgetStatus(proposal);
+        String completeCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        getProposalBudgetStatusService().loadBudgetStatus(proposal);
         return StringUtils.equalsIgnoreCase(proposal.getBudgetStatus(), completeCode);
     }
     
@@ -326,7 +337,6 @@ public class ProposalHierarcyActionHelper {
                     && !hasCompleteBudget(document) 
                     && hasCompleteBudget(getProposalHierarchyService().lookupParent(proposal))) {
                 match = false;
-                // TODO error
             }        
         } catch (ProposalHierarchyException e) {
             GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNEXPECTED, e.getMessage());
@@ -371,7 +381,7 @@ public class ProposalHierarcyActionHelper {
     
     private boolean hasCompleteBudget(ProposalDevelopmentDocument pdDoc) {
         boolean retval = false;
-        String completeCode = KcServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String completeCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
         for (BudgetDocumentVersion version : pdDoc.getBudgetDocumentVersions()) {
             if (!(version.getBudgetVersionOverview().getBudgetStatus() == null ) && version.getBudgetVersionOverview().getBudgetStatus().equalsIgnoreCase(completeCode)) {

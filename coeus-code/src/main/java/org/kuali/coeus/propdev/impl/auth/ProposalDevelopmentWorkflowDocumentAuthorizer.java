@@ -20,7 +20,8 @@ import org.kuali.coeus.sys.framework.auth.KcWorkflowDocumentAuthorizerBase;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
-public class ProposalDevelopmentWorkflowDocumentAuthorizer extends KcWorkflowDocumentAuthorizerBase {
+public class
+        ProposalDevelopmentWorkflowDocumentAuthorizer extends KcWorkflowDocumentAuthorizerBase {
 
     @Override
     protected Permissionable getPermissionable(String documentId) {
