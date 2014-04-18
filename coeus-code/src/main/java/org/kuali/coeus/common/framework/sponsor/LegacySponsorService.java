@@ -20,21 +20,21 @@ import org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyForm;
 import java.util.Collection;
 import java.util.List;
 
-public interface SponsorService {
+public interface LegacySponsorService {
     /**
      * This method returns the sponsor name for a given sponsor code.
      * @param sponsorCode identifier for the sponsor
      * @return The name of the sponsor identified by this code.
      */
     public String getSponsorName(String sponsorCode);
-    
+
     /**
      * Get the sponsor for the given sponsor code
      * @param sponsorCode
      * @return
      */
     public Sponsor getSponsor(String sponsorCode);
-    
+
     /**
      * 
      * This method to get the list of unique sponsorhierarchy name.

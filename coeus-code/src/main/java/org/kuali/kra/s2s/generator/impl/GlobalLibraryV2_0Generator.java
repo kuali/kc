@@ -21,7 +21,7 @@ import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
 import org.apache.commons.lang3.text.WordUtils;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -65,7 +65,9 @@ public class GlobalLibraryV2_0Generator {
 	/**
 	 * Create a StateCodeDataType.Enum as defined in UniversalCodes 2.0 from the
 	 * given name of the state.
-	 *
+	 * 
+	 * @param stateName
+	 *            The state name
 	 * @return The StateCodeDataType type corresponding to the given State code.
 	 */
 	public StateCodeDataType.Enum getStateCodeDataType(String countryAlternateCode, String stateName) {
@@ -89,7 +91,7 @@ public class GlobalLibraryV2_0Generator {
 	 *            Rolodex entry
 	 * @return The AddressDataType corresponding to the rolodex entry.
 	 */
-	public AddressDataType getAddressDataType(Rolodex rolodex) {
+	public AddressDataType getAddressDataType(RolodexContract rolodex) {
 
 		AddressDataType addressDataType = AddressDataType.Factory.newInstance();
 		if (rolodex != null) {
@@ -281,7 +283,7 @@ public class GlobalLibraryV2_0Generator {
 	 *            Rolodex object
 	 * @return HumanNameDataType corresponding to the rolodex object.
 	 */
-	public HumanNameDataType getHumanNameDataType(Rolodex rolodex) {
+	public HumanNameDataType getHumanNameDataType(RolodexContract rolodex) {
 
 		HumanNameDataType humanName = HumanNameDataType.Factory.newInstance();
 		if (rolodex != null) {

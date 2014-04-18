@@ -26,7 +26,7 @@ import java.util.List;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
@@ -86,7 +86,7 @@ public class PerformanceSiteV2_0Generator extends S2SBaseFormGenerator {
         List<ProposalSite> proposalSites = pdDoc.getDevelopmentProposal().getProposalSites();
         if (proposalSites != null) {
             Organization organization = null;
-            Rolodex rolodex = null;
+            RolodexContract rolodex = null;
             SiteLocationDataType siteLocationDataType = null;
             for (ProposalSite proposalSite : proposalSites) {
                 switch(proposalSite.getLocationTypeCode()){
@@ -138,7 +138,7 @@ public class PerformanceSiteV2_0Generator extends S2SBaseFormGenerator {
 
 	/**
 	 * This method creates {@link XmlObject} of type
-	 * {@link PerformanceSite14Document} by populating data from the given
+	 * {@link PerformanceSite20Document} by populating data from the given
 	 * {@link ProposalDevelopmentDocument}
 	 * 
 	 * @param proposalDevelopmentDocument

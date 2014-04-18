@@ -34,8 +34,8 @@ import org.kuali.coeus.common.framework.mail.EmailAttachment;
 import org.kuali.coeus.common.framework.mail.KcEmailService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.notification.impl.NotificationContext;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationType;
@@ -66,8 +66,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import java.util.*;
 
 /**
  * Defines methods for creating and sending KC Notifications.
@@ -474,7 +472,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         for (NotificationTypeRecipient notificationRecipient : notificationRecipients) {
             LOG.info("Processing recipient: " + notificationRecipient.getRolodexId() + ".");
             
-            Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(notificationRecipient.getRolodexId()));
+            RolodexContract rolodex = getRolodexService().getRolodex(Integer.parseInt(notificationRecipient.getRolodexId()));
             if (StringUtils.isNotBlank(rolodex.getEmailAddress())) {
                 recipients.add(rolodex.getEmailAddress());
             }

@@ -22,7 +22,7 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
@@ -79,7 +79,7 @@ public class PerformanceSiteV1_2Generator extends S2SBaseFormGenerator {
 		List<ProposalSite> proposalSites = pdDoc.getDevelopmentProposal().getProposalSites();
 		if (proposalSites != null) {
 			Organization organization = null;
-			Rolodex rolodex = null;
+			RolodexContract rolodex = null;
 			SiteLocationDataType siteLocationDataType = null;
 			for (ProposalSite proposalSite : proposalSites) {
 			    switch(proposalSite.getLocationTypeCode()){

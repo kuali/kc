@@ -21,7 +21,7 @@ import gov.grants.apply.forms.rrPerformanceSiteV11.SiteLocationDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
@@ -54,7 +54,7 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
         List<ProposalSite> propsoalSites = pdDoc.getDevelopmentProposal().getProposalSites();
         SiteLocationDataType siteLocation = null;
         Organization organization = null;
-        Rolodex rolodex = null;
+        RolodexContract rolodex = null;
         
         for (ProposalSite proposalSite : propsoalSites) {
             switch(proposalSite.getLocationTypeCode()){

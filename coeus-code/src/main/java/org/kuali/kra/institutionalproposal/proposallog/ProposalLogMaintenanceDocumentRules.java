@@ -16,7 +16,7 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
+import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -177,8 +177,8 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
                 qualifications);
     }
 
-    public SponsorService getSponsorService() {
-        return KcServiceLocator.getService(SponsorService.class);
+    public LegacySponsorService getSponsorService() {
+        return KcServiceLocator.getService(LegacySponsorService.class);
     }
     
 }

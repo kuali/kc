@@ -16,7 +16,7 @@
 package org.kuali.kra.negotiations.rules;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
+import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -44,7 +44,7 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
     
     private NegotiationService negotiationService;
     private DataDictionaryService dataDictionaryService;
-    private SponsorService sponsorService;
+    private LegacySponsorService sponsorService;
     
 
     public NegotiationDocumentRule() {
@@ -258,14 +258,14 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
         this.dataDictionaryService = dataDictionaryService;
     }
 
-    public SponsorService getSponsorService() {
+    public LegacySponsorService getSponsorService() {
         if (sponsorService == null) {
-            sponsorService = KcServiceLocator.getService(SponsorService.class);
+            sponsorService = KcServiceLocator.getService(LegacySponsorService.class);
         }
         return sponsorService;
     }
 
-    public void setSponsorService(SponsorService sponsorService) {
+    public void setSponsorService(LegacySponsorService sponsorService) {
         this.sponsorService = sponsorService;
     }
 

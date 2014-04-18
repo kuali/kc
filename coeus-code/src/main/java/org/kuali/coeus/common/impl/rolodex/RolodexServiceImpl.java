@@ -16,44 +16,35 @@
 package org.kuali.coeus.common.impl.rolodex;
 
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.kuali.rice.krad.data.DataObjectService;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
-@Component("rolodexService")
+@Service("rolodexService")
 public class RolodexServiceImpl implements RolodexService {
 
 	@Autowired
-	@Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
+	@Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-    
     @Override
-    public Rolodex getRolodex(int rolodexId) {
-        Rolodex rolodex = null;
-
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("rolodexId", rolodexId);
-        Collection<Rolodex> rolodexes = businessObjectService.findMatching(Rolodex.class, fieldValues);
-        if (rolodexes.size() == 1) {
-            rolodex = rolodexes.iterator().next();
+    public RolodexContract getRolodex(Integer rolodexId) {
+        if (rolodexId == null) {
+            throw new IllegalArgumentException("rolodexId is null");
         }
 
-        return rolodex;
+        return dataObjectService.find(Rolodex.class, rolodexId);
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 }

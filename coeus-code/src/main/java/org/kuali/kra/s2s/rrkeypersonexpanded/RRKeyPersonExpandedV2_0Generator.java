@@ -28,8 +28,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
@@ -58,7 +58,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 
 	private static final Log LOG = LogFactory
 			.getLog(RRKeyPersonExpandedV2_0Generator.class);
-	Rolodex rolodex;
+	RolodexContract rolodex;
 	private static final int MAX_KEY_PERSON_COUNT = 100;
 	/*
 	 * This method gives details of Principal Investigator,KeyPersons and the

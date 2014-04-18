@@ -16,7 +16,7 @@
 package org.kuali.kra.personmasschange.service.impl;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.ProposalLogPersonMassChangeService;
@@ -70,7 +70,7 @@ public class ProposalLogPersonMassChangeServiceImpl extends MassPersonChangeServ
                 proposalLogChangeCandidate.setRolodexId(null);
                 proposalLogChangeCandidate.setPiName(kcPerson.getFullName());
             } else if (personMassChange.getReplacerRolodexId() != null) {
-                Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
+                RolodexContract rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
                 proposalLogChangeCandidate.setPiId(null);
                 proposalLogChangeCandidate.setRolodexId(rolodex.getRolodexId());
                 proposalLogChangeCandidate.setPiName(rolodex.getFullName());

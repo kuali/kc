@@ -17,7 +17,7 @@ package org.kuali.kra.personmasschange.service.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardUnitContact;
@@ -226,7 +226,7 @@ public class AwardPersonMassChangeServiceImpl extends MassPersonChangeServiceBas
                         person.setRolodexId(null);
                         person.setFullName(kcPerson.getFullName());
                     } else if (personMassChange.getReplacerRolodexId() != null) {
-                        Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
+                        RolodexContract rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
                         person.setPersonId(null);
                         person.setRolodexId(rolodex.getRolodexId());
                         person.setFullName(rolodex.getFullName());
@@ -276,7 +276,7 @@ public class AwardPersonMassChangeServiceImpl extends MassPersonChangeServiceBas
                         approvedForeignTravel.setTravelerName(kcPerson.getFullName());
                         approvedForeignTravel.setRolodexId(null);
                     } else if (personMassChange.getReplacerRolodexId() != null) {
-                        Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
+                        RolodexContract rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
                         approvedForeignTravel.setPersonId(null);
                         approvedForeignTravel.setRolodexId(rolodex.getRolodexId());
                         approvedForeignTravel.setTravelerName(rolodex.getFullName());

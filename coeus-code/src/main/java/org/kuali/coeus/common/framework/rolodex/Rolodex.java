@@ -15,8 +15,8 @@
  */
 package org.kuali.coeus.common.framework.rolodex;
 
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.framework.contact.Contactable;
-import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -28,7 +28,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "ROLODEX")
-public class Rolodex extends KcPersistableBusinessObjectBase implements Contactable, MutableInactivatable {
+public class Rolodex extends KcPersistableBusinessObjectBase implements Contactable, MutableInactivatable, RolodexContract {
 
 
     private static final long serialVersionUID = -278526635683595863L;
@@ -108,6 +108,13 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
     @Column(name = "TITLE")
     private String title;
 
+    @Column(name = "CREATE_USER")
+    private String createUser;
+
+    @Column(name = "ACTV_IND")
+    @Convert(converter = BooleanYNConverter.class)
+    private boolean active;
+
     @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "OWNED_BY_UNIT", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
@@ -116,14 +123,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
     @JoinColumn(name = "SPONSOR_CODE", referencedColumnName = "SPONSOR_CODE", insertable = false, updatable = false)
     private Sponsor sponsor;
 
-    @Column(name = "CREATE_USER")
-    private String createUser;
-
-    @Column(name = "ACTV_IND")
-    @Convert(converter = BooleanYNConverter.class)
-    private boolean active;
-
-    // = Boolean.TRUE;  
+    @Override
     public String getCreateUser() {
         return createUser;
     }
@@ -138,6 +138,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         setCreateUser(updateUser);
     }
 
+    @Override
     public Integer getRolodexId() {
         return rolodexId;
     }
@@ -146,6 +147,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.rolodexId = rolodexId;
     }
 
+    @Override
     public String getAddressLine1() {
         return addressLine1;
     }
@@ -154,6 +156,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.addressLine1 = addressLine1;
     }
 
+    @Override
     public String getAddressLine2() {
         return addressLine2;
     }
@@ -162,6 +165,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.addressLine2 = addressLine2;
     }
 
+    @Override
     public String getAddressLine3() {
         return addressLine3;
     }
@@ -170,6 +174,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.addressLine3 = addressLine3;
     }
 
+    @Override
     public String getCity() {
         return city;
     }
@@ -178,6 +183,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.city = city;
     }
 
+    @Override
     public String getComments() {
         return comments;
     }
@@ -186,6 +192,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.comments = comments;
     }
 
+    @Override
     public String getCountryCode() {
         return countryCode;
     }
@@ -194,6 +201,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.countryCode = countryCode;
     }
 
+    @Override
     public String getCounty() {
         return county;
     }
@@ -202,6 +210,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.county = county;
     }
 
+    @Override
     public Boolean getDeleteFlag() {
         return deleteFlag;
     }
@@ -210,6 +219,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.deleteFlag = deleteFlag;
     }
 
+    @Override
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -218,6 +228,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.emailAddress = emailAddress;
     }
 
+    @Override
     public String getFaxNumber() {
         return faxNumber;
     }
@@ -226,6 +237,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.faxNumber = faxNumber;
     }
 
+    @Override
     public String getFirstName() {
         return firstName;
     }
@@ -234,6 +246,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.firstName = firstName;
     }
 
+    @Override
     public String getLastName() {
         return lastName;
     }
@@ -242,6 +255,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.lastName = lastName;
     }
 
+    @Override
     public String getMiddleName() {
         return middleName;
     }
@@ -250,6 +264,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.middleName = middleName;
     }
 
+    @Override
     public String getOrganization() {
         return organization;
     }
@@ -258,6 +273,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.organization = organization;
     }
 
+    @Override
     public String getOwnedByUnit() {
         return ownedByUnit;
     }
@@ -266,6 +282,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.ownedByUnit = ownedByUnit;
     }
 
+    @Override
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -274,6 +291,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.phoneNumber = phoneNumber;
     }
 
+    @Override
     public String getPostalCode() {
         return postalCode;
     }
@@ -282,6 +300,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.postalCode = postalCode;
     }
 
+    @Override
     public String getPrefix() {
         return prefix;
     }
@@ -290,7 +309,8 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.prefix = prefix;
     }
 
-    public Boolean getSponsorAddressFlag() {
+    @Override
+    public boolean getSponsorAddressFlag() {
         return sponsorAddressFlag;
     }
 
@@ -298,6 +318,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.sponsorAddressFlag = sponsorAddressFlag;
     }
 
+    @Override
     public String getSponsorCode() {
         return sponsorCode;
     }
@@ -306,6 +327,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.sponsorCode = sponsorCode;
     }
 
+    @Override
     public String getState() {
         return state;
     }
@@ -314,6 +336,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.state = state;
     }
 
+    @Override
     public String getSuffix() {
         return suffix;
     }
@@ -322,6 +345,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         this.suffix = suffix;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -366,6 +390,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         return sponsor;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }

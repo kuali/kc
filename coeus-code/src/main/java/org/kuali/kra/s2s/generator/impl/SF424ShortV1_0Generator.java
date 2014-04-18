@@ -22,8 +22,8 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.type.OrganizationType;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -77,7 +77,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         sf424Short.setAuthorizedRepresentativePhoneNumber("");
         sf424Short.setAuthorizedRepresentativeEmail("");
 
-        Sponsor sponsor = pdDoc.getDevelopmentProposal().getPrimeSponsor();
+        SponsorContract sponsor = pdDoc.getDevelopmentProposal().getPrimeSponsor();
         if (pdDoc.getDevelopmentProposal().getSponsor() != null && pdDoc.getDevelopmentProposal().getSponsor().getSponsorName() != null) {
             if (pdDoc.getDevelopmentProposal().getSponsor().getSponsorName().length() > SPONSOR_NAME_MAX_LENGTH) {
                 sf424Short.setAgencyName(pdDoc.getDevelopmentProposal().getSponsor().getSponsorName().substring(0, SPONSOR_NAME_MAX_LENGTH));
@@ -131,8 +131,8 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         if (organization.getOrganizationName() != null) {
             sf424Short.setOrganizationName(organization.getOrganizationName());
         }
-       
-        Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
+
+        RolodexContract rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         if (rolodex != null) {
             sf424Short.setAddress(globLibV20Generator.getAddressDataType(rolodex));
         }

@@ -141,7 +141,7 @@ public class AwardAccountServiceImpl implements AwardAccountService {
      */
     protected boolean isPrimeSponsorFederal(Award award, String federalSponsorTypeCode) {
         if (ObjectUtils.isNotNull(award.getPrimeSponsor()) && ObjectUtils.isNotNull(award.getPrimeSponsor().getSponsorType()))  {
-            if (award.getPrimeSponsor().getSponsorType().getSponsorTypeCode().equals(federalSponsorTypeCode)) {
+            if (award.getPrimeSponsor().getSponsorType().getCode().equals(federalSponsorTypeCode)) {
                 return true;
             }
         }

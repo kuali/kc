@@ -238,10 +238,6 @@
         <property name="serviceName" value="sequenceAccessorService" />
     </bean>
     
-    <bean id="sponsorService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="sponsorService" />
-    </bean>
-    
     <bean id="systemAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="systemAuthorizationService" />
     </bean>

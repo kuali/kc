@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
+import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class PrintingHierarchyNameValuesFinder extends UifKeyValuesFinderBase {
 
-    private SponsorService sponsorService;
+    private LegacySponsorService legacySponsorService;
     private ParameterService parameterService;
 
     @Override
@@ -37,22 +37,22 @@ public class PrintingHierarchyNameValuesFinder extends UifKeyValuesFinderBase {
         String hierarchyName = getParameterService().getParameterValueAsString(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                 Constants.SPONSOR_HIERARCHY_PRINTING_NAME_PARAM);
-        List<String> groupNames = getSponsorService().getUniqueGroupingNames(hierarchyName, 1);
+        List<String> groupNames = getLegacySponsorService().getUniqueGroupingNames(hierarchyName, 1);
         for (String group : groupNames) {
             result.add(new ConcreteKeyValue(group, group));
         }
         return result;
     }
 
-    public SponsorService getSponsorService() {
-        if (sponsorService == null) {
-            sponsorService = KcServiceLocator.getService(SponsorService.class);
+    public LegacySponsorService getLegacySponsorService() {
+        if (legacySponsorService == null) {
+            legacySponsorService = KcServiceLocator.getService(LegacySponsorService.class);
         }
-        return sponsorService;
+        return legacySponsorService;
     }
 
-    public void setSponsorService(SponsorService sponsorService) {
-        this.sponsorService = sponsorService;
+    public void setLegacySponsorService(LegacySponsorService legacySponsorService) {
+        this.legacySponsorService = legacySponsorService;
     }
 
     public ParameterService getParameterService() {

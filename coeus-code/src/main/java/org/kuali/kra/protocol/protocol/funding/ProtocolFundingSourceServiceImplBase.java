@@ -18,8 +18,8 @@ package org.kuali.kra.protocol.protocol.funding;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposal;
@@ -72,7 +72,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
     private static final Log LOG = LogFactory.getLog(ProtocolFundingSourceServiceImplBase.class);
 
     private FundingSourceTypeService fundingSourceTypeService;
-    private SponsorService sponsorService;
+    private LegacySponsorService legacysponsorService;
     private UnitService unitService;
     private InstitutionalProposalService institutionalProposalService;
     private AwardService awardService;
@@ -264,7 +264,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
         ProtocolFundingSourceBase fundingSource = null;
         
         if (StringUtils.isNotBlank(fundingSourceNumber)) {
-            String fundingSourceName = getSponsorService().getSponsorName(fundingSourceNumber);
+            String fundingSourceName = getLegacySponsorService().getSponsorName(fundingSourceNumber);
             String fundingSourceTitle = Constants.EMPTY_STRING;
             fundingSource = creatNewProtocolFundingSourceInstanceHook(fundingSourceNumber, FundingSourceType.SPONSOR, fundingSourceName, fundingSourceTitle); 
         }
@@ -702,12 +702,12 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
         this.fundingSourceTypeService = fundingSourceTypeService;
     }
     
-    public SponsorService getSponsorService() {
-        return sponsorService;
+    public LegacySponsorService getLegacySponsorService() {
+        return legacysponsorService;
     }
     
-    public void setSponsorService(SponsorService sponsorService) {
-        this.sponsorService = sponsorService;
+    public void setLegacySponsorService(LegacySponsorService legacysponsorService) {
+        this.legacysponsorService = legacysponsorService;
     }
 
     public UnitService getUnitService() {

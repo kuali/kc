@@ -35,7 +35,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -157,7 +157,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 			grantApplicationType.setAgencyName(pdDoc.getDevelopmentProposal()
 					.getSponsor().getSponsorName());
 		}
-		Rolodex rolodex = pdDoc.getDevelopmentProposal()
+        RolodexContract rolodex = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getRolodex();
 		if (rolodex != null) {
 			grantApplicationType.setStateID(pdDoc.getDevelopmentProposal()
@@ -396,7 +396,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 
 		Project project = Project.Factory.newInstance();
 		project.setProjectTitle(pdDoc.getDevelopmentProposal().getTitle());
-		Rolodex rolodex = pdDoc.getDevelopmentProposal()
+        RolodexContract rolodex = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getRolodex();
 		if (rolodex != null) {
 			project.setLocation(pdDoc.getDevelopmentProposal()
@@ -491,7 +491,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		address.setStreet1("");
 		address.setCity("");
 
-		Rolodex rolodex = null;
+        RolodexContract rolodex = null;
 		if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
 			rolodex = pdDoc.getDevelopmentProposal()
 					.getPerformingOrganization().getRolodex();
