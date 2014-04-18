@@ -27,7 +27,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.funding.ProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewService;
-import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiRuleService;

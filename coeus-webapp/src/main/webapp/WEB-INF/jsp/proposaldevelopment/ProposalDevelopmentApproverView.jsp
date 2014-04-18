@@ -39,7 +39,7 @@
 		<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].propSpecialReviews) > 0}">
 			<c:if test="${KualiForm.proposalDevelopmentParameters['enableSpecialReviewPanel'].value == 'Y'}">
 				<kra-summary:proposalDevelopmentSpecialReview
-					businessObjectClassName="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview"
+					businessObjectClassName="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview"
 					attributes="${DataDictionary.ProposalSpecialReview.attributes}"
 					exemptionAttributes="${DataDictionary.ProposalSpecialReviewExemption.attributes}"
 					collectionReference="${KualiForm.document.developmentProposal.propSpecialReviews}"
