@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.docperm;
+package org.kuali.kra.iacuc.authorizer;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalAuthorizer;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -30,14 +30,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class CreateIacucProtocolFromProposalAuthorizer extends ProposalAuthorizer {
 
-    /*private TaskAuthorizationService taskAuthorizationService;
-
-    public void setTaskAuthorizationService (TaskAuthorizationService taskAuthorizationService){
-        this.taskAuthorizationService = taskAuthorizationService;
-    }
-    public TaskAuthorizationService getTaskAuthorizationService (){
-        return taskAuthorizationService;
-    }*/
     @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
 

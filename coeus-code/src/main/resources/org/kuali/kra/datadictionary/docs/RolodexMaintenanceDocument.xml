@@ -18,7 +18,7 @@
 	<property name="allowsRecordDeletion" value="true" />
 	
     <property name="documentTypeName" value="RolodexMaintenanceDocument"/>
-	 <property name="documentAuthorizerClass" value="org.kuali.coeus.propdev.impl.docperm.RolodexDocumentAuthorizer"/>
+	 <property name="documentAuthorizerClass" value="org.kuali.coeus.common.impl.rolodex.RolodexDocumentAuthorizer"/>
     <property name="webScriptFiles">
         <list>
             <value>../dwr/interface/StateService.js</value>

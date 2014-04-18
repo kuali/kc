@@ -13,32 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.docperm;
+package org.kuali.coeus.propdev.impl.auth.task;
 
-import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
-import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 
 /**
- * The Show Alter Proposal Data Authorizer will only a user to
- * view the altered proposal data under the following conditions
- * when the proposal is in workflow.
+ * The Basic Proposal Authorizer checks to see if the user has 
+ * the required permission to perform a given task on a proposal.
  */
-public class ShowAlterProposalDataAuthorizer extends ProposalAuthorizer {
-
-    private KcWorkflowService kraWorkflowService;
-
+public class BasicProposalAuthorizer extends ProposalAuthorizer {
+   
+    private String permissionName = null;
+    
+    /**
+     * Set the name of the required permission.  Injected by the Spring Framework.
+     * @param permissionName the name of the permission
+     */
+    public void setPermission(String permissionName) {
+        this.permissionName = permissionName;
+    }
+    
+    @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
-        return kraWorkflowService.isInWorkflow(doc);
+        return hasProposalPermission(userId, doc, permissionName);
     }
 
-    public KcWorkflowService getKraWorkflowService() {
-        return kraWorkflowService;
-    }
-
-    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
-        this.kraWorkflowService = kraWorkflowService;
-    }
 }

@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.action;
 
-import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;

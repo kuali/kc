@@ -13,32 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.basic;
+package org.kuali.coeus.propdev.impl.action;
 
-import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 
 /**
- * The Basic Proposal Authorizer checks to see if the user has 
- * the required permission to perform a given task on a proposal.
+ * Determines if the document is in the correct state and the user
+ * has the appropriate permissions to delete a proposal.
  */
-public class BasicProposalAuthorizer extends ProposalAuthorizer {
-   
-    private String permissionName = null;
-    
-    /**
-     * Set the name of the required permission.  Injected by the Spring Framework.
-     * @param permissionName the name of the permission
-     */
-    public void setPermission(String permissionName) {
-        this.permissionName = permissionName;
-    }
-    
-    @Override
+public class DeleteProposalAuthorizer extends ProposalAuthorizer {
+
+    private KcWorkflowService kraWorkflowService;
+
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
-        return hasProposalPermission(userId, doc, permissionName);
+        boolean result = hasProposalPermission(userId, doc, PermissionConstants.DELETE_PROPOSAL);
+        result &= !kraWorkflowService.isInWorkflow(doc);
+        return result;
     }
 
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 }

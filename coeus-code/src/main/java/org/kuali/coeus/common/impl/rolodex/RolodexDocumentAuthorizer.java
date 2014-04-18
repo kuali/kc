@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.docperm;
+package org.kuali.coeus.common.impl.rolodex;
 
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;

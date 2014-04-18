@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.osedu.org/licenses/ECL-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,37 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.note;
+package org.kuali.coeus.propdev.impl.core;
 
-import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
-public class AddNoteProposalAuthorizer extends ProposalAuthorizer {
+
+/**
+ * The Modify Proposal Authorizer checks to see if the user has 
+ * permission to modify a proposal. Authorization depends upon whether
+ * the proposal is being created or modified.  For creation, the
+ * user needs the CREATE_PROPOSAL permission in the Lead Unit for
+ * that proposal.  If the proposal is being modified, the user only
+ * needs to have the MODIFY_PROPOSAL permission for that proposal and
+ * the document cannot be in workflow.
+ */
+public class ModifyProposalAuthorizer extends ProposalAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
-    private UnitAuthorizationService unitAuthorizationService;
 
-    public void setUnitAuhorizationService (UnitAuthorizationService unitAuthorizationService){
-        this.unitAuthorizationService = unitAuthorizationService;
-    }
-
-    protected UnitAuthorizationService getUnitAuthorizationService () {
-        return unitAuthorizationService;
-    }
-
-    @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
         boolean hasPermission = true;
         ProposalDevelopmentDocument doc = task.getDocument();
         String proposalNbr = doc.getDevelopmentProposal().getProposalNumber();
 
         if (proposalNbr == null) {
-
             String unitNumber = doc.getDevelopmentProposal().getOwnedByUnitNumber();
             
             // If the unit number is not specified, we will let the save operation continue because it
@@ -51,13 +53,21 @@ public class AddNoteProposalAuthorizer extends ProposalAuthorizer {
             // we will indicate that the user does not have permission to do that. 
             
             if (unitNumber != null) {
-                UnitAuthorizationService auth = getUnitAuthorizationService();
+                UnitAuthorizationService auth = KcServiceLocator.getService(UnitAuthorizationService.class);
                 hasPermission = auth.hasPermission(userId, unitNumber, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
             }
         } else {
+            /*
+             * After the initial save, the proposal can only be modified if it is not in workflow
+             * and the user has the require permission.
+             */
+            WorkflowDocument wfd=doc.getDocumentHeader().getWorkflowDocument();
 
-            hasPermission = hasProposalPermission(userId, doc, PermissionConstants.VIEW_PROPOSAL)
-                || kraWorkflowService.hasWorkflowPermission(userId, doc);
+            boolean hasBeenRejected= KcServiceLocator.getService(KcDocumentRejectionService.class).isDocumentOnInitialNode(doc);
+            hasPermission = !doc.isViewOnly() &&
+                            hasProposalPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL) &&
+                            (!kraWorkflowService.isInWorkflow(doc) || hasBeenRejected) &&
+                            !doc.getDevelopmentProposal().getSubmitFlag();
         }
         return hasPermission;
     }

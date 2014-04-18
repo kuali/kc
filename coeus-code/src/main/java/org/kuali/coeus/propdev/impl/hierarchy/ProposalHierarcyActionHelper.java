@@ -52,8 +52,8 @@ public class ProposalHierarcyActionHelper {
     private ProposalBudgetStatusService proposalBudgetStatusService;
 
     protected ProposalBudgetStatusService getProposalBudgetStatusService(){
-        if (proposalBudgetStatusService == null)
-        proposalBudgetStatusService = KcServiceLocator.getService(ProposalBudgetStatusService.class);
+        if (proposalBudgetStatusService == null){
+            proposalBudgetStatusService = KcServiceLocator.getService(ProposalBudgetStatusService.class);}
         return proposalBudgetStatusService;
     }
 
