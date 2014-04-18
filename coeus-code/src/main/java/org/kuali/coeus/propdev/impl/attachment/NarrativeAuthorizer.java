@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -57,7 +57,7 @@ public abstract class NarrativeAuthorizer extends TaskAuthorizerBase {
     
     /**
      * Does the given user has the permission for this proposal development document?
-     * @param username the unique username of the user
+     * @param userId the unique username of the user
      * @param doc the proposal development document
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
@@ -68,7 +68,7 @@ public abstract class NarrativeAuthorizer extends TaskAuthorizerBase {
     
     /**
      * Does the user have the given narrative right for the given narrative?
-     * @param username the username of the user
+     * @param userId the username of the user
      * @param narrative the narrative
      * @param narrativeRight the narrative right we are looking for
      * @return true if the user has the narrative right for the narrative

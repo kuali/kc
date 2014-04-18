@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.attachment;
 
+import org.kuali.coeus.propdev.impl.attachment.NarrativeAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;

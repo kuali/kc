@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.coeus.propdev.impl.attachment.NarrativeTask;
 
 /**
  * The Narrative Modify Authorizer checks to see if the user has 
@@ -33,6 +30,7 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeTask;
 public class NarrativeModifyAuthorizer extends NarrativeAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
+    private KcDocumentRejectionService kcDocumentRejectionService;
 
     public boolean isAuthorized(String userId, NarrativeTask task) {
         
@@ -43,7 +41,7 @@ public class NarrativeModifyAuthorizer extends NarrativeAuthorizer {
         // a sanity check.  If they have the MODIFY_NARRATIVE_RIGHT, then they are
         // required to have the MODIFY_NARRATIVE permission.
         
-        KcDocumentRejectionService documentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
+        KcDocumentRejectionService documentRejectionService = getKcDocumentRejectionService();
         boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
         boolean hasPermission = false;
         
@@ -63,5 +61,11 @@ public class NarrativeModifyAuthorizer extends NarrativeAuthorizer {
 
     public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
         this.kraWorkflowService = kraWorkflowService;
+    }
+    public void setKcDocumentRejectionService (KcDocumentRejectionService kcDocumentRejectionService){
+        this.kcDocumentRejectionService = kcDocumentRejectionService;
+    }
+    protected KcDocumentRejectionService getKcDocumentRejectionService(){
+        return kcDocumentRejectionService;
     }
 }

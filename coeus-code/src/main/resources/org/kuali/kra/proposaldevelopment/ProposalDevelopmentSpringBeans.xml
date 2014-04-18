@@ -602,9 +602,10 @@
                     <property name="taskName" value="rejectProposal" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.AnswerProposalQuestionnaireAuthorizer" parent="parentProposalAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.question.AnswerProposalQuestionnaireAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="answerProposalQuestionnaire" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
                 </bean>
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.DeleteProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="deleteProposal" />
@@ -618,20 +619,22 @@
                 
 				<!-- Narrative -->
 				
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeAddAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeAddAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="addNarrative" />
 					<property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
 				</bean>
 
 				<!-- Budget -->
 				
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BudgetAddAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.budget.BudgetAddAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="addBudget" />
 					<property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BudgetOpenAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.budget.BudgetOpenAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="openBudgets" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
 				</bean>
@@ -660,21 +663,17 @@
 		<property name="groupName" value="narrative" />
 		<property name="taskAuthorizers">
 			<list>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer" parent="parentProposalAuthorizer">
-					<property name="taskName" value="modifyNarrativeRights" />
-					<property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReadAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeReadAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="downloadNarrative" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeModifyAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="deleteNarrative" />
 					<property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReplaceAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeReplaceAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="replaceNarrative" />
 					<property name="requiresWritableDoc" value="true" />
 				</bean>

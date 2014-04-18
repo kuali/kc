@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -33,6 +33,7 @@ import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 public class NarrativeAddAuthorizer extends ProposalAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
+    private KcDocumentRejectionService kcDocumentRejectionService;
 
     public boolean isAuthorized(String userId, ProposalTask task) {
         
@@ -52,5 +53,11 @@ public class NarrativeAddAuthorizer extends ProposalAuthorizer {
 
     public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
         this.kraWorkflowService = kraWorkflowService;
+    }
+    public void setKcDocumentRejectionService (KcDocumentRejectionService kcDocumentRejectionService){
+        this.kcDocumentRejectionService = kcDocumentRejectionService;
+    }
+    protected KcDocumentRejectionService getKcDocumentRejectionService(){
+        return kcDocumentRejectionService;
     }
 }

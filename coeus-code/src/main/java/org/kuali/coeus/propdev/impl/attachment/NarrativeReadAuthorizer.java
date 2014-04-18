@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
