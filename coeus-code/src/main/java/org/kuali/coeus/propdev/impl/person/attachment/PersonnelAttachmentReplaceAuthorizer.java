@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.coeus.propdev.impl.person.attachment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 
 public class PersonnelAttachmentReplaceAuthorizer extends ProposalAuthorizer {
 

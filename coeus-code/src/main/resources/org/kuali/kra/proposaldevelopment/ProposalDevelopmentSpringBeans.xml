@@ -611,7 +611,7 @@
                     <property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.PersonnelAttachmentReplaceAuthorizer" parent="parentProposalAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.person.attachment.PersonnelAttachmentReplaceAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="replacePersonnelAttachmentAuthorizer" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>

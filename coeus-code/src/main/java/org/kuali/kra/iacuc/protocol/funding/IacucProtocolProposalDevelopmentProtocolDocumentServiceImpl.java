@@ -26,7 +26,7 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.protocol.IacucProtocolNumberService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;

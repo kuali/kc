@@ -19,7 +19,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeTask;
 
 /**
  * The Narrative Replace Authorizer checks to see if the user has 

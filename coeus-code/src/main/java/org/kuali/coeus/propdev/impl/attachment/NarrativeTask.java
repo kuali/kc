@@ -13,31 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorization;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
 
 /**
- * A Proposal Task is a task that performs an action against a
- * Proposal Development Document.  To assist authorization, the
- * Proposal Development Document is available.
+ * A Narrative Task is a task that corresponds to
+ * task on a particular Narrative.
  */
-public final class ProposalTask extends Task {
-    
+public class NarrativeTask extends Task {
+   
     private ProposalDevelopmentDocument document;
-    public static final String CREATE_IRB_PROTOCOL_FROM_PROPOSAL = "createIrbProtocolFromProposal";
-    public static final String CREATE_IACUC_PROTOCOL_FROM_PROPOSAL = "createIacucProtocolFromProposal";
+    private Narrative narrative;
     
     /**
-     * Constructs a ProposalTask.
+     * Constructs a NarrativeTask.
      * @param taskName the name of the task
-     * @param doc the Proposal Development Document
+     * @param document the Proposal Development Document
+     * @param narrative the narrative
      */
-    public ProposalTask(String taskName, ProposalDevelopmentDocument document) {
-        super(TaskGroupName.PROPOSAL, taskName);
+    public NarrativeTask(String taskName, ProposalDevelopmentDocument document, Narrative narrative) {
+        super(TaskGroupName.NARRATIVE, taskName);
         this.document = document;
+        this.narrative = narrative;
     }
 
     /**
@@ -46,5 +47,13 @@ public final class ProposalTask extends Task {
      */
     public ProposalDevelopmentDocument getDocument() {
         return document;
+    }
+    
+    /**
+     * Get the Narrative.
+     * @return the Narrative
+     */
+    public Narrative getNarrative() {
+        return narrative;
     }
 }

@@ -21,7 +21,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeTask;
 
 /**
  * The Narrative Read Authorizer checks to see if the user has 
