@@ -18,8 +18,8 @@ package org.kuali.kra.service.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
-import org.kuali.coeus.common.impl.sponsor.SponsorServiceImpl;
+import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
+import org.kuali.coeus.common.impl.sponsor.LegacySponsorServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
@@ -31,13 +31,13 @@ import static org.junit.Assert.assertNull;
 /**
  * This class tests KraPersistableBusinessObjectBase.
  */
-public class SponsorServiceImplTest extends KcIntegrationTestBase {
+public class LegacySponsorServiceImplTest extends KcIntegrationTestBase {
 
     private static final String TEST_SPONSOR_CODE = "005891";
     private static final String TEST_SPONSOR_NAME = "Baystate Medical Center";
     private static final String INVALID_SPONSOR_CODE = "XXXX";
     private static final String TOP_SPONSOR_HIERARCHY = "Administering Activity;1;COI Disclosures;1;NIH Multiple PI;1;NIH Other Significant Contributor;1;Printing;1;Routing;1;Sponsor Groups";
-    private SponsorService sponsorService;
+    private LegacySponsorService sponsorService;
     
     @Before
     public void setUp() throws Exception {
@@ -67,15 +67,15 @@ public class SponsorServiceImplTest extends KcIntegrationTestBase {
         sponsorService = this.getEmptySponsorService();
         assertEquals("", sponsorService.getTopSponsorHierarchy()); 
     }
-    private SponsorService getEmptySponsorService() {
-        return new SponsorServiceImpl() {
+    private LegacySponsorService getEmptySponsorService() {
+        return new LegacySponsorServiceImpl() {
             public Collection getTopSponsorHierarchyList(){
                 return new ArrayList();
             }
         };
     }
-    private SponsorService getRegularSponsorService() {
-        return KcServiceLocator.getService(SponsorService.class);
+    private LegacySponsorService getRegularSponsorService() {
+        return KcServiceLocator.getService(LegacySponsorService.class);
     }
 
 

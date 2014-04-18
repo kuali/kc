@@ -88,7 +88,7 @@
      
     <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl" lazy-init="true">
         <property name="fundingSourceTypeService" ref="fundingSourceTypeService" />
-        <property name="sponsorService" ref="sponsorService" />
+        <property name="sponsorService" ref="legacySponsorService" />
         <property name="unitService" ref="unitService" />
         <property name="institutionalProposalService" ref="institutionalProposalService" />
         <property name="awardService" ref="awardService" />

@@ -28,8 +28,8 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -207,7 +207,7 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
             coverPageSupplement.setIsChangeOfPDPI(YesNoDataType.Y_YES);
             if (explanation != null) {
                 RolodexService rolodexService = KcServiceLocator.getService(RolodexService.class);
-                Rolodex rolodex = rolodexService.getRolodex(Integer.valueOf(explanation));
+                RolodexContract rolodex = rolodexService.getRolodex(Integer.valueOf(explanation));
                 HumanNameDataType formerPDName = globLibV20Generator
                         .getHumanNameDataType(rolodex);
                 if (formerPDName != null

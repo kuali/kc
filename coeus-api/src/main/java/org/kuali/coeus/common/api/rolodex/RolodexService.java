@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.rolodex;
+package org.kuali.coeus.common.api.rolodex;
 
 
 /**
- * The RolodexService provides methods for obtaining Rolodex business objects.
+ * This service provides methods for working with Rolodex objects.
  *
- * @author Kuali Research Administration Team 
- * 
+ * @author Kuali Research Administration Team
+ *
  */
 public interface RolodexService {
 
-    
     /**
-     * 
-     * This method returns a Rolodex BO for a particular RolodexId or null if none is found.
-     * 
-     * @param rolodexId
-     * @return the Rolodex if found (@see org.kuali.kra.bo.Rolodex)
-     * 
+     * This method will retrieves a {@link RolodexContract} by rolodexId.  The rolodexId cannot be null.
+     * @param rolodexId the rolodexId.  Cannot be null.
+     * @return the {@link RolodexContract} or null if not found.
+     * @throws java.lang.IllegalArgumentException if the rolodexId is null
      */
-    public Rolodex getRolodex(int rolodexId);
+    RolodexContract getRolodex(Integer rolodexId);
 }

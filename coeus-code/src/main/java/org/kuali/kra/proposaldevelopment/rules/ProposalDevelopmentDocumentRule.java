@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsRule;
 import org.kuali.coeus.propdev.impl.attachment.*;
 import org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentEvent;
@@ -50,7 +51,6 @@ import org.kuali.coeus.propdev.impl.resubmit.ResubmissionPromptRule;
 import org.kuali.coeus.propdev.impl.resubmit.ResubmissionRuleEvent;
 import org.kuali.coeus.propdev.impl.ynq.ProposalDevelopmentYnqAuditRule;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.ynq.YnqGroupName;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
@@ -355,7 +355,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
             valid = false;
          }
  
-        SponsorService sponsorService = KcServiceLocator.getService(SponsorService.class);
+        LegacySponsorService sponsorService = KcServiceLocator.getService(LegacySponsorService.class);
          String sponsorCode = proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsorCode();
    
          if (sponsorCode != null)
@@ -559,8 +559,8 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         return retVal;
     }
     
-    private SponsorService getSponsorService() {
-        return KcServiceLocator.getService(SponsorService.class);
+    private LegacySponsorService getSponsorService() {
+        return KcServiceLocator.getService(LegacySponsorService.class);
     }
 
 }

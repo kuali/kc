@@ -27,8 +27,8 @@ import gov.grants.apply.system.globalLibraryV10.HumanNameDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -66,7 +66,7 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
         lobbyingDisclosure.setReportType(ReportDataType.INITIAL_FILING);
         lobbyingDisclosure.setReportEntity(getReportEntity());
         lobbyingDisclosure.setFederalAgencyDepartment("");
-        Sponsor sponsor = pdDoc.getDevelopmentProposal().getSponsor();
+        SponsorContract sponsor = pdDoc.getDevelopmentProposal().getSponsor();
         if (sponsor != null) {
             if (sponsor.getSponsorName() != null) {
                 if (sponsor.getSponsorName().length() > SPONSOR_NAME_MAX_LENGTH) {
@@ -81,7 +81,7 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
             String primeSponsorCode = pdDoc.getDevelopmentProposal().getPrimeSponsorCode();
 
             if (primeSponsorCode != null) {
-                Sponsor primeSponsor = pdDoc.getDevelopmentProposal().getPrimeSponsor();
+                SponsorContract primeSponsor = pdDoc.getDevelopmentProposal().getPrimeSponsor();
                 if (primeSponsor.getSponsorName() != null) {
                     if (primeSponsor.getSponsorName().length() > SPONSOR_NAME_MAX_LENGTH) {
                         lobbyingDisclosure.setFederalAgencyDepartment(primeSponsor.getSponsorName().substring(0,
@@ -198,7 +198,7 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
             }
         }
         prime.setReportEntityType(ReportEntityDataType.PRIME);
-        Rolodex rolodex = null;
+        RolodexContract rolodex = null;
         rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         prime.setAddress(globLibV10Generator.getAddressDataType(rolodex));
         reportEntity.setPrime(prime);

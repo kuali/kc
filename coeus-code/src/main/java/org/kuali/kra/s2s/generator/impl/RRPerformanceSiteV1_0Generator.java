@@ -23,7 +23,7 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
@@ -54,7 +54,7 @@ public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerat
         List<ProposalSite> propsoalSites = pdDoc.getDevelopmentProposal().getProposalSites();
         SiteLocationDataType siteLocation = null;
         Organization organization = null;
-        Rolodex rolodex = null;
+        RolodexContract rolodex = null;
         
         for (ProposalSite proposalSite : propsoalSites) {
             switch(proposalSite.getLocationTypeCode()){
@@ -97,7 +97,7 @@ public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerat
      * @param address
      * @param rolodex
      */
-    private void setAddress(Address address, Rolodex rolodex) {
+    private void setAddress(Address address, RolodexContract rolodex) {
         if (rolodex != null) {
             address.setStreet1(rolodex.getAddressLine1());
             address.setStreet2(rolodex.getAddressLine2());

@@ -26,8 +26,8 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
@@ -100,7 +100,7 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
             phsChecklist.setIsChangeOfPDPI(YesNoDataType.Y_YES);
             if (pIChangeExplanation != null) {
                 RolodexService rolodexService = KcServiceLocator.getService(RolodexService.class);
-                Rolodex rolodex = rolodexService.getRolodex(Integer.valueOf(pIChangeExplanation));
+                RolodexContract rolodex = rolodexService.getRolodex(Integer.valueOf(pIChangeExplanation));
                 HumanNameDataType formerPDName = globLibV20Generator
                         .getHumanNameDataType(rolodex);
                 if (formerPDName != null

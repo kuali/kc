@@ -27,8 +27,8 @@ import gov.grants.apply.forms.rrKeyPersonExpanded12V12.RRKeyPersonExpanded12Docu
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
@@ -54,7 +54,7 @@ import java.util.List;
 public class RRKeyPersonExpandedV1_2Generator extends
 		RRKeyPersonExpandedBaseGenerator {
 
-	Rolodex rolodex;
+	RolodexContract rolodex;
 	/*
 	 * This method gives details of Principal Investigator,KeyPersons and the
 	 * corresponding attachments for RRKeyPersons

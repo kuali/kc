@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.sponsor;
 
+import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -28,7 +29,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "SPONSOR")
-public class Sponsor extends KcPersistableBusinessObjectBase {
+public class Sponsor extends KcPersistableBusinessObjectBase implements SponsorContract {
 
     @PortableSequenceGenerator(name = "SEQ_SPONSOR_CODE")
     @GeneratedValue(generator = "SEQ_SPONSOR_CODE")
@@ -78,6 +79,10 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
     @Column(name = "CREATE_USER")
     private String createUser;
 
+    @Column(name = "ACTV_IND")
+    @Convert(converter = BooleanYNConverter.class)
+    private boolean active;
+
     @ManyToOne(targetEntity = SponsorType.class, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "SPONSOR_TYPE_CODE", referencedColumnName = "SPONSOR_TYPE_CODE", insertable = false, updatable = false)
     private SponsorType sponsorType;
@@ -90,15 +95,12 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
     @JoinColumn(name = "ROLODEX_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex rolodex;
 
-    @Column(name = "ACTV_IND")
-    @Convert(converter = BooleanYNConverter.class)
-    private boolean active;
-
     public Sponsor() {
         super();
         setCreateUser(getUpdateUser());
     }
 
+    @Override
     public String getSponsorCode() {
         return sponsorCode;
     }
@@ -107,6 +109,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.sponsorCode = sponsorCode;
     }
 
+    @Override
     public String getAcronym() {
         return acronym;
     }
@@ -115,6 +118,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.acronym = acronym;
     }
 
+    @Override
     public String getAuditReportSentForFy() {
         return auditReportSentForFy;
     }
@@ -123,6 +127,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.auditReportSentForFy = auditReportSentForFy;
     }
 
+    @Override
     public String getCageNumber() {
         return cageNumber;
     }
@@ -131,6 +136,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.cageNumber = cageNumber;
     }
 
+    @Override
     public String getCountryCode() {
         return countryCode;
     }
@@ -139,6 +145,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.countryCode = countryCode;
     }
 
+    @Override
     public String getDodacNumber() {
         return dodacNumber;
     }
@@ -147,6 +154,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.dodacNumber = dodacNumber;
     }
 
+    @Override
     public String getDunAndBradstreetNumber() {
         return dunAndBradstreetNumber;
     }
@@ -155,6 +163,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.dunAndBradstreetNumber = dunAndBradstreetNumber;
     }
 
+    @Override
     public String getDunsPlusFourNumber() {
         return dunsPlusFourNumber;
     }
@@ -163,6 +172,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.dunsPlusFourNumber = dunsPlusFourNumber;
     }
 
+    @Override
     public String getOwnedByUnit() {
         return ownedByUnit;
     }
@@ -171,6 +181,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.ownedByUnit = ownedByUnit;
     }
 
+    @Override
     public String getPostalCode() {
         return postalCode;
     }
@@ -179,6 +190,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.postalCode = postalCode;
     }
 
+    @Override
     public Integer getRolodexId() {
         return rolodexId;
     }
@@ -187,6 +199,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.rolodexId = rolodexId;
     }
 
+    @Override
     public String getSponsorName() {
         return sponsorName;
     }
@@ -203,6 +216,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.sponsorTypeCode = sponsorTypeCode;
     }
 
+    @Override
     public String getState() {
         return state;
     }
@@ -229,6 +243,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         return unit;
     }
 
+    @Override
     public SponsorType getSponsorType() {
         return sponsorType;
     }
@@ -237,6 +252,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.sponsorType = sponsorType;
     }
 
+    @Override
     public String getCreateUser() {
         return createUser;
     }
@@ -259,6 +275,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase {
         this.rolodex = rolodex;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }

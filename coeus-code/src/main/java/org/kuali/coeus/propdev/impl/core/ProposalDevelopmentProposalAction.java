@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
+import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.location.*;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
@@ -152,8 +152,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return super.route(mapping, form, request, response);
     }
 
-    protected SponsorService getSponsorService() {
-        return KcServiceLocator.getService(SponsorService.class);
+    protected LegacySponsorService getSponsorService() {
+        return KcServiceLocator.getService(LegacySponsorService.class);
     }
 
     /**

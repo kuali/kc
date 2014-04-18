@@ -16,10 +16,10 @@
 package org.kuali.kra.protocol.protocol;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.contact.Contactable;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
-import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
@@ -539,24 +539,25 @@ public abstract class ProtocolHelperBase implements Serializable {
     }
 
     
-    private Unit getPIUnit(String piId) {
-        Contactable pi = null;
+    private String getPIUnit(String piId) {
         if(StringUtils.isNotBlank(piId)) {
             if(!nonEmployeeFlag) {
-                pi = getPersonService().getKcPersonByPersonId(getPrincipalInvestigatorId());
+                KcPerson pi = getPersonService().getKcPersonByPersonId(getPrincipalInvestigatorId());
+                return pi == null? null : pi.getUnit().getUnitNumber();
             } else {
                 if (StringUtils.isNotBlank(rolodexId)) {
-                	pi = getRolodexService().getRolodex(Integer.parseInt(rolodexId));
+                	RolodexContract pi = getRolodexService().getRolodex(Integer.parseInt(rolodexId));
+                    return pi == null? null : pi.getOwnedByUnit();
                 }
             }
         }
-        return (pi == null? null : pi.getUnit());
+        return null;
     }
     
     private void verifyLeadUnitAutoPopulation() {
         if(StringUtils.isNotEmpty(getProtocol().getPrincipalInvestigatorId()) && StringUtils.isNotEmpty(getProtocol().getLeadUnitNumber())) {
-            Unit piUnit = getPIUnit(getProtocol().getPrincipalInvestigatorId()) ;
-            if(piUnit != null && !StringUtils.equals(piUnit.getUnitNumber(), getProtocol().getLeadUnitNumber())) {
+            String piUnit = getPIUnit(getProtocol().getPrincipalInvestigatorId()) ;
+            if(piUnit != null && !StringUtils.equals(piUnit, getProtocol().getLeadUnitNumber())) {
                 setLeadUnitAutoPopulated(false);
             }
         }

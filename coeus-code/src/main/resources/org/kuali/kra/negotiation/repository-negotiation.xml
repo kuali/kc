@@ -224,6 +224,9 @@
         <reference-descriptor name="subAwardOrganization" class-ref="org.kuali.coeus.common.framework.org.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="subAwardOrganizationId"/>
         </reference-descriptor>
+        <reference-descriptor name="pINonEmployee" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="piRolodexId"/>
+        </reference-descriptor>
     </class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.negotiations.notifications.NegotiationNotification" table="NEGOTIATION_NOTIFICATION">

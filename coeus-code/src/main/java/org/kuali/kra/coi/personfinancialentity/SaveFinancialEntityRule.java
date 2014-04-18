@@ -16,8 +16,8 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -35,7 +35,7 @@ import java.util.Map;
 public class SaveFinancialEntityRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<SaveFinancialEntityEvent> {
     
     private static final String SPONSOR_CODE = "sponsorCode";
-    private SponsorService sponsorService;
+    private LegacySponsorService legacySponsorService;
     @Override
     public boolean processRules(SaveFinancialEntityEvent event) {
         boolean isValid = checkValidSponsor(event);
@@ -52,20 +52,12 @@ public class SaveFinancialEntityRule extends KcTransactionalDocumentRuleBase imp
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put(SPONSOR_CODE, event.getPersonFinIntDisclosure().getSponsorCode());
             Sponsor sp = this.getBusinessObjectService().findByPrimaryKey(Sponsor.class, fieldValues);
-            if (!this.getSponsorService().validateSponsor(sp)) {
+            if (!this.getLegacySponsorService().validateSponsor(sp)) {
                 GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
                 GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
                 isValid = false;
                 GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
             }
-            /*
-            if(getBusinessObjectService().countMatching(Sponsor.class, fieldValues) == 0) {
-                GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
-                GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
-                isValid = false;
-                GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
-            }
-            */
         }
 
         return isValid;
@@ -107,15 +99,15 @@ public class SaveFinancialEntityRule extends KcTransactionalDocumentRuleBase imp
 
     }
 
-    public SponsorService getSponsorService() {
-        if (sponsorService == null) {
-            sponsorService = KcServiceLocator.getService(SponsorService.class);
+    public LegacySponsorService getLegacySponsorService() {
+        if (legacySponsorService == null) {
+            legacySponsorService = KcServiceLocator.getService(LegacySponsorService.class);
         }
-        return sponsorService;
+        return legacySponsorService;
     }
 
-    public void setSponsorService(SponsorService sponsorService) {
-        this.sponsorService = sponsorService;
+    public void setLegacySponsorService(LegacySponsorService legacySponsorService) {
+        this.legacySponsorService = legacySponsorService;
     }
 
 }

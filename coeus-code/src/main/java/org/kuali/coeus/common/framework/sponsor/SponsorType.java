@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.sponsor;
 
+import org.kuali.coeus.common.api.sponsor.SponsorTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -24,31 +25,25 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "SPONSOR_TYPE")
-public class SponsorType extends KcPersistableBusinessObjectBase {
+public class SponsorType extends KcPersistableBusinessObjectBase implements SponsorTypeContract {
 
     @Id
     @Column(name = "SPONSOR_TYPE_CODE")
-    private String sponsorTypeCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
-    /**
-     * Gets the sponsorTypeCode attribute. 
-     * @return Returns the sponsorTypeCode.
-     */
-    public String getSponsorTypeCode() {
-        return sponsorTypeCode;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    /**
-     * Sets the sponsorTypeCode attribute value.
-     * @param sponsorTypeCode The sponsorTypeCode to set.
-     */
-    public void setSponsorTypeCode(String sponsorTypeCode) {
-        this.sponsorTypeCode = sponsorTypeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

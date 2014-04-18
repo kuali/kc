@@ -56,7 +56,7 @@
         </convert>
 						
 		<create creator="spring" javascript="SponsorService">
-			<param name="beanName" value="sponsorService" />
+			<param name="beanName" value="legacySponsorService" />
 			<include method="getSponsorName" />
 			<include method="getSponsor" />
 			<include method="getSubSponsorHierarchiesForTreeView" />
@@ -67,6 +67,7 @@
 			<include method="updateGroupName" />
 			<include method="changeSponsorSortOrder" />
 		</create>
+
 		<create creator="spring" javascript="UnitService">
 			<param name="beanName" value="unitService" />
 			<include method="getUnitName" />

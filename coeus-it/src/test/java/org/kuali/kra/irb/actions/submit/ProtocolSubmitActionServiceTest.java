@@ -20,8 +20,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -265,7 +265,7 @@ public class ProtocolSubmitActionServiceTest extends KcIntegrationTestBase {
         
         //adding in a rolodex reviewer.
         reviewer = new ProtocolReviewerBean();
-        Rolodex rolodex = rolodexService.getRolodex(253);
+        RolodexContract rolodex = rolodexService.getRolodex(253);
         reviewer = new ProtocolReviewerBean();
         reviewer.setNonEmployeeFlag(true);
         reviewer.setPersonId("253");

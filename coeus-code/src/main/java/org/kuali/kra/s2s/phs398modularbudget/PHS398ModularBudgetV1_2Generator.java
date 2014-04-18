@@ -9,7 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
@@ -306,7 +306,7 @@ PHS398ModularBudgetBaseGenerator{
 	            Organization organization = pdDoc.getDevelopmentProposal()
 	            .getApplicantOrganization().getOrganization();
 	            if (organization != null) {
-	                Rolodex rolodex = organization.getCognizantAuditorRolodex();
+                    RolodexContract rolodex = organization.getCognizantAuditorRolodex();
 	                if (rolodex != null) {
 	                    indirectCost
 	                    .setCognizantFederalAgency(getCognizantFederalAgency(rolodex));

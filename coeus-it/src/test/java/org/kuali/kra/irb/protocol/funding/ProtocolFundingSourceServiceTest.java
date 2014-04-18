@@ -24,10 +24,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.matchers.JUnitMatchers;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
+import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
 import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.FundingSourceType;
@@ -58,14 +56,11 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
     private ProtocolFundingSourceServiceImpl protocolFundingSourceService;
 
     private final String emptyNumber = "";
-    
-    //private final String sponsorNumberAirForce = "000100";
-    //private final String sponsorNameAirForce = "Air Force";
+
+    private final String sponsorNameAirForce = "Air Force Research Laboratory";
     private final String sponsorNumberBad = "-1";
-    private Sponsor sponsorGood;
     private final String sponsorNumberAirForce = "000108";
-    private String sponsorNameAirForce;
-    
+
     private final String unitNumberGood = "000001";
     private final String unitNameGood = "University";
     private final String unitNumberBad = "zzzzz";
@@ -109,8 +104,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
 
     /**
      * Create the mock services and insert them into the protocol auth service.
-     * 
-     * @see org.kuali.kra.KraTestBase#setUp()
+     *
      */
     @Before
     public void setUp() throws Exception {
@@ -139,40 +133,37 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
         fundingAwardSourceType.setFundingSourceTypeFlag(true);
         fundingAwardSourceType.setDescription("Award");
         
-        //sponsorGood = new Sponsor();
-        //sponsorGood.setSponsorName(sponsorNameAirForce);
-        //sponsorGood.setSponsorCode(sponsorNumberAirForce);
-        sponsorGood = KcServiceLocator.getService(SponsorService.class).getSponsor(sponsorNumberAirForce);
-        sponsorNameAirForce = sponsorGood.getSponsorName();
-        
         devProposalGood = new DevelopmentProposal();
         devProposalGood.setTitle(devProposalTitleGood);
-        devProposalGood.setSponsor(sponsorGood);
-        
+        devProposalGood.setSponsorCode(sponsorNumberAirForce);
+        devProposalGood.refreshReferenceObject("sponsor");
+
         instProposalGood = new InstitutionalProposal();
         instProposalGood.setTitle(instProposalTitleGood);
-        instProposalGood.setSponsor(sponsorGood);
+        instProposalGood.setSponsorCode(sponsorNumberAirForce);
+        instProposalGood.refreshReferenceObject("sponsor");
 
         awardGood = new Award();
         awardGood.setTitle(awardTitleGood);
-        awardGood.setSponsor(sponsorGood);
+        awardGood.setSponsorCode(sponsorNumberAirForce);
+        awardGood.refreshReferenceObject("sponsor");
     }    
 
     @Test
     public void testCalculateSponsorFunding() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setSponsorService(getSponsorService());
+        protocolFundingSourceService.setLegacySponsorService(getLegacySponsorService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         ProtocolFundingSource fundingSource 
             = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorNumberAirForce, null);
         assertNotNull(fundingSource);
-        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        assertTrue(fundingSource.getFundingSourceNumber().equalsIgnoreCase(sponsorNumberAirForce));
     }
     
     @Test
     public void testCalculateSponsorFundingSourceBadId() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setSponsorService(getSponsorService());
+        protocolFundingSourceService.setLegacySponsorService(getLegacySponsorService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorNumberBad, null);
         assertNotNull(fundingSource);
@@ -182,7 +173,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
     @Test
     public void testCalculateSponsorFundingSourceEmptyId() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setSponsorService(getSponsorService());
+        protocolFundingSourceService.setLegacySponsorService(getLegacySponsorService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, emptyNumber, null);
         assertNull(fundingSource);
@@ -253,7 +244,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
             = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, devProposalNumberGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
-        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        assertTrue(fundingSource.getFundingSourceNumber().equalsIgnoreCase(sponsorNumberAirForce));
         assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(devProposalTitleGood));
     } 
     
@@ -294,7 +285,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
             (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instProposalNumberGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
-        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        assertTrue(fundingSource.getFundingSourceNumber().equalsIgnoreCase(sponsorNumberAirForce));
         assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(instProposalTitleGood));
     }     
     
@@ -310,7 +301,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
             = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instProposalNumberGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
-        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        assertTrue(fundingSource.getFundingSourceNumber().equalsIgnoreCase(sponsorNumberAirForce));
         assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(instProposalTitleGood));
     }
     
@@ -353,7 +344,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
         ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardNumberGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
-        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        assertTrue(fundingSource.getFundingSourceNumber().equalsIgnoreCase(sponsorNumberAirForce));
         assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(awardTitleGood));
     }
     
@@ -367,7 +358,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
         ProtocolFundingSource fundingSource  = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardNumberGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
-        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        assertTrue(fundingSource.getFundingSourceNumber().equalsIgnoreCase(sponsorNumberAirForce));
         assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(awardTitleGood));
     } 
 
@@ -399,7 +390,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
     public void testIsValidIdForTypeSponsor() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());    
-        protocolFundingSourceService.setSponsorService(getSponsorService());       
+        protocolFundingSourceService.setLegacySponsorService(getLegacySponsorService());
 
         ProtocolFundingSource fundingSource = new ProtocolFundingSource(sponsorNumberAirForce, FundingSourceType.SPONSOR, null, null);
         assertTrue(protocolFundingSourceService.isValidIdForType(fundingSource));
@@ -551,12 +542,12 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
       
   }
 
-    protected SponsorService getSponsorService() {
-        final SponsorService sponsorService = context.mock(SponsorService.class);
+    protected LegacySponsorService getLegacySponsorService() {
+        final LegacySponsorService sponsorService = context.mock(LegacySponsorService.class);
         context.checking(new Expectations() {{
-            allowing(sponsorService).getSponsorName(sponsorNumberAirForce); 
+            allowing(sponsorService).getSponsorName(sponsorNumberAirForce);
             will(returnValue(sponsorNameAirForce));
-            allowing(sponsorService).getSponsorName(sponsorNumberBad); 
+            allowing(sponsorService).getSponsorName(sponsorNumberBad);
             will(returnValue(null));
         }});
         return sponsorService;
