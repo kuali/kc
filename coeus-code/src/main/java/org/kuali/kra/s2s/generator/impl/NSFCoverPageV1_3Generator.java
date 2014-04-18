@@ -29,13 +29,13 @@ import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -275,11 +275,10 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 	private AttachedFileDataType[] getAttachedFileDataTypes() {
 		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
 		AttachedFileDataType attachedFileDataType = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null) {
-				int narrativeTypeCode = Integer.parseInt(narrative
-						.getNarrativeTypeCode());
+			if (narrative.getNarrativeType().getCode() != null) {
+				int narrativeTypeCode = Integer.parseInt(narrative.getNarrativeType().getCode());
 				if (narrativeTypeCode == PERSONAL_DATA
 						|| narrativeTypeCode == PROPRIETARY_INFORMATION 
 						|| narrativeTypeCode == SINGLE_COPY_DOCUMENT) {

@@ -37,10 +37,8 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;
-import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.answer.Answer;
@@ -78,7 +76,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private KcPersonService kcPersonService;
-    private NarrativeService narrativeService;
     private CitizenshipTypeService citizenshipTypeService;
     private UnitService unitService;
     private ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
@@ -657,21 +654,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         return depPerson;
     }
-    public void deleteSystemGeneratedAttachments(ProposalDevelopmentDocument pdDoc) {
-        List<Narrative> narratives = pdDoc.getDevelopmentProposal().getNarratives();
-        List<Integer> deletedItems = new ArrayList<Integer>();
-        Integer i = 0;
-        for (Narrative narrative : narratives) {
-
-            if (narrative.getNarrativeType() != null && "Y".equals(narrative.getNarrativeType().getSystemGenerated())) {
-                deletedItems.add(i);
-            }
-            i++;
-        }
-        for (int lineToDelete = deletedItems.size() - 1; lineToDelete >= 0; lineToDelete--) {
-            getNarrativeService().deleteProposalAttachment(pdDoc, deletedItems.get(lineToDelete));
-        }
-    }
 
     /**
      * Gets the kcPersonService attribute.
@@ -756,24 +738,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         fullMonthCount = fullMonthCount - 1;
         monthCount = monthCount.add(new ScaleTwoDecimal(fullMonthCount)).add(new ScaleTwoDecimal(startMonthFraction)).add(new ScaleTwoDecimal(endMonthFraction));
         return monthCount;
-    }
-
-    /**
-     * Gets the narrativeService attribute.
-     * 
-     * @return Returns the narrativeService.
-     */
-    public NarrativeService getNarrativeService() {
-        return narrativeService;
-    }
-
-    /**
-     * Sets the narrativeService attribute value.
-     * 
-     * @param narrativeService The narrativeService to set.
-     */
-    public void setNarrativeService(NarrativeService narrativeService) {
-        this.narrativeService = narrativeService;
     }
 
 

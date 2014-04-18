@@ -54,7 +54,6 @@ public interface S2SConstants {
     public static final String YNQ_STATE_REVIEW_DATA = "stateReviewData";
     public static final String YNQ_STATE_NOT_SELECTED = "Not Selected";
     public static final String YNQ_STATE_NOT_COVERED = "Not Covered";
-    public static final String PROTOCOL_TYPE = "https";
 
     public static final String STATUS_GRANTS_GOV_SUBMISSION_ERROR = "S2S Submission Error";
     public static final String STATUS_AGENCY_TRACKING_NUMBER_ASSIGNED = "Agency Tracking Number Assigned";

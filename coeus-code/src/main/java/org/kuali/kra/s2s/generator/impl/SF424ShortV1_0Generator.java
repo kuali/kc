@@ -25,7 +25,6 @@ import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;

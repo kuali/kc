@@ -61,7 +61,7 @@ public class NegotiationPrintingServiceImpl implements NegotiationPrintingServic
      * 
      * @param negotiationDocument
      *            Negotiation data using which report is generated
-     * @param reportName
+     * @param negotiationReportType
      *            report to be generated
      * @param reportParameters
      *            {@link Map} of parameters required for report generation
@@ -81,8 +81,8 @@ public class NegotiationPrintingServiceImpl implements NegotiationPrintingServic
         printable.setPrintableBusinessObject(negotiationDocument);
         printable.setReportParameters(reportParameters);       
         source = getPrintingService().print(printable);
-        source.setFileName(getReportName(reportFileNamePrefix, negotiationReportType.getNegotiationActivityPrintType()));
-        source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+        source.setName(getReportName(reportFileNamePrefix, negotiationReportType.getNegotiationActivityPrintType()));
+        source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
         return source;   
     }    
     

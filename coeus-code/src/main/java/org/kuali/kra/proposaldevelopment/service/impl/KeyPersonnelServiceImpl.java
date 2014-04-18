@@ -41,7 +41,7 @@ import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -69,7 +69,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     private static final String NIH_PARM_KEY = "nih.";
 
     private BusinessObjectService businessObjectService;
-    private NarrativeService narrativeService;
+    private LegacyNarrativeService narrativeService;
     private YnqService ynqService;
     private ParameterService parameterService;
     private SponsorHierarchyService sponsorHierarchyService;
@@ -281,20 +281,17 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                         bio.setProposalPersonNumber(person.getProposalPersonNumber());
                         bio.setDocumentTypeCode(getDefaultPersonAttachmentDocType());
                         bio.setDescription(attachment.getDescription());
-                        bio.setFileName(attachment.getFileName());
-                        bio.setContentType(attachment.getContentType());
+                        bio.setName(attachment.getFileName());
+                        bio.setType(attachment.getContentType());
                         
                         ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
-                        personnelAttachment.setFileName(attachment.getFileName());
+                        personnelAttachment.setName(attachment.getFileName());
                         personnelAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
                         personnelAttachment.setProposalPersonNumber(person.getProposalPersonNumber());
-                        personnelAttachment.setBiographyData(attachment.getAttachmentContent());
-                        personnelAttachment.setContentType(attachment.getContentType());
-                        if (bio.getPersonnelAttachmentList().isEmpty()) {
-                            bio.getPersonnelAttachmentList().add(personnelAttachment);
-                        } else {
-                            bio.getPersonnelAttachmentList().set(0, personnelAttachment);
-                        }
+                        personnelAttachment.setData(attachment.getAttachmentContent());
+                        personnelAttachment.setType(attachment.getContentType());
+                        bio.setPersonnelAttachment(personnelAttachment);
+
                         document.getDevelopmentProposal().addProposalPersonBiography(bio);
                     }
                 }
@@ -558,7 +555,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * 
      * @return NarrativeService
      */
-    public NarrativeService getNarrativeService() {
+    public LegacyNarrativeService getNarrativeService() {
         return narrativeService;
     }
 
@@ -567,7 +564,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * 
      * @param narrativeService
      */
-    public void setNarrativeService(NarrativeService narrativeService) {
+    public void setNarrativeService(LegacyNarrativeService narrativeService) {
         this.narrativeService = narrativeService;
     }
 

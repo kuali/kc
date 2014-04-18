@@ -81,18 +81,17 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		piBiography.setRolodexId(proposalPerson.getRolodexId());
 		piBiography.setProposalPersonNumber(1001);
 		piBiography.setDocumentTypeCode("1");
-		piBiography.setFileName("Bio Attachment");
+		piBiography.setName("Bio Attachment");
         piBiography.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 		ProposalPersonBiographyAttachment piAttachment = new ProposalPersonBiographyAttachment();
 		piAttachment.setBiographyNumber(1);
-		piAttachment.setContentType("application/octet-stream");
-		piAttachment.setFileName("Attachment");
-		piAttachment.setBiographyData(new byte[100]);
+		piAttachment.setType("application/octet-stream");
+		piAttachment.setName("Attachment");
+		piAttachment.setData(new byte[100]);
         piAttachment.setProposalPersonNumber(proposalPerson.getProposalPersonNumber());
         piAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-		List<ProposalPersonBiographyAttachment> piAttachmentList = new ArrayList<ProposalPersonBiographyAttachment>();
-		piAttachmentList.add(piAttachment);
-		piBiography.setPersonnelAttachmentList(piAttachmentList);
+
+		piBiography.setPersonnelAttachment(piAttachment);
 		List<ProposalPersonBiography> bioList = new ArrayList<ProposalPersonBiography>();
 		bioList.add(piBiography);
 		developmentProposal.setPropPersonBios(bioList);
@@ -117,11 +116,11 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		narrative.setModuleStatusCode("C");
 		narrative.setNarrativeTypeCode("16");
 		narrative.setObjectId("12345678890abcd");
-		narrative.setFileName("exercise1");
+		narrative.setName("exercise1");
         NarrativeType narrativeType = new NarrativeType();
-        narrativeType.setNarrativeTypeCode("16");
-        narrativeType.setAllowMultiple("Y");
-        narrativeType.setSystemGenerated("N");
+        narrativeType.setCode("16");
+        narrativeType.setAllowMultiple(true);
+        narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for Project Attachment");
         getService(DataObjectService.class).save(narrativeType);
         narrative.setNarrativeType(narrativeType);
@@ -161,18 +160,17 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		kpBiography.setRolodexId(keyPerson.getRolodexId());
 		kpBiography.setProposalPersonNumber(1002);
 		kpBiography.setDocumentTypeCode("1");
-		kpBiography.setFileName("Bio Attachment");
+		kpBiography.setName("Bio Attachment");
         kpBiography.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 		ProposalPersonBiographyAttachment kpAttachment = new ProposalPersonBiographyAttachment();
 		kpAttachment.setBiographyNumber(1);
-		kpAttachment.setContentType("application/octet-stream");
-		kpAttachment.setFileName("Attachment");
-		kpAttachment.setBiographyData(new byte[100]);
+		kpAttachment.setType("application/octet-stream");
+		kpAttachment.setName("Attachment");
+		kpAttachment.setData(new byte[100]);
         kpAttachment.setProposalPersonNumber(keyPerson.getProposalPersonNumber());
         kpAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-		List<ProposalPersonBiographyAttachment> kpAttachmentList = new ArrayList<ProposalPersonBiographyAttachment>();
-		kpAttachmentList.add(kpAttachment);
-		kpBiography.setPersonnelAttachmentList(kpAttachmentList);
+
+		kpBiography.setPersonnelAttachment(kpAttachment);
 		bioList.add(kpBiography);
 		developmentProposal.setPropPersonBios(bioList);
 
@@ -194,7 +192,6 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 			site.setLocationName("NJ");
 			site.setSiteNumber(++count);
 		}
-        //developmentProposal.refreshReferenceObject("ownedByUnit");
         saveBO(developmentProposal);
 	}
 }

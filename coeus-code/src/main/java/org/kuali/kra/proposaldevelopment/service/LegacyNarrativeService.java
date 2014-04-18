@@ -22,7 +22,7 @@ import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import java.util.List;
 
 
-public interface NarrativeService {
+public interface LegacyNarrativeService {
     public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
     public void deleteProposalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete);
     public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
@@ -35,7 +35,7 @@ public interface NarrativeService {
     /**
      * Delete a person from all of the narratives.  When a user is removed from the Permissions
      * page, that user must also be removed from the narratives.
-     * @param username the name of the user
+     * @param userId the id of the user
      * @param proposalDevelopmentDocument the Proposal Development Document
      */
     public void deletePerson(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument);
@@ -44,7 +44,7 @@ public interface NarrativeService {
      * Re-adjust the narrative rights for a user.  If the user has lost some
      * permissions regarding narratives, his/her narrative rights may need to
      * be down-graded.
-     * @param username the name of the user
+     * @param userId the id of the user
      * @param proposalDevelopmentDocument the Proposal Development Document
      * @param roleNames the roles the user is in
      */
@@ -54,7 +54,7 @@ public interface NarrativeService {
      * Add a person to all of the Narratives in a proposal.  When a new user is granted
      * access to a proposal via the Permissions page, that user must be added to all of
      * the narratives with the appropriate default narrative right based upon their permissions.
-     * @param username the name of the user
+     * @param userId the id of the user
      * @param proposalDevelopmentDocument the Proposal Development Document
      * @param roleName the initial proposal role of the user
      */

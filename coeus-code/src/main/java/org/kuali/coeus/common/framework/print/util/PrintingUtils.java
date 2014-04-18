@@ -286,13 +286,13 @@ public class PrintingUtils {
      */
     public static void streamToResponse(AttachmentDataSource attachmentDataSource,
             HttpServletResponse response) throws Exception {
-        byte[] xbts = attachmentDataSource.getContent();
+        byte[] xbts = attachmentDataSource.getData();
         ByteArrayOutputStream baos = null;
         try {
             baos = new ByteArrayOutputStream(xbts.length);
             baos.write(xbts);
 
-            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
+            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getType(), baos, attachmentDataSource.getName());
 
         } finally {
             try {

@@ -34,8 +34,6 @@ import java.util.List;
 public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
     
     public static final String AUTHORIZED_REPRESENTATIVE = "auth";
-    public static final String PRINCIPAL_INVESTIGATOR = "pi";
-    public static final String ADMINISTRATIVE_CONTACT = "admin";
     
     /**
      * 

@@ -22,7 +22,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -94,9 +94,9 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
         certificationDebarment.setAuthorizedRepresentativeSignature(authorizedRepresentativeSignature);
         certificationDebarment.setSubmittedDate(Calendar.getInstance());
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == ED_CERTIFICATION_DEBARMENT) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == ED_CERTIFICATION_DEBARMENT) {
                 attachedFileDataType = getAttachedFileType(narrative);
                 if(attachedFileDataType != null){
                 	certificationDebarment.setAttachment(attachedFileDataType);

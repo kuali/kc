@@ -29,8 +29,8 @@ import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
@@ -114,9 +114,9 @@ public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
 				.newInstance();
 		List<AttachedFileDataType> attachedFileList = new ArrayList<AttachedFileDataType>();
 		AttachedFileDataType attachedFileDataType = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			int narrativeType = Integer.parseInt(narrative.getNarrativeTypeCode());
+			int narrativeType = Integer.parseInt(narrative.getNarrativeType().getCode());
 			switch (narrativeType) {
 			case NARRATIVE_TYPE_INTRODUCTION_TO_APPLICATION:
 	            attachedFileDataType = getAttachedFileType(narrative);

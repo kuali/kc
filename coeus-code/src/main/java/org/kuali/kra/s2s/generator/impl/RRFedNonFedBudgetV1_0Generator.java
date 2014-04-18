@@ -36,8 +36,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -721,9 +721,9 @@ public class RRFedNonFedBudgetV1_0Generator extends RRFedNonFedBudgetBaseGenerat
             budgetYear.setTotalCosts(summaryTotal);
         }
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
             	attachedFileDataType = getAttachedFileType(narrative);
             	if(attachedFileDataType != null){
             		budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
@@ -794,9 +794,9 @@ public class RRFedNonFedBudgetV1_0Generator extends RRFedNonFedBudgetBaseGenerat
             keyPersons.setTotalFundForAttachedKeyPersons(summaryAttachedKey);
         }
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_KEYPERSONS_ATTACHMENT) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == ADDITIONAL_KEYPERSONS_ATTACHMENT) {
             	attachedFileDataType = getAttachedFileType(narrative);
             	if(attachedFileDataType != null){
             		keyPersons.setAttachedKeyPersons(attachedFileDataType);
@@ -1097,9 +1097,9 @@ public class RRFedNonFedBudgetV1_0Generator extends RRFedNonFedBudgetBaseGenerat
             }
         }
         AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_EQUIPMENT_ATTACHMENT) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == ADDITIONAL_EQUIPMENT_ATTACHMENT) {
             	attachedFileDataType = getAttachedFileType(narrative);
             	if(attachedFileDataType != null){
             		equipment.setAdditionalEquipmentsAttachment(attachedFileDataType);

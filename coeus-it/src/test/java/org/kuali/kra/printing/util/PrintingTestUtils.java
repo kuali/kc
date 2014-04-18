@@ -31,7 +31,7 @@ public class PrintingTestUtils {
 
 	public static void writePdftoDisk(AttachmentDataSource pdfBytes,
 			String reportType) {
-		if (pdfBytes == null || pdfBytes.getContent() == null) {
+		if (pdfBytes == null || pdfBytes.getData() == null) {
 			return;
 		}
 		try {
@@ -42,7 +42,7 @@ public class PrintingTestUtils {
 							+ "_"
 							+ new SimpleDateFormat("ddMMyyyy_HHmmss")
 									.format(new java.util.Date()) + ".pdf"));
-			fos.write(pdfBytes.getContent());
+			fos.write(pdfBytes.getData());
 			fos.flush();
 			fos.close();
 		} catch (Exception e) {

@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.impl.attachment;
 
-import org.kuali.coeus.common.api.attachment.KcAttachment;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Component;
@@ -34,8 +33,8 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
     
 	private static final String DEFAULT_ICON = "default";
 
-	@Resource(name="kcAttachmentMimeTypeIcons")
-    private Map<String, String> kcAttachmentMimeTypeIcons;
+	@Resource(name="KcFileMimeTypeIcons")
+    private Map<String, String> KcFileMimeTypeIcons;
 
     private static final String REPLACEMENT_CHARACTER = "_";
     //Exclude everything but numbers, alphabets, dots, hyphens and underscores
@@ -46,28 +45,27 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
      * Currently determining the icon based only on the mime type and using the default icon
      * if a mime type is not mapped in mimeTypeIcons. The full attachment is being passed here
      * so more advanced file type detection can be implemented if necessary.
-     * @see org.kuali.coeus.common.framework.attachment.KcAttachmentService#getFileTypeIcon(org.kuali.coeus.common.api.attachment.KcAttachment)
      */
     @Override
     public String getFileTypeIcon(String type) {
         String iconPath = getMimeTypeIcons().get(type);
         if (iconPath == null) {
-            return kcAttachmentMimeTypeIcons.get(DEFAULT_ICON);
+            return KcFileMimeTypeIcons.get(DEFAULT_ICON);
         } else {
             return iconPath;
         }
     }
 
     protected Map<String, String> getMimeTypeIcons() {
-        return kcAttachmentMimeTypeIcons;
+        return KcFileMimeTypeIcons;
     }
 
     public void setMimeTypeIcons(Map<String, String> mimeTypeIcons) {
-        this.kcAttachmentMimeTypeIcons = mimeTypeIcons;
+        this.KcFileMimeTypeIcons = mimeTypeIcons;
     }
 
     protected String getDefaultIcon() {
-        return kcAttachmentMimeTypeIcons.get(DEFAULT_ICON);
+        return KcFileMimeTypeIcons.get(DEFAULT_ICON);
     }
 
     @Override

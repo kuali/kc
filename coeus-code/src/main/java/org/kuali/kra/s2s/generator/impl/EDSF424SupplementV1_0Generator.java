@@ -28,9 +28,9 @@ import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
@@ -139,10 +139,10 @@ public class EDSF424SupplementV1_0Generator extends
 			}
 		}
 		AttachedFileDataType attachedFileDataType = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_TYPE_ED_SF424_SUPPLIMENT) {
+			if (narrative.getNarrativeType().getCode() != null
+					&& Integer.parseInt(narrative.getNarrativeType().getCode()) == NARRATIVE_TYPE_ED_SF424_SUPPLIMENT) {
 				attachedFileDataType = getAttachedFileType(narrative);
 				if(attachedFileDataType != null){
 					edsf424Supplement.setAttachment(attachedFileDataType);

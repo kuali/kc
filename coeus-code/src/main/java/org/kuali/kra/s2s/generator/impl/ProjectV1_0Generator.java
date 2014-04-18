@@ -56,25 +56,11 @@ public class ProjectV1_0Generator extends ProjectBaseGenerator {
 
     /**
      * 
-     * This method is used to get List of project attachments from NarrativeAttachmentList
+     * This method is used to get List of project attachments from NarrativeAttachment
      * 
      * @return AttachedFileDataType[] array of attachments for the narrative type code PROJECT_ATTACHMENTS.
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
-//        Log.info("Getting AttachedFileDataType ");
-//        List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
-//        AttachedFileDataType attachedFileDataType = null;
-//        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-//            if (narrative.getNarrativeTypeCode() != null
-//                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_ATTACHMENTS) {
-//            	attachedFileDataType = getAttachedFileType(narrative);
-//            	if(attachedFileDataType != null){
-//            		attachedFileDataTypeList.add(attachedFileDataType);
-//            	}
-//                Log.info("Attachmentcount" + attachedFileDataTypeList.size());
-//            }
-//        }
-//        return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
         return getAttachedFileDataTypes(""+PROJECT_ATTACHMENTS);
     }
 

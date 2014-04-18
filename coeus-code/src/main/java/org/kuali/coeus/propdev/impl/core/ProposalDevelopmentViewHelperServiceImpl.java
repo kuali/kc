@@ -21,7 +21,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
-import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
@@ -38,7 +38,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     private static final long serialVersionUID = -5122498699317873886L;
 
-    private transient NarrativeService narrativeService;
+    private transient LegacyNarrativeService narrativeService;
     private transient LegacyDataAdapter legacyDataAdapter;
     private transient LookupService lookupService;
 
@@ -88,14 +88,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         return result;
     }
 
-    public NarrativeService getNarrativeService() {
+    public LegacyNarrativeService getNarrativeService() {
         if (narrativeService == null) {
-            narrativeService = KcServiceLocator.getService(NarrativeService.class);
+            narrativeService = KcServiceLocator.getService(LegacyNarrativeService.class);
         }
         return narrativeService;
     }
 
-    public void setNarrativeService(NarrativeService narrativeService) {
+    public void setNarrativeService(LegacyNarrativeService narrativeService) {
         this.narrativeService = narrativeService;
     }
 

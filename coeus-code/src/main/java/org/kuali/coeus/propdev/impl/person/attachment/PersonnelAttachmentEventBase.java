@@ -37,8 +37,8 @@ public abstract class PersonnelAttachmentEventBase extends KcDocumentEventBase i
             this.proposalPersonBiography = (ProposalPersonBiography) ObjectUtils.deepCopy(proposalPersonBiography);
             // personnelattachmentfile will be lost during deepcopy, so implement filename this way.
             if (proposalPersonBiography.getPersonnelAttachmentFile() != null) {
-                this.proposalPersonBiography.setFileName(proposalPersonBiography.getPersonnelAttachmentFile().getFileName());
-                this.proposalPersonBiography.setContentType(proposalPersonBiography.getPersonnelAttachmentFile().getContentType());
+                this.proposalPersonBiography.setName(proposalPersonBiography.getPersonnelAttachmentFile().getFileName());
+                this.proposalPersonBiography.setType(proposalPersonBiography.getPersonnelAttachmentFile().getContentType());
             }
         } else {
             //due to this rule requiring A proposal person biography, create one if null

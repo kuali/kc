@@ -16,11 +16,8 @@
 package org.kuali.coeus.propdev.impl.person.attachment;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -33,6 +30,7 @@ import org.kuali.coeus.common.framework.print.AttachmentDataSource;
  */
 @Entity
 @Table(name = "EPS_PROP_PERSON_BIO_ATTACHMENT")
+@AttributeOverride(name = "data",  column = @Column(name = "BIO_DATA"))
 @IdClass(ProposalPersonBiographyAttachment.ProposalPersonBiographyAttachmentId.class)
 public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
 
@@ -48,11 +46,10 @@ public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
     @Column(name = "BIO_NUMBER")
     private Integer biographyNumber;
 
-    @Column(name = "BIO_DATA")
-    private byte[] biographyData;
+    @OneToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumns({ @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "BIO_NUMBER", referencedColumnName = "BIO_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false) })
+    private ProposalPersonBiography proposalPersonBiography;
 
-    //	private String fileName;  
-    //    private String contentType;  
     public ProposalPersonBiographyAttachment() {
         super();
     }
@@ -73,25 +70,20 @@ public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
         this.proposalNumber = proposalNumber;
     }
 
-    public byte[] getBiographyData() {
-        return biographyData;
-    }
-
-    public void setBiographyData(byte[] biographyData) {
-        this.biographyData = biographyData;
-    }
-
-    @Override
-    public byte[] getContent() {
-        return biographyData;
-    }
-
     public Integer getBiographyNumber() {
         return biographyNumber;
     }
 
     public void setBiographyNumber(Integer biographyNumber) {
         this.biographyNumber = biographyNumber;
+    }
+
+    public ProposalPersonBiography getProposalPersonBiography() {
+        return proposalPersonBiography;
+    }
+
+    public void setProposalPersonBiography(ProposalPersonBiography proposalPersonBiography) {
+        this.proposalPersonBiography = proposalPersonBiography;
     }
 
     public static final class ProposalPersonBiographyAttachmentId implements Serializable, Comparable<ProposalPersonBiographyAttachmentId> {

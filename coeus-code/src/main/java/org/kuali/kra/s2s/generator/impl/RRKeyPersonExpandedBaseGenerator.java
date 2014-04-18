@@ -28,20 +28,14 @@ public abstract class RRKeyPersonExpandedBaseGenerator extends
 		RRKeyPersonBase {
 
 
-	protected static final String OTHER = "Other (Specify)";
-	protected static final String BIOSKETCH = "BIOSKETCH";
-
 	protected static final int PROFILE_TYPE = 18;
-	protected static final String KEYPERSON = "KP";
 	protected static final String CO_INVESTIGATOR = "COI";
 	protected static final int MAX_KEY_PERSON_COUNT = 40;
 	protected S2SUtilService s2sUtilService;
 
 	protected String pIPersonOrRolodexId = null;
 	protected static final int DIRECTORY_TITLE_MAX_LENGTH = 45;
-	protected static final int DEPARTMENT_NAME_MAX_LENGTH = 30;
 	protected static final int ROLE_DESCRIPTION_MAX_LENGTH = 40;
-	protected static final String NIH = "NIH";
 
 	/**
 	 * 

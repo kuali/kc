@@ -27,7 +27,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.questionnaire.Questionnaire;
@@ -37,6 +36,7 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.budget.api.rate.TrainingStipendRateService;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.IndirectCostDetails;
 import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
@@ -973,9 +973,9 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         trainingBudgetType.setCumulativeTrainingRelatedExpensesRequested(cumTrainingCosts);
     
        AttachedFileDataType attachedFileDataType = null;        
-       for (Narrative narrative : developmentProposal.getNarratives()) {            
-           if (narrative.getNarrativeTypeCode() != null) {                
-               if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130) {                    
+       for (NarrativeContract narrative : developmentProposal.getNarratives()) {
+           if (narrative.getNarrativeType().getCode() != null) {
+               if (Integer.parseInt(narrative.getNarrativeType().getCode()) == PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130) {
                    attachedFileDataType = getAttachedFileType(narrative);                    
                    if (attachedFileDataType == null) {                        
                        continue;                    

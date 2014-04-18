@@ -31,12 +31,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.generator.impl.RRBudgetBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -96,9 +94,9 @@ public class RRBudgetV1_3Generator extends RRBudgetBaseGenerator {
             setBudgetYearDataType(rrBudget,budgetPeriodData);
         }
         AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == 132) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == 132) {
                 attachedFileDataType = getAttachedFileType(narrative);
                 if (attachedFileDataType != null) {
                     break;
@@ -490,7 +488,7 @@ public class RRBudgetV1_3Generator extends RRBudgetBaseGenerator {
      */
     private Equipment getEquipment(BudgetPeriodInfo periodInfo) {
         Equipment equipment = Equipment.Factory.newInstance();
-        Narrative extraEquipmentNarr = null;
+        NarrativeContract extraEquipmentNarr = null;
         if (periodInfo != null && periodInfo.getEquipment() != null
                 && periodInfo.getEquipment().size() > 0) {
             // Evaluating Equipments.
@@ -531,21 +529,19 @@ public class RRBudgetV1_3Generator extends RRBudgetBaseGenerator {
             String contentId = createContentId(extraEquipmentNarr);
             fileLocation.setHref(contentId);
             equipmentAttachment.setFileLocation(fileLocation);
-            equipmentAttachment.setFileName(extraEquipmentNarr.getFileName());
+            equipmentAttachment.setFileName(extraEquipmentNarr.getNarrativeAttachment().getName());
             equipmentAttachment
                     .setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-            extraEquipmentNarr.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
-            if (extraEquipmentNarr.getNarrativeAttachmentList() != null
-                    && extraEquipmentNarr.getNarrativeAttachmentList().size() > 0) {
+            if (extraEquipmentNarr.getNarrativeAttachment() != null) {
                 equipmentAttachment.setHashValue(getHashValue(extraEquipmentNarr
-                        .getNarrativeAttachmentList().get(0).getContent()));
+                        .getNarrativeAttachment().getData()));
             }
             AttachmentData attachmentData = new AttachmentData();
             attachmentData.setContent(extraEquipmentNarr
-                    .getNarrativeAttachmentList().get(0).getContent());
+                    .getNarrativeAttachment().getData());
             attachmentData.setContentId(contentId);
             attachmentData.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-            attachmentData.setFileName(extraEquipmentNarr.getFileName());
+            attachmentData.setFileName(extraEquipmentNarr.getNarrativeAttachment().getName());
             addAttachment(attachmentData);
             equipment.setAdditionalEquipmentsAttachment(equipmentAttachment);
         }
@@ -762,7 +758,6 @@ public class RRBudgetV1_3Generator extends RRBudgetBaseGenerator {
 
         KeyPersons keyPersons = KeyPersons.Factory.newInstance();
         ScaleTwoDecimal extraFunds = ScaleTwoDecimal.ZERO;
-        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         ScaleTwoDecimal baseSalaryByPeriod;
 
         if (periodInfo != null) {
@@ -832,7 +827,7 @@ public class RRBudgetV1_3Generator extends RRBudgetBaseGenerator {
             }
         }
         keyPersons.setTotalFundForAttachedKeyPersons(extraFunds.bigDecimalValue());
-        Narrative extraKeyPersonNarr = saveExtraKeyPersons(periodInfo);
+        NarrativeContract extraKeyPersonNarr = saveExtraKeyPersons(periodInfo);
         if(extraKeyPersonNarr!=null){
             AttachedFileDataType attachedKeyPersons = AttachedFileDataType.Factory.newInstance();
             FileLocation fileLocation = FileLocation.Factory.newInstance();
@@ -840,16 +835,14 @@ public class RRBudgetV1_3Generator extends RRBudgetBaseGenerator {
             String contentId = createContentId(extraKeyPersonNarr);
             fileLocation.setHref(contentId);
             attachedKeyPersons.setFileLocation(fileLocation);
-            attachedKeyPersons.setFileName(extraKeyPersonNarr.getFileName());
+            attachedKeyPersons.setFileName(extraKeyPersonNarr.getNarrativeAttachment().getName());
             attachedKeyPersons
                     .setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-            extraKeyPersonNarr.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
             AttachmentData attachmentData = new AttachmentData();
             byte[] narrativeContent = null;
-            if (extraKeyPersonNarr.getNarrativeAttachmentList() != null
-                    && extraKeyPersonNarr.getNarrativeAttachmentList().size() > 0) {
+            if (extraKeyPersonNarr.getNarrativeAttachment() != null) {
                 narrativeContent = extraKeyPersonNarr
-                .getNarrativeAttachmentList().get(0).getContent();
+                .getNarrativeAttachment().getData();
                 
             }
             if(narrativeContent != null && narrativeContent.length > 0){
@@ -858,7 +851,7 @@ public class RRBudgetV1_3Generator extends RRBudgetBaseGenerator {
                 attachmentData.setContentId(contentId);
                 attachmentData
                         .setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-                attachmentData.setFileName(extraKeyPersonNarr.getFileName());
+                attachmentData.setFileName(extraKeyPersonNarr.getNarrativeAttachment().getName());
                 addAttachment(attachmentData);
                 keyPersons.setAttachedKeyPersons(attachedKeyPersons);
             }
@@ -875,9 +868,9 @@ public class RRBudgetV1_3Generator extends RRBudgetBaseGenerator {
      */
     private AttachedFileDataType getBudgetJustification() {
         AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
                 attachedFileDataType = getAttachedFileType(narrative);
                 if (attachedFileDataType != null) {
                     break;

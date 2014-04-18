@@ -42,11 +42,7 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
     private QuestionnairePrint questionnairePrint;
     private BusinessObjectService businessObjectService;
 
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#printQuestionnaire(org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase,
-     *      java.util.Map)
-     */
+
     public AttachmentDataSource printQuestionnaire(
             KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters)
             throws PrintingException {
@@ -61,17 +57,13 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
             printable.setPrintableBusinessObject(printableBusinessObject);
             printable.setReportParameters(reportParameters);
             source = getPrintingService().print(printable);
-            source.setFileName("Questionnaire-" + reportParameters.get("documentNumber") + Constants.PDF_FILE_EXTENSION);
-            source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+            source.setName("Questionnaire-" + reportParameters.get("documentNumber") + Constants.PDF_FILE_EXTENSION);
+            source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
         }
         return source;
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#printQuestionnaireAnswer(KewPersistableBusinessObjectBase,
-     *      java.util.Map)
-     */
+
     public AttachmentDataSource printQuestionnaireAnswer(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) throws PrintingException {
         AttachmentDataSource source = null;
@@ -80,8 +72,8 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
             printable.setPrintableBusinessObject(printableBusinessObject);
             printable.setReportParameters(reportParameters);
             source = getPrintingService().print(printable);
-            source.setFileName("QuestionnaireAnswer" + reportParameters.get("questionnaireId") + Constants.PDF_FILE_EXTENSION);
-            source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+            source.setName("QuestionnaireAnswer" + reportParameters.get("questionnaireId") + Constants.PDF_FILE_EXTENSION);
+            source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
         }
         return source;
     }

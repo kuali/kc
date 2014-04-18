@@ -80,7 +80,7 @@ public class CurrentAndPendingReportServiceImpl implements CurrentAndPendingRepo
         printable.setPrintableBusinessObject(null);
         printable.setReportParameters(reportParameters);
         source = printingService.print(printable);
-        source.setFileName(reportName.replace(' ', '_')+Constants.PDF_FILE_EXTENSION);
+        source.setName(reportName.replace(' ', '_')+Constants.PDF_FILE_EXTENSION);
         return source;
     }
 

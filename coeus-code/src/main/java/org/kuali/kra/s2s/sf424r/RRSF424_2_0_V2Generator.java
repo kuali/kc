@@ -37,11 +37,9 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
@@ -55,6 +53,7 @@ import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.s2s.depend.ArgValueLookupService;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.impl.RRSF424BaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -745,22 +744,6 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 		return applicantType;
 	}
 
-	private ProposalYnq getAnswer(String questionId,
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		String question;
-		ProposalYnq ynq = null;
-		for (ProposalYnq proposalYnq : proposalDevelopmentDocument
-				.getDevelopmentProposal().getProposalYnqs()) {
-			question = proposalYnq.getQuestionId();
-
-			if (question != null && question.equals(questionId)) {
-				ynq = proposalYnq;
-				break;
-			}
-		}
-		return ynq;
-	}
-
 	private String getSubmissionTypeCode() {
 		String submissionTypeCode = null;
 		S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal()
@@ -812,10 +795,10 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 	}
 
 	private void setPreApplicationAttachment(RRSF42420 rrsf42420) {
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == PRE_APPLICATION) {
+			if (narrative.getNarrativeType().getCode() != null
+					&& Integer.parseInt(narrative.getNarrativeType().getCode()) == PRE_APPLICATION) {
 				AttachedFileDataType preAttachment = getAttachedFileType(narrative);
 				if(preAttachment != null){
 				    rrsf42420.setPreApplicationAttachment(preAttachment);
@@ -825,10 +808,10 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 		}
 	}
 	private void setSFLLLAttachment(RRSF42420 rrsf42420) {
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == SFLLL_OTHEREXPLANATORY) {
+			if (narrative.getNarrativeType().getCode() != null
+					&& Integer.parseInt(narrative.getNarrativeType().getCode()) == SFLLL_OTHEREXPLANATORY) {
 				AttachedFileDataType preAttachment = getAttachedFileType(narrative);
 				if(preAttachment != null){
 				    rrsf42420.setSFLLLAttachment(preAttachment);
@@ -839,10 +822,10 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 	}
 	
 	private void setCoverLetterAttachment (RRSF42420 rrsf42420) {
-        for (Narrative narrative : pdDoc.getDevelopmentProposal()
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
                 .getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == RRSF424_Cover_Letter) {
+            if (narrative.getNarrativeType().getCode() != null
+                    && Integer.parseInt(narrative.getNarrativeType().getCode()) == RRSF424_Cover_Letter) {
                 AttachedFileDataType preAttachment = getAttachedFileType(narrative);
                 if(preAttachment != null){
                     rrsf42420.setCoverLetterAttachment(preAttachment);

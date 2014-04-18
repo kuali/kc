@@ -50,8 +50,8 @@ import java.util.List;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -112,9 +112,9 @@ public class PHS398CareerDevelopmentAwardSupV2_0Generator extends
 				.newInstance();
 		List<AttachedFileDataType> attachedFileList = new ArrayList<AttachedFileDataType>();
 		AttachedFileDataType attachedFileDataType = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			int narrativeTypeCode = Integer.parseInt(narrative.getNarrativeTypeCode());
+			int narrativeTypeCode = Integer.parseInt(narrative.getNarrativeType().getCode());
 			switch (narrativeTypeCode) {
 			case NARRATIVE_TYPE_INTRODUCTION_TO_APPLICATION:
 	            attachedFileDataType = getAttachedFileType(narrative);

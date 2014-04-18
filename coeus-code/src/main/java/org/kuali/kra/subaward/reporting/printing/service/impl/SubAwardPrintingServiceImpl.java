@@ -66,12 +66,12 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         printable.setPrintableBusinessObject(awardDocument);
         printable.setReportParameters(reportParameters);       
         source = getPrintingService().print(printable);        
-        source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+        source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
         
         if(reportParameters.get("printType").equals(SF_295_REPORT)){
-            source.setFileName(SF_295_REPORT);
+            source.setName(SF_295_REPORT);
         } else {
-            source.setFileName(SF_294_REPORT);
+            source.setName(SF_294_REPORT);
         }
         return source;   
     }

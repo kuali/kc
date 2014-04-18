@@ -49,9 +49,9 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -183,10 +183,10 @@ public class PHS398ModularBudgetV1_1Generator extends
 		BudgetJustifications budgetJustifications = BudgetJustifications.Factory
 				.newInstance();
 		AttachedFileDataType attachedFileDataType = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null) {
-				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PERSONNEL_JUSTIFICATION_CODE) {
+			if (narrative.getNarrativeType().getCode() != null) {
+				if (Integer.parseInt(narrative.getNarrativeType().getCode()) == PERSONNEL_JUSTIFICATION_CODE) {
 		            attachedFileDataType = getAttachedFileType(narrative);
 		            if(attachedFileDataType == null){
 		                continue;
@@ -198,7 +198,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 					budgetJustifications
 							.setPersonnelJustification(personnelJustification);
 				}
-				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == CONSORTIUM_JUSTIFICATION_CODE) {
+				if (Integer.parseInt(narrative.getNarrativeType().getCode()) == CONSORTIUM_JUSTIFICATION_CODE) {
 		            attachedFileDataType = getAttachedFileType(narrative);
 		            if(attachedFileDataType == null){
 		                continue;
@@ -210,7 +210,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 					budgetJustifications
 							.setConsortiumJustification(consortiumJustification);
 				}
-				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_JUSTIFICATION_CODE) {
+				if (Integer.parseInt(narrative.getNarrativeType().getCode()) == NARRATIVE_JUSTIFICATION_CODE) {
 		            attachedFileDataType = getAttachedFileType(narrative);
 		            if(attachedFileDataType == null){
 		                continue;

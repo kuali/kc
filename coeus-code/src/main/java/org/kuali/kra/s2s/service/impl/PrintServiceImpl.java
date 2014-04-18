@@ -29,15 +29,17 @@ import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppAttachments;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sApplication;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.coeus.propdev.api.attachment.NarrativeService;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -77,26 +79,26 @@ public class PrintServiceImpl implements PrintService {
 	private BusinessObjectService businessObjectService;
 	private S2SFormGeneratorService s2SFormGeneratorService;
 	private S2SValidatorService s2SValidatorService;
-	private static final String NARRATIVE_ATTACHMENT_LIST = "narrativeAttachmentList";
 
 	private S2SUtilService s2SUtilService;
+    private NarrativeService narrativeService;
 	private PrintingService printingService;
 	File grantsGovXmlDirectoryFile = null;
 
 	/**
 	 * 
 	 * This method is used for the printing of forms in PDF format. It generates
-	 * PDF forms and puts it into {@link AttachmentDataSource}
+	 * PDF forms and puts it into {@link KcFile}
 	 * 
 	 * @param pdDoc (ProposalDevelopmentDocument)
-	 * @return {@link AttachmentDataSource} which contains all information
+	 * @return {@link KcFile} which contains all information
 	 *         related to the generated PDF
 	 * @throws
 	 * @throws S2SException
 	 * 
 	 * @see org.kuali.kra.s2s.service.PrintService#printForm(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
 	 */
-	public AttachmentDataSource printForm(
+	public KcFile printForm(
 			ProposalDevelopmentDocument pdDoc) throws S2SException,
 			PrintingException {
 		List<Printable> printableList = null;
@@ -113,7 +115,7 @@ public class PrintServiceImpl implements PrintService {
 	    }
 	    AttachmentDataSource attachmentDataSource = printingService
         	.print(printableList);
-		attachmentDataSource.setFileName(getFileNameForFormPrinting(pdDoc));
+		attachmentDataSource.setName(getFileNameForFormPrinting(pdDoc));
 		return attachmentDataSource;
 	}
 
@@ -141,8 +143,8 @@ public class PrintServiceImpl implements PrintService {
         for (S2sAppAttachments attAppAttachments : attachmentLists) {
             File attachmentFile = new File(grantsGovXmlDirectoryFile,"Attachments");   
             attachmentFile.mkdir();
-            AttachmentDataSource ads = getAttributeContent(pdDoc,attAppAttachments.getContentId());
-            File attachedFile = new File(attachmentFile,ads.getFileName());
+            KcFile ads = getAttributeContent(pdDoc,attAppAttachments.getContentId());
+            File attachedFile = new File(attachmentFile,ads.getName());
             FileOutputStream output = new FileOutputStream(attachedFile);
             output.write(getAttContent(pdDoc,attAppAttachments.getContentId()));
             output.close();
@@ -350,7 +352,7 @@ public class PrintServiceImpl implements PrintService {
 
 		List<Printable> formPrintables = new ArrayList<Printable>();
 		boolean formEntryFlag = true;
-	    getS2SUtilService().deleteSystemGeneratedAttachments(pdDoc);
+	    getNarrativeService().deleteSystemGeneratedNarratives(pdDoc.getDevelopmentProposal().getNarratives());
 	    Forms forms = Forms.Factory.newInstance();
 		for (String namespace : sortedNameSpaces) {
 			try {
@@ -477,43 +479,41 @@ public class PrintServiceImpl implements PrintService {
 		String[] contentIds = contentId.split("-");
 		String[] contentDesc = contentIds[1].split("_");
 		if (StringUtils.equals(contentIds[0], "N")) {
-    		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+    		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
     				.getNarratives()) {
 				if (narrative.getModuleNumber().equals(Integer.valueOf(contentDesc[0]))) {
-				    narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
-				    return narrative.getNarrativeAttachmentList().get(0).getContent();
+				    return narrative.getNarrativeAttachment().getData();
 				}
     		}
 		} else if (StringUtils.equals(contentIds[0], "B")){
 		    for (ProposalPersonBiography biography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
 		        if (biography.getProposalPersonNumber().equals(Integer.valueOf(contentDesc[0]))
 		                && biography.getBiographyNumber().equals(Integer.valueOf(contentDesc[1]))) {
-		            biography.refreshReferenceObject("personnelAttachmentList");
-		            return biography.getPersonnelAttachmentList().get(0).getContent();
+		            biography.refreshReferenceObject("personnelAttachment");
+		            return biography.getPersonnelAttachment().getData();
 		        }
 		    }
     	}
 		return null;
 	}
 
-	protected AttachmentDataSource getAttributeContent(ProposalDevelopmentDocument pdDoc,
+	protected KcFile getAttributeContent(ProposalDevelopmentDocument pdDoc,
             String contentId) {
         String[] contentIds = contentId.split("-");
         String[] contentDesc = contentIds[1].split("_");
         if (StringUtils.equals(contentIds[0], "N")) {
-            for (Narrative narrative : pdDoc.getDevelopmentProposal()
+            for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
                     .getNarratives()) {
                 if (narrative.getModuleNumber().equals(Integer.valueOf(contentDesc[0]))) {
-                    narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
-                    return narrative.getNarrativeAttachmentList().get(0);
+                    return narrative.getNarrativeAttachment();
                 }
             }
         } else if (StringUtils.equals(contentIds[0], "B")){
             for (ProposalPersonBiography biography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
                 if (biography.getProposalPersonNumber().equals(Integer.valueOf(contentDesc[0]))
                         && biography.getBiographyNumber().equals(Integer.valueOf(contentDesc[1]))) {
-                    biography.refreshReferenceObject("personnelAttachmentList");
-                    return biography.getPersonnelAttachmentList().get(0);
+                    biography.refreshReferenceObject("personnelAttachment");
+                    return biography.getPersonnelAttachment();
                 }
             }
         }
@@ -678,7 +678,15 @@ public class PrintServiceImpl implements PrintService {
 		s2SUtilService = utilService;
 	}
 
-	public PrintingService getPrintingService() {
+    public NarrativeService getNarrativeService() {
+        return narrativeService;
+    }
+
+    public void setNarrativeService(NarrativeService narrativeService) {
+        this.narrativeService = narrativeService;
+    }
+
+    public PrintingService getPrintingService() {
 		return printingService;
 	}
 

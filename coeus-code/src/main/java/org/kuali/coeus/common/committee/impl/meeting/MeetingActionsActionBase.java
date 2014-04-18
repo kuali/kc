@@ -76,14 +76,14 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
                     KeyConstants.ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET);
         } else {
             AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
-            if (dataStream.getContent() != null && dataStream.getContent().length > 0) {
+            if (dataStream.getData() != null && dataStream.getData().length > 0) {
                 setFileDataProperties(dataStream, meetingHelper.getCommitteeSchedule().getId(), "Agenda");
 
                 ScheduleAgendaBase agenda = getNewScheduleAgendaInstanceHook();
                 int agendaNumber = meetingHelper.getScheduleAgendas().size() + 1;
                 agenda.setAgendaName("Agenda For Schedule #  " + (meetingHelper.getCommitteeSchedule().getId()) + " Version " + agendaNumber);
                 agenda.setAgendaNumber(agendaNumber);
-                saveGeneratedDoc(meetingHelper.getCommitteeSchedule().getId(), agenda, dataStream.getContent());
+                saveGeneratedDoc(meetingHelper.getCommitteeSchedule().getId(), agenda, dataStream.getData());
                 meetingHelper.setAgendaGenerationDate(new Date(agenda.getCreateTimestamp().getTime()));
                 meetingHelper.getScheduleAgendas().add(agenda);
                 //meetingHelper.setViewId("viewAgenda" + meetingHelper.getScheduleAgendas().size());
@@ -122,11 +122,11 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
     private void setFileDataProperties(AttachmentDataSource dataStream, Long scheduleId, String type) {
         String fileName = type + "-For-Schedule-" + scheduleId + Constants.PDF_FILE_EXTENSION;
         try {
-            dataStream.setFileName(URLEncoder.encode(fileName,"UTF-8"));
+            dataStream.setName(URLEncoder.encode(fileName,"UTF-8"));
         } catch (UnsupportedEncodingException e) {
-            dataStream.setFileName(fileName);
+            dataStream.setName(fileName);
         }
-        dataStream.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+        dataStream.setType(Constants.PDF_REPORT_CONTENT_TYPE);
        
     }
     
@@ -150,14 +150,14 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
                     KeyConstants.ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET);
         } else {
             AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
-            if (dataStream.getContent() != null && dataStream.getContent().length > 0) {
+            if (dataStream.getData() != null && dataStream.getData().length > 0) {
                 setFileDataProperties(dataStream, meetingHelper.getCommitteeSchedule().getId(), "Minute");
 
                 CommScheduleMinuteDocBase minuteDoc = getNewCommScheduleMinuteDocInstanceHook();
                 minuteDoc.setMinuteName("Minute For Schedule #  " + (meetingHelper.getCommitteeSchedule().getId()) + " Version "
                         + (meetingHelper.getMinuteDocs().size() + 1));
                 minuteDoc.setMinuteNumber(meetingHelper.getMinuteDocs().size() + 1);
-                saveGeneratedDoc(meetingHelper.getCommitteeSchedule().getId(), minuteDoc, dataStream.getContent());
+                saveGeneratedDoc(meetingHelper.getCommitteeSchedule().getId(), minuteDoc, dataStream.getData());
                 meetingHelper.getMinuteDocs().add(minuteDoc);
                 //meetingHelper.setViewId("viewMinute" + meetingHelper.getMinuteDocs().size());
             }
@@ -202,14 +202,14 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
             selection = Integer.parseInt(selectedLine);
             Long schedule_id = Long.parseLong(scheduleId);
             List<ScheduleAgenda> scheduleAgendas = getAgendaDoc(schedule_id);
-            source.setContent(scheduleAgendas.get(selection).getPdfStore());
+            source.setData(scheduleAgendas.get(selection).getPdfStore());
         }
         else {
-            source.setContent(meetingHelper.getScheduleAgendas().get(selection).getPdfStore());
+            source.setData(meetingHelper.getScheduleAgendas().get(selection).getPdfStore());
         }
-        source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-        source.setFileName("ScheduleAgendaBase" + Constants.PDF_FILE_EXTENSION);
-        if (source.getContent() != null) {
+        source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
+        source.setName("ScheduleAgendaBase" + Constants.PDF_FILE_EXTENSION);
+        if (source.getData() != null) {
             PrintingUtils.streamToResponse(source, response);
             return null;
         }
@@ -268,12 +268,12 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
             selection = Integer.parseInt(selectedLine);
             Long schedule_Id = Long.parseLong(scheduleId);
             List<CommScheduleMinuteDoc> commScheduleMinutes = getMinuteDoc(schedule_Id);
-            source.setContent(commScheduleMinutes.get(selection).getPdfStore());
+            source.setData(commScheduleMinutes.get(selection).getPdfStore());
         } else {
-            source.setContent(meetingHelper.getMinuteDocs().get(selection).getPdfStore());
+            source.setData(meetingHelper.getMinuteDocs().get(selection).getPdfStore());
         }
-        source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-        source.setFileName("MeetingMinute" + Constants.PDF_FILE_EXTENSION);
+        source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
+        source.setName("MeetingMinute" + Constants.PDF_FILE_EXTENSION);
         PrintingUtils.streamToResponse(source, response);
         
         return null;
@@ -325,9 +325,9 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
         final int selection = this.getSelectedLine(request);
         MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
         PrintableAttachment source = new PrintableAttachment();
-        source.setContent(meetingHelper.getCorrespondences().get(selection).getCorrespondence());
-        source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-        source.setFileName("Correspondence-" + meetingHelper.getCorrespondences().get(selection).getProtocolCorrespondenceType().getDescription() + Constants.PDF_FILE_EXTENSION);
+        source.setData(meetingHelper.getCorrespondences().get(selection).getCorrespondence());
+        source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
+        source.setName("Correspondence-" + meetingHelper.getCorrespondences().get(selection).getProtocolCorrespondenceType().getDescription() + Constants.PDF_FILE_EXTENSION);
         PrintingUtils.streamToResponse(source, response);
         
         return null;
@@ -340,17 +340,6 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
      */
     public class PrintableAttachment extends AttachmentDataSource {
 
-        private static final long serialVersionUID = -8537865725808758230L;
-        
-        private byte[] streamData;
-
-        public byte[] getContent() {
-            return streamData;
-        }
-
-        public void setContent(byte[] streamData) {
-            this.streamData = streamData;
-        }
     }
 
     /**
@@ -398,7 +387,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
             printableArtifactList.addAll(correspondencePrintables);
             
             AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
-            if (dataStream.getContent() != null) {
+            if (dataStream.getData() != null) {
                 PrintingUtils.streamToResponse(dataStream, response);
                 actionForward = null;
             }
@@ -427,9 +416,9 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
         PrintableAttachment source = new PrintableAttachment();
         ProtocolCorrespondence correspondence = meetingHelper.getRegeneratedCorrespondences().get(selection);
             
-        source.setContent(correspondence.getCorrespondence());
-        source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-        source.setFileName("Correspondence-" + correspondence.getProtocolCorrespondenceType().getDescription() + Constants.PDF_FILE_EXTENSION);
+        source.setData(correspondence.getCorrespondence());
+        source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
+        source.setName("Correspondence-" + correspondence.getProtocolCorrespondenceType().getDescription() + Constants.PDF_FILE_EXTENSION);
         PrintingUtils.streamToResponse(source, response);
         
         return null;
