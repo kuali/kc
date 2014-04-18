@@ -64,4 +64,11 @@ public interface S2SFormGenerator {
      * 
      */
     public List<AuditError> getAuditErrors(); 
+    
+    /**
+     * 
+     * This method returns namespace for the form
+     * @return
+     */
+    public String getNamespace();
 }

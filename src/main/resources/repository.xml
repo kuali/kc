@@ -1693,6 +1693,36 @@
 		<reference-descriptor name="custReportType" class-ref="org.kuali.kra.reporting.bo.CustReportType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="reportTypeCode"/> 
 		</reference-descriptor>
-	</class-descriptor>	  
-	
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.s2s.bo.S2sUserAttachedForm" table="S2S_USER_ATTACHED_FORM">
+		<field-descriptor name="s2sUserAttachedFormId" column="S2S_USER_ATTACHED_FORM_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_S2S_USER_ATTD_FORM_ID" autoincrement="true"/>
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="namespace" column="NAMESPACE" jdbc-type="VARCHAR" />
+		<field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="formFileName" column="FORM_FILE_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="formFile" column="FORM_FILE" jdbc-type="BINARY" />
+		<field-descriptor name="xmlFile" column="XML_FILE" jdbc-type="VARCHAR" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<collection-descriptor name="s2sUserAttachedFormAtts" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sUserAttachedFormAtt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="s2sUserAttachedFormId"/>
+		</collection-descriptor>
+	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.s2s.bo.S2sUserAttachedFormAtt" table="S2S_USER_ATTACHED_FORM_ATT">
+		<field-descriptor name="s2sUserAttachedFormAttId" column="S2S_USER_ATTACHED_FORM_ATT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_S2S_USER_ATTD_FORM_ATT_ID" autoincrement="true" />
+		<field-descriptor name="s2sUserAttachedFormId" column="S2S_USER_ATTACHED_FORM_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="contentId" column="CONTENT_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="attachment" column="ATTACHMENT" jdbc-type="BINARY" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>		
 </descriptor-repository>
