@@ -134,7 +134,7 @@
         <collection-descriptor name="narratives" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.attachment.Narrative"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
-            <query-customizer class="org.kuali.kra.proposaldevelopment.dao.ProposalQueryCustomizer">
+            <query-customizer class="org.kuali.coeus.propdev.impl.core.ProposalQueryCustomizer">
                 <attribute attribute-name="narrativeType.narrativeTypeGroup" attribute-value="proposalNarrativeTypeGroup" />
             </query-customizer>
             <query-customizer class="org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl">
@@ -144,7 +144,7 @@
         <collection-descriptor name="instituteAttachments" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.attachment.Narrative"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
-            <query-customizer class="org.kuali.kra.proposaldevelopment.dao.ProposalQueryCustomizer">
+            <query-customizer class="org.kuali.coeus.propdev.impl.core.ProposalQueryCustomizer">
                 <attribute attribute-name="narrativeType.narrativeTypeGroup" attribute-value="instituteNarrativeTypeGroup" />
             </query-customizer>
         </collection-descriptor>

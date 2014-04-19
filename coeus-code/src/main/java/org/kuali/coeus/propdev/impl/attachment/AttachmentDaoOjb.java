@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.dao.ojb;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
-import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
+import org.springframework.stereotype.Component;
 
 import java.sql.Types;
 import java.util.Iterator;
@@ -45,7 +44,6 @@ public class AttachmentDaoOjb  extends PlatformAwareDaoBaseOjb implements OjbCol
         crit.addEqualTo("biographyNumber", biographyNumber);
         ReportQueryByCriteria q = QueryFactory.newReportQuery(ProposalPersonBiographyAttachment.class, crit);
         q.setAttributes(new String[] { "updateTimestamp", "updateUser" });
-        // it retrieved updateTimestamp as 'Date'. so has to set up the following.  The repository looks fine.  not sure why ?
         q.setJdbcTypes(new int[] {Types.TIMESTAMP, Types.VARCHAR});
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
@@ -59,7 +57,6 @@ public class AttachmentDaoOjb  extends PlatformAwareDaoBaseOjb implements OjbCol
         crit.addEqualTo("proposalNumber", proposalNumber);
         ReportQueryByCriteria q = QueryFactory.newReportQuery(NarrativeAttachment.class, crit);
         q.setAttributes(new String[] { "updateTimestamp", "updateUser" });
-        // it retrieved updateTimestamp as 'Date'. so has to set up the following.  The repository looks fine.  not sure why ?
         q.setJdbcTypes(new int[] {Types.TIMESTAMP, Types.VARCHAR});
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
