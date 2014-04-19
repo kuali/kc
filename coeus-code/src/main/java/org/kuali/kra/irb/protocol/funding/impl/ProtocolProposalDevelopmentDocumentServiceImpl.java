@@ -32,7 +32,7 @@ import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.protocol.ProtocolHelper;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.funding.ProtocolProposalDevelopmentDocumentService;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl;

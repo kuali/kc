@@ -16,7 +16,7 @@
 package org.kuali.kra.personmasschange.service;
 
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
 import java.util.List;
 

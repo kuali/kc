@@ -18,7 +18,7 @@ package org.kuali.coeus.propdev.impl.notification;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.notification.impl.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.kim.api.KimConstants;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;

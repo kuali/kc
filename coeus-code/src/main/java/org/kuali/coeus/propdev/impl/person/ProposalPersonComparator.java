@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.person;
 
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
 import java.util.Comparator;

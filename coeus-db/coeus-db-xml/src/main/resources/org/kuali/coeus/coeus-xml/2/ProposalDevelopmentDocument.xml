@@ -198,7 +198,7 @@
 					<validation required="false" />
 					<fieldEvaluation>
 						<xpathexpression>
-						  	wf:xstreamsafe('//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal/ownedByUnitNumber')= wf:ruledata('ownedByUnitNumber')
+						  	wf:xstreamsafe('//document/developmentProposalList[1]/org.kuali.coeus.propdev.impl.core.DevelopmentProposal/ownedByUnitNumber')= wf:ruledata('ownedByUnitNumber')
 						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
@@ -338,7 +338,7 @@
 			<serviceNamespace>KC</serviceNamespace>
 			<resolverConfig>
 				<attributes name="proposal">
-					<xPathExpression>//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal[1]/proposalNumber[1]</xPathExpression>
+					<xPathExpression>//document/developmentProposalList[1]/org.kuali.coeus.propdev.impl.core.DevelopmentProposal[1]/proposalNumber[1]</xPathExpression>
 				</attributes>
 			</resolverConfig>
 		</ruleAttribute>
@@ -352,7 +352,7 @@
 			<serviceNamespace>KC</serviceNamespace>
 			<resolverConfig>
 				<attributes name="unitNumber">
-					<xPathExpression>//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal[1]/ownedByUnitNumber[1]</xPathExpression>
+					<xPathExpression>//document/developmentProposalList[1]/org.kuali.coeus.propdev.impl.core.DevelopmentProposal[1]/ownedByUnitNumber[1]</xPathExpression>
 				</attributes>
 			</resolverConfig>
 		</ruleAttribute>

@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" table="EPS_PROPOSAL">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" table="EPS_PROPOSAL">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" />
         <field-descriptor name="proposalNumberForGG" column="PROPOSALNUMBER_GG" jdbc-type="VARCHAR" />
         <field-descriptor name="opportunityIdForGG" column="OPPORTUNITYID_GG" jdbc-type="VARCHAR" />
@@ -406,7 +406,7 @@
             <foreignkey field-ref="proposalNumber"/>
             <foreignkey field-ref="proposalPersonNumber"/>
         </reference-descriptor>
-        <reference-descriptor name="developmentProposal" class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="developmentProposal" class-ref="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" auto-retrieve="true" auto-update="none" auto-delete="none">
            <foreignkey field-ref="proposalNumber" />
         </reference-descriptor>     
                 

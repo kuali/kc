@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.bo;
+package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.config.DescriptorCustomizer;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
@@ -33,9 +34,6 @@ import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeStatus;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
-import org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposal;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
@@ -462,7 +460,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     /**
      * Sets the hierarchy attribute value.
-     * @param hierarchy The hierarchy to set.
+     * @param hierarchyStatus The hierarchy to set.
      */
     public void setHierarchyStatus(String hierarchyStatus) {
         this.hierarchyStatus = hierarchyStatus;
@@ -824,7 +822,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     /**
      * Sets the anticipatedAwardType attribute value.
      * 
-     * @param anticipatedAwardType The anticipatedAwardType to set.
+     * @param anticipatedAwardTypeCode The anticipatedAwardType to set.
      */
     public void setAnticipatedAwardTypeCode(Integer anticipatedAwardTypeCode) {
         this.anticipatedAwardTypeCode = anticipatedAwardTypeCode;
@@ -1050,7 +1048,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     /**
      * This method sets the Applicant Organization based on a Organization object.
      * @param organization
-     * @see setApplicantOrganization(ProposalSite)
      */
     public void setApplicantOrgFromOrganization(Organization organization) {
         if (organization == null) {
@@ -1076,7 +1073,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     /**
      * This method sets the Performing Organization based on a Organization object.
      * @param organization
-     * @see setPerformingOrgFromOrganization(ProposalSite)
      */
     public void setPerformingOrgFromOrganization(Organization organization) {
         if (organization == null) {
@@ -1547,7 +1543,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * 
      * Method to delete a personnel attachment from personnel attachment list
      * 
-     * @param narrative
+     * @param lineToDelete
      */
     public void deleteProposalPersonBiography(int lineToDelete) {
         getProposalPersonBiographyService().deleteProposalPersonBiography(this.getProposalDocument(), lineToDelete);
@@ -1567,7 +1563,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * 
      * Method to delete a narrative from narratives list
      * 
-     * @param narrative
+     * @param lineToDelete
      */
     public void deleteProposalAttachment(int lineToDelete) {
         getNarrativeService().deleteProposalAttachment(this.getProposalDocument(), lineToDelete);
@@ -1587,7 +1583,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * 
      * Method to delete a narrative from narratives list
      * 
-     * @param narrative
+     * @param lineToDelete
      */
     public void deleteInstitutionalAttachment(int lineToDelete) {
         getNarrativeService().deleteInstitutionalAttachment(this.getProposalDocument(), lineToDelete);
@@ -1815,28 +1811,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.budgetStatus = budgetStatus;
     }
 
-    //    public List<BudgetDocumentVersion> getBudgetDocumentVersions() {   
-    //        return getProposalDocument().getBudgetDocumentVersions();   
-    //    }   
-    //   
-    //    public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {   
-    //        this.getProposalDocument().setBudgetDocumentVersions(budgetDocumentVersions);   
-    //    }   
-    /**
-     * This method gets the next budget version number for this proposal. We can't use documentNextVersionNumber because that
-     * requires a save and we don't want to save the proposal development document before forwarding to the budget document.
-     * 
-     * @return Integer
-     */
-    //    public Integer getNextBudgetVersionNumber() {   
-    //        List<BudgetDocumentVersion> versions = getBudgetDocumentVersions();   
-    //        if (versions.isEmpty()) {   
-    //            return 1;   
-    //        }   
-    //        Collections.sort(versions);   
-    //        BudgetDocumentVersion lastVersion = versions.get(versions.size() - 1);   
-    //        return lastVersion.getBudgetVersionOverview().getBudgetVersionNumber() + 1;   
-    //    }   
     /**
      * Sets the budgetStatusDescription attribute value.
      * @param budgetStatusDescription The budgetStatusDescription to set.
@@ -1856,18 +1830,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return budgetStatusDescription;
     }
 
-    /**
-     * Gets index i from the budget versions list.
-     * 
-     * @param index
-     * @return BudgetVersionOverview at index i
-     */
-    //    public BudgetDocumentVersion getBudgetDocumentVersion(int index) {   
-    //        while (getBudgetDocumentVersions().size() <= index) {   
-    //            getBudgetDocumentVersions().add(new BudgetDocumentVersion());   
-    //        }   
-    //        return getBudgetDocumentVersions().get(index);   
-    //    }   
     public List<S2sOppForms> getS2sOppForms() {
         return s2sOppForms;
     }

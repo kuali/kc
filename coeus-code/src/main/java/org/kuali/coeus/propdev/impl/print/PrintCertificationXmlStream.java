@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
@@ -31,7 +32,6 @@ import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.PrintCertificationDocument.PrintCertification;
-import org.kuali.kra.proposaldevelopment.bo.*;
 
 import java.util.*;
 
