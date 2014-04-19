@@ -32,7 +32,7 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.QuestionnaireDocument.Questionnaire;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireService;

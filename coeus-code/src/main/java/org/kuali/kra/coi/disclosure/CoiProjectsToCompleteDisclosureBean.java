@@ -19,7 +19,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
