@@ -182,11 +182,4 @@ public interface S2SService {
 			ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission)
 			throws S2SException;
 
-	/**
-	 * 
-	 * This method extracts all the forms within the pdf form and saves each form individually to the database.
-	 * @param s2sUserAttachedForm
-	 * @return
-	 */
-    public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(S2sUserAttachedForm s2sUserAttachedForm);
 }

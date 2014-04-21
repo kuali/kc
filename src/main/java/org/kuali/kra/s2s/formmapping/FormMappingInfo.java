@@ -31,6 +31,7 @@ public class FormMappingInfo{
     private String stylesheet;
     private String pkgname;
     private int sortIndex;
+    private Boolean userAttachedForm=false;
     
     private static final String KEY_NAMESPACE = "nameSpace";
     private static final String KEY_MAIN_CLASS = "mainClass";
@@ -141,6 +142,22 @@ public class FormMappingInfo{
      */
     public void setSortIndex(int sortIndex) {
         this.sortIndex = sortIndex;
+    }
+
+    /**
+     * Gets the userAttachedForm attribute. 
+     * @return Returns the userAttachedForm.
+     */
+    public Boolean getUserAttachedForm() {
+        return userAttachedForm;
+    }
+
+    /**
+     * Sets the userAttachedForm attribute value.
+     * @param userAttachedForm The userAttachedForm to set.
+     */
+    public void setUserAttachedForm(Boolean userAttachedForm) {
+        this.userAttachedForm = userAttachedForm;
     }
 
 }
