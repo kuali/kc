@@ -101,7 +101,11 @@
     <bean id="awardService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="awardService" />
     </bean>
-    
+
+    <bean id="budgetCalculationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetCalculationService" />
+    </bean>
+
     <bean id="budgetService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="budgetService" />
     </bean>
@@ -109,7 +113,7 @@
     <bean id="budgetSummaryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="budgetSummaryService" />
     </bean>
-    
+
     <bean id="businessObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="businessObjectService" />
     </bean>
@@ -129,7 +133,11 @@
     <bean id="dateTimeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dateTimeService" />
     </bean>
-    
+
+    <bean id="deepCopyPostProcessor" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="deepCopyPostProcessor" />
+    </bean>
+
     <bean id="documentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="documentService" />
     </bean>
@@ -308,6 +316,15 @@
         <property name="serviceName" value="sponsorHierarchyService"/>
     </bean>
 
+    <bean id="budgetPersonnelBudgetService" class="org.kuali.kra.budget.personnel.BudgetPersonnelBudgetServiceImpl">
+        <property name="budgetPersonService">
+            <ref bean="budgetPersonService"/>
+        </property>
+        <property name="budgetCalculationService">
+            <ref bean="budgetCalculationService"/>
+        </property>
+    </bean>
+
     <!-- Proposal Development Services -->
 	<bean id="proposalDevelopmentService" class="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -392,23 +409,8 @@
         <property name="jcdAlias" value="kradApplicationDataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
-    
-    <bean id="proposalHierarchyService" class="org.kuali.kra.proposaldevelopment.hierarchy.service.impl.ProposalHierarchyServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="documentService" ref="documentService" />
-        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
-        <property name="narrativeService" ref="legacyNarrativeService" />
-        <property name="proposalHierarchyDao" ref="proposalHierarchyDao" />
-        <property name="budgetService" ref="budgetService" />
-        <property name="budgetSummaryService" ref="budgetSummaryService" />
-        <property name="propPersonBioService" ref="proposalPersonBiographyService" />
-        <property name="parameterService" ref="parameterService" />
-        <property name="identityManagementService" ref="identityService" />
-        <property name="configurationService" ref="kualiConfigurationService" />
-        <property name="kraDocumentRejectionService" ref="kcDocumentRejectionService" />
-        <property name="sessionDocumentService" ref="knsSessionDocumentService" />
-        <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />       
-    </bean>
+
+    <bean id="proposalHierarchyDao" parent="platformAwareDao" class="org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDaoOjb" />
     
     <bean id="proposalRoleService" class="org.kuali.kra.kim.service.impl.ProposalRoleServiceImpl">
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
