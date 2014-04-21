@@ -30,7 +30,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
-import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -50,18 +49,6 @@ public class ProposalHierarcyActionHelper {
     private KcAuthorizationService authorizationService;
     private ParameterService parameterService;
     private ProposalBudgetStatusService proposalBudgetStatusService;
-
-    protected ProposalBudgetStatusService getProposalBudgetStatusService(){
-        if (proposalBudgetStatusService == null){
-            proposalBudgetStatusService = KcServiceLocator.getService(ProposalBudgetStatusService.class);}
-        return proposalBudgetStatusService;
-    }
-
-    protected  ParameterService getParameterService (){
-        if (parameterService == null)
-            parameterService = KcServiceLocator.getService(ParameterService.class);
-        return parameterService;
-    }
 
     public void syncAllHierarchy(ProposalDevelopmentDocument doc) {
         syncAllHierarchy(doc, false);
@@ -130,7 +117,6 @@ public class ProposalHierarcyActionHelper {
         LOG.info(String.format("createHierarchy called with Proposal $s", initialChildProposal.getProposalNumber()));
         if (validateChildCandidate(initialChildProposal)) {
             try {
-                // FIXME: Saving and restoring message map because the document save that occurs in createHierarchy clears the message map
                 MessageMap messageMap = GlobalVariables.getMessageMap();
                 String parentProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal);
                 if (GlobalVariables.getMessageMap() != messageMap) {
@@ -159,7 +145,7 @@ public class ProposalHierarcyActionHelper {
             valid &= validateChildCandidate(newChildProposal);
             if (valid && validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal, allowEndDateChange)) {
                 try {
-                    // FIXME: Saving and restoring message map because the document save that occurs in createHierarchy clears the message map
+
                     MessageMap messageMap = GlobalVariables.getMessageMap();
                     getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
                     if (GlobalVariables.getMessageMap() != messageMap) {
@@ -322,7 +308,18 @@ public class ProposalHierarcyActionHelper {
         }
         GlobalVariables.getMessageMap().putError(field, ERROR_UNEXPECTED, e.toString());
     }
-    
+
+    protected ParameterService getParameterService(){
+        if (parameterService == null)
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        return parameterService;
+    }
+    protected ProposalBudgetStatusService getProposalBudgetStatusService (){
+        if (proposalBudgetStatusService == null)
+            proposalBudgetStatusService = KcServiceLocator.getService(ProposalBudgetStatusService.class);
+        return proposalBudgetStatusService;
+    }
+
     public boolean checkParentChildStatusMatch(ProposalDevelopmentDocument document) {
         DevelopmentProposal proposal = document.getDevelopmentProposal();
         boolean match = true;
