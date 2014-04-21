@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by abc (abc) -->
+
+<xs:schema xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" 
+           xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award"  
+           attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           targetNamespace="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">  
+    <!-- import section -->
+    <xs:import namespace="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" schemaLocation="awardNotice_coeus.xsd"/>
+    
+    <xs:element name="SubContractData">
+        <xs:annotation>
+            <xs:documentation>Comment describing your root element</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Award" type="award:AwardType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="SubcontractDetail" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubContractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SubcontractorID" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SubcontractorName" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="StartDate" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="EndDate" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="SubAwardTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SubAwardType" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="PONumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Title" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="StatusCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="AccountNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="VendorNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RequistionerID" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RequistionerName" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RequistionerUnit" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ArchiveLoc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="CloseoutDate" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="CloseoutIndicator" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FundingSourceIndicator" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Comments" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Acronym" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SiteInvestigator" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="NegotiationNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="CostTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="CostType" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="DateOfFullyExcecuted" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="RequisitionNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SubcontractorDetails" type ="subcontract:OrganizationType" nillable="true" minOccurs="0"/> 
+                            <xs:element name="SubcontractorOrgRolodexDetails" type="subcontract:RolodexDetailsType" nillable="true" minOccurs="0"/>
+                            <xs:element name="SiteInvestigatorDetails" type="subcontract:RolodexDetailsType" nillable="true" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="PrintRequirement" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SignatureRequired" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ImageCheckedPath" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ImageUncheckedPath" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Attachment2Required" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Attachment3Required" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Attachment3ARequired" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Attachment3BRequired" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Attachment3BPage2Required" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Attachment4Required" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Attachment4ARequired" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Attachment5Required" type="xs:string" nillable="true" minOccurs="0"/>                            
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="SchoolInfoType" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SchoolName" type="xs:string" minOccurs="0"/>
+                            <xs:element name="Acronym" type="xs:string" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="FundingSource" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractorCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="AwardNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="AccountNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Status" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Sponsor" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Amount" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="FinalExpirationDate" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="SponsorAwardNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="SubcontractContacts" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="RolodexId" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="LastName" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="FirstName" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="MiddleName" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="RolodexName" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="Suffix" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="Prefix" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="Title" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="Organization" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="Address1" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="Address2" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="Address3" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="Fax" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="Email" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="City" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="County" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="StateCode" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="StateDescription" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="Pincode" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="Comments" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="PhoneNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="CountryCode" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="CountryDescription" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="SponsorCode" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="SponsorName" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="OwnedByUnit" type="xs:string" nillable="true" minOccurs="0"/>
+                                        <xs:element name="OwnedByUnitName" type="xs:string" nillable="true" minOccurs="0"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="CloseoutDetails" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Sequencenumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="CloseoutNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="CloseoutTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="CloseoutTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="DateRequested" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="DateFollowup" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="DateReceived" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="Comments" type="xs:string" nillable="true" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="SubcontractAmountInfo" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="LineNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ObligatedAmount" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="ObligatedChange" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="AnticipatedAmount" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="AnticipatedChange" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="EffectiveDate" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="Comments" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="PerformanceStartDate" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="PerformanceEndDate" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="ModificationNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ModificationEffectiveDate" type="xs:date" nillable="true" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="SubcontractAmountReleased" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="LineNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="AmountReleased" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="EffectiveDate" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="Comments" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="InvoiceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="StartDate" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="EndDate" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="StatusCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="StatusDescription" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ApprovalComments" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ApprovedByUser" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ApprovalDate" type="xs:date" nillable="true" minOccurs="0"/>							
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="UserDetails" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="UserName" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="UserTitle" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Today" type="xs:date" nillable="true" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="AuditorData" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="OrganizationDetails" type="subcontract:OrganizationType" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="OspAdministrator" type="subcontract:PersonDetailsType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="PrincipalInvestigator" type="subcontract:PersonDetailsType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="PrimePrincipalInvestigator" type="subcontract:PersonDetailsType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="AdministrativeOfficer" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="UnitNumber" type="xs:string" minOccurs="0"/>
+                            <xs:element name="UnitName" type="xs:string" minOccurs="0"/>
+                            <xs:element name="AdministrativeOfficerDetails" type="subcontract:PersonDetailsType" minOccurs="0"/>
+                            <xs:element name="OspAdministrator" type="xs:string" minOccurs="0"/>
+                            <xs:element name="UnitHead" type="xs:string" minOccurs="0"/>
+                            <xs:element name="DeanVp" type="xs:string" minOccurs="0"/>
+                            <xs:element name="OtherIndividualToNotify" type="xs:string" minOccurs="0"/>
+                            <xs:element name="UpdateTimestamp" type="xs:date" minOccurs="0"/>
+                            <xs:element name="UpdateUser" type="xs:string" minOccurs="0"/>
+                            <xs:element name="OrganizationId" type="xs:string" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="OthersData"  type="subcontract:OtherDataType"  minOccurs="0" maxOccurs="unbounded"></xs:element>
+                <xs:element name="SubcontractTemplateInfo" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SowOrSubProposalBudget" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SubProposalDate" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="InvoiceOrPaymentContact" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="InvoiceOrPaymentContactDescription" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FinalStmtOfCostsContact" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FinalStmtOfCostsContactDescription" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ChangeRequestsContact" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ChangeRequestsContactDescription" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="TerminationContact" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="TerminationContactDescription" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="NoCostExtensionContact" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="NoCostExtensionContactDescription" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="PerfSiteDiffFromOrgAddr" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="PerfSiteSameAsSubPiAddr" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SubRegisteredInCcr" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SubExemptFromReportingComp" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ParentDunsNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ParentCongressionalDistrict" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ExemptFromRprtgExecComp" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="CopyRights" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="CopyRightsDescription" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="AutomaticCarryForward" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="CarryForwardRequestsSentTo" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="CarryForwardRequestsSentToDescription" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="TreatmentPrgmIncomeAdditive" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ApplicableProgramRegulations" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ApplicableProgramRegsDate" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="UpdateTimestamp" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="UpdateUser" type="xs:string" nillable="true" minOccurs="0"/>						
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="SubcontractAttachments" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="AttachmentId" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="AttachmentTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Description" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FileName" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="MimeType" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="UpdateTimestamp" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="UpdateUser" type="xs:string" nillable="true" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>				
+                <xs:element name="SubcontractReports" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ReportTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ReportTypeDescription" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="UpdateTimestamp" type="xs:dateTime" nillable="true" minOccurs="0"/>
+                            <xs:element name="UpdateUser" type="xs:string" nillable="true" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>	
+                 <xs:element name="PrimeAdministrativeContact"  minOccurs="0" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                        </xs:sequence>
+                        </xs:complexType>
+                 </xs:element>
+                  <xs:element name="PrimeFinancialContact"  minOccurs="0" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                        </xs:sequence>
+                        </xs:complexType>
+                 </xs:element>
+                  <xs:element name="PrimeAuthorizedOfficial"  minOccurs="0" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                        </xs:sequence>
+                        </xs:complexType>
+                 </xs:element>
+                 <xs:element name="AdministrativeContact"  minOccurs="0" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                        </xs:sequence>
+                        </xs:complexType>
+                 </xs:element>
+                  <xs:element name="FinancialContact"  minOccurs="0" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                        </xs:sequence>
+                        </xs:complexType>
+                 </xs:element>
+                  <xs:element name="AuthorizedOfficial"  minOccurs="0" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                        </xs:sequence>
+                        </xs:complexType>
+                 </xs:element>
+                 <xs:element name="PrimeRecipientContacts" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="RequisitionerUnitNumber" type="xs:string" minOccurs="0"/>
+                            <xs:element name="RequisitionerUnitName" type="xs:string" minOccurs="0"/>                                                        
+                            <xs:element name="OrgRolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+                            <xs:element name="RequisitionerOrgDetails" type="subcontract:OrganizationType" minOccurs="0"/>                            
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="RolodexDetailsType">
+        <xs:sequence>
+            <xs:element name="RolodexId" type="xs:int" nillable="true" minOccurs="0"/>
+            <xs:element name="LastName" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="FirstName" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="MiddleName" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="RolodexName" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="Suffix" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="Prefix" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="Title" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="Organization" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="Address1" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="Address2" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="Address3" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="Fax" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="Email" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="City" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="County" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="StateCode" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="StateDescription" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="Pincode" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="Comments" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="PhoneNumber" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="CountryCode" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="CountryDescription" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="SponsorCode" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="SponsorName" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="OwnedByUnit" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="OwnedByUnitName" type="xs:string" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OrganizationType">
+        <xs:sequence>
+            <xs:element name="OrganizationID" type="xs:string" minOccurs="0"/>
+            <xs:element name="OrganizationName" type="xs:string" minOccurs="0"/>
+            <xs:element name="ContactAddressId" type="xs:int" minOccurs="0"/>
+            <xs:element name="Address" type="xs:string" minOccurs="0"/>
+            <xs:element name="CableAddress" type="xs:string" minOccurs="0"/>
+            <xs:element name="TelexNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="county" type="xs:string" minOccurs="0"/>
+            <xs:element name="CongressionalDistrict" type="xs:string" minOccurs="0"/>
+            <xs:element name="IncorporatedIn" type="xs:string" minOccurs="0"/>
+            <xs:element name="IncorporatedDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="NumberOfEmployees" type="xs:int" minOccurs="0"/>
+            <xs:element name="IrsTaxExcemption" type="xs:string" minOccurs="0"/>
+            <xs:element name="FedralEmployerId" type="xs:string" minOccurs="0"/>
+            <xs:element name="MassTaxExcemptNum" type="xs:string" minOccurs="0"/>
+            <xs:element name="AgencySymbol" type="xs:string" minOccurs="0"/>
+            <xs:element name="VendorCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="ComGovEntityCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="MassEmployeeClaim" type="xs:string" minOccurs="0"/>
+            <xs:element name="DunsNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="DunsPlusFourNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="DodacNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="CageNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="HumanSubAssurance" type="xs:string" minOccurs="0"/>
+            <xs:element name="AnimalWelfareAssurance" type="xs:string" minOccurs="0"/>
+            <xs:element name="ScienceMisconductComplDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="PhsAcount" type="xs:string" minOccurs="0"/>
+            <xs:element name="NsfInstitutionalCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="IndirectCostRateAgreement" type="xs:string" minOccurs="0"/>
+            <xs:element name="CognizantAuditor" type="subcontract:RolodexDetailsType" minOccurs="0"/>
+            <xs:element name="OnrResidentRep" type="xs:int" minOccurs="0"/>
+            <xs:element name="UpdateTimestamp" type="xs:date" minOccurs="0"/>
+            <xs:element name="UpdateUser" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="OtherDataType">
+        <xs:sequence>
+            <xs:element name="ColumnName" type="xs:string"></xs:element>
+            <xs:element name="ColumnValue" type="xs:string"></xs:element>
+            <xs:element name="UpdateTimestamp" type="xs:dateTime"></xs:element>
+            <xs:element name="UpdateUser" type="xs:string"></xs:element>
+        </xs:sequence>
+    </xs:complexType>	
+    
+    <xs:complexType name="PersonDetailsType">
+        <xs:sequence>
+            <xs:element name="PersonId" type="xs:string" minOccurs="0"/>
+            <xs:element name="SSN" type="xs:string" minOccurs="0"/>
+            <xs:element name="LastName" type="xs:string" minOccurs="0"/>
+            <xs:element name="FirstName" type="xs:string" minOccurs="0"/>
+            <xs:element name="MiddleName" type="xs:string" minOccurs="0"/>
+            <xs:element name="FullName" type="xs:string" minOccurs="0"/>
+            <xs:element name="PriorName" type="xs:string" minOccurs="0"/>
+            <xs:element name="UserName" type="xs:string" minOccurs="0"/>
+            <xs:element name="EmailAddress" type="xs:string" minOccurs="0"/>
+            <xs:element name="DateOfBirth" type="xs:date" minOccurs="0"/>
+            <xs:element name="Age" type="xs:int" minOccurs="0"/>
+            <xs:element name="AgeByFiscalYear" type="xs:int" minOccurs="0"/>
+            <xs:element name="Gender" type="xs:string" minOccurs="0"/>
+            <xs:element name="Race" type="xs:string" minOccurs="0"/>
+            <xs:element name="EducationLevel" type="xs:string" minOccurs="0"/>
+            <xs:element name="Degree" type="xs:string" minOccurs="0"/>
+            <xs:element name="Major" type="xs:string" minOccurs="0"/>
+            <xs:element name="IsHandicapped" type="xs:string" minOccurs="0"/>
+            <xs:element name="HandicapType" type="xs:string" minOccurs="0"/>
+            <xs:element name="IsVeteran" type="xs:string" minOccurs="0"/>
+            <xs:element name="VeteranType" type="xs:string" minOccurs="0"/>
+            <xs:element name="VisaType" type="xs:string" minOccurs="0"/>
+            <xs:element name="VisaRenewalDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="HasVisa" type="xs:string" minOccurs="0"/>
+            <xs:element name="OfficeLocation" type="xs:string" minOccurs="0"/>
+            <xs:element name="OfficePhone" type="xs:string" minOccurs="0"/>
+            <xs:element name="SecondryOfficeLocation" type="xs:string" minOccurs="0"/>
+            <xs:element name="SecondryOfficePhone" type="xs:string" minOccurs="0"/>
+            <xs:element name="School" type="xs:string" minOccurs="0"/>
+            <xs:element name="YearGraduated" type="xs:string" minOccurs="0"/>
+            <xs:element name="DirectoryDepartment" type="xs:string" minOccurs="0"/>
+            <xs:element name="Salutation" type="xs:string" minOccurs="0"/>
+            <xs:element name="CountryOfCitizenship" type="xs:string" minOccurs="0"/>
+            <xs:element name="PrimaryTitle" type="xs:string" minOccurs="0"/>
+            <xs:element name="DirectoryTitle" type="xs:string" minOccurs="0"/>
+            <xs:element name="HomeUnit" type="xs:string" minOccurs="0"/>
+            <xs:element name="IsFaculty" type="xs:string" minOccurs="0"/>
+            <xs:element name="IsGraduateStudentStaff" type="xs:string" minOccurs="0"/>
+            <xs:element name="IsResearchStaff" type="xs:string" minOccurs="0"/>
+            <xs:element name="IsServiceStaff" type="xs:string" minOccurs="0"/>
+            <xs:element name="IsSupportStaff" type="xs:string" minOccurs="0"/>
+            <xs:element name="IsOtherAccademicGroup" type="xs:string" minOccurs="0"/>
+            <xs:element name="IsMedicalStaff" type="xs:string" minOccurs="0"/>
+            <xs:element name="VacationAccural" type="xs:string" minOccurs="0"/>
+            <xs:element name="IsOnSabbatical" type="xs:string" minOccurs="0"/>
+            <xs:element name="IdProvided" type="xs:string" minOccurs="0"/>
+            <xs:element name="IdVerified" type="xs:string" minOccurs="0"/>
+            <xs:element name="UpdateTimestamp" type="xs:date" minOccurs="0"/>
+            <xs:element name="UpdateUser" type="xs:string" minOccurs="0"/>
+            <xs:element name="AddressLine1" type="xs:string" minOccurs="0"/>
+            <xs:element name="AddressLine2" type="xs:string" minOccurs="0"/>
+            <xs:element name="AddressLine3" type="xs:string" minOccurs="0"/>
+            <xs:element name="City" type="xs:string" minOccurs="0"/>
+            <xs:element name="County" type="xs:string" minOccurs="0"/>
+            <xs:element name="State" type="xs:string" minOccurs="0"/>
+            <xs:element name="PostalCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="CountryCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="FaxNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="PagerNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="MobilePhoneNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="EraCommonsUserName" type="xs:string" minOccurs="0"/>
+            <xs:element name="Status" type="xs:string" minOccurs="0"/>
+            <xs:element name="DepartmentName" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+</xs:schema>

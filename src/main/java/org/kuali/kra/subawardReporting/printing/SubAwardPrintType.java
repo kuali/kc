@@ -22,7 +22,10 @@ package org.kuali.kra.subawardReporting.printing;
  */
 public enum SubAwardPrintType {
 	SUB_AWARD_SF_294_PRINT_TYPE("SF294"),
-	SUB_AWARD_SF_295_PRINT_TYPE("SF295");
+	SUB_AWARD_SF_295_PRINT_TYPE("SF295"),
+	SUB_AWARD_FDP_TEMPLATE("fdpAgreement"),
+	SUB_AWARD_FDP_MODIFICATION("fdpModification");
+	
 
 	private final String subAwardPrintType;
 
