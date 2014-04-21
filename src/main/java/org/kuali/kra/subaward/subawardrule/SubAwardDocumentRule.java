@@ -25,6 +25,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -75,6 +76,7 @@ AddSubAwardAttachmentRule,SubAwardTemplateInfoRule {
     
     private static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
     private static final String AMOUNT_PERIOD_OF_PERFORMANCE_START_DATE = "newSubAwardAmountInfo.periodofPerformanceStartDate";
+    private static final String PRINT_FUNDING_TYPE = "subAwardPrintAgreement.fundingSource";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SubAwardDocumentRule.class);
     /**.
      * This method is for AddSubAwardBusinessRules
@@ -378,5 +380,17 @@ AddSubAwardAttachmentRule,SubAwardTemplateInfoRule {
           }  
         }
         return rulePassed;
+    }
+    public boolean processsSubawardPrintRule(SubAwardForm subAwardForm) {
+        boolean valid = true;
+        
+        if(subAwardForm==null 
+                || subAwardForm.getSubAwardPrintAgreement().getFundingSource()==null){
+            valid = false;            
+            reportError(PRINT_FUNDING_TYPE
+                    , KeyConstants.ERROR_REQUIRED_SUBAWARD_PRINT_FUNDING);
+        }
+        return valid;
+        
     }
 }

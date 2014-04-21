@@ -16,10 +16,19 @@
 package org.kuali.kra.subawardReporting.printing.service;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.SponsorFormTemplate;
+import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.generator.S2SFormGenerator;
+import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
+import org.kuali.kra.subaward.bo.SubAwardPrintAgreement;
+import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,4 +57,7 @@ public interface SubAwardPrintingService {
 	public AttachmentDataSource printSubAwardReport(
 			KraPersistableBusinessObjectBase awardDocument, SubAwardPrintType subAwardPrintType,
 			Map<String, Object> reportParameters) throws PrintingException;
+	
+	public AttachmentDataSource printSubAwardFDPReport(KraPersistableBusinessObjectBase subAwardDoc,SubAwardPrintType subAwardPrintType,
+            Map<String, Object> reportParameters) throws PrintingException;
 }
