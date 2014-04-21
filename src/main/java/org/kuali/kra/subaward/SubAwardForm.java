@@ -17,7 +17,9 @@ package org.kuali.kra.subaward;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
@@ -73,7 +75,41 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
     private int defaultFollowUpDayDifference = 0;
     private SubAwardAttachmentFormBean subAwardAttachmentFormBean;
     private SubAwardReports newSubAwardReport;
+    private SubAwardPrintAgreement subAwardPrintAgreement;
+    private List<SponsorFormTemplateList> sponsorFormTemplates;
+    
+    
+    /**
+     * Gets the sponsorFormTemplates attribute. 
+     * @return Returns the sponsorFormTemplates.
+     */
+    public List<SponsorFormTemplateList> getSponsorFormTemplates() {
+        return sponsorFormTemplates;
+    }
 
+    /**
+     * Sets the sponsorFormTemplates attribute value.
+     * @param sponsorFormTemplates The sponsorFormTemplates to set.
+     */
+    public void setSponsorFormTemplates(List<SponsorFormTemplateList> sponsorFormTemplates) {
+        this.sponsorFormTemplates = sponsorFormTemplates;
+    }
+
+    /**
+     * Gets the subAwardPrintAgreement attribute. 
+     * @return Returns the subAwardPrintAgreement.
+     */
+    public SubAwardPrintAgreement getSubAwardPrintAgreement() {
+        return subAwardPrintAgreement;
+    }
+
+    /**
+     * Sets the subAwardPrintAgreement attribute value.
+     * @param subAwardPrintAgreement The subAwardPrintAgreement to set.
+     */
+    public void setSubAwardPrintAgreement(SubAwardPrintAgreement subAwardPrintAgreement) {
+        this.subAwardPrintAgreement = subAwardPrintAgreement;
+    }
 
     /**
      * Gets the newSubAwardReport attribute. 
@@ -238,7 +274,7 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
         newSubAwardAmountInfo = new SubAwardAmountInfo();
         notificationHelper = new NotificationHelper<SubAwardNotificationContext>();
         subAwardAttachmentFormBean = new SubAwardAttachmentFormBean(this);
-        
+        subAwardPrintAgreement = new SubAwardPrintAgreement();
     }
 
     /**

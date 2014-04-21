@@ -78,6 +78,8 @@ public class PrintingUtils {
 	private static final String XSL_PRINT_SUB_AWARD_SF_295_REPORT ="295.xsl";
 	private static final String XSL_COI_APPROVED_DISCLOSURE = "ApprovedDisclosure.xsl";
     private static final String XSL_AWARD_REPORT_TRACKING = "AwardReportingRequirements.xsl";
+    private static final String XSL_SUB_AWARD_FDP_AGREEMENT = "FDP_Template_Agreement.xsl";
+    private static final String XSL_SUB_AWARD_FDP_MODIFICATION = "FDP_Modification_Template.xsl";
 	/**
 	 * This method fetches system constant parameters
 	 * 
@@ -225,6 +227,15 @@ public class PrintingUtils {
                 .equals(SubAwardPrintType.SUB_AWARD_SF_295_PRINT_TYPE
                         .getSubAwardPrintType())) {
             xsl = XSL_PRINT_SUB_AWARD_SF_295_REPORT;
+        }else if (reportType
+                .equals(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE
+                        .getSubAwardPrintType())) {
+            xsl = XSL_SUB_AWARD_FDP_AGREEMENT;
+        }
+        else if (reportType
+                .equals(SubAwardPrintType.SUB_AWARD_FDP_MODIFICATION
+                        .getSubAwardPrintType())) {
+            xsl = XSL_SUB_AWARD_FDP_MODIFICATION;
         }
         else if (ProtocolPrintType.getReportTypes().contains(reportType)) {
             for (ProtocolPrintType protocolPrintType : ProtocolPrintType.values()) {
