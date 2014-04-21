@@ -392,23 +392,8 @@
         <property name="jcdAlias" value="kradApplicationDataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
-    
-    <bean id="proposalHierarchyService" class="org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="documentService" ref="documentService" />
-        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
-        <property name="narrativeService" ref="legacyNarrativeService" />
-        <property name="proposalHierarchyDao" ref="proposalHierarchyDao" />
-        <property name="budgetService" ref="budgetService" />
-        <property name="budgetSummaryService" ref="budgetSummaryService" />
-        <property name="propPersonBioService" ref="proposalPersonBiographyService" />
-        <property name="parameterService" ref="parameterService" />
-        <property name="identityManagementService" ref="identityService" />
-        <property name="configurationService" ref="kualiConfigurationService" />
-        <property name="kraDocumentRejectionService" ref="kcDocumentRejectionService" />
-        <property name="sessionDocumentService" ref="knsSessionDocumentService" />
-        <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />       
-    </bean>
+
+    <bean id="proposalHierarchyDao" parent="platformAwareDao" class="org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDaoOjb" />
     
     <bean id="proposalRoleService" class="org.kuali.kra.kim.service.impl.ProposalRoleServiceImpl">
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />

@@ -49,21 +49,6 @@ public class ProposalHierarcyActionHelper {
     private KcAuthorizationService authorizationService;
     private ParameterService parameterService;
     private ProposalBudgetStatusService proposalBudgetStatusService;
-<<<<<<< HEAD:coeus-code/src/main/java/org/kuali/coeus/propdev/impl/hierarchy/ProposalHierarcyActionHelper.java
-
-    protected ProposalBudgetStatusService getProposalBudgetStatusService(){
-        if (proposalBudgetStatusService == null){
-            proposalBudgetStatusService = KcServiceLocator.getService(ProposalBudgetStatusService.class);}
-        return proposalBudgetStatusService;
-    }
-
-    protected  ParameterService getParameterService (){
-        if (parameterService == null)
-            parameterService = KcServiceLocator.getService(ParameterService.class);
-        return parameterService;
-    }
-=======
->>>>>>> KRACOEUS-6956 : repack propdev.impl.hierarchy_3:coeus-code/src/main/java/org/kuali/coeus/propdev/impl/hierarchy/ProposalHierarcyActionHelper.java
 
     public void syncAllHierarchy(ProposalDevelopmentDocument doc) {
         syncAllHierarchy(doc, false);
