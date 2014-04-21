@@ -59,13 +59,6 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
-import org.kuali.coeus.propdev.impl.hierarchy.HierarchyBudgetTypeConstants;
-import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyErrorDto;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
-import org.kuali.coeus.propdev.impl.hierarchy.HierarchyProposalSummary;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDao;
-import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
@@ -89,6 +82,10 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 
 import java.io.IOException;
 import java.sql.Date;
@@ -97,30 +94,58 @@ import java.util.*;
 import static org.apache.commons.lang3.StringUtils.replace;
 import static org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants.*;
 
-
+@Component("proposalHierarchyService")
 @Transactional
 public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     private static final Log LOG = LogFactory.getLog(ProposalHierarchyServiceImpl.class);
-    
-    private BusinessObjectService businessObjectService;
+
+   @Autowired
+   @Qualifier("businessObjectService")
+   private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("documentService")
     private DocumentService documentService;
-    private KcAuthorizationService kraAuthorizationService;
+    @Autowired
+    @Qualifier("kcAuthorizationService")
+    private KcAuthorizationService kcAuthorizationService;
+    @Autowired
+    @Qualifier("proposalHierarchyDao")
     private ProposalHierarchyDao proposalHierarchyDao;
-    private LegacyNarrativeService narrativeService;
+    @Autowired
+    @Qualifier("legacyNarrativeService")
+    private LegacyNarrativeService legacyNarrativeService;
+    @Autowired
+    @Qualifier("budgetService")
     private BudgetService budgetService;
+    @Autowired
+    @Qualifier("budgetSummaryService")
     private BudgetSummaryService budgetSummaryService;
-    private ProposalPersonBiographyService propPersonBioService;
+    @Autowired
+    @Qualifier("proposalPersonBiographyService")
+    private ProposalPersonBiographyService proposalPersonBiographyService;
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
-    private IdentityService identityManagementService;
-    private ConfigurationService configurationService;
-    private KcDocumentRejectionService kraDocumentRejectionService;
-    private SessionDocumentService sessionDocumentService;
-    private WorkflowDocumentService workflowDocumentService;
+    @Autowired
+    @Qualifier("identityService")
+    private IdentityService identityService;
+    @Autowired
+    @Qualifier("kualiConfigurationService")
+    private ConfigurationService kualiConfigurationService;
+    @Autowired
+    @Qualifier("kcDocumentRejectionService")
+    private KcDocumentRejectionService kcDocumentRejectionService;
+    @Autowired
+    @Qualifier("knsSessionDocumentService")
+    private SessionDocumentService knsSessionDocumentService;
+    @Autowired
+    @Qualifier("kradWorkflowDocumentService")
+    private WorkflowDocumentService kradWorkflowDocumentService;
 
     //Setters for dependency injection
-    public void setIdentityManagementService(IdentityService identityManagerService) {
-        this.identityManagementService = identityManagerService;
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
     }
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
@@ -128,27 +153,40 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
-        this.kraAuthorizationService = kraAuthorizationService;
+    public void setKcAuthorizationService(KcAuthorizationService kcAuthorizationService) {
+        this.kcAuthorizationService = kcAuthorizationService;
     }
     public void setProposalHierarchyDao(ProposalHierarchyDao proposalHierarchyDao) {
         this.proposalHierarchyDao = proposalHierarchyDao;
     }
-    public void setNarrativeService(LegacyNarrativeService narrativeService) {
-        this.narrativeService = narrativeService;
+    public void setLegacyNarrativeService(LegacyNarrativeService narrativeService) {
+        this.legacyNarrativeService = narrativeService;
     }
     public void setBudgetService(BudgetService budgetService) {
         this.budgetService = budgetService;
     }
-    public void setPropPersonBioService(ProposalPersonBiographyService propPersonBioService) {
-        this.propPersonBioService = propPersonBioService;
+    public void setProposalPersonBiographyService(ProposalPersonBiographyService proposalPersonBiographyService) {
+        this.proposalPersonBiographyService = proposalPersonBiographyService;
     }
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    public void setConfigurationService(ConfigurationService configurationService) {
-        this.configurationService = configurationService;
+    public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
+    public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
+        this.budgetSummaryService = budgetSummaryService;
+    }
+    public void setKnsSessionDocumentService(SessionDocumentService sessionDocumentService) {
+        this.knsSessionDocumentService = sessionDocumentService;
+    }
+    public void setKradWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.kradWorkflowDocumentService = workflowDocumentService;
+    }
+    public void setKcDocumentRejectionService(KcDocumentRejectionService kcDocumentRejectionService) {
+        this.kcDocumentRejectionService = kcDocumentRejectionService;
+    }
+
 
     @Override
     public String createHierarchy(DevelopmentProposal initialChild) throws ProposalHierarchyException {
@@ -165,8 +203,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // since a person with MAINTAIN_PROPOSAL_HIERARCHY permission is allowed to initiate IF they are creating a parent
         // we circumvent the initiator step altogether. 
         try {
-            WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(PROPOSAL_DEVELOPMENT_DOCUMENT_TYPE, GlobalVariables.getUserSession().getPerson());
-            sessionDocumentService.addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDocument);
+            WorkflowDocument workflowDocument = kradWorkflowDocumentService.createWorkflowDocument(PROPOSAL_DEVELOPMENT_DOCUMENT_TYPE, GlobalVariables.getUserSession().getPerson());
+            knsSessionDocumentService.addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDocument);
             DocumentHeader documentHeader = new DocumentHeader();
             documentHeader.setWorkflowDocument(workflowDocument);
             documentHeader.setDocumentNumber(workflowDocument.getDocumentId().toString());
@@ -198,7 +236,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         // add aggregator to the document
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        kraAuthorizationService.addRole(userId, RoleConstants.AGGREGATOR, newDoc);
+        kcAuthorizationService.addRole(userId, RoleConstants.AGGREGATOR, newDoc);
 
         initializeBudget(hierarchy, initialChild);
 
@@ -426,11 +464,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         boolean changed = false;
         
         for (DevelopmentProposal childProposal : getHierarchyChildren(hierarchyProposal.getProposalNumber())) {
-            /*  TODO restore code below after testing
-            if (isSynchronized(childProposal.getProposalNumber())) {
-                break;
-            }
-            */
+
             List<PropScienceKeyword> oldKeywords = getOldKeywords(hierarchyProposal, childProposal);
             ProposalPerson principalInvestigator = hierarchyProposal.getPrincipalInvestigator();
             BudgetDocument<DevelopmentProposal> hierarchyBudgetDocument = getHierarchyBudget(hierarchyProposal); 
@@ -469,11 +503,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @throws ProposalHierarchyException
      */
     protected boolean synchronizeChildProposal(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException {
-        /*  TODO restore code below after testing
-        if (isSynchronized(childProposal.getProposalNumber())) {
-            return false;
-        }
-         */
         
         List<PropScienceKeyword> oldKeywords = getOldKeywords(hierarchyProposal, childProposal);
         ProposalPerson principalInvestigator = hierarchyProposal.getPrincipalInvestigator();
@@ -596,7 +625,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 Narrative newNarrative = (Narrative) ObjectUtils.deepCopy(narrative);
                 newNarrative.setVersionNumber(null);
                 newNarrative.setHierarchyProposalNumber(childProposal.getProposalNumber());
-                narrativeService.addNarrative(hierarchyProposal.getProposalDocument(), newNarrative);
+                legacyNarrativeService.addNarrative(hierarchyProposal.getProposalDocument(), newNarrative);
             }
         }
     }
@@ -1079,7 +1108,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             int index = hierarchy.getProposalPersons().indexOf(pi);
             if (index > -1) {
                 hierarchy.getProposalPerson(index).setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-                //hierarchy.getProposalPerson(index).setHierarchyProposalNumber(null);
             }
         }
     }
@@ -1126,7 +1154,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         catch (WorkflowException e) {
             throw new ProposalHierarchyException(e);
         }
-        return budgetDocument;//.getBudget();
+        return budgetDocument;
     }
     
     protected void initializeBudget (DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException {
@@ -1349,7 +1377,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             destPropPersonBio.setProposalPersonNumber(destPerson.getProposalPersonNumber());
             destPropPersonBio.setPersonId(destPerson.getPersonId());
             destPropPersonBio.setRolodexId(destPerson.getRolodexId());
-            propPersonBioService.addProposalPersonBiography(destProposal.getProposalDocument(), destPropPersonBio);
+            proposalPersonBiographyService.addProposalPersonBiography(destProposal.getProposalDocument(), destPropPersonBio);
         }
 
         Narrative destNarrative;
@@ -1360,7 +1388,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 loadAttachmentContent(srcNarrative);
                 destNarrative = (Narrative)ObjectUtils.deepCopy(srcNarrative);
                 destNarrative.setModuleStatusCode("I");
-                narrativeService.addNarrative(destProposal.getProposalDocument(), destNarrative);
+                legacyNarrativeService.addNarrative(destProposal.getProposalDocument(), destNarrative);
             }
         }
     }
@@ -1495,7 +1523,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @throws WorkflowException
      */
     protected void rejectProposal( ProposalDevelopmentDocument proposalDoc, String reason, String principalId, String appDocStatus ) throws WorkflowException  {
-        kraDocumentRejectionService.reject(proposalDoc, reason, principalId, appDocStatus );    
+        kcDocumentRejectionService.reject(proposalDoc, reason, principalId, appDocStatus );
     }
     
     
@@ -1519,7 +1547,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         //2. Try to reject all of the children.
         for( ProposalDevelopmentDocument child : getChildProposalDevelopmentDocuments(hierarchyParent.getDevelopmentProposal().getProposalNumber())) {
             try {
-                rejectProposal( child, renderMessage( HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION, reason ), identityManagementService.getPrincipalByPrincipalName(KRADConstants.SYSTEM_USER ).getPrincipalId(), renderMessage( HIERARCHY_CHILD_REJECTED_APPSTATUS ) );
+                rejectProposal( child, renderMessage( HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION, reason ), identityService.getPrincipalByPrincipalName(KRADConstants.SYSTEM_USER ).getPrincipalId(), renderMessage( HIERARCHY_CHILD_REJECTED_APPSTATUS ) );
             } catch (WorkflowException e) {
                 throw new ProposalHierarchyException( String.format( "WorkflowException encountered rejecting child document %s", child.getDevelopmentProposal().getProposalNumber()), e );
             }
@@ -1659,7 +1687,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         }
 
                     } else {
-                        workdoc = WorkflowDocumentFactory.loadDocument( identityManagementService.getPrincipalByPrincipalName(KRADConstants.SYSTEM_USER ).getPrincipalId(),child.getDocumentHeader().getWorkflowDocument().getDocumentId() );
+                        workdoc = WorkflowDocumentFactory.loadDocument( identityService.getPrincipalByPrincipalName(KRADConstants.SYSTEM_USER ).getPrincipalId(),child.getDocumentHeader().getWorkflowDocument().getDocumentId() );
                         workdoc.setApplicationDocumentStatus(getHierarchyChildRouteStatus( dto.getOldRouteStatus(), dto.getNewRouteStatus() ));
 
                         if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_CANCEL_CD,childStatusTarget)) {
@@ -1801,9 +1829,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     public boolean validateRemovePermissions(DevelopmentProposal childProposal, String principalId) {
         boolean valid = true;
-        valid &= kraAuthorizationService.hasPermission(principalId, childProposal.getProposalDocument(), PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
+        valid &= kcAuthorizationService.hasPermission(principalId, childProposal.getProposalDocument(), PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
         try {
-            valid &= kraAuthorizationService.hasPermission(principalId, getHierarchy(childProposal.getHierarchyParentProposalNumber()).getProposalDocument(), PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
+            valid &= kcAuthorizationService.hasPermission(principalId, getHierarchy(childProposal.getHierarchyParentProposalNumber()).getProposalDocument(), PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
         }
         catch (ProposalHierarchyException e) {
             valid = false;
@@ -1812,24 +1840,15 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
 
     protected String renderMessage( String key, String... params ) {
-       String msg = configurationService.getPropertyValueAsString(key);
+       String msg = kualiConfigurationService.getPropertyValueAsString(key);
        for (int i = 0; i < params.length; i++) {
            msg = replace(msg, "{" + i + "}", params[i]);
        }
        return msg;
        
     }
-    public KcDocumentRejectionService getKraDocumentRejectionService() {
-        return kraDocumentRejectionService;
-    }
-    public void setKraDocumentRejectionService(KcDocumentRejectionService kraDocumentRejectionService) {
-        this.kraDocumentRejectionService = kraDocumentRejectionService;
-    }
-    public void setSessionDocumentService(SessionDocumentService sessionDocumentService) {
-        this.sessionDocumentService = sessionDocumentService;
-    }
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
+    protected KcDocumentRejectionService getKcDocumentRejectionService() {
+        return kcDocumentRejectionService;
     }
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
@@ -1837,42 +1856,38 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     protected DocumentService getDocumentService() {
         return documentService;
     }
-    protected KcAuthorizationService getKraAuthorizationService() {
-        return kraAuthorizationService;
+    protected KcAuthorizationService getKcAuthorizationService() {
+        return kcAuthorizationService;
     }
     protected ProposalHierarchyDao getProposalHierarchyDao() {
         return proposalHierarchyDao;
     }
-    protected LegacyNarrativeService getNarrativeService() {
-        return narrativeService;
+    protected LegacyNarrativeService getLegacyNarrativeService() {
+        return legacyNarrativeService;
     }
     protected BudgetService getBudgetService() {
         return budgetService;
     }
-    protected ProposalPersonBiographyService getPropPersonBioService() {
-        return propPersonBioService;
+    protected ProposalPersonBiographyService getProposalPersonBiographyService() {
+        return proposalPersonBiographyService;
     }
     protected ParameterService getParameterService() {
         return parameterService;
     }
     protected IdentityService getIdentityManagementService() {
-        return identityManagementService;
+        return identityService;
     }
-    protected ConfigurationService getConfigurationService() {
-        return configurationService;
+    protected ConfigurationService getKualiConfigurationService() {
+        return kualiConfigurationService;
     }
-    protected SessionDocumentService getSessionDocumentService() {
-        return sessionDocumentService;
+    protected SessionDocumentService getKnsSessionDocumentService() {
+        return knsSessionDocumentService;
     }
-    protected WorkflowDocumentService getWorkflowDocumentService() {
-        return workflowDocumentService;
+    protected WorkflowDocumentService getkradWorkflowDocumentService() {
+        return kradWorkflowDocumentService;
     }
-    public BudgetSummaryService getBudgetSummaryService() {
+    protected BudgetSummaryService getBudgetSummaryService() {
         return budgetSummaryService;
     }
-    public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
-        this.budgetSummaryService = budgetSummaryService;
-    }
-    
     
 }
