@@ -37,7 +37,11 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
+import org.kuali.kra.bo.S2sOppFormQuestionnaire;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.bo.S2sOppForms;
+import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sUserAttachedForm;
 import org.kuali.kra.s2s.bo.S2sUserAttachedFormAtt;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
@@ -73,7 +77,8 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
     
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(S2sUserAttachedForm s2sUserAttachedForm) throws Exception{
+    public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(DevelopmentProposal developmentProposal, 
+                                                                        S2sUserAttachedForm s2sUserAttachedForm) throws Exception{
         PdfReader reader = null;
         List<S2sUserAttachedForm> formBeans = new ArrayList<S2sUserAttachedForm>();
         List<S2sUserAttachedForm> savedFormBeans;
@@ -87,10 +92,27 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
                 formBeans = extractAndPopulateXml(reader,s2sUserAttachedForm,attachments);
             }
             savedFormBeans = (List<S2sUserAttachedForm>) businessObjectService.save(formBeans);
+            resetFormsAvailability(developmentProposal,savedFormBeans);
         }finally{
             if(reader!=null) reader.close();
         }
         return savedFormBeans;
+    }
+
+    private void resetFormsAvailability(DevelopmentProposal developmentProposal, List<S2sUserAttachedForm> savedFormBeans) {
+        S2sOpportunity opportunity = developmentProposal.getS2sOpportunity();
+        if(opportunity!=null){
+            List<S2sOppForms> oppForms = opportunity.getS2sOppForms(); 
+            for (S2sUserAttachedForm s2sUserAttachedForm : savedFormBeans) {
+                for (S2sOppForms s2sOppForms : oppForms) {
+                    if(s2sOppForms.getOppNameSpace().equals(s2sUserAttachedForm.getNamespace())){
+                        s2sOppForms.setAvailable(true);
+                        s2sOppForms.setUserAttachedForm(true);
+                    }
+                }
+            }
+        }
+        
     }
 
     private Map extractAttachments(PdfReader reader)throws IOException{
@@ -179,6 +201,9 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         List formBeans = new ArrayList();
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
+        if(domDocument==null){
+            return formBeans; 
+        }
         Element documentElement = ((Document) domDocument).getDocumentElement();
 
         Element datasetsElement = (Element) documentElement.getElementsByTagNameNS(XFA_NS, "datasets").item(0);
@@ -508,5 +533,19 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
+    @Override
+    public void resetFormAvailability(DevelopmentProposal developmentProposal, String namespace) {
+        S2sOpportunity opportunity = developmentProposal.getS2sOpportunity(); 
+        if(opportunity!=null){
+            List<S2sOppForms> oppForms = opportunity.getS2sOppForms(); 
+            for (S2sOppForms s2sOppForms : oppForms) {
+                if(s2sOppForms.getOppNameSpace().equals(namespace)){
+                    s2sOppForms.setAvailable(false);
+                    s2sOppForms.setUserAttachedForm(false);
+                }
+            }
+        }
+    }
+
 }

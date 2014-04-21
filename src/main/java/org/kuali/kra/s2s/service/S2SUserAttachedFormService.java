@@ -17,8 +17,11 @@ package org.kuali.kra.s2s.service;
 
 import java.util.List;
 
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.s2s.bo.S2sUserAttachedForm;
 
 public interface S2SUserAttachedFormService {
-    public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(S2sUserAttachedForm s2sUserAttachedForm) throws Exception;
+    public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(DevelopmentProposal developmentProposal, S2sUserAttachedForm s2sUserAttachedForm) throws Exception;
+
+    public void resetFormAvailability(DevelopmentProposal developmentProposal, String namespace);
 }
