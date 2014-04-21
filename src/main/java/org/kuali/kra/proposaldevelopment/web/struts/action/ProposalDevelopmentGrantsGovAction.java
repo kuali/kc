@@ -344,8 +344,10 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         s2sUserAttachedForm.setFormFile(userAttachedFormFile.getFileData());
         s2sUserAttachedForm.setFormFileName(userAttachedFormFile.getFileName());
         s2sUserAttachedForm.setProposalNumber(developmentProposal.getProposalNumber());
-        List<S2sUserAttachedForm> userAttachedForms = KraServiceLocator.getService(S2SUserAttachedFormService.class).extractNSaveUserAttachedForms(s2sUserAttachedForm);
+        List<S2sUserAttachedForm> userAttachedForms = KraServiceLocator.getService(S2SUserAttachedFormService.class).
+                    extractNSaveUserAttachedForms(developmentProposal,s2sUserAttachedForm);
         developmentProposal.getS2sUserAttachedForms().addAll(userAttachedForms);
+        proposalDevelopmentForm.setNewS2sUserAttachedForm(new S2sUserAttachedForm());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -441,7 +443,9 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        developmentProposal.getS2sUserAttachedForms().remove(getSelectedLine(request));
+        S2sUserAttachedForm deleteForm = developmentProposal.getS2sUserAttachedForms().remove(getSelectedLine(request));
+        KraServiceLocator.getService(S2SUserAttachedFormService.class).
+                                                                resetFormAvailability(developmentProposal,deleteForm.getNamespace());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     

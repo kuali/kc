@@ -980,16 +980,6 @@ public class KRAS2SServiceImpl implements S2SService {
         return KraServiceLocator.getService(s2sOpportunity.getS2sProvider().getConnectorServiceName());
     }
 
-    @Override
-    public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(S2sUserAttachedForm s2sUserAttachedForm){
-        try {
-            return s2SUserAttachedFormService.extractNSaveUserAttachedForms(s2sUserAttachedForm);
-        }catch (Exception e) {
-            e.printStackTrace();
-            //throw new S2SException(e.getMessage());
-        }
-        return null;
-    }
 
     /**
      * Gets the s2SUserAttachedFormService attribute. 

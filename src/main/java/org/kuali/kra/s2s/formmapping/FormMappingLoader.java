@@ -99,6 +99,7 @@ public class FormMappingLoader {
             mappingInfo.setNameSpace(namespace);
             mappingInfo.setSortIndex(999);
             mappingInfo.setStyleSheet(createStylesheetName(namespace));
+            mappingInfo.setUserAttachedForm(true);
             return mappingInfo;
         }else return null;
         
@@ -168,6 +169,7 @@ public class FormMappingLoader {
             formInfo.setNameSpace(formNode.getAttribute(NAMESPACE).trim());
             formInfo.setFormName(formNode.getElementsByTagName(FORM_NAME).item(0).getTextContent().trim());
             formInfo.setMainClass(formNode.getElementsByTagName(MAIN_CLASS).item(0).getTextContent().trim());
+            formInfo.setUserAttachedForm(false);
             formInfo.setStyleSheet(formNode.getElementsByTagName(STYLE_SHEET).item(0).getTextContent().trim());
 //            formInfo.setPkgName(formNode.getElementsByTagName(PKG_NAME).item(0).getTextContent().trim());
 

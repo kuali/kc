@@ -124,7 +124,12 @@ public class OpportunitySchemaParser {
                     oppForm.setSchemaUrl(schemaUrl);
                     mandatory = (minOccurs == null || minOccurs.trim().equals("") || Integer.parseInt(minOccurs) > 0);
                     oppForm.setMandatory(mandatory);
-                    available = info!=null;//isAvailable(nameSpace);
+                    if(info!=null){
+                        available=true;
+                        oppForm.setUserAttachedForm(info.getUserAttachedForm());
+                    }else{
+                        available=false;
+                    }
                     oppForm.setAvailable(available);
                     oppForm.setInclude(mandatory && available);
                     schemaList.add(oppForm);

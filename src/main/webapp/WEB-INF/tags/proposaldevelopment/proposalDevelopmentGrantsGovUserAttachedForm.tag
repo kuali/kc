@@ -110,14 +110,10 @@
 				  </td>
                   <td align="left" valign="middle">
 					<div align=center>
-                            <c:if test="${KualiForm.document.developmentProposalList[0].s2sUserAttachedForms[status.index].xmlDataExists}" >
-								<html:image property="methodToCall.viewUserAttachedFormXML.line${status.index}.anchor${currentTabIndex}"
-								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewxml.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
-						    </c:if>
-						    <c:if test="${KualiForm.document.developmentProposalList[0].s2sUserAttachedForms[status.index].formFileDataExists}">
-						        <html:image property="methodToCall.viewUserAttachedFormPdf.line${status.index}.anchor${currentTabIndex}"
-                                   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewpdf.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
-                            </c:if>
+							<html:image property="methodToCall.viewUserAttachedFormXML.line${status.index}.anchor${currentTabIndex}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewxml.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
+					        <html:image property="methodToCall.viewUserAttachedFormPdf.line${status.index}.anchor${currentTabIndex}"
+                                  src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewpdf.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
 							<html:image property="methodToCall.deleteUserAttachedForm.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 					</div>
