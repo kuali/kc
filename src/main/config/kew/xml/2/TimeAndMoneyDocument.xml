@@ -13,6 +13,12 @@
 			<parent>KC</parent>
 		    <helpDefinitionURL>default.htm?turl=Documents/timeandmoney.htm</helpDefinitionURL>
 			<active>true</active>
+			<policies>
+                <policy>
+                    <name>INITIATOR_MUST_ROUTE</name>
+                    <value>false</value>
+                </policy>
+            </policies>
 			<attributes>
 				<attribute>
 					<name>TimeAndMoneyAwardIdSearchAttribute</name>
