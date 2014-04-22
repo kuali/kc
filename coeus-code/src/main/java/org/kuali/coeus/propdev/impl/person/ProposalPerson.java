@@ -37,7 +37,6 @@ import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitable;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
