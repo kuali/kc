@@ -15,6 +15,16 @@
  */
 package org.kuali.kra.iacuc.questionnaire;
 
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -29,17 +39,12 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.questionnaire.SaveProtocolQuestionnaireEvent;
-import org.kuali.kra.questionnaire.answer.*;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
+import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerRule;
 import org.kuali.rice.krad.document.Document;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 /**
  * This class represents the Struts Action for Protocol Questionnaires.
@@ -148,6 +153,7 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
         // for release 3 : if questionnaire questions has answer, then print answer. 
         reportParameters.put("questionnaireId", ((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
         reportParameters.put("template", ((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
+        reportParameters.put("moduleSubItemCode", ((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getModuleSubItemCode());
 
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(protocolForm.getProtocolDocument().getProtocol(), reportParameters);
         if (dataStream.getContent() != null) {
