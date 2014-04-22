@@ -55,7 +55,6 @@ import static org.kuali.kra.infrastructure.KeyConstants.*;
  * Implementation of business rules required for the Key Persons Page of the 
  * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>.
  *
- * @see org.kuali.rice.kns.rules.BusinessRule
  * @author $Author: cdenne $
  * @version $Revision: 1.46 $
  */
@@ -294,10 +293,6 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
 
     /**
      * Either adding a degree or unit can trigger this rule to be validated
-     * 
-     * @see org.kuali.coeus.propdev.impl.person.keyperson.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.coeus.propdev.impl.person.ProposalPerson, org.kuali.rice.krad.bo.BusinessObject)
-     * @see org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonnelAction#insertDegree(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     * @see org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonnelAction#insertUnit(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source,int index) {
         boolean retval = true;
