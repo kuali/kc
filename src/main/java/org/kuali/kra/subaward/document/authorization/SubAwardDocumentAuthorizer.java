@@ -15,16 +15,19 @@
  */
 package org.kuali.kra.subaward.document.authorization;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
-
-import java.util.HashSet;
-import java.util.Set;
 /**
  * This class is using as SubAwardDocumentAuthorizer...
  */
@@ -110,6 +113,34 @@ extends KcTransactionalDocumentAuthorizerBase {
         (SubAwardDocument) document, TaskName.VIEW_SUBAWARD);
     }
 
+    @Override
+    public boolean canRoute(Document document, Person user) {
+        boolean canRoute = false;
+        SubAwardDocument subawardDocument = (SubAwardDocument) document;
+        canRoute = 
+                (!(isFinal(document) || isProcessed (document)) && hasPermission(subawardDocument, user, 
+                                PermissionConstants.SUBMIT_SUBAWARD));
+        return canRoute;
+    }
+    
+    protected boolean isFinal(Document document) {
+        return KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(
+                document.getDocumentHeader().getWorkflowDocument().getStatus().getCode());
+    }
+    
+    protected boolean isProcessed (Document document){
+       boolean isProcessed = false;
+       String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+       // if document is in processed state
+       if (status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_CD))
+               isProcessed = true;
+       return isProcessed;   
+   }
+    
+    private boolean hasPermission(SubAwardDocument subAwardDocument, Person user, String permissionName) {
+        return isAuthorized(subAwardDocument, Constants.MODULE_NAMESPACE_SUBAWARD, permissionName, user.getPrincipalId());
+    }
+    
     /**
      * @see org.kuali.rice.krad.document.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
