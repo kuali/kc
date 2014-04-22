@@ -16,8 +16,8 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -52,20 +52,12 @@ public class SaveFinancialEntityRule extends KcTransactionalDocumentRuleBase imp
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put(SPONSOR_CODE, event.getPersonFinIntDisclosure().getSponsorCode());
             Sponsor sp = this.getBusinessObjectService().findByPrimaryKey(Sponsor.class, fieldValues);
-            if (!this.getSponsorService().validateSponsor(sp)) {
+            if (!this.getSponsorService().isValidSponsor(sp)) {
                 GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
                 GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
                 isValid = false;
                 GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
             }
-            /*
-            if(getBusinessObjectService().countMatching(Sponsor.class, fieldValues) == 0) {
-                GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
-                GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
-                isValid = false;
-                GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
-            }
-            */
         }
 
         return isValid;

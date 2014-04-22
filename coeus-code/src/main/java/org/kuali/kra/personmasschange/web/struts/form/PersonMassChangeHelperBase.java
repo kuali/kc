@@ -18,8 +18,8 @@ package org.kuali.kra.personmasschange.web.struts.form;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 
@@ -43,7 +43,7 @@ public class PersonMassChangeHelperBase implements Serializable {
             personMassChange.setReplaceeRolodexId(null);
         } else if (replaceeRolodexId != null) {
             personMassChange.setReplaceePersonId(null);
-            Rolodex rolodex = getRolodexService().getRolodex(Integer.valueOf(replaceeRolodexId));
+            RolodexContract rolodex = getRolodexService().getRolodex(Integer.valueOf(replaceeRolodexId));
             personMassChange.setReplaceeRolodexId(rolodex.getRolodexId());
             personMassChange.setReplaceeFullName(rolodex.getFullName());
         }
@@ -60,7 +60,7 @@ public class PersonMassChangeHelperBase implements Serializable {
             personMassChange.setReplacerRolodexId(null);
         } else if (replacerRolodexId != null) {
             personMassChange.setReplacerPersonId(null);
-            Rolodex rolodex = getRolodexService().getRolodex(Integer.valueOf(replacerRolodexId));
+            RolodexContract rolodex = getRolodexService().getRolodex(Integer.valueOf(replacerRolodexId));
             personMassChange.setReplacerRolodexId(rolodex.getRolodexId());
             personMassChange.setReplacerFullName(rolodex.getFullName());
         }

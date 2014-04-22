@@ -31,7 +31,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.org.type.OrganizationType;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -193,7 +193,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setEmployerTaxpayerIdentificationNumber(null);
             sf424V2.setDUNSNumber(null);
         }
-        Rolodex rolodex = null;
+        RolodexContract rolodex = null;
         rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         sf424V2.setApplicant(globLibV20Generator.getAddressDataType(rolodex));
         String departmentName = null;

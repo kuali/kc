@@ -10,10 +10,10 @@
     <property name="lookupDefinition">
       <ref bean="SponsorType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="sponsorTypeCode"/>
+    <property name="titleAttribute" value="code"/>
     <property name="attributes">
       <list>
-        <ref bean="SponsorType-sponsorTypeCode"/>
+        <ref bean="SponsorType-code"/>
         <ref bean="SponsorType-description"/>
         <ref bean="SponsorType-versionNumber"/>
       </list>
@@ -23,10 +23,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="SponsorType-sponsorTypeCode" parent="SponsorType-sponsorTypeCode-parentBean"/>
+  <bean id="SponsorType-code" parent="SponsorType-code-parentBean"/>
 
-  <bean abstract="true" id="SponsorType-sponsorTypeCode-parentBean" parent="AttributeDefinition">
-    <property name="name" value="sponsorTypeCode"/>
+  <bean abstract="true" id="SponsorType-code-parentBean" parent="AttributeDefinition">
+    <property name="name" value="code"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Sponsor Type"/>
     <property name="shortLabel" value="Sponsor Type"/>
@@ -60,7 +60,7 @@
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
-              <bean p:attributeName="sponsorTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
               <bean p:attributeName="description" parent="FieldDefinition"/>
             </list>
           </property>
@@ -79,7 +79,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="sponsorTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
           </property>
@@ -99,13 +99,13 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean p:attributeName="sponsorTypeCode" parent="FieldDefinition"/>
+        <bean p:attributeName="code" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:attributeName="sponsorTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
       </list>
     </property>
@@ -127,13 +127,13 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="sponsorTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="sponsorTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
       </list>
     </property>

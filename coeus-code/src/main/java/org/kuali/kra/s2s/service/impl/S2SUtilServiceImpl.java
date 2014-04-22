@@ -24,7 +24,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipTypeService;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
@@ -32,7 +32,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
@@ -153,7 +152,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             // Proposal has not been submitted
 
             Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
-            Rolodex rolodex = organization == null ? null : organization.getRolodex();
+            RolodexContract rolodex = organization == null ? null : organization.getRolodex();
             if (rolodex != null) {
                 depPerson.setFirstName(rolodex.getFirstName());
                 depPerson.setMiddleName(rolodex.getMiddleName());

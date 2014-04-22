@@ -53,19 +53,6 @@
           </property>
         </bean>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="sponsorType" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="sponsorTypeCode" p:targetName="sponsorTypeCode"/>
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="sponsorType.description" p:targetName="description"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="RelationshipDefinition">
           <property name="objectAttributeName" value="rolodex" />
           <property name="primitiveAttributes" >
             <list>

@@ -15,32 +15,18 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 public class SponsorDataFeedCommandTest extends BaseDataFeedCommandTest {
     
     private ProposalDataFeedCommandBase command;
-    private Sponsor sponsor;
-    private SponsorService sponsorService;
-    
+
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        sponsorService = KcServiceLocator.getService(SponsorService.class);
-        sponsor = sponsorService.getSponsor("000107");
         initializeProposal();
-    }
-    
-    @After
-    public void tearDown() throws Exception {
-        sponsorService = null;
-        super.tearDown();
     }
     
     @Test
@@ -64,10 +50,10 @@ public class SponsorDataFeedCommandTest extends BaseDataFeedCommandTest {
     }
     
     private void initializeProposal() {
-        proposal.setSponsor(sponsor);
-        proposal.setSponsorCode(sponsor.getSponsorCode());
-        proposal.setPrimeSponsor(sponsor);
-        proposal.setPrimeSponsorCode(sponsor.getSponsorCode());
+        proposal.setSponsorCode("000107");
+        proposal.setPrimeSponsorCode("000107");
+        proposal.refreshReferenceObject("sponsor");
+        proposal.refreshReferenceObject("primeSponsor");
         proposal.setCfdaNumber("abc.123");
         proposal.setNsfCode("abc");
     }

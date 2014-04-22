@@ -18,7 +18,7 @@ package org.kuali.kra.personmasschange.service.impl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -32,7 +32,6 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -209,7 +208,7 @@ public class ProtocolPersonMassChangeServiceImpl extends MassPersonChangeService
                             unit.setPersonId(personMassChange.getReplacerPersonId());
                         }
                     } else if (personMassChange.getReplacerRolodexId() != null) {
-                        Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
+                        RolodexContract rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
                         person.setPersonId(null);
                         person.setRolodexId(rolodex.getRolodexId());
                         person.setPersonName(rolodex.getFullName());
@@ -238,7 +237,7 @@ public class ProtocolPersonMassChangeServiceImpl extends MassPersonChangeService
                         reviewer.setRolodexId(null);
                         reviewer.setNonEmployeeFlag(false);
                     } else if (personMassChange.getReplacerRolodexId() != null) {
-                        Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
+                        RolodexContract rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
                         reviewer.setRolodexId(rolodex.getRolodexId());
                         reviewer.setPersonId(null);
                         reviewer.setNonEmployeeFlag(true);

@@ -16,7 +16,7 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -127,7 +127,7 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
         if (!StringUtils.isBlank(proposalLog.getSponsorCode())) {
             
             proposalLog.refreshReferenceObject("sponsor");
-            if (!this.getSponsorService().validateSponsor(proposalLog.getSponsor())) {
+            if (!this.getSponsorService().isValidSponsor(proposalLog.getSponsor())) {
                 GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
                 valid = false;
             }

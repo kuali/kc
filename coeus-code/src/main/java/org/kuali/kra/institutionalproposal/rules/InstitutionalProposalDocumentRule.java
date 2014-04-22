@@ -16,8 +16,8 @@
 package org.kuali.kra.institutionalproposal.rules;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -48,17 +48,9 @@ import java.util.Map;
 public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
-    public static final String INSTITUTIONAL_PROPOSAL_ERROR_PATH = "institutionalProposalList[0]";
     public static final String IP_ERROR_PATH = "institutionalProposal";
     
-    public static final boolean VALIDATION_REQUIRED = true;
-    public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
-    
-    /**
-     * 
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(
-     * org.kuali.rice.krad.document.Document)
-     */
+
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean retval = true;
@@ -72,9 +64,6 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         retval &= processInstitutionalProposalBusinessRules(document);
         retval &= processInstitutionalProposalFinancialRules(document);
         retval &= processInstitutionalProposalPersonBusinessRules(errorMap, document);
-//        moved to processRunAuditBusinessRules()
-//        retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
-//        retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
         retval &= processKeywordBusinessRule(document);
         retval &= processAccountIdBusinessRule(document);
         retval &= processCostShareRules(document);
@@ -87,12 +76,12 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         MessageMap errorMap = GlobalVariables.getMessageMap();
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         SponsorService ss = this.getSponsorService();
-        if (!ss.validateSponsor(institutionalProposalDocument.getInstitutionalProposal().getSponsor())) {
+        if (!ss.isValidSponsor(institutionalProposalDocument.getInstitutionalProposal().getSponsor())) {
             errorMap.putError("document.institutionalProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
             valid = false;
         }
         if (!StringUtils.isEmpty(institutionalProposalDocument.getInstitutionalProposal().getPrimeSponsorCode()) &&
-                !ss.validateSponsor(institutionalProposalDocument.getInstitutionalProposal().getPrimeSponsor())) {
+                !ss.isValidSponsor(institutionalProposalDocument.getInstitutionalProposal().getPrimeSponsor())) {
             errorMap.putError("document.institutionalProposalList[0].primeSponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
             valid = false;
         }
@@ -102,7 +91,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
     /**
     *
     * process Cost Share business rules.
-    * @param awardDocument
+    * @param document
     * @return
     */
     private boolean processUnrecoveredFandABusinessRules(Document document) {
@@ -128,11 +117,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;
     }
-    
-    /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(
-     * org.kuali.rice.krad.document.Document)
-     */
+
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         
@@ -211,7 +196,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
     
     /**
      * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
-     * @param proposalDevelopmentDocument
+     * @param document
      * @return
     */
     private boolean processSponsorProgramBusinessRule(Document document) {
@@ -226,7 +211,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
     
     /**
      * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
-     * @param proposalDevelopmentDocument
+     * @param document
      * @return
     */
     private boolean processInstitutionalProposalFinancialRules(Document document) {
@@ -241,7 +226,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
     
     /**
      * Validate information on Institutional Proposal Tab from Institutional Proposal Home page.
-     * @param proposalDevelopmentDocument
+     * @param document
      * @return
     */
     private boolean processInstitutionalProposalBusinessRules(Document document) {

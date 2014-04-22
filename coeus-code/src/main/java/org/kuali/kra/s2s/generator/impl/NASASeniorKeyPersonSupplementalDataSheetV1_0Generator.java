@@ -25,9 +25,10 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -224,15 +225,15 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 
 		if (s2sBudgetCalculatorService.isPersonNonMITPerson(proposalPerson)) {
 			if (proposalPerson.getRolodexId() != null) {
-				Rolodex rolodex = rolodexService.getRolodex(proposalPerson.getRolodexId());
+				RolodexContract rolodex = rolodexService.getRolodex(proposalPerson.getRolodexId());
 				if (rolodex != null) {
-						Sponsor rolodexSponsor = rolodex.getSponsor();
-                        Sponsor proposalSponsor = pdDoc.getDevelopmentProposal().getSponsor();
+                    final SponsorContract rolodexSponsor = KcServiceLocator.getService(SponsorService.class).getSponsor(rolodex.getSponsorCode());
+                    final SponsorContract proposalSponsor = pdDoc.getDevelopmentProposal().getSponsor();
                     if (rolodexSponsor != null && rolodexSponsor.equals(rolodexSponsor.getSponsorCode())) {
-                        if (rolodexSponsor.getSponsorTypeCode() != null
-								    && rolodexSponsor.getSponsorTypeCode().equals(
-								            proposalSponsor.getSponsorTypeCode())) {
-							sponsortType = Integer.parseInt(rolodexSponsor.getSponsorTypeCode());
+                        if (rolodexSponsor.getSponsorType().getCode() != null
+								    && rolodexSponsor.getSponsorType().getCode().equals(
+								            proposalSponsor.getSponsorType().getCode())) {
+							sponsortType = Integer.parseInt(rolodexSponsor.getSponsorType().getCode());
 							sponsorCode = rolodex.getSponsorCode();
 							if (sponsortType == 0) {
 								seniorKeyPerson
@@ -328,22 +329,23 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 		}
 		if (s2sBudgetCalculatorService.isPersonNonMITPerson(proposalPerson)) {
 			if (proposalPerson.getRolodexId() != null) {
-				Rolodex rolodex = rolodexService.getRolodex(proposalPerson.getRolodexId());
+				RolodexContract rolodex = rolodexService.getRolodex(proposalPerson.getRolodexId());
 				if (rolodex != null) {
 					if (rolodex.getSponsorCode() != null
 							&& rolodex.getSponsorCode().equals(
 									pdDoc.getDevelopmentProposal()
 											.getSponsorCode())) {
-						if (rolodex.getSponsor() != null
-								&& rolodex.getSponsor().getSponsorTypeCode() != null
-								&& Integer.parseInt(rolodex.getSponsor()
-										.getSponsorTypeCode()) == Integer
+
+                        final SponsorContract sponsor = KcServiceLocator.getService(SponsorService.class).getSponsor(rolodex.getSponsorCode());
+                        if (sponsor != null
+								&& sponsor.getSponsorType().getCode() != null
+								&& Integer.parseInt(sponsor
+										.getSponsorType().getCode()) == Integer
 										.parseInt(pdDoc
 												.getDevelopmentProposal()
 												.getSponsor()
 												.getSponsorTypeCode())) {
-							sponsortType = Integer.parseInt(rolodex
-									.getSponsor().getSponsorTypeCode());
+							sponsortType = Integer.parseInt(sponsor.getSponsorType().getCode());
 							sponsorCode = rolodex.getSponsorCode();
 							if (sponsortType == 0) {
 								seniorKeyPerson

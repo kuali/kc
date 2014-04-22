@@ -21,7 +21,7 @@ import gov.grants.apply.system.globalLibraryV10.ContactPersonDataType;
 import gov.grants.apply.system.globalLibraryV10.HumanNameDataType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;
 
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
@@ -77,7 +77,7 @@ public class GlobalLibraryV1_0Generator {
      * @return The AddressDataType corresponding to the rolodex entry.
      */
 
-    public AddressDataType getAddressDataType(Rolodex rolodex) {
+    public AddressDataType getAddressDataType(RolodexContract rolodex) {
         AddressDataType addressType = AddressDataType.Factory.newInstance();
         if (rolodex != null) {
 
@@ -115,7 +115,7 @@ public class GlobalLibraryV1_0Generator {
      * @param rolodex Rolodex object
      * @return AddressRequireCountryDataType corresponding to the rolodex object.
      */
-    public AddressRequireCountryDataType getAddressRequireCountryDataType(Rolodex rolodex) {
+    public AddressRequireCountryDataType getAddressRequireCountryDataType(RolodexContract rolodex) {
 
         AddressRequireCountryDataType address = AddressRequireCountryDataType.Factory.newInstance();
         if (rolodex != null) {
@@ -272,7 +272,7 @@ public class GlobalLibraryV1_0Generator {
      * @param rolodex Rolodex object
      * @return HumanNameDataType corresponding to the rolodex object.
      */
-    public HumanNameDataType getHumanNameDataType(Rolodex rolodex) {
+    public HumanNameDataType getHumanNameDataType(RolodexContract rolodex) {
 
         HumanNameDataType humanName = HumanNameDataType.Factory.newInstance();
         if (rolodex != null) {

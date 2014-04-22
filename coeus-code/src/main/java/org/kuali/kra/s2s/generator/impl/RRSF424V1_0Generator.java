@@ -35,8 +35,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -93,7 +93,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 							.getDescription()));
 		}
 		rrsf424.setSubmittedDate(Calendar.getInstance());
-		Rolodex rolodex = pdDoc.getDevelopmentProposal()
+        RolodexContract rolodex = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization().getRolodex();
 		if (rolodex != null) {
 			rrsf424.setStateID(rolodex.getState());
@@ -119,7 +119,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
                 rrsf424.setEmployerID(organization.getFedralEmployerId());
             }
 		}
-		Sponsor sponsor = pdDoc.getDevelopmentProposal().getSponsor();
+		SponsorContract sponsor = pdDoc.getDevelopmentProposal().getSponsor();
 		if (sponsor != null) {
 			rrsf424.setFederalAgencyName(sponsor.getSponsorName());
 		}
@@ -143,7 +143,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 		ProposalSite performingOrganization = pdDoc.getDevelopmentProposal()
 				.getPerformingOrganization();
 		if (performingOrganization.getOrganization() != null) {
-			Rolodex rolodexOrganization = performingOrganization
+            RolodexContract rolodexOrganization = performingOrganization
 					.getOrganization().getRolodex();
 			if (rolodexOrganization != null) {
 				rrsf424.setLocation(rolodexOrganization.getState());
@@ -287,7 +287,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 		}
 		OrganizationDataTypeV2 orgType = OrganizationDataTypeV2.Factory
 				.newInstance();
-		Rolodex rolodex = pdDoc.getDevelopmentProposal()
+        RolodexContract rolodex = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getRolodex();
 		orgType.setAddress(globLibV10Generator
 				.getAddressRequireCountryDataType(rolodex));
@@ -326,7 +326,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 	 * @param rolodexOrganization
 	 * @return ContactPersonInfo corresponding to the Rolodex object.
 	 */
-	private ContactPersonInfo getContactInfo(Rolodex rolodexOrganization) {
+	private ContactPersonInfo getContactInfo(RolodexContract rolodexOrganization) {
 		ContactPersonInfo contactInfo = ContactPersonInfo.Factory.newInstance();
 		contactInfo.setName(globLibV10Generator
 				.getHumanNameDataType(rolodexOrganization));

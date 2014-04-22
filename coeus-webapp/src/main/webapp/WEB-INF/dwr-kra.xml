@@ -27,6 +27,9 @@
 		<convert converter="bean" match="org.kuali.coeus.common.framework.sponsor.Sponsor">
 			<param name="include" value="sponsorCode,sponsorName,rolodexId" />
 		</convert>
+        <convert converter="bean" match="org.kuali.coeus.common.api.sponsor.SponsorContract">
+            <param name="include" value="sponsorCode,sponsorName,rolodexId" />
+        </convert>
 		<convert converter="bean" match="org.kuali.kra.budget.personnel.JobCode">
 			<param name="include" value="jobCode" />
 		</convert>		
@@ -54,11 +57,15 @@
         <convert converter="bean" match="org.kuali.rice.location.api.state.State">
             <param name="include" value="code,name,countryCode" />
         </convert>
-						
-		<create creator="spring" javascript="SponsorService">
-			<param name="beanName" value="sponsorService" />
-			<include method="getSponsorName" />
-			<include method="getSponsor" />
+
+        <create creator="spring" javascript="SponsorService">
+            <param name="beanName" value="sponsorService" />
+            <include method="getSponsorName" />
+            <include method="getSponsor" />
+        </create>
+
+		<create creator="spring" javascript="SponsorHierarchyMaintenanceService">
+			<param name="beanName" value="sponsorHierarchyMaintenanceService" />
 			<include method="getSubSponsorHierarchiesForTreeView" />
 			<include method="updateSponsorCodes" />
 			<include method="getSponsorCodes" />
@@ -67,6 +74,7 @@
 			<include method="updateGroupName" />
 			<include method="changeSponsorSortOrder" />
 		</create>
+
 		<create creator="spring" javascript="UnitService">
 			<param name="beanName" value="unitService" />
 			<include method="getUnitName" />
