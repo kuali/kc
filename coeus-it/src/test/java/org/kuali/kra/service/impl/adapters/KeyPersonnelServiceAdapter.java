@@ -6,7 +6,7 @@ import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 
 import java.util.Collection;
 import java.util.Map;

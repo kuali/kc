@@ -20,7 +20,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitNameInfo;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitable;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kns.util.AuditCluster;

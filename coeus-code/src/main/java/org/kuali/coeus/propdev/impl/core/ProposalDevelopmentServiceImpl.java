@@ -40,7 +40,6 @@ import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -59,7 +58,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetColumnsToAlter;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
@@ -82,31 +81,71 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.*;
 
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-
+//@Component("proposalDevelopmentService")
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
 
     protected final Log LOG = LogFactory.getLog(AwardSyncServiceImpl.class);
     public static final String VALUE_UNKNOWN = "Unknown";
     private static final String FEDERAL_ID_COMES_FROM_CURRENT_AWARD = "FEDERAL_ID_COMES_FROM_CURRENT_AWARD";
 
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
-    private UnitAuthorizationService unitAuthService;
-    private KcPersistenceStructureService kraPersistenceStructureService;
+    @Autowired
+    @Qualifier("unitAuthorizationService")
+    private UnitAuthorizationService unitAuthorizationService;
+    @Autowired
+    @Qualifier("kcPersistenceStructureService")
+    private KcPersistenceStructureService kcPersistenceStructureService;
+    @Autowired
+    @Qualifier("budgetService")
     private BudgetService budgetService;
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+    @Autowired
+    @Qualifier("documentService")
     private DocumentService documentService;
-    private VersionHistoryService versionHistoryService;  
+    @Autowired
+    @Qualifier("versionHistoryService")
+    private VersionHistoryService versionHistoryService;
+    @Autowired
+    @Qualifier("roleService")
     private RoleService roleService;
-    private S2SService s2sService;
+    @Autowired
+    @Qualifier("s2SService")
+    private S2SService s2SService;
+    @Autowired
+    @Qualifier("sponsorHierarchyService")
     private SponsorHierarchyService sponsorHierarchyService;
+    @Autowired
+    @Qualifier("keyPersonnelService")
     private KeyPersonnelService keyPersonnelService;
+    @Autowired
+    @Qualifier("unitService")
     private UnitService unitService;
+    @Autowired
+    @Qualifier("systemAuthorizationService")
     private SystemAuthorizationService systemAuthorizationService;
+
+    @Autowired
+    @Qualifier("kcAuthorizationService")
+    private KcAuthorizationService kcAuthorizationService;
+
+
+    public void setKcAuthorizationService (KcAuthorizationService kcAuthorizationService){
+        this.kcAuthorizationService = kcAuthorizationService;
+    }
+    protected KcAuthorizationService getKcAuthorizationService (){return kcAuthorizationService;}
 
 
     /**
@@ -207,7 +246,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @param unitAuthService
      */
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthService) {
-        this.unitAuthService = unitAuthService;
+        this.unitAuthorizationService = unitAuthService;
     }
 
     public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn) {
@@ -228,10 +267,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     protected ProposalOverview getProposalOverview(String proposalNumber) {
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put("proposalNumber", proposalNumber);
-        ProposalOverview currentProposal = (ProposalOverview) businessObjectService.findByPrimaryKey(ProposalOverview.class,
-                primaryKeys);
+        ProposalOverview currentProposal = getDataObjectService().find(ProposalOverview.class, proposalNumber);
         return currentProposal;
     }
     
@@ -239,8 +275,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         BudgetVersionOverview currentBudget=null;
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("documentNumber", documentNumber);
-        Collection<BudgetVersionOverview> currentBudgets = businessObjectService.findMatching(BudgetVersionOverview.class,
-                primaryKeys);
+        Collection<BudgetVersionOverview> currentBudgets = getDataObjectService().findMatching(BudgetVersionOverview.class,
+                QueryByCriteria.Builder.andAttributes(primaryKeys).build()).getResults();
         for (BudgetVersionOverview budgetVersionOverview:currentBudgets) {
             if (budgetVersionOverview.isFinalVersionFlag()) {
                 currentBudget = budgetVersionOverview;
@@ -258,7 +294,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         if (StringUtils.isNotEmpty(lookupClassName)) {
             try {
                 lookupClass = Class.forName(lookupClassName);
-                lookupClassPkFields = (List<String>) kraPersistenceStructureService.getPrimaryKeys(lookupClass);
+                lookupClassPkFields = (List<String>) getKcPersistenceStructureService().getPrimaryKeys(lookupClass);
             }
             catch (ClassNotFoundException e) {
             }
@@ -273,7 +309,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     protected String getDataOverrideLookupDisplayDisplayValue(String lookupClassName, String value, String displayAttributeName) {
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+       // Map<String, Object> primaryKeys = new HashMap<String, Object>();
         List<String> lookupClassPkFields = null;
         Class lookupClass = null;
         String displayValue = "";
@@ -282,7 +318,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         if (StringUtils.isNotEmpty(lookupClassName)) {
             try {
                 lookupClass = Class.forName(lookupClassName);
-                lookupClassPkFields = (List<String>) kraPersistenceStructureService.getPrimaryKeys(lookupClass);
+                lookupClassPkFields = (List<String>) getKcPersistenceStructureService().getPrimaryKeys(lookupClass);
             }
             catch (ClassNotFoundException e) {
             }
@@ -290,8 +326,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             if (CollectionUtils.isNotEmpty(lookupClassPkFields)) {
 
                 if (StringUtils.isNotEmpty(value)) {
-                    primaryKeys.put(lookupClassPkFields.get(0), value);
-                    businessObject = (PersistableBusinessObject) businessObjectService.findByPrimaryKey(lookupClass, primaryKeys);
+                   // primaryKeys.put(lookupClassPkFields.get(0), value);
+                    businessObject = (PersistableBusinessObject) getDataObjectService().find (lookupClass, value);
                     if (businessObject != null) {
                         displayValue = getPropertyValue(businessObject, displayAttributeName);
                         displayValue = StringUtils.isNotEmpty(displayValue) ? displayValue : "";
@@ -317,7 +353,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public Object getProposalFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) {
         Object fieldValue = null;
-        Map<String, String> fieldMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
+        Map<String, String> fieldMap = getKcPersistenceStructureService().getDBColumnToObjectAttributeMap(ProposalOverview.class);
         String proposalAttributeName = fieldMap.get(dbColumnName);
         if (StringUtils.isNotEmpty(proposalAttributeName)) {
             ProposalOverview currentProposal = getProposalOverview(proposalNumber);
@@ -330,7 +366,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     
     public Object getBudgetFieldValueFromDBColumnName(String documentNumber, String dbColumnName) {
         Object fieldValue = null;        
-        Map<String, String> fieldMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(BudgetVersionOverview.class);
+        Map<String, String> fieldMap = getKcPersistenceStructureService().getDBColumnToObjectAttributeMap(BudgetVersionOverview.class);
         String budgetAttributeName = fieldMap.get(dbColumnName);
         if (StringUtils.isNotEmpty(budgetAttributeName)) {
             BudgetVersionOverview currentBudget = getBudgetVersionOverview(documentNumber);            
@@ -351,8 +387,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         Object fieldValue = getProposalFieldValueFromDBColumnName(proposalNumber, editableFieldDBColumn);
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("columnName", editableFieldDBColumn);
-        ProposalColumnsToAlter editableColumn = (ProposalColumnsToAlter) businessObjectService.findByPrimaryKey(
-                ProposalColumnsToAlter.class, primaryKeys);
+        ProposalColumnsToAlter editableColumn  = (ProposalColumnsToAlter)getDataObjectService().findMatching(ProposalColumnsToAlter.class,
+                QueryByCriteria.Builder.andAttributes(primaryKeys).build()).getResults();
 
         if (editableColumn.getHasLookup()) {
             returnValue = getDataOverrideLookupDisplayReturnValue(editableColumn.getLookupClass())
@@ -382,7 +418,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     @SuppressWarnings("unchecked")
     public Award getProposalCurrentAwardVersion(ProposalDevelopmentDocument proposal) {
         String awardNumber = proposal.getDevelopmentProposal().getCurrentAwardNumber();
-        VersionHistory vh = versionHistoryService.findActiveVersion(Award.class, awardNumber);
+        VersionHistory vh = getVersionHistoryService().findActiveVersion(Award.class, awardNumber);
         Award award = null;
 
         if (vh != null) {
@@ -391,7 +427,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         else {
             HashMap<String, String> valueMap = new HashMap<String, String>();
             valueMap.put("awardNumber", awardNumber);
-            List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, valueMap);
+            List<Award> awards = getDataObjectService().findMatching(Award.class,
+                    QueryByCriteria.Builder.andAttributes(valueMap).build()).getResults();
             if (awards != null && !awards.isEmpty()) {
                 award = awards.get(0);
             }
@@ -401,7 +438,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument proposal) {
         String proposalNumber = proposal.getDevelopmentProposal().getContinuedFrom();
-        VersionHistory vh = versionHistoryService.findActiveVersion(InstitutionalProposal.class, proposalNumber);
+        VersionHistory vh = getVersionHistoryService().findActiveVersion(InstitutionalProposal.class, proposalNumber);
         InstitutionalProposal ip = null;
 
         if (vh != null) {
@@ -410,8 +447,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         else if (StringUtils.isNotEmpty(proposalNumber)) {
             HashMap<String, String> valueMap = new HashMap<String, String>();
             valueMap.put("proposalNumber", proposalNumber);
-            List<InstitutionalProposal> proposals = (List<InstitutionalProposal>) businessObjectService.findMatching(
-                    InstitutionalProposal.class, valueMap);
+            List<InstitutionalProposal> proposals = getDataObjectService().findMatching(InstitutionalProposal.class,
+                    QueryByCriteria.Builder.andAttributes(valueMap).build()).getResults();
             if (proposals != null && !proposals.isEmpty()) {
                 ip = proposals.get(0);
             }
@@ -419,12 +456,12 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return ip;
     }
 
-    public KcPersistenceStructureService getKraPersistenceStructureService() {
-        return kraPersistenceStructureService;
+    public KcPersistenceStructureService getKcPersistenceStructureService() {
+        return kcPersistenceStructureService;
     }
 
-    public void setKraPersistenceStructureService(KcPersistenceStructureService kraPersistenceStructureService) {
-        this.kraPersistenceStructureService = kraPersistenceStructureService;
+    public void setKcPersistenceStructureService(KcPersistenceStructureService kcPersistenceStructureService) {
+        this.kcPersistenceStructureService = kcPersistenceStructureService;
     }
 
     /**
@@ -450,16 +487,15 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     public boolean isGrantsGovEnabledForProposal(DevelopmentProposal devProposal) {
-        String federalSponsorTypeCode = parameterService.getParameterValueAsString(AwardDocument.class, Constants.FEDERAL_SPONSOR_TYPE_CODE);
+        String federalSponsorTypeCode = getParameterService().getParameterValueAsString(AwardDocument.class, Constants.FEDERAL_SPONSOR_TYPE_CODE);
         return !devProposal.isChild() && devProposal.getSponsor() != null
                 && StringUtils.equals(devProposal.getSponsor().getSponsorTypeCode(), federalSponsorTypeCode);
     }
 
     public boolean isGrantsGovEnabledOnSponsorChange(String proposalNumber, String sponsorCode) {
-        String federalSponsorTypeCode = parameterService.getParameterValueAsString(AwardDocument.class, Constants.FEDERAL_SPONSOR_TYPE_CODE);
-        DevelopmentProposal proposal = (DevelopmentProposal) getBusinessObjectService().findBySinglePrimaryKey(
-                DevelopmentProposal.class, proposalNumber);
-        Sponsor sponsor = (Sponsor) getBusinessObjectService().findBySinglePrimaryKey(Sponsor.class, sponsorCode);
+        String federalSponsorTypeCode = getParameterService().getParameterValueAsString(AwardDocument.class, Constants.FEDERAL_SPONSOR_TYPE_CODE);
+        DevelopmentProposal proposal =  getDataObjectService().find(DevelopmentProposal.class, proposalNumber);
+        Sponsor sponsor = (Sponsor) getDataObjectService().find(Sponsor.class, sponsorCode);
         boolean enableGrantsGov = proposal == null || !proposal.isChild();
         enableGrantsGov &= sponsor != null && StringUtils.equals(sponsor.getSponsorTypeCode(), federalSponsorTypeCode);
         return enableGrantsGov;
@@ -477,14 +513,14 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         // database constraint that requires removing these first
         Map<String, Object> keyValues = new HashMap<String, Object>();
         keyValues.put("proposalNumber", proposalDocument.getDevelopmentProposal().getProposalNumber());
-        dataObjectService.deleteMatching(ProposalBudgetStatus.class, QueryByCriteria.Builder.andAttributes(keyValues).build());
+        getDataObjectService().deleteMatching(ProposalBudgetStatus.class, QueryByCriteria.Builder.andAttributes(keyValues).build());
         proposalDocument.setDevelopmentProposal(null);
         proposalDocument.setBudgetDocumentVersions(null);
         proposalDocument.setProposalDeleted(true);
 
         // because the devproplist was cleared above the dev prop and associated BOs will be
         // deleted upon save
-        proposalDocument = dataObjectService.save(proposalDocument);
+        proposalDocument = getDataObjectService().save(proposalDocument);
         return (ProposalDevelopmentDocument) getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
     }
 
@@ -521,9 +557,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         boolean isAuthorized = true;
         if (proposalNumber.contains(Constants.COLON)) {
             if (GlobalVariables.getUserSession() != null) {
-                // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be
-                // replaced by
-                // jquery/ajax in rice 2.0
                 String[] invalues = StringUtils.split(proposalNumber, Constants.COLON);
                 String docFormKey = invalues[1];
                 if (StringUtils.isBlank(docFormKey)) {
@@ -544,7 +577,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
             }
             else {
-                // TODO : it seemed that tomcat has this issue intermittently ?
                 LOG.info("dwr/ajax does not have session ");
             }
         }
@@ -560,7 +592,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             for (BudgetDocumentVersion budgetDocument : budgetDocuments) {
                 fieldValues.clear();
                 fieldValues.put("document_number", budgetDocument.getDocumentNumber());
-                List<Budget> budgets = (List<Budget>) getBusinessObjectService().findMatching(Budget.class, fieldValues);
+                List<Budget> budgets =getDataObjectService().findMatching(Budget.class,
+                                QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
                 budget = budgets.get(0);
                 // break out if we find the final budget
                 if (budget.getFinalVersionFlag()) {
@@ -613,8 +646,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     public InstitutionalProposal getInstitutionalProposal(String devProposalNumber) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("devProposalNumber", devProposalNumber);
-        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class,
-                values);
+        Collection<ProposalAdminDetails> proposalAdminDetails = getDataObjectService().findMatching(ProposalAdminDetails.class,
+                QueryByCriteria.Builder.andAttributes(values).build()).getResults();
 
         for (Iterator iter = proposalAdminDetails.iterator(); iter.hasNext();) {
             ProposalAdminDetails pad = (ProposalAdminDetails) iter.next();
@@ -634,8 +667,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("columnName", editableFieldDBColumn);
-        BudgetColumnsToAlter editableColumn = (BudgetColumnsToAlter) businessObjectService.findByPrimaryKey(
-                BudgetColumnsToAlter.class, primaryKeys);            
+        BudgetColumnsToAlter editableColumn = getDataObjectService().find(BudgetColumnsToAlter.class, primaryKeys);
         if (editableColumn.getHasLookup()) {
             returnValue = getDataOverrideLookupDisplayReturnValue(editableColumn.getLookupClass())
                     + ","
@@ -675,7 +707,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         if(getRoleService().principalHasRole(principalId, roleIds, qualifications)){
             return true;
         }
-        KcAuthorizationService proposalAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
+        KcAuthorizationService proposalAuthService = getKcAuthorizationService();
         List<String> users = proposalAuthService.getPrincipalsInRole(document, RoleConstants.AGGREGATOR);
 
         for (String user : users) {
@@ -702,7 +734,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         if(s2sOpportunity.getSchemaUrl()!=null){
-            s2sOppForms = getS2sService().parseOpportunityForms(s2sOpportunity);
+            s2sOppForms = getS2SService().parseOpportunityForms(s2sOpportunity);
             if(s2sOppForms!=null){
                 for(S2sOppForms s2sOppForm:s2sOppForms){
                     if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
@@ -885,7 +917,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     protected ProposalDevelopmentDocument getProposalDoc(String pdDocumentNumber) throws Exception {
         ProposalDevelopmentDocument newCopy;
-        DocumentService docService = KcServiceLocator.getService(DocumentService.class);
+        DocumentService docService = getDocumentService();
         newCopy = (ProposalDevelopmentDocument)docService.getByDocumentHeaderId(pdDocumentNumber);        
         return newCopy;
     }
@@ -902,18 +934,18 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      */
     public List<String> constructColumnsToAlterLookupMTCs(String proposalNumber) {
         Map<String,Object> filterMap = new HashMap<String,Object>();
-        ProposalDevelopmentService proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
-        Collection<ProposalColumnsToAlter> proposalColumnsToAlterCollection = (KcServiceLocator.getService(BusinessObjectService.class).findMatching(ProposalColumnsToAlter.class, filterMap));
-        
+        Collection<ProposalColumnsToAlter> proposalColumnsToAlterCollection =
+                getDataObjectService().findMatching(ProposalColumnsToAlter.class,
+                        QueryByCriteria.Builder.andAttributes(filterMap).build()).getResults();
         List<String> mtcReturn = new ArrayList<String>();
         
         for( ProposalColumnsToAlter pcta : proposalColumnsToAlterCollection ) {
             if( pcta.getHasLookup() ) {
                 Map<String, Object> primaryKeys = new HashMap<String, Object>();
                 primaryKeys.put("columnName", pcta.getColumnName());
-                Object fieldValue = proposalDevelopmentService.getProposalFieldValueFromDBColumnName(proposalNumber, pcta.getColumnName());
+                Object fieldValue = this.getProposalFieldValueFromDBColumnName(proposalNumber, pcta.getColumnName());
                 String displayAttributeName = pcta.getLookupReturn();
-                String displayLookupReturnValue = proposalDevelopmentService.getDataOverrideLookupDisplayReturnValue(pcta.getLookupClass());
+                String displayLookupReturnValue = this.getDataOverrideLookupDisplayReturnValue(pcta.getLookupClass());
                 mtcReturn.add("methodToCall.performLookup.(!!"+pcta.getLookupClass()+"!!).((("+displayLookupReturnValue+":newProposalChangedData.changedValue,"+displayAttributeName+":newProposalChangedData.displayValue))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorProposalDataOverride");
             }
         }
@@ -955,7 +987,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         List<Map<String,String>> qualifiers = roleService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, roleIds, qualification);
         for (Map<String,String> qualifier : qualifiers) {
-            Unit unit = unitService.getUnit(qualifier.get(KcKimAttributes.UNIT_NUMBER));
+            Unit unit = getUnitService().getUnit(qualifier.get(KcKimAttributes.UNIT_NUMBER));
             if (unit != null) {
                 units.add(unit);
                 if (qualifier.containsKey(KcKimAttributes.SUBUNITS) && StringUtils.equalsIgnoreCase("Y", qualifier.get(KcKimAttributes.SUBUNITS))) {
@@ -1011,7 +1043,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      */
     @Override
     public String getFederalId(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        String federalIdComesFromAwardStr = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+        String federalIdComesFromAwardStr = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 FEDERAL_ID_COMES_FROM_CURRENT_AWARD);
         Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
         DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
@@ -1054,13 +1086,13 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             }
             if (isProposalTypeResubmission(proposal.getProposalTypeCode())) {
                 if (proposal.getSponsorCode().equals(
-                        this.parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                        this.getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
                                 ParameterConstants.ALL_COMPONENT, KeyConstants.NSF_SPONSOR_CODE))) {
                     return null;
                 }
             }
         }
-        if (federalId != null && sponsorHierarchyService.isSponsorNihMultiplePi(proposal.getSponsorCode())) {
+        if (federalId != null && getSponsorHierarchyService().isSponsorNihMultiplePi(proposal.getSponsorCode())) {
             return fromatFederalId(federalId);
         }
         return federalId;
@@ -1089,11 +1121,11 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
-        String proposalTypeCodeRenewal = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+        String proposalTypeCodeRenewal = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        String proposalTypeCodeRevision = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+        String proposalTypeCodeRevision = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        String proposalTypeCodeContinuation = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+        String proposalTypeCodeContinuation = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
 
         return !StringUtils.isEmpty(proposalTypeCode)
@@ -1108,7 +1140,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @return true or false
      */
     protected boolean isProposalTypeResubmission(String proposalTypeCode) {
-        String proposalTypeCodeResubmission = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+        String proposalTypeCodeResubmission = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
 
         return !StringUtils.isEmpty(proposalTypeCode) && (proposalTypeCode.equals(proposalTypeCodeResubmission));
@@ -1121,7 +1153,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @return true or false
      */
     protected boolean isProposalTypeNew(String proposalTypeCode) {
-        String proposalTypeCodeNew = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
+        String proposalTypeCodeNew = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
 
         return !StringUtils.isEmpty(proposalTypeCode) && (proposalTypeCode.equals(proposalTypeCodeNew));
@@ -1157,14 +1189,14 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         ProposalAdminDetails curDetail = new ProposalAdminDetails();
         Map<String, Object> detailFieldValues = new HashMap<String, Object>();
         detailFieldValues.put("instProposalId", instProp.getProposalId());
-        List<ProposalAdminDetails> details = (List<ProposalAdminDetails>) businessObjectService.findMatchingOrderBy(ProposalAdminDetails.class,
+        List<ProposalAdminDetails> details = (List<ProposalAdminDetails>) getBusinessObjectService().findMatchingOrderBy(ProposalAdminDetails.class,
                 detailFieldValues, "devProposalNumber", true);
         listDetailSize = details.size();
         if (listDetailSize > 1) {
             curDetail = details.get(listDetailSize - 2);
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("proposalNumber", curDetail.getDevelopmentProposal().getProposalNumber());
-            List<S2sAppSubmission> s2sSubmissionDetails = (List<S2sAppSubmission>) businessObjectService.findMatchingOrderBy(S2sAppSubmission.class,
+            List<S2sAppSubmission> s2sSubmissionDetails = (List<S2sAppSubmission>) getBusinessObjectService().findMatchingOrderBy(S2sAppSubmission.class,
                     fieldValues, "proposalNumber", true);
             curDetail.getDevelopmentProposal().setS2sAppSubmission(s2sSubmissionDetails);
             return curDetail.getDevelopmentProposal();
@@ -1173,7 +1205,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             curDetail = details.get(0);
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("proposalNumber", curDetail.getDevelopmentProposal().getProposalNumber());
-            List<S2sAppSubmission> s2sSubmissionDetails = (List<S2sAppSubmission>) businessObjectService.findMatchingOrderBy(S2sAppSubmission.class,
+            List<S2sAppSubmission> s2sSubmissionDetails = (List<S2sAppSubmission>) getBusinessObjectService().findMatchingOrderBy(S2sAppSubmission.class,
                     fieldValues, "proposalNumber", true);
             curDetail.getDevelopmentProposal().setS2sAppSubmission(s2sSubmissionDetails);
             return curDetail.getDevelopmentProposal();
@@ -1183,7 +1215,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     protected void addDescendantUnits(Unit parentUnit, Set<Unit> units) {
-        List<Unit> subunits = unitService.getSubUnits(parentUnit.getUnitNumber());
+        List<Unit> subunits = getUnitService().getSubUnits(parentUnit.getUnitNumber());
         if (CollectionUtils.isNotEmpty(subunits)) {
             units.addAll(subunits);
             for (Unit subunit : subunits) {
@@ -1200,12 +1232,12 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         this.roleService = roleService;
     }
 
-    protected S2SService getS2sService() {
-        return s2sService;
+    protected S2SService getS2SService() {
+        return s2SService;
     }
 
-    public void setS2sService(S2SService s2sService) {
-        this.s2sService = s2sService;
+    public void setS2SService(S2SService s2SService) {
+        this.s2SService = s2SService;
     }
     public KeyPersonnelService getKeyPersonnelService() {
         return keyPersonnelService;
@@ -1239,11 +1271,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     public UnitAuthorizationService getUnitAuthService() {
-        return unitAuthService;
-    }
-
-    public void setUnitAuthService(UnitAuthorizationService unitAuthService) {
-        this.unitAuthService = unitAuthService;
+        return unitAuthorizationService;
     }
 
     public DataObjectService getDataObjectService() {

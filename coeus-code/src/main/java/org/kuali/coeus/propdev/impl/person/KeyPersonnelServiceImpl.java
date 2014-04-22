@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,24 +30,21 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.ynq.Ynq;
 import org.kuali.coeus.common.framework.ynq.YnqService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.person.*;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -60,6 +57,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.34 $
  */
+@Component("keyPersonnelService")
 public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     private static final Log LOG = LogFactory.getLog(KeyPersonnelServiceImpl.class);
@@ -68,15 +66,30 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     private static final String ROLODEX_PERSON = "Unknown";
     private static final String NIH_PARM_KEY = "nih.";
 
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
-    private LegacyNarrativeService narrativeService;
+    @Autowired
+    @Qualifier("ynqService")
     private YnqService ynqService;
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+    @Autowired
+    @Qualifier("sponsorHierarchyService")
     private SponsorHierarchyService sponsorHierarchyService;
     
     @Autowired
     @Qualifier("personEditableService")
     private PersonEditableService personEditableService;
+    @Autowired
+    @Qualifier("proposalPersonService")
+    ProposalPersonService proposalPersonService;
+
+    protected ProposalPersonService getProposalPersonService (){return proposalPersonService;}
+    public  void setProposalPersonService (ProposalPersonService proposalPersonService){
+        this.proposalPersonService = proposalPersonService;
+    }
 
     /**
      * Part of a complete breakfast, it has everything you need to populate Key Personnel into a <code>{@link ProposalDevelopmentDocument}</code>
@@ -201,7 +214,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             }                
         }
         if(proposalPerson.getHomeUnit()!=null){
-            ProposalPersonService proposalPersonService = KcServiceLocator.getService(ProposalPersonService.class);
+            ProposalPersonService proposalPersonService =  getProposalPersonService();
             String divisionName = proposalPersonService.getProposalPersonDivisionName(proposalPerson);
             proposalPerson.setDivision(divisionName);
         }
@@ -331,7 +344,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      */
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
         Map<String,String> valueMap = new HashMap<String, String>();
-        BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService bos =getBusinessObjectService();
         valueMap.put("active", "true");
         return bos.findMatching(InvestigatorCreditType.class, valueMap);
     }
@@ -429,7 +442,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     /**
      * Retrieve the injected <code>{@link BusinessObjectService}</code>
      * 
-     * @return BusinessObjectService
+     * @return businessObjectService
      */
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
@@ -550,29 +563,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         this.ynqService = ynqService;
     }
 
-    /**
-     * Accessor method for dependency injection
-     * 
-     * @return NarrativeService
-     */
-    public LegacyNarrativeService getNarrativeService() {
-        return narrativeService;
-    }
-
-    /**
-     * Accessor method for dependency injection
-     * 
-     * @param narrativeService
-     */
-    public void setNarrativeService(LegacyNarrativeService narrativeService) {
-        this.narrativeService = narrativeService;
-    }
-
-    /**
-     * Accessor method for dependency injection
-     * 
-     * @return YnqService
-     */
     public YnqService getYnqService() {
         return ynqService;
     }
@@ -590,21 +580,21 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         if (roleId == null) {
             return false;
         }
-        String parmValue = parameterService.getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, READ_ONLY_ROLES_PARAM_NAME);
+        String parmValue = getParameterService().getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, READ_ONLY_ROLES_PARAM_NAME);
         return parmValue.toLowerCase().contains(roleId.toLowerCase());
     }
 
     /**
      * Uses the {@link ParameterService} to determine if the application-level configuration parameter is enabled
      *
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCreditSplitEnabled()
+     * @see KeyPersonnelService#isCreditSplitEnabled()
      */
     public boolean isCreditSplitEnabled() {
-        return this.parameterService.getParameterValueAsBoolean(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME);
+        return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME);
     }
     
     public String getDefaultPersonAttachmentDocType() {
-        return parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, PROPOSAL_PERSON_BIOGRAPHY_DEFAULT_DOC_TYPE);
+        return getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, PROPOSAL_PERSON_BIOGRAPHY_DEFAULT_DOC_TYPE);
     }
 
     /**
@@ -614,6 +604,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+    protected ParameterService getParameterService (){return parameterService;}
 
     @Override
     public boolean isRoleReadOnly(ProposalPersonRole role) {
@@ -643,7 +634,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @return
      */
     public Map<String, String> loadKeyPersonnelRoleDescriptions(boolean sponsorIsNih) {
-        @SuppressWarnings("unchecked") final Collection<ProposalPersonRole> roles = businessObjectService.findAll(ProposalPersonRole.class);
+        @SuppressWarnings("unchecked") final Collection<ProposalPersonRole> roles = getBusinessObjectService().findAll(ProposalPersonRole.class);
         Map<String, String> roleDescriptions = new HashMap<String, String>();
         for (ProposalPersonRole role : roles) {
             roleDescriptions.put(role.getProposalPersonRoleId(), findRoleDescription(role, sponsorIsNih));
@@ -661,7 +652,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
     
     protected String getRoleDescriptionParameterValue(String parmName) {
-        return parameterService.getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parmName);        
+        return getParameterService().getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parmName);
     }
 
     protected String createRoleDescriptionParameterName(ContactRole role, String nihToken) {
