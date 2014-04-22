@@ -19,7 +19,7 @@ import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.io.IOException;

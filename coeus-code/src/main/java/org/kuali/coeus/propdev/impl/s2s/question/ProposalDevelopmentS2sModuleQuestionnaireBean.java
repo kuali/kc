@@ -16,7 +16,7 @@
 package org.kuali.coeus.propdev.impl.s2s.question;
 
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;
 
 public class ProposalDevelopmentS2sModuleQuestionnaireBean extends ProposalDevelopmentModuleQuestionnaireBean {

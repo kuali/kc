@@ -438,8 +438,6 @@
 		<property name="attachmentDao" ref="attachmentDao" />
 	</bean>
 	
-    <bean id="attachmentDao" parent="platformAwareDao" class="org.kuali.kra.proposaldevelopment.dao.ojb.AttachmentDaoOjb" />
-	
     <bean id="narrativeAuthZService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeAuthZServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />

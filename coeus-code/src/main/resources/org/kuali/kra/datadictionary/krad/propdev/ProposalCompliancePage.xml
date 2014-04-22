@@ -40,7 +40,7 @@
 	<bean id="PropDev-CompliancePage-CollectionGroup" parent="PropDev-CompliancePage-CollectionGroup-parentBean" />
 	<bean id="PropDev-CompliancePage-CollectionGroup-parentBean"
 		parent="Uif-TableCollectionGroup" p:title="Compliance" p:propertyName="propSpecialReviews"
-		p:collectionObjectClass="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview"
 		p:layoutManager.numberOfColumns="6" p:renderAddLine="false"
 		p:renderAddBlankLineButton="true" p:addLinePlacement="BOTTOM"
 		p:layoutManager.sequencePropertyName="specialReviewNumber">

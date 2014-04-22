@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.budget.service;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface ProposalBudgetService extends BudgetCommonService<DevelopmentProposal> {
