@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -1641,7 +1641,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                     if (budgetPersonnelDetails.getNonEmployeeFlag()) {
                         if (budgetPersonnelDetails.getBudgetPerson().getRolodexId() != null) {
                             budgetPersonnelDetails.getBudgetPerson().refreshReferenceObject("rolodex");
-                            Rolodex rolodexPerson = budgetPersonnelDetails.getBudgetPerson().getRolodex();
+                            RolodexContract rolodexPerson = budgetPersonnelDetails.getBudgetPerson().getRolodex();
                             keyPerson = new KeyPersonInfo();
                             keyPerson.setRolodexId(rolodexPerson.getRolodexId());
                             keyPerson.setFirstName(rolodexPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN

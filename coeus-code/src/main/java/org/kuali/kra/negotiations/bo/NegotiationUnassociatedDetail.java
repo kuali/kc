@@ -19,7 +19,6 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.RolodexService;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -59,7 +58,8 @@ public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBa
     private Sponsor sponsor;
     private Sponsor primeSponsor;
     private Organization subAwardOrganization;
-    
+    private Rolodex pINonEmployee;
+
     //transient
     private String piEmployeeUserName;
     private String contactAdminUserName;
@@ -292,21 +292,13 @@ public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBa
     }
     
     public Rolodex getPINonEmployee() {
-        if (this.getPiRolodexId() == null) {
-            return null;
-        } else {
-            try {
-                return getRolodexService().getRolodex(Integer.parseInt(this.getPiRolodexId()));
-            } catch (Exception e) {
-                return null;
-            }
-        }
+        return pINonEmployee;
     }
-    
-    protected RolodexService getRolodexService() {
-            return KcServiceLocator.getService(RolodexService.class);
+
+    public void setPINonEmployee(Rolodex pINonEmployee) {
+        this.pINonEmployee = pINonEmployee;
     }
-    
+
     public KcPerson getContactAdmin() {
         if (this.getContactAdminPersonId() == null) {
             return null;

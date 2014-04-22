@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol.protocol.funding;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -94,7 +94,7 @@ public abstract class ProtocolFundingSourceRuleBase extends KcTransactionalDocum
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("sponsorCode", fundingSource.getFundingSourceNumber());
             Sponsor sp = this.getBusinessObjectService().findByPrimaryKey(Sponsor.class, fieldValues);
-            if (!this.getSponsorService().validateSponsor(sp)) {
+            if (!this.getSponsorService().isValidSponsor(sp)) {
                 isValid = false;
                 reportError(Constants.PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
             }

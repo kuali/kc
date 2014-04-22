@@ -17,7 +17,6 @@ package org.kuali.coeus.common.impl.sponsor;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
@@ -93,13 +92,13 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
         }
         
         if (selectedHierarchyName != null) {
-            sponsorsCodes = KcServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(selectedHierarchyName.toString());
+            sponsorsCodes = KcServiceLocator.getService(SponsorHierarchyMaintenanceService.class).loadToSponsorHierachyMt(selectedHierarchyName.toString());
             isNewHierarchy = true;
         }
         else {
             if (existSponsors == null) {
                 String hierarchyNameString = hierarchyName != null ? hierarchyName.toString() : "";
-                sponsorsCodes = KcServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(hierarchyNameString);
+                sponsorsCodes = KcServiceLocator.getService(SponsorHierarchyMaintenanceService.class).loadToSponsorHierachyMt(hierarchyNameString);
             } 
             else {
                 sponsorsCodes = existSponsors;

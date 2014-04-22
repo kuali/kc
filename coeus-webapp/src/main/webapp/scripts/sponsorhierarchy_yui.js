@@ -446,7 +446,7 @@ function sponsorHierarchy() {
 						window.status = errorMessage;
 					}
 				};
-				SponsorService.updateSponsorCodes(sponsorCodeList,customReply);				
+        SponsorHierarchyMaintenanceService.updateSponsorCodes(sponsorCodeList,customReply);
     
     }
     
@@ -463,7 +463,7 @@ function sponsorHierarchy() {
 	      tempNode = tempNode.parent;
 	    }
 	    showWait();
-    	SponsorService.insertSponsor(hierarchyName, sponsorCodes, levels, sortIds, dwrReply);
+        SponsorHierarchyMaintenanceService.insertSponsor(hierarchyName, sponsorCodes, levels, sortIds, dwrReply);
     }
 
     function loadNextLevelSponsorHierarchy(node) {
@@ -547,7 +547,7 @@ function sponsorHierarchy() {
 						window.status = errorMessage;
 					}
 				};
-				SponsorService.getSubSponsorHierarchiesForTreeView(hierarchyName, node.depth, getAscendants(node,"false") ,customReply);
+        SponsorHierarchyMaintenanceService.getSubSponsorHierarchiesForTreeView(hierarchyName, node.depth, getAscendants(node,"false") ,customReply);
 	}
 
     
@@ -587,13 +587,13 @@ function sponsorHierarchy() {
     
     	function changeGroupName(node, oldLabel) {
     		showWait();
-    		SponsorService.updateGroupName(hierarchyName, node.depth, oldLabel, node.description, getLevelArray(node.parent), hideWait);
+            SponsorHierarchyMaintenanceService.updateGroupName(hierarchyName, node.depth, oldLabel, node.description, getLevelArray(node.parent), hideWait);
 		}
 
     	function changeSortId(nodeseq, moveFlag) {
 			var node=oTextNodeMap[nodeseq];
 			showWait();
-    		SponsorService.changeSponsorSortOrder(hierarchyName, node.depth, moveFlag, getLevelArray(node), dwrReply);
+            SponsorHierarchyMaintenanceService.changeSponsorSortOrder(hierarchyName, node.depth, moveFlag, getLevelArray(node), dwrReply);
 		}
     	
     	function getLevelArray(node) {
@@ -614,9 +614,9 @@ function sponsorHierarchy() {
 				showWait();
 				if (deleteSponsorFlag == "true") {
 					var sponsorCode = node.description.substring(0,node.description.indexOf(":"));
-					SponsorService.deleteSponsor(hierarchyName, sponsorCode, getLevelArray(node.parent), dwrReply);
+                    SponsorHierarchyMaintenanceService.deleteSponsor(hierarchyName, sponsorCode, getLevelArray(node.parent), dwrReply);
 				} else {
-					SponsorService.deleteSponsor(hierarchyName, null, getLevelArray(node), dwrReply);
+                    SponsorHierarchyMaintenanceService.deleteSponsor(hierarchyName, null, getLevelArray(node), dwrReply);
 				}
 				
 				// The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
@@ -641,7 +641,7 @@ function sponsorHierarchy() {
 						window.status = errorMessage;
 					}
 				};
-				SponsorService.getSponsorCodes(getRootNode(node), node.depth, getAscendants(node, "false"),customReply);	
+            SponsorHierarchyMaintenanceService.getSponsorCodes(getRootNode(node), node.depth, getAscendants(node, "false"),customReply);
 		}
      
 

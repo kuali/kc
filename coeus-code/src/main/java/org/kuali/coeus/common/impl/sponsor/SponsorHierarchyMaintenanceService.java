@@ -13,28 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.sponsor;
+package org.kuali.coeus.common.impl.sponsor;
 
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyForm;
 
 import java.util.Collection;
 import java.util.List;
 
-public interface SponsorService {
-    /**
-     * This method returns the sponsor name for a given sponsor code.
-     * @param sponsorCode identifier for the sponsor
-     * @return The name of the sponsor identified by this code.
-     */
-    public String getSponsorName(String sponsorCode);
-    
-    /**
-     * Get the sponsor for the given sponsor code
-     * @param sponsorCode
-     * @return
-     */
-    public Sponsor getSponsor(String sponsorCode);
-    
+public interface SponsorHierarchyMaintenanceService {
+
     /**
      * 
      * This method to get the list of unique sponsorhierarchy name.
@@ -161,12 +149,4 @@ public interface SponsorService {
      * @return
      */
     List<String> getUniqueGroupingNames(String hierarchyName, Integer level);
-    
-    /**
-     * 
-     * This method returns true if the passed in Sponsor is valid, returns false if it is not.
-     * @param sponsor
-     * @return
-     */
-    public boolean validateSponsor(Sponsor sponsor);
 }

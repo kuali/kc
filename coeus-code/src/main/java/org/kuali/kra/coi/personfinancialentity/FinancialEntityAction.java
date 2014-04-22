@@ -22,8 +22,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.print.watermark.WatermarkService;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
@@ -252,12 +254,10 @@ public class FinancialEntityAction extends KualiAction {
             isEdit = true;
         }
         if (StringUtils.isNotBlank(refreshCaller) && StringUtils.isNotBlank(sponsorCode)) {
-            Sponsor sponsor = KcServiceLocator.getService(SponsorService.class).getSponsor(sponsorCode);
+            SponsorContract sponsor = KcServiceLocator.getService(SponsorService.class).getSponsor(sponsorCode);
             if (sponsor != null) {
-                if (sponsor.getRolodex() == null) {
-                    sponsor.refreshReferenceObject("rolodex");
-                }
-                
+                RolodexContract rolodex = KcServiceLocator.getService(RolodexService.class).getRolodex(sponsor.getRolodexId());
+
                 FinancialEntityContactInfo contactInfo = financialEntityHelper.getNewPersonFinancialEntity().getFinEntityContactInfos().get(0);
                 if (isEdit) {
                     if (StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType())) {
@@ -270,13 +270,13 @@ public class FinancialEntityAction extends KualiAction {
                 } else {
                     financialEntityHelper.getNewPersonFinancialEntity().setEntityName(sponsor.getSponsorName());
                 }
-                contactInfo.setAddressLine1(sponsor.getRolodex().getAddressLine1());
-                contactInfo.setAddressLine2(sponsor.getRolodex().getAddressLine2());
-                contactInfo.setAddressLine3(sponsor.getRolodex().getAddressLine3());
-                contactInfo.setCity(sponsor.getRolodex().getCity());
-                contactInfo.setState(sponsor.getRolodex().getState());
-                contactInfo.setCountryCode(sponsor.getRolodex().getCountryCode());
-                contactInfo.setPostalCode(sponsor.getRolodex().getPostalCode());
+                contactInfo.setAddressLine1(rolodex.getAddressLine1());
+                contactInfo.setAddressLine2(rolodex.getAddressLine2());
+                contactInfo.setAddressLine3(rolodex.getAddressLine3());
+                contactInfo.setCity(rolodex.getCity());
+                contactInfo.setState(rolodex.getState());
+                contactInfo.setCountryCode(rolodex.getCountryCode());
+                contactInfo.setPostalCode(rolodex.getPostalCode());
             }
         }
         return forward;
@@ -287,7 +287,6 @@ public class FinancialEntityAction extends KualiAction {
         // investigate if it can be shared
         DocHandlerService researchDocumentService = KcServiceLocator.getService(DocHandlerService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
- //       forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {
             forward += "?";
         }

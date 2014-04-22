@@ -25,7 +25,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.coeus.common.framework.sponsor.SponsorService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstractsService;
@@ -115,8 +114,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     
 	private KcDocumentRejectionService kcDocumentRejectionService;
     private KrmsRulesExecutionService krmsRulesExecutionService;
-    private SponsorService sponsorService;
-   
+
 	private ProposalPersonBiographyService proposalPersonBiographyService;
     private LegacyNarrativeService narrativeService;
     private ProposalAbstractsService  proposalAbstractsService;
@@ -378,12 +376,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ProposalDevelopmentDocument document = ((ProposalDevelopmentForm)kualiDocumentFormBase).getProposalDevelopmentDocument();
         getProposalDevelopmentService().loadDocument(document);
     }
-    
-    protected SponsorService getSponsorService() {
-    	if (sponsorService == null )
-        sponsorService  = KcServiceLocator.getService(SponsorService.class);
-    	return sponsorService;
-    }    
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

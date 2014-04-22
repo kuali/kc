@@ -35,8 +35,8 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -263,7 +263,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 	private OrganizationDataType getOrganizationDataType() {
 		OrganizationDataType orgType = OrganizationDataType.Factory
 				.newInstance();
-		Rolodex rolodex = pdDoc.getDevelopmentProposal()
+        RolodexContract rolodex = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization().getRolodex();
 		orgType.setAddress(globLibV20Generator.getAddressDataType(rolodex));
 
@@ -299,7 +299,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 	 * @param rolodex(Rolodex)
 	 * @return ContactPersonInfo corresponding to the Rolodex object.
 	 */
-	private ContactPersonInfo getContactInfo(Rolodex rolodex) {
+	private ContactPersonInfo getContactInfo(RolodexContract rolodex) {
 		ContactPersonInfo contactInfo = ContactPersonInfo.Factory.newInstance();
 		contactInfo.setName(globLibV20Generator.getHumanNameDataType(rolodex));
 		contactInfo.setPhone("");
@@ -758,7 +758,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 
 	private String getRolodexState() {
 		String state = "";
-		Rolodex rolodex = pdDoc.getDevelopmentProposal()
+        RolodexContract rolodex = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization().getRolodex();
 		if (rolodex != null) {
 			state = rolodex.getState();
@@ -787,7 +787,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 
 	private String getFederalAgencyName() {
 		String agencyName = "";
-		Sponsor sponsor = pdDoc.getDevelopmentProposal().getSponsor();
+		SponsorContract sponsor = pdDoc.getDevelopmentProposal().getSponsor();
 		if (sponsor != null) {
 			agencyName = sponsor.getSponsorName();
 		}

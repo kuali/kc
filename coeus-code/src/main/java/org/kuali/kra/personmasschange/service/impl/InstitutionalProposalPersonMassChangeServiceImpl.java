@@ -17,7 +17,7 @@ package org.kuali.kra.personmasschange.service.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
@@ -218,7 +218,7 @@ public class InstitutionalProposalPersonMassChangeServiceImpl extends MassPerson
 
     private void performMailingInformationPersonMassChange(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal) {
         if (personMassChange.getInstitutionalProposalPersonMassChange().isMailingInformation()) {
-            Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
+            RolodexContract rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
             institutionalProposal.setRolodexId(rolodex.getRolodexId());
             getBusinessObjectService().save(institutionalProposal);
         }
