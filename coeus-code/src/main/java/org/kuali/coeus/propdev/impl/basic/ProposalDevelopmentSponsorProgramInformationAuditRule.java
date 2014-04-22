@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.basic;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -104,7 +104,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
                                             && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
             Award currentAward = null;
             if (StringUtils.isNotBlank(proposal.getCurrentAwardNumber())) {
-                currentAward = proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument);
+                currentAward = getProposalDevelopmentService().getProposalCurrentAwardVersion(proposalDevelopmentDocument);
             }
             if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode()) 
                     && !(StringUtils.isNotBlank(proposal.getSponsorProposalNumber())
@@ -114,7 +114,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
             }
             InstitutionalProposal iProposal = null;
             if (StringUtils.isNotBlank(proposal.getContinuedFrom())) {
-                iProposal = proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument);
+                iProposal = getProposalDevelopmentService().getProposalContinuedFromVersion(proposalDevelopmentDocument);
             }
             if (isProposalTypeResubmission(proposal.getProposalTypeCode())
                     && StringUtils.isBlank(proposal.getSponsorProposalNumber())
@@ -185,8 +185,8 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
-    } 
-    
+    }
+
     protected ProposalDevelopmentService getProposalDevelopmentService() {
         if (this.proposalDevelopmentService == null) {
             this.proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
@@ -212,5 +212,5 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
 }

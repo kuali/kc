@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.person.attachment;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,13 +24,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
-import org.kuali.coeus.propdev.impl.person.attachment.AddPersonnelAttachmentRule;
-import org.kuali.coeus.propdev.impl.person.attachment.ReplacePersonnelAttachmentRule;
-import org.kuali.coeus.propdev.impl.person.attachment.SavePersonnelAttachmentRule;
-import org.kuali.coeus.propdev.impl.person.attachment.AddPersonnelAttachmentEvent;
-import org.kuali.coeus.propdev.impl.person.attachment.ReplacePersonnelAttachmentEvent;
-import org.kuali.coeus.propdev.impl.person.attachment.SavePersonnelAttachmentEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -39,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
 
 
@@ -155,7 +147,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
     protected PropPerDocType findPropPerDocTypeForOther() {
         Map<String,String> narrativeTypeMap = new HashMap<String,String>();
         narrativeTypeMap.put(DOC_TYPE_DESCRIPTION, OTHER_DOCUMENT_TYPE_DESCRIPTION);
-        BusinessObjectService service = getService(BusinessObjectService.class);
+        BusinessObjectService service = getBusinessObjectService();
         return ((List<PropPerDocType>)service.findMatching(PropPerDocType.class, narrativeTypeMap)).get(0);        
     }
     
@@ -196,5 +188,5 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         }
         return this.parameterService;
     }
-    
+
 }

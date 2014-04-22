@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.action;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;

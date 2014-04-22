@@ -34,7 +34,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.person.keyperson.AddKeyPersonRule;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CalculateCreditSplitRule;
 import org.kuali.coeus.propdev.impl.person.keyperson.ChangeKeyPersonRule;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.bo.BusinessObject;

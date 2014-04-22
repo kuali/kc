@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.coeus.propdev.impl.core;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -32,6 +32,12 @@ import java.util.Map;
 
 public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineExecuter  {
 
+    private KcKrmsFactBuilderServiceHelper kcKrmsFactBuilderServiceHelper;
+    protected KcKrmsFactBuilderServiceHelper getKcKrmsFactBuilderServiceHelper (){
+        if (kcKrmsFactBuilderServiceHelper == null)
+            kcKrmsFactBuilderServiceHelper = KcServiceLocator.getService("proposalDevelopmentFactBuilderService");
+        return kcKrmsFactBuilderServiceHelper;
+    }
     public EngineResults performExecute(RouteContext routeContext, Engine engine) {
         Map<String, String> contextQualifiers = new HashMap<String, String>();
         contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
@@ -44,7 +50,7 @@ public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineEx
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap("Unit Number", unitNumber));
 
-        KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("proposalDevelopmentFactBuilderService");
+        KcKrmsFactBuilderServiceHelper fbService = getKcKrmsFactBuilderServiceHelper();
         Facts.Builder factsBuilder = Facts.Builder.create();
         fbService.addFacts(factsBuilder, docContent);
         EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
