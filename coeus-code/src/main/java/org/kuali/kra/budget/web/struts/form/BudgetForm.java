@@ -39,7 +39,7 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.costshare.CostShareFunctions;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularSummary;

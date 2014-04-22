@@ -16,7 +16,7 @@
 package org.kuali.coeus.propdev.impl.notification;
 
 import org.kuali.coeus.common.notification.impl.service.KcNotificationRoleQualifierService;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
 /**
  * Defines the service to fill in module role qualifier information for Proposal Development.

@@ -17,7 +17,7 @@ package org.kuali.coeus.propdev.impl.approve;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.propdev.impl.person.CoPiInfoDO;
-import org.kuali.kra.proposaldevelopment.bo.CostShareInfoDO;
+import org.kuali.coeus.propdev.impl.budget.CostShareInfoDO;
 
 import java.io.Serializable;
 import java.sql.Date;

@@ -57,7 +57,7 @@
 					<tr><th>Link Child Proposal</th><th>Link Budget Type</th><th>Actions</th></tr>
 					<tr><td><div align="center">
 							<kul:htmlControlAttribute property="newHierarchyChildProposalNumber" attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" />
-			                <kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" 
+			                <kul:lookup boClassName="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"
 			                            fieldConversions="proposalNumber:newHierarchyChildProposalNumber" 
 			                            lookupParameters="hierarchyNoneStatus:hierarchyStatus"
 			                            anchor="${tabKey}" />
@@ -98,7 +98,7 @@
 							    <kul:htmlControlAttribute property="newHierarchyProposalNumber" 
 							    		attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" 
 							    		onblur="" />
-			                	<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" 
+			                	<kul:lookup boClassName="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"
 			                	            fieldConversions="proposalNumber:newHierarchyProposalNumber" 
 			                	            lookupParameters="hierarchyParentStatus:hierarchyStatus"
 			                	            anchor="${tabKey}" />

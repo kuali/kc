@@ -25,12 +25,12 @@ import gov.grants.apply.system.globalLibraryV10.YesNoNotApplicableDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
-import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;

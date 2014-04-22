@@ -16,7 +16,7 @@
 package org.kuali.coeus.propdev.impl.budget;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.krad.data.DataObjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -336,11 +336,11 @@
     </property>
     	<property name="required" value="false"/>
     	<property name="control">
-      		<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.DeadlineType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="deadlineTypeCode" p:labelAttribute="description"/>
+      		<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.framework.type.DeadlineType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="deadlineTypeCode" p:labelAttribute="description"/>
     	</property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.DeadlineType"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.DeadlineType"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="keyAttributeName" value="deadlineTypeCode"/>
         <property name="labelAttributeName" value="description"/>

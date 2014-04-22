@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
+import org.kuali.coeus.propdev.impl.budget.CostShareInfoDO;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
 import org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter;
 import org.kuali.coeus.propdev.impl.editable.ProposalOverview;
@@ -57,7 +58,6 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
@@ -626,8 +626,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     protected String populateBudgetEditableFieldMetaData(
             String documentNumber, String editableFieldDBColumn) {
         String returnValue  = "";
-      
-        //BudgetDocument budgetDocument = null;
+
         if (GlobalVariables.getMessageMap() != null) {
             GlobalVariables.getMessageMap().clearErrorMessages();
         }      

@@ -18,7 +18,7 @@ package org.kuali.kra.s2s.generator.impl;
 import org.kuali.coeus.common.framework.ynq.Ynq;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.kra.s2s.generator.S2STestBase;
 

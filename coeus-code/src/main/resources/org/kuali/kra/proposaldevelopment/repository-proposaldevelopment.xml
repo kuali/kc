@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" table="EPS_PROPOSAL">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" table="EPS_PROPOSAL">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" />
         <field-descriptor name="proposalNumberForGG" column="PROPOSALNUMBER_GG" jdbc-type="VARCHAR" />
         <field-descriptor name="opportunityIdForGG" column="OPPORTUNITYID_GG" jdbc-type="VARCHAR" />
@@ -101,7 +101,7 @@
             <foreignkey field-ref="noticeOfOpportunityCode"/>
         </reference-descriptor>
         
-        <collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview" 
+        <collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
             <query-customizer class="org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl">
@@ -134,7 +134,7 @@
         <collection-descriptor name="narratives" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.attachment.Narrative"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
-            <query-customizer class="org.kuali.kra.proposaldevelopment.dao.ProposalQueryCustomizer">
+            <query-customizer class="org.kuali.coeus.propdev.impl.core.ProposalQueryCustomizer">
                 <attribute attribute-name="narrativeType.narrativeTypeGroup" attribute-value="proposalNarrativeTypeGroup" />
             </query-customizer>
             <query-customizer class="org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl">
@@ -144,7 +144,7 @@
         <collection-descriptor name="instituteAttachments" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.attachment.Narrative"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
-            <query-customizer class="org.kuali.kra.proposaldevelopment.dao.ProposalQueryCustomizer">
+            <query-customizer class="org.kuali.coeus.propdev.impl.core.ProposalQueryCustomizer">
                 <attribute attribute-name="narrativeType.narrativeTypeGroup" attribute-value="instituteNarrativeTypeGroup" />
             </query-customizer>
         </collection-descriptor>
@@ -406,7 +406,7 @@
             <foreignkey field-ref="proposalNumber"/>
             <foreignkey field-ref="proposalPersonNumber"/>
         </reference-descriptor>
-        <reference-descriptor name="developmentProposal" class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="developmentProposal" class-ref="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" auto-retrieve="true" auto-update="none" auto-delete="none">
            <foreignkey field-ref="proposalNumber" />
         </reference-descriptor>     
                 
@@ -544,7 +544,7 @@
             <foreignkey field-ref="unitNumber" />
         </reference-descriptor>
 
-        <collection-descriptor name="creditSplits" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit" 
+        <collection-descriptor name="creditSplits" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalNumber"/>
             <inverse-foreignkey field-ref="proposalPersonNumber"/>
@@ -608,7 +608,7 @@
         </collection-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview" table="EPS_PROP_SPECIAL_REVIEW">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview" table="EPS_PROP_SPECIAL_REVIEW">
         <field-descriptor name="proposalSpecialReviewId" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_EPS_PROP_SPECIAL_REVIEW_ID" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
@@ -652,12 +652,12 @@
         <reference-descriptor name="exemptionType" class-ref="org.kuali.kra.bo.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none">
             <foreignkey field-ref="exemptionTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="proposalSpecialReview" class-ref="org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="proposalSpecialReview" class-ref="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="proposalSpecialReviewId"/>
         </reference-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit" table="EPS_PROP_UNIT_CREDIT_SPLIT">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit" table="EPS_PROP_UNIT_CREDIT_SPLIT">
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="invCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />

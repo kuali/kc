@@ -22,7 +22,7 @@ import org.kuali.coeus.common.notification.impl.NotificationRenderer;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationModuleRoleService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
 import java.util.List;
 

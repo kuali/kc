@@ -18,7 +18,7 @@ package org.kuali.coeus.propdev.impl.notification;
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.springframework.stereotype.Component;
