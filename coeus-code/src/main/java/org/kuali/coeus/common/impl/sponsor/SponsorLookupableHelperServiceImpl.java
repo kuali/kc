@@ -74,7 +74,7 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
             searchResults = (List<Sponsor>)super.getSearchResultsHelper(fieldValues, true);
         }
         
-        //searchResults = (List)KraServiceLocator.getService(BusinessObjectService.class).findAll(Sponsor.class);
+        //searchResults = (List)KcServiceLocator.getService(BusinessObjectService.class).findAll(Sponsor.class);
         Object hierarchyName = GlobalVariables.getUserSession().retrieveObject(HIERARCHY_NAME);
         Object selectedHierarchyName = GlobalVariables.getUserSession().retrieveObject(SELECTED_HIERARCHY_NAME);
         String sponsorsCodes= "";

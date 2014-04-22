@@ -542,7 +542,7 @@ public class ProtocolQuestionnaireAuditRuleTest extends ProtocolRuleTestBase {
         usage.setModuleItemCode(moduleCode);
         usage.setModuleSubItemCode(subModuleCode);
         usage.setMandatory(mandatory);
-       /* BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+       /* BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         businessObjectService.save(usage);*/
         return usage;
     }

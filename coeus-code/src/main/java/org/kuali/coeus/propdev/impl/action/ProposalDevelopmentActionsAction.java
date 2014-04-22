@@ -591,7 +591,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         proposalDevelopmentForm.setAuditActivated(true);
-        //success=KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getProposalDevelopmentDocument()));
+        //success=KcServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getProposalDevelopmentDocument()));
         //HashMap map=KNSGlobalVariables.getAuditErrorMap();
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);

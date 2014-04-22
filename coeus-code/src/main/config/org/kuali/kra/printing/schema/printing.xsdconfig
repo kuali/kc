@@ -10,6 +10,14 @@
     <xb:namespace uri="##any">
         <xb:package>org.kuali.kra.printing.schema</xb:package>
     </xb:namespace>
+    
+    <xb:namespace uri="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award">
+    	<xb:package>org.kuali.kra.award.printing.schema</xb:package>
+    </xb:namespace>
+    
+    <xb:namespace uri="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract">
+    	<xb:package>org.kuali.kra.subaward.printing.schema</xb:package>
+    </xb:namespace>
 
     <xb:namespace uri="http://irb.mit.edu/irbnamespace">
         <xb:package>edu.mit.irb.irbnamespace</xb:package>

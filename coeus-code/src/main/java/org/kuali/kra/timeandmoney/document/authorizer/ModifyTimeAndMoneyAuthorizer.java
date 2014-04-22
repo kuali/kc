@@ -60,7 +60,7 @@ public class ModifyTimeAndMoneyAuthorizer extends TimeAndMoneyAuthorizer {
             // we will indicate that the user does not have permission to do that.
             
             if (unitNumber != null) {
-                UnitAuthorizationService auth = KraServiceLocator.getService(UnitAuthorizationService.class);
+                UnitAuthorizationService auth = KcServiceLocator.getService(UnitAuthorizationService.class);
                 hasPermission = auth.hasPermission(userId, unitNumber, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
             }
         }

@@ -39,7 +39,7 @@ public abstract class ProtocolActionsKeyValuesBase extends FormViewAwareUifKeyVa
     private KeyValuesService keyValuesService;
     
     /**
-     * This method returns an instance of BusinessObjectServe from the KraServiceLocator.
+     * This method returns an instance of BusinessObjectServe from the KcServiceLocator.
      * @return BusinessObjectService
      */
     public BusinessObjectService getBusinessObjectService() {

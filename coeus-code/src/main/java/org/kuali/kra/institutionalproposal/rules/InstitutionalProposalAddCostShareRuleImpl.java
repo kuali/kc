@@ -91,7 +91,7 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
     
     /*
     private String getProjectPeriodLabel() {
-        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+        String label = KcServiceLocator.getService(CostShareService.class).getCostShareLabel();
         return label;
     }*/
 

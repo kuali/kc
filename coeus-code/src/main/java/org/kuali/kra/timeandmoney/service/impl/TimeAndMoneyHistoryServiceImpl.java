@@ -442,7 +442,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 //    public Award getPendingAwardVersion(String goToAwardNumber) {
 //        
 //        Award award = null;
-//        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+//        BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
 //        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
 //        if(!(awards.size() == 0)) {
 //            award = awards.get(awards.size() - 1);
@@ -453,14 +453,14 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 //    
 //   
 //    protected Award getActiveAwardVersion(String goToAwardNumber) {
-//        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
+//        VersionHistoryService vhs = KcServiceLocator.getService(VersionHistoryService.class);  
 //        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
 //        Award award = null;
 //        
 //        if(vh!=null){
 //            award = (Award) vh.getSequenceOwner();
 //        }else{
-//            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+//            BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
 //            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber))).get(0);              
 //        }
 //        return award;

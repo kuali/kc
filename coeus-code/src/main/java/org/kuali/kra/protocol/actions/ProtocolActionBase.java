@@ -129,7 +129,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         createUser = GlobalVariables.getUserSession().getPrincipalName();
         createTimestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
 
-//        createTimestamp = ((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp();
+//        createTimestamp = ((DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp();
     }
     
 

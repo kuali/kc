@@ -21,6 +21,7 @@ import org.apache.xmlbeans.XmlOptions;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SFormGenerator;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
@@ -50,8 +51,8 @@ public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
      * @throws S2SGeneratorNotFoundException if form generator for given namespace is not available
      * @see org.kuali.kra.s2s.service.S2SFormGeneratorService#getS2SGenerator(java.lang.String)
      */
-    public final S2SFormGenerator getS2SGenerator(String nameSpace) throws S2SException, S2SGeneratorNotFoundException {
-        FormMappingInfo formInfo = new FormMappingLoader().getFormInfo(nameSpace);
+    public final S2SFormGenerator getS2SGenerator(String proposalNumber,String namespace) throws S2SException {
+        FormMappingInfo formInfo = new FormMappingLoader().getFormInfo(proposalNumber,namespace);
         S2SFormGenerator formGenerator;
         try {
             formGenerator = (S2SFormGenerator) Class.forName(formInfo.getMainClass()).newInstance();

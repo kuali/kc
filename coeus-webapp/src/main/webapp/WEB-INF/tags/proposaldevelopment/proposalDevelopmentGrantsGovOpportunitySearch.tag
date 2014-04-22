@@ -69,6 +69,11 @@
 	        			<kra-pd:proposalDevelopmentGrantsGovForms />   
                     </td>
                 </tr>
+                <tr>
+                    <td style="padding:0px">
+	        			<kra-pd:proposalDevelopmentGrantsGovUserAttachedForm />   
+                    </td>
+                </tr>
 			</table>
 	    </div>  
 	   
