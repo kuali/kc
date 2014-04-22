@@ -20,6 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.*;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -141,7 +142,7 @@ public class KeyPersonnelServiceTest extends KcIntegrationTestBase {
         //setting to true as it should be ignored for non-nih sponsors
         person.setMultiplePi(true);
         person.setDevelopmentProposal(document.getDevelopmentProposal());
-        assertEquals(KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ProposalPersonRole.class, COI_ROLE_ID).getRoleDescription(),
+        assertEquals(KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(PropAwardPersonRole.class, COI_ROLE_ID).getRoleDescription(),
                 getKeyPersonnelService().getPersonnelRoleDesc(person));        
     }
     

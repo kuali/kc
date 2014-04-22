@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
@@ -30,7 +31,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
@@ -696,8 +696,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     protected void clearCertifyQuestions(ProposalDevelopmentDocument doc) {
         List<ProposalPerson> persons = doc.getDevelopmentProposal().getProposalPersons();
         for (ProposalPerson person : persons) {
-            ProposalPersonRole role = person.getRole();
-            String roleId = role.getProposalPersonRoleId();
+            PropAwardPersonRole role = person.getRole();
+            String roleId = role.getCode();
             if ((StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) || 
                 (StringUtils.equals(roleId, Constants.CO_INVESTIGATOR_ROLE))) {
                 
@@ -725,8 +725,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         for (ProposalPerson person : persons) {
             person.setProposalNumber(null);
            
-            ProposalPersonRole role = person.getRole();
-            String roleId = role.getProposalPersonRoleId();
+            PropAwardPersonRole role = person.getRole();
+            String roleId = role.getCode();
             
             if (StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
                 

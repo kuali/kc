@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.award.contacts;
 
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.unit.UnitContactType;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 
 /**
  * This class defines some mock AwardContactRoles
@@ -34,8 +34,8 @@ public final class ContactRoleFixtureFactory {
     }
     
     private static ContactRole getProposalPersonRole(String code, String description) {
-        ProposalPersonRole role = new ProposalPersonRole();
-        role.setProposalPersonRoleId(code);
+        PropAwardPersonRole role = new PropAwardPersonRole();
+        role.setCode(code);
         role.setDescription(description);
         return role;
     }

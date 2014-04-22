@@ -403,9 +403,6 @@
         <field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         
-        <reference-descriptor name="role" class-ref="org.kuali.coeus.propdev.impl.person.ProposalPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="proposalPersonRoleId"/>
-        </reference-descriptor>
         <reference-descriptor name="certification" class-ref="org.kuali.coeus.propdev.impl.person.ProposalInvestigatorCertification" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="proposalNumber"/>
             <foreignkey field-ref="proposalPersonNumber"/>
@@ -523,8 +520,10 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.coeus.propdev.impl.person.ProposalPersonRole" table="EPS_PROP_PERSON_ROLE">
-        <field-descriptor name="proposalPersonRoleId" column="PROP_PERSON_ROLE_ID" jdbc-type="VARCHAR" primarykey="true" />
+    <class-descriptor class="org.kuali.coeus.common.framework.person.PropAwardPersonRole" table="EPS_PROP_PERSON_ROLE">
+        <field-descriptor name="id" column="PROP_PERSON_ROLE_ID" jdbc-type="BIGINT" primarykey="true" />
+        <field-descriptor name="code" column="PROP_PERSON_ROLE_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sponsorHierarchyName" column="SPONSOR_HIERARCHY_NAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
         <field-descriptor name="certificationRequired" column="CERTIFICATION_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="unitDetailsRequired" column="UNIT_DETAILS_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>

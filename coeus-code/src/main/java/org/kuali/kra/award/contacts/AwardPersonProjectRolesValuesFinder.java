@@ -17,11 +17,11 @@ package org.kuali.kra.award.contacts;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -41,7 +41,7 @@ public class AwardPersonProjectRolesValuesFinder extends AwardContactsProjectRol
 
     @Override
     public List<KeyValue> getKeyValues() {
-        final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
+        final Collection<PropAwardPersonRole> roles = getKeyValuesService().findAll(PropAwardPersonRole.class);
         final AwardDocument awardDocument = (AwardDocument) getDocument();
 
         Sponsorable sponsorable = awardDocument.getAward();
@@ -49,15 +49,15 @@ public class AwardPersonProjectRolesValuesFinder extends AwardContactsProjectRol
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        for (ProposalPersonRole role : roles) {
+        for (PropAwardPersonRole role : roles) {
             boolean showRole = true;
 
             LOG.info("showRole = " + showRole);
 
             if (showRole) {
                 String roleDescription =  roleDescriptions.get(role.getRoleCode());
-                keyValues.add(new ConcreteKeyValue(role.getProposalPersonRoleId(), roleDescription));
-                LOG.info("Added role " + role.getProposalPersonRoleId());
+                keyValues.add(new ConcreteKeyValue(role.getCode(), roleDescription));
+                LOG.info("Added role " + role.getCode());
                 LOG.info("With description " + roleDescription);
             }
 
@@ -75,7 +75,7 @@ public class AwardPersonProjectRolesValuesFinder extends AwardContactsProjectRol
 
     @Override
     protected Class<? extends ContactRole> getRoleType() {
-        return ProposalPersonRole.class;
+        return PropAwardPersonRole.class;
     }
 
     protected void setKeyPersonnelService(KeyPersonnelService keyPersonnelService) {
