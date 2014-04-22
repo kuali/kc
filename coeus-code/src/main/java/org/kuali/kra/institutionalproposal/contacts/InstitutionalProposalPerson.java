@@ -16,6 +16,7 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -23,7 +24,6 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
@@ -261,7 +261,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     @SuppressWarnings("unchecked")
     @Override
     protected Class getContactRoleType() {
-        return ProposalPersonRole.class;
+        return PropAwardPersonRole.class;
     }
 
     @Override

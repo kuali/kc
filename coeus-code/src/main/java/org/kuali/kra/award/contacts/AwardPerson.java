@@ -18,6 +18,7 @@ package org.kuali.kra.award.contacts;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -25,7 +26,6 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
@@ -272,7 +272,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     @SuppressWarnings("unchecked")
     @Override
     protected Class getContactRoleType() {
-        return ProposalPersonRole.class;
+        return PropAwardPersonRole.class;
     }
 
     @Override
@@ -372,7 +372,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
     
     public void updateBasedOnRoleChange() {
-        if (ProposalPersonRole.KEY_PERSON.equals(roleCode)) {
+        if (PropAwardPersonRole.KEY_PERSON.equals(roleCode)) {
             this.setOptInUnitStatus(true);
         } else {
             if (this.getPerson() != null && this.getPerson().getUnit() != null && this.getUnits().isEmpty()) {

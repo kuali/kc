@@ -18,6 +18,8 @@ package org.kuali.coeus.propdev.impl.person;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -40,9 +42,7 @@ import static org.kuali.kra.infrastructure.Constants.*;
 public class ProposalPersonRoleValuesFinder extends UifKeyValuesFinderBase {
 
     private static final Log LOG = LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
-    private ParameterService parameterService;
-    private DataObjectService dataObjectService;
-    private KeyPersonnelService keyPersonnelService;
+    private PropAwardPersonRoleService propAwardPersonRoleService;
     
     public ProposalPersonRoleValuesFinder() {
     	super();
@@ -55,92 +55,53 @@ public class ProposalPersonRoleValuesFinder extends UifKeyValuesFinderBase {
     }
     
     public List<KeyValue> getKeyValues(ProposalDevelopmentDocument document) {
-        Collection<ProposalPersonRole> roles = new ArrayList<ProposalPersonRole>();
-        roles.addAll(getDataObjectService().findMatching(ProposalPersonRole.class, QueryByCriteria.Builder.create().build()).getResults());
+        Collection<PropAwardPersonRole> roles = new ArrayList<PropAwardPersonRole>();
+        roles.addAll(getPropAwardPersonRoleDao().getRolesByHierarchy(document.getDevelopmentProposal().getSponsorCode()));
         final DevelopmentProposal developmentProposal = document.getDevelopmentProposal();
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        addKeyValue(keyValues, roles, ProposalPersonRole.PRINCIPAL_INVESTIGATOR, developmentProposal);
-        addKeyValue(keyValues, roles, ProposalPersonRole.CO_INVESTIGATOR, developmentProposal);
-        addKeyValue(keyValues, roles, ProposalPersonRole.KEY_PERSON, developmentProposal);
-        for (ProposalPersonRole role : roles) {
+        addKeyValue(keyValues, roles, PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, developmentProposal);
+        addKeyValue(keyValues, roles, PropAwardPersonRole.MULTI_PI, developmentProposal);
+        addKeyValue(keyValues, roles, PropAwardPersonRole.CO_INVESTIGATOR, developmentProposal);
+        addKeyValue(keyValues, roles, PropAwardPersonRole.KEY_PERSON, developmentProposal);
+        for (PropAwardPersonRole role : roles) {
             addKeyValue(keyValues, role, developmentProposal);
         }
         return keyValues;
     }
     
-    protected void addKeyValue(List<KeyValue> keyValues, Collection<ProposalPersonRole> roles, String roleId, DevelopmentProposal developmentProposal) {
-        ProposalPersonRole curRole = getRoleById(roles, roleId);
+    protected void addKeyValue(List<KeyValue> keyValues, Collection<PropAwardPersonRole> roles, String roleId, DevelopmentProposal developmentProposal) {
+        PropAwardPersonRole curRole = getRoleById(roles, roleId);
         if (curRole != null) {
             addKeyValue(keyValues, curRole, developmentProposal);
             roles.remove(curRole);
         }
     }
     
-    protected void addKeyValue(List<KeyValue> keyValues, ProposalPersonRole role, DevelopmentProposal developmentProposal) {
+    protected void addKeyValue(List<KeyValue> keyValues, PropAwardPersonRole role, DevelopmentProposal developmentProposal) {
         if (role != null) {
-            LOG.debug("Adding role " + role.getProposalPersonRoleId());
-            LOG.debug("With description " + findRoleDescription(role, developmentProposal));
-
-            keyValues.add(new ConcreteKeyValue(role.getProposalPersonRoleId(), findRoleDescription(role, developmentProposal)));
-    
-            LOG.debug("Returning " + keyValues);
+            keyValues.add(new ConcreteKeyValue(role.getCode(), role.getDescription()));
         }
     }
     
-    protected ProposalPersonRole getRoleById(Collection<ProposalPersonRole> roles, String roleId) {
-        for (ProposalPersonRole role : roles) {
-            if (StringUtils.equals(role.getProposalPersonRoleId(), roleId)) {
+    protected PropAwardPersonRole getRoleById(Collection<PropAwardPersonRole> roles, String roleId) {
+        for (PropAwardPersonRole role : roles) {
+            if (StringUtils.equals(role.getCode(), roleId)) {
                 return role;
             }
         }
         return null;
     }
-    
-    protected String getRoleIdPrefix(DevelopmentProposal proposal) {
-        return proposal.isSponsorNihMultiplePi() ? "nih." : "";
-    }
-
-    protected String findRoleDescription(ProposalPersonRole role, DevelopmentProposal proposal) {
-          return this.getParameterService().getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
-                PERSON_ROLE_PARAMETER_PREFIX + getRoleIdPrefix(proposal) + role.getProposalPersonRoleId().toLowerCase());
-    }
-
-    /**
-     * Locate from Spring a singleton instance of the <code>{@link KeyPersonnelService}</code>.
-     * 
-     * @return KeyPersonnelService
-     */
-    protected KeyPersonnelService getKeyPersonnelService() {
-    	if (keyPersonnelService == null) {
-    		keyPersonnelService = KcServiceLocator.getService(KeyPersonnelService.class);
-    	}
-    	return keyPersonnelService;
-    }
-    
-	public void setKeyPersonnelService(KeyPersonnelService keyPersonnelService) {
-		this.keyPersonnelService = keyPersonnelService;
-	}
-    
-    protected ParameterService getParameterService() {
-        if (this.parameterService == null) {
-            this.parameterService = KcServiceLocator.getService(ParameterService.class);
-        }
-        return this.parameterService;
-    }
-    
-	public void setParameterService(ParameterService parameterService) {
-		this.parameterService = parameterService;
-	}
-
-	protected DataObjectService getDataObjectService() {
-		if (dataObjectService == null) {
-			dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+	
+	protected PropAwardPersonRoleService getPropAwardPersonRoleDao() {
+		if (propAwardPersonRoleService == null) {
+			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
 		}
-		return dataObjectService;
+		return propAwardPersonRoleService;
 	}
 
-	public void setDataObjectService(DataObjectService dataObjectService) {
-		this.dataObjectService = dataObjectService;
+	public void setPropAwardPersonRoleDao(
+			PropAwardPersonRoleService propAwardPersonRoleService) {
+		this.propAwardPersonRoleService = propAwardPersonRoleService;
 	}
 }

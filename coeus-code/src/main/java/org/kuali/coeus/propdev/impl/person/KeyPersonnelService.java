@@ -18,9 +18,9 @@ package org.kuali.coeus.propdev.impl.person;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 
 import java.util.Collection;
@@ -102,7 +102,7 @@ public interface KeyPersonnelService {
    // public ProposalPerson createProposalPersonFromRolodexId(String rolodexId);
 
     /**
-     * Determines if a given {@link ProposalPerson} instance is considered a PI. This is done by comparing the {@link ProposalPersonRole} of the
+     * Determines if a given {@link ProposalPerson} instance is considered a PI. This is done by comparing the {@link PropAwardPersonRole} of the
      *  {@link ProposalPerson} as a PI role.
      * 
      * @param person {@link ProposalPerson} instance to compare
@@ -111,7 +111,7 @@ public interface KeyPersonnelService {
     public boolean isPrincipalInvestigator(ProposalPerson person);
 
     /**
-     * Determines if a given {@link ProposalPerson} instance is considered a COI. This is done by comparing the {@link ProposalPersonRole} of the
+     * Determines if a given {@link ProposalPerson} instance is considered a COI. This is done by comparing the {@link PropAwardPersonRole} of the
      *  {@link ProposalPerson} as a COI role.
      * 
      * @param person {@link ProposalPerson} instance to compare
@@ -121,7 +121,7 @@ public interface KeyPersonnelService {
     
     
     /**
-     * Determines if a given {@link ProposalPerson} instance is considered a KP. This is done by comparing the {@link ProposalPersonRole} of the
+     * Determines if a given {@link ProposalPerson} instance is considered a KP. This is done by comparing the {@link PropAwardPersonRole} of the
      *  {@link ProposalPerson} as a COI role.
      * 
      * @param person {@link ProposalPerson} instance to compare
@@ -131,7 +131,7 @@ public interface KeyPersonnelService {
     
 
     /**
-     * Determines if a given {@link ProposalPerson} instance is considered a PI or COI. This is done by comparing the {@link ProposalPersonRole} of the
+     * Determines if a given {@link ProposalPerson} instance is considered a PI or COI. This is done by comparing the {@link PropAwardPersonRole} of the
      *  {@link ProposalPerson} as a PI or COI role.
      * 
      * @param person {@link ProposalPerson} instance to compare
@@ -158,14 +158,14 @@ public interface KeyPersonnelService {
     public boolean isCreditSplitEnabled();
     
     /**
-     * Compares the <code>roleId</code> of the given {@link ProposalPersonRole} against the <code>personrole.readonly.roles</code> to see if it is 
+     * Compares the <code>roleId</code> of the given {@link PropAwardPersonRole} against the <code>personrole.readonly.roles</code> to see if it is 
      * read only or not.
      * 
      * @param role to check
      * @return true if the <code>role</code> is a value in the <code>personrole.readonly.roles</code> system parameter, and false
      *         if the <code>role</code> is null
      */
-    public boolean isRoleReadOnly(ProposalPersonRole role);
+    public boolean isRoleReadOnly(PropAwardPersonRole role);
 
     /**
      * 
