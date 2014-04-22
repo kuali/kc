@@ -67,7 +67,6 @@ import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.rules.ProposalAttachmentSubmitToSponsorRule;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRejectionRule;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;

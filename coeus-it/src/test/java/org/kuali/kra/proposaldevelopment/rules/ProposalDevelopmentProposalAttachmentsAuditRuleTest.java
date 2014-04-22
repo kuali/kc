@@ -18,13 +18,14 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentProposalAttachmentsAuditRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 
-import static org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentProposalAttachmentsAuditRule.AUDIT_CLUSTER_KEY;
+import static org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentProposalAttachmentsAuditRule.AUDIT_CLUSTER_KEY;
 import static org.junit.Assert.*;
 public class ProposalDevelopmentProposalAttachmentsAuditRuleTest extends ProposalDevelopmentRuleTestBase {
     

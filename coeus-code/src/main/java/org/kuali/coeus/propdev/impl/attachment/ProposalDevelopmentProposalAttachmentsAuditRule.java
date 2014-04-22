@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -28,7 +28,6 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
@@ -57,6 +56,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
     
     private SponsorHierarchyService sponsorHierarchyService;
     private ParameterService parameterService;
+    private ProposalBudgetService proposalBudgetService;
 
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
@@ -154,8 +154,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
                 boolean attachmentNotExists = true;            
                 try {
                 String budgetCostElement = getParameterService().getParameterValueAsString("KC-GEN","A","POST_DOCTORAL_COSTELEMENT");                        
-                    BudgetDocument bdDoc = KcServiceLocator.getService(
-                            ProposalBudgetService.class).getFinalBudgetVersion(
+                    BudgetDocument bdDoc = getProposalBudgetService().getFinalBudgetVersion(
                             proposalDevelopmentDocument); 
                     if(bdDoc != null && bdDoc.getBudget() != null 
                             && bdDoc.getBudget().getBudgetPeriods() != null){
@@ -220,4 +219,10 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
         }
         return this.parameterService;
     }
+    protected ProposalBudgetService getProposalBudgetService() {
+        if (proposalBudgetService == null )
+            proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
+        return proposalBudgetService;
+    }
+
 }
