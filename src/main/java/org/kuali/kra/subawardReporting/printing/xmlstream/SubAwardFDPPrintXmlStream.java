@@ -72,6 +72,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private String unitName;
     private ParameterService parameterService;
     
+    
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -214,31 +215,30 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
            if(subawardTemplate.getFinalStmtOfCostscontact()!=null && contactType.getContactTypeCode().equals(subawardTemplate.getFinalStmtOfCostscontact().toString())){
                subContractTemplateInfo.setFinalStmtOfCostsContactDescription(contactType.getDescription());
            }
-           if(contactType.getContactTypeCode().equals(subawardTemplate.getChangeRequestsContact().toString())){
+           if(subawardTemplate.getChangeRequestsContact()!= null && contactType.getContactTypeCode().equals(subawardTemplate.getChangeRequestsContact().toString())){
                subContractTemplateInfo.setChangeRequestsContactDescription(contactType.getDescription());
            }
-           if(contactType.getContactTypeCode().equals(subawardTemplate.getTerminationContact().toString())){
+           if(subawardTemplate.getTerminationContact()!= null && contactType.getContactTypeCode().equals(subawardTemplate.getTerminationContact().toString())){
                subContractTemplateInfo.setTerminationContactDescription(contactType.getDescription());
            }
-           if(contactType.getContactTypeCode().equals(subawardTemplate.getNoCostExtensionContact().toString())){
+           if(subawardTemplate.getNoCostExtensionContact() != null && contactType.getContactTypeCode().equals(subawardTemplate.getNoCostExtensionContact().toString())){
                subContractTemplateInfo.setNoCostExtensionContactDescription(contactType.getDescription());
            }
         }
            subContractTemplateInfo.setSowOrSubProposalBudget(subawardTemplate.getSowOrSubProposalBudget());
-           subContractTemplateInfo.setSubProposalDate(getDateTimeService().getCalendar(subawardTemplate.getSubProposalDate()));
+           if(subawardTemplate.getSubProposalDate() != null){
+            subContractTemplateInfo.setSubProposalDate(getDateTimeService().getCalendar(subawardTemplate.getSubProposalDate()));
+           }
            templateDataList.add(subContractTemplateInfo);
        }
            subContractData.setSubcontractTemplateInfoArray((SubcontractTemplateInfo[])templateDataList.toArray(new SubcontractTemplateInfo[0]));
     }
         public void setFundingSource(SubContractData subContractData, SubAward subaward) {
-            
             FundingSource fundingSource = FundingSource.Factory.newInstance();
             List<FundingSource> fundingSourceList = new ArrayList<FundingSource>();
             fundingSource.setAwardNumber(awardNumber);
             fundingSource.setSponsor(sponsorName);
             fundingSourceList.add(fundingSource);
-            
-            
             subContractData.setFundingSourceArray((FundingSource[])fundingSourceList.toArray(new FundingSource[0]));
         }
         
@@ -246,20 +246,19 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             SubcontractDetail subcontractDetail = SubcontractDetail.Factory.newInstance();
             RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
             if(subaward.getRolodex() != null ){
-             subcontractDetail.setSiteInvestigator(subaward.getRolodex().getFullName());
+                subcontractDetail.setSiteInvestigator(subaward.getRolodex().getFullName());
             }
-            subcontractDetail.setPONumber(subaward.getPurchaseOrderNum());
-            subcontractDetail.setSubcontractorName(subaward.getOrganization().getOrganizationName());
+                subcontractDetail.setPONumber(subaward.getPurchaseOrderNum());
+            if(subaward.getOrganization() != null){
+                subcontractDetail.setSubcontractorName(subaward.getOrganization().getOrganizationName());
+                rolodexDetails.setAddress1(subaward.getOrganization().getAddress());
+            }
             if(subaward.getStartDate() != null){
                 subcontractDetail.setStartDate(getDateTimeService().getCalendar(subaward.getStartDate()));
             }
             if(subaward.getEndDate() != null){
                 subcontractDetail.setEndDate(getDateTimeService().getCalendar(subaward.getEndDate()));
             }
-            rolodexDetails.setAddress1(subaward.getOrganization().getAddress());
-            
-            
-            
             subcontractDetail.setSubcontractorOrgRolodexDetails(rolodexDetails);
             subContractData.setSubcontractDetail(subcontractDetail);
         }
@@ -270,15 +269,14 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             SubAwardAmountInfo subawardAmount=null;
             if(subaward.getSubAwardAmountInfoList() != null && !subaward.getSubAwardAmountInfoList().isEmpty()){
                 subawardAmount = subaward.getSubAwardAmountInfoList().get(0);
-            
-            subContractAmountInfo.setObligatedAmount(subawardAmount.getObligatedAmount().bigDecimalValue());
-            subContractAmountInfo.setAnticipatedAmount(subawardAmount.getAnticipatedAmount().bigDecimalValue());
+                subContractAmountInfo.setObligatedAmount(subawardAmount.getObligatedAmount().bigDecimalValue());
+                subContractAmountInfo.setAnticipatedAmount(subawardAmount.getAnticipatedAmount().bigDecimalValue());
             }
             if(subaward.getPerformanceStartDate() != null){
-            subContractAmountInfo.setPerformanceStartDate(getDateTimeService().getCalendar(subaward.getPerformanceStartDate()));
+                subContractAmountInfo.setPerformanceStartDate(getDateTimeService().getCalendar(subaward.getPerformanceStartDate()));
             }
             if(subaward.getPerformanceEnddate() != null){
-            subContractAmountInfo.setPerformanceEndDate(getDateTimeService().getCalendar(subaward.getPerformanceEnddate()));
+                subContractAmountInfo.setPerformanceEndDate(getDateTimeService().getCalendar(subaward.getPerformanceEnddate()));
             }
             if(subaward.getModificationEffectiveDate() != null){
                 subContractAmountInfo.setModificationEffectiveDate(getDateTimeService().getCalendar(subaward.getModificationEffectiveDate()));
@@ -297,8 +295,12 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             List<AwardType> awardTypeList = new ArrayList<AwardType>();
             awardHeaderType.setSponsorAwardNumber(awardNumber);
             awardHeaderType.setSponsorDescription(sponsorName);
-            awardHeaderType.setTitle(subaward.getTitle());
-            otherDetails.setCFDANumber(cfdaNumber);
+            if(subaward.getTitle() != null){
+                awardHeaderType.setTitle(subaward.getTitle());
+            }
+            if(cfdaNumber != null){
+                otherDetails.setCFDANumber(cfdaNumber);
+            }
             awardDetails.setAwardHeader(awardHeaderType);
             awardDetails.setOtherHeaderDetails(otherDetails);
             awardType.setAwardDetails(awardDetails);
@@ -311,14 +313,14 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             RolodexDetailsType rolodexDetails =RolodexDetailsType.Factory.newInstance();
             UnitService unitService = KraServiceLocator.
                     getService(UnitService.class);
-                    this.unitName = unitService.getUnitName(subaward.getRequisitionerUnit());
             if(subaward.getRequisitionerUnit() != null)
                 {
-                   organisation.setOrganizationName(unitName);
+                this.unitName = unitService.getUnitName(subaward.getRequisitionerUnit());
+                organisation.setOrganizationName(unitName);
                 }
-            if(subaward.getRolodex() != null ){
-            rolodexDetails.setAddress1(subaward.getOrganization().getRolodex().getAddressLine1());
-            rolodexDetails.setAddress2(subaward.getOrganization().getRolodex().getAddressLine2());
+            if(subaward.getOrganization().getRolodex() != null ){
+                rolodexDetails.setAddress1(subaward.getOrganization().getRolodex().getAddressLine1());
+                rolodexDetails.setAddress2(subaward.getOrganization().getRolodex().getAddressLine2());
             }
             primeReceipient.setOrgRolodexDetails(rolodexDetails);
             primeReceipient.setRequisitionerOrgDetails(organisation);
@@ -332,7 +334,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             if(subawardattachment5.equals("1")){
               printrequirement.setAttachment5Required("Y");
             }
-           
            subContractData.setPrintRequirement(printrequirement);
         }
 }
