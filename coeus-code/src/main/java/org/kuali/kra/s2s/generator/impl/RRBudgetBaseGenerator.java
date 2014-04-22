@@ -27,7 +27,6 @@ import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -71,7 +70,6 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
     private static final String ADDITIONAL_EQUIPMENT = "ADDITIONAL_EQUIPMENT";
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
 	protected S2SUtilService s2sUtilService;
-	protected BudgetService budgetService;
     protected NarrativeService narrativeCleanupService;
     protected ProposalBudgetService proposalBudgetService;
 	public static final String OTHERCOST_DESCRIPTION = "Other";
@@ -104,7 +102,6 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
 		s2sBudgetCalculatorService = KcServiceLocator
 				.getService(S2SBudgetCalculatorService.class);
-		budgetService = KcServiceLocator.getService(BudgetService.class);
         narrativeCleanupService = KcServiceLocator.getService(NarrativeService.class);
         proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
 	}
@@ -305,9 +302,9 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
        if(budget != null){
            for (BudgetPeriod period : budget.getBudget().getBudgetPeriods()) {
                List<String> participantSupportCode = new ArrayList<String>();
-               participantSupportCode.add(budgetService.getParticipantSupportCategoryCode());
-               List<BudgetLineItem> participantSupportLineItems = 
-                   budgetService.getMatchingLineItems(period.getBudgetLineItems(), participantSupportCode);
+               participantSupportCode.add(s2sBudgetCalculatorService.getParticipantSupportCategoryCode());
+               List<BudgetLineItem> participantSupportLineItems =
+                       s2sBudgetCalculatorService.getMatchingLineItems(period.getBudgetLineItems(), participantSupportCode);
                int numberOfParticipants = period.getNumberOfParticipants() == null ? 0 : period.getNumberOfParticipants();
                if (!participantSupportLineItems.isEmpty() && numberOfParticipants == 0) {
                    AuditError auditError= S2SErrorHandler.getError(S2SConstants.PARTICIPANT_COUNT_REQUIRED);
@@ -323,21 +320,11 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
        }
        return valid;
    }
-   
+
    /**
     * @return the documentService
     */
    public DocumentService getDocumentService() {
        return KcServiceLocator.getService(DocumentService.class);
    }
-
-    protected BudgetService getBudgetService() {
-        return budgetService;
-    }
-    
-    public void setBudgetService(BudgetService budgetService) {
-        this.budgetService = budgetService;
-    }
-
-
 }
