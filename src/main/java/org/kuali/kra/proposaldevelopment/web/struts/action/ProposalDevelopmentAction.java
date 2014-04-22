@@ -244,7 +244,18 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         if(s2sOpportunity.getSchemaUrl()!=null){
-            s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(s2sOpportunity);
+            try{
+                s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(s2sOpportunity);
+            }catch(S2SException ex){
+                if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
+                    ex.setMessage(s2sOpportunity.getOpportunityId());
+                }
+                if(ex.getTabErrorKey()!=null){
+                    GlobalVariables.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getMessageWithParams());
+                }else{
+                    GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+                }
+            }
             if(s2sOppForms!=null){
                 for(S2sOppForms s2sOppForm:s2sOppForms){
                     if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){

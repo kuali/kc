@@ -37,7 +37,8 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
-import org.kuali.kra.bo.S2sOppFormQuestionnaire;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
@@ -46,13 +47,13 @@ import org.kuali.kra.s2s.bo.S2sUserAttachedForm;
 import org.kuali.kra.s2s.bo.S2sUserAttachedFormAtt;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
-import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.service.S2SUserAttachedFormService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -81,22 +82,49 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
                                                                         S2sUserAttachedForm s2sUserAttachedForm) throws Exception{
         PdfReader reader = null;
         List<S2sUserAttachedForm> formBeans = new ArrayList<S2sUserAttachedForm>();
-        List<S2sUserAttachedForm> savedFormBeans;
+//        List<S2sUserAttachedForm> savedFormBeans;
+//        List<S2sOppForms> s2sOppForms;
         try{
             byte pdfFileContents[] = s2sUserAttachedForm.getFormFile();
             if(pdfFileContents==null || pdfFileContents.length==0){
-                throw new S2SException("Uploaded file is empty");
+                S2SException s2sException = new S2SException(KeyConstants.S2S_USER_ATTACHED_FORM_EMPTY,"Uploaded file is empty");
+              s2sException.setTabErrorKey("userAttachedFormsErrors");
+              throw s2sException;
             }else{
                 reader = new PdfReader(pdfFileContents);
                 Map attachments = extractAttachments(reader);
-                formBeans = extractAndPopulateXml(reader,s2sUserAttachedForm,attachments);
+                formBeans = extractAndPopulateXml(developmentProposal,reader,s2sUserAttachedForm,attachments);
+//                s2sOppForms = getChangedOppForms(developmentProposal,formBeans);
             }
-            savedFormBeans = (List<S2sUserAttachedForm>) businessObjectService.save(formBeans);
-            resetFormsAvailability(developmentProposal,savedFormBeans);
+//            try{
+//                businessObjectService.save(s2sOppForms);
+//                savedFormBeans = (List<S2sUserAttachedForm>) businessObjectService.save(formBeans);
+//            }catch(DataIntegrityViolationException ex){
+//                S2SException s2sException = new S2SException(KeyConstants.S2S_DUPLICATE_USER_ATTACHED_FORM,ex.getMessage());
+//                s2sException.setTabErrorKey("userAttachedFormsErrors");
+//                throw s2sException;
+//            }
+            resetFormsAvailability(developmentProposal,formBeans);
         }finally{
             if(reader!=null) reader.close();
         }
-        return savedFormBeans;
+        return formBeans;
+    }
+
+    private List<S2sOppForms> getChangedOppForms(DevelopmentProposal developmentProposal, List<S2sUserAttachedForm> formBeans) {
+        List<S2sOppForms> s2sForms = developmentProposal.getS2sOpportunity().getS2sOppForms();
+        List<S2sOppForms> changedS2sForms = new ArrayList<S2sOppForms>();
+        for (S2sUserAttachedForm s2sUserAttachedForm : formBeans) {
+            for (S2sOppForms s2sOppForms : s2sForms) {
+                if(s2sUserAttachedForm.getNamespace().equals(s2sOppForms.getOppNameSpace())){
+                    s2sOppForms.setAvailable(true);
+                    s2sOppForms.setUserAttachedForm(true);
+                    changedS2sForms.add(s2sOppForms);
+                }
+            }
+            
+        }
+        return changedS2sForms;
     }
 
     private void resetFormsAvailability(DevelopmentProposal developmentProposal, List<S2sUserAttachedForm> savedFormBeans) {
@@ -197,7 +225,7 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         return fileInfo;
     }
     
-    private List extractAndPopulateXml(PdfReader reader, S2sUserAttachedForm userAttachedFormBean, Map attachments) throws Exception {
+    private List extractAndPopulateXml(DevelopmentProposal developmentProposal, PdfReader reader, S2sUserAttachedForm userAttachedFormBean, Map attachments) throws Exception {
         List formBeans = new ArrayList();
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
@@ -255,7 +283,7 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
                                 String formNodeName = form.getLocalName();
                                 if (seletctedForms.contains(formNodeName)) {
                                     try{
-                                        addForm(formBeans,form,userAttachedFormBean, attachments);
+                                        addForm(developmentProposal,formBeans,form,userAttachedFormBean, attachments);
                                     }catch(UnmarshalException ume){
                                         exceptions.add("Not able to create xml for the form "+formNodeName+" Root Cause:"+ume.getMessage()+"<br>");
                                     }
@@ -271,24 +299,40 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
                     }
                 }else{
                     form = (Element) formChildren.item(0);
-                    addForm(formBeans,form,userAttachedFormBean, attachments);
+                    addForm(developmentProposal,formBeans,form,userAttachedFormBean, attachments);
                 }
             }else{
                 form = document.getDocumentElement();
-                addForm(formBeans,form,userAttachedFormBean, attachments);
+                addForm(developmentProposal,formBeans,form,userAttachedFormBean, attachments);
             }
         }
         return formBeans;
     }
-    private void addForm(List formBeans, Element form,
+    private void addForm(DevelopmentProposal developmentProposal, List formBeans, Element form,
             S2sUserAttachedForm userAttachedFormBean, Map attachments) throws Exception {
         S2sUserAttachedForm userAttachedForm = processForm(form,userAttachedFormBean,attachments);
+        validateForm(developmentProposal,userAttachedForm);
         if(userAttachedForm!=null){
             userAttachedForm.setXmlDataExists(userAttachedForm.getXmlFile()!=null);
             userAttachedForm.setFormFileDataExists(userAttachedForm.getFormFile()!=null);
             formBeans.add(userAttachedForm);
         }
     }
+    private void validateForm(DevelopmentProposal developmentProposal, S2sUserAttachedForm userAttachedForm) throws S2SException{
+        S2sOpportunity opportunity = developmentProposal.getS2sOpportunity(); 
+        if(opportunity!=null){
+            List<S2sUserAttachedForm> userAttachedForms = developmentProposal.getS2sUserAttachedForms();
+            for (S2sUserAttachedForm s2sForm : userAttachedForms) {
+                if(userAttachedForm.getNamespace().equals(s2sForm.getNamespace())){
+                    S2SException s2sException  = new S2SException(KeyConstants.S2S_DUPLICATE_USER_ATTACHED_FORM,
+                                "The form is already available in the forms list",userAttachedForm.getFormName());
+                    s2sException.setTabErrorKey("userAttachedFormsErrors");
+                    throw s2sException;
+                }
+            }
+        }
+    }
+
     private S2sUserAttachedForm processForm(Element form,S2sUserAttachedForm userAttachedForm, Map attachments) throws Exception {
         
         
@@ -348,7 +392,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         }
     }   
     private void validateForm(Document userAttachedFormDocument, String namespace) throws Exception{
-//        byte[] documentBytes = docToBytes(userAttachedFormDocument);
         XmlObject xmlObject = XmlObject.Factory.parse(userAttachedFormDocument);
         List<AuditError> errors = new ArrayList<AuditError>();
         s2SValidatorService.validate(xmlObject, errors) ;
@@ -463,7 +506,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         String hashValue;
         String contentId;
         List<S2sUserAttachedFormAtt> attachmentList = new ArrayList<S2sUserAttachedFormAtt>();
-//        DocumentTypeChecker documentTypeChecker = new DocumentTypeChecker();
         for (int index = 0; index < lstFileName.getLength(); index++) {
             fileNode = lstFileName.item(index);
             if (fileNode.getFirstChild() == null) {
@@ -474,15 +516,11 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             if (fileBytes == null) {
                 throw new S2SException("FileName mismatch in XML and PDF extracted file");
             }
-//            hashValueType = S2SHashValue.getValue(fileBytes);
-//            hashAlgorithm = hashValueType.getHashAlgorithm();
-//            byte hashBytes[] = hashValueType.getValue();
             hashValue = GrantApplicationHash.computeAttachmentHash(fileBytes);
             hashNode = lstHashValue.item(index);
             NamedNodeMap hashNodeMap = hashNode.getAttributes();
             Node temp = document.createTextNode(hashValue);
             hashNode.appendChild(temp);
-//            hashNode.setNodeValue(hashAlgorithm);
 
             Node hashAlgorithmNode = hashNodeMap.getNamedItemNS("http://apply.grants.gov/system/Global-V1.0", "hashAlgorithm");
             hashAlgorithmNode.setNodeValue(S2SConstants.HASH_ALGORITHM);
@@ -500,16 +538,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             mimeTypeNode = lstMimeType.item(0);
             String contentType = mimeTypeNode.getFirstChild().getNodeValue();
             userAttachedFormAttachmentBean.setContentType(contentType);
-//            DocumentType documentType = null;
-//            try {
-//                documentType = documentTypeChecker.getDocumentType(fileBytes);
-//            } catch (Exception exception) {
-//                UtilFactory.log(exception.getMessage(), exception, "BudgetSubAwardTxnBean", "checkAndUpdate");
-//                userAttachedFormAttachmentBean.setContentType(null);
-//            }
-//            if (documentType != null) {
-//                userAttachedFormAttachmentBean.setContentType(documentType.getMimeType());
-//            }
 
             userAttachedFormAttachmentBean.setProposalNumber(userAttachedFormBean.getProposalNumber());
             userAttachedFormAttachmentBean.setS2sUserAttachedFormId(userAttachedFormBean.getS2sUserAttachedFormId());
