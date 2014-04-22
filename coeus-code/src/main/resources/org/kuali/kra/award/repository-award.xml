@@ -251,11 +251,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		
-		<reference-descriptor name="contactRole" class-ref="org.kuali.coeus.propdev.impl.person.ProposalPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="roleCode"/> 
-		</reference-descriptor>
-		
+				
 		<collection-descriptor name="units" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardPersonUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none"> 
             <inverse-foreignkey field-ref="awardContactId" />
         </collection-descriptor>
