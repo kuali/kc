@@ -18,8 +18,8 @@ package org.kuali.kra.service.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
-import org.kuali.coeus.common.impl.sponsor.LegacySponsorServiceImpl;
+import org.kuali.coeus.common.impl.sponsor.SponsorHierarchyMaintenanceService;
+import org.kuali.coeus.common.impl.sponsor.SponsorHierarchyMaintenanceServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
@@ -31,13 +31,13 @@ import static org.junit.Assert.assertNull;
 /**
  * This class tests KraPersistableBusinessObjectBase.
  */
-public class LegacySponsorServiceImplTest extends KcIntegrationTestBase {
+public class SponsorHierarchyMaintenanceServiceImplTest extends KcIntegrationTestBase {
 
     private static final String TEST_SPONSOR_CODE = "005891";
     private static final String TEST_SPONSOR_NAME = "Baystate Medical Center";
     private static final String INVALID_SPONSOR_CODE = "XXXX";
     private static final String TOP_SPONSOR_HIERARCHY = "Administering Activity;1;COI Disclosures;1;NIH Multiple PI;1;NIH Other Significant Contributor;1;Printing;1;Routing;1;Sponsor Groups";
-    private LegacySponsorService sponsorService;
+    private SponsorHierarchyMaintenanceService sponsorService;
     
     @Before
     public void setUp() throws Exception {
@@ -47,16 +47,7 @@ public class LegacySponsorServiceImplTest extends KcIntegrationTestBase {
     public void tearDown() throws Exception {
         sponsorService = null;
     }
-    
-    @Test public void testGetSponsorName() throws Exception {
-        sponsorService = this.getRegularSponsorService();
-        assertEquals(TEST_SPONSOR_NAME, sponsorService.getSponsorName(TEST_SPONSOR_CODE));
-    }
 
-    @Test public void testGetSponsorNameInvalidCode() throws Exception {
-        sponsorService = this.getRegularSponsorService();
-        assertNull(sponsorService.getSponsorName(INVALID_SPONSOR_CODE));
-    }
     @Test
     public void testNotEmptyGetTopSponsorHierarch() {
         sponsorService = this.getRegularSponsorService();
@@ -67,15 +58,15 @@ public class LegacySponsorServiceImplTest extends KcIntegrationTestBase {
         sponsorService = this.getEmptySponsorService();
         assertEquals("", sponsorService.getTopSponsorHierarchy()); 
     }
-    private LegacySponsorService getEmptySponsorService() {
-        return new LegacySponsorServiceImpl() {
+    private SponsorHierarchyMaintenanceService getEmptySponsorService() {
+        return new SponsorHierarchyMaintenanceServiceImpl() {
             public Collection getTopSponsorHierarchyList(){
                 return new ArrayList();
             }
         };
     }
-    private LegacySponsorService getRegularSponsorService() {
-        return KcServiceLocator.getService(LegacySponsorService.class);
+    private SponsorHierarchyMaintenanceService getRegularSponsorService() {
+        return KcServiceLocator.getService(SponsorHierarchyMaintenanceService.class);
     }
 
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
+import org.kuali.coeus.common.impl.sponsor.SponsorHierarchyMaintenanceService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class PrintingHierarchyNameValuesFinder extends UifKeyValuesFinderBase {
 
-    private LegacySponsorService legacySponsorService;
+    private SponsorHierarchyMaintenanceService sponsorHierarchyMaintenanceService;
     private ParameterService parameterService;
 
     @Override
@@ -37,22 +37,22 @@ public class PrintingHierarchyNameValuesFinder extends UifKeyValuesFinderBase {
         String hierarchyName = getParameterService().getParameterValueAsString(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                 Constants.SPONSOR_HIERARCHY_PRINTING_NAME_PARAM);
-        List<String> groupNames = getLegacySponsorService().getUniqueGroupingNames(hierarchyName, 1);
+        List<String> groupNames = getSponsorHierarchyMaintenanceService().getUniqueGroupingNames(hierarchyName, 1);
         for (String group : groupNames) {
             result.add(new ConcreteKeyValue(group, group));
         }
         return result;
     }
 
-    public LegacySponsorService getLegacySponsorService() {
-        if (legacySponsorService == null) {
-            legacySponsorService = KcServiceLocator.getService(LegacySponsorService.class);
+    public SponsorHierarchyMaintenanceService getSponsorHierarchyMaintenanceService() {
+        if (sponsorHierarchyMaintenanceService == null) {
+            sponsorHierarchyMaintenanceService = KcServiceLocator.getService(SponsorHierarchyMaintenanceService.class);
         }
-        return legacySponsorService;
+        return sponsorHierarchyMaintenanceService;
     }
 
-    public void setLegacySponsorService(LegacySponsorService legacySponsorService) {
-        this.legacySponsorService = legacySponsorService;
+    public void setSponsorHierarchyMaintenanceService(SponsorHierarchyMaintenanceService sponsorHierarchyMaintenanceService) {
+        this.sponsorHierarchyMaintenanceService = sponsorHierarchyMaintenanceService;
     }
 
     public ParameterService getParameterService() {

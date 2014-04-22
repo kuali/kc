@@ -43,6 +43,7 @@ body {
 <script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
 <script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>
+<script language="javascript" src="dwr/interface/SponsorHierarchyMaintenanceService.js"></script>
 <script language="JavaScript" type="text/javascript"
 	src="scripts/kuali_application.js"></script>
 <script type="text/javascript" src="scripts/kra_yui.js"></script>
