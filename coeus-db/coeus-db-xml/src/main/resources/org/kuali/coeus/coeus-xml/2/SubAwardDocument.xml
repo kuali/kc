@@ -12,6 +12,12 @@
 			<docHandler>${kuali.docHandler.url.prefix}/subAwardHome.do?methodToCall=docHandler</docHandler>
 			<helpDefinitionURL>default.htm?turl=Documents/subaward1.htm</helpDefinitionURL>
 			<active>true</active>
+			<policies>
+                <policy>
+                    <name>INITIATOR_MUST_ROUTE</name>
+                    <value>false</value>
+                </policy>
+            </policies>
 			<routingVersion>2</routingVersion>
 			<routePaths>
 				<routePath>

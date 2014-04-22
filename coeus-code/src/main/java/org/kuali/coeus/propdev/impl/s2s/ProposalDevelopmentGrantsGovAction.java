@@ -19,6 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
@@ -29,7 +31,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.kra.s2s.service.S2SUserAttachedFormService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +47,9 @@ import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAM
 public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentAction {
     private static final String CONFIRM_REMOVE_OPPRTUNITY_KEY = "confirmRemoveOpportunity";
     private static final String EMPTY_STRING = "";
+    private static final String CONTENT_TYPE_XML = "text/xml";
+    private static final String XML_FILE_EXTENSION = "xml";
+    private static final String CONTENT_TYPE_PDF = "application/pdf";
 
 
     private S2SService s2SService;
@@ -56,24 +64,24 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         
         // In a Hierarchy Child, the G.g tab is disabled, so this exception should only happen if the app is being hacked.
-        if (proposalDevelopmentDocument.getDevelopmentProposal().isChild()) throw new ProposalHierarchyException("Cannot perform Grants.gov tasks on a Proposal Hierarchy child");
+        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        if (developmentProposal.isChild()) throw new ProposalHierarchyException("Cannot perform Grants.gov tasks on a Proposal Hierarchy child");
 
-        if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!=null){
+        if(developmentProposal.getS2sOpportunity()!=null){
                 proposalDevelopmentForm.setGrantsGovSelectFlag(true);
-            if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getProposalNumber()==null){
-                proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().setProposalNumber(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());                
+            if(developmentProposal.getS2sOpportunity().getProposalNumber()==null){
+                developmentProposal.getS2sOpportunity().setProposalNumber(developmentProposal.getProposalNumber());                
             }            
-            if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId()!=null){
-                proposalDevelopmentDocument.getDevelopmentProposal().setProgramAnnouncementNumber(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId());                
+            if(developmentProposal.getS2sOpportunity().getOpportunityId()!=null){
+                developmentProposal.setProgramAnnouncementNumber(developmentProposal.getS2sOpportunity().getOpportunityId());                
             }
-            if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle()!=null){
-                proposalDevelopmentDocument.getDevelopmentProposal().setProgramAnnouncementTitle(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());                
+            if(developmentProposal.getS2sOpportunity().getOpportunityTitle()!=null){
+                developmentProposal.setProgramAnnouncementTitle(developmentProposal.getS2sOpportunity().getOpportunityTitle());                
             }
-            if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber()!=null){
-                proposalDevelopmentDocument.getDevelopmentProposal().setCfdaNumber(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber());                
+            if(developmentProposal.getS2sOpportunity().getCfdaNumber()!=null){
+                developmentProposal.setCfdaNumber(developmentProposal.getS2sOpportunity().getCfdaNumber());                
             }
         }
-    
         ActionForward actionForward = super.execute(mapping, form, request, response);
         return actionForward;        
     }
@@ -91,13 +99,15 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         Boolean mandatoryFormNotAvailable = false;
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         
+        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         if(proposalDevelopmentForm.getNewS2sOpportunity() != null 
                 && StringUtils.isNotEmpty(proposalDevelopmentForm.getNewS2sOpportunity().getOpportunityId())) {
-            proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(proposalDevelopmentForm.getNewS2sOpportunity());
+            developmentProposal.setS2sOpportunity(proposalDevelopmentForm.getNewS2sOpportunity());
             proposalDevelopmentForm.setNewS2sOpportunity(new S2sOpportunity());
         }
 
-        S2sOpportunity s2sOpportunity = proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity();
+        S2sOpportunity s2sOpportunity = developmentProposal.getS2sOpportunity();
+        s2sOpportunity.setProposalNumber(developmentProposal.getProposalNumber());
         try {
             if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
                 s2sOppForms = getS2SService().parseOpportunityForms(s2sOpportunity);
@@ -114,8 +124,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
                     s2sOpportunity.setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
                     proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);                
                 }else{
-                    GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
-                    proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
+                    GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,developmentProposal.getS2sOpportunity().getOpportunityId());
+                    developmentProposal.setS2sOpportunity(new S2sOpportunity());
                 }            
             }
         }catch(S2SException ex){
@@ -123,7 +133,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
                 ex.setMessage(s2sOpportunity.getOpportunityId());
             }
             GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
-            proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
+            developmentProposal.setS2sOpportunity(new S2sOpportunity());
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -272,5 +282,129 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     		s2SService = KcServiceLocator.getService(S2SService.class);
 		return s2SService;
 	}
+
+    /**
+     * 
+     * This method enable the ability to save the generated system to system XML
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addS2sUserAttachedForm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        S2sUserAttachedForm s2sUserAttachedForm = proposalDevelopmentForm.getNewS2sUserAttachedForm();
+        FormFile userAttachedFormFile = s2sUserAttachedForm.getNewFormFile();
+        s2sUserAttachedForm.setFormFile(userAttachedFormFile.getFileData());
+        s2sUserAttachedForm.setFormFileName(userAttachedFormFile.getFileName());
+        s2sUserAttachedForm.setProposalNumber(developmentProposal.getProposalNumber());
+        List<S2sUserAttachedForm> userAttachedForms = KcServiceLocator.getService(S2SUserAttachedFormService.class).
+                    extractNSaveUserAttachedForms(developmentProposal,s2sUserAttachedForm);
+        developmentProposal.getS2sUserAttachedForms().addAll(userAttachedForms);
+        proposalDevelopmentForm.setNewS2sUserAttachedForm(new S2sUserAttachedForm());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method enable the ability to save the generated system to system XML
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewUserAttachedFormXML(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
+        S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
+        S2sUserAttachedForm refreshedelectedForm = KcServiceLocator.getService(BusinessObjectService.class).
+                        findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getS2sUserAttachedFormId());
+        streamToResponse(refreshedelectedForm.getXmlFile().getBytes(), refreshedelectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
+        return null;
+    }
+    /**
+     * 
+     * This method enable the ability to save the generated system to system XML
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewUserAttachedFormPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
+        S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
+        S2sUserAttachedForm refreshedelectedForm = KcServiceLocator.getService(BusinessObjectService.class).
+                        findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getS2sUserAttachedFormId());
+        streamToResponse(refreshedelectedForm.getFormFile(), refreshedelectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
+        return null;
+    }
+    /**
+     * 
+     * This method enable the ability to save the generated system to system XML
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewUserAttachedFormAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
+        S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
+        S2sUserAttachedFormAtt attachment = selectedForm.getS2sUserAttachedFormAtts().get(getParameterForToken(request, "attIndex"));
+        S2sUserAttachedFormAtt refreshedSelectedFormAtt = KcServiceLocator.getService(BusinessObjectService.class).
+                        findBySinglePrimaryKey(S2sUserAttachedFormAtt.class, attachment.getS2sUserAttachedFormAttId());
+        streamToResponse(refreshedSelectedFormAtt.getAttachment(), refreshedSelectedFormAtt.getFileName(), refreshedSelectedFormAtt.getContentType(), response);
+        return null;
+    }
+    protected int getParameterForToken(HttpServletRequest request,String token) {
+        int selectedLine = -1;
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            String lineNumber = StringUtils.substringBetween(parameterName, ("."+token), ".");
+            if (StringUtils.isEmpty(lineNumber)) {
+                return selectedLine;
+            }
+            selectedLine = Integer.parseInt(lineNumber);
+        }
+
+        return selectedLine;
+    }
+
+    /**
+     * 
+     * This method enable the ability to save the generated system to system XML
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteUserAttachedForm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        S2sUserAttachedForm deleteForm = developmentProposal.getS2sUserAttachedForms().remove(getSelectedLine(request));
+        KcServiceLocator.getService(S2SUserAttachedFormService.class).
+                                                                resetFormAvailability(developmentProposal,deleteForm.getNamespace());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
 }

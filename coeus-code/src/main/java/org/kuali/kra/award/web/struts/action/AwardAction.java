@@ -981,7 +981,7 @@ public class AwardAction extends BudgetParentActionBase {
 //    public Award getPendingAwardVersion(String goToAwardNumber) {
 //        
 //        Award award = null;
-//        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+//        BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
 //        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
 //        if(!(awards.size() == 0)) {
 //            award = awards.get(awards.size() - 1);

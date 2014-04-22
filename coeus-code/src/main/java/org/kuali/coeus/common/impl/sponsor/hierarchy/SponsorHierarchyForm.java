@@ -67,7 +67,7 @@ public class SponsorHierarchyForm extends KualiForm {
         super();
         hierarchyNameList=new ArrayList();
         newSponsors = new AutoPopulatingList<List>(ArrayList.class);
-        //topSponsorHierarchies = KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy();        
+        //topSponsorHierarchies = KcServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy();        
 
     }
     

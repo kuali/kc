@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -38,6 +39,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sAppAttachments;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sApplication;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
@@ -63,6 +65,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -240,23 +243,17 @@ public class PrintServiceImpl implements PrintService {
 			throw new S2SException(e);
 		}
 		FormMappingInfo info = null;
-		S2SFormGenerator s2sFormGenerator = null;
-		List<AuditError> errors = new ArrayList<AuditError>();
-		List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc
-				.getDevelopmentProposal().getS2sOppForms());
+		DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+        List<String> sortedNameSpaces = getSortedNameSpaces(developmentProposal.getProposalNumber(),developmentProposal.getS2sOppForms());
 		boolean formEntryFlag = true;
 		List<Printable> formPrintables = new ArrayList<Printable>();
 		for (String namespace : sortedNameSpaces) {
 			XmlObject formFragment = null;
-			try {
-				info = new FormMappingLoader().getFormInfo(namespace);
-				formFragment = getFormObject(submittedDocument, info);
-				frmXpath = "//*[namespace-uri(.) = '"+namespace+"']";               
-                frmAttXpath = "//*[namespace-uri(.) = '"+namespace+"']//*[local-name(.) = 'FileLocation' and namespace-uri(.) = 'http://apply.grants.gov/system/Attachments-V1.0']";           
-           } catch (S2SGeneratorNotFoundException e) {
-				// Form generator not available for the namespace
-				continue;
-			}
+			info = new FormMappingLoader().getFormInfo(namespace);
+			if(info==null) continue;
+			formFragment = getFormObject(submittedDocument, info);
+			frmXpath = "//*[namespace-uri(.) = '"+namespace+"']";               
+            frmAttXpath = "//*[namespace-uri(.) = '"+namespace+"']//*[local-name(.) = 'FileLocation' and namespace-uri(.) = 'http://apply.grants.gov/system/Attachments-V1.0']";           
 
 				byte[] formXmlBytes = formFragment.xmlText().getBytes();
 				S2SFormPrint formPrintable = new S2SFormPrint();
@@ -312,7 +309,7 @@ public class PrintServiceImpl implements PrintService {
             LOG.error(e.getMessage(), e);
           }		
           try {
-              if(pdDoc.getDevelopmentProposal().getGrantsGovSelectFlag()){
+              if(developmentProposal.getGrantsGovSelectFlag()){
               	List<AttachmentData> attachmentLists = new ArrayList<AttachmentData>();
               	saveGrantsGovXml(pdDoc,formEntryFlag,formFragment,attachmentLists,attachmentList);
               	formEntryFlag = false;
@@ -347,24 +344,22 @@ public class PrintServiceImpl implements PrintService {
 		S2SBaseFormGenerator s2sFormGenerator = null;
 		grantsGovXmlDirectoryFile = null;
 		List<AuditError> errors = new ArrayList<AuditError>();
-		List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc
-				.getDevelopmentProposal().getS2sOppForms());
+		DevelopmentProposal developmentProposal = pdDoc
+				.getDevelopmentProposal();
+        String proposalNumber = developmentProposal.getProposalNumber();
+        List<String> sortedNameSpaces = getSortedNameSpaces(proposalNumber,developmentProposal.getS2sOppForms());
 
 		List<Printable> formPrintables = new ArrayList<Printable>();
 		boolean formEntryFlag = true;
 	    getNarrativeService().deleteSystemGeneratedNarratives(pdDoc.getDevelopmentProposal().getNarratives());
 	    Forms forms = Forms.Factory.newInstance();
 		for (String namespace : sortedNameSpaces) {
-			try {
-				info = new FormMappingLoader().getFormInfo(namespace);
-				s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(info
-						.getNameSpace());
-			} catch (S2SGeneratorNotFoundException e) {
-				LOG.info("Form not found for namespace: " + namespace);
-				continue;
-			}
+			info = new FormMappingLoader().getFormInfo(proposalNumber,namespace);
+			if(info==null) continue;
+			s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(proposalNumber,info.getNameSpace());
 			s2sFormGenerator.setAuditErrors(errors);
 			s2sFormGenerator.setAttachments(new ArrayList<AttachmentData>());
+			s2sFormGenerator.setNamespace(namespace);
 			XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
 			
 			if (s2SValidatorService.validate(formObject, errors) && errors.isEmpty()) {
@@ -379,13 +374,13 @@ public class PrintServiceImpl implements PrintService {
 
 				ArrayList<Source> templates = new ArrayList<Source>();
 				Source xsltSource = new StreamSource(getClass()
-						.getResourceAsStream("/" + info.getStylesheet()));
+						.getResourceAsStream("/" + info.getStyleSheet()));
 				templates.add(xsltSource);
 				formPrintable.setXSLT(templates);
 
 				List<AttachmentData> attachmentList = s2sFormGenerator.getAttachments();
 				try {
-				    if(pdDoc.getDevelopmentProposal().getGrantsGovSelectFlag()){
+				    if(developmentProposal.getGrantsGovSelectFlag()){
 				    	List<S2sAppAttachments> attachmentLists = new ArrayList<S2sAppAttachments>();
 				    	setFormObject(forms, formObject);
                     	saveGrantsGovXml(pdDoc,formEntryFlag,forms,attachmentList,attachmentLists);
@@ -555,13 +550,12 @@ public class PrintServiceImpl implements PrintService {
 	 *            list of S2sOppForms.
 	 * @return List<String> list of sorted name spaces.
 	 */
-	protected List<String> getSortedNameSpaces(List<S2sOppForms> s2sOppForms) {
+	protected List<String> getSortedNameSpaces(String proposalNumber,List<S2sOppForms> s2sOppForms) {
 		List<String> orderedNamespaces = new ArrayList<String>();
 		List<String> namespaces;
 		FormMappingLoader formMappingLoader = new FormMappingLoader();
 		formMappingLoader.getBindings();
-		Map<Integer, List<String>> sortedNamespaces = formMappingLoader
-				.getSortedNameSpaces();
+		Map<Integer, List<String>> sortedNamespaces = formMappingLoader.getSortedNameSpaces();
 		List<Integer> sortedIndices = new ArrayList<Integer>(sortedNamespaces
 				.keySet());
 		int index = 0;
@@ -577,10 +571,28 @@ public class PrintServiceImpl implements PrintService {
 				}
 			}
 		}
+		List<String> userAttachedFormNamespaces = findUserAttachedNamespaces(proposalNumber);
+        for (S2sOppForms oppForm : s2sOppForms) {
+            if(userAttachedFormNamespaces.contains(oppForm.getS2sOppFormsId().getOppNameSpace())){
+                orderedNamespaces.add(oppForm.getS2sOppFormsId().getOppNameSpace());
+            }
+        }
 		return orderedNamespaces;
 	}
 
-	/**
+    private List<String> findUserAttachedNamespaces(String proposalNumber) {
+        List<String> namespaces = new ArrayList<String>();
+        Map<String, Object> fieldMap = new HashMap<String, Object>();
+        fieldMap.put("proposalNumber", proposalNumber);
+        List<S2sUserAttachedForm> formList = (List<S2sUserAttachedForm>) KcServiceLocator.getService(BusinessObjectService.class).
+                                                    findMatching(S2sUserAttachedForm.class,fieldMap);
+        for (S2sUserAttachedForm s2sUserAttachedForm : formList) {
+            namespaces.add(s2sUserAttachedForm.getNamespace());
+        }
+        return namespaces;
+    }
+
+    /**
 	 * 
 	 * Setter for {@link S2SFormGeneratorService}
 	 * 

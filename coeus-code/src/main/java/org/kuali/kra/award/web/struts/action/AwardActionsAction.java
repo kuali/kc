@@ -129,7 +129,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 //        AwardForm awardForm = (AwardForm)form;
 //        awardForm.setCurrentAwardNumber(awardNumber);
 //        awardForm.setCurrentSeqNumber(award.getSequenceNumber().toString());
-//        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+//        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
 //        AwardDocument awardDocument = (AwardDocument)documentService.getByDocumentHeaderId(documentNumber);
 //        awardDocument.setAward(award);
 //        awardForm.setDocument(awardDocument);
@@ -517,7 +517,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public ActionForward printBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
 //        Map<String, Object> reportParameters = new HashMap<String, Object>();
-//        AwardPrintingService awardPrintService = KraServiceLocator
+//        AwardPrintingService awardPrintService = KcServiceLocator
 //                .getService(AwardPrintingService.class);
 //        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
 //                awardForm.getAwardDocument(), AwardPrintType.AWARD_TEMPLATE

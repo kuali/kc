@@ -77,6 +77,10 @@
                         <td align="center" valign="middle">
                             <div align="center">                                                
                                 <c:choose>
+                                    <c:when test="${KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms[status.index].available and 
+                                    					KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms[status.index].userAttachedForm}">
+                                        <c:out value="User Attached Form"/>
+                                    </c:when>
                                     <c:when test="${KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms[status.index].available}">
                                         <c:out value="Available"/>
                                     </c:when>

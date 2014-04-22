@@ -405,8 +405,8 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
                 && currentObligationExpirationDate !=null 
                 && !currentObligationExpirationDate.equals(previousObligationExpirationDate)){
             // previousObligationExpirationDate is null
-            if (isNoCostExtension && previousObligationExpirationDate == null || 
-                    currentObligationExpirationDate.after(previousObligationExpirationDate)) {
+            if (isNoCostExtension && (previousObligationExpirationDate == null || 
+                    currentObligationExpirationDate.after(previousObligationExpirationDate))) {
                         AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
                         aai = tempAai;
                         aai.setObligationExpirationDate(currentObligationExpirationDate);
