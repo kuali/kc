@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.location;
 
 import org.kuali.coeus.propdev.impl.location.SaveProposalSitesEvent;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
