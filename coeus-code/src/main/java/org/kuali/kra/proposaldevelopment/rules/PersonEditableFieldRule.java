@@ -87,7 +87,5 @@ public class PersonEditableFieldRule extends MaintenanceDocumentRuleBase {
          * 
          * @return BusinessObjectService instance
          */
-        public BusinessObjectService getBusinessObjectService() {
-            return getService(BusinessObjectService.class);
-        }
+        public BusinessObjectService getBusinessObjectService() {return getService(BusinessObjectService.class);}
 }

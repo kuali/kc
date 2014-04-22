@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.person.creditsplit;
 
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
-import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitNameInfo;
-import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitable;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -83,7 +80,7 @@ public class CreditSplitValidator {
      * investigator.
      * 
      * @param investigators
-     * @param creditTypeCode
+     * @param creditType
      * @return true if the investigator collection is valid for the credit type, and false if it's invalid
      */
     public boolean validate(Collection<ProposalPerson> investigators, InvestigatorCreditType creditType) {
@@ -220,9 +217,6 @@ public class CreditSplitValidator {
      * <code>CREDIT_SPLIT_KEY, messageKey, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR</code>
      * 
      * @param messageKey
-     * @see CreditSplitAuditError
-     * @see AuditError
-     * @see KNSGlobalVariables.getAuditErrorMap()
      */
     private void addAuditError(String messageKey, String ... params) {
         AuditError error = new CreditSplitAuditError(messageKey, params);
@@ -306,7 +300,6 @@ public class CreditSplitValidator {
         /**
          * 
          * @param messageKey to be delegated to <code>{@link AuditError}</code> superclass
-         * @param params varargs array of parameters for the messagekey
          */
         public CreditSplitAuditError(String messageKey) {
             this(messageKey, null);

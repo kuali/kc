@@ -60,7 +60,6 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
         if(getKeyPersonCertDeferralParm().equals(BEFORE_SUBMIT)) {
             valid &= this.validateAllCertificationsComplete((ProposalDevelopmentDocument) document);
         } else if(getKeyPersonCertDeferralParm().equals(BEFORE_APPROVE)) {
-            //valid &= this.validateSpecificKeyPersonCertification((ProposalDevelopmentDocument) document);
         } else {
             LOG.warn("System parameter 'KEY_PERSON_CERTIFICATION_DEFERRAL' should be one of 'BA' or 'BS'.");
             return false;

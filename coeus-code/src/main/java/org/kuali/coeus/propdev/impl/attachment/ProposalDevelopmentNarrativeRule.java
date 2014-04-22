@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.attachment;
 
+import gov.grants.apply.forms.dojCISBudgetV10.BudgetDocument;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -28,20 +29,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
-import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
-import org.kuali.coeus.propdev.impl.attachment.AddNarrativeRule;
-import org.kuali.coeus.propdev.impl.attachment.NewNarrativeUserRightsRule;
-import org.kuali.coeus.propdev.impl.attachment.ReplaceNarrativeRule;
-import org.kuali.coeus.propdev.impl.attachment.SaveNarrativesRule;
-import org.kuali.coeus.propdev.impl.attachment.AddNarrativeEvent;
-import org.kuali.coeus.propdev.impl.attachment.ReplaceNarrativeEvent;
-import org.kuali.coeus.propdev.impl.attachment.SaveNarrativesEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -51,7 +41,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 
 
@@ -75,6 +64,8 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
     private transient ParameterService parameterService;
     private transient KcAttachmentService  kcAttachmentService;
     private DictionaryValidationService dictionaryValidationService;
+    private transient KcAuthorizationService kcAuthorizationService;
+
     /**
      * This method is used to validate narratives and institute proposal attachments before adding.
      * It checks whether the narratives are duplicated for those of which have allowMultiple flag set as false.
@@ -294,7 +285,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
     private void populateNarrativeType(Narrative narrative) {
         Map<String,String> narrativeTypeMap = new HashMap<String,String>();
         narrativeTypeMap.put(NARRATIVE_TYPE_CODE, narrative.getNarrativeTypeCode());
-        BusinessObjectService service = getService(BusinessObjectService.class);
+        BusinessObjectService service = getBusinessObjectService();
         NarrativeType narrType = (NarrativeType) service.findByPrimaryKey(NarrativeType.class, narrativeTypeMap);
         if (narrType != null)
             narrative.setNarrativeType(narrType);
@@ -412,6 +403,11 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         return this.personService;
     }
 
+    protected  KcAuthorizationService getKcAuthorizationService (){
+        if (kcAuthorizationService == null)
+            kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
+        return kcAuthorizationService;
+    }
     /**
      * Does the given user have the given permission for the proposal?
      * @param userId the user's username
@@ -420,14 +416,14 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
      * @return true if user has permission; otherwise false
      */
    protected boolean hasPermission(String userId, Permissionable doc, String permissionName) {
-        KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
-        return kraAuthorizationService.hasPermission(userId, doc, permissionName);
+        return getKcAuthorizationService().hasPermission(userId, doc, permissionName);
     }
 
     protected DictionaryValidationService getKnsDictionaryValidationService() {
         if (this.dictionaryValidationService == null) {
-            this.dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
+            this.dictionaryValidationService = KcServiceLocator.getService(DictionaryValidationService.class);
         }
         return this.dictionaryValidationService;
     }
+
 }

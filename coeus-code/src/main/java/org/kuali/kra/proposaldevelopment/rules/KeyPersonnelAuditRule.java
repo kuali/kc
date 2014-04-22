@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitValidator;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -232,7 +233,7 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
      * @param document <code>{@link ProposalDevelopmentDocument}</code> instance to validate
      * credit splits of
      * @boolean is the credit split valid?
-     * @see CreditSplitValidator#validate(ProposalDevelopmentDocument)
+     * @see org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitValidator#validate(ProposalDevelopmentDocument)
      */
     protected boolean validateCreditSplit(ProposalDevelopmentDocument document) {
         boolean retval = true;
