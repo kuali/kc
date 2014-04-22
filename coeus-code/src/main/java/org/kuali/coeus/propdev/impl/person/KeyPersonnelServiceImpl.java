@@ -214,8 +214,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             }                
         }
         if(proposalPerson.getHomeUnit()!=null){
-            ProposalPersonService proposalPersonService =  getProposalPersonService();
-            String divisionName = proposalPersonService.getProposalPersonDivisionName(proposalPerson);
+            String divisionName = getProposalPersonService().getProposalPersonDivisionName(proposalPerson);
             proposalPerson.setDivision(divisionName);
         }
         else
