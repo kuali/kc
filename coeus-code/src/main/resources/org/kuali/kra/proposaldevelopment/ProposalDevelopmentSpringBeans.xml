@@ -322,7 +322,6 @@
     </bean>
 
     <!-- Proposal Development Services -->
-	<bean id="proposalDevelopmentService" class="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentServiceImpl"/>
 
 	<bean id="proposalDevelopmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService" ref="proposalDevelopmentLookupableHelperService" />
@@ -369,8 +368,6 @@
 		p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
  
-    <bean id="keyPersonnelService" class="org.kuali.coeus.propdev.impl.person.KeyPersonnelServiceImpl"/>
-
     <bean id="proposalLockService" class="org.kuali.coeus.propdev.impl.lock.ProposalLockServiceImpl">
     		<property name="dataDictionaryService" ref="dataDictionaryService"/>
     		<property name="dataObjectService" ref="dataObjectService" />
@@ -405,8 +402,6 @@
 		p:callbackService-ref="proposalRoleTypeService"
 		p:localServiceName="proposalRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
-	
-	<bean id="legacyNarrativeService" class="org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeServiceImpl"/>
 
     <bean id="printCertificationPrint" class="org.kuali.coeus.propdev.impl.print.PrintCertificationPrint" scope="prototype">
         <property name="xmlStream" ref="printCertificationXmlStream" />

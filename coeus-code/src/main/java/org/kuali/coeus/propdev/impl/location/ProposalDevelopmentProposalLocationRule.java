@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.location;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;

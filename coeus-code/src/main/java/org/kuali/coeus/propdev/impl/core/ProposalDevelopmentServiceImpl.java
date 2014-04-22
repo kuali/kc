@@ -64,8 +64,8 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -83,11 +83,13 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-//@Component("proposalDevelopmentService")
+
+@Component("proposalDevelopmentService")
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
 
     protected final Log LOG = LogFactory.getLog(AwardSyncServiceImpl.class);
@@ -141,12 +143,20 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     @Qualifier("kcAuthorizationService")
     private KcAuthorizationService kcAuthorizationService;
 
+    @Autowired
+    @Qualifier("dateTimeService")
+    private DateTimeService dateTimeService;
+
 
     public void setKcAuthorizationService (KcAuthorizationService kcAuthorizationService){
         this.kcAuthorizationService = kcAuthorizationService;
     }
     protected KcAuthorizationService getKcAuthorizationService (){return kcAuthorizationService;}
 
+    public void setDateTimeService (DateTimeService dateTimeService){
+        this.dateTimeService = dateTimeService;
+    }
+    protected DateTimeService getDateTimeService (){return dateTimeService;}
 
     /**
      * Sets the ParameterService.
@@ -399,7 +409,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                             (fieldValue != null ? fieldValue.toString() : ""), editableColumn.getLookupReturn());
         }
         else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")) {
-            returnValue = ",," + CoreApiServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
+            returnValue = ",," + getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
         }
         else if (fieldValue != null) {
             returnValue = ",," + fieldValue.toString();
@@ -677,7 +687,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                             (fieldValue != null ? fieldValue.toString() : ""), editableColumn.getLookupReturn());
         }
         else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")) {
-            returnValue = ",," + CoreApiServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
+            returnValue = ",," + getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
         }
         else if (fieldValue != null) {
             returnValue = ",," + fieldValue.toString();
