@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.NarrativeRight;
@@ -25,7 +25,7 @@ public interface NarrativeAuthZService {
      * right is the highest right that a user can have based upon his/her
      * permissions.
      * 
-     * @param username the user's unique username
+     * @param userId the user's unique username
      * @param doc the Proposal Development Document
      * @return the user's default narrative right
      */

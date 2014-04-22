@@ -407,12 +407,6 @@
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 	
 	<bean id="legacyNarrativeService" class="org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeServiceImpl"/>
-	
-    <bean id="narrativeAuthZService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeAuthZServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
-        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
-    </bean>
 
     <bean id="printCertificationPrint" class="org.kuali.coeus.propdev.impl.print.PrintCertificationPrint" scope="prototype">
         <property name="xmlStream" ref="printCertificationXmlStream" />
