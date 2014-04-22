@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 
 import java.util.HashMap;
 import java.util.List;
@@ -186,7 +186,7 @@ public class InstitutionalProposalProjectPersonnelBean extends InstitutionalProp
     
     @Override
     protected Class<? extends ContactRole> getContactRoleType() {
-        return ProposalPersonRole.class;
+        return PropAwardPersonRole.class;
     }
 
     @Override

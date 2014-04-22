@@ -199,7 +199,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
     
     /**
-     * Called to handle situations when the <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPersonRole}</code> is changed on a <code>{@link ProposalPerson}</code>. It
+     * Called to handle situations when the <code>{@link org.kuali.coeus.common.framework.person.PropAwardPersonRole}</code> is changed on a <code>{@link ProposalPerson}</code>. It
      * does this by looping through a <code>{@link List}</code> of <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPerson}</code> instances in a
      * <code>{@link ProposalDevelopmentDocument}</code>
      *  

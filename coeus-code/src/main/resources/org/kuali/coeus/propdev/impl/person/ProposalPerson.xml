@@ -10,7 +10,6 @@
         <ref bean="ProposalPerson-proposalNumber" />
         <ref bean="ProposalPerson-proposalPersonNumber" />
         <ref bean="ProposalPerson-proposalPersonRoleId" />
-        <ref bean="ProposalPerson-nonNihProposalPersonRoleId" />
         <ref bean="ProposalPerson-personId" />
         <ref bean="ProposalPerson-rolodexId" />
         <ref bean="ProposalPerson-socialSecurityNumber" />
@@ -131,24 +130,6 @@
     </property>
     <property name="summary" value="Proposal Person Role Id" />
     <property name="description" value="Proposal Person Role Id" />
-  </bean>
-
-  <bean id="ProposalPerson-nonNihProposalPersonRoleId" parent="ProposalPerson-nonNihProposalPersonRoleId-parentBean"/>
-  <bean id="ProposalPerson-nonNihProposalPersonRoleId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="nonNihProposalPersonRoleId" />
-    <property name="label" value="Non-NIH Proposal Person Role Id" />
-    <property name="shortLabel" value="Non-NIH Prop Per Role Id" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.person.NonNihProposalPersonRoleValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.propdev.impl.person.NonNihProposalPersonRoleValuesFinder"/>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-    </property>
-    <property name="summary" value="Non-NIH Proposal Person Role Id" />
-    <property name="description" value="Non-NIH Proposal Person Role Id" />
   </bean>
 
   <bean id="ProposalPerson-personId" parent="ProposalPerson-personId-parentBean"/>

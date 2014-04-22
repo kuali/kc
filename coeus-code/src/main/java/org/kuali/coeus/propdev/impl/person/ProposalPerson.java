@@ -23,6 +23,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.person.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -103,9 +105,8 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
     private ProposalInvestigatorCertification certification;
 
-    @ManyToOne(targetEntity = ProposalPersonRole.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROP_PERSON_ROLE_ID", referencedColumnName = "PROP_PERSON_ROLE_ID", insertable = false, updatable = false)
-    private ProposalPersonRole role;
+    @Transient
+    private PropAwardPersonRole role;
 
     @Transient
     private boolean delete;
@@ -386,6 +387,9 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     
     @Transient
     private ProposalPersonQuestionnaireHelper questionnaireHelper;
+    
+    @Transient
+    private transient PropAwardPersonRoleService propAwardPersonRoleService;
  
     public boolean isMoveDownAllowed() {
         return moveDownAllowed;
@@ -675,28 +679,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
      * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
      */
     public void setProposalPersonRoleId(String argPropPersonRoleId) {
-        if (StringUtils.isNotBlank(argPropPersonRoleId)) {
-            this.proposalPersonRoleId = argPropPersonRoleId;
-            refreshReferenceObject("role");
-        }
-    }
-
-    /**
-     * Gets the value of propPersonRoleId
-     *
-     * @return the value of propPersonRoleId
-     */
-    public String getNonNihProposalPersonRoleId() {
-        return this.proposalPersonRoleId;
-    }
-
-    /** 
-     * Sets the value of propPersonRoleId
-     *
-     * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
-     */
-    public void setNonNihProposalPersonRoleId(String argPropPersonRoleId) {
-        this.proposalPersonRoleId = argPropPersonRoleId;
+    	this.proposalPersonRoleId = argPropPersonRoleId;
     }
 
     /**
@@ -704,8 +687,13 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
      *
      * @return the value of propPersonRole
      */
-    public ProposalPersonRole getRole() {
-        return role;
+    public PropAwardPersonRole getRole() {
+    	if (StringUtils.isNotBlank(getProposalPersonRoleId()) && getDevelopmentProposal() != null &&
+    			StringUtils.isNotBlank(getDevelopmentProposal().getSponsorCode())) {
+    		return getPropAwardPersonRoleDao().getRole(getProposalPersonRoleId(), getDevelopmentProposal().getSponsorCode());
+    	} else {
+    		return null;
+    	}
     }
 
     /** 
@@ -713,7 +701,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
      *
      * @param argPropPersonRole Value to assign to this.propPersonRole
      */
-    public void setRole(ProposalPersonRole argPropPersonRole) {
+    public void setRole(PropAwardPersonRole argPropPersonRole) {
         this.role = argPropPersonRole;
     }
 
@@ -2310,5 +2298,17 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
 	public void setCitizenshipType(CitizenshipType citizenshipType) {
 		this.citizenshipType = citizenshipType;
+	}
+
+	protected PropAwardPersonRoleService getPropAwardPersonRoleDao() {
+		if (propAwardPersonRoleService == null) {
+			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
+		}
+		return propAwardPersonRoleService;
+	}
+
+	public void setPropAwardPersonRoleDao(
+			PropAwardPersonRoleService propAwardPersonRoleService) {
+		this.propAwardPersonRoleService = propAwardPersonRoleService;
 	}
 }

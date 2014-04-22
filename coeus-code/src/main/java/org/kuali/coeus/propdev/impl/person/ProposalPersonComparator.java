@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.person;
 
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 
 import java.util.Comparator;
 
@@ -23,7 +24,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 /**
- * Used to order <code>{@link ProposalPerson}</code> instances by <code>{@link ProposalPersonRole}</code>.
+ * Used to order <code>{@link ProposalPerson}</code> instances by <code>{@link PropAwardPersonRole}</code>.
  * 
  */
 public class ProposalPersonComparator implements Comparator<ProposalPerson> {
@@ -34,7 +35,7 @@ public class ProposalPersonComparator implements Comparator<ProposalPerson> {
     }
 
     /**
-     * compare one <code>{@link ProposalPerson}</code> instance to another. Sort by <code>{@link ProposalPersonRole}</code> of the
+     * compare one <code>{@link ProposalPerson}</code> instance to another. Sort by <code>{@link PropAwardPersonRole}</code> of the
      *  <code>{@link ProposalPerson}</code>
      * 
      * @param person1

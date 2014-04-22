@@ -17,11 +17,11 @@ package org.kuali.kra.institutionalproposal.contacts;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -39,7 +39,7 @@ public class InstitutionalProposalPersonProjectRolesValuesFinder extends Institu
 
     @Override
     public List<KeyValue> getKeyValues() {
-        @SuppressWarnings("unchecked") final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
+        @SuppressWarnings("unchecked") final Collection<PropAwardPersonRole> roles = getKeyValuesService().findAll(PropAwardPersonRole.class);
         final InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) getDocument();
 
         Sponsorable sponsorable = institutionalProposalDocument.getInstitutionalProposal();
@@ -47,15 +47,15 @@ public class InstitutionalProposalPersonProjectRolesValuesFinder extends Institu
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        for (ProposalPersonRole role : roles) {
+        for (PropAwardPersonRole role : roles) {
             boolean showRole = true;
 
             LOG.info("showRole = " + showRole);
 
             if (showRole) {
                 String roleDescription =  roleDescriptions.get(role.getRoleCode());
-                keyValues.add(new ConcreteKeyValue(role.getProposalPersonRoleId(), roleDescription));
-                LOG.info("Added role " + role.getProposalPersonRoleId());
+                keyValues.add(new ConcreteKeyValue(role.getCode(), roleDescription));
+                LOG.info("Added role " + role.getCode());
                 LOG.info("With description " + roleDescription);
             }
 
@@ -73,7 +73,7 @@ public class InstitutionalProposalPersonProjectRolesValuesFinder extends Institu
 
     @Override
     protected Class<? extends ContactRole> getRoleType() {
-        return ProposalPersonRole.class;
+        return PropAwardPersonRole.class;
     }
 
     protected void setKeyPersonnelService(KeyPersonnelService keyPersonnelService) {
