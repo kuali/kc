@@ -125,15 +125,20 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
                     s2sOpportunity.setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
                     proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);                
                 }else{
-                    GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,developmentProposal.getS2sOpportunity().getOpportunityId());
+                    GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,
+                                        developmentProposal.getS2sOpportunity().getOpportunityId());
                     developmentProposal.setS2sOpportunity(new S2sOpportunity());
-                }            
+                }
             }
         }catch(S2SException ex){
             if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
                 ex.setMessage(s2sOpportunity.getOpportunityId());
             }
-            GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+            if(ex.getTabErrorKey()!=null){
+                GlobalVariables.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getMessageWithParams());
+            }else{
+                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+            }
             developmentProposal.setS2sOpportunity(new S2sOpportunity());
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
@@ -344,10 +349,19 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         s2sUserAttachedForm.setFormFile(userAttachedFormFile.getFileData());
         s2sUserAttachedForm.setFormFileName(userAttachedFormFile.getFileName());
         s2sUserAttachedForm.setProposalNumber(developmentProposal.getProposalNumber());
-        List<S2sUserAttachedForm> userAttachedForms = KraServiceLocator.getService(S2SUserAttachedFormService.class).
-                    extractNSaveUserAttachedForms(developmentProposal,s2sUserAttachedForm);
-        developmentProposal.getS2sUserAttachedForms().addAll(userAttachedForms);
-        proposalDevelopmentForm.setNewS2sUserAttachedForm(new S2sUserAttachedForm());
+        List<S2sUserAttachedForm> userAttachedForms = new ArrayList<S2sUserAttachedForm>();
+        try{
+            userAttachedForms = KraServiceLocator.getService(S2SUserAttachedFormService.class).
+                                                extractNSaveUserAttachedForms(developmentProposal,s2sUserAttachedForm);
+            developmentProposal.getS2sUserAttachedForms().addAll(userAttachedForms);
+            proposalDevelopmentForm.setNewS2sUserAttachedForm(new S2sUserAttachedForm());
+        }catch(S2SException ex){
+            if(ex.getTabErrorKey()!=null){
+                GlobalVariables.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getParams());
+            }else{
+                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+            }
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     

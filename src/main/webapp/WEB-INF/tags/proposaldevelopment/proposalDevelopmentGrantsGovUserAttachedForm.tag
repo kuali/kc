@@ -17,7 +17,7 @@
 
 <c:set var="s2sUserAttachedFormAttributes" value="${DataDictionary.S2sUserAttachedForm.attributes}" />
 <c:set var="s2sUserAttachedFormAttAttributes" value="${DataDictionary.S2sUserAttachedFormAtt.attributes}" />
-<kul:innerTab parentTab="Opportunity Search" defaultOpen="${KualiForm.showSubmissionDetails}" tabTitle="User Attached Forms">
+<kul:innerTab parentTab="Opportunity Search" defaultOpen="${KualiForm.showSubmissionDetails}" tabTitle="User Attached Forms" tabErrorKey="userAttachedFormsErrors">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> S2s User Attached Form</span>
@@ -27,12 +27,12 @@
         <table cellpadding="0" cellspacing="0" summary="">
           	<%-- Header --%>
           	<tr>
-          		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
-          		<kul:htmlAttributeHeaderCell attributeEntry="${s2sUserAttachedFormAttributes.description}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${s2sUserAttachedFormAttributes.namespace}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${s2sUserAttachedFormAttributes.formName}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${s2sUserAttachedFormAttributes.formFileName}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
+          		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" width="5%"/> 
+          		<kul:htmlAttributeHeaderCell attributeEntry="${s2sUserAttachedFormAttributes.description}" scope="col" nowrap="false" width="15%"/>
+          		<kul:htmlAttributeHeaderCell attributeEntry="${s2sUserAttachedFormAttributes.namespace}" scope="col"  nowrap="false" width="25%"/>
+          		<kul:htmlAttributeHeaderCell attributeEntry="${s2sUserAttachedFormAttributes.formName}" scope="col"  nowrap="false" width="15%"/>
+          		<kul:htmlAttributeHeaderCell attributeEntry="${s2sUserAttachedFormAttributes.formFileName}" scope="col"  nowrap="false" width="15%"/>
+          		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"  nowrap="false" width="15%"/>
           	</tr> 
           	<%-- Header --%>
           	
