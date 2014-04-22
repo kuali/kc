@@ -16,10 +16,10 @@
 package org.kuali.kra.irb.actions.print;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.permissions.impl.web.bean.AssignedRole;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -74,7 +74,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
     private static final String SCHOOL_NAME = "SCHOOL_NAME";
     private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
     
-    private LegacySponsorService sponsorService;
+    private SponsorService sponsorService;
     private UnitService unitService;
     private BusinessObjectService businessObjectService;
     private InstitutionalProposalService institutionalProposalService;
@@ -668,14 +668,14 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
         }        
     }
 
-    public LegacySponsorService getSponsorService() {
+    public SponsorService getSponsorService() {
         if (sponsorService == null) {
-            sponsorService = KcServiceLocator.getService(LegacySponsorService.class);
+            sponsorService = KcServiceLocator.getService(SponsorService.class);
         }
         return sponsorService;
     }
 
-    public void setSponsorService(LegacySponsorService sponsorService) {
+    public void setSponsorService(SponsorService sponsorService) {
         this.sponsorService = sponsorService;
     }
 

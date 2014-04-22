@@ -16,8 +16,8 @@
 package org.kuali.kra.institutionalproposal.rules;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
-import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -64,9 +64,6 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         retval &= processInstitutionalProposalBusinessRules(document);
         retval &= processInstitutionalProposalFinancialRules(document);
         retval &= processInstitutionalProposalPersonBusinessRules(errorMap, document);
-//        moved to processRunAuditBusinessRules()
-//        retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
-//        retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
         retval &= processKeywordBusinessRule(document);
         retval &= processAccountIdBusinessRule(document);
         retval &= processCostShareRules(document);
@@ -78,13 +75,13 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         boolean valid = true;
         MessageMap errorMap = GlobalVariables.getMessageMap();
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
-        LegacySponsorService ss = this.getLegacySponsorService();
-        if (!ss.validateSponsor(institutionalProposalDocument.getInstitutionalProposal().getSponsor())) {
+        SponsorService ss = this.getSponsorService();
+        if (!ss.isValidSponsor(institutionalProposalDocument.getInstitutionalProposal().getSponsor())) {
             errorMap.putError("document.institutionalProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
             valid = false;
         }
         if (!StringUtils.isEmpty(institutionalProposalDocument.getInstitutionalProposal().getPrimeSponsorCode()) &&
-                !ss.validateSponsor(institutionalProposalDocument.getInstitutionalProposal().getPrimeSponsor())) {
+                !ss.isValidSponsor(institutionalProposalDocument.getInstitutionalProposal().getPrimeSponsor())) {
             errorMap.putError("document.institutionalProposalList[0].primeSponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
             valid = false;
         }
@@ -262,7 +259,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         return valid;
     }
     
-    private LegacySponsorService getLegacySponsorService() {
-        return KcServiceLocator.getService(LegacySponsorService.class);
+    private SponsorService getSponsorService() {
+        return KcServiceLocator.getService(SponsorService.class);
     }
 }

@@ -16,7 +16,7 @@
 package org.kuali.kra.negotiations.rules;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -44,7 +44,7 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
     
     private NegotiationService negotiationService;
     private DataDictionaryService dataDictionaryService;
-    private LegacySponsorService sponsorService;
+    private SponsorService sponsorService;
     
 
     public NegotiationDocumentRule() {
@@ -150,7 +150,7 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
             valid &= getDictionaryValidationService().isBusinessObjectValid(detail);
             
             detail.refreshReferenceObject("sponsor");
-            if (detail.getSponsorCode() != null && !this.getSponsorService().validateSponsor(detail.getSponsor())) {
+            if (detail.getSponsorCode() != null && !this.getSponsorService().isValidSponsor(detail.getSponsor())) {
                 valid = false;
                 getErrorReporter().reportError("sponsorCode", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
                         NegotiationUnassociatedDetail.class, "sponsorCode"));
@@ -164,7 +164,7 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
             }
             
             detail.refreshReferenceObject("primeSponsor");
-            if (detail.getPrimeSponsorCode() != null && !this.getSponsorService().validateSponsor(detail.getPrimeSponsor())) {
+            if (detail.getPrimeSponsorCode() != null && !this.getSponsorService().isValidSponsor(detail.getPrimeSponsor())) {
                 valid = false;
                 getErrorReporter().reportError("primeSponsorCode", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
                         NegotiationUnassociatedDetail.class, "primeSponsorCode"));
@@ -258,14 +258,14 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
         this.dataDictionaryService = dataDictionaryService;
     }
 
-    public LegacySponsorService getSponsorService() {
+    public SponsorService getSponsorService() {
         if (sponsorService == null) {
-            sponsorService = KcServiceLocator.getService(LegacySponsorService.class);
+            sponsorService = KcServiceLocator.getService(SponsorService.class);
         }
         return sponsorService;
     }
 
-    public void setSponsorService(LegacySponsorService sponsorService) {
+    public void setSponsorService(SponsorService sponsorService) {
         this.sponsorService = sponsorService;
     }
 

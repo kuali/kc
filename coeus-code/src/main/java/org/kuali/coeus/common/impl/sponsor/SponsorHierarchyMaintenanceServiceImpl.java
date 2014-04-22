@@ -18,8 +18,6 @@ package org.kuali.coeus.common.impl.sponsor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyDao;
 import org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyForm;
@@ -34,12 +32,12 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.util.*;
 
-@Component("legacySponsorService")
+@Component("sponsorHierarchyMaintenanceService")
 @SuppressWarnings({"deprecation","unchecked"})
-public class LegacySponsorServiceImpl implements LegacySponsorService, Constants {
+public class SponsorHierarchyMaintenanceServiceImpl implements SponsorHierarchyMaintenanceService, Constants {
 	
-    private static final Log LOG = LogFactory.getLog(LegacySponsorServiceImpl.class);
-    private static final String SESSION_KEY = LegacySponsorServiceImpl.class.getName() + ".actionList";
+    private static final Log LOG = LogFactory.getLog(SponsorHierarchyMaintenanceServiceImpl.class);
+    private static final String SESSION_KEY = SponsorHierarchyMaintenanceServiceImpl.class.getName() + ".actionList";
     private static final Integer HIERARCHY_MAX_HEIGHT = 10;
 	
 	@Autowired
@@ -77,35 +75,6 @@ public class LegacySponsorServiceImpl implements LegacySponsorService, Constants
             for (int i = 0; i < sortIds.length && i < sortIds.length; i++) {
                 this.sortIds[i] = sortIds[i];
             }
-        }
-    }
-
-    
-    @Override
-    public String getSponsorName(String sponsorCode) {
-        String sponsorName = null;
-
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        if (StringUtils.isNotEmpty(sponsorCode)) {
-            primaryKeys.put(Constants.SPONSOR_CODE, sponsorCode);
-            Sponsor sponsor = (Sponsor) businessObjectService.findByPrimaryKey(Sponsor.class, primaryKeys);
-            if (sponsor != null) {
-                sponsorName = sponsor.getSponsorName();
-            }
-        }
-
-        return sponsorName;
-    }
-
-    @Override
-    public Sponsor getSponsor(String sponsorCode) {
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        if (StringUtils.isNotEmpty(sponsorCode)) {
-            primaryKeys.put(Constants.SPONSOR_CODE, sponsorCode);
-            Sponsor sponsor = (Sponsor) businessObjectService.findByPrimaryKey(Sponsor.class, primaryKeys);
-            return sponsor;
-        } else {
-            return null;
         }
     }
 
@@ -460,14 +429,6 @@ public class LegacySponsorServiceImpl implements LegacySponsorService, Constants
        List<String> result = getSponsorHierarchyDao().getUniqueNamesAtLevel(hierarchyName, level);
        Collections.sort(result);
        return result;
-    }
-    
-    public boolean validateSponsor(Sponsor sponsor) {
-        boolean valid = true;
-        if (sponsor == null || !sponsor.isActive()) {
-            valid = false;
-        }
-        return valid;
     }
 
     /**

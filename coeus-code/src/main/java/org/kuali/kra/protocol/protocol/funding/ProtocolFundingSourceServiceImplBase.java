@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.protocol.funding;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
@@ -72,7 +72,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
     private static final Log LOG = LogFactory.getLog(ProtocolFundingSourceServiceImplBase.class);
 
     private FundingSourceTypeService fundingSourceTypeService;
-    private LegacySponsorService legacysponsorService;
+    private SponsorService sponsorService;
     private UnitService unitService;
     private InstitutionalProposalService institutionalProposalService;
     private AwardService awardService;
@@ -264,7 +264,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
         ProtocolFundingSourceBase fundingSource = null;
         
         if (StringUtils.isNotBlank(fundingSourceNumber)) {
-            String fundingSourceName = getLegacySponsorService().getSponsorName(fundingSourceNumber);
+            String fundingSourceName = getSponsorService().getSponsorName(fundingSourceNumber);
             String fundingSourceTitle = Constants.EMPTY_STRING;
             fundingSource = creatNewProtocolFundingSourceInstanceHook(fundingSourceNumber, FundingSourceType.SPONSOR, fundingSourceName, fundingSourceTitle); 
         }
@@ -702,12 +702,12 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
         this.fundingSourceTypeService = fundingSourceTypeService;
     }
     
-    public LegacySponsorService getLegacySponsorService() {
-        return legacysponsorService;
+    public SponsorService getSponsorService() {
+        return sponsorService;
     }
     
-    public void setLegacySponsorService(LegacySponsorService legacysponsorService) {
-        this.legacysponsorService = legacysponsorService;
+    public void setSponsorService(SponsorService sponsorService) {
+        this.sponsorService = sponsorService;
     }
 
     public UnitService getUnitService() {

@@ -16,8 +16,8 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
-import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsRule;
 import org.kuali.coeus.propdev.impl.attachment.*;
 import org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentEvent;
@@ -138,14 +138,14 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     private boolean proccessValidateSponsor(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
         DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
-        if (!this.getSponsorService().validateSponsor(proposalDevelopmentDocument.getDevelopmentProposal().getSponsor())) {
+        if (!this.getSponsorService().isValidSponsor(proposalDevelopmentDocument.getDevelopmentProposal().getSponsor())) {
             valid = false;
             //this.reportError("document.developmentProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
             //GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
             GlobalVariables.getMessageMap().putError("sponsorCode", KeyConstants.ERROR_MISSING, dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "sponsorCode"));
         }
         if (!StringUtils.isEmpty(proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsorCode()) && 
-                !this.getSponsorService().validateSponsor(proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsor())) {
+                !this.getSponsorService().isValidSponsor(proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsor())) {
             valid = false;
             //this.reportError("document.developmentProposalList[0].primeSponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
             GlobalVariables.getMessageMap().putError("primeSponsorCode", KeyConstants.ERROR_MISSING, dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "primeSponsorCode"));
@@ -355,7 +355,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
             valid = false;
          }
  
-        LegacySponsorService sponsorService = KcServiceLocator.getService(LegacySponsorService.class);
+        SponsorService sponsorService = KcServiceLocator.getService(SponsorService.class);
          String sponsorCode = proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsorCode();
    
          if (sponsorCode != null)
@@ -559,8 +559,8 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         return retVal;
     }
     
-    private LegacySponsorService getSponsorService() {
-        return KcServiceLocator.getService(LegacySponsorService.class);
+    private SponsorService getSponsorService() {
+        return KcServiceLocator.getService(SponsorService.class);
     }
 
 }

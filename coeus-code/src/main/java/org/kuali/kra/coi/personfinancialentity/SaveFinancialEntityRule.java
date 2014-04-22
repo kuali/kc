@@ -16,7 +16,7 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -35,7 +35,7 @@ import java.util.Map;
 public class SaveFinancialEntityRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<SaveFinancialEntityEvent> {
     
     private static final String SPONSOR_CODE = "sponsorCode";
-    private LegacySponsorService legacySponsorService;
+    private SponsorService sponsorService;
     @Override
     public boolean processRules(SaveFinancialEntityEvent event) {
         boolean isValid = checkValidSponsor(event);
@@ -52,7 +52,7 @@ public class SaveFinancialEntityRule extends KcTransactionalDocumentRuleBase imp
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put(SPONSOR_CODE, event.getPersonFinIntDisclosure().getSponsorCode());
             Sponsor sp = this.getBusinessObjectService().findByPrimaryKey(Sponsor.class, fieldValues);
-            if (!this.getLegacySponsorService().validateSponsor(sp)) {
+            if (!this.getSponsorService().isValidSponsor(sp)) {
                 GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
                 GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
                 isValid = false;
@@ -99,15 +99,15 @@ public class SaveFinancialEntityRule extends KcTransactionalDocumentRuleBase imp
 
     }
 
-    public LegacySponsorService getLegacySponsorService() {
-        if (legacySponsorService == null) {
-            legacySponsorService = KcServiceLocator.getService(LegacySponsorService.class);
+    public SponsorService getSponsorService() {
+        if (sponsorService == null) {
+            sponsorService = KcServiceLocator.getService(SponsorService.class);
         }
-        return legacySponsorService;
+        return sponsorService;
     }
 
-    public void setLegacySponsorService(LegacySponsorService legacySponsorService) {
-        this.legacySponsorService = legacySponsorService;
+    public void setSponsorService(SponsorService sponsorService) {
+        this.sponsorService = sponsorService;
     }
 
 }

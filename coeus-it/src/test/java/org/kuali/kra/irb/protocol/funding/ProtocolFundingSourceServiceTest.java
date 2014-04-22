@@ -24,8 +24,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.matchers.JUnitMatchers;
+import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.LegacySponsorService;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
@@ -60,7 +61,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
     private static final String EMPTY_NUMBER = "";
 
     private static final String SPONSOR_NUMBER_BAD = "-1";
-    private Sponsor sponsorGood;
+    private SponsorContract sponsorGood;
     private static final String SPONSOR_NUMBER_AIR_FORCE = "000108";
     private String sponsorNameAirForce;
 
@@ -139,26 +140,26 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
         //sponsorGood = new Sponsor();
         //sponsorGood.setSponsorName(sponsorNameAirForce);
         //sponsorGood.setSponsorCode(SPONSOR_NUMBER_AIR_FORCE);
-        sponsorGood = KcServiceLocator.getService(LegacySponsorService.class).getSponsor(SPONSOR_NUMBER_AIR_FORCE);
+        sponsorGood = KcServiceLocator.getService(SponsorService.class).getSponsor(SPONSOR_NUMBER_AIR_FORCE);
         sponsorNameAirForce = sponsorGood.getSponsorName();
         
         devProposalGood = new DevelopmentProposal();
         devProposalGood.setTitle(DEV_PROPOSAL_TITLE_GOOD);
-        devProposalGood.setSponsor(sponsorGood);
+        devProposalGood.setSponsorCode(sponsorGood.getSponsorCode());
 
         instProposalGood = new InstitutionalProposal();
         instProposalGood.setTitle(INST_PROPOSAL_TITLE_GOOD);
-        instProposalGood.setSponsor(sponsorGood);
+        instProposalGood.setSponsorCode(sponsorGood.getSponsorCode());
 
         awardGood = new Award();
         awardGood.setTitle(AWARD_TITLE_GOOD);
-        awardGood.setSponsor(sponsorGood);
+        awardGood.setSponsorCode(sponsorGood.getSponsorCode());
     }    
 
     @Test
     public void testCalculateSponsorFunding() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setLegacySponsorService(getLegacySponsorService());
+        protocolFundingSourceService.setSponsorService(getSponsorService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         ProtocolFundingSource fundingSource 
             = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(SPONSOR_SOURCE_TYPE_ID, SPONSOR_NUMBER_AIR_FORCE, null);
@@ -169,7 +170,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
     @Test
     public void testCalculateSponsorFundingSourceBadId() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setLegacySponsorService(getLegacySponsorService());
+        protocolFundingSourceService.setSponsorService(getSponsorService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(SPONSOR_SOURCE_TYPE_ID, SPONSOR_NUMBER_BAD, null);
         assertNotNull(fundingSource);
@@ -179,7 +180,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
     @Test
     public void testCalculateSponsorFundingSourceEmptyId() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setLegacySponsorService(getLegacySponsorService());
+        protocolFundingSourceService.setSponsorService(getSponsorService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(SPONSOR_SOURCE_TYPE_ID, EMPTY_NUMBER, null);
         assertNull(fundingSource);
@@ -396,7 +397,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
     public void testIsValidIdForTypeSponsor() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());    
-        protocolFundingSourceService.setLegacySponsorService(getLegacySponsorService());       
+        protocolFundingSourceService.setSponsorService(getSponsorService());
 
         ProtocolFundingSource fundingSource = new ProtocolFundingSource(SPONSOR_NUMBER_AIR_FORCE, FundingSourceType.SPONSOR, null, null);
         assertTrue(protocolFundingSourceService.isValidIdForType(fundingSource));
@@ -548,8 +549,8 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
       
   }
 
-    protected LegacySponsorService getLegacySponsorService() {
-        final LegacySponsorService sponsorService = context.mock(LegacySponsorService.class);
+    protected SponsorService getSponsorService() {
+        final SponsorService sponsorService = context.mock(SponsorService.class);
         context.checking(new Expectations() {{
             allowing(sponsorService).getSponsorName(SPONSOR_NUMBER_AIR_FORCE);
             will(returnValue(sponsorNameAirForce));
