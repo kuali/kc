@@ -26,13 +26,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Types;
 import java.util.Iterator;
 
-/**
- * 
- * This class created to get the timestamp and upload user for attachments.
- * They have to come from *_attachment tables.  Since we don't want document to carry
- * big "attachment" file around, so we try not to use retrieve collection.
- */
-
+@Component("attachmentDao")
 public class AttachmentDaoOjb  extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, AttachmentDao {
 
     @Override
