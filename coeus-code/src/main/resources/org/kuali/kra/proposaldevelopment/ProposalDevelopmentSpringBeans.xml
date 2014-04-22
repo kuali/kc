@@ -322,22 +322,6 @@
     </bean>
 
     <!-- Proposal Development Services -->
-	<bean id="proposalDevelopmentService" class="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-        <property name="dataObjectService" ref="dataObjectService" />
-		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
-		<property name="kraPersistenceStructureService" ref="kcPersistenceStructureService" />
-		<property name="budgetService" ref="budgetService" />
-		<property name="parameterService" ref="parameterService" />
-		<property name="versionHistoryService" ref="versionHistoryService" />
-		<property name="documentService" ref="documentService" />
-		<property name="roleService" ref="roleService" />
-		<property name="s2sService" ref="s2SService" />
-		<property name="sponsorHierarchyService" ref="sponsorHierarchyService" />
-		<property name="keyPersonnelService" ref="keyPersonnelService" />
-        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
-        <property name="unitService" ref="unitService" />
-	</bean>
 
 	<bean id="proposalDevelopmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService" ref="proposalDevelopmentLookupableHelperService" />
@@ -384,14 +368,6 @@
 		p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
  
-    <bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="narrativeService" ref="legacyNarrativeService" />
-        <property name="parameterService" ref="parameterService" />
-        <property name="ynqService" ref="ynqService" />
-        <property name="sponsorHierarchyService" ref="sponsorHierarchyService"/>
-    </bean>
-
     <bean id="proposalLockService" class="org.kuali.coeus.propdev.impl.lock.ProposalLockServiceImpl">
     		<property name="dataDictionaryService" ref="dataDictionaryService"/>
     		<property name="dataObjectService" ref="dataObjectService" />
@@ -426,23 +402,6 @@
 		p:callbackService-ref="proposalRoleTypeService"
 		p:localServiceName="proposalRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
-	
-	<bean id="legacyNarrativeService" class="org.kuali.kra.proposaldevelopment.service.impl.LegacyNarrativeServiceImpl">
-		<property name="systemAuthorizationService" ref="systemAuthorizationService" />
-		<property name="dateTimeService" ref="dateTimeService" />
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="narrativeAuthZService" ref="narrativeAuthZService" />
-		<property name="proposalPersonService" ref="proposalPersonService" />
-		<property name="kcPersonService" ref="kcPersonService" />
-		<property name="personService" ref="personService" />
-		<property name="attachmentDao" ref="attachmentDao" />
-	</bean>
-	
-    <bean id="narrativeAuthZService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeAuthZServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
-        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
-    </bean>
 
     <bean id="printCertificationPrint" class="org.kuali.coeus.propdev.impl.print.PrintCertificationPrint" scope="prototype">
         <property name="xmlStream" ref="printCertificationXmlStream" />

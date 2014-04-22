@@ -13,26 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
-import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
-import org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService;
-import org.kuali.coeus.propdev.impl.attachment.AttachmentDao;
-import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -41,6 +33,9 @@ import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -48,18 +43,38 @@ import java.util.*;
 /**
  * This class is primarily to add/delete proposal/institute attachments. 
  */
+@Component("legacyNarrativeService")
 public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
 
     private static final String NSF_DATA_MANAGEMENT_PLAN_PDF = "NSF_DATA_MANAGEMENT_PLAN.pdf";
 
+    @Autowired
+    @Qualifier("narrativeAuthZService")
     private NarrativeAuthZService narrativeAuthZService;
+    @Autowired
+    @Qualifier("proposalPersonService")
     private ProposalPersonService proposalPersonService;
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("systemAuthorizationService")
     private SystemAuthorizationService systemAuthorizationService;
+    @Autowired
+    @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
+    @Autowired
+    @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
+    @Autowired
+    @Qualifier("personService")
     private PersonService personService;
+    @Autowired
+    @Qualifier("attachmentDao")
     private AttachmentDao attachmentDao;
+    @Autowired
+    @Qualifier("kcAuthorizationService")
+    private KcAuthorizationService kcAuthorizationService;
 
     /**
      * 
@@ -124,7 +139,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
         for (KcPerson person : persons) {
             if (!isPersonInNarrativeRights(person, narrativeUserRights)) {
-                NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(person.getPersonId(), proposalDevelopmentDocument);
+                NarrativeRight narrativeRight = getNarrativeAuthZService().getDefaultNarrativeRight(person.getPersonId(), proposalDevelopmentDocument);
                 String personName = person.getFullName();
                 NarrativeUserRights narrUserRight = new NarrativeUserRights();
                 narrUserRight.setProposalNumber(narrative.getProposalNumber());
@@ -159,17 +174,17 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
      * @return the list of persons (see Permission's page)
      */
     protected List<KcPerson> getPersons(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        List<Role> proposalRoles = systemAuthorizationService.getRoles(RoleConstants.PROPOSAL_ROLE_TYPE);
+        List<Role> proposalRoles = getSystemAuthorizationService().getRoles(RoleConstants.PROPOSAL_ROLE_TYPE);
         
-        KcAuthorizationService kraAuthorizationService = getKraAuthorizationService();
+        KcAuthorizationService kcAuthorizationService = getKcAuthorizationService();
         List<KcPerson> allPersons = new ArrayList<KcPerson>();
 
         for (Role proposalRole : proposalRoles) {
-            List<String> users = kraAuthorizationService.getPrincipalsInRole(proposalDevelopmentDocument, proposalRole.getName());
+            List<String> users = kcAuthorizationService.getPrincipalsInRole(proposalDevelopmentDocument, proposalRole.getName());
 
             List<KcPerson> persons = new ArrayList<KcPerson>();
             for(String userId : users) {
-                KcPerson person = kcPersonService.getKcPersonByPersonId(userId);
+                KcPerson person = getKcPersonService().getKcPersonByPersonId(userId);
                 if (person != null && person.getActive()) {
                     persons.add(person);
                 }
@@ -246,12 +261,11 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
 
     /**
      * Method to populate personname for all user who have narrative rights
-     * @see org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService#populatePersonNameForNarrativeUserRights(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument, org.kuali.coeus.propdev.impl.attachment.Narrative)
      */
     public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
         for (NarrativeUserRights narrativeUserRight : narrativeUserRights) {
-            String personName = proposalPersonService.getPersonName(proposaldevelopmentDocument, narrativeUserRight.getUserId());
+            String personName = getProposalPersonService().getPersonName(proposaldevelopmentDocument, narrativeUserRight.getUserId());
             narrativeUserRight.setPersonName(personName);
         }
     }
@@ -333,9 +347,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
-        if(dateTimeService==null){
-            dateTimeService = (DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME);
-        }
         return dateTimeService;
     }
     /**
@@ -345,10 +356,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
-//    private boolean isProposalAttachmentType(Narrative narrative) {
-//        return !(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE.equals(narrative.getNarrativeType().getNarrativeTypeGroup()));
-//    }
 
     @Override
     public void deletePerson(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument) {
@@ -378,7 +385,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
                     // VIEW rights.  
                     
                     if (StringUtils.equals(currentAccessType, NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType())) {
-                        NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(userId, proposalDevelopmentDocument);
+                        NarrativeRight narrativeRight = getNarrativeAuthZService().getDefaultNarrativeRight(userId, proposalDevelopmentDocument);
                         String accessType = narrativeRight.getAccessType();
                         if (StringUtils.equals(accessType, NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) {
                             right.setAccessType(NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType());
@@ -388,7 +395,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
                         }
                     }
                     else if (StringUtils.equals(currentAccessType, NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) {
-                        NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(userId, proposalDevelopmentDocument);
+                        NarrativeRight narrativeRight = getNarrativeAuthZService().getDefaultNarrativeRight(userId, proposalDevelopmentDocument);
                         String accessType = narrativeRight.getAccessType();
                         if (StringUtils.equals(accessType, NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType())) {
                             right.setAccessType(NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType());
@@ -402,12 +409,12 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
 
     
     public void addPerson(String userName, ProposalDevelopmentDocument proposalDevelopmentDocument, String roleName) {
-        KcPerson person = kcPersonService.getKcPersonByUserName(userName);
+        KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
         List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
            
-            NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(roleName);
+            NarrativeRight narrativeRight = getNarrativeAuthZService().getDefaultNarrativeRight(roleName);
             NarrativeUserRights narrUserRight = new NarrativeUserRights();
             narrUserRight.setProposalNumber(narrative.getProposalNumber());
             narrUserRight.setModuleNumber(narrative.getModuleNumber());
@@ -419,6 +426,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         }
     }
     
+    protected KcPersonService getKcPersonService (){return kcPersonService;}
     /**
      * Sets the KC Person Service.
      * @param kcPersonService the kc person service
@@ -439,13 +447,13 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     public void setNarrativeTimeStampUser(List<Narrative> narratives) {
 
         for (Narrative narrative : narratives) {
-            Iterator personBioAtt = attachmentDao.getNarrativeTimeStampAndUploadUser(narrative.getModuleNumber(), narrative.getProposalNumber());
+            Iterator personBioAtt = getAttachmentDao().getNarrativeTimeStampAndUploadUser(narrative.getModuleNumber(), narrative.getProposalNumber());
             if (personBioAtt.hasNext()) {
                 Object[] item = (Object[])personBioAtt.next();
                 narrative.setTimestampDisplay((Timestamp)item[0]);
                 narrative.setUploadUserDisplay((String)item[1]);
                 //using PersonService as it will display the user's name the same as the notes panel does
-                Person person = personService.getPersonByPrincipalName(narrative.getUploadUserDisplay());
+                Person person = getPersonService().getPersonByPrincipalName(narrative.getUploadUserDisplay());
                 narrative.setUploadUserFullName(ObjectUtils.isNull(person) ? narrative.getUploadUserDisplay() + "(not found)" : person.getName());
             }
 
@@ -464,10 +472,14 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
      * This is a helper method for retrieving KraAuthorizationService
      * @return
      */
-    protected KcAuthorizationService getKraAuthorizationService(){
-        return KcServiceLocator.getService(KcAuthorizationService.class);
+    protected KcAuthorizationService getKcAuthorizationService(){
+        return kcAuthorizationService;
+    }
+    public void setKcAuthorizationService (KcAuthorizationService kcAuthorizationService){
+        this.kcAuthorizationService = kcAuthorizationService;
     }
 
+    protected SystemAuthorizationService getSystemAuthorizationService(){return systemAuthorizationService;}
     public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
         this.systemAuthorizationService = systemAuthorizationService;
     }

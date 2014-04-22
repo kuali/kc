@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
@@ -21,42 +21,30 @@ import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 
+@Component("narrativeAuthZService")
 public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
-    private BusinessObjectService businessObjectService;
-    private SystemAuthorizationService systemAuthorizationService;
-    private KcAuthorizationService kraAuthorizationService;
 
-    /**
-     * Accessor for <code>{@link BusinessObjectService}</code>
-     * 
-     * @param bos BusinessObjectService
-     */
-    public void setBusinessObjectService(BusinessObjectService bos) {
-        businessObjectService = bos;
-    }
-    
-    /**
-     * Accessor for <code>{@link BusinessObjectService}</code>
-     * 
-     * @return BusinessObjectService
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
+    @Autowired
+    @Qualifier("systemAuthorizationService")
+    private SystemAuthorizationService systemAuthorizationService;
+    @Autowired
+    @Qualifier("kcAuthorizationService")
+    private KcAuthorizationService kcAuthorizationService;
     
     @Override
     public NarrativeRight getDefaultNarrativeRight(String userId, ProposalDevelopmentDocument doc) {
         NarrativeRight right;
-        if (kraAuthorizationService.hasPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE)) {
+        if (getKcAuthorizationService().hasPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE)) {
             right = NarrativeRight.MODIFY_NARRATIVE_RIGHT;
         }
-        else if (kraAuthorizationService.hasPermission(userId, doc, PermissionConstants.VIEW_NARRATIVE)) {
+        else if (getKcAuthorizationService().hasPermission(userId, doc, PermissionConstants.VIEW_NARRATIVE)) {
             right = NarrativeRight.VIEW_NARRATIVE_RIGHT;
         }
         else {
@@ -71,14 +59,14 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
     }
     
     protected NarrativeRight getDefaultNarrativeRight(List<String> roleNames) {
-        List<String> matchingRoleNames = systemAuthorizationService.getRoleNamesForPermission(PermissionConstants.MODIFY_NARRATIVE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
+        List<String> matchingRoleNames = getSystemAuthorizationService().getRoleNamesForPermission(PermissionConstants.MODIFY_NARRATIVE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
         for(String role : roleNames) {
             if(matchingRoleNames.contains(role)) {
                 return NarrativeRight.MODIFY_NARRATIVE_RIGHT;
             }
         }
         matchingRoleNames.clear();
-        matchingRoleNames = systemAuthorizationService.getRoleNamesForPermission(PermissionConstants.VIEW_NARRATIVE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
+        matchingRoleNames = getSystemAuthorizationService().getRoleNamesForPermission(PermissionConstants.VIEW_NARRATIVE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
         for(String role : roleNames) {
             if(matchingRoleNames.contains(role)) {
                 return NarrativeRight.VIEW_NARRATIVE_RIGHT;
@@ -95,12 +83,13 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
     public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
         this.systemAuthorizationService = systemAuthorizationService;
     }
-    
+    protected SystemAuthorizationService getSystemAuthorizationService (){return systemAuthorizationService;}
     /**
      * Set the Proposal Authorization Service.  Injected by the Spring Framework.
      * @param kraAuthorizationService the Proposal Authorization Service
      */
-    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
-        this.kraAuthorizationService = kraAuthorizationService;
+    public void setKcAuthorizationService(KcAuthorizationService kraAuthorizationService) {
+        this.kcAuthorizationService = kraAuthorizationService;
     }
+    protected KcAuthorizationService getKcAuthorizationService(){return kcAuthorizationService;}
 }
