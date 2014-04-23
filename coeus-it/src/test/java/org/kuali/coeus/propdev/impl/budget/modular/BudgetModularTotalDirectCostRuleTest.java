@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.budget.modular;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -41,7 +41,7 @@ import java.sql.Date;
 import java.util.*;
 
 /**
- * Tests for the {@link BudgetModularTotalDirectCostRule BudgetModularTotalDirectCostRule} class.
+ * Tests for the {@link org.kuali.coeus.propdev.impl.budget.modular.BudgetModularTotalDirectCostRule BudgetModularTotalDirectCostRule} class.
  */
 public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase {
 
