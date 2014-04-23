@@ -38,6 +38,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
@@ -51,8 +52,12 @@ import org.kuali.kra.s2s.service.S2SUserAttachedFormService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -82,8 +87,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
                                                                         S2sUserAttachedForm s2sUserAttachedForm) throws Exception{
         PdfReader reader = null;
         List<S2sUserAttachedForm> formBeans = new ArrayList<S2sUserAttachedForm>();
-//        List<S2sUserAttachedForm> savedFormBeans;
-//        List<S2sOppForms> s2sOppForms;
         try{
             byte pdfFileContents[] = s2sUserAttachedForm.getFormFile();
             if(pdfFileContents==null || pdfFileContents.length==0){
@@ -94,37 +97,12 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
                 reader = new PdfReader(pdfFileContents);
                 Map attachments = extractAttachments(reader);
                 formBeans = extractAndPopulateXml(developmentProposal,reader,s2sUserAttachedForm,attachments);
-//                s2sOppForms = getChangedOppForms(developmentProposal,formBeans);
             }
-//            try{
-//                businessObjectService.save(s2sOppForms);
-//                savedFormBeans = (List<S2sUserAttachedForm>) businessObjectService.save(formBeans);
-//            }catch(DataIntegrityViolationException ex){
-//                S2SException s2sException = new S2SException(KeyConstants.S2S_DUPLICATE_USER_ATTACHED_FORM,ex.getMessage());
-//                s2sException.setTabErrorKey("userAttachedFormsErrors");
-//                throw s2sException;
-//            }
             resetFormsAvailability(developmentProposal,formBeans);
         }finally{
             if(reader!=null) reader.close();
         }
         return formBeans;
-    }
-
-    private List<S2sOppForms> getChangedOppForms(DevelopmentProposal developmentProposal, List<S2sUserAttachedForm> formBeans) {
-        List<S2sOppForms> s2sForms = developmentProposal.getS2sOpportunity().getS2sOppForms();
-        List<S2sOppForms> changedS2sForms = new ArrayList<S2sOppForms>();
-        for (S2sUserAttachedForm s2sUserAttachedForm : formBeans) {
-            for (S2sOppForms s2sOppForms : s2sForms) {
-                if(s2sUserAttachedForm.getNamespace().equals(s2sOppForms.getOppNameSpace())){
-                    s2sOppForms.setAvailable(true);
-                    s2sOppForms.setUserAttachedForm(true);
-                    changedS2sForms.add(s2sOppForms);
-                }
-            }
-            
-        }
-        return changedS2sForms;
     }
 
     private void resetFormsAvailability(DevelopmentProposal developmentProposal, List<S2sUserAttachedForm> savedFormBeans) {
@@ -232,7 +210,10 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
         if(domDocument==null){
-            return formBeans; 
+            S2SException s2sException = new S2SException(KeyConstants.S2S_USER_ATTACHED_FORM_WRONG_FILE_TYPE,"Uploaded file is not Grants.Gov fillable form");
+            s2sException.setTabErrorKey("userAttachedFormsErrors");
+            throw s2sException;
+//            return formBeans; 
         }
         Element documentElement = ((Document) domDocument).getDocumentElement();
 
@@ -360,8 +341,8 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             ((Element)hashValue).setAttribute("xmlns:glob", "http://apply.grants.gov/system/Global-V1.0");
         }
         //formXML = Converter.doc2String(doc);
-        validateForm(doc,namespaceUri);
-        
+        if(!validateForm(doc,namespaceUri))
+            return null;
         S2sUserAttachedForm newUserAttachedFormBean = cloneUserAttachedForm(userAttachedForm);
         newUserAttachedFormBean.setNamespace(namespaceUri);
         newUserAttachedFormBean.setFormName(formname);
@@ -393,10 +374,21 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             removeAllEmptyNodes(document,xpath,parentLevel);
         }
     }   
-    private void validateForm(Document userAttachedFormDocument, String namespace) throws Exception{
+    private boolean validateForm(Document userAttachedFormDocument, String namespace) throws Exception{
         XmlObject xmlObject = XmlObject.Factory.parse(userAttachedFormDocument);
         List<AuditError> errors = new ArrayList<AuditError>();
-        s2SValidatorService.validate(xmlObject, errors) ;
+        if(!s2SValidatorService.validate(xmlObject, errors)) {
+            setValidationErrorMessage(errors);
+            return false;
+        }else{
+            return true;
+        }
+        
+    }
+    protected void setValidationErrorMessage(List<AuditError> errors) {
+        for (AuditError error : errors) {
+            GlobalVariables.getMessageMap().putError("userAttachedFormsErrors", KeyConstants.S2S_USER_ATTACHED_FORM_NOT_VALID, error.getMessageKey());
+        }
     }
     public String createPackageName(String namespace) {
         String namespaceLowercase = namespace.toLowerCase();
