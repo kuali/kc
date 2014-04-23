@@ -130,12 +130,14 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
     private void resetFormsAvailability(DevelopmentProposal developmentProposal, List<S2sUserAttachedForm> savedFormBeans) {
         S2sOpportunity opportunity = developmentProposal.getS2sOpportunity();
         if(opportunity!=null){
-            List<S2sOppForms> oppForms = opportunity.getS2sOppForms(); 
-            for (S2sUserAttachedForm s2sUserAttachedForm : savedFormBeans) {
-                for (S2sOppForms s2sOppForms : oppForms) {
-                    if(s2sOppForms.getOppNameSpace().equals(s2sUserAttachedForm.getNamespace())){
-                        s2sOppForms.setAvailable(true);
-                        s2sOppForms.setUserAttachedForm(true);
+            List<S2sOppForms> oppForms = opportunity.getS2sOppForms();
+            if(oppForms!=null){
+                for (S2sUserAttachedForm s2sUserAttachedForm : savedFormBeans) {
+                    for (S2sOppForms s2sOppForms : oppForms) {
+                        if(s2sOppForms.getOppNameSpace().equals(s2sUserAttachedForm.getNamespace())){
+                            s2sOppForms.setAvailable(true);
+                            s2sOppForms.setUserAttachedForm(true);
+                        }
                     }
                 }
             }
