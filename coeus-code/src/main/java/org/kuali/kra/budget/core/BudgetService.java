@@ -109,10 +109,6 @@ public interface BudgetService<T extends BudgetParent>  {
      * @return Non-Personnel Panel Name for the passed in Line Item
      */
     public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
-    
-    public String getParticipantSupportCategoryCode();
-    
-    public List<BudgetLineItem> getMatchingLineItems(List<BudgetLineItem> lineItems, List<String> objectCodes);
 
     public Collection<BudgetRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen);
 

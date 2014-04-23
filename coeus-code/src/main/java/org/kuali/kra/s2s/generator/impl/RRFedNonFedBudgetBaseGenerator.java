@@ -19,7 +19,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -52,7 +51,6 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
     protected ProposalBudgetService proposalBudgetService;
     protected S2SUtilService s2sUtilService;
     private DocumentService documentService ;
-    protected BudgetService budgetService;
     public static final String OTHERPERSONNEL_POSTDOC = "PostDoc";
     public static final String OTHERPERSONNEL_GRADUATE = "Grad";
     public static final String OTHERPERSONNEL_UNDERGRADUATE = "UnderGrad";
@@ -70,7 +68,6 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
     public RRFedNonFedBudgetBaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
-        budgetService = KcServiceLocator.getService(BudgetService.class);
         documentService = KcServiceLocator.getService(DocumentService.class);
         proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
     }
@@ -127,9 +124,9 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
         if(budget != null) {
             for (BudgetPeriod period : budget.getBudget().getBudgetPeriods()) {
                 List<String> participantSupportCode = new ArrayList<String>();
-                participantSupportCode.add(budgetService.getParticipantSupportCategoryCode());
-                List<BudgetLineItem> participantSupportLineItems = 
-                    budgetService.getMatchingLineItems(period.getBudgetLineItems(), participantSupportCode);
+                participantSupportCode.add(s2sBudgetCalculatorService.getParticipantSupportCategoryCode());
+                List<BudgetLineItem> participantSupportLineItems =
+                        s2sBudgetCalculatorService.getMatchingLineItems(period.getBudgetLineItems(), participantSupportCode);
                 int numberOfParticipants = period.getNumberOfParticipants() == null ? 0 : period.getNumberOfParticipants();
                 if (!participantSupportLineItems.isEmpty() && numberOfParticipants == 0) {
                     AuditError auditError= S2SErrorHandler.getError(S2SConstants.PARTICIPANT_COUNT_REQUIRED);
@@ -160,13 +157,4 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-
-    protected BudgetService getBudgetService() {
-        return budgetService;
-    }
-
-    public void setBudgetService(BudgetService budgetService) {
-        this.budgetService = budgetService;
-    }   
-
 }
