@@ -94,7 +94,13 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
               s2sException.setTabErrorKey("userAttachedFormsErrors");
               throw s2sException;
             }else{
-                reader = new PdfReader(pdfFileContents);
+                try{
+                    reader = new PdfReader(pdfFileContents);
+                }catch(IOException ioex){
+                    S2SException s2sException = new S2SException(KeyConstants.S2S_USER_ATTACHED_FORM_NOT_PDF,"Uploaded file is not Grants.Gov fillable form",ioex.getMessage());
+                    s2sException.setTabErrorKey("userAttachedFormsErrors");
+                    throw s2sException;
+                }
                 Map attachments = extractAttachments(reader);
                 formBeans = extractAndPopulateXml(developmentProposal,reader,s2sUserAttachedForm,attachments);
             }
@@ -213,7 +219,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             S2SException s2sException = new S2SException(KeyConstants.S2S_USER_ATTACHED_FORM_WRONG_FILE_TYPE,"Uploaded file is not Grants.Gov fillable form");
             s2sException.setTabErrorKey("userAttachedFormsErrors");
             throw s2sException;
-//            return formBeans; 
         }
         Element documentElement = ((Document) domDocument).getDocumentElement();
 
@@ -294,8 +299,8 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
     private void addForm(DevelopmentProposal developmentProposal, List formBeans, Element form,
             S2sUserAttachedForm userAttachedFormBean, Map attachments) throws Exception {
         S2sUserAttachedForm userAttachedForm = processForm(form,userAttachedFormBean,attachments);
-        validateForm(developmentProposal,userAttachedForm);
         if(userAttachedForm!=null){
+            validateForm(developmentProposal,userAttachedForm);
             userAttachedForm.setXmlDataExists(userAttachedForm.getXmlFile()!=null);
             userAttachedForm.setFormFileDataExists(userAttachedForm.getFormFile()!=null);
             formBeans.add(userAttachedForm);
