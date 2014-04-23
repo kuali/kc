@@ -19,8 +19,10 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
 import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
@@ -36,6 +38,10 @@ import java.util.List;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public interface S2SBudgetCalculatorService {
+
+    String getParticipantSupportCategoryCode();
+
+    List<BudgetLineItem> getMatchingLineItems(List<BudgetLineItem> lineItems, List<String> budgetCategoryType);
 
     /**
      * 
