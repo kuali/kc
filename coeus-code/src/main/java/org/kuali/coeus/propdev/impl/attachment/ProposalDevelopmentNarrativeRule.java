@@ -32,6 +32,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -421,9 +422,9 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
 
     protected DictionaryValidationService getKnsDictionaryValidationService() {
         if (this.dictionaryValidationService == null) {
-            this.dictionaryValidationService = KcServiceLocator.getService(DictionaryValidationService.class);
+            this.dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
         }
-        return this.dictionaryValidationService;
+                return this.dictionaryValidationService;
     }
 
 }
