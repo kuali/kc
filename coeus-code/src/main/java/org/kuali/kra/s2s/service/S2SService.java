@@ -168,4 +168,5 @@ public interface S2SService {
 	public boolean checkForSubmissionStatusChange(
 			ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission)
 			throws S2SException;
+
 }

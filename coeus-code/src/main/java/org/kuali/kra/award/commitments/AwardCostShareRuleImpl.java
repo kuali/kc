@@ -112,7 +112,7 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
     
     /*
     private String getProjectPeriodLabel() {
-        String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
+        String label = KcServiceLocator.getService(CostShareService.class).getCostShareLabel();
         return label;
     }*/
 

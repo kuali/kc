@@ -51,7 +51,7 @@ public class BudgetPersonnelRule {
     
     /**
      * Creates a new BudgetPersonnelRule setting the required services using the
-     * {@link org.kuali.coeus.sys.framework.service.KcServiceLocator KraServiceLocator}.
+     * {@link org.kuali.coeus.sys.framework.service.KcServiceLocator KcServiceLocator}.
      */
     public BudgetPersonnelRule() {
         this(KcServiceLocator.getService(BusinessObjectService.class),

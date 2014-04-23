@@ -53,6 +53,8 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;
+import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
+import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAtt;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
@@ -535,6 +537,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         fixProposalNumbers(newDoc, newDoc.getDevelopmentProposal().getProposalNumber(), list);
         fixKeyPersonnel(newDoc, srcDoc.getDevelopmentProposal().getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
         fixCongressionalDistricts(newDoc);
+        fixS2sUserAttachedForms(newDoc);
         // reset organization / location info only if lead unit changed
         if (!StringUtils.equals(srcDoc.getDevelopmentProposal().getUnitNumber(), newDoc.getDevelopmentProposal().getUnitNumber())) {
             fixOrganizationAndLocations(newDoc);
@@ -551,6 +554,20 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         for (ProposalAbstract curAbstract : newDoc.getDevelopmentProposal().getProposalAbstracts()) {
             curAbstract.setTimestampDisplay(getDateTimeService().getCurrentTimestamp());
         }
+    }
+
+    private void fixS2sUserAttachedForms(ProposalDevelopmentDocument newDoc) {
+        DevelopmentProposal developmentProposal = newDoc.getDevelopmentProposal();
+        List<S2sUserAttachedForm> userAttachedForms = developmentProposal.getS2sUserAttachedForms();
+        for (S2sUserAttachedForm s2sUserAttachedForm : userAttachedForms) {
+            s2sUserAttachedForm.refresh();
+            s2sUserAttachedForm.setS2sUserAttachedFormId(null);
+            List<S2sUserAttachedFormAtt> attachments = s2sUserAttachedForm.getS2sUserAttachedFormAtts();
+            for (S2sUserAttachedFormAtt s2sUserAttachedFormAtt : attachments) {
+                s2sUserAttachedFormAtt.setS2sUserAttachedFormAttId(null);
+            }
+        }
+        
     }
 
     /**

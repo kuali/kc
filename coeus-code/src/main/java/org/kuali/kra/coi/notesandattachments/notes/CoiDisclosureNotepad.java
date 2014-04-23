@@ -320,7 +320,7 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     protected void prePersist() {
         super.prePersist();
         this.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-        this.setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        this.setCreateTimestamp(((DateTimeService) KcServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
     }
     */
 

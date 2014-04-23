@@ -179,6 +179,8 @@ public interface PermissionConstants {
      public static final String CREATE_SUBAWARD = "CREATE SUBAWARD";
      public static final String MODIFY_SUBAWARD = "MODIFY SUBAWARD";
      public static final String VIEW_SUBAWARD = "VIEW SUBAWARD";
+     public static final String SUBMIT_SUBAWARD = "Submit Subaward Document";
+
      
      /*
       * IACUC permissions

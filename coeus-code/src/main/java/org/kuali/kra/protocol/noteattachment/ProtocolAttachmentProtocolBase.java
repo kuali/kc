@@ -242,7 +242,7 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
         }
         this.versions.clear();
         // TODO : since this will be called by tag, so should not call service  
-        //this.versions.addAll(KraServiceLocator.getService(ProtocolAttachmentService.class).getAttachmentsWithOlderFileVersions(this, ProtocolAttachmentProtocolBase.class));  
+        //this.versions.addAll(KcServiceLocator.getService(ProtocolAttachmentService.class).getAttachmentsWithOlderFileVersions(this, ProtocolAttachmentProtocolBase.class));  
         // need this refresh here.  change and save will not update this list automatically.  not sure why ?  
         // this is still calling persistenceservice eventually  
         // probably do it in postsave  

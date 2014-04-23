@@ -52,6 +52,9 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase {
 
     @Transient
     private Boolean selectToPrint;
+    
+    @Transient
+    private Boolean userAttachedForm;
 
     public S2sOppFormsId getS2sOppFormsId() {
         return s2sOppFormsId;
@@ -161,4 +164,12 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase {
             return new CompareToBuilder().append(this.oppNameSpace, other.oppNameSpace).append(this.proposalNumber, other.proposalNumber).toComparison();
         }
     }
+
+	public Boolean getUserAttachedForm() {
+		return userAttachedForm;
+	}
+
+	public void setUserAttachedForm(Boolean userAttachedForm) {
+		this.userAttachedForm = userAttachedForm;
+	}
 }

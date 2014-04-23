@@ -20,6 +20,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,4 +49,7 @@ public interface SubAwardPrintingService {
 	public AttachmentDataSource printSubAwardReport(
 			KcPersistableBusinessObjectBase awardDocument, SubAwardPrintType subAwardPrintType,
 			Map<String, Object> reportParameters) throws PrintingException;
+	
+	public AttachmentDataSource printSubAwardFDPReport(KcPersistableBusinessObjectBase subAwardDoc,SubAwardPrintType subAwardPrintType,
+            Map<String, Object> reportParameters) throws PrintingException;
 }

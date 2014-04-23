@@ -39,7 +39,7 @@ import static org.junit.Assert.*;
 import static org.kuali.kra.infrastructure.Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.rice.coreservice.framework.parameter.ParameterConstants.DOCUMENT_COMPONENT;
 /**
- * This class tests the KraServiceLocator
+ * This class tests the KcServiceLocator
  */ 
 public class KraServiceLocatorTest extends KcIntegrationTestBase {
 

@@ -74,6 +74,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 
     protected ProposalDevelopmentDocument pdDoc = null;
     private List<AuditError> auditErrors;
+    private String namespace;
     private NarrativeService narrativeService;
 
     public S2SBaseFormGenerator() {
@@ -407,5 +408,19 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         }
     }
 
+    /**
+     * Gets the namespace attribute. 
+     * @return Returns the namespace.
+     */
+    public String getNamespace() {
+        return namespace;
+    }
 
+    /**
+     * Sets the namespace attribute value.
+     * @param namespace The namespace to set.
+     */
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
 }
