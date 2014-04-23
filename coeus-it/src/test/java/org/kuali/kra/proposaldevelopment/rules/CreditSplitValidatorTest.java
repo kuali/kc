@@ -60,7 +60,7 @@ public class CreditSplitValidatorTest extends KcIntegrationTestBase {
      * This tests whether exactly one Principle Investigator will work. This test should yield a passed rule.
      * 
      * @see org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument
-     * @see org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditRule
+     * @see org.kuali.coeus.propdev.impl.person.KeyPersonnelAuditRule
      */
     @Test
     public void validProposalInvestigatorNormal() throws Exception {

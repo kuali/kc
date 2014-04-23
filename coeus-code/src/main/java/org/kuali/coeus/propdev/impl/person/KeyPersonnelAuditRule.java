@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -22,10 +22,8 @@ import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitValidator;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
-import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -39,7 +37,6 @@ import java.util.Map.Entry;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.*;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 
@@ -50,7 +47,20 @@ import static org.kuali.kra.infrastructure.KeyConstants.*;
  */
 public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelAuditRule.class);
-    
+
+    private SponsorHierarchyService sponsorHierarchyService;
+    private KeyPersonnelService keyPersonnelService;
+
+    protected SponsorHierarchyService getSponsorHierarchyService(){
+        if (sponsorHierarchyService == null)
+            sponsorHierarchyService = KcServiceLocator.getService(SponsorHierarchyService.class);
+        return sponsorHierarchyService;
+    }
+    protected KeyPersonnelService getKeyPersonnelService (){
+        if (keyPersonnelService == null)
+            keyPersonnelService = KcServiceLocator.getService(KeyPersonnelService.class);
+        return keyPersonnelService;
+    }
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) document;
@@ -68,7 +78,7 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
         int  personCount = 0;
         for (ProposalPerson person : pd.getDevelopmentProposal().getProposalPersons()) {
             retval &= validateInvestigator(person);
-            if (KcServiceLocator.getService(SponsorHierarchyService.class).isSponsorNihMultiplePi(pd.getDevelopmentProposal().getSponsorCode())) {
+            if (getSponsorHierarchyService().isSponsorNihMultiplePi(pd.getDevelopmentProposal().getSponsorCode())) {
                 if (person.isMultiplePi() || person.getRole().getProposalPersonRoleId().equalsIgnoreCase(Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
                     retval &= validateEraCommonUserName(person, personCount);
                 }
@@ -79,7 +89,6 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
                 hasInvestigator = true;
             }
         }
-        //retval &= validateYesNoQuestions((ProposalDevelopmentDocument) document);
         
         if (hasInvestigator) {
             retval &= validateCreditSplit((ProposalDevelopmentDocument) document);
@@ -197,15 +206,6 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
         
     private boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
         return getKeyPersonnelService().hasPrincipalInvestigator(document);
-    }
-
-    /**
-     * Locate in Spring <code>{@link KeyPersonnelService}</code> singleton  
-     * 
-     * @return KeyPersonnelService
-     */
-    private KeyPersonnelService getKeyPersonnelService() {
-        return getService(KeyPersonnelService.class);
     }
 
     /**
