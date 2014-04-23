@@ -359,7 +359,9 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
             proposalDevelopmentForm.setNewS2sUserAttachedForm(new S2sUserAttachedForm());
         }catch(S2SException ex){
             if(ex.getTabErrorKey()!=null){
-                GlobalVariables.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getParams());
+                if(GlobalVariables.getMessageMap().getErrorMessagesForProperty(ex.getTabErrorKey())==null){
+                    GlobalVariables.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getParams());
+                }
             }else{
                 GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
             }
@@ -383,9 +385,11 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
-        S2sUserAttachedForm refreshedelectedForm = KraServiceLocator.getService(BusinessObjectService.class).
+        if(selectedForm.getXmlFile()==null){
+            selectedForm = KraServiceLocator.getService(BusinessObjectService.class).
                         findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getS2sUserAttachedFormId());
-        streamToResponse(refreshedelectedForm.getXmlFile().getBytes(), refreshedelectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
+        }
+        streamToResponse(selectedForm.getXmlFile().getBytes(), selectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
         return null;
     }
     /**
@@ -404,9 +408,11 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
-        S2sUserAttachedForm refreshedelectedForm = KraServiceLocator.getService(BusinessObjectService.class).
+        if(selectedForm.getFormFile()==null || selectedForm.getFormFile().length==0){
+            selectedForm = KraServiceLocator.getService(BusinessObjectService.class).
                         findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getS2sUserAttachedFormId());
-        streamToResponse(refreshedelectedForm.getFormFile(), refreshedelectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
+        }
+        streamToResponse(selectedForm.getFormFile(), selectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
         return null;
     }
     /**
@@ -426,9 +432,11 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
         S2sUserAttachedFormAtt attachment = selectedForm.getS2sUserAttachedFormAtts().get(getParameterForToken(request, "attIndex"));
-        S2sUserAttachedFormAtt refreshedSelectedFormAtt = KraServiceLocator.getService(BusinessObjectService.class).
+        if(attachment.getAttachment()==null || attachment.getAttachment().length==0){
+            attachment = KraServiceLocator.getService(BusinessObjectService.class).
                         findBySinglePrimaryKey(S2sUserAttachedFormAtt.class, attachment.getS2sUserAttachedFormAttId());
-        streamToResponse(refreshedSelectedFormAtt.getAttachment(), refreshedSelectedFormAtt.getFileName(), refreshedSelectedFormAtt.getContentType(), response);
+        }
+        streamToResponse(attachment.getAttachment(), attachment.getFileName(), attachment.getContentType(), response);
         return null;
     }
     protected int getParameterForToken(HttpServletRequest request,String token) {
