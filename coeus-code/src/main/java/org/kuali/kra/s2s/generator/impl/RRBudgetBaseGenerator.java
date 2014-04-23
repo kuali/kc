@@ -77,7 +77,6 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 	public static final String OTHERPERSONNEL_GRADUATE = "Grad";
 	public static final String OTHERPERSONNEL_UNDERGRADUATE = "UnderGrad";
 	public static final String OTHERPERSONNEL_SECRETARIAL = "Sec";
-	public static final String NARRATIVE_ATTACHMENT = "narrativeAttachment";
 	public static final int BUDGET_JUSTIFICATION_ATTACHMENT = 7;
 
 	protected static final int OTHERPERSONNEL_MAX_ALLOWED = 6;

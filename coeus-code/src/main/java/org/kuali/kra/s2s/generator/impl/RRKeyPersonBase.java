@@ -402,7 +402,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 
 	private void setDivisionName(ExtraKeyPerson extraPerson,
 			ProposalPerson proposalPerson) {
-		String divisionName = "";// s2sTxnBean.fn_get_division(homeUnit);
+		String divisionName = "";
 		if (divisionName != null && divisionName.length() > 29) {
 			divisionName = divisionName.substring(0, 29);
 		}
@@ -411,7 +411,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 
 	private void setDepartmentName(ExtraKeyPerson extraPerson,
 			ProposalPerson proposalPerson) {
-		String departmentName = "";// proposalPerson.getUnitName();
+		String departmentName = "";
 		if (departmentName != null && departmentName.length() > 30) {
 			departmentName = departmentName.substring(0, 29);
 		}

@@ -29,7 +29,6 @@ public class FormMappingInfo{
     private String mainClass;
     private String formName;
     private String stylesheet;
-    private String pkgname;
     private int sortIndex;
     private Boolean userAttachedForm=false;
     
@@ -37,7 +36,6 @@ public class FormMappingInfo{
     private static final String KEY_MAIN_CLASS = "mainClass";
     private static final String KEY_FORM_NAME = "formName";
     private static final String KEY_STYLE_SHEET = "stylesheet";
-    private static final String KEY_PACKAGE_NAME = "pkgname";
 
 
     /** Creates a new instance of FormMappingInfo */

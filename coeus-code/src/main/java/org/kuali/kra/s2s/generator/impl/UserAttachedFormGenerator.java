@@ -48,7 +48,6 @@ import java.util.Map;
  */
 public class UserAttachedFormGenerator extends S2SBaseFormGenerator {
 
-    private static final Log LOG = LogFactory.getLog(ProjectV1_0Generator.class);
 
     /**
      * This method creates {@link XmlObject} of type {@link BudgetNarrativeAttachmentsDocument} by populating data from the given

@@ -42,7 +42,6 @@ import java.util.List;
  * This class is used to test the PDF Printing of Forms
  */
 public class PrintFormTest extends KcIntegrationTestBase {
-    private static final Log LOG = LogFactory.getLog(PrintFormTest.class);
 
     @Test
     public void testPrint() throws IOException {

@@ -86,7 +86,6 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     protected ScaleTwoDecimal personnelCostCS = ScaleTwoDecimal.ZERO;
 
     protected static final String DHHS_AGREEMENT = "DHHS_AGREEMENT";
-    protected static final String DHHS_DEFAULT_VALUE = "0";
     protected static final String AGENCY_VALUE = "DHHS";
     protected static final String RESTIRCTED_QUESTION = " ";
     protected static final String DEFAULT_LEGAL_NAME = "NONE";
