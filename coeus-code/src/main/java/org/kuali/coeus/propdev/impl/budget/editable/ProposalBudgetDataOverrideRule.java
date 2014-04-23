@@ -34,6 +34,7 @@ import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideEvent;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -55,7 +56,7 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
     }
     private KcPersistenceStructureService kcPersistenceStructureService;
     private DataDictionaryService dataDictionaryService;
-    private  ProposalDevelopmentService proposalDevelopmentService;
+    private ProposalDevelopmentService proposalDevelopmentService;
     private DateTimeService dateTimeService;
 
     protected KcPersistenceStructureService getKcPersistenceStructureService (){
@@ -65,7 +66,7 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
     }
     protected DataDictionaryService getDataDictionaryService(){
         if (dataDictionaryService == null)
-            dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
+            dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
         return dataDictionaryService;
     }
     protected ProposalDevelopmentService getProposalDevelopmentService (){
