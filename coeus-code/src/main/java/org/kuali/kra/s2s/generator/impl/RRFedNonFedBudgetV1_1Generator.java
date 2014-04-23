@@ -1238,8 +1238,6 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                     fundsRequested.setNonFederal(costInfo.getCostSharing().bigDecimalValue());
                     fundsRequested.setTotalFedNonFed(costInfo.getCost().add(costInfo.getCostSharing()).bigDecimalValue());
 
-                    //  equipmentList.setNonFederal(costInfo.getCostSharing().bigDecimalValue());
-                    //  equipmentList.setTotalFedNonFed(costInfo.getCost().add(costInfo.getCostSharing()).bigDecimalValue());   
                     //  prepare the totals
                     totalFund.setFederalSummary(totalFund.getFederalSummary().add(costInfo.getCost().bigDecimalValue()));
                     totalFund.setNonFederalSummary(totalFund.getNonFederalSummary()

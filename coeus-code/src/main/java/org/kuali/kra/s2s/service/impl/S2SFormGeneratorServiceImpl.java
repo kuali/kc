@@ -21,9 +21,7 @@ import org.apache.xmlbeans.XmlOptions;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
-import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SFormGenerator;
-import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 
 import java.util.HashMap;
@@ -45,11 +43,10 @@ public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
      * This method is used to create and return a form generator instance. Based on the namespace provided as parameter, it
      * instantiates the respective generator class and returns it.
      * 
-     * @param nameSpace name space of the generator.
+     * @param namespace name space of the generator.
      * @return S2SFormGenerator form generator instances corresponding to the name space.
      * @throws S2SException if generator could not be loaded
-     * @throws S2SGeneratorNotFoundException if form generator for given namespace is not available
-     * @see org.kuali.kra.s2s.service.S2SFormGeneratorService#getS2SGenerator(java.lang.String)
+     * @throws org.kuali.kra.s2s.S2SException if form generator for given namespace is not available
      */
     public final S2SFormGenerator getS2SGenerator(String proposalNumber,String namespace) throws S2SException {
         FormMappingInfo formInfo = new FormMappingLoader().getFormInfo(proposalNumber,namespace);

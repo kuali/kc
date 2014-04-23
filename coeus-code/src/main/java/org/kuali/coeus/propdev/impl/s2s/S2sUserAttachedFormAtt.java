@@ -121,10 +121,5 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase {
     public void setS2sUserAttachedForm(S2sUserAttachedForm s2sUserAttachedForm) {
         this.s2sUserAttachedForm = s2sUserAttachedForm;
     }
-//    @Override
-//    protected void postPersist() {
-//        super.postPersist();
-//        setAttachment(null);
-//    }
     
 }

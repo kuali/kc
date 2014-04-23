@@ -168,7 +168,6 @@ public class EDSF424SupplementV1_1Generator extends
 						exemptionsNumber.setStringValue(CollectionUtils
 								.toString(exemptionTypeCodes));
 						edsf424Supplement.setExemptionsNumber(exemptionsNumber);
-						//edsf424Supplement.setAssuranceNumber(null);
 			    	} else {
 			    		edsf424Supplement.setIsHumanResearch(YesNoDataType.N_NO);
 			    		if (organization != null) {

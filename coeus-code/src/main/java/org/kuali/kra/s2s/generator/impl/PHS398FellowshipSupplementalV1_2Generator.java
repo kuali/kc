@@ -133,7 +133,6 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
         List<Answer> returnAnswers = new ArrayList<Answer>();
         if (answerHeader != null) {
             List<Answer> answers = answerHeader.getAnswers();
-            //List<Answer> answerList = new ArrayList<Answer>();
             for (Answer answer : answers) {
                 if (answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())) {               
                     returnAnswers.add(answer);

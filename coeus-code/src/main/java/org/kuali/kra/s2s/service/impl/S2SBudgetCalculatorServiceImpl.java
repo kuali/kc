@@ -88,8 +88,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     private static final String NID_PD_PI = "PD/PI";
     private static final String NID_CO_PD_PI = "CO-INVESTIGATOR"; 
     private static final String KEYPERSON_OTHER = "Other (Specify)";
-    private static final Log LOG = LogFactory
-                    .getLog(S2SBudgetCalculatorServiceImpl.class);
+
     private static final String PRINCIPAL_INVESTIGATOR_ROLE = "PD/PI";
     private static final BigDecimal POINT_ZERO_ONE = new ScaleTwoDecimal(0.01).bigDecimalValue();
     private BudgetCategoryMapService budgetCategoryMapService;
@@ -100,7 +99,6 @@ public class S2SBudgetCalculatorServiceImpl implements
     private BudgetPersonService budgetPersonService;
     private ProposalDevelopmentService proposalDevelopmentService;
     private SponsorHierarchyService sponsorHierarchyService;
-    private List<AuditError> auditErrors;
 
     @Override
     public String getParticipantSupportCategoryCode() {

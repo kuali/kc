@@ -233,13 +233,6 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
         return proposalTypeEnum;
     }
 
-//    public XmlObject getFormObject(XmlObject xmlObject) {
-//        PHS398ResearchTrainingProgramPlanDocument phs398ResTrainProgPlanDocument =PHS398ResearchTrainingProgramPlanDocument.Factory.newInstance();
-//        PHS398ResearchTrainingProgramPlan phs398ResTrainProgPlan = (PHS398ResearchTrainingProgramPlan)xmlObject;
-//        phs398ResTrainProgPlanDocument.setPHS398ResearchTrainingProgramPlan(phs398ResTrainProgPlan);
-//        return phs398ResTrainProgPlanDocument;
-//    }
-
     /**
      * Gets the parameterService attribute. 
      * @return Returns the parameterService.

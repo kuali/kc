@@ -104,7 +104,6 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 		}
 
 		for (BudgetPeriodInfo budgetPeriodData : budgetperiodList) {
-//			saveExtraKeyPersons(budgetPeriodData);
 			if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
 				rrBudget
 						.setBudgetYear1(getBudgetYear1DataType(budgetPeriodData));
