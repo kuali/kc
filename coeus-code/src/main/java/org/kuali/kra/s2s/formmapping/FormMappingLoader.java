@@ -19,7 +19,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.Document;
@@ -52,7 +51,6 @@ public class FormMappingLoader {
     private static final String NAMESPACE = "namespace";
     private static final String MAIN_CLASS = "mainClass";
     private static final String STYLE_SHEET = "stylesheet";
-    private static final String PKG_NAME = "pkgName";
     private static final String FORM_NAME = "formName";
     private static final String TAG_FORM = "Form";
     private static final String SORT_INDEX = "sortIndex";
@@ -64,9 +62,9 @@ public class FormMappingLoader {
      * 
      * This method is used to get the Form Information based on the given schema
      * 
-     * @param nameSpace {@link String} namespace URL of the form
+     * @param namespace {@link String} namespace URL of the form
      * @return {@link FormMappingInfo}containing the namespace information
-     * @throws S2SGeneratorNotFoundException
+     * @throws org.kuali.kra.s2s.S2SException
      * 
      */
     public FormMappingInfo getFormInfo(String namespace) {
@@ -171,7 +169,6 @@ public class FormMappingLoader {
             formInfo.setMainClass(formNode.getElementsByTagName(MAIN_CLASS).item(0).getTextContent().trim());
             formInfo.setUserAttachedForm(false);
             formInfo.setStyleSheet(formNode.getElementsByTagName(STYLE_SHEET).item(0).getTextContent().trim());
-//            formInfo.setPkgName(formNode.getElementsByTagName(PKG_NAME).item(0).getTextContent().trim());
 
             NodeList sortIndexNodesList = formNode.getElementsByTagName(SORT_INDEX);
             if (sortIndexNodesList.getLength() > 0) {

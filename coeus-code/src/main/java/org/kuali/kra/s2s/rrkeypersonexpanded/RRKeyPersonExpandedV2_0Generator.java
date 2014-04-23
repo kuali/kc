@@ -56,8 +56,6 @@ import java.util.List;
 public class RRKeyPersonExpandedV2_0Generator extends
 		RRKeyPersonExpandedBaseGenerator {
 
-	private static final Log LOG = LogFactory
-			.getLog(RRKeyPersonExpandedV2_0Generator.class);
 	RolodexContract rolodex;
 	private static final int MAX_KEY_PERSON_COUNT = 100;
 	/*

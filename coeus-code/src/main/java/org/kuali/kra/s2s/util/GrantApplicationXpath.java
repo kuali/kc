@@ -22,7 +22,6 @@ public class GrantApplicationXpath
 
     private static final String HASH_ALGORITHM = "glob:hashAlgorithm";
     private static final String SHA_1 = "SHA";
-    static final Log log = LogFactory.getLog(GrantApplicationXpath.class.getName());
 
     public static final String GS_HEADER_XPATH = "/*[namespace-uri()='http://apply.grants.gov/system/MetaGrantApplication' and local-name()='GrantApplication']/*[namespace-uri()='http://apply.grants.gov/system/Header-V1.0' and local-name()='GrantSubmissionHeader']";
     public static final String OPPORTUNITY_ID_XPATH = GS_HEADER_XPATH

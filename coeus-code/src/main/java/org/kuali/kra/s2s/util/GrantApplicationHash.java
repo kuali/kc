@@ -132,8 +132,6 @@ public class GrantApplicationHash {
 		canonicalizer.setWriter(digester);
 		canonicalizer.canonicalizeSubtree(formsNode);
 		byte[] hash = digester.getDigestValue();
-		//HexDump.setWithByteSeparator(false);
-		//return HexDump.toHexString(hash);
 		return Base64.encode(hash);
 	}
 

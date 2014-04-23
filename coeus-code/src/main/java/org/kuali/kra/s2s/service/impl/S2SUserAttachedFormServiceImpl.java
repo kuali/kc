@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.s2s.service.impl;
 
-import gov.grants.apply.system.globalV10.HashValueDocument.HashValue;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -45,7 +44,6 @@ import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAtt;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
-import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.service.S2SUserAttachedFormService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.AuditError;
@@ -230,10 +228,7 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
                 NodeList formChildren = element.getChildNodes();
                 int formsCount = formChildren.getLength();
                 if(formsCount>1){
-                    //String xpathSelectedForms = "//*[namespace-uri()='http://apply.grants.gov/system/MetaGrantApplicationWrapper' and *[local-name()='SelectedOptionalForms'] " +
-                    //                  "or @*[namespace-uri()='http://apply.grants.gov/system/MetaGrantApplicationWrapper'  and *[local-name()='SelectedOptionalForms']]]";
-                    //NodeList selectedFormElements =  XPathAPI.selectNodeList(document,xpathSelectedForms);
-                    NodeList selectedOptionalFormElements = document.getElementsByTagNameNS("http://apply.grants.gov/system/MetaGrantApplicationWrapper", "SelectedOptionalForms");
+                     NodeList selectedOptionalFormElements = document.getElementsByTagNameNS("http://apply.grants.gov/system/MetaGrantApplicationWrapper", "SelectedOptionalForms");
                     int selectedOptionalFormsCount = selectedOptionalFormElements==null?0:selectedOptionalFormElements.getLength();
                     if (selectedOptionalFormsCount > 0) {
                         Element selectedFormNode = (Element) selectedOptionalFormElements.item(0);
@@ -243,7 +238,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
                             List seletctedForms = new ArrayList();
                             for (int j = 0; j < selectedFormsCount; j++) {
                                 Element selectedForm = (Element) selectedForms.item(j);
-                                //NodeList selectedFormNames = selectedForm.getElementsByTagNameNS("http://apply.grants.gov/system/MetaGrantApplicationWrapper","Name-Version");
                                 String formName = selectedForm.getTextContent();
                                 seletctedForms.add(formName);
 
@@ -262,9 +256,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
                                 }
                             }
                             if(!exceptions.isEmpty()) throw new S2SException(exceptions.toString());
-//                          if(userAttachedFormBean.getAcType()!=null && userAttachedFormBean.getAcType().equals(TypeConstants.UPDATE_RECORD) && formBeans.size()>1){
-//                              throw new CoeusException("Uploaded pdf contains more than one form elements. You cannot update it if it has got more than one form element. Please delete it and use insert option instead of update");
-//                          }
 
                         }
                     }
@@ -300,7 +291,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         if(bindingInfoBean != null) {
             return null;
         }
-//      form.setAttribute("xmlns:glob", "\"http://apply.grants.gov/system/Global-V1.0\"");
         Document doc = node2Dom(form);
         String xpathEmptyNodes = "//*[not(node()) and local-name(.) != 'FileLocation' and local-name(.) != 'HashValue' and local-name(.) != 'FileName']";// and not(FileLocation[@href])]";// and string-length(normalize-space(@*)) = 0 ]";
         String xpathOtherPers = "//*[local-name(.)='ProjectRole' and local-name(../../.)='OtherPersonnel' and count(../NumberOfPersonnel)=0]";
@@ -312,7 +302,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             Node hashValue = hashValueNodes.item(i);
             ((Element)hashValue).setAttribute("xmlns:glob", "http://apply.grants.gov/system/Global-V1.0");
         }
-        //formXML = Converter.doc2String(doc);
         validateForm(doc,namespaceUri);
         
         S2sUserAttachedForm newUserAttachedFormBean = cloneUserAttachedForm(userAttachedForm);
@@ -347,7 +336,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         }
     }   
     private void validateForm(Document userAttachedFormDocument, String namespace) throws Exception{
-//        byte[] documentBytes = docToBytes(userAttachedFormDocument);
         XmlObject xmlObject = XmlObject.Factory.parse(userAttachedFormDocument);
         List<AuditError> errors = new ArrayList<AuditError>();
         s2SValidatorService.validate(xmlObject, errors) ;
@@ -457,12 +445,9 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         org.w3c.dom.NamedNodeMap fileNodeMap;
         String fileName; 
         byte fileBytes[];
-        String hashAlgorithm;
-        HashValue hashValueType;
         String hashValue;
         String contentId;
         List<S2sUserAttachedFormAtt> attachmentList = new ArrayList<S2sUserAttachedFormAtt>();
-//        DocumentTypeChecker documentTypeChecker = new DocumentTypeChecker();
         for (int index = 0; index < lstFileName.getLength(); index++) {
             fileNode = lstFileName.item(index);
             if (fileNode.getFirstChild() == null) {
@@ -473,15 +458,12 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             if (fileBytes == null) {
                 throw new S2SException("FileName mismatch in XML and PDF extracted file");
             }
-//            hashValueType = S2SHashValue.getValue(fileBytes);
-//            hashAlgorithm = hashValueType.getHashAlgorithm();
-//            byte hashBytes[] = hashValueType.getValue();
+
             hashValue = GrantApplicationHash.computeAttachmentHash(fileBytes);
             hashNode = lstHashValue.item(index);
             NamedNodeMap hashNodeMap = hashNode.getAttributes();
             Node temp = document.createTextNode(hashValue);
             hashNode.appendChild(temp);
-//            hashNode.setNodeValue(hashAlgorithm);
 
             Node hashAlgorithmNode = hashNodeMap.getNamedItemNS("http://apply.grants.gov/system/Global-V1.0", "hashAlgorithm");
             hashAlgorithmNode.setNodeValue(S2SConstants.HASH_ALGORITHM);
@@ -499,16 +481,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             mimeTypeNode = lstMimeType.item(0);
             String contentType = mimeTypeNode.getFirstChild().getNodeValue();
             userAttachedFormAttachmentBean.setContentType(contentType);
-//            DocumentType documentType = null;
-//            try {
-//                documentType = documentTypeChecker.getDocumentType(fileBytes);
-//            } catch (Exception exception) {
-//                UtilFactory.log(exception.getMessage(), exception, "BudgetSubAwardTxnBean", "checkAndUpdate");
-//                userAttachedFormAttachmentBean.setContentType(null);
-//            }
-//            if (documentType != null) {
-//                userAttachedFormAttachmentBean.setContentType(documentType.getMimeType());
-//            }
 
             userAttachedFormAttachmentBean.setProposalNumber(userAttachedFormBean.getProposalNumber());
             userAttachedFormAttachmentBean.setS2sUserAttachedFormId(userAttachedFormBean.getS2sUserAttachedFormId());

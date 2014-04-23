@@ -546,7 +546,6 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 				for (KeyPersonInfo keyPerson : periodInfo.getKeyPersons()) {
 					KeyPersonDataType keyPersonDataType = KeyPersonDataType.Factory
 							.newInstance();
-//					extraFunds = extraFunds.add(keyPerson.getFundsRequested());
 					keyPersonDataType.setName(globLibV10Generator
 							.getHumanNameDataType(keyPerson));
 					if (isSponsorNIH(pdDoc) && KEYPERSON_CO_PD_PI.equals(keyPerson.getRole())) {
