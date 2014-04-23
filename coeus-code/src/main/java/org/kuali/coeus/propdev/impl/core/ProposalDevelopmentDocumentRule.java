@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.ynq.YnqGroupName;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsRule;
 import org.kuali.coeus.propdev.impl.attachment.*;
-import org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentEvent;
-import org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentRule;
+import org.kuali.coeus.propdev.impl.attachment.institute.*;
 import org.kuali.coeus.propdev.impl.abstrct.AbstractsRule;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
-import org.kuali.coeus.propdev.impl.attachment.institute.ReplaceInstituteAttachmentEvent;
-import org.kuali.coeus.propdev.impl.attachment.institute.ReplaceInstituteAttachmentRule;
 import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentProposalRequiredFieldsAuditRule;
 import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentSponsorProgramInformationAuditRule;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideEvent;
@@ -34,9 +32,6 @@ import org.kuali.coeus.propdev.impl.budget.editable.ProposalBudgetDataOverrideRu
 import org.kuali.coeus.propdev.impl.copy.CopyProposalRule;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.copy.ProposalDevelopmentCopyRule;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.docperm.*;
 import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideRule;
@@ -44,11 +39,13 @@ import org.kuali.coeus.propdev.impl.editable.ProposalDevelopmentDataOverrideRule
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.location.*;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAuditRule;
+import org.kuali.coeus.propdev.impl.person.KeyPersonnelCertificationRule;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.attachment.*;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CalculateCreditSplitRule;
 import org.kuali.coeus.propdev.impl.person.keyperson.AddKeyPersonRule;
 import org.kuali.coeus.propdev.impl.person.keyperson.ChangeKeyPersonRule;
+import org.kuali.coeus.propdev.impl.person.keyperson.ProposalDevelopmentKeyPersonsRule;
 import org.kuali.coeus.propdev.impl.person.keyperson.SaveKeyPersonRule;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentQuestionnaireAuditRule;
 import org.kuali.coeus.propdev.impl.resubmit.ProposalDevelopmentResubmissionPromptRule;
@@ -58,7 +55,6 @@ import org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentGrantsGovAuditRule;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireAuditRule;
 import org.kuali.coeus.propdev.impl.ynq.ProposalDevelopmentYnqAuditRule;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
-import org.kuali.coeus.common.framework.ynq.YnqGroupName;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -70,6 +66,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
@@ -96,6 +93,32 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_REVIEW_DATE="reviewDate";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_EXPLANATION="explanation";
 
+    private SponsorService sponsorService;
+    private DataDictionaryService dataDictionaryService;
+    private BudgetService budgetService;
+    private ProposalDevelopmentService proposalDevelopmentService;
+
+    protected DataDictionaryService getDataDictionaryService (){
+        if (dataDictionaryService == null)
+            dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
+        return dataDictionaryService;
+    }
+    protected BudgetService getBudgetService (){
+        if (budgetService ==null)
+            budgetService = KcServiceLocator.getService(BudgetService.class);
+        return budgetService;
+    }
+
+    protected SponsorService getSponsorService() {
+        if (sponsorService ==null)
+            sponsorService = KcServiceLocator.getService(SponsorService.class);
+        return sponsorService;
+    }
+    protected ProposalDevelopmentService getProposalDevelopmentService (){
+        if (proposalDevelopmentService == null)
+            proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+        return proposalDevelopmentService;
+    }
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean retval = true;
@@ -143,17 +166,14 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     
     private boolean proccessValidateSponsor(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
-        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
+        DataDictionaryService dataDictionaryService = getDataDictionaryService();
         if (!this.getSponsorService().isValidSponsor(proposalDevelopmentDocument.getDevelopmentProposal().getSponsor())) {
             valid = false;
-            //this.reportError("document.developmentProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
-            //GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
             GlobalVariables.getMessageMap().putError("sponsorCode", KeyConstants.ERROR_MISSING, dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "sponsorCode"));
         }
         if (!StringUtils.isEmpty(proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsorCode()) && 
                 !this.getSponsorService().isValidSponsor(proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsor())) {
             valid = false;
-            //this.reportError("document.developmentProposalList[0].primeSponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
             GlobalVariables.getMessageMap().putError("primeSponsorCode", KeyConstants.ERROR_MISSING, dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "primeSponsorCode"));
             
         }
@@ -248,7 +268,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         boolean valid = true;
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
+        DataDictionaryService dataDictionaryService = getDataDictionaryService();
         
         /*
         proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("sponsor");
@@ -275,7 +295,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
             }
         }
         
-        ProposalDevelopmentService proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+        ProposalDevelopmentService proposalDevelopmentService = getProposalDevelopmentService();
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCurrentAwardNumber())) {
             if (proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument) == null) {
                 valid = false;
@@ -361,7 +381,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
             valid = false;
          }
  
-        SponsorService sponsorService = KcServiceLocator.getService(SponsorService.class);
+        SponsorService sponsorService = getSponsorService();
          String sponsorCode = proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsorCode();
    
          if (sponsorCode != null)
@@ -437,7 +457,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
                 proposalDevelopmentDocument.getDevelopmentProposal().getYnqGroupNames(), proposalDevelopmentDocument);
         
         retval &= new ProposalDevelopmentYnqAuditRule().processRunAuditBusinessRules(document);
-        //Change for KRACOEUS-1403 ends here       
+
         retval &= new ProposalDevelopmentGrantsGovAuditRule().processRunAuditBusinessRules(document);
         
         retval &= new ProposalDevelopmentS2sQuestionnaireAuditRule().processRunAuditBusinessRules(proposalDevelopmentDocument);
@@ -445,9 +465,8 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         
         // audit check for budgetversion with final status
         try {
-            retval &= KcServiceLocator.getService(BudgetService.class).validateBudgetAuditRule((ProposalDevelopmentDocument)document);
+            retval &= getBudgetService().validateBudgetAuditRule((ProposalDevelopmentDocument)document);
         } catch (Exception ex) {
-            // TODO : should log it here
             throw new RuntimeException("Validate Budget Audit rules encountered exception", ex);
         }
        
@@ -474,7 +493,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
 
     @Override
     public boolean processAddInstituteAttachmentBusinessRules(AddInstituteAttachmentEvent addInstituteAttachmentEvent) {
-        return new ProposalDevelopmentInstituteAttachmentRule().processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent);    
+        return new ProposalDevelopmentInstituteAttachmentRule().processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent);
     }
 
     public boolean processReplaceInstituteAttachmentBusinessRules(ReplaceInstituteAttachmentEvent event) {
@@ -498,7 +517,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
      * 
      */
     public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source,int index) {
-        return new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(proposalPerson, source,index);
+        return new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(proposalPerson, source, index);
     }
 
     @Override
@@ -527,7 +546,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
 
     
     /**
-     * Delegate to {@link org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule#processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument)
+     * Delegate to {@link org.kuali.coeus.propdev.impl.person.keyperson.ProposalDevelopmentKeyPersonsRule#processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument)
      * 
      * @see org.kuali.coeus.propdev.impl.person.keyperson.SaveKeyPersonRule#processSaveKeyPersonBusinessRules(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
      */
@@ -565,8 +584,4 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         return retVal;
     }
     
-    private SponsorService getSponsorService() {
-        return KcServiceLocator.getService(SponsorService.class);
-    }
-
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.person.keyperson;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -31,9 +31,7 @@ import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.propdev.impl.person.keyperson.AddKeyPersonRule;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CalculateCreditSplitRule;
-import org.kuali.coeus.propdev.impl.person.keyperson.ChangeKeyPersonRule;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;

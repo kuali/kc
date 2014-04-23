@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.attachment.institute;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
@@ -24,10 +24,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
-import org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentRule;
-import org.kuali.coeus.propdev.impl.attachment.institute.ReplaceInstituteAttachmentRule;
-import org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentEvent;
-import org.kuali.coeus.propdev.impl.attachment.institute.ReplaceInstituteAttachmentEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -38,8 +34,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
-import static org.kuali.kra.infrastructure.Constants.INSTITUTE_NARRATIVE_TYPE_GROUP;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 
 
@@ -160,7 +154,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
     private void populateNarrativeType(Narrative narrative) {
         Map<String,String> narrativeTypeMap = new HashMap<String,String>();
         narrativeTypeMap.put(NARRATIVE_TYPE_CODE, narrative.getNarrativeTypeCode());
-        BusinessObjectService service = getService(BusinessObjectService.class);
+        BusinessObjectService service = getBusinessObjectService();
         NarrativeType narrType = (NarrativeType) service.findByPrimaryKey(NarrativeType.class, narrativeTypeMap);
         if (narrType != null)
             narrative.setNarrativeType(narrType);
