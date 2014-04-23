@@ -110,13 +110,15 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         S2sOpportunity s2sOpportunity = developmentProposal.getS2sOpportunity();
         s2sOpportunity.setProposalNumber(developmentProposal.getProposalNumber());
         try {
+            List<String> mandatoryForms = new ArrayList<String>();
             if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
                 s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(s2sOpportunity);
                 if(s2sOppForms!=null){
                     for(S2sOppForms s2sOppForm:s2sOppForms){
                         if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
                             mandatoryFormNotAvailable = true;
-                            break;
+                            mandatoryForms.add(s2sOppForm.getFormName());
+//                            break;
                         }
                     }
                 }
@@ -126,7 +128,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
                     proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);                
                 }else{
                     GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,
-                                        developmentProposal.getS2sOpportunity().getOpportunityId());
+                                        developmentProposal.getS2sOpportunity().getOpportunityId(),mandatoryForms.toString());
                     developmentProposal.setS2sOpportunity(new S2sOpportunity());
                 }
             }

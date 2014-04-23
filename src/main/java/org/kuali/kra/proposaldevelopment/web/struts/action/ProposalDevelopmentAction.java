@@ -256,11 +256,13 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                     GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
                 }
             }
+            List<String> mandatoryForms = new ArrayList<String>();
             if(s2sOppForms!=null){
                 for(S2sOppForms s2sOppForm:s2sOppForms){
                     if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
                         mandatoryFormNotAvailable = true;
-                        break;
+                        mandatoryForms.add(s2sOppForm.getFormName());
+//                        break;
                     }
                 }
             }
@@ -270,7 +272,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);
                 proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
             }else{
-                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId());
+                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId(),mandatoryForms.toString());
                 proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
             }
         }
