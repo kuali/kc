@@ -678,7 +678,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         String rootAwardNumber = getTimeAndMoneyDocument().getRootAwardNumber();
         fieldValues.put("rootAwardNumber", rootAwardNumber);
-        //DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        //DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
 
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = 

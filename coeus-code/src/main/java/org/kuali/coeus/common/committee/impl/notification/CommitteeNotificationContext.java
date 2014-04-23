@@ -112,7 +112,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
     }
  
     public CommonCommitteeNotificationRoleQualifierService getCommitteeNotificationRoleQualifierService() {
-        // return KraServiceLocator.getService(CommonCommitteeNotificationRoleQualifierServiceImpl.COMMON_COMMITTEE_NOTIFICATION_ROLE_QUALIFER_SERVICE_SPRING_NAME);
+        // return KcServiceLocator.getService(CommonCommitteeNotificationRoleQualifierServiceImpl.COMMON_COMMITTEE_NOTIFICATION_ROLE_QUALIFER_SERVICE_SPRING_NAME);
         return KcServiceLocator.getService(CommonCommitteeNotificationRoleQualifierService.class);
     }
 }

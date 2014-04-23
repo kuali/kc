@@ -36,7 +36,7 @@ public abstract class IrbActionsKeyValuesBase extends FormViewAwareUifKeyValuesF
     private KeyValuesService keyValuesService;
     
     /**
-     * This method returns an instance of BusinessObjectServe from the KraServiceLocator.
+     * This method returns an instance of BusinessObjectServe from the KcServiceLocator.
      * @return BusinessObjectService
      */
     public BusinessObjectService getBusinessObjectService() {

@@ -113,7 +113,7 @@ public class AwardSponsorTerm extends AwardAssociate {
     //    BusinessObjectService getKraBusinessObjectService() {  
     //        if(businessObjectService == null){  
     //            businessObjectService =   
-    //                (BusinessObjectService) KraServiceLocator.getService("businessObjectService");  
+    //                (BusinessObjectService) KcServiceLocator.getService("businessObjectService");  
     //        }  
     //        return businessObjectService;  
     //    }  

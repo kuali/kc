@@ -200,7 +200,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
         if (applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolReference))) {
 
-            ProtocolReferenceService service = KraServiceLocator.getService(ProtocolReferenceService.class);
+            ProtocolReferenceService service = KcServiceLocator.getService(ProtocolReferenceService.class);
 
             service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), newProtocolReference);
 

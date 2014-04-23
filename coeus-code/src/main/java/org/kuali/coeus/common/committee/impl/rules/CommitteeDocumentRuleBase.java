@@ -219,7 +219,7 @@ public abstract class CommitteeDocumentRuleBase extends KcTransactionalDocumentR
         /*
         // TODO : committeeId & docStatusCode are added to committeedocumnet.  It should not need to retrieve from committee
         //, but for existing data in kc-dly30; keep this till its data is wiped out; then we can remove the retrieval of CommitteeBase
-        List<CommitteeBase> committees = (List<CommitteeBase>) KraServiceLocator.getService(BusinessObjectService.class).findAll(
+        List<CommitteeBase> committees = (List<CommitteeBase>) KcServiceLocator.getService(BusinessObjectService.class).findAll(
                 CommitteeBase.class);
         List<String> result = new ArrayList<String>();
         for (CommitteeBase committee : committees) {

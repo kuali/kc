@@ -50,7 +50,7 @@ public final class InstituteRateRateTypeRateClassRuleImpl implements InstituteRa
     
     /**
      * Constructs an InstituteRateRateTypeRateClassRule setting the used services using the
-     * {@link org.kuali.coeus.sys.framework.service.KcServiceLocator KraServiceLocator}.
+     * {@link org.kuali.coeus.sys.framework.service.KcServiceLocator KcServiceLocator}.
      */
     public InstituteRateRateTypeRateClassRuleImpl() {
         this(KcServiceLocator.getService(BusinessObjectService.class), KcServiceLocator.getService(ParameterService.class));

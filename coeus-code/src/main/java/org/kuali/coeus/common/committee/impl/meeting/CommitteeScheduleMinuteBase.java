@@ -590,7 +590,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     //        return accepted;  
     //    }  
     //    private BusinessObjectService getBusinessObjectService() {  
-    //        return KraServiceLocator.getService(BusinessObjectService.class);  
+    //        return KcServiceLocator.getService(BusinessObjectService.class);  
     //    }  
     public boolean isReviewComment() {
 

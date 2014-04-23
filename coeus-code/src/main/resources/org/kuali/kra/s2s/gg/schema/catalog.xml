@@ -457,15 +457,17 @@
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/Nasa_PIandAORSupplementalDataSheet-V1.0" uri="Nasa_PIandAORSupplementalDataSheet-V1.0.xsd"/>
 	    </group>
-		
+
+		<!-- duplicate		
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/NASA_SeniorKeyPersonSupplementalDataSheet-V1.0" uri="NASA_SeniorKeyPersonSupplementalDataSheet-V1.0.xsd"/>
 	    </group>
-		<!-- duplicate
+	    -->
+
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/NASA_SeniorKeyPersonSupplementalDataSheet-V1.0" uri="NASAKeyP_A-V1.0.xsd"/>
 	    </group>
-		-->
+
         <!-- duplicate
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/NASA_SeniorKeyPersonSupplementalDataSheet-V1.0" uri="NASAKeyPerson-V1.0.xsd"/>
@@ -711,15 +713,15 @@
 	        <public publicId="http://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan_2_0-V2.0" uri="PHS398_ResearchTrainingProgramPlan_2_0-V2.0.xsd"/>
 	    </group>
 
-        <!-- duplicate
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0" uri="PHS398_Training_FIF-V1.0.xsd"/>
 	    </group>
-		-->
 
+		<!-- duplicate
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0" uri="PHS398_TrainingBudget-V1.0.xsd"/>
 	    </group>
+	    -->
 		
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/PHS398_TrainingSubawardBudget-V1.0" uri="PHS398_TrainingSubawardBudget-V1.0.xsd"/>
@@ -789,9 +791,11 @@
             <public publicId="http://apply.grants.gov/forms/RR_Budget-V1.0" uri="RR_Budget-V1.0.xsd"/>
         </group>
 		
+		<!-- duplicate
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/RR_Budget-V1.1" uri="RR_Budget-V1.1.xsd"/>
 	    </group>
+	    -->
 		
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/RR_Budget10-V1.1" uri="RR_Budget10-V1.1.xsd"/>
@@ -804,11 +808,11 @@
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/RR_Budget_1_3-V1.3" uri="RR_Budget_1_3-V1.3.xsd"/>
 	    </group>
-		<!-- duplicate
+
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/RR_Budget-V1.1" uri="RR_Budget_A-V1.1.xsd"/>
 	    </group>
-		-->
+	    
 		<group prefer="public">
 	        <public publicId="http://apply.grants.gov/forms/RR_FedNonFed_SubawardBudget-V1.2" uri="RR_FedNonFed_SubawardBudget-V1.2.xsd"/>
 	    </group>

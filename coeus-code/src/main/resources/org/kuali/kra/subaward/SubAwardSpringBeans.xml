@@ -5,7 +5,7 @@
 	Licensed under the Educational Community License, Version 1.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-
+R
 	http://www.opensource.org/licenses/ecl1.php
 
 	Unless required by applicable law or agreed to in writing, software
@@ -53,6 +53,9 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="dateTimeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dateTimeService" />
+    </bean>
 	
     <bean id="businessObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="businessObjectService" />
@@ -153,6 +156,8 @@
     	<property name="subAwardSF294Print" ref="subAwardSF294Print" />
     	<property name="subAwardSF295Print" ref="subAwardSF295Print" />
     	<property name="printingService" ref="printingService" />    	
+    	<property name="subAwardFDPAgreement" ref="subAwardFDPAgreement" />
+    	<property name="subAwardFDPModification" ref="subAwardFDPModification" />
     </bean>
     
     <bean id="subAwardSF294Print" class="org.kuali.kra.subaward.reporting.printing.print.SubAwardSF294Print">
@@ -168,6 +173,19 @@
     
     <bean id="printingService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="printingService" />
+    </bean>
+    
+    <bean id="subAwardFDPAgreement" class="org.kuali.kra.subawardReporting.printing.print.SubAwardFDPAgreement">
+        <property name="xmlStream" ref="subAwardFDPPrintXmlStream" />
+    </bean>
+    
+    <bean id="subAwardFDPModification" class="org.kuali.kra.subawardReporting.printing.print.SubAwardFDPModification">
+        <property name="xmlStream" ref="subAwardFDPPrintXmlStream" />
+    </bean>
+    
+    <bean id="subAwardFDPPrintXmlStream" class="org.kuali.kra.subawardReporting.printing.xmlstream.SubAwardFDPPrintXmlStream">
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
     <bean id="subAwardService" class="org.kuali.kra.subaward.service.impl.SubAwardServiceImpl">

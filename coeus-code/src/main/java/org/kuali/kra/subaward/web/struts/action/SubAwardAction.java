@@ -17,10 +17,15 @@ package org.kuali.kra.subaward.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
@@ -32,18 +37,24 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 import org.kuali.kra.subaward.bo.SubAwardTemplateInfo;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.notification.SubAwardNotificationContext;
+import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
+import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -58,6 +69,8 @@ import javax.servlet.http.HttpServletResponse;
 public class SubAwardAction extends KcTransactionalDocumentActionBase {
 
     private transient SubAwardService subAwardService;
+    private static final Log LOG = LogFactory.getLog(SubAwardAction.class);
+    private static final String SUBAWARD_AGREEMENT = "fdpAgreement";
     /**
      * @see org.kuali.kra.web.struts.action.
      * KraTransactionalDocumentActionBase#execute(
@@ -518,4 +531,40 @@ public ActionForward blanketApprove(ActionMapping mapping,
    * @throws Exception
    */
 
+  /**
+   * 
+   * This method is called to print forms
+   * @param mapping
+   * @param form
+   * @param request
+   * @param response
+   * @return
+   * @throws Exception
+   */
+ public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+         Map<String, Object> reportParameters = new HashMap<String, Object>();          
+         SubAwardForm subAwardForm = (SubAwardForm) form;
+          if(new SubAwardDocumentRule().processsSubawardPrintRule(subAwardForm)){
+              Collection<SubAwardFundingSource> fundingSource = (Collection<SubAwardFundingSource>) KcServiceLocator
+                      .getService(BusinessObjectService.class).findAll(SubAwardFundingSource.class);
+              for (SubAwardFundingSource subAwardFunding : fundingSource) {
+              if(subAwardForm.getSubAwardPrintAgreement().getFundingSource().equals(subAwardFunding.getSubAwardFundingSourceId().toString())){
+                  reportParameters.put("awardNumber",subAwardFunding.getAward().getAwardNumber());
+                  reportParameters.put("sponsorName",subAwardFunding.getAward().getSponsor().getSponsorName());
+                  reportParameters.put("cfdaNumber",subAwardFunding.getAward().getCfdaNumber());
+              }
+           }
+              SubAwardPrintingService subAwardPrintingService = KcServiceLocator.getService(SubAwardPrintingService.class);
+              AttachmentDataSource dataStream ;
+              reportParameters.put("fdpType",subAwardForm.getSubAwardPrintAgreement().getFdpType());
+              if(subAwardForm.getSubAwardPrintAgreement().getFdpType().equals(SUBAWARD_AGREEMENT)){
+                  dataStream = subAwardPrintingService.printSubAwardFDPReport(subAwardForm.getSubAwardDocument().getSubAward(), SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE, reportParameters);
+              } else{
+                  dataStream = subAwardPrintingService.printSubAwardFDPReport(subAwardForm.getSubAwardDocument().getSubAward(), SubAwardPrintType.SUB_AWARD_FDP_MODIFICATION, reportParameters);
+              }                                           
+              streamToResponse(dataStream,response);
+      
+      }
+      return  mapping.findForward(Constants.MAPPING_BASIC);
+  }
 }

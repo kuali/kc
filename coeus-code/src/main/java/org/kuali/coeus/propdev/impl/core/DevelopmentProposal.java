@@ -70,6 +70,7 @@ import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
@@ -244,6 +245,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<S2sAppSubmission> s2sAppSubmission;
 
+    @OneToMany(mappedBy="developmentProposal", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    private List<S2sUserAttachedForm> s2sUserAttachedForms;
+    
     @Transient
     private String newScienceKeywordCode;
 
@@ -567,6 +571,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         s2sOppForms = new ArrayList<S2sOppForms>();
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
         proposalChangedDataList = new ArrayList<ProposalChangedData>();
+        s2sUserAttachedForms = new ArrayList<S2sUserAttachedForm>();
         proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
         budgetChangedDataList = new ArrayList<BudgetChangedData>();
         budgetChangeHistory = new TreeMap<String, List<BudgetChangedData>>();
@@ -1364,6 +1369,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
             managedLists.add(new ArrayList<S2sOppForms>());
         }
         managedLists.add(opportunities);
+        managedLists.add(getS2sUserAttachedForms());
         return managedLists;
     }
 
@@ -2476,5 +2482,21 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
         protected Collection<DescriptorCustomizer> getCustomizers() {
             return CUSTOMIZERS;
         }
+    }
+    
+    /**
+     * Gets the s2sUserAttachedForms attribute. 
+     * @return Returns the s2sUserAttachedForms.
+     */
+    public List<S2sUserAttachedForm> getS2sUserAttachedForms() {
+        return s2sUserAttachedForms;
+    }
+
+    /**
+     * Sets the s2sUserAttachedForms attribute value.
+     * @param s2sUserAttachedForms The s2sUserAttachedForms to set.
+     */
+    public void setS2sUserAttachedForms(List<S2sUserAttachedForm> s2sUserAttachedForms) {
+        this.s2sUserAttachedForms = s2sUserAttachedForms;
     }
 }

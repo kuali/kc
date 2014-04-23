@@ -127,7 +127,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         RoleService rs = KcServiceLocator.getService(RoleService.class);
         Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
         
-        //GroupService gs = KraServiceLocator.getService(GroupService.class);
+        //GroupService gs = KcServiceLocator.getService(GroupService.class);
         //gs.createGroup(Group.Builder.create("KC-T", "TimeAndMoneyTestGroup", "21").build());
         
         /**

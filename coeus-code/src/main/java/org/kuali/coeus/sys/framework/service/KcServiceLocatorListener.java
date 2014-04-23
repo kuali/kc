@@ -25,7 +25,7 @@ public class KcServiceLocatorListener extends KualiInitializeListener {
 	public void contextDestroyed(ServletContextEvent sce) {}
 
     public void contextInitialized(ServletContextEvent sce) {
-        LOG.debug("Starting KraServiceLocatorListener");
+        LOG.debug("Starting KcServiceLocatorListener");
         super.contextInitialized(sce);
         KcServiceLocator.setAppContext(getContext());
     }

@@ -189,10 +189,10 @@ public class CommitteeDocument extends CommitteeDocumentBase<CommitteeDocument, 
 //    }
 //    
 //    private CommitteeService getCommitteeService() {
-//        return KraServiceLocator.getService(CommitteeService.class);
+//        return KcServiceLocator.getService(CommitteeService.class);
 //    }
 //    private BusinessObjectService getBusinessObjectService() {
-//        return KraServiceLocator.getService(BusinessObjectService.class);
+//        return KcServiceLocator.getService(BusinessObjectService.class);
 //    }
 //    
 //    /**
